@@ -33,3 +33,6 @@
 ehthumbs.db
 Icon?
 Thumbs.db
+
+# Folders
+.sass-cache
