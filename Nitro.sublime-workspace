@@ -1,0 +1,626 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"la",
+				"lang"
+			],
+			[
+				"exp",
+				"explanation"
+			],
+			[
+				"tas",
+				"tasks"
+			],
+			[
+				"fin",
+				"finalArr"
+			],
+			[
+				"old",
+				"oldArr"
+			],
+			[
+				"expand",
+				"expandList"
+			],
+			[
+				"nex",
+				"nextAmount"
+			],
+			[
+				"inline",
+				"inline-block"
+			],
+			[
+				"delet",
+				"deleteWarnings"
+			],
+			[
+				"inlin",
+				"inline-block"
+			],
+			[
+				"remove",
+				"removeDate"
+			],
+			[
+				"label",
+				"labels"
+			],
+			[
+				"calc",
+				"calculate"
+			],
+			[
+				"dat",
+				"data-id"
+			],
+			[
+				"toda",
+				"today"
+			],
+			[
+				"de",
+				"developer"
+			],
+			[
+				"border",
+				"border-radius"
+			],
+			[
+				"date",
+				"dateLabel"
+			],
+			[
+				"sor",
+				"sortStop"
+			],
+			[
+				"dis",
+				"disabled"
+			],
+			[
+				"remov",
+				"removeClass"
+			],
+			[
+				"edit",
+				"editBTN"
+			],
+			[
+				"move",
+				"moveTask"
+			],
+			[
+				"delete",
+				"deleteTask"
+			],
+			[
+				"task",
+				"taskId"
+			],
+			[
+				"mov",
+				"moveTask"
+			],
+			[
+				"sho",
+				"showInToday"
+			],
+			[
+				"show",
+				"showTime"
+			],
+			[
+				"pop",
+				"populate"
+			],
+			[
+				"dro",
+				"dropOptions"
+			],
+			[
+				"quote",
+				"quoteList"
+			],
+			[
+				"new",
+				"newListItems"
+			],
+			[
+				"list",
+				"listData"
+			],
+			[
+				"li",
+				"lists"
+			],
+			[
+				"box",
+				"box-shadow"
+			],
+			[
+				"border-radius",
+				"border-bottom-right-radius"
+			],
+			[
+				"line",
+				"line-height"
+			],
+			[
+				"vert",
+				"vertical-align"
+			],
+			[
+				"display",
+				"display	display: inline"
+			],
+			[
+				"in",
+				"inline-block"
+			],
+			[
+				"cal",
+				"calculate"
+			],
+			[
+				"id",
+				"Id"
+			],
+			[
+				"remo",
+				"removeFromList"
+			],
+			[
+				"maual",
+				"manual"
+			],
+			[
+				"rem",
+				"removeFromToday"
+			],
+			[
+				"smart",
+				"smartLists"
+			],
+			[
+				"se",
+				"selected"
+			],
+			[
+				"dra",
+				"draggable"
+			],
+			[
+				"drag",
+				"dragHover"
+			],
+			[
+				"ui",
+				"ui"
+			],
+			[
+				"drop",
+				"droppable"
+			],
+			[
+				"dele",
+				"deleteBTN"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "js/cli.js",
+			"settings":
+			{
+				"buffer_size": 14119,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/translations/english.json",
+			"settings":
+			{
+				"buffer_size": 2820,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "js/ui.js",
+			"settings":
+			{
+				"buffer_size": 35690,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 187.0,
+		"selected_items":
+		[
+			[
+				"set syntax sc",
+				"Set Syntax: SCSS"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 125.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/UI/js/translations/pirate.json",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/UI/js/cli.js",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/UI/js/translations/french.json",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/UI/app.html",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/UI/js/ui.js",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/UI/js/translations/english.json",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/UI/js/translations/jonospeak.json",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/UI/js/translations/german.json",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/UI/js/translations/upsidedown.json",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/UI/sass/screen.scss",
+		"/Users/jono/Dropbox/Shared Stuff/Flash.svg",
+		"/Users/jono/Dropbox/Shared Stuff/Icon/Awful Icon.svg",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/UI/sass/jquery-ui-1.8.16.custom.scss",
+		"/Users/jono/Dropbox/{\"tasks\":{\"1\":{\"content\":\"English Creative Writing",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/UI/css/screen.css",
+		"/Users/jono/Dropbox/docs/school/2012/Digital Tech/Game/js/script.js",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/UI - Delete Lists/sass/screen.scss",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/UI - Delete Lists/app.html",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/UI/js/libs/deCSS3.js",
+		"/private/var/folders/p8/0wm5ng715154n3j2qrskk0qc0000gn/T/9b0b8c9d-b7f9-4932-a1c4-b3c09b24e7b6/nitrotasks.com/music/index.php",
+		"/Users/jono/Dropbox/Apps/todo-inator/online music/index.php",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/UI/js/cli_old.js",
+		"/Users/jono/Desktop/d",
+		"/Users/jono/Dropbox/Gradiator/HTML5 Code/js/scripts.js",
+		"/Users/jono/Documents/Gradiator/src/js/scripts.js",
+		"/Users/jono/Dropbox/Gradiator/HTML5 Code/js/cocoaStorage.js",
+		"/Users/jono/Documents/Gradiator/src/js/cocoaStorage.js",
+		"/Users/jono/Desktop/testy.html",
+		"/Users/jono/Dropbox/Apps/todo-inator/olddev/Jono/js/script.js",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/UI/js/libs/jquery.ui.datepicker.js",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/UI/datepicker.html",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/Bootstrap Date Picker/bootstrap.css",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/Bootstrap Date Picker/bootstrap-datepicker.js",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/Bootstrap Date Picker/datepicker.css",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/Easter Egg/Minecraft Text/minecrafttext.html",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/Easter Egg/Minecraft Text/stylesheet.css",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/Easter Egg/Minecraft Text/demo-files/demo.css",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/Easter Egg/Minecraft Text/demo.html",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/UI/minecrafttext.html",
+		"/Users/jono/Library/Application Support/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/Users/jono/Dropbox/Apps/todo-inator/olddev/George/js/script.js",
+		"/Users/jono/Downloads/konami/konami.js",
+		"/Users/jono/Documents/Gradiator/GradiatorAppDelegate.m",
+		"/Users/jono/Documents/Gradiator/main.m",
+		"/Users/jono/Library/Application Support/techniclauncher/technicssp/minecraft.yml",
+		"/Users/jono/Library/Application Support/techniclauncher/technicssp/matmos_options.cfg",
+		"/Users/jono/Library/Application Support/techniclauncher/technicssp/launcher.properties",
+		"/Users/jono/Library/Application Support/techniclauncher/technicssp/installedMods.yml",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/UI/sass/reset.scss",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/UI - George/css/screen.css",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/UI-1/sass/screen.scss",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/UI/config.rb",
+		"/Users/jono/Dropbox/Apps/todo-inator/olddev/Jono/sass/screen.scss",
+		"/Users/jono/Downloads/h5bp-html5-boilerplate-359a13f/css/style.css",
+		"/Users/jono/Dropbox/Apps/todo-inator/0.3.4/scripts.js",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/Jono/index.html",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/Jono/js/cli.js",
+		"/Users/jono/Dropbox/Apps/todo-inator/newdev/js/script.js",
+		"/Users/jono/Dropbox/Apps/todo-inator/olddev/prototype.html",
+		"/Users/jono/Dropbox/Apps/todo-inator/olddev/fn.html",
+		"/Users/jono/Dropbox/Apps/todo-inator/dev/bugtracker",
+		"/Users/jono/Dropbox/Apps/todo-inator/dev/SmartLists",
+		"/Users/jono/Dropbox/Apps/todo-inator/dev/George/js/script.js",
+		"/Users/jono/Dropbox/Apps/todo-inator/dev/prototype.html",
+		"/Users/jono/Dropbox/Apps/todo-inator/dev/Jono/js/script.js",
+		"/Users/jono/Dropbox/Apps/todo-inator/dev/Jono C/js/script.js",
+		"/Users/jono/Dropbox/Apps/todo-inator/dev/Jono/sass/screen.scss",
+		"/Users/jono/Dropbox/Apps/todo-inator/dev/Merged Banana/js/script.js",
+		"/Users/jono/Library/Application Support/Gradiator/LocalStorage/file__0.localstorage",
+		"/Users/jono/Dropbox/Apps/todo-inator/dev/George/index.html",
+		"/Users/jono/Dropbox/Apps/todo-inator/dev/Squashed Banana/js/script.js",
+		"/Users/jono/Dropbox/Apps/todo-inator/dev/Fried Banana/js/script.js"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"prior",
+			"taskdata.priority",
+			"do today",
+			"dotoday",
+			"deletewarnings",
+			".checkbox",
+			"background-color",
+			"background",
+			"sidebar",
+			"300px",
+			"delete",
+			"items",
+			"newListItems.length",
+			"over100",
+			"99",
+			"populate",
+			"checked",
+			"unbind",
+			"today",
+			"sortable",
+			"checked",
+			"#date",
+			"populate",
+			"check",
+			"draw",
+			"move",
+			"someday",
+			".today",
+			"draw",
+			"tasks",
+			".date",
+			"date",
+			"event",
+			"order",
+			"expand",
+			"logbook",
+			"calculate",
+			"logbook",
+			"dropoption",
+			"sortab",
+			"dropOption",
+			"json_encode",
+			"json_decode",
+			"json",
+			"_storage_service.jStorage",
+			"_storage_service",
+			"setitem",
+			"jstorage",
+			"storage_service",
+			"_storage",
+			"setItem",
+			"localStorage",
+			"localSTo",
+			"set",
+			"sorta",
+			"dropp",
+			"today",
+			"move",
+			"date",
+			"DATE",
+			"date",
+			"0f0",
+			"loop",
+			"expand",
+			"e",
+			"logbook",
+			"<li ",
+			"selection",
+			";",
+			"checkbox",
+			"order",
+			"save: fun",
+			"save",
+			"save: func",
+			"save:",
+			"someday",
+			"lists.selec",
+			"delete",
+			"sort",
+			"- 1",
+			".count",
+			"calc.count",
+			"star",
+			"- 1",
+			"-1",
+			"star",
+			".date select",
+			"select",
+			"star",
+			"dropOptions",
+			"this",
+			"droppab"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "js/cli.js",
+					"settings":
+					{
+						"buffer_size": 14119,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								12414,
+								12414
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 194.0,
+						"translation.y": 7147.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "js/translations/english.json",
+					"settings":
+					{
+						"buffer_size": 2820,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2818,
+								2703
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 282.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "js/ui.js",
+					"settings":
+					{
+						"buffer_size": 35690,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								28170,
+								28170
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 13090.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 34.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"screen.sc",
+				"sass/screen.scss"
+			],
+			[
+				"screen",
+				"css/screen.css"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true
+}

@@ -1,0 +1,111 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Nitro</title>
+	<meta name="description" content="">
+
+	<meta name="viewport" content="width=device-width">
+	<link rel="stylesheet" href="css/screen.css">
+	<!-- <link rel="stylesheet" href="css/themes/default.css"> -->
+
+	<link rel="shortcut icon" href="images/favicon.ico">
+
+</head>
+<body>
+<div id="warning">
+	<h3 data-translate="warningText" class="translate"></h3>
+	<p></p>
+	<button class="yes s1"></button>
+	<button class="no s1 translate" data-translate="cancelDialog"></button>
+</div>	
+<div id="overlay">/</div>
+	<section id="panel">
+		<div id="brand">
+			<img src="images/flash.png" style="padding-right:8px;position: relative;top: -2px;">Nitro
+		</div>
+		<nav>
+			<ul>
+				<li id="addBTN" class="translateTitle" data-translate="titleAddTask"><img src="images/add.png"><span class="translate" data-translate="add"></span></li><li id="editBTN" class="translateTitle disabled" data-translate="titleEditTask"><img src="images/edit.png"><span class="translate" data-translate="edit"></span></li><li id="deleteBTN" class="translateTitle disabled" data-translate="titleDeleteTask"><img src="images/delete.png"><span class="translate" data-translate="delete"></span></li>
+			</ul>
+		</nav>
+		<div id="right">
+			<ul>
+				<li id="logbookBTN" class="translateTitle" data-translate="logbook"><img src="images/logbook.png"></li>
+				<li id="settingsBTN" class="translateTitle" data-translate="settings"><img src="images/settings.png">
+					<div class="settings">
+						<h2 class="translate" data-translate="settings"></h2>
+						<form>
+							<label for="deleteWarnings" class="translate" data-translate="hideWarnings"></label><input type="checkbox" id="deleteWarnings">
+							<label for="gpu" class="translate" data-translate="lowGraphics"></label><input type="checkbox" id="gpu">
+							<select id="nextAmount">
+								<option value="noLists" class="translate" data-translate="nextNoLists"></option>
+								<option value="threeItems" class="translate" data-translate="nextThreeLists"></option>
+								<option value="everything" class="translate" data-translate="nextEntireLists"></option>
+							</select>
+							<select id="language">
+								<option value="english">English</option>
+								<option value="pirate">English (Pirate)</option>
+							</select>
+						</form>
+					</div>
+				</li>
+				<li><input id="search" type="text"></li>
+			</ul>
+		</div>
+	</section>
+	<section id="content">
+		<div id="sidebar">
+			<h2 class="translate" data-translate="focus"></h2>
+			<ul>
+				<li id="todayList" class="selected"><span class="translate" data-translate="today"></span><span class="count"></span></li>
+				<li id="nextList"><span class="translate" data-translate="next"></span><span class="count"></span></li>
+				<li id="somedayList"><span class="translate" data-translate="someday"></span><span class="count"></span></li>
+			</ul>
+			<h2><span class="translate" data-translate="lists"></span><span id="addListBTN"></span></h2>
+			<ul id="userLists"></ul>
+		</div>
+		<section id="tasks"></section>
+	</section>
+
+<div id="date">
+	<div id="datepicker">
+	</div>
+	<div id="showInToday">
+		<form>
+			<label for="showTime"><span class="translate" data-translate="showInToday"></span>:</label>
+				<select id="showTime" name="showTime">
+					<option value="1"></option>
+					<option value="2"></option>
+					<option value="3"></option>
+					<option value="4"></option>
+					<option value="5"></option>
+					<option value="6"></option>
+					<option value="7"></option>
+					<option value="8"></option>
+					<option value="9"></option>
+					<option value="10"></option>
+					<option value="11"></option>
+					<option value="12"></option>
+					<option value="13"></option>
+					<option value="14"></option>
+					<option value="none"></option>
+				</select>
+				<span id="removeDate" class="translateTitle" data-translate="removeDueDate"></span>
+		</form>
+	</div>
+</div>
+
+<script src="js/libs/jquery-1.7.1.min.js"></script>
+<script src="js/libs/jstorage.js"></script>
+<script src="js/libs/jquery.textarearesize.js"></script>
+<script src="js/libs/jquery.i18n.min.js"></script>
+<script src="js/libs/jquery-ui-1.8.18.custom.min.js"></script>
+<script src="js/libs/jquery.ui.datepicker.js"></script>
+<script src="js/libs/deCSS3.js"></script>
+
+<script src="js/cli.js"></script>
+<script src="js/ui.js"></script>
+</body>
+</html>

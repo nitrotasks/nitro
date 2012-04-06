@@ -1,0 +1,17 @@
+{
+  "name": "Nitro",
+  "description": "Super Awesome Task Management",
+  "version": "1.0.2",
+  "app": {
+    "launch": {
+      "local_path": "app.html"
+    }
+  },
+  "permissions": [
+    "unlimitedStorage"
+  ],
+  "icons": {
+    "16": "images/16.png",
+    "128": "images/128.png"
+  }
+}
