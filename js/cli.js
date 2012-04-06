@@ -15,6 +15,13 @@
 
 console.info('Nitro 1.0\nCopyright (C) 2012 Caffeinated Code\nBy George Czabania & Jono Cooper');
 var cli = {
+	escape: function(str) {
+		//Regexes a bunch of shit that breaks the Linux version
+
+		//Backslash, Pipe, newline, quote
+		str = str.replace(/\\/g, "&#92;").replace(/\|/g, "&#124").replace(/\\n/g, '\\\\n').replace(/\"/g, "&#34;");
+		return str;
+	},
 	addTask: function(name, list) {
 		// Creates a task
 
