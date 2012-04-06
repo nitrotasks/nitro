@@ -29,6 +29,14 @@ $(document).ready(function() {
 		language(data)
 	});
 
+	// Theme init
+	if (!cli.storage.prefs.theme) {
+		cli.storage.prefs.theme = 'default';
+		cli.storage.save();
+	}
+
+	$('link.theme').attr('href', 'css/themes/' + cli.storage.prefs.theme + '.css');
+
 	//Loads - Python Version
 	//document.title = 'null';
 	//document.title = 'load|' + cli.storage.prefs.lang + '.json';
@@ -300,6 +308,7 @@ ui = {
 				$('#over50').prop('checked', cli.storage.prefs.over50);
 				$('#nextAmount').val(cli.storage.prefs.nextAmount);
 				$('#language').val(cli.storage.prefs.lang);
+				$('#theme').val(cli.storage.prefs.theme);
 
 				$('.settings').fadeIn(100);
 			}
@@ -328,7 +337,17 @@ ui = {
 
 			//Reloads App
 			window.location.reload();
-		})
+		});
+
+		$('#theme').change(function() {
+			var theme = $(this).val();
+
+			$('link.theme').attr('href', 'css/themes/' + theme + '.css')
+
+			//Saves Theme
+			cli.storage.prefs.theme = theme;
+			cli.storage.save();
+		});
 
 		//Select box
 		$('.settings form select').change(function() {
