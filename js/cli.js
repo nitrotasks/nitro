@@ -23,6 +23,8 @@ var cli = {
 		return str;
 	},
 	addTask: function(name, list) {
+		name = cli.escape(name);
+		list = cli.escape(list);
 		// Creates a task
 
 		//Id of task
@@ -77,6 +79,7 @@ var cli = {
 		cli.storage.save();
 	},
 	populate: function(type, query) {
+		query = cli.escape(query);
 		// Displays a list
 		switch(type) {
 			case "list":
@@ -158,6 +161,7 @@ var cli = {
 	},
 	moveTask: function(id, list) {
 		// Moves task to list
+		list = cli.escape(list);
 
 		var task = cli.taskData(id).display(),
 			lists = cli.storage.lists.items
@@ -349,6 +353,12 @@ var cli = {
 			},
 			edit: function(obj) {
 				// Edit taskData
+				$.each(obj, function(index, value) { 
+  					if (typeof value == "string") {
+  						obj[index] = cli.escape(value);
+  					}
+				});
+
 				cli.storage.tasks[id] = obj;
 				cli.storage.save();
 				
@@ -356,6 +366,8 @@ var cli = {
 		};
 	},
 	list: function(id, name) {
+		name = cli.escape(name);
+
 		return {
 			add: function() {
 				// Adds a list
@@ -417,6 +429,8 @@ var cli = {
 	calc: {
 		//Another object where calculations are done
 		removeFromList: function(id, list) {
+			list = cli.escape(list);
+
 			var task = cli.taskData(id).display(),
 				lists = cli.storage.lists.items;
 
