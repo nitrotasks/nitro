@@ -42,7 +42,7 @@
 			value = json_encode(value);
 
 			document.title = 'null';
-			document.title = 'set|' + key + '|' + value;
+			document.title = 'set|' + key + '|' + value.replace(/\\n/g, '\\\\n');
 		}
 	}
 })(jQuery);

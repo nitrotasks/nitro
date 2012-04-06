@@ -19,7 +19,7 @@ var cli = {
 		//Regexes a bunch of shit that breaks the Linux version
 
 		//Backslash, Pipe, newline, quote
-		str = str.replace(/\\/g, "&#92;").replace(/\|/g, "&#124").replace(/\\n/g, '\\\\n').replace(/\"/g, "&#34;");
+		str = str.replace(/\\/g, "&#92;").replace(/\|/g, "&#124").replace(/\"/g, "&#34;");
 		return str;
 	},
 	addTask: function(name, list) {
