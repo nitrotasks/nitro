@@ -24,7 +24,6 @@ var cli = {
 	},
 	addTask: function(name, list) {
 		name = cli.escape(name);
-		list = cli.escape(list);
 		// Creates a task
 
 		//Id of task
@@ -161,7 +160,6 @@ var cli = {
 	},
 	moveTask: function(id, list) {
 		// Moves task to list
-		list = cli.escape(list);
 
 		var task = cli.taskData(id).display(),
 			lists = cli.storage.lists.items
@@ -429,7 +427,6 @@ var cli = {
 	calc: {
 		//Another object where calculations are done
 		removeFromList: function(id, list) {
-			list = cli.escape(list);
 
 			var task = cli.taskData(id).display(),
 				lists = cli.storage.lists.items;
