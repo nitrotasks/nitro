@@ -12,7 +12,7 @@ body {
 }
 
 #panel {
-	@include background(linear-gradient(top, #424346 0%, #3a3b3e 50%, #333436 50%, #2e2f30 100%));
+	@include background(linear-gradient(top, #283b42 0%, #22343a 50%, #1d2e33 50%, #1a292e 100%));
 	border-bottom: 1px solid #000;
 	box-shadow: 0 1px 1px rgba(0,0,0,0.6);
 	height: 35px;
@@ -27,21 +27,50 @@ body {
 		ul {
 			li {
 				font-size: 12px;
+				font-weight: bold;
 				color: #fff;
+				height: 35px;
 				text-shadow: 0 1px 0 #222;
+
+				padding-right: 24px;
+				padding-left: 24px;
+				border-left: 1px solid rgba(255,255,255,0.15);
+				border-right: 1px solid #000;
+
+				span {
+					display: block;
+					float: left;
+					margin-top: 10px;
+				}
+
 				// animations
 				-webkit-transition: 100ms linear background;
 
 				// HOVER
 				&:hover {
-					background: rgba(0,0,0,0.3);
+					background: rgba(0,0,0,0.2);
 				}
 
 				// ICONS
-				img {
-					&.iconAdd {
+				.icon {
+					display: inline-block;
+					width: 13px;
+					height: 12px;
+					margin-top: 12px;
+					margin-right: 2px;
+
+					&.add {
 						background: url(coffee/check.png) no-repeat;
 					}
+
+					&.edit {
+						background: url(coffee/edit.png) no-repeat;
+					}
+
+					&.delete {
+						background: url(coffee/remove.png) no-repeat 0 1px;
+					}
+					
 				}
 			}
 		}
