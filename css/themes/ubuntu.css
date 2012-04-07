@@ -21,11 +21,27 @@ body {
   #panel nav ul li {
     font-size: 12px;
     color: #fff;
+    height: 40px;
     font-weight: bold;
     text-shadow: 0 1px 0 #222;
     -webkit-transition: 100ms linear background; }
+    #panel nav ul li span {
+      display: block;
+      float: left;
+      margin-top: 13px; }
     #panel nav ul li:hover {
       background: rgba(0, 0, 0, 0.3); }
+    #panel nav ul li .icon {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      margin-top: 4px; }
+      #panel nav ul li .icon.add {
+        background: url(../../images/add.png) no-repeat; }
+      #panel nav ul li .icon.edit {
+        background: url(../../images/edit.png) no-repeat; }
+      #panel nav ul li .icon.delete {
+        background: url(../../images/delete.png) no-repeat 2px 2px; }
   #panel #right ul li .settings {
     top: 50px;
     margin-left: -185px;

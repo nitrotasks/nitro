@@ -26,11 +26,14 @@ body {
 			li {
 				font-size: 12px;
 				color: #fff;
+				height: 40px;
 				font-weight: bold;
 				text-shadow: 0 1px 0 #222;
 
 				span {
-					vertical-align: 10px;
+					display: block;
+					float: left;
+					margin-top: 13px;
 				}
 
 				// animations
@@ -57,7 +60,7 @@ body {
 					}
 
 					&.delete {
-						background: url(../../images/delete.png) no-repeat;
+						background: url(../../images/delete.png) no-repeat 2px 2px;
 					}
 					
 				}
