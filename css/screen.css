@@ -291,11 +291,6 @@ body {
         opacity: 0.5; }
         #panel nav ul li.disabled:hover {
           background: none; }
-      #panel nav ul li img {
-        padding: 5px; }
-      #panel nav ul li span {
-        position: relative;
-        top: 1px; }
       #panel nav ul li:hover {
         /*background: #484848;*/
         background: #ccc; }
