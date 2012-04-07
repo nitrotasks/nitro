@@ -77,8 +77,13 @@ body {
 	}
 
 	#right {
+		height: 30px;
 		ul {
 			li {
+
+				img {
+					padding: 3px;
+				}
 
 				// SETTINGS
 				.settings {
@@ -130,26 +135,26 @@ body {
 		// color
 		background-color: #fff;
 		@include background(linear-gradient(top, #ffffff 0%, #f9f9f9 100%));
-		border-right: 1px solid #aaa;
+		border-right: 1px solid #555;
 
 		// GROUP HEADINGS
 		h2 {
 			// position
 			margin: 0;
-			padding: 10px 25px 10px 15px;
+			padding: 12px 25px 12px 20px;
 
 			// font
 			font-weight: bold;
 			font-size: 13px;
 			line-height: 13px;
+			color: #fff;
+			border-top: 1px solid #51555a;
+			box-shadow: inset 0 1px 0 #878e98, 0 1px 2px rgba(0,0,0,0.3);
+			text-shadow: 0 1px 1px rgba(0,0,0,0.5);
+			border-bottom: 1px solid #33373d;
 
 			// color
-			color: #405779;
-			border-bottom: 3px solid #eee;
-
-			&:not(:first-child) {
-				margin-top: 10px;
-			}
+			@include background(linear-gradient(top, #717a85 0%, #515a65 100%));
 
 			// ADD LIST BUTTON
 			#addListBTN {
@@ -158,12 +163,15 @@ body {
 				height: 8px;
 				padding: 4px;
 
+				// position
+				margin-top: -1px;
+
 				// background
 				border-radius: 50%;
-				background: url(../../images/addList.png) no-repeat 4px 4px;
+				background: url(coffee/addList.png) no-repeat 4px 4px;
 
 				&:hover {
-					background: #e2e2e2 url(../../images/addList.png) no-repeat 4px 4px;
+					background: #444 url(coffee/addList.png) no-repeat 4px 4px;
 				}
 			}
 		}
@@ -172,12 +180,14 @@ body {
 		ul {
 			li {
 				// size
-				height: 30px;
+				height: 36px;
 
 				// font
 				font-size: 13px;
-				line-height: 30px;
+				line-height: 36px;
 				text-indent: 25px;
+
+				border-bottom: 1px solid #efeff0;
 
 				// DRAG HOVER
 				&.dragHover:not(.selected) {
@@ -205,16 +215,16 @@ body {
 
 					// color
 					color: #fff;
-					background-image: #8cbafc;
-					@include background(linear-gradient(bottom, #85b1f8 0%, #93c3ff 100%));
+					@include background(linear-gradient(top, #43c5e9 0%, #2997d9 100%));
 					text-shadow: 0 1px 1px rgba(0,0,0,0.3);
-					box-shadow: 0 1px 0 #75a9e2 inset, 0 -1px 0 #7783D1 inset;
+					box-shadow: inset 0 1px 0 #6ad2ef, 0 1px 0 #75a9e2 inset, 0 -1px 0 #7783D1 inset;
+					border-bottom: 1px solid #1a638f;
 
 					// EDIT ICON (SELECTED)
 					.editIcon {
 						// position
 						left: 5px;
-						top: 6px;
+						top: 10px;
 
 						// color
 						background: url(../../images/pencilWhite.png);
@@ -238,7 +248,7 @@ body {
 
 						// background
 						background: rgba(255,255,255,1);
-						border-radius: 4px;
+						border-radius: 2px;
 					}
 
 					// DELETE AND SAVE ICONS

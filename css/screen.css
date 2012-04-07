@@ -384,15 +384,17 @@ body {
   width: 250px;
   top: 40px;
   border-right: 1px solid #aaa; }
-  #content #sidebar h2:first-child {
-    border-top: 0; }
-  #content #sidebar h2 #addListBTN {
-    float: right;
-    cursor: pointer;
-    width: 8px;
-    height: 8px;
-    padding: 4px;
-    background: url(../images/addList.png) no-repeat 4px 4px; }
+  #content #sidebar h2 {
+    cursor: default; }
+    #content #sidebar h2:first-child {
+      border-top: 0; }
+    #content #sidebar h2 #addListBTN {
+      float: right;
+      cursor: pointer;
+      width: 8px;
+      height: 8px;
+      padding: 4px;
+      background: url(../images/addList.png) no-repeat 4px 4px; }
   #content #sidebar #userLists {
     overflow-y: auto; }
   #content #sidebar ul {
@@ -408,8 +410,8 @@ body {
         display: none; }
       #content #sidebar ul li.selected {
         background: #f0f0f0; }
-      #content #sidebar ul li:hover .editIcon {
-        display: block; }
+        #content #sidebar ul li.selected:hover .editIcon {
+          display: block; }
       #content #sidebar ul li.dragHover:not(.selected) {
         background: #ddd; }
       #content #sidebar ul li.edit:hover .editIcon {

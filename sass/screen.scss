@@ -239,7 +239,7 @@ body {
 		border-right: 1px solid #aaa;
 
 		h2 {
-
+			cursor: default;
 			&:first-child {
 				border-top:0;
 			}
@@ -281,10 +281,8 @@ body {
 
 				&.selected {
 					background: #f0f0f0;
-				}
 
-				&:hover {
-					.editIcon {
+					&:hover .editIcon {
 						display: block;
 					}
 				}
