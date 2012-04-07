@@ -18,9 +18,14 @@ var cli = {
 	escape: function(str) {
 		//Regexes a bunch of shit that breaks the Linux version
 
-		//Backslash, Pipe, newline, quote
-		str = str.replace(/\\/g, "&#92;").replace(/\|/g, "&#124").replace(/\"/g, "&#34;").replace(/\'/g, "&#39;");
-		return str;
+		if (typeof str == 'string') {
+			//Backslash, Pipe, newline, quote
+			str = str.replace(/\\/g, "&#92;").replace(/\|/g, "&#124").replace(/\"/g, "&#34;").replace(/\'/g, "&#39;");
+			return str;
+		} else {
+			return str;
+		}
+		
 	},
 	addTask: function(name, list) {
 		name = cli.escape(name);
