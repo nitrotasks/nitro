@@ -93,6 +93,11 @@ body {
 				cursor: pointer;
 				padding-right: 14px;
 				padding-left: 5px;
+				-webkit-transition: 100ms linear background;
+				-moz-transition: 100ms linear background;
+				-ms-transition: 100ms linear background;
+				-o-transition: 100ms linear background;
+				transition: 100ms linear background;
 				
 
 				&.disabled {
@@ -126,7 +131,6 @@ body {
 
 			li {
 				display: inline-block;
-				-webkit-transition: 100ms linear background;
 				position: relative;
 				top: 0;
 
@@ -395,6 +399,9 @@ body {
 
 			.boxhelp {
 				display: -webkit-box;
+				display: -moz-box;
+				display: box;
+				width: 100%;
 			}
 
 			&.selected {
@@ -444,7 +451,11 @@ body {
 					-webkit-appearance:none;
 					-o-appearance:none;
 					appearance: none;
+
+					-webkit-box-sizing: border-box;
+					-moz-box-sizing: border-box;
 					box-sizing: border-box;
+
 					position: relative;
 					vertical-align:top;
 					cursor: pointer;
@@ -476,8 +487,13 @@ body {
 				vertical-align: top;
 				padding: 0 10px 0 0;
 				cursor: default;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
 				box-sizing: border-box;
+
 				-webkit-box-flex: 1;
+				-moz-box-flex: 1;
+				box-flex: 1;
 
 				input {
 					width: 100%;
@@ -517,7 +533,11 @@ body {
 					border: 0;
 					width: 100%;
 					resize: none;
+
+					-webkit-box-sizing: border-box;
+					-moz-box-sizing: border-box;
 					box-sizing: border-box;
+					
 					min-height: 62px;
 					
 					&:focus {
@@ -639,6 +659,10 @@ button {
 		border-radius: 5px;
 		box-shadow: 0 0 2px #000;
 		-webkit-transition: box-shadow ease 150ms;
+		-moz-transition: box-shadow ease 150ms;
+		-ms-transition: box-shadow ease 150ms;
+		-o-transition: box-shadow ease 150ms;
+		transition: box-shadow ease 150ms;
 		cursor: pointer;
 
 		&:hover {

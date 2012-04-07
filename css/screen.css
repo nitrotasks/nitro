@@ -286,7 +286,12 @@ body {
       display: inline-block;
       cursor: pointer;
       padding-right: 14px;
-      padding-left: 5px; }
+      padding-left: 5px;
+      -webkit-transition: 100ms linear background;
+      -moz-transition: 100ms linear background;
+      -ms-transition: 100ms linear background;
+      -o-transition: 100ms linear background;
+      transition: 100ms linear background; }
       #panel nav ul li.disabled {
         opacity: 0.5; }
         #panel nav ul li.disabled:hover {
@@ -307,7 +312,6 @@ body {
       padding: 0; }
       #panel #right ul li {
         display: inline-block;
-        -webkit-transition: 100ms linear background;
         position: relative;
         top: 0; }
         #panel #right ul li img {
@@ -473,7 +477,10 @@ body {
           box-shadow: 0 0 0px #000 !important;
           border: 0 !important; }
     #content #tasks li .boxhelp {
-      display: -webkit-box; }
+      display: -webkit-box;
+      display: -moz-box;
+      display: box;
+      width: 100%; }
     #content #tasks li.selected {
       background: #ccc; }
     #content #tasks li.placeholder {
@@ -503,6 +510,8 @@ body {
         -webkit-appearance: none;
         -o-appearance: none;
         appearance: none;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
         box-sizing: border-box;
         position: relative;
         vertical-align: top;
@@ -525,8 +534,12 @@ body {
       vertical-align: top;
       padding: 0 10px 0 0;
       cursor: default;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
       box-sizing: border-box;
-      -webkit-box-flex: 1; }
+      -webkit-box-flex: 1;
+      -moz-box-flex: 1;
+      box-flex: 1; }
       #content #tasks li .todotxt input {
         width: 100%;
         margin: 0;
@@ -555,6 +568,8 @@ body {
         border: 0;
         width: 100%;
         resize: none;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
         box-sizing: border-box;
         min-height: 62px; }
         #content #tasks li .hidden textarea:focus {
@@ -678,6 +693,10 @@ button {
     border-radius: 5px;
     box-shadow: 0 0 2px #000;
     -webkit-transition: box-shadow ease 150ms;
+    -moz-transition: box-shadow ease 150ms;
+    -ms-transition: box-shadow ease 150ms;
+    -o-transition: box-shadow ease 150ms;
+    transition: box-shadow ease 150ms;
     cursor: pointer; }
     #song img:hover {
       box-shadow: 0 0 15px #004bec; }

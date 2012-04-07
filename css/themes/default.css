@@ -169,8 +169,7 @@ body {
       background: -ms-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
       background: linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
       border-radius: 4px;
-      box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
-      -webkit-transition: 150ms ease margin; }
+      box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15); }
       #content #tasks ul li .todotxt {
         height: 30px;
         padding: 0 10px 0 0;
