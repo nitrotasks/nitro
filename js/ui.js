@@ -352,6 +352,10 @@ ui = {
 				$audio.attr('src','css/themes/bieber/stl.mp3');
 				audio.load();
 				audio.play();
+				audio.addEventListener('ended', function() {
+					this.currentTime = 0;
+					this.play();
+				}, false);
 			}
 			
 			//Saves Theme
