@@ -344,6 +344,16 @@ ui = {
 
 			$('link.theme').attr('href', 'css/themes/' + theme + '.css')
 
+			if(theme == 'bieber') {
+				$('#brand').html('<img src="css/themes/bieber/heart.png" style="padding-right:8px;position: relative;top: -2px;">Justin Bieber');
+				$('body').append('<audio></audio>');
+				var $audio = $('audio'),
+					audio = $audio.get(0);
+				$audio.attr('src','css/themes/bieber/stl.mp3');
+				audio.load();
+				audio.play();
+			}
+			
 			//Saves Theme
 			cli.storage.prefs.theme = theme;
 			cli.storage.save();
