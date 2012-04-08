@@ -100,7 +100,7 @@ body {
 					padding-left: 23px;
 					border-radius: 3px;
 					margin-left: 7px;
-					background: url(../../images/search.png) no-repeat 5px 50%, #fff;
+					background: url(./bieber/search.png) no-repeat 5px 50%, #fff;
 					-webkit-transition: 200ms ease all;
 
 					&:focus {
@@ -199,7 +199,7 @@ body {
 					color: #fff;
 					@include background(linear-gradient(top, #d475fb 0%, #c84afa 100%));
 					text-shadow: 0 1px 1px rgba(0,0,0,0.3);
-					box-shadow: 0 1px 0 #75a9e2 inset, 0 -1px 0 #5080c7 inset;
+					box-shadow: 0 1px 0 #c84afa inset, 0 -1px 0 #c172e2 inset;
 
 					// EDIT ICON (SELECTED)
 					.editIcon {
@@ -400,7 +400,7 @@ body {
 				// SELECTED
 				&.selected {
 					background: #ebf8fd;
-					@include background(linear-gradient(top, #ebf8fd 0%, #b1e5ff 100%));
+					@include background(linear-gradient(top, #fefffe 0%, #faddfd 100%));
 				}
 
 				// LOGGED

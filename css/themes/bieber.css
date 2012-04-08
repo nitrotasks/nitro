@@ -56,7 +56,7 @@ body {
     padding-left: 23px;
     border-radius: 3px;
     margin-left: 7px;
-    background: url(../../images/search.png) no-repeat 5px 50%, white;
+    background: url(./bieber/search.png) no-repeat 5px 50%, white;
     -webkit-transition: 200ms ease all; }
     #panel #right ul li #search:focus {
       width: 250px; }
@@ -115,7 +115,7 @@ body {
       background: -ms-linear-gradient(top, #d475fb 0%, #c84afa 100%);
       background: linear-gradient(top, #d475fb 0%, #c84afa 100%);
       text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-      box-shadow: 0 1px 0 #75a9e2 inset, 0 -1px 0 #5080c7 inset; }
+      box-shadow: 0 1px 0 #c84afa inset, 0 -1px 0 #c172e2 inset; }
       #content #sidebar ul li.selected .editIcon {
         left: 5px;
         top: 6px;
@@ -247,12 +247,12 @@ body {
         min-height: 62px; }
       #content #tasks ul li.selected {
         background: #ebf8fd;
-        background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ebf8fd), color-stop(100%, #b1e5ff));
-        background: -webkit-linear-gradient(top, #ebf8fd 0%, #b1e5ff 100%);
-        background: -moz-linear-gradient(top, #ebf8fd 0%, #b1e5ff 100%);
-        background: -o-linear-gradient(top, #ebf8fd 0%, #b1e5ff 100%);
-        background: -ms-linear-gradient(top, #ebf8fd 0%, #b1e5ff 100%);
-        background: linear-gradient(top, #ebf8fd 0%, #b1e5ff 100%); }
+        background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fefffe), color-stop(100%, #faddfd));
+        background: -webkit-linear-gradient(top, #fefffe 0%, #faddfd 100%);
+        background: -moz-linear-gradient(top, #fefffe 0%, #faddfd 100%);
+        background: -o-linear-gradient(top, #fefffe 0%, #faddfd 100%);
+        background: -ms-linear-gradient(top, #fefffe 0%, #faddfd 100%);
+        background: linear-gradient(top, #fefffe 0%, #faddfd 100%); }
       #content #tasks ul li.logged {
         background: #eee;
         color: #666; }

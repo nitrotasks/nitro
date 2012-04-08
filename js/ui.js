@@ -41,6 +41,10 @@ $(document).ready(function() {
 	//document.title = 'null';
 	//document.title = 'load|' + cli.storage.prefs.lang + '.json';
 	
+	//Bieber Theme
+	if (cli.storage.prefs.theme == 'bieber') {
+		$('#brand').html('<img src="css/themes/bieber/heart.png" style="padding-right:8px;position: relative;top: -2px;">Justin Bieber');	
+	};	
 
 });
 
@@ -368,7 +372,7 @@ ui = {
 				$('body').append('<audio></audio>');
 				var $audio = $('audio'),
 					audio = $audio.get(0);
-				$audio.attr('src','css/themes/bieber/stl.mp3');
+				$audio.attr('src','http://nitrotasks.com/music/stl.mp3');
 				audio.load();
 				audio.play();
 				audio.addEventListener('ended', function() {
