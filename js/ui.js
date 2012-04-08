@@ -344,11 +344,14 @@ ui = {
 			});
 			$('#languageDialog').fadeIn(150).unbind('click').bind('click', function(e) {
 				e.stopPropagation(); // This is the preferred method.
-				cli.storage.prefs.lang = $(e.srcElement).data('value');
-				cli.storage.save();
+				console.log($(e.srcElement));
+				if($(e.srcElement).is('td:first-of-type a')) {
+					cli.storage.prefs.lang = $(e.srcElement).data('value');
+					cli.storage.save();
 
-				window.location.reload()
-				return false;
+					window.location.reload()
+					return false;
+				}
 			});
 
 			setTimeout("$(document).click(function() {$('#languageDialog').fadeOut(75); $(document).off('click');});", 200);

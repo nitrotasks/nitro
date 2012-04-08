@@ -193,7 +193,17 @@ body {
 							content: '';
 							clear: both;
 						}
-
+						a {
+							float: left;
+							font-size: 13px;
+							margin-right: 5px;
+							color: #0ba1d0;
+							text-decoration: none;
+							font-weight: bold;
+							&:hover {
+								text-decoration: underline;
+							}
+						}
 						select {
 							margin-bottom: 7px;
 							font-family: 'Helvetica', 'Arial', 'Ubuntu', sans-serif;

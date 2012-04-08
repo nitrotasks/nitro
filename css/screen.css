@@ -358,6 +358,15 @@ body {
             #panel #right ul li .settings form input:after {
               content: '';
               clear: both; }
+            #panel #right ul li .settings form a {
+              float: left;
+              font-size: 13px;
+              margin-right: 5px;
+              color: #0ba1d0;
+              text-decoration: none;
+              font-weight: bold; }
+              #panel #right ul li .settings form a:hover {
+                text-decoration: underline; }
             #panel #right ul li .settings form select {
               margin-bottom: 7px;
               font-family: 'Helvetica', 'Arial', 'Ubuntu', sans-serif;
