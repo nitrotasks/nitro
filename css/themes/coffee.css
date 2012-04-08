@@ -3,7 +3,7 @@
  * http://caffeinatedco.de
  */
 body {
-  background: url(coffee/bg.png);
+  background: url(coffee/blue.jpg);
   font-family: "Helvetica", "Arial", "Ubuntu", sans-serif; }
 
 #panel {
@@ -178,17 +178,21 @@ body {
     border-radius: 5px;
     color: #444;
     font-size: 14px; }
+  #content #tasks p {
+    color: #eee;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); }
   #content #tasks h2 {
     font-size: 18px;
-    color: rgba(0, 0, 0, 0.7);
-    text-shadow: 0 1px 0 #EEE; }
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); }
   #content #tasks ul {
     padding: 0 15px;
     margin-bottom: 30px; }
     #content #tasks ul li {
-      margin-bottom: -1px;
+      margin-bottom: 0px;
       height: 33px;
-      border: 1px solid #bebebe;
+      border: none;
+      border-top: 1px solid #ddd;
       background: #fcfcfc;
       background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #f9f9f9));
       background: -webkit-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
@@ -197,7 +201,7 @@ body {
       background: -ms-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
       background: linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
       border-radius: 4px;
-      box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
+      box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
       -webkit-transition: 150ms ease margin; }
       #content #tasks ul li .todotxt {
         height: 33px;
