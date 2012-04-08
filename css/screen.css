@@ -591,7 +591,7 @@ body {
   border-radius: 3px;
   height: 35px !important; }
 
-#warning {
+.modal {
   display: none;
   position: absolute;
   top: 30%;
@@ -602,7 +602,7 @@ body {
   border-radius: 5px;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.75);
   /*Center Buttons*/ }
-  #warning h3 {
+  .modal h3 {
     border-radius: 5px 5px 0 0;
     text-align: center;
     height: 40px;
@@ -619,7 +619,7 @@ body {
     font-size: 15px;
     text-shadow: 0 1px 0 #fff;
     color: #3b3b3b; }
-  #warning p {
+  .modal p {
     margin: 0;
     padding: 15px 15px 13px;
     border-top: 1px solid #ccc;
@@ -629,9 +629,28 @@ body {
     text-align: center;
     color: #545454;
     line-height: 20px; }
-  #warning button:first-of-type {
+  .modal table {
+    font-size: 13px;
+    line-height: 20px;
+    margin: 10px 30px 30px;
+    color: #444; }
+    .modal table th {
+      text-align: left; }
+    .modal table tr {
+      border-bottom: 1px solid #ccc; }
+      .modal table tr td, .modal table tr th {
+        padding: 5px 15px; }
+      .modal table tr td:first-of-type {
+        color: #0ba1d0; }
+        .modal table tr td:first-of-type:hover {
+          cursor: pointer;
+          text-decoration: underline; }
+      .modal table tr td:nth-of-type(2) {
+        font-style: italic;
+        color: #888; }
+  .modal button:first-of-type {
     margin-left: 58px; }
-  #warning button {
+  .modal button {
     margin-bottom: 15px; }
 
 button {

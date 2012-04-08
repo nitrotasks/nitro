@@ -565,7 +565,7 @@ body {
 	height: 35px !important;
 }
 
-#warning {
+.modal {
 	display: none;
 	position: absolute;
 	top: 30%;
@@ -599,6 +599,32 @@ body {
 		text-align: center;
 		color: #545454;
 		line-height: 20px;
+	}
+	table {
+		font-size: 13px;
+		line-height: 20px;
+		margin: 10px 30px 30px;
+		color: #444;
+		th {
+			text-align: left;
+		}
+		tr {
+			border-bottom: 1px solid #ccc;
+			td, th {
+				padding: 5px 15px;
+			}
+			td:first-of-type {
+				color: #0ba1d0;
+				&:hover {
+					cursor: pointer;
+					text-decoration: underline;
+				}	
+			}
+			td:nth-of-type(2) {
+				font-style: italic;
+				color: #888;
+			}
+		}
 	}
 	/*Center Buttons*/
 	button:first-of-type {
