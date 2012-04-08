@@ -330,6 +330,13 @@ ui = {
 		});
 
 		$('#showLanguage').click(function() {
+			$('#languageDialog a.current').removeClass('current');
+			console.log(cli.storage.prefs.lang);
+			$('#languageDialog td:first a').each(function() {
+				if($(this).data('value') == cli.storage.prefs.lang) {
+					$(this).addClass('current');
+				}
+			});
 			$('#languageDialog').show().unbind('click').bind('click', function(e) {
 				cli.storage.prefs.lang = $(e.srcElement).data('value');
 				cli.storage.save();

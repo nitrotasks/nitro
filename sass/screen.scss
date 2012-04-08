@@ -619,6 +619,10 @@ body {
 				&:hover {
 					cursor: pointer;
 					text-decoration: underline;
+				}
+				&.current {
+					font-weight: bold;
+					color: #444;
 				}	
 			}
 			td:nth-of-type(2) {
