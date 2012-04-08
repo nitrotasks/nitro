@@ -330,13 +330,15 @@ ui = {
 			console.log('Settings Saved');
 		});
 
-		$('#language').change(function() {
+		$('#showLanguage').click(function() {
 			//Saves Lang
-			cli.storage.prefs.lang = $(this).val();
-			cli.storage.save();
+			console.log("stupid")
+			$('#languageDialog').show();
+			// cli.storage.prefs.lang = $(this).val();
+			// cli.storage.save();
 
-			//Reloads App
-			window.location.reload();
+			// //Reloads App
+			// window.location.reload();
 		});
 
 		$('#theme').change(function() {

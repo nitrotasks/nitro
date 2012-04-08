@@ -613,8 +613,9 @@ body {
 			td, th {
 				padding: 5px 15px;
 			}
-			td:first-of-type {
+			a {
 				color: #0ba1d0;
+				text-decoration: none;
 				&:hover {
 					cursor: pointer;
 					text-decoration: underline;
@@ -623,6 +624,9 @@ body {
 			td:nth-of-type(2) {
 				font-style: italic;
 				color: #888;
+				a {
+					color: #555;
+				}
 			}
 		}
 	}

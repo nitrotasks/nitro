@@ -640,14 +640,17 @@ body {
       border-bottom: 1px solid #ccc; }
       .modal table tr td, .modal table tr th {
         padding: 5px 15px; }
-      .modal table tr td:first-of-type {
-        color: #0ba1d0; }
-        .modal table tr td:first-of-type:hover {
+      .modal table tr a {
+        color: #0ba1d0;
+        text-decoration: none; }
+        .modal table tr a:hover {
           cursor: pointer;
           text-decoration: underline; }
       .modal table tr td:nth-of-type(2) {
         font-style: italic;
         color: #888; }
+        .modal table tr td:nth-of-type(2) a {
+          color: #555; }
   .modal button:first-of-type {
     margin-left: 58px; }
   .modal button {
