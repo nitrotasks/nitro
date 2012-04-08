@@ -40,12 +40,7 @@ $(document).ready(function() {
 	//Loads - Python Version
 	//document.title = 'null';
 	//document.title = 'load|' + cli.storage.prefs.lang + '.json';
-	//Resizes tasks
-	$(window).resize()
-	ui.init();
-	ui.tasks.init();
-	ui.tasks.selected.init();
-	ui.lists.updateCount('all');
+	
 
 });
 
@@ -84,6 +79,12 @@ function language(data) {
 	};
 
 	//This has to be done after language
+	//Resizes tasks
+	$(window).resize()
+	ui.init();
+	ui.tasks.init();
+	ui.tasks.selected.init();
+	ui.lists.updateCount('all');
 	ui.tasks.populate(ui.lists.selected());
 
 }
@@ -311,7 +312,6 @@ ui = {
 				$('#gpu').prop('checked', cli.storage.prefs.gpu);
 				$('#over50').prop('checked', cli.storage.prefs.over50);
 				$('#nextAmount').val(cli.storage.prefs.nextAmount);
-				$('#language').val(cli.storage.prefs.lang);
 				$('#theme').val(cli.storage.prefs.theme);
 
 				$('.settings').fadeIn(100);
@@ -335,18 +335,23 @@ ui = {
 		});
 
 		$('#showLanguage').click(function() {
+			$('.settings').fadeOut(150);
 			$('#languageDialog a.current').removeClass('current');
 			$('#languageDialog td:first-of-type a').each(function() {
 				if($(this).data('value') == cli.storage.prefs.lang) {
 					$(this).addClass('current');
 				}
 			});
-			$('#languageDialog').show().unbind('click').bind('click', function(e) {
+			$('#languageDialog').fadeIn(150).unbind('click').bind('click', function(e) {
+				e.stopPropagation(); // This is the preferred method.
 				cli.storage.prefs.lang = $(e.srcElement).data('value');
 				cli.storage.save();
 
 				window.location.reload()
+				return false;
 			});
+
+			setTimeout("$(document).click(function() {$('#languageDialog').fadeOut(75); $(document).off('click');});", 200);
 			
 		});
 
