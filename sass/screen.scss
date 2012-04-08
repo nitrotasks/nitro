@@ -193,16 +193,10 @@ body {
 							content: '';
 							clear: both;
 						}
-						a {
+						button {
 							float: left;
 							font-size: 13px;
-							margin-right: 5px;
-							color: #0ba1d0;
-							text-decoration: none;
-							font-weight: bold;
-							&:hover {
-								text-decoration: underline;
-							}
+							margin: 5px;
 						}
 						select {
 							margin-bottom: 7px;
