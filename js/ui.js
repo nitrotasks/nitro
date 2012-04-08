@@ -584,7 +584,7 @@ ui = {
 								if (parseInt(newListItems.length) - 3 == 1) {
 									$('#tasks ul#' + cli.storage.lists.order[i]).append('<p class="expandList">' + $.i18n._('oneMore') + '</p>');
 								} else {
-									$('#tasks ul#' + cli.storage.lists.order[i]).append('<p class="expandList">' + $.i18n._('oneMore', [(parseInt(newListItems.length) - 3)]) + '</p>');
+									$('#tasks ul#' + cli.storage.lists.order[i]).append('<p class="expandList">' + $.i18n._('morethanOne', [(parseInt(newListItems.length) - 3)]) + '</p>');
 								};
 								break;
 							}
