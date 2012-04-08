@@ -331,9 +331,14 @@ ui = {
 		});
 
 		$('#showLanguage').click(function() {
+			$('#languageDialog').show().unbind('click').bind('click', function(e) {
+				cli.storage.prefs.lang = $(e.srcElement).data('value');
+				cli.storage.save();
+
+				// Reloads App
+				window.location.reload();
+			});
 			//Saves Lang
-			console.log("stupid")
-			$('#languageDialog').show();
 			// cli.storage.prefs.lang = $(this).val();
 			// cli.storage.save();
 
