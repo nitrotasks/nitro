@@ -635,7 +635,8 @@ body {
     margin: 10px 30px 30px;
     color: #444; }
     .modal table th {
-      text-align: left; }
+      text-align: left;
+      font-size: 14px; }
     .modal table tr {
       border-bottom: 1px solid #ccc; }
       .modal table tr td, .modal table tr th {
@@ -646,6 +647,9 @@ body {
         .modal table tr a:hover {
           cursor: pointer;
           text-decoration: underline; }
+        .modal table tr a.current {
+          font-weight: bold;
+          color: #444; }
       .modal table tr td:nth-of-type(2) {
         font-style: italic;
         color: #888; }
