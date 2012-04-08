@@ -27,11 +27,12 @@ body {
 			li {
 				font-size: 12px;
 				color: #fff;
-				height: 34px;
+				height: 32px;
 				font-weight: bold;
 				text-shadow: 0 -1px 0 #222;
 				border-radius: 3px;
 				margin: 3px 0;
+				border: 1px solid transparent;
 
 				span {
 					display: block;
@@ -43,13 +44,27 @@ body {
 				-webkit-transition: 100ms linear background;
 
 				&:first-of-type {
-					margin-left: 3px;
+					margin-left: 5px;
 				}
 
 				// HOVER
 				&:hover {
+					@include background(linear-gradient(bottom, #393934 0%, #403e3a 100%));
+					box-shadow: inset 0 0 1px rgba(255,255,255,0.5);
+					border: 1px solid #343430;
+				}
+				&:active {
 					@include background(linear-gradient(bottom, #2f2e2b 0%, #32312d 100%));
 					box-shadow: inset 0 1px 2px rgba(0,0,0,0.5);
+					border: 1px solid transparent;
+				}
+
+				&.disabled {
+					&:hover {
+						background: none;
+						box-shadow: none;
+						border: 1px solid transparent;
+					}
 				}
 
 				&#addBTN {
@@ -84,6 +99,26 @@ body {
 		ul {
 			li {
 
+				height: 32px;
+				top: 3px;
+				border-radius: 3px;
+				border: 1px solid transparent;
+
+				&:not(:last-of-type):hover {
+					@include background(linear-gradient(bottom, #393934 0%, #403e3a 100%));
+					box-shadow: inset 0 0 1px rgba(255,255,255,0.5);
+					border: 1px solid #343430;
+				}
+				&:not(:last-of-type):active {
+					@include background(linear-gradient(bottom, #2f2e2b 0%, #32312d 100%));
+					box-shadow: inset 0 1px 1px rgba(0,0,0,0.5);
+					border: 1px solid transparent;
+				}
+
+				img {
+					padding: 2px 5px 5px
+				}
+
 				// SETTINGS
 				.settings {
 					// position
@@ -102,6 +137,7 @@ body {
 
 				// SEARCH
 				#search {
+					top: -2px;
 					border: 0;
 					position: relative;
 					width: 100px;
