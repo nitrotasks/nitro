@@ -40,6 +40,12 @@ $(document).ready(function() {
 	//Loads - Python Version
 	//document.title = 'null';
 	//document.title = 'load|' + cli.storage.prefs.lang + '.json';
+	//Resizes tasks
+	$(window).resize()
+	ui.init();
+	ui.tasks.init();
+	ui.tasks.selected.init();
+	ui.lists.updateCount('all');
 
 });
 
@@ -73,15 +79,8 @@ function language(data) {
 	})
 
 	//This has to be done after language
+	ui.tasks.populate(ui.lists.selected());
 
-	//Resizes tasks
-	$(window).resize()
-
-	ui.init();
-	ui.tasks.init();
-	ui.tasks.selected.init();
-	ui.lists.updateCount('all');
-	ui.tasks.populate('today');
 }
 
 $(window).resize(function() {
@@ -335,15 +334,9 @@ ui = {
 				cli.storage.prefs.lang = $(e.srcElement).data('value');
 				cli.storage.save();
 
-				// Reloads App
-				window.location.reload();
+				window.location.reload()
 			});
-			//Saves Lang
-			// cli.storage.prefs.lang = $(this).val();
-			// cli.storage.save();
-
-			// //Reloads App
-			// window.location.reload();
+			
 		});
 
 		$('#theme').change(function() {
