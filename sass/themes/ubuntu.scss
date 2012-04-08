@@ -19,6 +19,7 @@ body {
 		color: #fff;
 		text-shadow: 0 1px 0 #222;
 		border-right: 1px solid #282828;
+		display: none;
 	}
 
 	nav {
@@ -28,7 +29,7 @@ body {
 				color: #fff;
 				height: 40px;
 				font-weight: bold;
-				text-shadow: 0 1px 0 #222;
+				text-shadow: 0 -1px 0 #222;
 
 				span {
 					display: block;
@@ -44,12 +45,16 @@ body {
 					background: rgba(0,0,0,0.3);
 				}
 
+				&#addBTN {
+					padding-left: 10px;
+				}
+
 				// ICONS
 				.icon {
 					display: inline-block;
 					width: 30px;
 					height: 30px;
-					margin-top: 4px;
+					margin: 4px;
 
 					&.add {
 						background: url(../../images/add.png) no-repeat;
@@ -100,7 +105,7 @@ body {
 					padding-left: 23px;
 					border-radius: 3px;
 					margin-left: 7px;
-					background: url(../../images/search.png) no-repeat 5px 50%, #fff;
+					background: url(../../images/darksearch.png) no-repeat 5px 50%, #fff;
 					-webkit-transition: 200ms ease all;
 
 					&:focus {
@@ -118,11 +123,13 @@ body {
 
 		// position
 		width: 250px;
-		top: 40px; /* Set to panel height */
+		top: 0; /* Set to panel height */
+		z-index: 7;
 
 		// color
 		background-color: #f2f1f0;
-		border-right: 1px solid #aaa;
+		border-right: 0;
+		box-shadow: 0 0 1px #000;
 
 		// GROUP HEADINGS
 		h2 {
@@ -401,8 +408,8 @@ body {
 
 				// SELECTED
 				&.selected {
-					background: #ebf8fd;
-					@include background(linear-gradient(top, #ebf8fd 0%, #b1e5ff 100%));
+					background: #fff6f3;
+					@include background(linear-gradient(top, #fff6f3 0%, #ffdbcd 100%));
 				}
 
 				// LOGGED
