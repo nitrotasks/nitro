@@ -7,7 +7,7 @@
 $font: 'Helvetica', 'Arial', 'Ubuntu', sans-serif;
 
 body {
-	background: url(coffee/bg.png);
+	background: url(coffee/blue.jpg);
 	font-family: $font;
 }
 
@@ -307,14 +307,19 @@ body {
 			font-size: 14px;
 		}
 
+		p {
+			color: #eee;
+			text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+		}
+
 		// LIST HEADINGS
 		h2 {
 			// font
 			font-size: 18px;
 
 			// color
-			color: rgba(0, 0, 0, 0.7);
-			text-shadow: 0 1px 0 #EEE;
+			color: #fff;
+			text-shadow: 0 1px 3px rgba(0,0,0,0.5);
 		}
 
 		// LISTS INSIDE LISTS
@@ -325,17 +330,18 @@ body {
 			// A TASK
 			li {
 				// position
-				margin-bottom: -1px;
+				margin-bottom: 0px;
 
 				// size
 				height: 33px;
 
 				// background
-				border: 1px solid #bebebe;
+				border: none;
+				border-top: 1px solid #ddd;
 				background: #fcfcfc;
 				@include background(linear-gradient(top, color-stops(#fff 0%, #f9f9f9 100%)));
 				border-radius: 4px;
-				box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
+				box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
 
 				// animation
 				-webkit-transition: 150ms ease margin;
