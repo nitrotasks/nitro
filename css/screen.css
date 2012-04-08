@@ -636,7 +636,8 @@ body {
     color: #444; }
     .modal table th {
       text-align: left;
-      font-size: 14px; }
+      font-size: 14px;
+      border-bottom: 1px solid #999; }
     .modal table tr {
       border-bottom: 1px solid #ccc; }
       .modal table tr td, .modal table tr th {
