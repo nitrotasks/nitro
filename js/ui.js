@@ -78,6 +78,11 @@ function language(data) {
 		i++;
 	})
 
+	//jQuery UI Locales
+	if ($.i18n._('jqueryui') != 'en') {
+		$('body').append('<script src="js/translations/cal/' + $.i18n._('jqueryui') + '"></script')
+	};
+
 	//This has to be done after language
 	ui.tasks.populate(ui.lists.selected());
 
@@ -982,11 +987,6 @@ ui = {
 						ui.lists.updateCount('all');
 					}
 				}).children().show();
-
-				//jQuery UI Locales
-				if ($.i18n._('jqueryui') != 'en') {
-					//TODO: Future Ajax Request for Localizations
-				};
  
 				//Remove Date
 				$('#removeDate').click(function() {
