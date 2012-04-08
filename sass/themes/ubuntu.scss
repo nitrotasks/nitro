@@ -27,22 +27,29 @@ body {
 			li {
 				font-size: 12px;
 				color: #fff;
-				height: 40px;
+				height: 34px;
 				font-weight: bold;
 				text-shadow: 0 -1px 0 #222;
+				border-radius: 3px;
+				margin: 3px 0;
 
 				span {
 					display: block;
 					float: left;
-					margin-top: 13px;
+					margin-top: 10px;
 				}
 
 				// animations
 				-webkit-transition: 100ms linear background;
 
+				&:first-of-type {
+					margin-left: 3px;
+				}
+
 				// HOVER
 				&:hover {
-					background: rgba(0,0,0,0.3);
+					@include background(linear-gradient(bottom, #2f2e2b 0%, #32312d 100%));
+					box-shadow: inset 0 1px 2px rgba(0,0,0,0.5);
 				}
 
 				&#addBTN {
@@ -54,7 +61,7 @@ body {
 					display: inline-block;
 					width: 30px;
 					height: 30px;
-					margin: 4px;
+					margin: 1px 4px 4px;
 
 					&.add {
 						background: url(../../images/add.png) no-repeat;

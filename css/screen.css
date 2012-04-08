@@ -295,7 +295,8 @@ body {
       #panel nav ul li.disabled {
         opacity: 0.5; }
         #panel nav ul li.disabled:hover {
-          background: none; }
+          background: none;
+          box-shadow: none; }
       #panel nav ul li:hover {
         /*background: #484848;*/
         background: #ccc; }
