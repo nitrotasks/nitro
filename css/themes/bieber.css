@@ -8,12 +8,17 @@ body {
   font-family: "Helvetica", "Arial", "Ubuntu", sans-serif; }
 
 #panel {
-  background: url(../../images/dark.png);
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, rgba(173, 127, 168, 0.85)), color-stop(100%, rgba(128, 0, 128, 0.85)));
+  background: -webkit-linear-gradient(top, rgba(173, 127, 168, 0.85) 0%, rgba(128, 0, 128, 0.85) 100%);
+  background: -moz-linear-gradient(top, rgba(173, 127, 168, 0.85) 0%, rgba(128, 0, 128, 0.85) 100%);
+  background: -o-linear-gradient(top, rgba(173, 127, 168, 0.85) 0%, rgba(128, 0, 128, 0.85) 100%);
+  background: -ms-linear-gradient(top, rgba(173, 127, 168, 0.85) 0%, rgba(128, 0, 128, 0.85) 100%);
+  background: linear-gradient(top, rgba(173, 127, 168, 0.85) 0%, rgba(128, 0, 128, 0.85) 100%);
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.7); }
   #panel #brand {
     color: #fff;
     text-shadow: 0 1px 0 #222;
-    border-right: 1px solid #282828; }
+    border-right: 1px solid rgba(0, 0, 0, 0.2); }
   #panel nav ul li {
     font-size: 12px;
     color: #fff;
@@ -27,11 +32,13 @@ body {
       margin-top: 13px; }
     #panel nav ul li:hover {
       background: rgba(0, 0, 0, 0.3); }
+    #panel nav ul li#addBTN {
+      padding-left: 10px; }
     #panel nav ul li .icon {
       display: inline-block;
       width: 30px;
       height: 30px;
-      margin-top: 4px; }
+      margin: 4px; }
       #panel nav ul li .icon.add {
         background: url(../../images/add.png) no-repeat; }
       #panel nav ul li .icon.edit {

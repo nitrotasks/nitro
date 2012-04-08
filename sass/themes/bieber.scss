@@ -13,13 +13,14 @@ body {
 }
 
 #panel {
-	background: url(../../images/dark.png);
+	@include background(linear-gradient(top, rgba(173,127,168,0.85) 0%, rgba(128,0,128,0.85) 100%));
+
 	box-shadow:  0 0 4px rgba(0,0,0,0.7);
 
 	#brand {
 		color: #fff;
 		text-shadow: 0 1px 0 #222;
-		border-right: 1px solid #282828;
+		border-right: 1px solid rgba(0, 0, 0, 0.2);
 	}
 
 	nav {
@@ -45,12 +46,17 @@ body {
 					background: rgba(0,0,0,0.3);
 				}
 
+				&#addBTN {
+					padding-left: 10px;
+				}
+
+
 				// ICONS
 				.icon {
 					display: inline-block;
 					width: 30px;
 					height: 30px;
-					margin-top: 4px;
+					margin: 4px;
 
 					&.add {
 						background: url(../../images/add.png) no-repeat;
