@@ -338,7 +338,8 @@ ui = {
 			console.log('Settings Saved');
 		});
 
-		$('#showLanguage').click(function() {
+		$('#showLanguage').click(function(e) {
+			e.preventDefault();
 			$('.settings').fadeOut(150);
 			$('#languageDialog a.current').removeClass('current');
 			$('#languageDialog td:first-of-type a').each(function() {
