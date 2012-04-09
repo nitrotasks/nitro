@@ -26,11 +26,13 @@ body {
       margin-top: 13px; }
     #panel nav ul li:hover {
       background: rgba(0, 0, 0, 0.3); }
+    #panel nav ul li#addBTN {
+      padding-left: 10px; }
     #panel nav ul li .icon {
       display: inline-block;
       width: 30px;
       height: 30px;
-      margin-top: 4px; }
+      margin: 4px; }
       #panel nav ul li .icon.add {
         background: url(../../images/add.png) no-repeat; }
       #panel nav ul li .icon.edit {

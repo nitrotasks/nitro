@@ -44,12 +44,16 @@ body {
 					background: rgba(0,0,0,0.3);
 				}
 
+				&#addBTN {
+					padding-left: 10px;
+				}
+
 				// ICONS
 				.icon {
 					display: inline-block;
 					width: 30px;
 					height: 30px;
-					margin-top: 4px;
+					margin: 4px;
 
 					&.add {
 						background: url(../../images/add.png) no-repeat;

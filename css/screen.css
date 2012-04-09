@@ -361,7 +361,7 @@ body {
             #panel #right ul li .settings form button {
               float: left;
               font-size: 13px;
-              margin: 5px; }
+              margin: 0 0 7px; }
             #panel #right ul li .settings form select {
               margin-bottom: 7px;
               font-family: 'Helvetica', 'Arial', 'Ubuntu', sans-serif;
