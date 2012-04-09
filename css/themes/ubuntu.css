@@ -34,7 +34,7 @@ body {
       float: left;
       margin-top: 10px; }
     #panel nav ul li:first-of-type {
-      margin-left: 5px; }
+      margin-left: 10px; }
     #panel nav ul li:hover {
       background: -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #393934), color-stop(100%, #403e3a));
       background: -webkit-linear-gradient(bottom, #393934 0%, #403e3a 100%);
@@ -57,8 +57,6 @@ body {
       background: none;
       box-shadow: none;
       border: 1px solid transparent; }
-    #panel nav ul li#addBTN {
-      padding-left: 10px; }
     #panel nav ul li .icon {
       display: inline-block;
       width: 30px;

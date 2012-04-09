@@ -44,7 +44,7 @@ body {
 				-webkit-transition: 100ms linear background;
 
 				&:first-of-type {
-					margin-left: 5px;
+					margin-left: 10px;
 				}
 
 				// HOVER
@@ -65,10 +65,6 @@ body {
 						box-shadow: none;
 						border: 1px solid transparent;
 					}
-				}
-
-				&#addBTN {
-					padding-left: 10px;
 				}
 
 				// ICONS
