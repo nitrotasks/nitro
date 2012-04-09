@@ -1,0 +1,29 @@
+Changelog
+=========
+
+1.0.6 (2012-04-09)
+- Adds Simplified Chinese translation
+- Fixes a translation error in Next List
+- New Language Selection Window
+
+1.0.5 (2012-04-07)
+- Lists can now be deleted again
+
+1.0.4 (2012-04-07)
+- Fixes the logbook that broke in 1.0.3
+
+1.0.3 (2012-04-06)
+- The apostrophe, quote marl & backslash would break the Linux version of Nitro
+
+1.0.2 (2012-04-05)
+- Adds Translation Support
+- Pirate English
+- Adds May to the Calendar
+- Multiline notes work in Python
+- Pressing return on a task will collapse it
+
+1.0.1 (2012-03-30)
+- Prevents Smart Lists from being deleted
+
+1.0 (2012-03-30)
+- Initial Release
