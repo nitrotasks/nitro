@@ -166,6 +166,7 @@ ui = {
 		$('body').on('click', '#sidebar ul li', function(){
 			if (!$(this).hasClass('selected')) {
 				$('#editBTN, #deleteBTN').addClass('disabled');
+				$('#addBTN').removeClass('disabled');
 				//Changes selected
 				$('#sidebar ul li.selected').removeClass('selected');
 				$(this).addClass('selected');
@@ -300,7 +301,7 @@ ui = {
 
 		// Logbook
 		$('#logbookBTN').click(function() {
-			$('#editBTN, #deleteBTN').addClass('disabled');
+			$('#addBTN, #editBTN, #deleteBTN').addClass('disabled');
 			$('#sidebar ul li.selected').removeClass('selected');
 			ui.tasks.populate('logbook');
 		});
@@ -406,7 +407,7 @@ ui = {
 
 		// Search
 		$('#search').keyup(function() {
-			$('#editBTN, #deleteBTN').addClass('disabled');
+			$('#addBTN, #editBTN, #deleteBTN').addClass('disabled');
 			$('#sidebar ul li.selected').removeClass('selected');
 			var query = this.value,
 				results = cli.populate('search', query);
