@@ -44,7 +44,17 @@ var cli = {
 			today: 'false',
 			showInToday: '1',
 			list: list,
-			logged: false
+			logged: false,
+			time: {
+				content: 0,
+				priority: 0,
+				date: 0,
+				notes: 0,
+				today: 0,
+				showInToday: 0,
+				list: 0,
+				logged: 0,
+			}
 		};
 
 		if (list == 'today') {
@@ -201,7 +211,7 @@ var cli = {
 
 				task.today = 'manual';
 				task.showInToday = '1';
-				cli.today(id).calculate()
+				cli.today(id).calculate();
 
 			},
 			remove: function() {
@@ -234,6 +244,8 @@ var cli = {
 				cli.calc.removeFromList(id, 'next');
 				
 				console.log('List: ' + task.list);
+
+				cli.storage.tasks[id].time.today = Date.now();
 
 				//If the task is due to be deleted, then delete it
 				if (task.list == 0) {
@@ -315,6 +327,7 @@ var cli = {
 			console.log("Task with id: " + id + " has been uncompleted");	
 		}
 
+		cli.storage.tasks[id].time.logged = Date.now();
 		cli.taskData(id).edit(task);
 		cli.storage.lists.items = lists;
 		cli.storage.save();
@@ -341,6 +354,7 @@ var cli = {
 						priority = "low";
 						break;
 				}
+				cli.storage.tasks[id].time.priority = Date.now();
 				cli.storage.tasks[id].priority = priority;
 				cli.storage.save();
 				return priority;
@@ -356,9 +370,12 @@ var cli = {
 			},
 			edit: function(obj) {
 				// Edit taskData
-				$.each(obj, function(index, value) { 
+				$.each(obj, function(i, value) { 
   					if (typeof value == "string") {
-  						obj[index] = cli.escape(value);
+  						obj[i] = cli.escape(value);
+  					}
+  					if(obj[i] != $.jStorage.get('tasks')[id][i] && i!='time') {
+  						cli.storage.tasks[id].time[i] =  Date.now();
   					}
 				});
 
