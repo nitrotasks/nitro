@@ -1,0 +1,77 @@
+{
+	"author":				"Belenos Govannon <email@belenos.me>",
+	"jqueryui":				"jquery.ui.datepicker-pt.js",
+
+	"listWarning":    		"Você tem certeza que deseja deletar esta lista? Todas as tarefas nesta lista também serão deletadas.",
+	"taskWarning":    		"Você tem certeza que deseja deletar esta tarefa? Ela será perdida para sempre (e isso é muito tempo!).",
+	
+	"todayText":      		"A lista <strong>Hoje</strong> é para todas as tarefas que você pretende realizar no dia atual. As tarefas do dia aparecerão aqui automaticamente.",
+	"nextText":       		"Tarefas agendadas aparecerão em <strong>Próximas</strong>. As tarefas do dia e as três primeiras em cada lista aparecerão aqui automaticamente.",
+	"somedayText":    		"A lista <strong>Algum Dia</strong> é para aquelas tarefas que você não sabe quando realizará, como 'começar a malhar' e 'arrumar o quarto'.",
+	"logbookText":    		"O <strong>Diário de Bordo</strong> mostra um registro de todas as tarefas que você realizou.",
+	"customText":     		"Não há tarefas nesta lista.",
+
+	"yesTask":        		"Deletar Tarefa",
+	"yesList":        		"Deletar Lista",
+	"cancelDialog":    		"Cancelar",
+	"warningText":			"Cuidado!",
+
+	"add":            		"Adicionar",
+	"edit":           		"Editar",
+	"delete":         		"Deletar",
+	"logbook":        		"Diário de Bordo",
+	"settings":       		"Configurações",
+	"search":         		"Busca",
+	
+	"hideWarnings":   		"Ocultar alerta ao deletar",
+	"lowGraphics":    		"Gráficos leves",
+	"nextNoLists":    		"Ocultar outras lista em Próximas",
+	"nextThreeLists": 		"Mostrar 3 itens das listas em Próximas",
+	"nextEntireLists":		"Mostrar listas completas em Próximas",
+
+	"focus":          		"Principal",
+	"lists":          		"Listas",
+	"today":          		"Hoje",
+	"next":           		"Próximas",
+	"someday":        		"Algum Dia",
+
+	"newList":        		"Nova Lista",
+	"newTask":        		"Nova Tarefa",
+
+	"taskName":			"Nome da Tarefa",
+	"notes":          		"Notas",
+	"showInToday":    		"Mostrar em Hoje",
+	"removeFromToday":		"Ocultar em Hoje",
+	"none":           		"Prioridade",
+	"low":            		"Baixa",
+	"medium":         		"Média",
+	"important":      		"Alta",
+	"setDueDate":     		"Mudar Data",
+	"removeDueDate":  		"Remover Data",
+	"doToday":        		"Fazer Hoje",
+
+	"oneMore":      		"Mostrar mais uma tarefa",
+	"morethanOne":			"Mostrar mais %s tarefas",
+
+	"dayLeft":			"Falta 1 dia",
+	"daysLeft": 			"Faltam %s dias",
+	"dayOverdue": 			"Atrasada em 1 dia",
+	"daysOverdue":			"Atrasada em %s dias",
+	"month":				["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
+
+	"searchResults":  		"Resultado da Busca: ",
+
+	"titleAddTask":   		"Adicionar nova tarefa",
+	"titleEditTask":  		"Editar tarefa selecionada",
+	"titleDeleteTask":		"Deletar tarefa selecionada",
+
+	"titleAddList":   		"Adicionar Lista",
+	"titleDeleteList":		"Deletar Lista",
+	"titleEditList":  		"Editar Lista",
+	"titleSaveList":  		"Salvar Modificações",
+
+	"showTime":				"Mostrar em Hoje:",
+	"1day":					"1 dia antes",
+	"moreday":				"%s dias antes",
+	"never":				"Nunca"
+}
