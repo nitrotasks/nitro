@@ -4,7 +4,6 @@ Changelog
 1.0.8 (2012-04-11)
 - Adds German Translation
 - Adds Spanish Translation
-- Fixes issue ff tasks contain ", ' or \n, Nitro will break
 - Fixes Spelling Error in Portuguese translation
 
 1.0.7 (2012-04-10)
