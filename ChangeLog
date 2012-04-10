@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.0.7 (2012-04-10)
+- Adds Portuguese Translation
+- Fixed date rolling over and not adding tasks to today
+
 1.0.6 (2012-04-09)
 - Adds Simplified Chinese translation
 - Fixes a translation error in Next List
