@@ -562,6 +562,15 @@ var cli = {
 					    if (todaydate >= targetdate) {
 					    	
 					    	cli.storage.tasks[key].today = 'yesAuto';
+
+					    	//Adds to today & next lists
+					    	cli.storage.lists.items.today.order.push(key);
+
+					    	//Makes sure it doesn't it doesn't double add to next
+					    	if (cli.storage.tasks[key].list != 'next') {
+					    		cli.storage.lists.items.next.order.push(key);
+					    	}
+
 					    	delete cli.storage.queue[key];
 
 					    } else {
