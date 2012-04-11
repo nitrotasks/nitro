@@ -15,6 +15,27 @@
 
 console.info('Nitro 1.0\nCopyright (C) 2012 Caffeinated Code\nBy George Czabania & Jono Cooper');
 var cli = {
+	timestampUpdate: function() {
+		for(var id in cli.storage.tasks) {
+			if(!cli.storage.tasks[id].hasOwnProperty('time')) {
+				console.log("Upgrading to newer database. Don't blame us if it deletes your tasks!")
+				for(var id in cli.storage.tasks) {
+					cli.storage.tasks[id].time = {
+						content: 0,
+						priority: 0,
+						date: 0,
+						notes: 0,
+						today: 0,
+						showInToday: 0,
+						list: 0,
+						logged: 0
+					}
+				}
+				cli.storage.save();
+			}
+			break;
+		}
+	},
 	escape: function(str) {
 		//Regexes a bunch of shit that breaks the Linux version
 
@@ -53,7 +74,7 @@ var cli = {
 				today: 0,
 				showInToday: 0,
 				list: 0,
-				logged: 0,
+				logged: 0
 			}
 		};
 
