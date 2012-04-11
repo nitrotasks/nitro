@@ -260,7 +260,7 @@ var cli = {
 				//Calculates date. Changes today Status
 				cli.calc.date(id);
 				
-				//If the list is today, we place back in today & next
+				//If the task.list is today, we place back in today & next
 				if (task.list == 'today') {
 					
 					lists.today.order.unshift(id);
@@ -283,6 +283,10 @@ var cli = {
 						};
 					};
 				}
+
+				// Crazy bug
+				cli.storage.lists.items.today.order = eliminateDuplicates(cli.storage.lists.items.today.order);
+				cli.storage.lists.items.next.order = eliminateDuplicates(cli.storage.lists.items.next.order);
 				
 				//Saves data
 				cli.storage.save();
@@ -472,7 +476,7 @@ var cli = {
 
 		date: function(id) {
 			var task = cli.taskData(id).display(),
-			lists = cli.storage.lists.items;
+				lists = cli.storage.lists.items;
 
 			//If it's already in today, do nothing. If it doesn't have a date, do nothing.
 			if (task.today != 'manual' && task.date != '') {
@@ -618,4 +622,19 @@ var cli = {
 			$.jStorage.set('prefs', cli.storage.prefs);
 		}
 	}
+}
+
+function eliminateDuplicates(arr) {
+  var i,
+      len=arr.length,
+      out=[],
+      obj={};
+
+  for (i=0;i<len;i++) {
+    obj[arr[i]]=0;
+  }
+  for (i in obj) {
+    out.push(i);
+  }
+  return out;
 }
