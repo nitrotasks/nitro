@@ -15,25 +15,30 @@
 
 console.info('Nitro 1.0\nCopyright (C) 2012 Caffeinated Code\nBy George Czabania & Jono Cooper');
 var cli = {
-	timestampUpdate: function() {
-		for(var id in cli.storage.tasks) {
-			if(!cli.storage.tasks[id].hasOwnProperty('time')) {
-				console.log("Upgrading to newer database. Don't blame us if it deletes your tasks!")
-				for(var id in cli.storage.tasks) {
-					cli.storage.tasks[id].time = {
-						content: 0,
-						priority: 0,
-						date: 0,
-						notes: 0,
-						today: 0,
-						showInToday: 0,
-						list: 0,
-						logged: 0
+	timestamp: {
+		update: function(id, key) {
+			cli.storage.tasks[id].time[key] = Date.now();
+		},
+		upgrade: function() {
+			for(var id in cli.storage.tasks) {
+				if(!cli.storage.tasks[id].hasOwnProperty('time')) {
+					console.log("Upgrading to newer database. Don't blame us if it deletes your tasks!")
+					for(var id in cli.storage.tasks) {
+						cli.storage.tasks[id].time = {
+							content: 0,
+							priority: 0,
+							date: 0,
+							notes: 0,
+							today: 0,
+							showInToday: 0,
+							list: 0,
+							logged: 0
+						}
 					}
+					cli.storage.save();
 				}
-				cli.storage.save();
+				break;
 			}
-			break;
 		}
 	},
 	escape: function(str) {
@@ -108,10 +113,7 @@ var cli = {
 		cli.calc.removeFromList(id, 0);
 
 		//Deletes Data
-		// delete cli.storage.tasks[id];
-		cli.storage.tasks[id] = {
-			deleted: Date.now()
-		}
+		cli.storage.tasks[id] = { deleted: Date.now() }
 
 		//Saves
 		cli.storage.save();
@@ -269,7 +271,8 @@ var cli = {
 				
 				console.log('List: ' + task.list);
 
-				cli.storage.tasks[id].time.today = Date.now();
+				// Update timestamp
+				cli.timestamp.update(id, 'today');
 
 				//If the task is due to be deleted, then delete it
 				if (task.list == 0) {
@@ -355,7 +358,9 @@ var cli = {
 			console.log("Task with id: " + id + " has been uncompleted");	
 		}
 
-		cli.storage.tasks[id].time.logged = Date.now();
+		// Update timestamp
+		cli.timestamp.update(id, 'logged');
+
 		cli.taskData(id).edit(task);
 		cli.storage.lists.items = lists;
 		cli.storage.save();
@@ -382,7 +387,9 @@ var cli = {
 						priority = "low";
 						break;
 				}
-				cli.storage.tasks[id].time.priority = Date.now();
+
+				cli.timestamp.update(id, 'priority')
+
 				cli.storage.tasks[id].priority = priority;
 				cli.storage.save();
 				return priority;
@@ -403,7 +410,7 @@ var cli = {
   						obj[i] = cli.escape(value);
   					}
   					if(obj[i] != $.jStorage.get('tasks')[id][i] && i!='time') {
-  						cli.storage.tasks[id].time[i] =  Date.now();
+  						cli.timestamp.update(id, i);
   					}
 				});
 

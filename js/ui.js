@@ -16,7 +16,7 @@
 
 $(document).ready(function() {
 	// Update database with timestamps
-	cli.timestampUpdate();
+	cli.timestamp.upgrade();
 
 	//Refreshes Today
 	cli.calc.todayQueue.refresh();
