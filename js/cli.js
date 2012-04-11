@@ -108,7 +108,10 @@ var cli = {
 		cli.calc.removeFromList(id, 0);
 
 		//Deletes Data
-		delete cli.storage.tasks[id];
+		// delete cli.storage.tasks[id];
+		cli.storage.tasks[id] = {
+			deleted: Date.now()
+		}
 
 		//Saves
 		cli.storage.save();
