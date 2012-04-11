@@ -384,6 +384,9 @@ ui = {
 					this.currentTime = 0;
 					this.play();
 				}, false);
+			} else {
+				$('#brand').html('<img src="images/flash.png" style="padding-right:8px;position: relative;top: -2px;">Nitro');
+				$('audio').remove();
 			}
 			
 			//Saves Theme
