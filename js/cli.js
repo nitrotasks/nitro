@@ -222,6 +222,9 @@ var cli = {
 			cli.today(id).remove();
 		}
 
+		// Update timestamp
+		cli.timestamp.update(id, 'list');
+
 		// Save
 		cli.taskData(id).edit(task);
 		cli.storage.lists.items = lists;
