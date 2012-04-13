@@ -35,6 +35,9 @@ var cli = {
 							logged: 0
 						}
 					}
+					for(var id in cli.storage.lists.items) {
+						if(id != 0 && id != 'today' && id != 'next' && id != 'someday') cli.storage.lists.items[id].time = 0;
+					}
 					cli.storage.save();
 				}
 				break;
@@ -432,7 +435,11 @@ var cli = {
 				var newId = cli.storage.lists.items.length;
 
 				//Chucks data in object
-				cli.storage.lists.items[newId] = { name: name, order: []};
+				cli.storage.lists.items[newId] = {
+					name: name,
+					order: [],
+					time: 0
+				};
 
 				//Adds to order array
 				cli.storage.lists.order.push(newId);
@@ -447,6 +454,7 @@ var cli = {
 			rename: function() {
 				// Renames a list
 				cli.storage.lists.items[id].name = name;
+				cli.storage.lists.items[id].time = Date.now();
 
 				//Saves to localStorage
 				cli.storage.save();
@@ -654,6 +662,17 @@ var cli = {
 			$.jStorage.set('lists', cli.storage.lists);
 			$.jStorage.set('queue', cli.storage.queue);
 			$.jStorage.set('prefs', cli.storage.prefs);
+		},
+
+		sync: function() {
+
+			// Upload to server
+			prompt("Copy this", JSON.stringify(localStorage.getItem('jStorage')));
+
+			var server = prompt("Now paste in the merged data", "");
+			if(server) {
+				localStorage.setItem('jStorage', server);
+			}
 		}
 	}
 }
