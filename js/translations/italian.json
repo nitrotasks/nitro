@@ -9,19 +9,19 @@
 	"nextText": "Le attività in scadenza sono mostrate in <strong>Prossimo</ strong>. Le attività di oggi e le prime tre delle altre liste saranno mostrate in automatico in cima.",
 	"somedayText": "La lista <strong>Qualche giorno</ strong> contiene attivià di cui non si sa esattamente quando pianificarle",
 	"logbookText": "La lista <strong>Passate</ strong> contiene tutte le attività completate",
-	"customText": "Non ci sono compiti in questa 
+	"customText": "Non ci sono compiti in questa",
 
 	"yesTask": "Elimina attività",
 	"yesList": "Elimina lista",
 	"cancelDialog": "Annulla",
-	"warningText": "Attenzione!"
+	"warningText": "Attenzione!",
 	"languageText": "Scegli la tua lingua",
 
 	"add": "Aggiungi",
 	"edit": "Modifica",
 	"delete": "Elimina",
 	"logbook": "Storia",
-	"settings": "Impostazioni"
+	"settings": "Impostazioni",
 	"search": "Cerca",
 
 	"hideWarnings": "Non chiedere più",
