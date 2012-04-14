@@ -1,41 +1,38 @@
-/* Coffee Theme
- * Author: George Czabania
+/* Adwaita Theme
+ * Author: Jono Cooper
  * http://caffeinatedco.de
  */
 @import "compass/css3/images";
 
-$font: 'Helvetica', 'Arial', 'Ubuntu', sans-serif;
+$font: 'Cantarell', 'Ubuntu', 'Helvetica', 'Arial', sans-serif;
 
 body {
-	background: url(coffee/blue.jpg);
+	background: #f0f1f0;
 	font-family: $font;
+	text-rendering: optimizelegibility;
 }
 
 #panel {
-	@include background(linear-gradient(top, #283b42 0%, #22343a 50%, #1d2e33 50%, #1a292e 100%));
-	border-bottom: 1px solid #000;
-	box-shadow: 0 1px 1px rgba(0,0,0,0.6);
-	height: 35px;
+	@include background(linear-gradient(top, #edeceb 0%, #e2e0de 100%));
+	box-shadow:  0 -1px 0 #a7aba7 inset;
+	height: 44px;
 
 	#brand {
 		color: #fff;
 		text-shadow: 0 1px 0 #222;
 		border-right: 1px solid #282828;
+		display: none;
 	}
 
 	nav {
 		ul {
 			li {
 				font-size: 12px;
-				font-weight: bold;
-				color: #fff;
-				height: 35px;
-				text-shadow: 0 1px 0 #222;
-
-				padding-right: 24px;
-				padding-left: 24px;
-				border-left: 1px solid rgba(255,255,255,0.15);
-				border-right: 1px solid #000;
+				color: #000;
+				height: 32px;
+				border-radius: 3px;
+				margin: 3px 0;
+				border: 1px solid transparent;
 
 				span {
 					display: block;
@@ -46,29 +43,47 @@ body {
 				// animations
 				-webkit-transition: 100ms linear background;
 
+				&:first-of-type {
+					margin-left: 10px;
+				}
+
 				// HOVER
 				&:hover {
-					background: rgba(0,0,0,0.2);
+					@include background(linear-gradient(bottom, #393934 0%, #403e3a 100%));
+					box-shadow: inset 0 0 1px rgba(255,255,255,0.5);
+					border: 1px solid #343430;
+				}
+				&:active {
+					@include background(linear-gradient(bottom, #2f2e2b 0%, #32312d 100%));
+					box-shadow: inset 0 1px 2px rgba(0,0,0,0.5);
+					border: 1px solid transparent;
+				}
+
+				&.disabled {
+					&:hover {
+						background: none;
+						box-shadow: none;
+						border: 1px solid transparent;
+					}
 				}
 
 				// ICONS
 				.icon {
 					display: inline-block;
-					width: 13px;
-					height: 12px;
-					margin-top: 12px;
-					margin-right: 2px;
+					width: 30px;
+					height: 30px;
+					margin: 1px 4px 4px;
 
 					&.add {
-						background: url(coffee/check.png) no-repeat;
+						background: url(../../images/add.png) no-repeat;
 					}
 
 					&.edit {
-						background: url(coffee/edit.png) no-repeat;
+						background: url(../../images/edit.png) no-repeat;
 					}
 
 					&.delete {
-						background: url(coffee/remove.png) no-repeat 0 1px;
+						background: url(../../images/delete.png) no-repeat 2px 2px;
 					}
 					
 				}
@@ -77,12 +92,27 @@ body {
 	}
 
 	#right {
-		height: 30px;
 		ul {
 			li {
 
+				height: 32px;
+				top: 3px;
+				border-radius: 3px;
+				border: 1px solid transparent;
+
+				&:not(:last-of-type):hover {
+					@include background(linear-gradient(bottom, #393934 0%, #403e3a 100%));
+					box-shadow: inset 0 0 1px rgba(255,255,255,0.5);
+					border: 1px solid #343430;
+				}
+				&:not(:last-of-type):active {
+					@include background(linear-gradient(bottom, #2f2e2b 0%, #32312d 100%));
+					box-shadow: inset 0 1px 1px rgba(0,0,0,0.5);
+					border: 1px solid transparent;
+				}
+
 				img {
-					padding: 3px;
+					padding: 2px 5px 5px
 				}
 
 				// SETTINGS
@@ -103,16 +133,18 @@ body {
 
 				// SEARCH
 				#search {
+					top: -2px;
 					border: 0;
 					position: relative;
 					width: 100px;
 					line-height: 13px;
 					font-size: 13px;
+					font-family: $font;
 					padding: 4px;
 					padding-left: 23px;
 					border-radius: 3px;
 					margin-left: 7px;
-					background: url(../../images/search.png) no-repeat 5px 50%, #fff;
+					background: url(../../images/darksearch.png) no-repeat 5px 50%, #fff;
 					-webkit-transition: 200ms ease all;
 
 					&:focus {
@@ -130,31 +162,28 @@ body {
 
 		// position
 		width: 250px;
-		top: 35px; /* Set to panel height */
+		top: 44px; /* Set to panel height */
 
 		// color
-		background-color: #fff;
-		@include background(linear-gradient(top, #ffffff 0%, #f9f9f9 100%));
-		border-right: 1px solid #555;
+		background-color: #f2f2f2;
+		border-right: 0;
+		box-shadow: 1px 0 0 #bbb;
 
 		// GROUP HEADINGS
 		h2 {
 			// position
 			margin: 0;
-			padding: 12px 25px 12px 20px;
+			padding: 8px 25px 8px 15px;
 
 			// font
 			font-weight: bold;
 			font-size: 13px;
 			line-height: 13px;
-			color: #fff;
-			border-top: 1px solid #51555a;
-			box-shadow: inset 0 1px 0 #878e98, 0 1px 2px rgba(0,0,0,0.3);
-			text-shadow: 0 1px 1px rgba(0,0,0,0.5);
-			border-bottom: 1px solid #33373d;
 
 			// color
-			@include background(linear-gradient(top, #717a85 0%, #515a65 100%));
+			color: #222;
+			border-bottom: 1px solid #CCC;
+			border-top: 1px solid #CCC;		
 
 			// ADD LIST BUTTON
 			#addListBTN {
@@ -163,15 +192,12 @@ body {
 				height: 8px;
 				padding: 4px;
 
-				// position
-				margin-top: -1px;
-
 				// background
 				border-radius: 50%;
-				background: url(coffee/addList.png) no-repeat 4px 4px;
+				background: url(../../images/addList.png) no-repeat 4px 4px;
 
 				&:hover {
-					background: #444 url(coffee/addList.png) no-repeat 4px 4px;
+					background: #e2e2e2 url(../../images/addList.png) no-repeat 4px 4px;
 				}
 			}
 		}
@@ -180,14 +206,12 @@ body {
 		ul {
 			li {
 				// size
-				height: 36px;
+				height: 26px;
 
 				// font
 				font-size: 13px;
-				line-height: 36px;
+				line-height: 26px;
 				text-indent: 25px;
-
-				border-bottom: 1px solid #efeff0;
 
 				// DRAG HOVER
 				&.dragHover:not(.selected) {
@@ -215,16 +239,16 @@ body {
 
 					// color
 					color: #fff;
-					@include background(linear-gradient(top, #43c5e9 0%, #2997d9 100%));
+					background-color: #7bbff1;
+					@include background(linear-gradient(top, #7bbff1 0%, #508ccb 100%));
 					text-shadow: 0 1px 1px rgba(0,0,0,0.3);
-					box-shadow: inset 0 1px 0 #6ad2ef, 0 1px 0 #75a9e2 inset, 0 -1px 0 #7783D1 inset;
-					border-bottom: 1px solid #1a638f;
+					box-shadow: 0 1px 0 #75a9e2 inset, 0 -1px 0 #5080c7 inset;
 
 					// EDIT ICON (SELECTED)
 					.editIcon {
 						// position
 						left: 5px;
-						top: 10px;
+						top: 6px;
 
 						// color
 						background: url(../../images/pencilWhite.png);
@@ -248,7 +272,7 @@ body {
 
 						// background
 						background: rgba(255,255,255,1);
-						border-radius: 2px;
+						border-radius: 4px;
 					}
 
 					// DELETE AND SAVE ICONS
@@ -307,19 +331,15 @@ body {
 			font-size: 14px;
 		}
 
-		p {
-			color: #eee;
-			text-shadow: 0 1px 3px rgba(0,0,0,0.5);
-		}
-
 		// LIST HEADINGS
 		h2 {
 			// font
 			font-size: 18px;
+			letter-spacing: -1px;
 
 			// color
-			color: #fff;
-			text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+			color: rgba(0, 0, 0, 0.7);
+			text-shadow: 0 1px 0 #EEE;
 		}
 
 		// LISTS INSIDE LISTS
@@ -330,18 +350,14 @@ body {
 			// A TASK
 			li {
 				// position
-				margin-bottom: 0px;
-
-				// size
-				height: 33px;
+				margin-bottom: -1px;
 
 				// background
-				border: none;
-				border-top: 1px solid #ddd;
+				border: 1px solid #bebebe;
 				background: #fcfcfc;
 				@include background(linear-gradient(top, color-stops(#fff 0%, #f9f9f9 100%)));
 				border-radius: 4px;
-				box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+				box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
 
 				// animation
 				-webkit-transition: 150ms ease margin;
@@ -349,19 +365,19 @@ body {
 				// TEXT
 				.todotxt {
 					// position
-					height: 33px;
+					height: 30px;
 					padding: 0 10px 0 0;
 
 					// font
 					font-size: 13px;
-					line-height: 35px;
+					line-height: 32px;
 				}
 
 				// LABELS
 				.labels {
 					// font
 					font-size: 12px;
-					line-height: 33px;
+					line-height: 30px;
 
 					// background
 					@include background(linear-gradient(top, color-stops(#fff 0%, #f9f9f9 100%)));
@@ -371,11 +387,11 @@ body {
 					// A LABEL
 					span {
 						// size
-						height: 33px;
+						height: 30px;
 						padding: 0 10px;
 
 						// font
-						line-height: 35px;
+						line-height: 30px;
 						color: #555;
 
 						// border
@@ -398,8 +414,7 @@ body {
 
 						&.today, &.todayLabel {
 							&.inToday, &.todayLabel  {
-								background-image: #f5f5ff;
-								@include background(linear-gradient(top, #ffffff 0%, #eaebff 100%));
+								@include background(linear-gradient(top, #ffffff 0%, #fff3d9 100%));
 							}
 						}
 
@@ -431,8 +446,8 @@ body {
 
 				// SELECTED
 				&.selected {
-					background-image: #d8ddff;
-					@include background(linear-gradient(bottom, #c9d3ff 0%, #e7e7ff 100%));
+					background: #fff6f3;
+					@include background(linear-gradient(top, #fff6f3 0%, #ffdbcd 100%));
 				}
 
 				// LOGGED
@@ -451,7 +466,7 @@ body {
 				.checkbox {
 					width: 13px;
 					height: 13px;
-					padding: 11px 8px 10px 8px;
+					padding: 9px 8px 8px 8px;
 
 					// ACTUAL CHECKBOX
 					input[type=checkbox] {

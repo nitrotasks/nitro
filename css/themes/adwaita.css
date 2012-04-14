@@ -1,58 +1,98 @@
-/* Coffee Theme
- * Author: George Czabania
+/* Adwaita Theme
+ * Author: Jono Cooper
  * http://caffeinatedco.de
  */
 body {
-  background: url(coffee/blue.jpg);
-  font-family: "Helvetica", "Arial", "Ubuntu", sans-serif; }
+  background: #f0f1f0;
+  font-family: "Cantarell", "Ubuntu", "Helvetica", "Arial", sans-serif;
+  text-rendering: optimizelegibility; }
 
 #panel {
-  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #283b42), color-stop(50%, #22343a), color-stop(50%, #1d2e33), color-stop(100%, #1a292e));
-  background: -webkit-linear-gradient(top, #283b42 0%, #22343a 50%, #1d2e33 50%, #1a292e 100%);
-  background: -moz-linear-gradient(top, #283b42 0%, #22343a 50%, #1d2e33 50%, #1a292e 100%);
-  background: -o-linear-gradient(top, #283b42 0%, #22343a 50%, #1d2e33 50%, #1a292e 100%);
-  background: -ms-linear-gradient(top, #283b42 0%, #22343a 50%, #1d2e33 50%, #1a292e 100%);
-  background: linear-gradient(top, #283b42 0%, #22343a 50%, #1d2e33 50%, #1a292e 100%);
-  border-bottom: 1px solid #000;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
-  height: 35px; }
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #edeceb), color-stop(100%, #e2e0de));
+  background: -webkit-linear-gradient(top, #edeceb 0%, #e2e0de 100%);
+  background: -moz-linear-gradient(top, #edeceb 0%, #e2e0de 100%);
+  background: -o-linear-gradient(top, #edeceb 0%, #e2e0de 100%);
+  background: -ms-linear-gradient(top, #edeceb 0%, #e2e0de 100%);
+  background: linear-gradient(top, #edeceb 0%, #e2e0de 100%);
+  box-shadow: 0 -1px 0 #a7aba7 inset;
+  height: 44px; }
   #panel #brand {
     color: #fff;
     text-shadow: 0 1px 0 #222;
-    border-right: 1px solid #282828; }
+    border-right: 1px solid #282828;
+    display: none; }
   #panel nav ul li {
     font-size: 12px;
-    font-weight: bold;
-    color: #fff;
-    height: 35px;
-    text-shadow: 0 1px 0 #222;
-    padding-right: 24px;
-    padding-left: 24px;
-    border-left: 1px solid rgba(255, 255, 255, 0.15);
-    border-right: 1px solid #000;
+    color: #000;
+    height: 32px;
+    border-radius: 3px;
+    margin: 3px 0;
+    border: 1px solid transparent;
     -webkit-transition: 100ms linear background; }
     #panel nav ul li span {
       display: block;
       float: left;
       margin-top: 10px; }
+    #panel nav ul li:first-of-type {
+      margin-left: 10px; }
     #panel nav ul li:hover {
-      background: rgba(0, 0, 0, 0.2); }
+      background: -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #393934), color-stop(100%, #403e3a));
+      background: -webkit-linear-gradient(bottom, #393934 0%, #403e3a 100%);
+      background: -moz-linear-gradient(bottom, #393934 0%, #403e3a 100%);
+      background: -o-linear-gradient(bottom, #393934 0%, #403e3a 100%);
+      background: -ms-linear-gradient(bottom, #393934 0%, #403e3a 100%);
+      background: linear-gradient(bottom, #393934 0%, #403e3a 100%);
+      box-shadow: inset 0 0 1px rgba(255, 255, 255, 0.5);
+      border: 1px solid #343430; }
+    #panel nav ul li:active {
+      background: -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #2f2e2b), color-stop(100%, #32312d));
+      background: -webkit-linear-gradient(bottom, #2f2e2b 0%, #32312d 100%);
+      background: -moz-linear-gradient(bottom, #2f2e2b 0%, #32312d 100%);
+      background: -o-linear-gradient(bottom, #2f2e2b 0%, #32312d 100%);
+      background: -ms-linear-gradient(bottom, #2f2e2b 0%, #32312d 100%);
+      background: linear-gradient(bottom, #2f2e2b 0%, #32312d 100%);
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
+      border: 1px solid transparent; }
+    #panel nav ul li.disabled:hover {
+      background: none;
+      box-shadow: none;
+      border: 1px solid transparent; }
     #panel nav ul li .icon {
       display: inline-block;
-      width: 13px;
-      height: 12px;
-      margin-top: 12px;
-      margin-right: 2px; }
+      width: 30px;
+      height: 30px;
+      margin: 1px 4px 4px; }
       #panel nav ul li .icon.add {
-        background: url(coffee/check.png) no-repeat; }
+        background: url(../../images/add.png) no-repeat; }
       #panel nav ul li .icon.edit {
-        background: url(coffee/edit.png) no-repeat; }
+        background: url(../../images/edit.png) no-repeat; }
       #panel nav ul li .icon.delete {
-        background: url(coffee/remove.png) no-repeat 0 1px; }
-  #panel #right {
-    height: 30px; }
+        background: url(../../images/delete.png) no-repeat 2px 2px; }
+  #panel #right ul li {
+    height: 32px;
+    top: 3px;
+    border-radius: 3px;
+    border: 1px solid transparent; }
+    #panel #right ul li:not(:last-of-type):hover {
+      background: -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #393934), color-stop(100%, #403e3a));
+      background: -webkit-linear-gradient(bottom, #393934 0%, #403e3a 100%);
+      background: -moz-linear-gradient(bottom, #393934 0%, #403e3a 100%);
+      background: -o-linear-gradient(bottom, #393934 0%, #403e3a 100%);
+      background: -ms-linear-gradient(bottom, #393934 0%, #403e3a 100%);
+      background: linear-gradient(bottom, #393934 0%, #403e3a 100%);
+      box-shadow: inset 0 0 1px rgba(255, 255, 255, 0.5);
+      border: 1px solid #343430; }
+    #panel #right ul li:not(:last-of-type):active {
+      background: -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #2f2e2b), color-stop(100%, #32312d));
+      background: -webkit-linear-gradient(bottom, #2f2e2b 0%, #32312d 100%);
+      background: -moz-linear-gradient(bottom, #2f2e2b 0%, #32312d 100%);
+      background: -o-linear-gradient(bottom, #2f2e2b 0%, #32312d 100%);
+      background: -ms-linear-gradient(bottom, #2f2e2b 0%, #32312d 100%);
+      background: linear-gradient(bottom, #2f2e2b 0%, #32312d 100%);
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.5);
+      border: 1px solid transparent; }
     #panel #right ul li img {
-      padding: 3px; }
+      padding: 2px 5px 5px; }
     #panel #right ul li .settings {
       top: 50px;
       margin-left: -185px;
@@ -62,64 +102,51 @@ body {
       border: 1px solid rgba(0, 0, 0, 0.3);
       border-radius: 5px; }
     #panel #right ul li #search {
+      top: -2px;
       border: 0;
       position: relative;
       width: 100px;
       line-height: 13px;
       font-size: 13px;
+      font-family: "Cantarell", "Ubuntu", "Helvetica", "Arial", sans-serif;
       padding: 4px;
       padding-left: 23px;
       border-radius: 3px;
       margin-left: 7px;
-      background: url(../../images/search.png) no-repeat 5px 50%, white;
+      background: url(../../images/darksearch.png) no-repeat 5px 50%, white;
       -webkit-transition: 200ms ease all; }
       #panel #right ul li #search:focus {
         width: 250px; }
 
 #content #sidebar {
   width: 250px;
-  top: 35px;
+  top: 44px;
   /* Set to panel height */
-  background-color: #fff;
-  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #f9f9f9));
-  background: -webkit-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
-  background: -moz-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
-  background: -o-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
-  background: -ms-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
-  background: linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
-  border-right: 1px solid #555; }
+  background-color: #f2f2f2;
+  border-right: 0;
+  box-shadow: 1px 0 0 #bbb; }
   #content #sidebar h2 {
     margin: 0;
-    padding: 12px 25px 12px 20px;
+    padding: 8px 25px 8px 15px;
     font-weight: bold;
     font-size: 13px;
     line-height: 13px;
-    color: #fff;
-    border-top: 1px solid #51555a;
-    box-shadow: inset 0 1px 0 #878e98, 0 1px 2px rgba(0, 0, 0, 0.3);
-    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
-    border-bottom: 1px solid #33373d;
-    background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #717a85), color-stop(100%, #515a65));
-    background: -webkit-linear-gradient(top, #717a85 0%, #515a65 100%);
-    background: -moz-linear-gradient(top, #717a85 0%, #515a65 100%);
-    background: -o-linear-gradient(top, #717a85 0%, #515a65 100%);
-    background: -ms-linear-gradient(top, #717a85 0%, #515a65 100%);
-    background: linear-gradient(top, #717a85 0%, #515a65 100%); }
+    color: #222;
+    border-bottom: 1px solid #CCC;
+    border-top: 1px solid #CCC; }
     #content #sidebar h2 #addListBTN {
       width: 8px;
       height: 8px;
       padding: 4px;
-      margin-top: -1px;
       border-radius: 50%;
-      background: url(coffee/addList.png) no-repeat 4px 4px; }
+      background: url(../../images/addList.png) no-repeat 4px 4px; }
       #content #sidebar h2 #addListBTN:hover {
-        background: #444444 url(coffee/addList.png) no-repeat 4px 4px; }
+        background: #e2e2e2 url(../../images/addList.png) no-repeat 4px 4px; }
   #content #sidebar ul li {
-    height: 36px;
+    height: 26px;
     font-size: 13px;
-    line-height: 36px;
-    text-indent: 25px;
-    border-bottom: 1px solid #efeff0; }
+    line-height: 26px;
+    text-indent: 25px; }
     #content #sidebar ul li.dragHover:not(.selected) {
       background: #ecf8ff; }
     #content #sidebar ul li .editIcon {
@@ -131,18 +158,18 @@ body {
     #content #sidebar ul li.selected {
       font-weight: bold;
       color: #fff;
-      background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #43c5e9), color-stop(100%, #2997d9));
-      background: -webkit-linear-gradient(top, #43c5e9 0%, #2997d9 100%);
-      background: -moz-linear-gradient(top, #43c5e9 0%, #2997d9 100%);
-      background: -o-linear-gradient(top, #43c5e9 0%, #2997d9 100%);
-      background: -ms-linear-gradient(top, #43c5e9 0%, #2997d9 100%);
-      background: linear-gradient(top, #43c5e9 0%, #2997d9 100%);
+      background-color: #7bbff1;
+      background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #7bbff1), color-stop(100%, #508ccb));
+      background: -webkit-linear-gradient(top, #7bbff1 0%, #508ccb 100%);
+      background: -moz-linear-gradient(top, #7bbff1 0%, #508ccb 100%);
+      background: -o-linear-gradient(top, #7bbff1 0%, #508ccb 100%);
+      background: -ms-linear-gradient(top, #7bbff1 0%, #508ccb 100%);
+      background: linear-gradient(top, #7bbff1 0%, #508ccb 100%);
       text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-      box-shadow: inset 0 1px 0 #6ad2ef, 0 1px 0 #75a9e2 inset, 0 -1px 0 #7783d1 inset;
-      border-bottom: 1px solid #1a638f; }
+      box-shadow: 0 1px 0 #75a9e2 inset, 0 -1px 0 #5080c7 inset; }
       #content #sidebar ul li.selected .editIcon {
         left: 5px;
-        top: 10px;
+        top: 6px;
         background: url(../../images/pencilWhite.png); }
     #content #sidebar ul li .edit input {
       padding: 3px 4px;
@@ -152,7 +179,7 @@ body {
       border: 0;
       outline: 0;
       background: white;
-      border-radius: 2px; }
+      border-radius: 4px; }
     #content #sidebar ul li .edit .delete, #content #sidebar ul li .edit .save {
       width: 18px;
       height: 16px;
@@ -178,21 +205,17 @@ body {
     border-radius: 5px;
     color: #444;
     font-size: 14px; }
-  #content #tasks p {
-    color: #eee;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); }
   #content #tasks h2 {
     font-size: 18px;
-    color: #fff;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); }
+    letter-spacing: -1px;
+    color: rgba(0, 0, 0, 0.7);
+    text-shadow: 0 1px 0 #EEE; }
   #content #tasks ul {
     padding: 0 15px;
     margin-bottom: 30px; }
     #content #tasks ul li {
-      margin-bottom: 0px;
-      height: 33px;
-      border: none;
-      border-top: 1px solid #ddd;
+      margin-bottom: -1px;
+      border: 1px solid #bebebe;
       background: #fcfcfc;
       background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #f9f9f9));
       background: -webkit-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
@@ -201,16 +224,16 @@ body {
       background: -ms-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
       background: linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
       border-radius: 4px;
-      box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+      box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
       -webkit-transition: 150ms ease margin; }
       #content #tasks ul li .todotxt {
-        height: 33px;
+        height: 30px;
         padding: 0 10px 0 0;
         font-size: 13px;
-        line-height: 35px; }
+        line-height: 32px; }
       #content #tasks ul li .labels {
         font-size: 12px;
-        line-height: 33px;
+        line-height: 30px;
         background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #f9f9f9));
         background: -webkit-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
         background: -moz-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
@@ -220,9 +243,9 @@ body {
         border-top-right-radius: 5px;
         border-bottom-right-radius: 5px; }
         #content #tasks ul li .labels span {
-          height: 33px;
+          height: 30px;
           padding: 0 10px;
-          line-height: 35px;
+          line-height: 30px;
           color: #555;
           border-left: 1px solid #ddd;
           /* Remove border radius from last label */ }
@@ -239,13 +262,12 @@ body {
               background: -ms-linear-gradient(top, #fff9f9 0%, #ffdddd 100%);
               background: linear-gradient(top, #fff9f9 0%, #ffdddd 100%); }
           #content #tasks ul li .labels span.today.inToday, #content #tasks ul li .labels span.today.todayLabel, #content #tasks ul li .labels span.todayLabel.inToday, #content #tasks ul li .labels span.todayLabel.todayLabel {
-            background-image: #f5f5ff;
-            background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #eaebff));
-            background: -webkit-linear-gradient(top, #ffffff 0%, #eaebff 100%);
-            background: -moz-linear-gradient(top, #ffffff 0%, #eaebff 100%);
-            background: -o-linear-gradient(top, #ffffff 0%, #eaebff 100%);
-            background: -ms-linear-gradient(top, #ffffff 0%, #eaebff 100%);
-            background: linear-gradient(top, #ffffff 0%, #eaebff 100%); }
+            background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #fff3d9));
+            background: -webkit-linear-gradient(top, #ffffff 0%, #fff3d9 100%);
+            background: -moz-linear-gradient(top, #ffffff 0%, #fff3d9 100%);
+            background: -o-linear-gradient(top, #ffffff 0%, #fff3d9 100%);
+            background: -ms-linear-gradient(top, #ffffff 0%, #fff3d9 100%);
+            background: linear-gradient(top, #ffffff 0%, #fff3d9 100%); }
           #content #tasks ul li .labels span.priority.important {
             background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fff9f9), color-stop(100%, #ffdddd));
             background: -webkit-linear-gradient(top, #fff9f9 0%, #ffdddd 100%);
@@ -277,13 +299,13 @@ body {
         color: #444;
         min-height: 62px; }
       #content #tasks ul li.selected {
-        background-image: #d8ddff;
-        background: -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #c9d3ff), color-stop(100%, #e7e7ff));
-        background: -webkit-linear-gradient(bottom, #c9d3ff 0%, #e7e7ff 100%);
-        background: -moz-linear-gradient(bottom, #c9d3ff 0%, #e7e7ff 100%);
-        background: -o-linear-gradient(bottom, #c9d3ff 0%, #e7e7ff 100%);
-        background: -ms-linear-gradient(bottom, #c9d3ff 0%, #e7e7ff 100%);
-        background: linear-gradient(bottom, #c9d3ff 0%, #e7e7ff 100%); }
+        background: #fff6f3;
+        background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fff6f3), color-stop(100%, #ffdbcd));
+        background: -webkit-linear-gradient(top, #fff6f3 0%, #ffdbcd 100%);
+        background: -moz-linear-gradient(top, #fff6f3 0%, #ffdbcd 100%);
+        background: -o-linear-gradient(top, #fff6f3 0%, #ffdbcd 100%);
+        background: -ms-linear-gradient(top, #fff6f3 0%, #ffdbcd 100%);
+        background: linear-gradient(top, #fff6f3 0%, #ffdbcd 100%); }
       #content #tasks ul li.logged {
         background: #eee;
         color: #666; }
@@ -293,7 +315,7 @@ body {
       #content #tasks ul li .checkbox {
         width: 13px;
         height: 13px;
-        padding: 11px 8px 10px 8px; }
+        padding: 9px 8px 8px 8px; }
         #content #tasks ul li .checkbox input[type=checkbox] {
           width: 13px;
           height: 13px;
