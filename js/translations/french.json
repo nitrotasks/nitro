@@ -1,0 +1,78 @@
+{
+	"author":				"Jono Cooper <jono@jonocooper.com>",
+	"jqueryui":				"en",
+
+	"listWarning":    		"Êtes vous sur de vouloir supprimer cette liste ? Toutes les tâches de la liste seront également supprimées.",
+	"taskWarning":    		"Êtes vous sur de vouloir supprimer cette tâche ? Elle sera effacée à jamais.",
+	
+	"todayText":      		"La liste <strong>Aujourd'hui</strong> accueille toutes les choses que vous voulez faire aujourd'hui. Les tâches du jour s'afficheront automatiquement ici.",
+	"nextText":       		"Les tâches à venir apparaîtront dans la liste <strong>Prochainement</strong>. Les tâches du jour et les trois premières des autres listes apparaîtront ici automatiquement.",
+	"somedayText":    		"La liste <strong>Un jour</strong> contient les tâches à faire sans délais précis.",
+	"logbookText":    		"Le <strong>Registre</strong> répertorie toutes les tâches que vous avez déjà effectuées.",
+	"customText":     		"There are no tasks in this list.",
+
+	"yesTask":        		"Supprimer la tâche",
+	"yesList":        		"Supprimer la liste",
+	"cancelDialog":    		"Annuler",
+	"warningText":			"Attention!",
+	"languageText":			"Choisisez votre langue",
+
+	"add":            		"Ajouter",
+	"edit":           		"Éditer",
+	"delete":         		"Effacer",
+	"logbook":        		"Registre",
+	"settings":       		"Préférences",
+	"search":         		"Recherche",
+	
+	"hideWarnings":   		"Masquer l'avertissement de suppression de tâche",
+	"lowGraphics":    		"Mode qualité graphique basse",
+	"nextNoLists":    		"Ne pas montrer les autres listes dans Prochainement",
+	"nextThreeLists": 		"Montrer trois tâches d'autres listes dans Prochainement",
+	"nextEntireLists":		"Montrer les listes entières dans Prochainement",
+
+	"focus":          		"Important",
+	"lists":          		"Listes",
+	"today":          		"Aujourd'hui",
+	"next":           		"Prochainement",
+	"someday":        		"Un jour",
+
+	"newList":        		"Nouvelle liste",
+	"newTask":        		"Nouvelle tâche",
+
+	"taskName":				"Nom de la tâche",
+	"notes":          		"Notes",
+	"showInToday":    		"Montrer dans Aujourd'hui",
+	"removeFromToday":		"Enlever d'Aujourd'hui",
+	"none":           		"Aucune",
+	"low":            		"Basse",
+	"medium":         		"Moyenne",
+	"important":      		"Importante",
+	"setDueDate":     		"Choisir la date limite",
+	"removeDueDate":  		"Effacer la date limite",
+	"doToday":        		"À faire aujourd'hui",
+
+	"oneMore":      		"Montrer 1 tâche de plus",
+	"morethanOne":			"Montrer %s tâches de plus",
+
+	"dayLeft":				"1 jour restant",
+	"daysLeft": 			"%s jours restant",
+	"dayOverdue": 			"1 jour de retard",
+	"daysOverdue":			"%s jours de retard",
+	"month":				["Jan", "Fév", "Mar", "Avr", "Mai", "Jui", "Jui", "Aou", "Sep", "Oct", "Nov", "Déc"],
+
+	"searchResults":  		"Résultats de la recherche: ",
+
+	"titleAddTask":   		"Ajouter une nouvelle tâche",
+	"titleEditTask":  		"Éditer la tâche selectionnée",
+	"titleDeleteTask":		"Supprimmer la tâche selectionnée",
+
+	"titleAddList":   		"Ajouter une liste",
+	"titleDeleteList":		"Supprimer la liste",
+	"titleEditList":  		"Éditer la liste",
+	"titleSaveList":  		"Enregistrer les modifications",
+
+	"showTime":				"Montrer dans Aujourd'hui:",
+	"1day":					"1 jour avant",
+	"moreday":				"%s jours avant",
+	"never":				"Jamais"
+}
