@@ -182,8 +182,6 @@ body {
 
 			// color
 			color: #222;
-			border-bottom: 1px solid #CCC;
-			border-top: 1px solid #CCC;		
 
 			// ADD LIST BUTTON
 			#addListBTN {
@@ -239,10 +237,8 @@ body {
 
 					// color
 					color: #fff;
-					background-color: #7bbff1;
-					@include background(linear-gradient(top, #7bbff1 0%, #508ccb 100%));
+					background-color: #4a90d9;
 					text-shadow: 0 1px 1px rgba(0,0,0,0.3);
-					box-shadow: 0 1px 0 #75a9e2 inset, 0 -1px 0 #5080c7 inset;
 
 					// EDIT ICON (SELECTED)
 					.editIcon {

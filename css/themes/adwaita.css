@@ -131,9 +131,7 @@ body {
     font-weight: bold;
     font-size: 13px;
     line-height: 13px;
-    color: #222;
-    border-bottom: 1px solid #CCC;
-    border-top: 1px solid #CCC; }
+    color: #222; }
     #content #sidebar h2 #addListBTN {
       width: 8px;
       height: 8px;
@@ -158,15 +156,8 @@ body {
     #content #sidebar ul li.selected {
       font-weight: bold;
       color: #fff;
-      background-color: #7bbff1;
-      background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #7bbff1), color-stop(100%, #508ccb));
-      background: -webkit-linear-gradient(top, #7bbff1 0%, #508ccb 100%);
-      background: -moz-linear-gradient(top, #7bbff1 0%, #508ccb 100%);
-      background: -o-linear-gradient(top, #7bbff1 0%, #508ccb 100%);
-      background: -ms-linear-gradient(top, #7bbff1 0%, #508ccb 100%);
-      background: linear-gradient(top, #7bbff1 0%, #508ccb 100%);
-      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-      box-shadow: 0 1px 0 #75a9e2 inset, 0 -1px 0 #5080c7 inset; }
+      background-color: #4a90d9;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3); }
       #content #sidebar ul li.selected .editIcon {
         left: 5px;
         top: 6px;
