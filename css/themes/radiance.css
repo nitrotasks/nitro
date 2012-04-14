@@ -1,95 +1,138 @@
-/* Nitro Default
- * Authors: Jono Cooper & George Czabania
+/* Ubuntu Ambiance Theme
+ * Author: Jono Cooper
  * http://caffeinatedco.de
  */
 body {
   background: url(../../images/back.png);
-  font-family: "Helvetica", "Arial", "Ubuntu", sans-serif; }
+  font-family: "Ubuntu", "Helvetica", "Arial", sans-serif; }
 
 #panel {
-  background: url(../../images/dark.png);
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.7); }
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #d4cac0), color-stop(100%, #f0ebe7));
+  background: -webkit-linear-gradient(top, #d4cac0 0%, #f0ebe7 100%);
+  background: -moz-linear-gradient(top, #d4cac0 0%, #f0ebe7 100%);
+  background: -o-linear-gradient(top, #d4cac0 0%, #f0ebe7 100%);
+  background: -ms-linear-gradient(top, #d4cac0 0%, #f0ebe7 100%);
+  background: linear-gradient(top, #d4cac0 0%, #f0ebe7 100%);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.7), 0 -1px 0 #383734 inset, 0 1px 0 #42413c inset; }
   #panel #brand {
     color: #fff;
     text-shadow: 0 1px 0 #222;
-    border-right: 1px solid #282828; }
+    border-right: 1px solid #282828;
+    display: none; }
   #panel nav ul li {
     font-size: 12px;
     color: #fff;
-    height: 40px;
+    height: 32px;
     font-weight: bold;
-    text-shadow: 0 1px 0 #222;
+    text-shadow: 0 -1px 0 #222222;
+    border-radius: 3px;
+    margin: 3px 0;
+    border: 1px solid transparent;
     -webkit-transition: 100ms linear background; }
     #panel nav ul li span {
       display: block;
       float: left;
-      margin-top: 13px; }
+      margin-top: 10px; }
+    #panel nav ul li:first-of-type {
+      margin-left: 10px; }
     #panel nav ul li:hover {
-      background: rgba(0, 0, 0, 0.3); }
-    #panel nav ul li#addBTN {
-      padding-left: 10px; }
+      background: -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #393934), color-stop(100%, #403e3a));
+      background: -webkit-linear-gradient(bottom, #393934 0%, #403e3a 100%);
+      background: -moz-linear-gradient(bottom, #393934 0%, #403e3a 100%);
+      background: -o-linear-gradient(bottom, #393934 0%, #403e3a 100%);
+      background: -ms-linear-gradient(bottom, #393934 0%, #403e3a 100%);
+      background: linear-gradient(bottom, #393934 0%, #403e3a 100%);
+      box-shadow: inset 0 0 1px rgba(255, 255, 255, 0.5);
+      border: 1px solid #343430; }
+    #panel nav ul li:active {
+      background: -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #2f2e2b), color-stop(100%, #32312d));
+      background: -webkit-linear-gradient(bottom, #2f2e2b 0%, #32312d 100%);
+      background: -moz-linear-gradient(bottom, #2f2e2b 0%, #32312d 100%);
+      background: -o-linear-gradient(bottom, #2f2e2b 0%, #32312d 100%);
+      background: -ms-linear-gradient(bottom, #2f2e2b 0%, #32312d 100%);
+      background: linear-gradient(bottom, #2f2e2b 0%, #32312d 100%);
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
+      border: 1px solid transparent; }
+    #panel nav ul li.disabled:hover {
+      background: none;
+      box-shadow: none;
+      border: 1px solid transparent; }
     #panel nav ul li .icon {
       display: inline-block;
       width: 30px;
       height: 30px;
-      margin: 4px; }
+      margin: 1px 4px 4px; }
       #panel nav ul li .icon.add {
-        background: url(../../images/whitesprite.png) no-repeat 0 -435px; }
+        background: url(../../images/add.png) no-repeat; }
       #panel nav ul li .icon.edit {
-        background: url(../../images/whitesprite.png) no-repeat 0 -290px; }
+        background: url(../../images/edit.png) no-repeat; }
       #panel nav ul li .icon.delete {
-        background: url(../../images/whitesprite.png) no-repeat 0 -328px;
-        margin: 4px 2px; }
-  #panel #right ul li .settings {
-    top: 50px;
-    margin-left: -185px;
-    width: 300px;
-    background: rgba(51, 51, 51, 0.95);
-    box-shadow: 0 1px 19px rgba(0, 0, 0, 0.35), inset 0 0 1px rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    border-radius: 5px; }
-  #panel #right ul li img {
-    width: 30px;
-    height: 30px; }
-  #panel #right ul li#logbookBTN img {
-    background: url(../../images/whitesprite.png) no-repeat 5px -245px; }
-  #panel #right ul li#settingsBTN img {
-    background: url(../../images/whitesprite.png) no-repeat 5px -23px; }
-  #panel #right ul li #search {
-    border: 0;
-    position: relative;
-    width: 100px;
-    line-height: 13px;
-    font-size: 13px;
-    padding: 4px;
-    padding-left: 23px;
+        background: url(../../images/delete.png) no-repeat 2px 2px; }
+  #panel #right ul li {
+    height: 32px;
+    top: 3px;
     border-radius: 3px;
-    margin-left: 7px;
-    background: url(../../images/whitesprite.png) no-repeat 5px -65px, white;
-    -webkit-transition: 200ms ease all; }
-    #panel #right ul li #search:focus {
-      width: 250px; }
+    border: 1px solid transparent; }
+    #panel #right ul li:not(:last-of-type):hover {
+      background: -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #393934), color-stop(100%, #403e3a));
+      background: -webkit-linear-gradient(bottom, #393934 0%, #403e3a 100%);
+      background: -moz-linear-gradient(bottom, #393934 0%, #403e3a 100%);
+      background: -o-linear-gradient(bottom, #393934 0%, #403e3a 100%);
+      background: -ms-linear-gradient(bottom, #393934 0%, #403e3a 100%);
+      background: linear-gradient(bottom, #393934 0%, #403e3a 100%);
+      box-shadow: inset 0 0 1px rgba(255, 255, 255, 0.5);
+      border: 1px solid #343430; }
+    #panel #right ul li:not(:last-of-type):active {
+      background: -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #2f2e2b), color-stop(100%, #32312d));
+      background: -webkit-linear-gradient(bottom, #2f2e2b 0%, #32312d 100%);
+      background: -moz-linear-gradient(bottom, #2f2e2b 0%, #32312d 100%);
+      background: -o-linear-gradient(bottom, #2f2e2b 0%, #32312d 100%);
+      background: -ms-linear-gradient(bottom, #2f2e2b 0%, #32312d 100%);
+      background: linear-gradient(bottom, #2f2e2b 0%, #32312d 100%);
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.5);
+      border: 1px solid transparent; }
+    #panel #right ul li img {
+      padding: 2px 5px 5px; }
+    #panel #right ul li .settings {
+      top: 50px;
+      margin-left: -185px;
+      width: 300px;
+      background: rgba(51, 51, 51, 0.95);
+      box-shadow: 0 1px 19px rgba(0, 0, 0, 0.35), inset 0 0 1px rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(0, 0, 0, 0.3);
+      border-radius: 5px; }
+    #panel #right ul li #search {
+      top: -2px;
+      border: 0;
+      position: relative;
+      width: 100px;
+      line-height: 13px;
+      font-size: 13px;
+      font-family: "Ubuntu", "Helvetica", "Arial", sans-serif;
+      padding: 4px;
+      padding-left: 23px;
+      border-radius: 3px;
+      margin-left: 7px;
+      background: url(../../images/darksearch.png) no-repeat 5px 50%, white;
+      -webkit-transition: 200ms ease all; }
+      #panel #right ul li #search:focus {
+        width: 250px; }
 
 #content #sidebar {
   width: 250px;
-  top: 40px;
+  top: 0;
   /* Set to panel height */
-  background-color: #fff;
-  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #f9f9f9));
-  background: -webkit-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
-  background: -moz-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
-  background: -o-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
-  background: -ms-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
-  background: linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
-  border-right: 1px solid #aaa; }
+  z-index: 7;
+  background-color: #f6f4f2;
+  border-right: 0;
+  box-shadow: 0 0 1px #000; }
   #content #sidebar h2 {
     margin: 0;
-    padding: 10px 25px 10px 15px;
+    padding: 8px 25px 8px 15px;
     font-weight: bold;
     font-size: 13px;
     line-height: 13px;
     color: #222;
-    background: #FAFAFA;
     border-bottom: 1px solid #CCC;
     border-top: 1px solid #CCC;
     box-shadow: 0 0 3px #ddd inset; }
@@ -98,13 +141,13 @@ body {
       height: 8px;
       padding: 4px;
       border-radius: 50%;
-      background: url(../../images/whitesprite.png) no-repeat 4px -413px; }
+      background: url(../../images/addList.png) no-repeat 4px 4px; }
       #content #sidebar h2 #addListBTN:hover {
-        background: #e2e2e2 url(../../images/whitesprite.png) no-repeat 4px -413px; }
+        background: #e2e2e2 url(../../images/addList.png) no-repeat 4px 4px; }
   #content #sidebar ul li {
-    height: 30px;
+    height: 26px;
     font-size: 13px;
-    line-height: 30px;
+    line-height: 26px;
     text-indent: 25px; }
     #content #sidebar ul li.dragHover:not(.selected) {
       background: #ecf8ff; }
@@ -112,23 +155,24 @@ body {
       left: 6px;
       top: 7px;
       width: 17px;
-      height: 17px; }
+      height: 17px;
+      background: url(../../images/pencil.png) no-repeat; }
     #content #sidebar ul li.selected {
       font-weight: bold;
       color: #fff;
-      background-color: #7bbff1;
-      background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #7bbff1), color-stop(100%, #508ccb));
-      background: -webkit-linear-gradient(top, #7bbff1 0%, #508ccb 100%);
-      background: -moz-linear-gradient(top, #7bbff1 0%, #508ccb 100%);
-      background: -o-linear-gradient(top, #7bbff1 0%, #508ccb 100%);
-      background: -ms-linear-gradient(top, #7bbff1 0%, #508ccb 100%);
-      background: linear-gradient(top, #7bbff1 0%, #508ccb 100%);
+      background-color: #f58050;
+      background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f58050), color-stop(100%, #e96d3a));
+      background: -webkit-linear-gradient(top, #f58050 0%, #e96d3a 100%);
+      background: -moz-linear-gradient(top, #f58050 0%, #e96d3a 100%);
+      background: -o-linear-gradient(top, #f58050 0%, #e96d3a 100%);
+      background: -ms-linear-gradient(top, #f58050 0%, #e96d3a 100%);
+      background: linear-gradient(top, #f58050 0%, #e96d3a 100%);
       text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-      box-shadow: 0 1px 0 #75a9e2 inset, 0 -1px 0 #5080c7 inset; }
+      box-shadow: 0 1px 0 #e1632f inset, 0 -1px 0 #e1632f inset; }
       #content #sidebar ul li.selected .editIcon {
         left: 5px;
         top: 6px;
-        background: url(../../images/whitesprite.png) no-repeat -1px -145px; }
+        background: url(../../images/pencilWhite.png); }
     #content #sidebar ul li .edit input {
       padding: 3px 4px;
       margin-left: -5px;
@@ -144,9 +188,9 @@ body {
       display: inline-block;
       vertical-align: middle; }
     #content #sidebar ul li .edit .delete {
-      background: url(../../images/whitesprite.png) no-repeat 0 -120px; }
+      background: url("../../images/remove.png") no-repeat 0 0; }
     #content #sidebar ul li .edit .save {
-      background: url(../../images/whitesprite.png) no-repeat 0 -198px; }
+      background: url("../../images/ok.png") no-repeat 0 0; }
     #content #sidebar ul li .count {
       width: 50px;
       margin-right: 20px;
@@ -181,7 +225,8 @@ body {
       background: -ms-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
       background: linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
       border-radius: 4px;
-      box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15); }
+      box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
+      -webkit-transition: 150ms ease margin; }
       #content #tasks ul li .todotxt {
         height: 30px;
         padding: 0 10px 0 0;
@@ -255,13 +300,13 @@ body {
         color: #444;
         min-height: 62px; }
       #content #tasks ul li.selected {
-        background: #ebf8fd;
-        background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ebf8fd), color-stop(100%, #b1e5ff));
-        background: -webkit-linear-gradient(top, #ebf8fd 0%, #b1e5ff 100%);
-        background: -moz-linear-gradient(top, #ebf8fd 0%, #b1e5ff 100%);
-        background: -o-linear-gradient(top, #ebf8fd 0%, #b1e5ff 100%);
-        background: -ms-linear-gradient(top, #ebf8fd 0%, #b1e5ff 100%);
-        background: linear-gradient(top, #ebf8fd 0%, #b1e5ff 100%); }
+        background: #fff6f3;
+        background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fff6f3), color-stop(100%, #ffdbcd));
+        background: -webkit-linear-gradient(top, #fff6f3 0%, #ffdbcd 100%);
+        background: -moz-linear-gradient(top, #fff6f3 0%, #ffdbcd 100%);
+        background: -o-linear-gradient(top, #fff6f3 0%, #ffdbcd 100%);
+        background: -ms-linear-gradient(top, #fff6f3 0%, #ffdbcd 100%);
+        background: linear-gradient(top, #fff6f3 0%, #ffdbcd 100%); }
       #content #tasks ul li.logged {
         background: #eee;
         color: #666; }

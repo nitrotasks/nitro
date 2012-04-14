@@ -247,7 +247,7 @@ body {
   text-align: center; }
 
 #removeDate {
-  background: url(../images/removeDate.png) no-repeat 50% 50%;
+  background: url(../../images/whitesprite.png) no-repeat 4px -92px;
   width: 16px;
   height: 16px;
   display: inline-block;
@@ -398,7 +398,7 @@ body {
       width: 8px;
       height: 8px;
       padding: 4px;
-      background: url(../images/addList.png) no-repeat 4px 4px; }
+      background: url(../../images/whitesprite.png) no-repeat 4px -413px; }
   #content #sidebar #userLists {
     overflow-y: auto; }
   #content #sidebar ul {
@@ -432,9 +432,9 @@ body {
           display: inline-block;
           vertical-align: middle; }
         #content #sidebar ul li .edit .delete {
-          background: url("../images/remove.png") no-repeat 0 0; }
+          background: url(../../images/whitesprite.png) no-repeat 0 -120px; }
         #content #sidebar ul li .edit .save {
-          background: url("../images/ok.png") no-repeat 0 0; }
+          background: url(../../images/whitesprite.png) no-repeat 0 -198px; }
       #content #sidebar ul li .count {
         float: right; }
 #content #tasks {

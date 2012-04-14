@@ -43,7 +43,7 @@ body {
 }
 
 #removeDate {
-	background: url(../images/removeDate.png) no-repeat 50% 50%;
+	background: url(../../images/whitesprite.png) no-repeat 4px -92px;
 	width: 16px;
 	height: 16px;
 	display: inline-block;
@@ -256,7 +256,7 @@ body {
 				width: 8px;
 				height: 8px;
 				padding: 4px;
-				background: url(../images/addList.png) no-repeat 4px 4px;
+				background: url(../../images/whitesprite.png) no-repeat 4px -413px;
 			}
 
 		}
@@ -315,11 +315,11 @@ body {
 						vertical-align: middle;
 					}
 					.delete {
-						background: url('../images/remove.png') no-repeat 0 0;
+						background: url(../../images/whitesprite.png) no-repeat 0 -120px;
 					}
 					.save {
-						background: url('../images/ok.png') no-repeat 0 0;
-					}
+						background: url(../../images/whitesprite.png) no-repeat 0 -198px;
+					}	
 				}
 
 				.count {

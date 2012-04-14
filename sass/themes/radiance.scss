@@ -1,10 +1,10 @@
-/* Nitro Default
- * Authors: Jono Cooper & George Czabania
+/* Ubuntu Ambiance Theme
+ * Author: Jono Cooper
  * http://caffeinatedco.de
  */
 @import "compass/css3/images";
 
-$font: 'Helvetica', 'Arial', 'Ubuntu', sans-serif;
+$font: 'Ubuntu', 'Helvetica', 'Arial', sans-serif;
 
 body {
 	background: url(../../images/back.png);
@@ -12,13 +12,14 @@ body {
 }
 
 #panel {
-	background: url(../../images/dark.png);
-	box-shadow:  0 0 4px rgba(0,0,0,0.7);
+	@include background(linear-gradient(top, #d4cac0 0%, #f0ebe7 100%));
+	box-shadow:  0 0 4px rgba(0,0,0,0.7), 0 -1px 0 #383734 inset, 0 1px 0 #42413c inset;
 
 	#brand {
 		color: #fff;
 		text-shadow: 0 1px 0 #222;
 		border-right: 1px solid #282828;
+		display: none;
 	}
 
 	nav {
@@ -26,26 +27,44 @@ body {
 			li {
 				font-size: 12px;
 				color: #fff;
-				height: 40px;
+				height: 32px;
 				font-weight: bold;
-				text-shadow: 0 1px 0 #222;
+				text-shadow: 0 -1px 0 #222;
+				border-radius: 3px;
+				margin: 3px 0;
+				border: 1px solid transparent;
 
 				span {
 					display: block;
 					float: left;
-					margin-top: 13px;
+					margin-top: 10px;
 				}
 
 				// animations
 				-webkit-transition: 100ms linear background;
 
-				// HOVER
-				&:hover {
-					background: rgba(0,0,0,0.3);
+				&:first-of-type {
+					margin-left: 10px;
 				}
 
-				&#addBTN {
-					padding-left: 10px;
+				// HOVER
+				&:hover {
+					@include background(linear-gradient(bottom, #393934 0%, #403e3a 100%));
+					box-shadow: inset 0 0 1px rgba(255,255,255,0.5);
+					border: 1px solid #343430;
+				}
+				&:active {
+					@include background(linear-gradient(bottom, #2f2e2b 0%, #32312d 100%));
+					box-shadow: inset 0 1px 2px rgba(0,0,0,0.5);
+					border: 1px solid transparent;
+				}
+
+				&.disabled {
+					&:hover {
+						background: none;
+						box-shadow: none;
+						border: 1px solid transparent;
+					}
 				}
 
 				// ICONS
@@ -53,19 +72,18 @@ body {
 					display: inline-block;
 					width: 30px;
 					height: 30px;
-					margin: 4px;
+					margin: 1px 4px 4px;
 
 					&.add {
-						background: url(../../images/whitesprite.png) no-repeat 0 -435px;
+						background: url(../../images/add.png) no-repeat;
 					}
 
 					&.edit {
-						background: url(../../images/whitesprite.png) no-repeat  0 -290px;
+						background: url(../../images/edit.png) no-repeat;
 					}
 
 					&.delete {
-						background: url(../../images/whitesprite.png) no-repeat 0 -328px;
-						margin: 4px 2px;
+						background: url(../../images/delete.png) no-repeat 2px 2px;
 					}
 					
 				}
@@ -76,6 +94,26 @@ body {
 	#right {
 		ul {
 			li {
+
+				height: 32px;
+				top: 3px;
+				border-radius: 3px;
+				border: 1px solid transparent;
+
+				&:not(:last-of-type):hover {
+					@include background(linear-gradient(bottom, #393934 0%, #403e3a 100%));
+					box-shadow: inset 0 0 1px rgba(255,255,255,0.5);
+					border: 1px solid #343430;
+				}
+				&:not(:last-of-type):active {
+					@include background(linear-gradient(bottom, #2f2e2b 0%, #32312d 100%));
+					box-shadow: inset 0 1px 1px rgba(0,0,0,0.5);
+					border: 1px solid transparent;
+				}
+
+				img {
+					padding: 2px 5px 5px
+				}
 
 				// SETTINGS
 				.settings {
@@ -93,31 +131,20 @@ body {
 					border-radius: 5px;
 				}
 
-				img {
-					width: 30px;
-					height: 30px;
-				}
-
-				&#logbookBTN img {
-					background: url(../../images/whitesprite.png) no-repeat 5px -245px;
-				}
-
-				&#settingsBTN img {
-					background: url(../../images/whitesprite.png) no-repeat 5px -23px;
-				}
-
 				// SEARCH
 				#search {
+					top: -2px;
 					border: 0;
 					position: relative;
 					width: 100px;
 					line-height: 13px;
 					font-size: 13px;
+					font-family: $font;
 					padding: 4px;
 					padding-left: 23px;
 					border-radius: 3px;
 					margin-left: 7px;
-					background: url(../../images/whitesprite.png) no-repeat 5px -65px, #fff;
+					background: url(../../images/darksearch.png) no-repeat 5px 50%, #fff;
 					-webkit-transition: 200ms ease all;
 
 					&:focus {
@@ -135,18 +162,19 @@ body {
 
 		// position
 		width: 250px;
-		top: 40px; /* Set to panel height */
+		top: 0; /* Set to panel height */
+		z-index: 7;
 
 		// color
-		background-color: #fff;
-		@include background(linear-gradient(top, #ffffff 0%, #f9f9f9 100%));
-		border-right: 1px solid #aaa;
+		background-color: #f6f4f2;
+		border-right: 0;
+		box-shadow: 0 0 1px #000;
 
 		// GROUP HEADINGS
 		h2 {
 			// position
 			margin: 0;
-			padding: 10px 25px 10px 15px;
+			padding: 8px 25px 8px 15px;
 
 			// font
 			font-weight: bold;
@@ -155,7 +183,6 @@ body {
 
 			// color
 			color: #222;
-			background: #FAFAFA;
 			border-bottom: 1px solid #CCC;
 			border-top: 1px solid #CCC;		
 			box-shadow: 0 0 3px #ddd inset;
@@ -169,10 +196,10 @@ body {
 
 				// background
 				border-radius: 50%;
-				background: url(../../images/whitesprite.png) no-repeat 4px -413px;
+				background: url(../../images/addList.png) no-repeat 4px 4px;
 
 				&:hover {
-					background: #e2e2e2 url(../../images/whitesprite.png) no-repeat 4px -413px;
+					background: #e2e2e2 url(../../images/addList.png) no-repeat 4px 4px;
 				}
 			}
 		}
@@ -181,11 +208,11 @@ body {
 		ul {
 			li {
 				// size
-				height: 30px;
+				height: 26px;
 
 				// font
 				font-size: 13px;
-				line-height: 30px;
+				line-height: 26px;
 				text-indent: 25px;
 
 				// DRAG HOVER
@@ -202,6 +229,9 @@ body {
 					// size
 					width: 17px;
 					height: 17px;
+
+					// background
+					background: url(../../images/pencil.png) no-repeat;
 				}
 
 				// SELECTED LIST
@@ -211,10 +241,10 @@ body {
 
 					// color
 					color: #fff;
-					background-color: #7bbff1;
-					@include background(linear-gradient(top, #7bbff1 0%, #508ccb 100%));
+					background-color: #f58050;
+					@include background(linear-gradient(top, #f58050 0%, #e96d3a 100%));
 					text-shadow: 0 1px 1px rgba(0,0,0,0.3);
-					box-shadow: 0 1px 0 #75a9e2 inset, 0 -1px 0 #5080c7 inset;
+					box-shadow: 0 1px 0 #e1632f inset, 0 -1px 0 #e1632f inset;
 
 					// EDIT ICON (SELECTED)
 					.editIcon {
@@ -223,7 +253,7 @@ body {
 						top: 6px;
 
 						// color
-						background: url(../../images/whitesprite.png) no-repeat -1px -145px;
+						background: url(../../images/pencilWhite.png);
 					}
 				}
 
@@ -258,10 +288,10 @@ body {
 						vertical-align: middle;
 					}
 					.delete {
-						background: url(../../images/whitesprite.png) no-repeat 0 -120px;
+						background: url('../../images/remove.png') no-repeat 0 0;
 					}
 					.save {
-						background: url(../../images/whitesprite.png) no-repeat 0 -198px;
+						background: url('../../images/ok.png') no-repeat 0 0;
 					}
 				}
 
@@ -329,6 +359,9 @@ body {
 				@include background(linear-gradient(top, color-stops(#fff 0%, #f9f9f9 100%)));
 				border-radius: 4px;
 				box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
+
+				// animation
+				-webkit-transition: 150ms ease margin;
 
 				// TEXT
 				.todotxt {
@@ -414,8 +447,8 @@ body {
 
 				// SELECTED
 				&.selected {
-					background: #ebf8fd;
-					@include background(linear-gradient(top, #ebf8fd 0%, #b1e5ff 100%));
+					background: #fff6f3;
+					@include background(linear-gradient(top, #fff6f3 0%, #ffdbcd 100%));
 				}
 
 				// LOGGED
