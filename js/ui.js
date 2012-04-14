@@ -382,7 +382,7 @@ ui = {
 				$('body').append('<audio></audio>');
 				var $audio = $('audio'),
 					audio = $audio.get(0);
-				$audio.attr('src','http://nitrotasks.com/music/stl.mp3');
+				$audio.attr('src','http://nitrotasks.com/music/stl.ogg');
 				audio.load();
 				audio.play();
 				audio.addEventListener('ended', function() {
