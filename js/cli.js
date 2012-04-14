@@ -667,12 +667,24 @@ var cli = {
 		sync: function() {
 
 			// Upload to server
-			prompt("Copy this", JSON.stringify(localStorage.getItem('jStorage')));
-
-			var server = prompt("Now paste in the merged data", "");
-			if(server) {
-				localStorage.setItem('jStorage', server);
+			var socket = io.connect('http://localhost:8080');
+			var client = {
+				tasks: cli.storage.tasks,
+				queue: cli.storage.queue,
+				lists: cli.storage.lists,
+				prefs: cli.storage.prefs
 			}
+			socket.emit('upload', client);
+
+			// Get from server
+			socket.on('download', function(data) {
+				cli.storage.tasks = data.tasks;
+				cli.storage.queue = data.queue;
+				cli.storage.lists = data.lists;
+				cli.storage.prefs = data.prefs;
+				cli.storage.save();
+				window.location.reload();
+			});
 		}
 	}
 }

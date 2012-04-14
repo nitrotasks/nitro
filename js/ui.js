@@ -367,6 +367,11 @@ ui = {
 			
 		});
 
+		$('#sync').click(function(e) {
+			e.preventDefault();
+			cli.storage.sync();
+		});
+
 		$('#theme').change(function() {
 			var theme = $(this).val();
 
