@@ -683,7 +683,7 @@ var cli = {
 				cli.storage.lists = data.lists;
 				cli.storage.prefs = data.prefs;
 				cli.storage.save();
-				window.location.reload();
+				ui.reload();
 			});
 		}
 	}

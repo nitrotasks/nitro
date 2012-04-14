@@ -469,6 +469,9 @@ ui = {
 		});
 
 	},
+	reload: function() {
+		ui.tasks.populate(ui.lists.selected());
+	},
 	lists: {
 		selected: function() { 
 			if($('#sidebar ul li.selected').length) {
