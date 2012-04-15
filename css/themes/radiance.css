@@ -1,4 +1,4 @@
-/* Ubuntu Ambiance Theme
+/* Ubuntu Radiance Theme
  * Author: Jono Cooper
  * http://caffeinatedco.de
  */
@@ -13,7 +13,7 @@ body {
   background: -o-linear-gradient(top, #d4cac0 0%, #f0ebe7 100%);
   background: -ms-linear-gradient(top, #d4cac0 0%, #f0ebe7 100%);
   background: linear-gradient(top, #d4cac0 0%, #f0ebe7 100%);
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.7), 0 -1px 0 #383734 inset, 0 1px 0 #42413c inset; }
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.7), 0 -1px 0 #e3dcd4 inset, 0 1px 0 #e3dcd4 inset; }
   #panel #brand {
     color: #fff;
     text-shadow: 0 1px 0 #222;
@@ -21,10 +21,10 @@ body {
     display: none; }
   #panel nav ul li {
     font-size: 12px;
-    color: #fff;
+    color: #5a5a5a;
     height: 32px;
     font-weight: bold;
-    text-shadow: 0 -1px 0 #222222;
+    text-shadow: 0 1px 0 #fff;
     border-radius: 3px;
     margin: 2px 0;
     border: 1px solid transparent;
@@ -61,14 +61,13 @@ body {
       display: inline-block;
       width: 30px;
       height: 30px;
-      margin: 4px; }
+      margin: 1px 4px 4px; }
       #panel nav ul li .icon.add {
-        background: url(../../images/whitesprite.png) no-repeat 0 -437px; }
+        background: url(../../images/darksprite.png) no-repeat; }
       #panel nav ul li .icon.edit {
-        background: url(../../images/whitesprite.png) no-repeat 0 -292px; }
+        background: url(../../images/darksprite.png) no-repeat 0 -40px; }
       #panel nav ul li .icon.delete {
-        background: url(../../images/whitesprite.png) no-repeat 2px -331px;
-        margin: 4px 1px; }
+        background: url(../../images/darksprite.png) no-repeat 0 -78px; }
   #panel #right ul li {
     height: 32px;
     top: 2px;
@@ -96,9 +95,9 @@ body {
       width: 30px;
       height: 30px; }
     #panel #right ul li#logbookBTN img {
-      background: url(../../images/whitesprite.png) no-repeat 5px -247px; }
+      background: url(../../images/darksprite.png) no-repeat 5px -118px; }
     #panel #right ul li#settingsBTN img {
-      background: url(../../images/whitesprite.png) no-repeat 5px -25px; }
+      background: url(../../images/darksprite.png) no-repeat 5px -158px; }
     #panel #right ul li .settings {
       top: 50px;
       margin-left: -185px;
