@@ -61,7 +61,15 @@ body {
     #panel #right ul li#settingsBTN img {
       background: url(../../images/whitesprite.png) no-repeat 5px -23px; }
     #panel #right ul li#searchWrap {
-      width: 260px; }
+      width: 260px;
+      height: 60px;
+      vertical-align: top;
+      background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f6f7f8), color-stop(100%, #e7eaf2));
+      background: -webkit-linear-gradient(top, #f6f7f8 0%, #e7eaf2 100%);
+      background: -moz-linear-gradient(top, #f6f7f8 0%, #e7eaf2 100%);
+      background: -o-linear-gradient(top, #f6f7f8 0%, #e7eaf2 100%);
+      background: -ms-linear-gradient(top, #f6f7f8 0%, #e7eaf2 100%);
+      background: linear-gradient(top, #f6f7f8 0%, #e7eaf2 100%); }
     #panel #right ul li #search {
       border: 0;
       position: relative;
@@ -71,9 +79,12 @@ body {
       padding: 4px;
       padding-left: 23px;
       border-radius: 3px;
-      margin-left: 7px;
+      margin: 17px 13px;
+      border-radius: 50px;
       background: url(../../images/whitesprite.png) no-repeat 5px -65px, white;
-      -webkit-transition: 200ms ease all; }
+      -webkit-transition: 200ms ease all;
+      border: 1px solid #ccc;
+      box-shadow: 0 1px 0 #fafafa; }
 
 #content #sidebar {
   width: 260px;
@@ -81,6 +92,7 @@ body {
   margin-left: -260px;
   top: 40px;
   /* Set to panel height */
+  padding-top: 20px;
   box-shadow: 0 0 20px #000;
   background-color: #fff;
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #f9f9f9));

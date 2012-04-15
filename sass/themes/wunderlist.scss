@@ -113,6 +113,9 @@ body {
 
 				&#searchWrap {
 					width: 260px;
+					height:60px;
+					vertical-align:top;
+					@include background(linear-gradient(top, #F6F7F8 0%, #E7EAF2 100%));
 				}
 
 				// SEARCH
@@ -125,9 +128,12 @@ body {
 					padding: 4px;
 					padding-left: 23px;
 					border-radius: 3px;
-					margin-left: 7px;
+					margin: 17px 13px;
+					border-radius: 50px;
 					background: url(../../images/whitesprite.png) no-repeat 5px -65px, #fff;
 					-webkit-transition: 200ms ease all;
+					border: 1px solid #ccc;
+					box-shadow: 0 1px 0 #fafafa;
 				}
 			}
 		}
@@ -143,6 +149,7 @@ body {
 		left: 100%;
 		margin-left: -260px;
 		top: 40px; /* Set to panel height */
+		padding-top: 20px;
 		box-shadow: 0 0 20px #000;
 
 		// color
