@@ -382,6 +382,10 @@ body {
 					// font
 					font-size: 13px;
 					line-height: 32px;
+
+					input {
+						font-family: $font;
+					}
 				}
 
 				// LABELS
@@ -453,6 +457,7 @@ body {
 					border-radius: 0 0 4px 4px;
 					color: #444;
 					min-height: 62px;
+					font-family: $font;
 				}
 
 				// SELECTED

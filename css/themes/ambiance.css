@@ -238,6 +238,8 @@ body {
         padding: 0 10px 0 0;
         font-size: 13px;
         line-height: 32px; }
+        #content #tasks ul li .todotxt input {
+          font-family: "Ubuntu", "Helvetica", "Arial", sans-serif; }
       #content #tasks ul li .labels {
         font-size: 12px;
         line-height: 30px;
@@ -304,7 +306,8 @@ body {
         padding: 8px 25px 8px 30px;
         border-radius: 0 0 4px 4px;
         color: #444;
-        min-height: 62px; }
+        min-height: 62px;
+        font-family: "Ubuntu", "Helvetica", "Arial", sans-serif; }
       #content #tasks ul li.selected {
         background: #fff6f3;
         background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fff6f3), color-stop(100%, #ffdbcd));

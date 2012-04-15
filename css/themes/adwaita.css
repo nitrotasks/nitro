@@ -123,9 +123,9 @@ body {
       height: 8px;
       padding: 4px;
       border-radius: 50%;
-      background: url(../../images/addList.png) no-repeat 4px 4px; }
+      background: url(../../images/whitesprite.png) no-repeat 4px -413px; }
       #content #sidebar h2 #addListBTN:hover {
-        background: #e2e2e2 url(../../images/addList.png) no-repeat 4px 4px; }
+        background: #e2e2e2 url(../../images/whitesprite.png) no-repeat 4px -413px; }
   #content #sidebar ul li {
     height: 26px;
     font-size: 13px;
@@ -138,7 +138,7 @@ body {
       top: 7px;
       width: 17px;
       height: 17px;
-      background: url(../../images/pencil.png) no-repeat; }
+      background: url(../../images/whitesprite.png) no-repeat -1px -145px; }
     #content #sidebar ul li.selected {
       font-weight: bold;
       color: #fff;
@@ -147,7 +147,7 @@ body {
       #content #sidebar ul li.selected .editIcon {
         left: 5px;
         top: 6px;
-        background: url(../../images/pencilWhite.png); }
+        background: url(../../images/whitesprite.png) no-repeat -1px -147px; }
     #content #sidebar ul li .edit input {
       padding: 3px 4px;
       margin-left: -5px;
@@ -163,9 +163,9 @@ body {
       display: inline-block;
       vertical-align: middle; }
     #content #sidebar ul li .edit .delete {
-      background: url("../../images/remove.png") no-repeat 0 0; }
+      background: url(../../images/whitesprite.png) no-repeat 0 -120px; }
     #content #sidebar ul li .edit .save {
-      background: url("../../images/ok.png") no-repeat 0 0; }
+      background: url(../../images/whitesprite.png) no-repeat 0 -198px; }
     #content #sidebar ul li .count {
       width: 50px;
       margin-right: 20px;
@@ -208,6 +208,8 @@ body {
         padding: 0 10px 0 0;
         font-size: 13px;
         line-height: 32px; }
+        #content #tasks ul li .todotxt input {
+          font-family: "Cantarell", "Ubuntu", "Helvetica", "Arial", sans-serif; }
       #content #tasks ul li .labels {
         font-size: 12px;
         line-height: 30px;
@@ -274,15 +276,16 @@ body {
         padding: 8px 25px 8px 30px;
         border-radius: 0 0 4px 4px;
         color: #444;
-        min-height: 62px; }
+        min-height: 62px;
+        font-family: "Cantarell", "Ubuntu", "Helvetica", "Arial", sans-serif; }
       #content #tasks ul li.selected {
-        background: #fff6f3;
-        background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fff6f3), color-stop(100%, #ffdbcd));
-        background: -webkit-linear-gradient(top, #fff6f3 0%, #ffdbcd 100%);
-        background: -moz-linear-gradient(top, #fff6f3 0%, #ffdbcd 100%);
-        background: -o-linear-gradient(top, #fff6f3 0%, #ffdbcd 100%);
-        background: -ms-linear-gradient(top, #fff6f3 0%, #ffdbcd 100%);
-        background: linear-gradient(top, #fff6f3 0%, #ffdbcd 100%); }
+        background: #ebf8fd;
+        background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ebf8fd), color-stop(100%, #b1e5ff));
+        background: -webkit-linear-gradient(top, #ebf8fd 0%, #b1e5ff 100%);
+        background: -moz-linear-gradient(top, #ebf8fd 0%, #b1e5ff 100%);
+        background: -o-linear-gradient(top, #ebf8fd 0%, #b1e5ff 100%);
+        background: -ms-linear-gradient(top, #ebf8fd 0%, #b1e5ff 100%);
+        background: linear-gradient(top, #ebf8fd 0%, #b1e5ff 100%); }
       #content #tasks ul li.logged {
         background: #eee;
         color: #666; }

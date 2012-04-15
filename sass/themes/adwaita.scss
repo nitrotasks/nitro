@@ -202,10 +202,10 @@ body {
 
 				// background
 				border-radius: 50%;
-				background: url(../../images/addList.png) no-repeat 4px 4px;
+				background: url(../../images/whitesprite.png) no-repeat 4px -413px;
 
 				&:hover {
-					background: #e2e2e2 url(../../images/addList.png) no-repeat 4px 4px;
+					background: #e2e2e2 url(../../images/whitesprite.png) no-repeat 4px -413px;
 				}
 			}
 		}
@@ -237,7 +237,7 @@ body {
 					height: 17px;
 
 					// background
-					background: url(../../images/pencil.png) no-repeat;
+					background: url(../../images/whitesprite.png) no-repeat -1px -145px;
 				}
 
 				// SELECTED LIST
@@ -257,7 +257,7 @@ body {
 						top: 6px;
 
 						// color
-						background: url(../../images/pencilWhite.png);
+						background: url(../../images/whitesprite.png) no-repeat -1px -147px;
 					}
 				}
 
@@ -292,10 +292,10 @@ body {
 						vertical-align: middle;
 					}
 					.delete {
-						background: url('../../images/remove.png') no-repeat 0 0;
+						background: url(../../images/whitesprite.png) no-repeat 0 -120px;
 					}
 					.save {
-						background: url('../../images/ok.png') no-repeat 0 0;
+						background: url(../../images/whitesprite.png) no-repeat 0 -198px;
 					}
 				}
 
@@ -377,6 +377,10 @@ body {
 					// font
 					font-size: 13px;
 					line-height: 32px;
+
+					input {
+						font-family: $font;
+					}
 				}
 
 				// LABELS
@@ -448,12 +452,13 @@ body {
 					border-radius: 0 0 4px 4px;
 					color: #444;
 					min-height: 62px;
+					font-family: $font;
 				}
 
 				// SELECTED
 				&.selected {
-					background: #fff6f3;
-					@include background(linear-gradient(top, #fff6f3 0%, #ffdbcd 100%));
+					background: #ebf8fd;
+					@include background(linear-gradient(top, #ebf8fd 0%, #b1e5ff 100%));
 				}
 
 				// LOGGED
