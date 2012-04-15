@@ -25,6 +25,7 @@ body {
 	}
 
 	nav {
+		left: 0;
 		ul {
 			li {
 				font-size: 12px;
@@ -49,14 +50,10 @@ body {
 
 				// HOVER
 				&:hover {
-					@include background(linear-gradient(bottom, #393934 0%, #403e3a 100%));
-					box-shadow: inset 0 0 1px rgba(255,255,255,0.5);
-					border: 1px solid #343430;
+					background: transparent;
 				}
 				&:active {
-					@include background(linear-gradient(bottom, #2f2e2b 0%, #32312d 100%));
-					box-shadow: inset 0 1px 2px rgba(0,0,0,0.5);
-					border: 1px solid transparent;
+					background: transparent;
 				}
 
 				&.disabled {
@@ -75,15 +72,15 @@ body {
 					margin: 1px 4px 4px;
 
 					&.add {
-						background: url(../../images/add.png) no-repeat;
+						background: url(../../images/darksprite.png) no-repeat;
 					}
 
 					&.edit {
-						background: url(../../images/edit.png) no-repeat;
+						background: url(../../images/darksprite.png) no-repeat 0 -40px;
 					}
 
 					&.delete {
-						background: url(../../images/delete.png) no-repeat 2px 2px;
+						background: url(../../images/darksprite.png) no-repeat 0 -78px;
 					}
 					
 				}
@@ -101,18 +98,23 @@ body {
 				border: 1px solid transparent;
 
 				&:not(:last-of-type):hover {
-					@include background(linear-gradient(bottom, #393934 0%, #403e3a 100%));
-					box-shadow: inset 0 0 1px rgba(255,255,255,0.5);
-					border: 1px solid #343430;
+					background: transparent;
 				}
 				&:not(:last-of-type):active {
-					@include background(linear-gradient(bottom, #2f2e2b 0%, #32312d 100%));
-					box-shadow: inset 0 1px 1px rgba(0,0,0,0.5);
-					border: 1px solid transparent;
+					background: transparent;
 				}
 
 				img {
-					padding: 2px 5px 5px
+					width: 30px;
+					height: 30px;
+				}
+
+				&#logbookBTN img {
+					background: url(../../images/darksprite.png) no-repeat 5px -118px
+				}
+
+				&#settingsBTN img {
+					background: url(../../images/darksprite.png) no-repeat 5px -158px
 				}
 
 				// SETTINGS
@@ -144,8 +146,8 @@ body {
 					padding-left: 23px;
 					border-radius: 3px;
 					margin-left: 7px;
-					background: url(../../images/darksearch.png) no-repeat 5px 50%, #fff;
-					-webkit-transition: 200ms ease all;
+					background: url(../../images/whitesprite.png) no-repeat 5px -364px, #fff;
+					-webkit-transition: 200ms ease width;
 
 					&:focus {
 						width: 250px;
@@ -154,6 +156,14 @@ body {
 			}
 		}
 	}
+}
+
+#search::-webkit-input-placeholder {
+	color: #555;
+	-webkit-transition: 200ms ease color;
+	font-size: 13px;
+	line-height: 13px;
+	padding: 2px;
 }
 
 #content {

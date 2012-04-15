@@ -223,6 +223,8 @@ body {
 #search::-webkit-input-placeholder {
 	color: #555;
 	-webkit-transition: 200ms ease color;
+	font-size: 13px;
+	line-height: 13px;
 }
 
 #search:focus::-webkit-input-placeholder {

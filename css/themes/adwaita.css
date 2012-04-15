@@ -21,78 +21,57 @@ body {
     text-shadow: 0 1px 0 #222;
     border-right: 1px solid #282828;
     display: none; }
-  #panel nav ul li {
-    font-size: 12px;
-    color: #000;
-    height: 32px;
-    border-radius: 3px;
-    margin: 3px 0;
-    border: 1px solid transparent;
-    -webkit-transition: 100ms linear background; }
-    #panel nav ul li span {
-      display: block;
-      float: left;
-      margin-top: 10px; }
-    #panel nav ul li:first-of-type {
-      margin-left: 10px; }
-    #panel nav ul li:hover {
-      background: -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #393934), color-stop(100%, #403e3a));
-      background: -webkit-linear-gradient(bottom, #393934 0%, #403e3a 100%);
-      background: -moz-linear-gradient(bottom, #393934 0%, #403e3a 100%);
-      background: -o-linear-gradient(bottom, #393934 0%, #403e3a 100%);
-      background: -ms-linear-gradient(bottom, #393934 0%, #403e3a 100%);
-      background: linear-gradient(bottom, #393934 0%, #403e3a 100%);
-      box-shadow: inset 0 0 1px rgba(255, 255, 255, 0.5);
-      border: 1px solid #343430; }
-    #panel nav ul li:active {
-      background: -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #2f2e2b), color-stop(100%, #32312d));
-      background: -webkit-linear-gradient(bottom, #2f2e2b 0%, #32312d 100%);
-      background: -moz-linear-gradient(bottom, #2f2e2b 0%, #32312d 100%);
-      background: -o-linear-gradient(bottom, #2f2e2b 0%, #32312d 100%);
-      background: -ms-linear-gradient(bottom, #2f2e2b 0%, #32312d 100%);
-      background: linear-gradient(bottom, #2f2e2b 0%, #32312d 100%);
-      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
-      border: 1px solid transparent; }
-    #panel nav ul li.disabled:hover {
-      background: none;
-      box-shadow: none;
-      border: 1px solid transparent; }
-    #panel nav ul li .icon {
-      display: inline-block;
-      width: 30px;
-      height: 30px;
-      margin: 1px 4px 4px; }
-      #panel nav ul li .icon.add {
-        background: url(../../images/add.png) no-repeat; }
-      #panel nav ul li .icon.edit {
-        background: url(../../images/edit.png) no-repeat; }
-      #panel nav ul li .icon.delete {
-        background: url(../../images/delete.png) no-repeat 2px 2px; }
+  #panel nav {
+    left: 0; }
+    #panel nav ul li {
+      font-size: 12px;
+      color: #000;
+      height: 32px;
+      border-radius: 3px;
+      margin: 3px 0;
+      border: 1px solid transparent;
+      -webkit-transition: 100ms linear background; }
+      #panel nav ul li span {
+        display: block;
+        float: left;
+        margin-top: 10px; }
+      #panel nav ul li:first-of-type {
+        margin-left: 10px; }
+      #panel nav ul li:hover {
+        background: transparent; }
+      #panel nav ul li:active {
+        background: transparent; }
+      #panel nav ul li.disabled:hover {
+        background: none;
+        box-shadow: none;
+        border: 1px solid transparent; }
+      #panel nav ul li .icon {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        margin: 1px 4px 4px; }
+        #panel nav ul li .icon.add {
+          background: url(../../images/darksprite.png) no-repeat; }
+        #panel nav ul li .icon.edit {
+          background: url(../../images/darksprite.png) no-repeat 0 -40px; }
+        #panel nav ul li .icon.delete {
+          background: url(../../images/darksprite.png) no-repeat 0 -78px; }
   #panel #right ul li {
     height: 32px;
     top: 3px;
     border-radius: 3px;
     border: 1px solid transparent; }
     #panel #right ul li:not(:last-of-type):hover {
-      background: -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #393934), color-stop(100%, #403e3a));
-      background: -webkit-linear-gradient(bottom, #393934 0%, #403e3a 100%);
-      background: -moz-linear-gradient(bottom, #393934 0%, #403e3a 100%);
-      background: -o-linear-gradient(bottom, #393934 0%, #403e3a 100%);
-      background: -ms-linear-gradient(bottom, #393934 0%, #403e3a 100%);
-      background: linear-gradient(bottom, #393934 0%, #403e3a 100%);
-      box-shadow: inset 0 0 1px rgba(255, 255, 255, 0.5);
-      border: 1px solid #343430; }
+      background: transparent; }
     #panel #right ul li:not(:last-of-type):active {
-      background: -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #2f2e2b), color-stop(100%, #32312d));
-      background: -webkit-linear-gradient(bottom, #2f2e2b 0%, #32312d 100%);
-      background: -moz-linear-gradient(bottom, #2f2e2b 0%, #32312d 100%);
-      background: -o-linear-gradient(bottom, #2f2e2b 0%, #32312d 100%);
-      background: -ms-linear-gradient(bottom, #2f2e2b 0%, #32312d 100%);
-      background: linear-gradient(bottom, #2f2e2b 0%, #32312d 100%);
-      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.5);
-      border: 1px solid transparent; }
+      background: transparent; }
     #panel #right ul li img {
-      padding: 2px 5px 5px; }
+      width: 30px;
+      height: 30px; }
+    #panel #right ul li#logbookBTN img {
+      background: url(../../images/darksprite.png) no-repeat 5px -118px; }
+    #panel #right ul li#settingsBTN img {
+      background: url(../../images/darksprite.png) no-repeat 5px -158px; }
     #panel #right ul li .settings {
       top: 50px;
       margin-left: -185px;
@@ -113,10 +92,17 @@ body {
       padding-left: 23px;
       border-radius: 3px;
       margin-left: 7px;
-      background: url(../../images/darksearch.png) no-repeat 5px 50%, white;
-      -webkit-transition: 200ms ease all; }
+      background: url(../../images/whitesprite.png) no-repeat 5px -364px, white;
+      -webkit-transition: 200ms ease width; }
       #panel #right ul li #search:focus {
         width: 250px; }
+
+#search::-webkit-input-placeholder {
+  color: #555;
+  -webkit-transition: 200ms ease color;
+  font-size: 13px;
+  line-height: 13px;
+  padding: 2px; }
 
 #content #sidebar {
   width: 250px;
