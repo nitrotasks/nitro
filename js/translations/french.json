@@ -1,20 +1,20 @@
 {
 	"author":				"Jono Cooper <jono@jonocooper.com>",
-	"jqueryui":				"en",
+	"jqueryui":				"fr",
 
-	"listWarning":    		"Êtes vous sur de vouloir supprimer cette liste ? Toutes les tâches de la liste seront également supprimées.",
-	"taskWarning":    		"Êtes vous sur de vouloir supprimer cette tâche ? Elle sera effacée à jamais.",
+	"listWarning":    		"Êtes-vous sur de vouloir supprimer cette liste ? Toutes les tâches de la liste seront également supprimées.",
+	"taskWarning":    		"Êtes-vous sur de vouloir supprimer cette tâche ? Elle sera effacée à jamais.",
 	
 	"todayText":      		"La liste <strong>Aujourd'hui</strong> accueille toutes les choses que vous voulez faire aujourd'hui. Les tâches du jour s'afficheront automatiquement ici.",
 	"nextText":       		"Les tâches à venir apparaîtront dans la liste <strong>Prochainement</strong>. Les tâches du jour et les trois premières des autres listes apparaîtront ici automatiquement.",
-	"somedayText":    		"La liste <strong>Un jour</strong> contient les tâches à faire sans délais précis.",
+	"somedayText":    		"La liste <strong>Un jour</strong> contient les tâches à faire sans délai précis.",
 	"logbookText":    		"Le <strong>Registre</strong> répertorie toutes les tâches que vous avez déjà effectuées.",
 	"customText":     		"There are no tasks in this list.",
 
 	"yesTask":        		"Supprimer la tâche",
 	"yesList":        		"Supprimer la liste",
 	"cancelDialog":    		"Annuler",
-	"warningText":			"Attention!",
+	"warningText":			"Attention !",
 	"languageText":			"Choisisez votre langue",
 
 	"add":            		"Ajouter",
@@ -55,16 +55,16 @@
 	"morethanOne":			"Montrer %s tâches de plus",
 
 	"dayLeft":				"1 jour restant",
-	"daysLeft": 			"%s jours restant",
+	"daysLeft": 			"%s jours restants",
 	"dayOverdue": 			"1 jour de retard",
 	"daysOverdue":			"%s jours de retard",
 	"month":				["Jan", "Fév", "Mar", "Avr", "Mai", "Jui", "Jui", "Aou", "Sep", "Oct", "Nov", "Déc"],
 
-	"searchResults":  		"Résultats de la recherche: ",
+	"searchResults":  		"Résultats de la recherche : ",
 
 	"titleAddTask":   		"Ajouter une nouvelle tâche",
-	"titleEditTask":  		"Éditer la tâche selectionnée",
-	"titleDeleteTask":		"Supprimmer la tâche selectionnée",
+	"titleEditTask":  		"Éditer la tâche sélectionnée",
+	"titleDeleteTask":		"Supprimmer la tâche sélectionnée",
 
 	"titleAddList":   		"Ajouter une liste",
 	"titleDeleteList":		"Supprimer la liste",
