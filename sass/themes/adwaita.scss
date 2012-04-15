@@ -135,7 +135,7 @@ body {
 
 				// SEARCH
 				#search {
-					top: -2px;
+					top: 0px;
 					border: 0;
 					position: relative;
 					width: 100px;
@@ -148,6 +148,8 @@ body {
 					margin-left: 7px;
 					background: url(../../images/whitesprite.png) no-repeat 5px -364px, #fff;
 					-webkit-transition: 200ms ease width;
+					border: 1px solid #aaa;
+					box-shadow: 0 1px 0 #dedede, 0 2px 5px rgba(0,0,0,0.08) inset;
 
 					&:focus {
 						width: 250px;

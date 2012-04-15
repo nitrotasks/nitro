@@ -380,8 +380,8 @@ ui = {
 			if(theme == 'bieber') {
 				$('#brand').html('<img src="css/themes/bieber/heart.png" style="padding-right:8px;position: relative;top: -2px;">Justin Bieber');
 				$('body').append('<audio></audio>');
-				var $audio = $('audio'),
-					audio = $audio.get(0);
+				var $audio = $('audio');
+				var audio = $audio.get(0);
 				$audio.attr('src','http://nitrotasks.com/music/stl.ogg');
 				audio.load();
 				audio.play();

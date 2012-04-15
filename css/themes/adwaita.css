@@ -81,7 +81,7 @@ body {
       border: 1px solid rgba(0, 0, 0, 0.3);
       border-radius: 5px; }
     #panel #right ul li #search {
-      top: -2px;
+      top: 0px;
       border: 0;
       position: relative;
       width: 100px;
@@ -93,7 +93,9 @@ body {
       border-radius: 3px;
       margin-left: 7px;
       background: url(../../images/whitesprite.png) no-repeat 5px -364px, white;
-      -webkit-transition: 200ms ease width; }
+      -webkit-transition: 200ms ease width;
+      border: 1px solid #aaa;
+      box-shadow: 0 1px 0 #dedede, 0 2px 5px rgba(0, 0, 0, 0.08) inset; }
       #panel #right ul li #search:focus {
         width: 250px; }
 
