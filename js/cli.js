@@ -667,7 +667,7 @@ var cli = {
 		sync: function() {
 
 			// Upload to server
-			var socket = io.connect('http://localhost:8080');
+			var socket = io.connect('http://pure-warrior-8499.herokuapp.com/:8080');
 			var client = {
 				tasks: cli.storage.tasks,
 				queue: cli.storage.queue,
