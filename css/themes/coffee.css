@@ -215,7 +215,7 @@ body {
         line-height: 35px; }
       #content #tasks ul li .labels {
         font-size: 12px;
-        line-height: 33px;
+        line-height: 34px;
         background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #f9f9f9));
         background: -webkit-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
         background: -moz-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
@@ -225,9 +225,9 @@ body {
         border-top-right-radius: 5px;
         border-bottom-right-radius: 5px; }
         #content #tasks ul li .labels span {
-          height: 33px;
+          height: 34px;
           padding: 0 10px;
-          line-height: 35px;
+          line-height: 34px;
           color: #555;
           border-left: 1px solid #ddd;
           /* Remove border radius from last label */ }

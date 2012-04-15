@@ -365,7 +365,7 @@ body {
 				.labels {
 					// font
 					font-size: 12px;
-					line-height: 33px;
+					line-height: 34px;
 
 					// background
 					@include background(linear-gradient(top, color-stops(#fff 0%, #f9f9f9 100%)));
@@ -375,11 +375,11 @@ body {
 					// A LABEL
 					span {
 						// size
-						height: 33px;
+						height: 34px;
 						padding: 0 10px;
 
 						// font
-						line-height: 35px;
+						line-height: 34px;
 						color: #555;
 
 						// border
