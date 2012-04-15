@@ -1,0 +1,500 @@
+/* Nitro Default
+ * Authors: Jono Cooper & George Czabania
+ * http://caffeinatedco.de
+ */
+@import "compass/css3/images";
+
+$font: 'Helvetica', 'Arial', 'Ubuntu', sans-serif;
+
+body {
+	background: url(wunderlist/back.jpeg) top center no-repeat fixed;
+	font-family: $font;
+	
+	//Not using background-size: cover because it makes things super laggy!
+}
+
+#panel {
+	background: url(../../images/dark.png);
+	box-shadow:  0 0 4px rgba(0,0,0,0.7);
+
+	#brand {
+		color: #fff;
+		text-shadow: 0 1px 0 #222;
+		border-right: 1px solid #282828;
+		display: none;
+	}
+
+	nav {
+		left: 0;
+		ul {
+			li {
+				font-size: 12px;
+				color: #fff;
+				height: 40px;
+				font-weight: bold;
+				text-shadow: 0 1px 0 #222;
+
+				span {
+					display: block;
+					float: left;
+					margin-top: 13px;
+				}
+
+				// animations
+				-webkit-transition: 100ms linear background;
+
+				// HOVER
+				&:hover {
+					background: rgba(0,0,0,0.3);
+				}
+
+				&#addBTN {
+					padding-left: 10px;
+				}
+
+				// ICONS
+				.icon {
+					display: inline-block;
+					width: 30px;
+					height: 30px;
+					margin: 4px;
+
+					&.add {
+						background: url(../../images/whitesprite.png) no-repeat 0 -435px;
+					}
+
+					&.edit {
+						background: url(../../images/whitesprite.png) no-repeat  0 -290px;
+					}
+
+					&.delete {
+						background: url(../../images/whitesprite.png) no-repeat 0 -328px;
+						margin: 4px 2px;
+					}
+					
+				}
+			}
+		}
+	}
+
+	#right {
+		padding-right: 0;
+		ul {
+			li {
+
+				// SETTINGS
+				.settings {
+					// position
+					top: 50px;
+					margin-left: -185px;
+
+					// size
+					width: 300px;
+
+					// background
+					background: rgba(51,51,51,0.95);
+					box-shadow: 0 1px 19px rgba(0,0,0,0.35), inset 0 0 1px rgba(255,255,255,0.2);
+					border: 1px solid rgba(0,0,0,0.3);
+					border-radius: 5px;
+				}
+
+				img {
+					width: 30px;
+					height: 30px;
+				}
+
+				&#logbookBTN img {
+					background: url(../../images/whitesprite.png) no-repeat 5px -245px;
+				}
+
+				&#settingsBTN img {
+					background: url(../../images/whitesprite.png) no-repeat 5px -23px;
+				}
+
+				&#searchWrap {
+					width: 260px;
+				}
+
+				// SEARCH
+				#search {
+					border: 0;
+					position: relative;
+					width: 204px;
+					line-height: 13px;
+					font-size: 13px;
+					padding: 4px;
+					padding-left: 23px;
+					border-radius: 3px;
+					margin-left: 7px;
+					background: url(../../images/whitesprite.png) no-repeat 5px -65px, #fff;
+					-webkit-transition: 200ms ease all;
+				}
+			}
+		}
+	}
+}
+
+#content {
+
+	#sidebar {
+
+		// position
+		width: 260px;
+		left: 100%;
+		margin-left: -260px;
+		top: 40px; /* Set to panel height */
+		box-shadow: 0 0 20px #000;
+
+		// color
+		background-color: #fff;
+		@include background(linear-gradient(top, #ffffff 0%, #f9f9f9 100%));
+
+		// GROUP HEADINGS
+		h2 {
+			// position
+			margin: 0;
+			padding: 10px 25px 10px 15px;
+			display: none;
+
+			// font
+			font-weight: bold;
+			font-size: 13px;
+			line-height: 13px;
+
+			// color
+			color: #222;
+			background: #FAFAFA;
+			border-bottom: 1px solid #CCC;
+			border-top: 1px solid #CCC;		
+			box-shadow: 0 0 3px #ddd inset;
+
+			// ADD LIST BUTTON
+			#addListBTN {
+				// size
+				width: 8px;
+				height: 8px;
+				padding: 4px;
+
+				// background
+				border-radius: 50%;
+				background: url(../../images/whitesprite.png) no-repeat 4px -413px;
+
+				&:hover {
+					background: #e2e2e2 url(../../images/whitesprite.png) no-repeat 4px -413px;
+				}
+			}
+		}
+
+		// LISTS
+		ul {
+			li {
+				// size
+				height: 23px;
+				padding: 10px 8px 0px 12px;
+
+				// font
+				font-size: 13px;
+				color: #444;
+				font-weight: bold;
+				line-height: 23px;
+				text-indent: 0;
+
+				// DRAG HOVER
+				&.dragHover:not(.selected) {
+					background: #ecf8ff;
+				}
+
+				// EDIT ICON
+				.editIcon {
+					// position
+					left: 6px;
+					top: 7px;
+
+					// size
+					width: 17px;
+					height: 17px;
+				}
+
+				// SELECTED LIST
+				&.selected {
+					// font
+					font-weight:bold;
+
+					// color
+					color: #fff;
+					background-color: #7bbff1;
+					@include background(linear-gradient(top, #33A3EF 0%, #168AD4 100%));
+					text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+					box-shadow: 0 1px 0 #75a9e2 inset, 0 -1px 0 #5080c7 inset;
+
+					// EDIT ICON (SELECTED)
+					.editIcon {
+						// position
+						left: 5px;
+						top: 6px;
+
+						// color
+						background: url(../../images/whitesprite.png) no-repeat -1px -145px;
+					}
+				}
+
+				// EDITING A LIST
+				.edit {
+
+					// TEXT INPUT
+					input {
+						// position
+						padding: 3px 4px;
+						margin-left: -5px;
+						margin-right: 5px;
+
+						// size
+						width: 168px;
+						border: 0;
+						outline: 0;
+
+						// background
+						background: rgba(255,255,255,1);
+						border-radius: 4px;
+					}
+
+					// DELETE AND SAVE ICONS
+					.delete, .save {
+						// size
+						width: 18px;
+						height: 16px;
+
+						// position
+						display: inline-block;
+						vertical-align: middle;
+					}
+					.delete {
+						background: url(../../images/whitesprite.png) no-repeat 0 -120px;
+					}
+					.save {
+						background: url(../../images/whitesprite.png) no-repeat 0 -198px;
+					}
+				}
+
+				// COUNT
+				.count {
+					// size
+					width: 50px;
+
+					// position
+					margin-right: 20px;
+					text-align: center;
+				}
+			}
+		}
+	}
+
+	// TASKS
+	#tasks {
+		// position
+		padding: 40px 260px 40px 0;
+
+		// EXPLANATION
+		.explanation {
+			// size
+			width: 300px;
+			padding: 15px;
+
+			// position
+			top: 100px;
+			margin-left: -36px;
+			
+			// background
+			background: rgba(255, 255, 255, 0.7);
+			border: 1px solid #aaa;
+			border-radius: 5px;
+
+			// font			
+			color: #444;
+			font-size: 14px;
+		}
+
+		// LIST HEADINGS
+		h2 {
+			// font
+			font-size: 18px;
+
+			// color
+			word-wrap: break-word;
+			letter-spacing: 1px;
+			color: white;
+			text-shadow: 0px 1px 3px #333;
+			text-align: center;
+			margin-bottom: 13px;
+			padding-bottom: 3px;
+		}
+
+		// LISTS INSIDE LISTS
+		ul {
+			padding: 0 20px;
+			margin-bottom: 30px;
+
+			// A TASK
+			li {
+				// position
+				margin-bottom: -1px;
+
+				// background
+				border: 1px solid #bebebe;
+				background: #fcfcfc;
+				@include background(linear-gradient(top, color-stops(#fff 0%, #f9f9f9 100%)));
+				border-radius: 5px;
+				box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
+
+				// TEXT
+				.todotxt {
+					// position
+					height: 30px;
+					padding: 0 10px 0 0;
+
+					// font
+					font-size: 13px;
+					line-height: 32px;
+				}
+
+				// LABELS
+				.labels {
+					// font
+					font-size: 12px;
+					line-height: 30px;
+
+					// background
+					@include background(linear-gradient(top, color-stops(#fff 0%, #f9f9f9 100%)));
+					border-top-right-radius: 5px;
+					border-bottom-right-radius: 5px;
+
+					// A LABEL
+					span {
+						// size
+						height: 30px;
+						padding: 0 10px;
+
+						// font
+						line-height: 30px;
+						color: #555;
+
+						// border
+						border-left: 1px solid #ddd;
+
+						/* Remove border radius from last label */
+						&:last-child {
+							border-top-right-radius: 4px;
+							border-bottom-right-radius: 4px;
+						}
+
+						// LABEL COLORS
+						&.date, &.dateLabel {
+						border-left: 1px solid #ddd;
+							
+							&.due {
+								@include background(linear-gradient(top, color-stops(#Fff9f9 0%, #Fdd 100%)));
+							}
+						}
+
+						&.today, &.todayLabel {
+							&.inToday, &.todayLabel  {
+								@include background(linear-gradient(top, #ffffff 0%, #fff3d9 100%));
+							}
+						}
+
+						&.priority {
+							&.important {
+								@include background(linear-gradient(top, color-stops(#Fff9f9 0%, #Fdd 100%)));
+							}
+							&.medium {
+								@include background(linear-gradient(top, #ffffff 0%, #fff3d9 100%));
+							}
+							&.low {
+								@include background(linear-gradient(top, #ffffff 0%, #e0f1ff 100%));
+							}
+						}
+					}
+				}
+
+				// NOTES
+				.hidden textarea {
+					border: 0;
+					font-size: 13px;
+					border-top: 1px solid #ddd;
+					background: url(../../images/notes.png) no-repeat 7px 7px, #fbfaf0;
+					padding: 8px 25px 8px 30px;
+					border-radius: 0 0 4px 4px;
+					color: #444;
+					min-height: 62px;
+				}
+
+				// SELECTED
+				&.selected {
+					background: #ebf8fd;
+					@include background(linear-gradient(top, #ebf8fd 0%, #b1e5ff 100%));
+				}
+
+				// LOGGED
+				&.logged {
+					background: #eee;
+					color: #666;
+				}
+
+				// PLACEHOLDER (DRAG AND DROP)
+				&.placeholder {
+					background: rgba(0,0,0,0.1);
+					box-shadow: 0 0 5px rgba(0,0,0,0.1) inset;
+				}
+
+				// CHECKBOX
+				.checkbox {
+					width: 13px;
+					height: 13px;
+					padding: 9px 8px 8px 8px;
+
+					// ACTUAL CHECKBOX
+					input[type=checkbox] {
+						// size
+						width: 13px;
+						height: 13px;
+
+						// background
+						border-radius: 2px;
+						background: #fff;
+						border: 1px solid #d4d4d4;
+
+						// HOVER
+						&:hover {
+							border-color: #C6C6C6;
+							box-shadow: inset 0 1px 1px rgba(0,0,0,0.1);
+						}
+
+						// CHECKMARK
+						&:checked:after {
+							// position
+							top: -1px;
+							left: 0px;
+
+							// background
+							content: url(../../images/checkmark.png);
+						}
+					}
+				}
+
+				// CHECKBOX COLORS
+				&.low .checkbox input[type=checkbox] {
+					@include background(linear-gradient(top, #adceea 0%, #bad6ee 100%));
+					border: 1px solid #69a6d9;
+				}
+				&.medium .checkbox input[type=checkbox] {
+					@include background(linear-gradient(top, #ffda5d 0%, #ffe27e 100%));
+					border: 1px solid #D4AA20;
+				}
+				&.important .checkbox input[type=checkbox] {
+					@include background(linear-gradient(bottom, color-stops(#fbb 15%, #faa 100%)));
+					border: 1px solid #f44;
+				}
+			}
+		}
+	}
+}

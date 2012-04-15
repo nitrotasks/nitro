@@ -376,6 +376,11 @@ body {
 			position: relative;
 			z-index: 2;
 			height: 30px;
+			-webkit-transition: 150ms ease margin;
+			-moz-transition: 150ms ease margin;
+			-ms-transition: 150ms ease margin;
+			-o-transition: 150ms ease margin;
+			transition: 150ms ease margin;
 			
 			overflow: hidden;
 
