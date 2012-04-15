@@ -31,28 +31,12 @@ body {
 			li {
 				font-size: 12px;
 				color: #ddd;
-				margin-top: 8px;
+				margin-top: 9px;
 				height: 19px;
 				text-shadow: 0 1px 0 #222;
-				@include background(linear-gradient(top, #454545 0%, #515151 15%, #535353 85%, #515151 100%));
-				border-top: 1px solid #363636;
-				border-bottom: 1px solid #363636;
-				border-left: 1px solid #454545;
-				box-shadow: 0 1px 0 #686868;
 
-				&:first-of-type {
-					border-left:  1px solid #363636;
-					border-top-left-radius: 10px;
-					border-bottom-left-radius: 10px;
-				}
-				&:last-of-type {
-					border-right:  1px solid #363636;
-					border-top-right-radius: 10px;
-					border-bottom-right-radius: 10px;
-				}
 				&.disabled {
-					opacity: 1;
-					color: #888;
+					opacity: 0.5;
 				}
 				span {
 					display: block;
@@ -66,23 +50,34 @@ body {
 
 				// HOVER
 				&:not(.disabled):hover {
-					box-shadow: 0 1px 0 #686868, inset 0 1px #95d0ff;
 					color: #fff;
-					@include background(linear-gradient(top, #44a5ee 0%, #1974b4 100%));
-				}
-
-				&#addBTN {
-					padding-left: 10px;
+					background: inherit;
 				}
 
 				// ICONS
 				.icon {
 					display: inline-block;
-					width: 0;
-					height: 0;
-					margin: 0;	
-				}
+					width: 25px;
+					height: 25px;
+					margin-top: 0px;
+					vertical-align: top;
+					margin-right: 2px;
+					top: -5px;
+					position: relative;
 
+					&.add {
+						background: url(wunderlist/sprite.png) no-repeat;
+					}
+
+					&.edit {
+						background: url(wunderlist/sprite.png) 0 -27px no-repeat;
+					}
+
+					&.delete {
+						background: url(wunderlist/sprite.png) 0 -53px no-repeat;
+					}
+					
+				}
 			}
 		}
 	}
@@ -91,6 +86,8 @@ body {
 		padding-right: 0;
 		ul {
 			li {
+
+				height: 36px;
 
 				// SETTINGS
 				.settings {
@@ -109,16 +106,18 @@ body {
 				}
 
 				img {
-					width: 30px;
-					height: 30px;
+					width: 22px;
+					height: 22px;
+					padding: 2px;
+					margin: 5px;
 				}
 
 				&#logbookBTN img {
-					background: url(../../images/whitesprite.png) no-repeat 5px -245px;
+					background: url(wunderlist/sprite.png) 0 -81px no-repeat;
 				}
 
 				&#settingsBTN img {
-					background: url(../../images/whitesprite.png) no-repeat 5px -23px;
+					background: url(wunderlist/sprite.png) 0 -107px no-repeat;
 				}
 
 				&#searchWrap {
@@ -142,7 +141,6 @@ body {
 					margin: 17px 13px;
 					border-radius: 50px;
 					background: url(../../images/whitesprite.png) no-repeat 5px -65px, #fff;
-					-webkit-transition: 200ms ease all;
 					border: 1px solid #ccc;
 					box-shadow: 0 1px 0 #fafafa;
 				}

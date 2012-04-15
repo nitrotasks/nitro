@@ -25,95 +25,81 @@ body {
     #panel nav ul li {
       font-size: 12px;
       color: #ddd;
-      margin-top: 8px;
+      margin-top: 9px;
       height: 19px;
       text-shadow: 0 1px 0 #222;
-      background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #454545), color-stop(15%, #515151), color-stop(85%, #535353), color-stop(100%, #515151));
-      background: -webkit-linear-gradient(top, #454545 0%, #515151 15%, #535353 85%, #515151 100%);
-      background: -moz-linear-gradient(top, #454545 0%, #515151 15%, #535353 85%, #515151 100%);
-      background: -o-linear-gradient(top, #454545 0%, #515151 15%, #535353 85%, #515151 100%);
-      background: -ms-linear-gradient(top, #454545 0%, #515151 15%, #535353 85%, #515151 100%);
-      background: linear-gradient(top, #454545 0%, #515151 15%, #535353 85%, #515151 100%);
-      border-top: 1px solid #363636;
-      border-bottom: 1px solid #363636;
-      border-left: 1px solid #454545;
-      box-shadow: 0 1px 0 #686868;
       -webkit-transition: 100ms linear background; }
-      #panel nav ul li:first-of-type {
-        border-left: 1px solid #363636;
-        border-top-left-radius: 10px;
-        border-bottom-left-radius: 10px; }
-      #panel nav ul li:last-of-type {
-        border-right: 1px solid #363636;
-        border-top-right-radius: 10px;
-        border-bottom-right-radius: 10px; }
       #panel nav ul li.disabled {
-        opacity: 1;
-        color: #888; }
+        opacity: 0.5; }
       #panel nav ul li span {
         display: block;
         float: left;
         line-height: 19px;
         text-indent: 5px; }
       #panel nav ul li:not(.disabled):hover {
-        box-shadow: 0 1px 0 #686868, inset 0 1px #95d0ff;
         color: #fff;
-        background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #44a5ee), color-stop(100%, #1974b4));
-        background: -webkit-linear-gradient(top, #44a5ee 0%, #1974b4 100%);
-        background: -moz-linear-gradient(top, #44a5ee 0%, #1974b4 100%);
-        background: -o-linear-gradient(top, #44a5ee 0%, #1974b4 100%);
-        background: -ms-linear-gradient(top, #44a5ee 0%, #1974b4 100%);
-        background: linear-gradient(top, #44a5ee 0%, #1974b4 100%); }
-      #panel nav ul li#addBTN {
-        padding-left: 10px; }
+        background: inherit; }
       #panel nav ul li .icon {
         display: inline-block;
-        width: 0;
-        height: 0;
-        margin: 0; }
+        width: 25px;
+        height: 25px;
+        margin-top: 0px;
+        vertical-align: top;
+        margin-right: 2px;
+        top: -5px;
+        position: relative; }
+        #panel nav ul li .icon.add {
+          background: url(wunderlist/sprite.png) no-repeat; }
+        #panel nav ul li .icon.edit {
+          background: url(wunderlist/sprite.png) 0 -27px no-repeat; }
+        #panel nav ul li .icon.delete {
+          background: url(wunderlist/sprite.png) 0 -53px no-repeat; }
   #panel #right {
     padding-right: 0; }
-    #panel #right ul li .settings {
-      top: 50px;
-      margin-left: -185px;
-      width: 300px;
-      background: rgba(51, 51, 51, 0.95);
-      box-shadow: 0 1px 19px rgba(0, 0, 0, 0.35), inset 0 0 1px rgba(255, 255, 255, 0.2);
-      border: 1px solid rgba(0, 0, 0, 0.3);
-      border-radius: 5px; }
-    #panel #right ul li img {
-      width: 30px;
-      height: 30px; }
-    #panel #right ul li#logbookBTN img {
-      background: url(../../images/whitesprite.png) no-repeat 5px -245px; }
-    #panel #right ul li#settingsBTN img {
-      background: url(../../images/whitesprite.png) no-repeat 5px -23px; }
-    #panel #right ul li#searchWrap {
-      width: 260px;
-      height: 60px;
-      vertical-align: top;
-      background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f6f7f8), color-stop(100%, #e7eaf2));
-      background: -webkit-linear-gradient(top, #f6f7f8 0%, #e7eaf2 100%);
-      background: -moz-linear-gradient(top, #f6f7f8 0%, #e7eaf2 100%);
-      background: -o-linear-gradient(top, #f6f7f8 0%, #e7eaf2 100%);
-      background: -ms-linear-gradient(top, #f6f7f8 0%, #e7eaf2 100%);
-      background: linear-gradient(top, #f6f7f8 0%, #e7eaf2 100%);
-      border-bottom: 1px solid #d1d2d4; }
-    #panel #right ul li #search {
-      border: 0;
-      position: relative;
-      width: 204px;
-      line-height: 13px;
-      font-size: 13px;
-      padding: 4px;
-      padding-left: 23px;
-      border-radius: 3px;
-      margin: 17px 13px;
-      border-radius: 50px;
-      background: url(../../images/whitesprite.png) no-repeat 5px -65px, white;
-      -webkit-transition: 200ms ease all;
-      border: 1px solid #ccc;
-      box-shadow: 0 1px 0 #fafafa; }
+    #panel #right ul li {
+      height: 36px; }
+      #panel #right ul li .settings {
+        top: 50px;
+        margin-left: -185px;
+        width: 300px;
+        background: rgba(51, 51, 51, 0.95);
+        box-shadow: 0 1px 19px rgba(0, 0, 0, 0.35), inset 0 0 1px rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(0, 0, 0, 0.3);
+        border-radius: 5px; }
+      #panel #right ul li img {
+        width: 22px;
+        height: 22px;
+        padding: 2px;
+        margin: 5px; }
+      #panel #right ul li#logbookBTN img {
+        background: url(wunderlist/sprite.png) 0 -81px no-repeat; }
+      #panel #right ul li#settingsBTN img {
+        background: url(wunderlist/sprite.png) 0 -107px no-repeat; }
+      #panel #right ul li#searchWrap {
+        width: 260px;
+        height: 60px;
+        vertical-align: top;
+        background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f6f7f8), color-stop(100%, #e7eaf2));
+        background: -webkit-linear-gradient(top, #f6f7f8 0%, #e7eaf2 100%);
+        background: -moz-linear-gradient(top, #f6f7f8 0%, #e7eaf2 100%);
+        background: -o-linear-gradient(top, #f6f7f8 0%, #e7eaf2 100%);
+        background: -ms-linear-gradient(top, #f6f7f8 0%, #e7eaf2 100%);
+        background: linear-gradient(top, #f6f7f8 0%, #e7eaf2 100%);
+        border-bottom: 1px solid #d1d2d4; }
+      #panel #right ul li #search {
+        border: 0;
+        position: relative;
+        width: 204px;
+        line-height: 13px;
+        font-size: 13px;
+        padding: 4px;
+        padding-left: 23px;
+        border-radius: 3px;
+        margin: 17px 13px;
+        border-radius: 50px;
+        background: url(../../images/whitesprite.png) no-repeat 5px -65px, white;
+        border: 1px solid #ccc;
+        box-shadow: 0 1px 0 #fafafa; }
 
 #content #sidebar {
   width: 260px;
