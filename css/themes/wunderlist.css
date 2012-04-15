@@ -97,7 +97,8 @@ body {
       background: -moz-linear-gradient(top, #f6f7f8 0%, #e7eaf2 100%);
       background: -o-linear-gradient(top, #f6f7f8 0%, #e7eaf2 100%);
       background: -ms-linear-gradient(top, #f6f7f8 0%, #e7eaf2 100%);
-      background: linear-gradient(top, #f6f7f8 0%, #e7eaf2 100%); }
+      background: linear-gradient(top, #f6f7f8 0%, #e7eaf2 100%);
+      border-bottom: 1px solid #d1d2d4; }
     #panel #right ul li #search {
       border: 0;
       position: relative;
@@ -122,13 +123,7 @@ body {
   /* Set to panel height */
   padding-top: 20px;
   box-shadow: 0 0 20px #000;
-  background-color: #fff;
-  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #f9f9f9));
-  background: -webkit-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
-  background: -moz-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
-  background: -o-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
-  background: -ms-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
-  background: linear-gradient(top, #ffffff 0%, #f9f9f9 100%); }
+  background-color: #f4f5f7; }
   #content #sidebar h2 {
     margin: 0;
     padding: 10px 25px 10px 15px;
@@ -151,12 +146,26 @@ body {
         background: #e2e2e2 url(../../images/whitesprite.png) no-repeat 4px -413px; }
   #content #sidebar ul li {
     height: 23px;
-    padding: 10px 8px 0px 12px;
+    padding: 5px 0px 5px 15px;
     font-size: 13px;
     color: #444;
     font-weight: bold;
     line-height: 23px;
-    text-indent: 0; }
+    text-indent: 0;
+    border-bottom: 1px solid #E1E2E4;
+    background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f8f8f8), color-stop(100%, #f3f4f6));
+    background: -webkit-linear-gradient(top, #f8f8f8 0%, #f3f4f6 100%);
+    background: -moz-linear-gradient(top, #f8f8f8 0%, #f3f4f6 100%);
+    background: -o-linear-gradient(top, #f8f8f8 0%, #f3f4f6 100%);
+    background: -ms-linear-gradient(top, #f8f8f8 0%, #f3f4f6 100%);
+    background: linear-gradient(top, #f8f8f8 0%, #f3f4f6 100%); }
+    #content #sidebar ul li:hover {
+      background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #f7f8fa));
+      background: -webkit-linear-gradient(top, #ffffff 0%, #f7f8fa 100%);
+      background: -moz-linear-gradient(top, #ffffff 0%, #f7f8fa 100%);
+      background: -o-linear-gradient(top, #ffffff 0%, #f7f8fa 100%);
+      background: -ms-linear-gradient(top, #ffffff 0%, #f7f8fa 100%);
+      background: linear-gradient(top, #ffffff 0%, #f7f8fa 100%); }
     #content #sidebar ul li.dragHover:not(.selected) {
       background: #ecf8ff; }
     #content #sidebar ul li .editIcon {
@@ -179,6 +188,7 @@ body {
       #content #sidebar ul li.selected .editIcon {
         left: 5px;
         top: 6px;
+        display: none !important;
         background: url(../../images/whitesprite.png) no-repeat -1px -145px; }
     #content #sidebar ul li .edit input {
       padding: 3px 4px;
@@ -200,7 +210,6 @@ body {
       background: url(../../images/whitesprite.png) no-repeat 0 -198px; }
     #content #sidebar ul li .count {
       width: 50px;
-      margin-right: 20px;
       text-align: center; }
 #content #tasks {
   padding: 40px 260px 40px 0; }

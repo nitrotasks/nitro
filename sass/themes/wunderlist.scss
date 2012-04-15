@@ -126,6 +126,7 @@ body {
 					height:60px;
 					vertical-align:top;
 					@include background(linear-gradient(top, #F6F7F8 0%, #E7EAF2 100%));
+					border-bottom: 1px solid #d1d2d4;
 				}
 
 				// SEARCH
@@ -163,8 +164,7 @@ body {
 		box-shadow: 0 0 20px #000;
 
 		// color
-		background-color: #fff;
-		@include background(linear-gradient(top, #ffffff 0%, #f9f9f9 100%));
+		background-color: #f4f5f7;
 
 		// GROUP HEADINGS
 		h2 {
@@ -207,7 +207,7 @@ body {
 			li {
 				// size
 				height: 23px;
-				padding: 10px 8px 0px 12px;
+				padding: 5px 0px 5px 15px;
 
 				// font
 				font-size: 13px;
@@ -215,6 +215,13 @@ body {
 				font-weight: bold;
 				line-height: 23px;
 				text-indent: 0;
+
+				border-bottom: 1px solid #E1E2E4;
+				@include background(linear-gradient(top, #F8F8F8 0%, #F3F4F6 100%));
+
+				&:hover {
+					@include background(linear-gradient(top, #fff 0%, #F7F8FA 100%));
+				}
 
 				// DRAG HOVER
 				&.dragHover:not(.selected) {
@@ -249,6 +256,7 @@ body {
 						// position
 						left: 5px;
 						top: 6px;
+						display: none !important;
 
 						// color
 						background: url(../../images/whitesprite.png) no-repeat -1px -145px;
@@ -299,7 +307,6 @@ body {
 					width: 50px;
 
 					// position
-					margin-right: 20px;
 					text-align: center;
 				}
 			}
