@@ -165,37 +165,59 @@ body {
 		background-color: #f4f5f7;
 
 		// GROUP HEADINGS
+
+		h2[data-translate=focus] {
+			display: none;
+		}
+
+		span[data-translate=lists] {
+			display: none;
+		}
+
 		h2 {
 			// position
 			margin: 0;
-			padding: 10px 25px 10px 15px;
-			display: none;
+			top: 100%;
+			height: 36px;
+			margin-top: -36px;
+			padding: 0;
+			position: fixed;
 
 			// font
-			font-weight: bold;
 			font-size: 13px;
 			line-height: 13px;
 
 			// color
-			color: #222;
-			background: #FAFAFA;
-			border-bottom: 1px solid #CCC;
-			border-top: 1px solid #CCC;		
-			box-shadow: 0 0 3px #ddd inset;
+			color: #fff;
+			font-weight: bold;
+			border-top: 1px solid #4a4a4a;
+			@include background(linear-gradient(top, #646464 0%, #424242 100%));
 
 			// ADD LIST BUTTON
 			#addListBTN {
 				// size
-				width: 8px;
-				height: 8px;
+				width: 252px;
+				height: 27px;
 				padding: 4px;
 
+				&::before {
+					content: 'Add List';
+					display: inline-block;
+					@include background(linear-gradient(top, #43a4ef 0%, #1773b4 100%));
+					padding: 3px 8px;
+					font-size: 11px;
+					box-shadow: 0px 1px 1px #676767, 0 1px 0 rgba(255,255,255,0.3) inset;
+					border: 1px solid #343434;
+					border-radius: 16px;
+					text-shadow: 0px 1px 1px #176EA5;
+					margin: 2px;
+				}
+
 				// background
-				border-radius: 50%;
-				background: url(../../images/whitesprite.png) no-repeat 4px -413px;
+				background: transparent;
 
 				&:hover {
-					background: #e2e2e2 url(../../images/whitesprite.png) no-repeat 4px -413px;
+					background: transparent;
 				}
 			}
 		}
