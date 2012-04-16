@@ -234,6 +234,9 @@ body {
     color: #fff;
     font-size: 14px;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }
+  #content #tasks p {
+    color: #eee;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); }
   #content #tasks h2 {
     font-size: 18px;
     word-wrap: break-word;
