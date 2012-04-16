@@ -1005,6 +1005,9 @@ ui = {
 						var task = cli.taskData(id).display();
 						task.date = cli.calc.dateConvert($('#datepicker').datepicker('getDate'));
 
+						//Draws the date label
+						$('.date').removeClass().addClass('date').addClass(cli.calc.prettyDate.difference(task.date)[1]);
+
 						cli.taskData(id).edit(task);
 
 						//Edits UI

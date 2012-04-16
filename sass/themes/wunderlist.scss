@@ -390,7 +390,7 @@ body {
 				margin-bottom: -1px;
 
 				// background
-				border: 1px solid #bebebe;
+				border: none;
 				background: #fcfcfc;
 				@include background(linear-gradient(top, color-stops(#fff 0%, #f9f9f9 100%)));
 				border-radius: 5px;
@@ -442,7 +442,9 @@ body {
 						border-left: 1px solid #ddd;
 							
 							&.due {
-								@include background(linear-gradient(top, color-stops(#Fff9f9 0%, #Fdd 100%)));
+								color: #fff;
+								font-weight: bold;
+								@include background(linear-gradient(top, #ef2929 0%, #cc0000 50%, #a40000 100%));
 							}
 						}
 

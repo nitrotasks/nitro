@@ -252,7 +252,7 @@ body {
     margin-bottom: 30px; }
     #content #tasks ul li {
       margin-bottom: -1px;
-      border: 1px solid #bebebe;
+      border: none;
       background: #fcfcfc;
       background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #f9f9f9));
       background: -webkit-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
@@ -291,12 +291,14 @@ body {
           #content #tasks ul li .labels span.date, #content #tasks ul li .labels span.dateLabel {
             border-left: 1px solid #ddd; }
             #content #tasks ul li .labels span.date.due, #content #tasks ul li .labels span.dateLabel.due {
-              background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fff9f9), color-stop(100%, #ffdddd));
-              background: -webkit-linear-gradient(top, #fff9f9 0%, #ffdddd 100%);
-              background: -moz-linear-gradient(top, #fff9f9 0%, #ffdddd 100%);
-              background: -o-linear-gradient(top, #fff9f9 0%, #ffdddd 100%);
-              background: -ms-linear-gradient(top, #fff9f9 0%, #ffdddd 100%);
-              background: linear-gradient(top, #fff9f9 0%, #ffdddd 100%); }
+              color: #fff;
+              font-weight: bold;
+              background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ef2929), color-stop(50%, #cc0000), color-stop(100%, #a40000));
+              background: -webkit-linear-gradient(top, #ef2929 0%, #cc0000 50%, #a40000 100%);
+              background: -moz-linear-gradient(top, #ef2929 0%, #cc0000 50%, #a40000 100%);
+              background: -o-linear-gradient(top, #ef2929 0%, #cc0000 50%, #a40000 100%);
+              background: -ms-linear-gradient(top, #ef2929 0%, #cc0000 50%, #a40000 100%);
+              background: linear-gradient(top, #ef2929 0%, #cc0000 50%, #a40000 100%); }
           #content #tasks ul li .labels span.today.inToday, #content #tasks ul li .labels span.today.todayLabel, #content #tasks ul li .labels span.todayLabel.inToday, #content #tasks ul li .labels span.todayLabel.todayLabel {
             background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #fff3d9));
             background: -webkit-linear-gradient(top, #ffffff 0%, #fff3d9 100%);
