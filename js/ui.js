@@ -479,6 +479,12 @@ ui = {
 	},
 	reload: function() {
 		ui.tasks.populate(ui.lists.selected());
+		/* Makes lists show up */
+		$('#userLists').html('');
+		for (var i=0; i<cli.storage.lists.order.length; i++) {
+			$('#userLists').append('<li id="' + cli.storage.lists.order[i] + 'List"><div class="editIcon" title="' + $.i18n._('titleEditList') + '"></div><div class="view">' + cli.storage.lists.items[cli.storage.lists.order[i]].name  + '<div class="count">0</div></div><div class="edit"><input type="text" value="' +  cli.storage.lists.items[cli.storage.lists.order[i]].name + '"><div class="delete" title="' + $.i18n._('titleDeleteList') + '"></div><div class="save" title="' + $.i18n._('titleSaveList') + '"></div></div></li>');
+		}
+		ui.lists.updateCount();
 	},
 	lists: {
 		selected: function() { 
