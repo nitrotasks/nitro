@@ -22,7 +22,7 @@ var cli = {
 		upgrade: function() {
 			for(var id in cli.storage.tasks) {
 				if(!cli.storage.tasks[id].hasOwnProperty('time')) {
-					console.log("Upgrading to newer database. Don't blame us if it deletes your tasks!")
+					console.log("Upgrading database to Nitro 1.1 (timestamps)")
 					for(var id in cli.storage.tasks) {
 						cli.storage.tasks[id].time = {
 							content: 0,
