@@ -719,4 +719,15 @@ button {
 #date {
 	position: absolute;
 }
+
+#loading {
+	height: 100%;
+	width: 100%;
+	background: #fff;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+}
+
 @import "jquery-ui-1.8.16.custom";

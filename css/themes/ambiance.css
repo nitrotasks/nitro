@@ -363,3 +363,6 @@ body {
         background: -ms-linear-gradient(bottom, #ffbbbb 15%, #ffaaaa 100%);
         background: linear-gradient(bottom, #ffbbbb 15%, #ffaaaa 100%);
         border: 1px solid #f44; }
+
+#loading {
+  display: none; }

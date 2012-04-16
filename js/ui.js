@@ -40,6 +40,9 @@ $(document).ready(function() {
 
 	$('link.theme').attr('href', 'css/themes/' + cli.storage.prefs.theme + '.css');
 
+	//Give some time for the theme to load
+	setTimeout("$(window).resize()", 600);
+
 	//Loads - Python Version
 	//document.title = 'null';
 	//document.title = 'load|' + cli.storage.prefs.lang + '.json';
@@ -87,17 +90,15 @@ function language(data) {
 
 	//This has to be done after language
 	//Resizes tasks
-	$(window).resize()
 	ui.init();
 	ui.tasks.init();
 	ui.tasks.selected.init();
 	ui.lists.updateCount('all');
 	ui.tasks.populate(ui.lists.selected());
-
 }
 
 $(window).resize(function() {
-	$('#userLists').height($(window).height() - 200);
+	$('#userLists').height($(window).height() - $('#userLists').offset().top);
 })
 
 
@@ -397,6 +398,9 @@ ui = {
 			//Saves Theme
 			cli.storage.prefs.theme = theme;
 			cli.storage.save();
+
+			//Gives some time for the theme to change
+			setTimeout("$(window).resize()", 600);
 		});
 
 		//Select box

@@ -744,6 +744,16 @@ button {
 #date {
   position: absolute; }
 
+#loading {
+  height: 100%;
+  width: 100%;
+  background: #fff;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000; }
+
 /*
  * jQuery UI Bootstrap (0.22)
  * http://addyosmani.github.com/jquery-ui-bootstrap
