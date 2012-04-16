@@ -78,7 +78,7 @@ body {
       border-radius: 3px;
       margin-left: 7px;
       background: url(../../images/whitesprite.png) no-repeat 5px -65px, white;
-      -webkit-transition: 200ms ease all; }
+      -webkit-transition: 200ms ease width; }
       #panel #right ul li #search:focus {
         width: 250px; }
 
