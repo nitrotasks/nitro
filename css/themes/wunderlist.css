@@ -198,13 +198,13 @@ body {
       box-shadow: 0 1px 0 #75a9e2 inset, 0 -1px 0 #5080c7 inset; }
       #content #sidebar ul li.selected .editIcon {
         left: 205px;
-        top: 6px;
+        top: 7px;
         background: url(../../images/whitesprite.png) no-repeat -1px -145px; }
     #content #sidebar ul li .edit input {
       padding: 3px 4px;
       margin-left: -5px;
       margin-right: 5px;
-      width: 168px;
+      width: 195px;
       border: 0;
       outline: 0;
       background: white;
