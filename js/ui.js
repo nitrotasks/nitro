@@ -177,7 +177,7 @@ ui = {
 				ui.lists.closeEditMode();
 
 				//Sends the id of the list to populate
-				var id = $(this).attr('id').substring(0, $(this).attr('id').length - 4);
+				var id = $(this).attr('id').slice(0, -4);
 				ui.tasks.populate(id);
 			}
 		});
@@ -251,9 +251,9 @@ ui = {
 		$('#deleteBTN').click(function() {
 			if (cli.storage.prefs.deleteWarnings) {
 				if($('#tasks .selected').length) {
-					var id = $('#tasks .selected').attr('id').substr(4, $('#tasks .selected').attr('id').length);
+					var id = $('#tasks .selected').attr('id').substr(4);
 				} else {
-					var id = $('#tasks .expanded').attr('id').substr(4, $('#tasks .expanded').attr('id').length);
+					var id = $('#tasks .expanded').attr('id').substr(4);
 				}
 				cli.deleteTask(id);
 				$('#task' + id).remove();
@@ -273,9 +273,9 @@ ui = {
 						.on('click', function() {
 							$(this).parent().fadeOut(75);
 							if($('#tasks .selected').length) {
-								var id = $('#tasks .selected').attr('id').substr(4, $('#tasks .selected').attr('id').length);
+								var id = $('#tasks .selected').attr('id').substr(4);
 							} else {
-								var id = $('#tasks .expanded').attr('id').substr(4, $('#tasks .expanded').attr('id').length);
+								var id = $('#tasks .expanded').attr('id').substr(4);
 							}
 							cli.deleteTask(id);
 							$('#task' + id).remove();
@@ -441,7 +441,7 @@ ui = {
 
 				//Loops through lists & adds the to an array
 				$('#userLists').children().map(function() { 
-					listOrder.push(parseInt($(this).attr('id').substring(0, $(this).attr('id').length - 4))); 
+					listOrder.push(parseInt($(this).attr('id').slice(0, -4))); 
 				});
 
 				//Saves
@@ -475,7 +475,7 @@ ui = {
 	lists: {
 		selected: function() { 
 			if($('#sidebar ul li.selected').length) {
-				return $('#sidebar ul li.selected').attr('id').substring(0, $('#sidebar ul li.selected').attr('id').length - 4);	
+				return $('#sidebar ul li.selected').attr('id').slice(0, -4);	
 			} else {
 				return '';
 			}
@@ -530,15 +530,15 @@ ui = {
 			switch(type) {
 				case 'all':
 					$('#sidebar ul li').map(function() {
-						var list = $(this).attr('id').substring(0, $(this).attr('id').length - 4);
+						var list = $(this).attr('id').slice(0, -4);
 						$('#sidebar ul li#' + list + 'List .count').html(cli.populate('list', list).length);
 					});
 					return;
 				case 'selected':
-					var list = $('#sidebar ul li.selected').attr('id').substring(0, $('#sidebar ul li.selected').attr('id').length - 4);
+					var list = $('#sidebar ul li.selected').attr('id').slice(0, -4);
 					break;
 				default:
-					var list = $('#sidebar ul li#' + type + 'List').attr('id').substring(0, $('#sidebar ul li#' + type + 'List').attr('id').length - 4);
+					var list = $('#sidebar ul li#' + type + 'List').attr('id').slice(0, -4);
 					break;
 			}
 			$('#sidebar ul li#' + list + 'List .count').html(cli.populate('list', list).length);
@@ -547,19 +547,19 @@ ui = {
 			hoverClass: "dragHover",
 			accept: '#tasks ul li',
 			drop: function(event, uix) {
-				listId = $(this).attr('id').substring(0, $(this).attr('id').length - 4);
-				taskId = $(uix.draggable).attr('id').substring(4, $(uix.draggable).attr('id').length);
+				listId = $(this).attr('id').slice(0, -4);
+				taskId = $(uix.draggable).attr('id').substr(4);
 
 				//Next list if task is dropped into same list
 				if (ui.lists.selected() == 'next') {
 
-					if (cli.taskData(taskId).display().list == $(event.target).attr('id').substring(0, $(event.target).attr('id').length - 4)) {
+					if (cli.taskData(taskId).display().list == $(event.target).attr('id').slice(0, -4)) {
 						return;
 					}
 				};
 
 				//If item in Today is added to today
-				if ($(event.target).attr('id').substring(0, $(event.target).attr('id').length - 4) == 'today') {
+				if ($(event.target).attr('id').slice(0, -4) == 'today') {
 					cli.today(taskId).add();
 				} else {
 					//Moves Task
@@ -698,7 +698,7 @@ ui = {
 					var from = event.target.id;
 					var to = $(elem.item).parent().attr('id');
 
-					var id = $(elem.item).attr('id').substring(4, $(elem.item).attr('id').length);
+					var id = $(elem.item).attr('id').substr(4);
 					var data = cli.taskData(id).display();
 
 					//If the list has been changed...
@@ -752,7 +752,7 @@ ui = {
 					if ($(this).hasClass('hidden')) {
 						taskOrder.push($(this).attr('data-id'));
 					} else {
-						var id = $(this).attr('id').substring(4, $(this).attr('id').length); 
+						var id = $(this).attr('id').substr(4); 
 						taskOrder.push(id);
 					};								
 				};	
@@ -771,7 +771,7 @@ ui = {
 							if ($(this).children('input[type=checkbox]').attr('checked')) {
 								//Log item
 							} else {
-								var id = $(this).attr('id').substring(4, $(this).attr('id').length); 
+								var id = $(this).attr('id').substr(4); 
 								tmpOrder.push(id);
 							};
 						});
@@ -846,7 +846,7 @@ ui = {
 			// Checking off tasks
 			$('body').on('change', '#tasks ul li input[type=checkbox]', function() {
 
-				var id = $(this).closest('li').attr('id').substr(4, $(this).closest('li').attr('id').length);
+				var id = $(this).closest('li').attr('id').substr(4);
 				cli.logbook(id);
 
 				if ($(this).prop('checked')) {
@@ -867,7 +867,7 @@ ui = {
 			$('body').on('click', '#tasks .priority', function() {
 
 				// Get id of task
-				var id = $(this).closest('li').attr('id').substr(4, $(this).closest('li').attr('id').length);
+				var id = $(this).closest('li').attr('id').substr(4);
 
 				// Remove old checkbox colour
 				$('#tasks #task' + id).removeClass(cli.priority(id).get());
@@ -932,7 +932,7 @@ ui = {
 		selected: {
 			init: function() {
 				$('body').on('blur', '#tasks ul li .todotxt input', function() {
-					var id = $(this).parent().parent().parent().attr('id').substring(4, $(this).parent().parent().parent().attr('id').length);
+					var id = $(this).parent().parent().parent().attr('id').substr(4);
 					var data = cli.taskData(id).display();
 
 					//Edits Data
@@ -941,7 +941,7 @@ ui = {
 				});
 
 				$('body').on('click', '.#tasks ul li .labels .today', function() {
-					var id = $(this).parent().parent().parent().attr('id').substring(4, $(this).parent().parent().parent().attr('id').length);
+					var id = $(this).parent().parent().parent().attr('id').substr(4);
 	
 					if ($(this).hasClass('inToday')) {
 						//Takes out of today
@@ -991,7 +991,7 @@ ui = {
 				/* Date Select */
 				$('#datepicker').datepicker({
 					onSelect: function() {
-						var id = $('#tasks ul li.expanded').attr('id').substring(4, $('#tasks ul li.expanded').attr('id').length);
+						var id = $('#tasks ul li.expanded').attr('id').substr(4);
 
 						//Saves Date
 						var task = cli.taskData(id).display();
@@ -1018,7 +1018,7 @@ ui = {
  
 				//Remove Date
 				$('#removeDate').click(function() {
-					var id = $('#tasks ul li.expanded').attr('id').substring(4, $('#tasks ul li.expanded').attr('id').length);
+					var id = $('#tasks ul li.expanded').attr('id').substr(4);
 
 					//Hides window thing
 					$('#date').hide(0);
@@ -1061,7 +1061,7 @@ ui = {
 					$('#date').show();
 					
 					//Puts new data into date picker
-					var id = $(this).parent().parent().parent().attr('id').substring(4, $(this).parent().parent().parent().attr('id').length);
+					var id = $(this).parent().parent().parent().attr('id').substr(4);
 					var date = cli.taskData(id).display().date;
 					
 					//Only populate date picker if it has a date
@@ -1099,7 +1099,7 @@ ui = {
 
 				/* Show in Today */
 				$('#showTime').change(function() {
-					var id = $('#tasks ul li.expanded').attr('id').substring(4, $('#tasks ul li.expanded').attr('id').length);
+					var id = $('#tasks ul li.expanded').attr('id').substr(4);
 
 					//Saves Date
 					var task = cli.taskData(id).display();
@@ -1120,7 +1120,7 @@ ui = {
 
 				/* Notes */
 				$('body').on('blur', '#tasks ul li textarea', function() {
-					var id = $(this).parent().parent().attr('id').substring(4, $(this).parent().parent().attr('id').length);
+					var id = $(this).parent().parent().attr('id').substr(4);
 					var data = cli.taskData(id).display();
 
 					//Edits Data
@@ -1131,7 +1131,7 @@ ui = {
 			},
 			expand: function(id) {
 				id.addClass('expanded').removeClass('selected');
-				var data = id.attr('id').substring(4, id.attr('id').length);
+				var data = id.attr('id').substr(4);
 				var taskData = cli.taskData(data).display();
 
 				//Draws the Today Label
@@ -1167,7 +1167,7 @@ ui = {
 				if (id.attr('id')) {
 
 					//Gets taskData
-					var data = id.attr('id').substring(4, id.attr('id').length);
+					var data = id.attr('id').substr(4);
 					var taskData = cli.taskData(data).display()
 
 					//Calculates labels
