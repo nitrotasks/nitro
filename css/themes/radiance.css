@@ -98,7 +98,7 @@ body {
       border-radius: 5px; }
     #panel #right ul li #search {
       top: -2px;
-      border: 0;
+      border: 1px solid rgba(0, 0, 0, 0.3);
       position: relative;
       width: 100px;
       line-height: 13px;
@@ -111,7 +111,8 @@ body {
       background: url(../../images/whitesprite.png) no-repeat 5px -366px, white;
       -webkit-transition: 200ms ease width; }
       #panel #right ul li #search:focus {
-        width: 250px; }
+        width: 250px;
+        border: 1px solid #e96d3a; }
 
 #content #sidebar {
   width: 250px;
