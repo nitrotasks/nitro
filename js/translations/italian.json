@@ -1,6 +1,6 @@
 {
-	"author": "Jono Cooper <jono@jonocooper.com>",
-	"jqueryui": "en",
+	"author": "Luigi Massa <lmassa@bwlab.it.com>",
+	"jqueryui": "jquery.ui.datepicker-it.js",
 
 	"listWarning": "Sei sicuro di voler cancellare la lista? Tutte le attività in tale elenco verranno cancellati.",
 	"taskWarning": "Sei sicuro di voler cancellare tale compito? Sarà perso per sempre",

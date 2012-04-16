@@ -1,6 +1,6 @@
 {
 	"author":				"Nguyễn Đình Quân <dinhquan@narga.net>",
-	"jqueryui":				"en",
+	"jqueryui":				"jquery.ui.datepicker-vi.js",
 
 	"listWarning":    		"Bạn muốn xóa danh sách này? Tất cả các việc cần làm trong danh sách này sẽ bị xóa hoàn toàn.",
 	"taskWarning":    		"Bạn muốn xóa việc này? Sẽ không thể khôi phục lại sau khi xóa.",

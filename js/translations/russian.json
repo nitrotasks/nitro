@@ -1,6 +1,6 @@
 {
-	"author":				"Pryakhin Andrej <a.pryah@gmail.com.com>",
-	"jqueryui":				"ru",
+	"author":				"Pryakhin Andrej <a.pryah@gmail.com>",
+	"jqueryui":				"jquery.ui.datepicker-ru.js",
 
 	"listWarning":    		"Вы действительно хотите удалить этот список? Все задачи в этом списке будут удалены.",
 	"taskWarning":    		"Вы уверены, что хотите удалить эту задачу? Она будет потеряна навсегда.",

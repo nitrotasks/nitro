@@ -1,6 +1,6 @@
 {
-	"author":				"Jono Cooper <jono@jonocooper.com>",
-	"jqueryui":				"fr",
+	"author":				"Raphaël Maurin <maurin.raphael@gmail.com>",
+	"jqueryui":				"jquery.ui.datepicker-fr.js",
 
 	"listWarning":    		"Êtes-vous sur de vouloir supprimer cette liste ? Toutes les tâches de la liste seront également supprimées.",
 	"taskWarning":    		"Êtes-vous sur de vouloir supprimer cette tâche ? Elle sera effacée à jamais.",

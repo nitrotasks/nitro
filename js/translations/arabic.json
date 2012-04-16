@@ -1,6 +1,6 @@
 {
 	"author":				"Fouad Hassouneh <fouad.hassouneh@gmail.com>",
-	"jqueryui":				"en",
+	"jqueryui":				"jquery.ui.datepicker-ar.js",
 
 	"listWarning":    		"هل أنت متأكد أنك تريد حذف هذه القائمة؟ سيتم حذف جميع المهام في تلك القائمة أيضا",
 	"taskWarning":    		"هل أنت متأكد أنك تريد حذف هذه المهمة؟ هذه المهمة سوف تحذف للأبد",
