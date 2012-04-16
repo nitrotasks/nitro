@@ -1,0 +1,78 @@
+{
+	"author":				"Nguyễn Đình Quân <dinhquan@narga.net>",
+	"jqueryui":				"en",
+
+	"listWarning":    		"Bạn muốn xóa danh sách này? Tất cả các việc cần làm trong danh sách này sẽ bị xóa hoàn toàn.",
+	"taskWarning":    		"Bạn muốn xóa việc này? Sẽ không thể khôi phục lại sau khi xóa.",
+	
+	"todayText":      		"Mục <strong>Hôm nay</strong> liệt kê các việc cần làm trong khoảng thời gian có ngày hiện tại.",
+	"nextText":       		"Các việc dự định tiếp theo sẽ hiển thị trong mục <strong>Sắp làm</strong>. Các việc trong ngày hiện tại và ba việc gần nhất sẽ hiển thị tại đây.",
+	"somedayText":    		"Mục <strong>Chưa làm</strong> liệt kê các việc chưa xác định thời điểm làm.",
+	"logbookText":    		"Mục <strong>Nhật ký</strong> ghi lại toàn bộ các việc bạn đã hoàn thành.",
+	"customText":     		"Không có việc cần làm nào trong danh sách này.",
+
+	"yesTask":        		"Xóa việc cần làm",
+	"yesList":        		"Xóa danh sách việc",
+	"cancelDialog":    		"Hủy bỏ",
+	"warningText":			"Cảnh báo!",
+	"languageText":			"Chọn ngôn ngữ",
+
+	"add":            		"Tạo việc mới",
+	"edit":           		"Sửa",
+	"delete":         		"Xóa",
+	"logbook":        		"Nhật ký sự kiện",
+	"settings":       		"Thiết lập",
+	"search":         		"Tìm kiếm",
+	
+	"hideWarnings":   		"Không cảnh báo khi xóa!",
+	"lowGraphics":    		"Hiển thị với độ phân giải thấp",
+	"nextNoLists":    		"Không hiện danh sách này trong mục <strong>Sắp làm</strong>",
+	"nextThreeLists": 		"Hiện ba việc gần nhất trong mục <strong>Sắp làm</strong>",
+	"nextEntireLists":		"Hiện toàn bộ trong mục <strong>Sắp làm</strong>",
+
+	"focus":          		"Quan trọng",
+	"lists":          		"Danh sách",
+	"today":          		"Hôm nay",
+	"next":           		"Sắp làm",
+	"someday":        		"Chưa làm",
+
+	"newList":        		"Danh sách mới",
+	"newTask":        		"Việc mới",
+
+	"taskName":				"Tên việc",
+	"notes":          		"Ghi chú",
+	"showInToday":    		"Hiển thị trong bảng Hôm nay",
+	"removeFromToday":		"Không hiện trong bảng Hôm nay",
+	"none":           		"Không",
+	"low":            		"Thấp",
+	"medium":         		"Trung bình",
+	"important":      		"Quan trọng",
+	"setDueDate":     		"Đặt khoảng thời gian",
+	"removeDueDate":  		"Bỏ khoảng thời gian đã đặt",
+	"doToday":        		"Làm hôm nay",
+
+	"oneMore":      		"Hiện thêm một việc",
+	"morethanOne":			"Hiện thêm %s việc",
+
+	"dayLeft":				"còn 1 ngày",
+	"daysLeft": 			"còn %s ngày",
+	"dayOverdue": 			"Trong vòng 1 ngày",
+	"daysOverdue":			"Trong vòng %s ngày",
+	"month":				["Tháng một", "Tháng hai", "Tháng ba", "Tháng tư", "Tháng năm", "Tháng sáu", "Tháng bảy", "Tháng tám", "Tháng chín", "Tháng mười", "Tháng mười một", "Tháng mười hai"],
+
+	"searchResults":  		"Kết quả tìm kiếm: ",
+
+	"titleAddTask":   		"Tạo một việc mới",
+	"titleEditTask":  		"Sửa việc đã chọn",
+	"titleDeleteTask":		"Xóa việc đã chọn",
+
+	"titleAddList":   		"Thêm danh sách",
+	"titleDeleteList":		"Xóa danh sách",
+	"titleEditList":  		"Sửa danh sách",
+	"titleSaveList":  		"Lưu các thay đổi",
+
+	"showTime":				"Hiện trong <strong>Hôm nay</strong>:",
+	"1day":					"trước một ngày",
+	"moreday":				"trước %s ngày",
+	"never":				"Không hiện"
+}
