@@ -588,8 +588,8 @@ var cli = {
 					if(difference < 0) {
 						// Overdue
 						difference = Math.abs(difference);
-						if(difference != 1) return [$.i18n._('daysOverdue', [difference]), 'due'];
-						else return [$.i18n._('dayOverdue'), 'due'];
+						if(difference != 1) return [$.i18n._('daysOverdue', [difference]), 'overdue'];
+						else return [$.i18n._('dayOverdue'), 'overdue'];
 					} else if(difference == 0) {
 						// Due
 						return ["due today", 'due']
