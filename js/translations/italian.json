@@ -5,10 +5,10 @@
 	"listWarning": "Sei sicuro di voler cancellare la lista? Tutte le attività in tale elenco verranno cancellati.",
 	"taskWarning": "Sei sicuro di voler cancellare tale compito? Sarà perso per sempre",
 
-	"todayText": "La lista <strong>Oggi</ strong> è per tutte le cose che vuoi fare oggi. Le attività in scadenza si trovano in cima alla lista",
-	"nextText": "Le attività in scadenza sono mostrate in <strong>Prossimo</ strong>. Le attività di oggi e le prime tre delle altre liste saranno mostrate in automatico in cima.",
-	"somedayText": "La lista <strong>Qualche giorno</ strong> contiene attivià di cui non si sa esattamente quando pianificarle",
-	"logbookText": "La lista <strong>Passate</ strong> contiene tutte le attività completate",
+	"todayText": "La lista <strong>Oggi</strong> è per tutte le cose che vuoi fare oggi. Le attività in scadenza si trovano in cima alla lista",
+	"nextText": "Le attività in scadenza sono mostrate in <strong>Prossimo</strong>. Le attività di oggi e le prime tre delle altre liste saranno mostrate in automatico in cima.",
+	"somedayText": "La lista <strong>Qualche giorno</strong> contiene attivià di cui non si sa esattamente quando pianificarle",
+	"logbookText": "La lista <strong>Passate</strong> contiene tutte le attività completate",
 	"customText": "Non ci sono compiti in questa",
 
 	"yesTask": "Elimina attività",
