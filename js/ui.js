@@ -1190,7 +1190,7 @@ ui = {
 					}
 
 					//Turns edit mode off
-					id.children().children('.todotxt').html(taskData.content);
+					id.children().children('.todotxt').html(id.find('input[type="text"]').val());
 					id.children().children('.labels').html(today + date);
 
 					//Animations
