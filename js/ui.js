@@ -98,7 +98,11 @@ function language(data) {
 }
 
 $(window).resize(function() {
-	$('#userLists').height($(window).height() - $('#userLists').offset().top);
+	if(cli.storage.prefs.theme == 'wunderlist') {
+		$('#userLists').height($(window).height() - $('#userLists').offset().top - 36);
+	} else {
+		$('#userLists').height($(window).height() - $('#userLists').offset().top);
+	}
 })
 
 

@@ -274,7 +274,8 @@ body {
 					// EDIT ICON (SELECTED)
 					.editIcon {
 						// position
-						left: 205px;
+						left: auto;
+						right: 40px;
 						top: 7px;
 
 						// color
@@ -293,7 +294,7 @@ body {
 						margin-right: 5px;
 
 						// size
-						width: 195px;
+						width: 175px;
 						border: 0;
 						outline: 0;
 
