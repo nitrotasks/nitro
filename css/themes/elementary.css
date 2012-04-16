@@ -1,11 +1,10 @@
-/* Adwaita Theme
+/* Elementary Theme
  * Author: Jono Cooper
  * http://caffeinatedco.de
  */
 body {
   background: #f4f4f4;
-  font-family: "Helvetica", "Arial", "Ubuntu", sans-serif;
-  text-rendering: optimizelegibility; }
+  font-family: "Helvetica", "Arial", "Ubuntu", sans-serif; }
 
 #panel {
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #dedede), color-stop(100%, #bababa));
