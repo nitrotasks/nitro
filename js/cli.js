@@ -21,26 +21,28 @@ var cli = {
 		},
 		upgrade: function() {
 			for(var id in cli.storage.tasks) {
-				if(!cli.storage.tasks[id].hasOwnProperty('time')) {
-					console.log("Upgrading database to Nitro 1.1 (timestamps)")
-					for(var id in cli.storage.tasks) {
-						cli.storage.tasks[id].time = {
-							content: 0,
-							priority: 0,
-							date: 0,
-							notes: 0,
-							today: 0,
-							showInToday: 0,
-							list: 0,
-							logged: 0
+				if(id != 'length') {
+					if(!cli.storage.tasks[id].hasOwnProperty('time')) {
+						console.log("Upgrading database to Nitro 1.1 (timestamps)")
+						for(var id in cli.storage.tasks) {
+							cli.storage.tasks[id].time = {
+								content: 0,
+								priority: 0,
+								date: 0,
+								notes: 0,
+								today: 0,
+								showInToday: 0,
+								list: 0,
+								logged: 0
+							}
 						}
+						for(var id in cli.storage.lists.items) {
+							if(id != 0 && id != 'today' && id != 'next' && id != 'someday') cli.storage.lists.items[id].time = 0;
+						}
+						cli.storage.save();
 					}
-					for(var id in cli.storage.lists.items) {
-						if(id != 0 && id != 'today' && id != 'next' && id != 'someday') cli.storage.lists.items[id].time = 0;
-					}
-					cli.storage.save();
+					break;
 				}
-				break;
 			}
 		}
 	},
