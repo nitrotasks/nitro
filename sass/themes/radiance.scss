@@ -49,13 +49,13 @@ body {
 
 				// HOVER
 				&:hover {
-					@include background(linear-gradient(bottom, #393934 0%, #403e3a 100%));
+					@include background(linear-gradient(bottom, #d4cac0 0%, #f0ebe7 100%));
 					box-shadow: inset 0 0 1px rgba(255,255,255,0.5);
-					border: 1px solid #343430;
+					border: 1px solid rgba(0,0,0,0.2);
 				}
 				&:active {
-					@include background(linear-gradient(bottom, #2f2e2b 0%, #32312d 100%));
-					box-shadow: inset 0 1px 2px rgba(0,0,0,0.5);
+					background: #cfc4b9;
+					box-shadow: inset 0 1px 1px rgba(0,0,0,0.2);
 					border: 1px solid transparent;
 				}
 
@@ -101,13 +101,13 @@ body {
 				border: 1px solid transparent;
 
 				&:not(:last-of-type):hover {
-					@include background(linear-gradient(bottom, #393934 0%, #403e3a 100%));
+					@include background(linear-gradient(bottom, #d4cac0 0%, #f0ebe7 100%));
 					box-shadow: inset 0 0 1px rgba(255,255,255,0.5);
-					border: 1px solid #343430;
+					border: 1px solid rgba(0,0,0,0.2);
 				}
 				&:not(:last-of-type):active {
-					@include background(linear-gradient(bottom, #2f2e2b 0%, #32312d 100%));
-					box-shadow: inset 0 1px 1px rgba(0,0,0,0.5);
+					background: #cfc4b9;
+					box-shadow: inset 0 1px 1px rgba(0,0,0,0.2);
 					border: 1px solid transparent;
 				}
 
