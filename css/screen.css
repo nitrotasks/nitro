@@ -632,12 +632,15 @@ body {
   position: absolute;
   top: 30%;
   left: 50%;
-  margin: 0 0 0 -30px;
   z-index: 10;
   background: #fff;
   border-radius: 5px;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.75);
   /*Center Buttons*/ }
+  .modal#languageDialog {
+    margin: 0 0 0 -137px; }
+  .modal#warning {
+    margin: 0 0 0 -30px; }
   .modal h3 {
     border-radius: 5px 5px 0 0;
     text-align: center;
@@ -654,11 +657,11 @@ body {
     border-bottom: 1px solid #fff;
     font-size: 15px;
     text-shadow: 0 1px 0 #fff;
+    box-shadow: 0 1px 0 #ccc;
     color: #3b3b3b; }
   .modal p {
     margin: 0;
     padding: 15px 15px 13px;
-    border-top: 1px solid #ccc;
     display: block;
     width: 310px;
     font-size: 13px;
