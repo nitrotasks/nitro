@@ -1,0 +1,78 @@
+{
+	"author":				"Rami Selin <rami.selin@gmail.com>",
+	"jqueryui":				"jquery.ui.datepicker-fi.js",
+
+	"listWarning":    		"Haluatko varmasti poistaa tämän listan? Kaikki listalla olevat tehtävät poistetaan myös.",
+	"taskWarning":    		"Haluatko varmasti poistaa tämän tehtävän? Se katoaa ikuisiksi ajoiksi (pitkä aika).",
+	
+	"todayText":      		"<strong>Tämänpäiväiset</strong>-lista on niille asioille, jotka haluat tehdä tänään. Erääntyvät tehtävät löytyvät täältä automaattisesti.",
+	"nextText":       		"Tulevat tehtävät löytyvät <strong>Seuraavista</strong>. Tämänpäiväiset tehtävät ja kolme muuta muista listoista löytyvät täältä automaattisesti.",
+	"somedayText":    		"<strong>Joskus</strong>-lista on tehtäville, joiden tekemiseen et ole vielä varannut aikaa.",
+	"logbookText":    		"<strong>Lokikirja</strong> sisältää tiedot kaikista suoritetuista tehtävistä.",
+	"customText":     		"Listallasi ei ole tehtäviä.",
+
+	"yesTask":        		"Poista tehtävä",
+	"yesList":        		"Poista lista",
+	"cancelDialog":    		"Peruuta",
+	"warningText":			"Varoitus!",
+	"languageText":			"Valitse kielesi",
+
+	"add":            		"Lisää",
+	"edit":           		"Muokkaa",
+	"delete":         		"Poista",
+	"logbook":        		"Logbook",
+	"settings":       		"Asetukset",
+	"search":         		"Hae",
+	
+	"hideWarnings":   		"Piilota poistovaroitukset",
+	"lowGraphics":    		"Matalan grafiikan tila",
+	"nextNoLists":    		"Älä näytä muita listoja Seuraavissa",
+	"nextThreeLists": 		"Näytä 3 tehtävää muista listoista Seuraavissa",
+	"nextEntireLists":		"Näytä kokonaiset listat Seuraavissa",
+
+	"focus":          		"Keskity",
+	"lists":          		"Listat",
+	"today":          		"Tämänpäiväiset",
+	"next":           		"Seuraavat",
+	"someday":        		"Joskus",
+
+	"newList":        		"Uusi lista",
+	"newTask":        		"Uusi tehtävä",
+
+	"taskName":				"Tehtävän nimi",
+	"notes":          		"Huomautukset",
+	"showInToday":    		"Näytä tämänpäiväisissä",
+	"removeFromToday":		"Poista tämänpäiväisistä",
+	"none":           		"Ei mitään",
+	"low":            		"Matala",
+	"medium":         		"Keski",
+	"important":      		"Tärkeä",
+	"setDueDate":     		"Aseta eräpäivä",
+	"removeDueDate":  		"Poista eräpäivä",
+	"doToday":        		"erääntyy tänään",
+
+	"oneMore":      		"Näytä 1 tehtävä lisää",
+	"morethanOne":			"Näytä %s tehtävää lisää",
+
+	"dayLeft":				"1 päivä jäljellä",
+	"daysLeft": 			"%s päivää jäljellä",
+	"dayOverdue": 			"Myöhässä 1 päivä",
+	"daysOverdue":			"Myöhässä %s päivää",
+	"month":				["tammi", "helmi", "maalis", "huhti", "touko", "kesä", "heinä", "elo", "syys", "loka", "marras", "joulu"],
+
+	"searchResults":  		"Hakutulokset: ",
+
+	"titleAddTask":   		"Lisää uusi tehtävä",
+	"titleEditTask":  		"Muokkaa valittua tehtävää",
+	"titleDeleteTask":		"Poista valittu tehtävä",
+
+	"titleAddList":   		"Lisää lista",
+	"titleDeleteList":		"Poista lista",
+	"titleEditList":  		"Muokkaa listaa",
+	"titleSaveList":  		"Tallenna muutokset",
+
+	"showTime":				"Näytä tämänpäiväisissä:",
+	"1day":					"1 päivää aiemmin",
+	"moreday":				"%s päivää aiemmin",
+	"never":				"Ei koskaan"
+}
