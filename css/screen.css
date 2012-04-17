@@ -687,10 +687,10 @@ body {
         .modal table tr a.current {
           font-weight: bold;
           color: #444; }
-      .modal table tr td:nth-of-type(2) {
+      .modal table tr td.author {
         font-style: italic;
         color: #888; }
-        .modal table tr td:nth-of-type(2) a {
+        .modal table tr td.author a {
           color: #555; }
   .modal button:first-of-type {
     margin-left: 58px; }

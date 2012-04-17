@@ -361,7 +361,7 @@ ui = {
 			e.preventDefault();
 			$('.settings').fadeOut(150);
 			$('#languageDialog a.current').removeClass('current');
-			$('#languageDialog td:first-of-type a').each(function() {
+			$('#languageDialog .language a').each(function() {
 				if($(this).data('value') == cli.storage.prefs.lang) {
 					$(this).addClass('current');
 				}
@@ -369,7 +369,7 @@ ui = {
 			$('#languageDialog').fadeIn(150).unbind('click').bind('click', function(e) {
 				e.stopPropagation(); // This is the preferred method.
 				console.log($(e.srcElement));
-				if($(e.srcElement).is('td:first-of-type a')) {
+				if($(e.srcElement).is('.language a')) {
 					cli.storage.prefs.lang = $(e.srcElement).data('value');
 					cli.storage.save();
 

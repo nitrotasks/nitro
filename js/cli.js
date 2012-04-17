@@ -69,7 +69,6 @@ var cli = {
 		// Creates a task
 
 		//Id of task
-		cli.storage.tasks.length = Math.floor(Math.random()*100000);
 		var id = cli.storage.tasks.length;
 		cli.storage.tasks.length++;
 
@@ -662,7 +661,7 @@ var cli = {
 		tasks: $.jStorage.get('tasks', {length: 0}),
 		queue: $.jStorage.get('queue', {}),
 		lists: $.jStorage.get('lists', {order: [], items:{today: {name: "Today", order:[]}, next: {name: "Next", order:[]}, someday: {name: "Someday", order:[]}, 0: {order:[]}, length: 1}}),
-		prefs: $.jStorage.get('prefs', {deleteWarnings: false, gpu: false, nextAmount: 'threeItems', over50: true, lang: 'english', sync: 'manual'}),
+		prefs: $.jStorage.get('prefs', {deleteWarnings: false, gpu: false, nextAmount: 'threeItems', over50: true, lang: 'english', sync: 'manual', synced: true}),
 		// NB: Over 50 caps amount of tasks in List to 50 but causes drag and drop problems.
 		// I CBF fixing it.
 
@@ -694,7 +693,7 @@ var cli = {
 				cli.storage.tasks = data.tasks;
 				cli.storage.queue = data.queue;
 				cli.storage.lists = data.lists;
-				// cli.storage.prefs = data.prefs;
+				cli.storage.prefs = data.prefs;
 				cli.storage.save();
 				ui.sync.reload();
 			});
