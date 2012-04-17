@@ -1256,6 +1256,29 @@ ui = {
 				}
 			}
 		}
+	},
+	external: {
+		cmd: function(cmd) {
+			//Contains all the commands
+
+			/* File Menu */
+			if (cmd == 'newtask') {
+				$('#addBTN').click();
+			} else if (cmd == 'newlist') {
+				$('#addListBTN').click()
+
+			/* Edit Menu */
+			} else if (cmd == 'find') {
+				$('#search').focus();
+
+			/* View Menu */
+			} else if (cmd = 'background') {
+
+			/* Help Menu */
+			} else if (cmd = 'about') {
+				
+			}
+		}
 	}
 };
 /* Konami Code */
