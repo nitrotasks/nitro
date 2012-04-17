@@ -1,0 +1,78 @@
+{
+	"author": "Naxo Oyanguren <natxooy@gmail.com>",
+	"jqueryui": "jquery.ui.datepicker-eu.js",
+
+	"listWarning": "Zihur ezabatu nahi duzula zerrenda hau? Zeregin guztiak ezabatuko dira.",
+	"taskWarning": "Zihur ezabatu nahi duzula zeregin hau? Betirako galduko da.",
+
+	"todayText": "<strong>Gaur</strong> zerrendak gaur egin beharko zenituzke zeregin guztiak ditu. Epe muga gainditu duten zereginak zerrenda honetan agertuko dira.",
+	"nextText": "Hurrengo zereginak <strong>Hurrengoak</strong> zerrendan ikusiko dituzu. Gaurko zereginak eta beste zerrendatako hiru lehenego zereginak automatikoki erakutsiko dira.",
+	"somedayText": "<strong>Egun batean</strong> zerrendak zehatz ez dakizu noiz beteko dituzun zereginak ditu.",
+	"logbookText": "<strong>Historia</strong>-n betetako zeregin guztien erregistroa dago.",
+	"customText": "Ez dago zereginik zerrenda honetan.",
+
+	"yesTask": "Zeregina ezabatu",
+	"yesList": "Zerrenda ezabatu",
+	"cancelDialog": "Utzi",
+	"warningText": "Adi!",
+	"languageText": "Hizkuntza aukeratu",
+
+	"add": "Gehitu",
+	"edit": "Editatu",
+	"delete": "Ezabatu",
+	"logbook": "Historia",
+	"settings": "Hobespenak",
+	"search": "Bilatu",
+
+	"hideWarnings": "Ez galdetu ezabatzean",
+	"lowGraphics": "Grafiko arinak",
+	"nextNoLists": "Ez erakutsi beste zerrendatako zereginak 'Hurrengoak'-ean",
+	"nextThreeLists": "Erakutsi 'Hurrengoak'-ean beste zerrendatako 3 zereginak",
+	"nextEntireLists": "Erakutsi zerrenda osoa 'Hurrengoak'-ean",
+
+	"focus": "Zerrenda nagusiak",
+	"lists": "Zerrenda pertsonalak",
+	"today": "Gaur",
+	"next": "Hurrengoak",
+	"someday": "Egun batean",
+
+	"newList": "Zerrenda berria",
+	"newTask": "Zeregin berria",
+
+	"taskName": "Zereginaren izena",
+	"notes": "Notak",
+	"showInToday": "'Gaur'-en erakutsi",
+	"removeFromToday": "'Gaur' zerrendatik kendu",
+	"none": "Lehentasunik ez",
+	"low": "Lehentasun gutxi",
+	"medium": "Lehentasun ertaina",
+	"important": "Lehentasun handia",
+	"setDueDate": "Epe muga",
+	"removeDueDate": "Ezabatu epe muga",
+	"doToday": "Hacer Hoy",
+
+	"oneMore": "Ikusi zeregin bat gehiago",
+	"morethanOne": "Ikusi %s zeregin gehiago",
+
+	"dayLeft": "egun 1 falta",
+	"daysLeft": "%s egun falta",
+	"dayOverdue": "egun 1 berandu",
+	"daysOverdue": "%s egun berandu",
+	"month": ["Urt", "Ots", "Mar", "Api", "Mai", "Eka", "Uzt", "Abu", "Ira", "Urr", "Aza", "Abe"],
+
+	"searchResults": "Bilaketaren emaitzak: ",
+
+	"titleAddTask": "Gehitu zeregin berri bat",
+	"titleEditTask": "Aukeratutako zeregina editatu",
+	"titleDeleteTask": "Aukeratutako zeregina ezabatu",
+
+	"titleAddList": "Zerrenda berria",
+	"titleDeleteList": "Zerrenda ezabatu",
+	"titleEditList": "Zerrenda Editatu",
+	"titleSaveList": "Gorde aldaketak",
+
+	"showTime": "Erakutsi 'Gaur' zerrendan:",
+	"1day": "egun 1 lehenago",
+	"moreday": "%s egun lehenago",
+	"never": "Ez erakutsi"
+}
