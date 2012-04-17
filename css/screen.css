@@ -209,6 +209,17 @@ td {
   color: black;
   padding: 0.2em 0; }
 
+@font-face {
+  font-family: "WebSymbolsRegular";
+  src: url('/css/fonts/../../fonts/websymbols-regular-webfont.eot') format('embedded-opentype'), url('/css/fonts/../../fonts/websymbols-regular-webfont.ttf') format('truetype'); }
+
+@-webkit-keyframes rotate {
+  from {
+    -webkit-transform: rotate(0deg); }
+
+  to {
+    -webkit-transform: rotate(360deg); } }
+
 body {
   height: 100%;
   width: 100%;
@@ -315,12 +326,26 @@ body {
         position: relative;
         top: 0; }
         #panel #right ul li img {
-          padding: 5px; }
+          padding: 5px;
+          width: 30px;
+          height: 30px; }
         #panel #right ul li:not(:last-child):hover {
           /*background: #484848;*/
           background: rgba(0, 0, 0, 0.3); }
         #panel #right ul li:not(:last-child) {
           cursor: pointer; }
+        #panel #right ul li#logbookBTN img {
+          background: url(../../images/darksprite.png) no-repeat 5px -118px; }
+        #panel #right ul li#settingsBTN img {
+          background: url(../../images/darksprite.png) no-repeat 5px -158px; }
+        #panel #right ul li#syncBTN.active img {
+          background: url(../../images/sync_active.png) no-repeat 5px 0px; }
+        #panel #right ul li#syncBTN.running img {
+          -webkit-animation: rotate 0.4s infinite linear;
+          -moz-animation: rotate 0.4s infinite linear;
+          -webkit-transform-origin: 17px 12px; }
+        #panel #right ul li#syncBTN img {
+          background: url(../../images/sync.png) no-repeat 5px 0px; }
         #panel #right ul li .settings {
           display: none;
           cursor: default;

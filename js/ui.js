@@ -314,6 +314,15 @@ ui = {
 			ui.tasks.populate('logbook');
 		});
 
+		// Sync
+		$('#syncBTN').click(function(e) {
+			e.preventDefault();
+			if(!$(this).is('.running') && cli.storage.prefs.sync != 'never') {
+				ui.sync.running();
+				cli.storage.sync();
+			}
+		});
+
 		// Settings pop up
 		$('#settingsBTN img').click(function() {
 			if($('.settings').is(':visible')) {
@@ -326,6 +335,7 @@ ui = {
 				$('#over50').prop('checked', cli.storage.prefs.over50);
 				$('#nextAmount').val(cli.storage.prefs.nextAmount);
 				$('#theme').val(cli.storage.prefs.theme);
+				$('#sync').val(cli.storage.prefs.sync);
 
 				$('.settings').fadeIn(100);
 			}
@@ -370,12 +380,7 @@ ui = {
 
 			setTimeout("$(document).click(function() {$('#languageDialog').fadeOut(75); $(document).off('click');});", 200);
 			
-		});
-
-		$('#sync').click(function(e) {
-			e.preventDefault();
-			cli.storage.sync();
-		});
+		});		
 
 		$('#theme').change(function() {
 			var theme = $(this).val();
@@ -405,6 +410,23 @@ ui = {
 
 			//Gives some time for the theme to change
 			setTimeout("$(window).resize()", 600);
+		});
+
+		$('#sync').change(function() {
+			var sync = $(this).val();
+			switch(sync) {
+				case 'timer': 
+					// var sync_timer = setInterval(function() {
+					// 	cli.storage.sync();
+					// }, 20000);
+					// sync_timer;
+					break;
+				case 'never':
+					$('#syncBTN').addClass('disabled');
+				default:
+					 clearInterval(sync_timer);
+			}
+			cli.storage.prefs.sync = sync;
 		});
 
 		//Select box
@@ -477,15 +499,32 @@ ui = {
 		});
 
 	},
-	reload: function() {
-		ui.tasks.populate(ui.lists.selected());
-		/* Makes lists show up */
-		$('#userLists').html('');
-		for (var i=0; i<cli.storage.lists.order.length; i++) {
-			$('#userLists').append('<li id="' + cli.storage.lists.order[i] + 'List"><div class="editIcon" title="' + $.i18n._('titleEditList') + '"></div><div class="view">' + cli.storage.lists.items[cli.storage.lists.order[i]].name  + '<div class="count">0</div></div><div class="edit"><input type="text" value="' +  cli.storage.lists.items[cli.storage.lists.order[i]].name + '"><div class="delete" title="' + $.i18n._('titleDeleteList') + '"></div><div class="save" title="' + $.i18n._('titleSaveList') + '"></div></div></li>');
-		}
-		ui.lists.updateCount();
-	},
+	sync: {
+		running: function() {
+			$('#syncBTN').addClass('running');
+		},
+		active: function() {
+			if(cli.storage.prefs.sync != 'never' && cli.storage.prefs.sync != 'auto') {
+				$('#syncBTN').addClass('active');
+			}
+		},
+		reload: function() {
+			console.log("Reloading UI");
+
+			// Stop sync icon
+			$('#syncBTN').removeClass('running');
+
+			// Display tasks
+			ui.tasks.populate(ui.lists.selected());
+			
+			// Makes lists show up 
+			$('#userLists').html('');
+			for (var i=0; i<cli.storage.lists.order.length; i++) {
+				$('#userLists').append('<li id="' + cli.storage.lists.order[i] + 'List"><div class="editIcon" title="' + $.i18n._('titleEditList') + '"></div><div class="view">' + cli.storage.lists.items[cli.storage.lists.order[i]].name  + '<div class="count">0</div></div><div class="edit"><input type="text" value="' +  cli.storage.lists.items[cli.storage.lists.order[i]].name + '"><div class="delete" title="' + $.i18n._('titleDeleteList') + '"></div><div class="save" title="' + $.i18n._('titleSaveList') + '"></div></div></li>');
+			}
+			ui.lists.updateCount('all');
+		},
+	},	
 	lists: {
 		selected: function() { 
 			if($('#sidebar ul li.selected').length) {
@@ -777,7 +816,6 @@ ui = {
 				//Special Next list
 				if (cli.storage.prefs.nextAmount != 'noLists') {
 					for (var i=0; i<cli.storage.lists.order.length; i++) {
-						console.log(cli.storage.lists.order[i]);
 						//Gotta love loopception 😄
 						var tmpOrder = new Array;
 						$('#tasks ul#' + cli.storage.lists.order[i]).children('li').map(function() {

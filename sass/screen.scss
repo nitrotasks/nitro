@@ -1,5 +1,17 @@
 @import "reset";
+@import "compass/css3/font-face";
 @import "compass/css3/images";
+
+@include font-face("WebSymbolsRegular", font-files("../../fonts/websymbols-regular-webfont.eot", "../../fonts/websymbols-regular-webfont.ttf"));
+
+@-webkit-keyframes rotate {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to { 
+    -webkit-transform: rotate(360deg);
+  }
+}
 
 body {
 	height: 100%;
@@ -136,6 +148,8 @@ body {
 
 				img {
 					padding: 5px;
+					width: 30px;
+					height: 30px;
 				}
 
 				&:not(:last-child):hover {
@@ -144,6 +158,28 @@ body {
 				}
 				&:not(:last-child) {
 					cursor: pointer;
+				}
+
+				&#logbookBTN img {
+					background: url(../../images/darksprite.png) no-repeat 5px -118px;
+				}
+
+				&#settingsBTN img {
+					background: url(../../images/darksprite.png) no-repeat 5px -158px;
+				}
+
+				&#syncBTN {
+					&.active img {
+						background: url(../../images/sync_active.png) no-repeat 5px 0px;
+					}
+					&.running img {
+						-webkit-animation: rotate 0.4s infinite linear;
+						-moz-animation:    rotate 0.4s infinite linear;
+						-webkit-transform-origin: 17px 12px;
+					}
+					img {
+						background: url(../../images/sync.png) no-repeat 5px 0px;
+					}
 				}
 
 				.settings {

@@ -18,6 +18,12 @@ var cli = {
 	timestamp: {
 		update: function(id, key) {
 			cli.storage.tasks[id].time[key] = Date.now();
+			if(cli.storage.prefs.sync == 'auto') {
+				ui.sync.running();
+				cli.storage.sync();
+			} else {
+				ui.sync.active();
+			}
 		},
 		upgrade: function() {
 			for(var id in cli.storage.tasks) {
@@ -63,8 +69,10 @@ var cli = {
 		// Creates a task
 
 		//Id of task
+		cli.storage.tasks.length = Math.floor(Math.random()*100000);
 		var id = cli.storage.tasks.length;
 		cli.storage.tasks.length++;
+
 
 		//Saves to Localstorage
 		cli.storage.tasks[id] = { 
@@ -654,7 +662,7 @@ var cli = {
 		tasks: $.jStorage.get('tasks', {length: 0}),
 		queue: $.jStorage.get('queue', {}),
 		lists: $.jStorage.get('lists', {order: [], items:{today: {name: "Today", order:[]}, next: {name: "Next", order:[]}, someday: {name: "Someday", order:[]}, 0: {order:[]}, length: 1}}),
-		prefs: $.jStorage.get('prefs', {deleteWarnings: false, gpu: false, nextAmount: 'threeItems', over50: true, lang: 'english'}),
+		prefs: $.jStorage.get('prefs', {deleteWarnings: false, gpu: false, nextAmount: 'threeItems', over50: true, lang: 'english', sync: 'manual'}),
 		// NB: Over 50 caps amount of tasks in List to 50 but causes drag and drop problems.
 		// I CBF fixing it.
 
@@ -668,6 +676,8 @@ var cli = {
 
 		sync: function() {
 
+			console.log("Running sync");
+
 			// Upload to server
 			var socket = io.connect('http://hollow-wind-1576.herokuapp.com');
 			var client = {
@@ -680,12 +690,13 @@ var cli = {
 
 			// Get from server
 			socket.on('download', function(data) {
+				console.log("Finished sync")
 				cli.storage.tasks = data.tasks;
 				cli.storage.queue = data.queue;
 				cli.storage.lists = data.lists;
 				// cli.storage.prefs = data.prefs;
 				cli.storage.save();
-				ui.reload();
+				ui.sync.reload();
 			});
 		}
 	}
