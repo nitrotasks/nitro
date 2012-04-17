@@ -216,6 +216,13 @@ body {
             border-bottom-right-radius: 4px; }
           #content #tasks ul li .labels span.date, #content #tasks ul li .labels span.dateLabel {
             border-left: 1px solid #ddd; }
+            #content #tasks ul li .labels span.date.overdue, #content #tasks ul li .labels span.dateLabel.overdue {
+              background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fff9f9), color-stop(100%, #ffdddd));
+              background: -webkit-linear-gradient(top, #fff9f9 0%, #ffdddd 100%);
+              background: -moz-linear-gradient(top, #fff9f9 0%, #ffdddd 100%);
+              background: -o-linear-gradient(top, #fff9f9 0%, #ffdddd 100%);
+              background: -ms-linear-gradient(top, #fff9f9 0%, #ffdddd 100%);
+              background: linear-gradient(top, #fff9f9 0%, #ffdddd 100%); }
             #content #tasks ul li .labels span.date.due, #content #tasks ul li .labels span.dateLabel.due {
               background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fff9f9), color-stop(100%, #ffdddd));
               background: -webkit-linear-gradient(top, #fff9f9 0%, #ffdddd 100%);

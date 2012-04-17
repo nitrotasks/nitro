@@ -395,6 +395,10 @@ body {
 						&.date, &.dateLabel {
 						border-left: 1px solid #ddd;
 							
+							&.overdue {
+								@include background(linear-gradient(top, color-stops(#Fff9f9 0%, #Fdd 100%)));
+							}
+							
 							&.due {
 								@include background(linear-gradient(top, color-stops(#Fff9f9 0%, #Fdd 100%)));
 							}
