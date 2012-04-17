@@ -17,7 +17,23 @@ console.info('Nitro 1.1\nCopyright (C) 2012 Caffeinated Code\nBy George Czabania
 var cli = {
 	timestamp: {
 		update: function(id, key) {
-			cli.storage.tasks[id].time[key] = Date.now();
+			return {
+				task: function() {
+					console.log('Updated timestamp for task: ' + id + ' and key: ' + key);
+					cli.storage.tasks[id].time[key] = Date.now();
+					cli.timestamp.sync();
+				},
+				list: function() {
+					console.log('Updated timestamp for list: ' + id + ' and key: ' + key);
+					if(id != 0) {
+						cli.storage.lists.items[id].time[key] = Date.now();
+						cli.timestamp.sync();
+					}
+				}
+			}
+			
+		},
+		sync: function() {
 			if(cli.storage.prefs.sync == 'auto') {
 				ui.sync.running();
 				cli.storage.sync();
@@ -72,7 +88,6 @@ var cli = {
 		var id = cli.storage.tasks.length;
 		cli.storage.tasks.length++;
 
-
 		//Saves to Localstorage
 		cli.storage.tasks[id] = { 
 			content: name,
@@ -102,6 +117,9 @@ var cli = {
 			cli.storage.lists.items[list].order.unshift(id);		
 		};
 
+		// Timestamp (list order)
+		cli.timestamp.update(list, 'order').list();
+
 		//Saves to disk
 		cli.storage.save();
 
@@ -111,6 +129,9 @@ var cli = {
 	},
 	deleteTask: function(id) {
 		var task = cli.taskData(id).display();
+
+		// Timestamp (list order)
+		cli.timestamp.update(task.list, 'order').list();
 
 		cli.calc.removeFromList(id, task.list);
 
@@ -221,7 +242,12 @@ var cli = {
 		cli.calc.removeFromList(id, task.list);
 
 		// Add task to new list
-		lists[list].order.push(id);
+		lists[list].order.push(parseInt(id));
+
+		// Update timestamp
+		cli.timestamp.update(id, 'list').task();
+		cli.timestamp.update(task.list, 'order').list();
+		cli.timestamp.update(list, 'order').list();
 
 		// Update task.list
 		task.list = list;
@@ -233,9 +259,6 @@ var cli = {
 			task.date = '';
 			cli.today(id).remove();
 		}
-
-		// Update timestamp
-		cli.timestamp.update(id, 'list');
 
 		// Save
 		cli.taskData(id).edit(task);
@@ -287,7 +310,7 @@ var cli = {
 				console.log('List: ' + task.list);
 
 				// Update timestamp
-				cli.timestamp.update(id, 'today');
+				cli.timestamp.update(id, 'today').task();
 
 				//If the task is due to be deleted, then delete it
 				if (task.list == 0) {
@@ -374,7 +397,7 @@ var cli = {
 		}
 
 		// Update timestamp
-		cli.timestamp.update(id, 'logged');
+		cli.timestamp.update(id, 'logged').task();
 
 		cli.taskData(id).edit(task);
 		cli.storage.lists.items = lists;
@@ -403,7 +426,7 @@ var cli = {
 						break;
 				}
 
-				cli.timestamp.update(id, 'priority')
+				cli.timestamp.update(id, 'priority').task();
 
 				cli.storage.tasks[id].priority = priority;
 				cli.storage.save();
@@ -425,7 +448,7 @@ var cli = {
   						obj[i] = cli.escape(value);
   					}
   					if(obj[i] != $.jStorage.get('tasks')[id][i] && i!='time') {
-  						cli.timestamp.update(id, i);
+  						cli.timestamp.update(id, i).task();
   					}
 				});
 
@@ -447,7 +470,10 @@ var cli = {
 				cli.storage.lists.items[newId] = {
 					name: name,
 					order: [],
-					time: 0
+					time: {
+						name: 0,
+						order: 0
+					}
 				};
 
 				//Adds to order array
@@ -463,7 +489,7 @@ var cli = {
 			rename: function() {
 				// Renames a list
 				cli.storage.lists.items[id].name = name;
-				cli.storage.lists.items[id].time = Date.now();
+				cli.timestamp.update(id, 'name').list();
 
 				//Saves to localStorage
 				cli.storage.save();
@@ -491,11 +517,13 @@ var cli = {
 			},
 			taskOrder: function(order) {
 				//Order of tasks
+				cli.timestamp.update(id, 'order').list();
 				cli.storage.lists.items[id].order = order;
 				cli.storage.save();
 			},
 			order: function(order) {
 				// Order of lists
+				cli.storage.lists.time = Date.now();
 				cli.storage.lists.order = order;
 				cli.storage.save();
 			}
@@ -660,7 +688,7 @@ var cli = {
 		//Object where data is stored
 		tasks: $.jStorage.get('tasks', {length: 0}),
 		queue: $.jStorage.get('queue', {}),
-		lists: $.jStorage.get('lists', {order: [], items:{today: {name: "Today", order:[]}, next: {name: "Next", order:[]}, someday: {name: "Someday", order:[]}, 0: {order:[]}, length: 1}}),
+		lists: $.jStorage.get('lists', {order: [], items:{today: {name: "Today", order:[], time: {}}, next: {name: "Next", order:[], time: {}}, someday: {name: "Someday", order:[], time: {}}, 0: {order:[]}, length: 1}, time: 0}),
 		prefs: $.jStorage.get('prefs', {deleteWarnings: false, gpu: false, nextAmount: 'threeItems', over50: true, lang: 'english', sync: 'manual', synced: true}),
 		// NB: Over 50 caps amount of tasks in List to 50 but causes drag and drop problems.
 		// I CBF fixing it.
@@ -678,13 +706,27 @@ var cli = {
 			console.log("Running sync");
 
 			// Upload to server
-			var socket = io.connect('http://hollow-wind-1576.herokuapp.com');
+			// var socket = io.connect('http://hollow-wind-1576.herokuapp.com/');
+			var socket = io.connect('http://localhost:8080/');
 			var client = {
 				tasks: cli.storage.tasks,
 				queue: cli.storage.queue,
 				lists: cli.storage.lists,
 				prefs: cli.storage.prefs
 			}
+			// socket.on('token', function(data) {
+			// 	window.open(data);
+			// 	if(verify()) {
+			// 		socket.emit('allowed', '');
+			// 	}
+			// });
+			// function verify() {
+			// 	if(confirm("Did you allow Nitro?")) {
+			// 		return true;
+			// 	} else {
+			// 		verify();
+			// 	}
+			// }
 			socket.emit('upload', client);
 
 			// Get from server
