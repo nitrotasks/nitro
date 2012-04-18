@@ -19,6 +19,28 @@
 	<button class="yes s1"></button>
 	<button class="no s1 translate" data-translate="cancelDialog"></button>
 </div>
+<div id="prefsDialog">
+	<ul class="nav nav-tabs">  
+		<li class="active"><a href="#" data-target="#tabGeneral" data-toggle="tab">General</a></li>
+		<li><a href="#" data-target="#tabLanguage" data-toggle="tab">Language</a></li>
+		<li><a href="#" data-target="#tabTheme" data-toggle="tab">Theme</a></li>
+		<li><a href="#" data-target="#tabSync" data-toggle="tab">Sync</a></li>
+	</ul>  
+	<div class="tab-content">  
+		<div class="tab-pane active" id="tabGeneral">  
+		<p>General</p>  
+		</div>  
+		<div class="tab-pane" id="tabLanguage">  
+		<p>Language</p>  
+		</div>  
+		<div class="tab-pane" id="tabTheme">  
+		<p>Theme</p>  
+		</div>
+		<div class="tab-pane" id="tabSync">  
+		<p>Sync</p>  
+		</div>
+	</div>
+</div>
 <div id="languageDialog" class="modal">
 	<h3 data-translate="languageText" class="translate"></h3>
 	<table>
@@ -169,6 +191,7 @@
 <script src="js/libs/jquery-ui-1.8.18.custom.min.js"></script>
 <script src="js/libs/jquery.ui.datepicker.js"></script>
 <script src="js/libs/deCSS3.js"></script>
+<script src="js/libs/bootstrap-tab.js"></script>
 
 <script src="js/cli.js"></script>
 <script src="js/ui.js"></script>

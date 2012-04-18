@@ -772,4 +772,26 @@ button {
 	z-index: 1000;
 }
 
+#prefsDialog {
+	display: none;
+	position: fixed;
+	min-height: 300px;
+	width: 400px;
+	left: 50%;
+	top: 100px;
+	background: #fff;
+	border: 5px pink solid;
+	z-index: 100;
+
+	.tab-content {
+		.tab-pane {
+			display: none;
+
+			&.active {
+				display: block;
+			}
+		}
+	}
+}
+
 @import "jquery-ui-1.8.16.custom";

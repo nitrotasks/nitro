@@ -325,19 +325,24 @@ ui = {
 
 		// Settings pop up
 		$('#settingsBTN img').click(function() {
-			if($('.settings').is(':visible')) {
-				$('.settings').fadeOut(100);
+			if($('#prefsDialog').is(':visible')) {
+				$('#prefsDialog').fadeOut(100);
 
 			} else {
 				//Adds prefs in
-				$('#deleteWarnings').prop('checked', cli.storage.prefs.deleteWarnings);
+				/*$('#deleteWarnings').prop('checked', cli.storage.prefs.deleteWarnings);
 				$('#gpu').prop('checked', cli.storage.prefs.gpu);
 				$('#over50').prop('checked', cli.storage.prefs.over50);
 				$('#nextAmount').val(cli.storage.prefs.nextAmount);
 				$('#theme').val(cli.storage.prefs.theme);
-				$('#sync').val(cli.storage.prefs.sync);
+				$('#sync').val(cli.storage.prefs.sync);*/
 
-				$('.settings').fadeIn(100);
+				$('#prefsDialog').fadeIn(100)
+				/*.click(function(e) {
+					e.stopPropagation();
+				});*/
+
+				//setTimeout("$(document).click(function() {$('#prefsDialog').fadeOut(100); $(document).off('click');});", 200);
 			}
 		});
 

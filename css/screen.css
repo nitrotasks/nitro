@@ -781,6 +781,21 @@ button {
   left: 0;
   z-index: 1000; }
 
+#prefsDialog {
+  display: none;
+  position: fixed;
+  min-height: 300px;
+  width: 400px;
+  left: 50%;
+  top: 100px;
+  background: #fff;
+  border: 5px pink solid;
+  z-index: 100; }
+  #prefsDialog .tab-content .tab-pane {
+    display: none; }
+    #prefsDialog .tab-content .tab-pane.active {
+      display: block; }
+
 /*
  * jQuery UI Bootstrap (0.22)
  * http://addyosmani.github.com/jquery-ui-bootstrap
