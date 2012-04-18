@@ -714,8 +714,7 @@ button {
 #prefsDialog {
 	display: none;
 	position: fixed;
-	min-height: 300px;
-	width: 500px;
+	width: 520px;
 	left: 50%;
 	margin-left: -250px;
 	top: 100px;
@@ -746,6 +745,7 @@ button {
 
 			&.active {
 				@include background(linear-gradient(bottom, #ffffff 0%, #e9e9e8 100%));
+				box-shadow: 0 1px 0 #fff;
 
 				a {
 					color: #222;
@@ -777,12 +777,30 @@ button {
 	.tab-content {
 		.tab-pane {
 			display: none;
+			padding: 15px;
 
 			&.active {
 				display: block;
 			}
 		}
 	}
+}
+
+#aboutDialog {
+	position: fixed;
+	width: 450px;
+	top: 100px;
+	left: 50%;
+	padding: 15px;
+	box-shadow: 0 0 15px rgba(0,0,0,0.8);
+	border-radius: 5px;
+	text-align: center;
+	z-index: 100;
+	font-size: 13px;
+	margin-left: -115px;
+	background: #fff;
+	display: none;
+
 }
 
 @import "jquery-ui-1.8.16.custom";

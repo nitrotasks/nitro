@@ -19,20 +19,25 @@
 	<button class="yes s1"></button>
 	<button class="no s1 translate" data-translate="cancelDialog"></button>
 </div>
+<div id="aboutDialog">
+	<img src="images/128.png">
+	<h2>Nitro 1.2</h2>
+	<p>By George Czabania &amp; Jono Cooper<br>Copyright &copy; 2012 Caffeinated Code</p>
+	<p>Licensed under the BSD license</p>
+</div>
 <div id="prefsDialog">
 	<!-- I hate HTML Whitespace =( -->
 	<ul class="nav nav-tabs"><li class="active"><a href="#" data-target="#tabGeneral" data-toggle="tab">General</a></li><li><a href="#" data-target="#tabLanguage" data-toggle="tab">Language</a></li><li><a href="#" data-target="#tabTheme" data-toggle="tab">Theme</a></li><li><a href="#" data-target="#tabSync" data-toggle="tab">Sync</a></li></ul>  
 	<div class="tab-content">  
 		<div class="tab-pane active" id="tabGeneral">  
-		<p>General</p>
 		<form>
-			<label for="deleteWarnings" class="translate" data-translate="hideWarnings"></label><input type="checkbox" id="deleteWarnings">
-			<label for="gpu" class="translate" data-translate="lowGraphics"></label><input type="checkbox" id="gpu">
+			<label for="deleteWarnings" class="translate" data-translate="hideWarnings"></label><input type="checkbox" id="deleteWarnings"><br>
+			<label for="gpu" class="translate" data-translate="lowGraphics"></label><input type="checkbox" id="gpu"><br>
 			<select id="nextAmount">
 				<option value="noLists" class="translate" data-translate="nextNoLists"></option>
 				<option value="threeItems" class="translate" data-translate="nextThreeLists"></option>
 				<option value="everything" class="translate" data-translate="nextEntireLists"></option>
-			</select>
+			</select><br>
 			<select id="sync">
 				<option value="never">Sync: Never (No notifications)</option>
 				<option value="manual">Sync: Manually</option>

@@ -1278,7 +1278,7 @@ ui = {
 				$('a[data-target=#tabTheme]').tab('show')
 			/* Help Menu */
 			} else if (cmd == 'about') {
-				
+				$('#aboutDialog').fadeIn(100);
 			}
 		}
 	}
