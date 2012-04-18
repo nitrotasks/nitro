@@ -775,7 +775,8 @@ button {
         text-decoration: none;
         color: #444;
         font-weight: bold;
-        font-size: 13px; }
+        font-size: 13px;
+        display: block; }
   #prefsDialog .tab-content .tab-pane {
     display: none; }
     #prefsDialog .tab-content .tab-pane.active {
