@@ -1270,15 +1270,33 @@ ui = {
 				$('a[data-target=#tabGeneral]').tab('show')
 
 			/* View Menu */
+
+			//GoTO
+			} else if (cmd == 'today') {
+				$('#todayList').click()
+			} else if (cmd == 'next') {
+				$('#nextList').click()
+			} else if (cmd == 'someday') {
+				$('#somedayList').click()
+			} else if (cmd == 'logbook') {
+				$('#logbookBTN').click()
+
 			} else if (cmd == 'language') {
 				$('#prefsDialog').fadeIn(100);
 				$('a[data-target=#tabLanguage]').tab('show')
 			} else if (cmd == 'theme') {
 				$('#prefsDialog').fadeIn(100);
 				$('a[data-target=#tabTheme]').tab('show')
+				
 			/* Help Menu */
 			} else if (cmd == 'about') {
 				$('#aboutDialog').fadeIn(100);
+			} else if (cmd == 'donate') {
+				//TODO: Add in Donate
+			} else if (cmd == 'help') {
+				//TODO: Add in Help
+			} else if (cmd == 'bug')
+				//TODO: Add in Bug reporting
 			}
 		}
 	}
