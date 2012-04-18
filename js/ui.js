@@ -1257,16 +1257,27 @@ ui = {
 				$('#addBTN').click();
 			} else if (cmd == 'newlist') {
 				$('#addListBTN').click()
+			} else if (cmd == 'sync') {
+				$('#prefsDialog').fadeIn(100);
+				$('a[data-target=#tabSync]').tab('show')
 
 			/* Edit Menu */
 			} else if (cmd == 'find') {
 				$('#search').focus();
 
-			/* View Menu */
-			} else if (cmd = 'background') {
+			} else if (cmd == 'prefs') {
+				$('#prefsDialog').fadeIn(100);
+				$('a[data-target=#tabGeneral]').tab('show')
 
+			/* View Menu */
+			} else if (cmd == 'language') {
+				$('#prefsDialog').fadeIn(100);
+				$('a[data-target=#tabLanguage]').tab('show')
+			} else if (cmd == 'theme') {
+				$('#prefsDialog').fadeIn(100);
+				$('a[data-target=#tabTheme]').tab('show')
 			/* Help Menu */
-			} else if (cmd = 'about') {
+			} else if (cmd == 'about') {
 				
 			}
 		}

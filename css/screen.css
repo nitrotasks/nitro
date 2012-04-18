@@ -736,6 +736,7 @@ button {
   z-index: 1000; }
 
 #prefsDialog {
+  display: none;
   position: fixed;
   min-height: 300px;
   width: 500px;
