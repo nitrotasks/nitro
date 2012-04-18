@@ -745,16 +745,14 @@ var cli = {
 }
 
 function eliminateDuplicates(arr) {
-  var i,
-      len=arr.length,
-      out=[],
-      obj={};
-
-  for (i=0;i<len;i++) {
-    obj[arr[i]]=0;
-  }
-  for (i in obj) {
-    out.push(i);
-  }
-  return out;
+	var r = new Array();
+	o:for(var i = 0, n = arr.length; i < n; i++) {
+		for(var x = 0, y = r.length; x < y; x++) {
+			if(r[x]==arr[i]) {
+				continue o;
+			}
+		}
+		r[r.length] = arr[i];
+	}
+	return r;
 }
