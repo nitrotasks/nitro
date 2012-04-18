@@ -308,9 +308,13 @@ var cli = {
 				cli.calc.removeFromList(id, 'next');
 				
 				console.log('List: ' + task.list);
+				cli.timestamp.update(id, 'showInToday').task();
+				cli.timestamp.update(id, 'list').task();
 
 				// Update timestamp
 				cli.timestamp.update(id, 'today').task();
+				
+
 
 				//If the task is due to be deleted, then delete it
 				if (task.list == 0) {
@@ -482,6 +486,9 @@ var cli = {
 				//Returns something
 				console.log("Created List: '" + name + "' with id: " + newId);
 
+				// Update timestamp for list order
+				cli.storage.lists.time = Date.now();
+
 				//Updates Total
 				cli.storage.lists.items.length++;
 				cli.storage.save();
@@ -504,10 +511,12 @@ var cli = {
 					delete cli.storage.tasks[cli.storage.lists.items[id].order[i]];
 				};
 
-
 				//Deletes actual list
 				delete cli.storage.lists.items[id];
 				cli.storage.lists.order.splice(jQuery.inArray(parseInt(id), cli.storage.lists.order), 1);
+
+				// Update timestamp for list order
+				cli.storage.lists.time = Date.now();
 
 				//Saves to disk
 				cli.storage.save();
