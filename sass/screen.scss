@@ -743,7 +743,22 @@ button {
 			text-align: center;
 			line-height: 30px;
 			height: 30px;
-			
+
+			&.active {
+				@include background(linear-gradient(bottom, #ffffff 0%, #e9e9e8 100%));
+
+				a {
+					color: #222;
+				}
+			}
+
+			&:first-child {
+				border-top-left-radius: 5px;
+			}
+
+			&:last-child {
+				border-top-right-radius: 5px;
+			}
 
 			&:not(:last-child) {
 				border-right: 1px solid rgba(0,0,0,0.2);
