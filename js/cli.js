@@ -107,7 +107,8 @@ var cli = {
 				showInToday: 0,
 				list: 0,
 				logged: 0
-			}
+			},
+			synced: false
 		};
 
 		if (list == 'today') {
@@ -352,10 +353,6 @@ var cli = {
 						};
 					};
 				}
-
-				// Crazy bug
-				cli.storage.lists.items.today.order = eliminateDuplicates(cli.storage.lists.items.today.order);
-				cli.storage.lists.items.next.order = eliminateDuplicates(cli.storage.lists.items.next.order);
 				
 				//Saves data
 				cli.storage.save();
@@ -698,7 +695,7 @@ var cli = {
 		tasks: $.jStorage.get('tasks', {length: 0}),
 		queue: $.jStorage.get('queue', {}),
 		lists: $.jStorage.get('lists', {order: [], items:{today: {name: "Today", order:[], time: {}}, next: {name: "Next", order:[], time: {}}, someday: {name: "Someday", order:[], time: {}}, 0: {order:[]}, length: 1}, time: 0}),
-		prefs: $.jStorage.get('prefs', {deleteWarnings: false, gpu: false, nextAmount: 'threeItems', over50: true, lang: 'english', sync: 'manual', synced: true}),
+		prefs: $.jStorage.get('prefs', {deleteWarnings: false, gpu: false, nextAmount: 'threeItems', over50: true, lang: 'english', sync: 'manual'}),
 		// NB: Over 50 caps amount of tasks in List to 50 but causes drag and drop problems.
 		// I CBF fixing it.
 
@@ -754,14 +751,16 @@ var cli = {
 }
 
 function eliminateDuplicates(arr) {
-	var r = new Array();
-	o:for(var i = 0, n = arr.length; i < n; i++) {
-		for(var x = 0, y = r.length; x < y; x++) {
-			if(r[x]==arr[i]) {
-				continue o;
-			}
-		}
-		r[r.length] = arr[i];
-	}
-	return r;
+	// var r = new Array();
+	// o:for(var i = 0, n = arr.length; i < n; i++) {
+	// 	for(var x = 0, y = r.length; x < y; x++) {
+	// 		if(r[x]==arr[i]) {
+	// 			continue o;
+	// 		}
+	// 	}
+	// 	r[r.length] = arr[i];
+	// }
+	// return r;
+
+	return arr;
 }
