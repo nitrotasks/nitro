@@ -727,6 +727,7 @@ var cli = {
 			// 		verify();
 			// 	}
 			// }
+			console.log(client);
 			socket.emit('upload', client);
 
 			// Get from server
@@ -735,7 +736,7 @@ var cli = {
 				cli.storage.tasks = data.tasks;
 				cli.storage.queue = data.queue;
 				cli.storage.lists = data.lists;
-				cli.storage.prefs = data.prefs;
+				delete cli.storage.prefs.synced;
 				cli.storage.save();
 				ui.sync.reload();
 			});
