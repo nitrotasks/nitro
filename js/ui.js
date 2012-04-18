@@ -1295,7 +1295,7 @@ ui = {
 				//TODO: Add in Donate
 			} else if (cmd == 'help') {
 				//TODO: Add in Help
-			} else if (cmd == 'bug')
+			} else if (cmd == 'bug') {
 				//TODO: Add in Bug reporting
 			}
 		}
