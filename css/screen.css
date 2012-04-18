@@ -346,8 +346,6 @@ body {
           -webkit-transform-origin: 17px 12px; }
         #panel #right ul li#syncBTN img {
           background: url(../../images/sync.png) no-repeat 5px 0px; }
-        #panel #right ul li .settings {
-          display: none; }
         #panel #right ul li #search {
           position: relative;
           width: 150px; }

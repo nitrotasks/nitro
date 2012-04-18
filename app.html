@@ -28,7 +28,22 @@
 	</ul>  
 	<div class="tab-content">  
 		<div class="tab-pane active" id="tabGeneral">  
-		<p>General</p>  
+		<p>General</p>
+		<form>
+			<label for="deleteWarnings" class="translate" data-translate="hideWarnings"></label><input type="checkbox" id="deleteWarnings">
+			<label for="gpu" class="translate" data-translate="lowGraphics"></label><input type="checkbox" id="gpu">
+			<select id="nextAmount">
+				<option value="noLists" class="translate" data-translate="nextNoLists"></option>
+				<option value="threeItems" class="translate" data-translate="nextThreeLists"></option>
+				<option value="everything" class="translate" data-translate="nextEntireLists"></option>
+			</select>
+			<select id="sync">
+				<option value="never">Sync: Never (No notifications)</option>
+				<option value="manual">Sync: Manually</option>
+				<option value="timer">Sync: Every 5 minutes</option>
+				<option value="auto">Sync: Every time a change is made</option>
+			</select>
+		</form>
 		</div>  
 		<div class="tab-pane" id="tabLanguage">  
 			<h2 data-translate="languageText" class="translate"></h2>
@@ -95,7 +110,8 @@
 			</select>
 		</div>
 		<div class="tab-pane" id="tabSync">  
-		<p>Sync</p>  
+			<h2>Sync</h2>
+			<p>Sync is finished but we need your help. With your donations we can make sync &amp; mobile apps possible.</p>
 		</div>
 	</div>
 </div>
@@ -114,27 +130,7 @@
 		<div id="right">
 			<ul>
 				<li id="logbookBTN" class="translateTitle" data-translate="logbook"><img src="images/blank.png"></li>
-				<li id="settingsBTN" class="translateTitle" data-translate="settings"><img src="images/blank.png">
-					<div class="settings">
-						<h2 class="translate" data-translate="settings"></h2>
-						<form>
-							<label for="deleteWarnings" class="translate" data-translate="hideWarnings"></label><input type="checkbox" id="deleteWarnings">
-							<label for="gpu" class="translate" data-translate="lowGraphics"></label><input type="checkbox" id="gpu">
-							<select id="nextAmount">
-								<option value="noLists" class="translate" data-translate="nextNoLists"></option>
-								<option value="threeItems" class="translate" data-translate="nextThreeLists"></option>
-								<option value="everything" class="translate" data-translate="nextEntireLists"></option>
-							</select>
-							<select id="sync">
-								<option value="never">Sync: Never (No notifications)</option>
-								<option value="manual">Sync: Manually</option>
-								<option value="timer">Sync: Every 5 minutes</option>
-								<option value="auto">Sync: Every time a change is made</option>
-							</select>
-							<button id="showLanguage">Language</button>
-						</form>
-					</div>
-				</li>
+				<li id="settingsBTN" class="translateTitle" data-translate="settings"><img src="images/blank.png"></li>
 				<li id="syncBTN" class="translateTitle" data-translate="sync"><img src="images/blank.png"></li>
 				<li id="searchWrap"><input id="search" type="text"></li>
 			</ul>

@@ -329,7 +329,7 @@ ui = {
 		});
 
 		//Check Boxes
-		$('.settings form input').change(function() {
+		$('#tabGeneral form input').change(function() {
 
 			cli.storage.prefs.deleteWarnings = $('#deleteWarnings').prop('checked');
 			cli.storage.prefs.gpu = $('#gpu').prop('checked');
@@ -343,14 +343,18 @@ ui = {
 
 			console.log('Settings Saved');
 		});
+		
+		//Select box
+		$('#tabGeneral form select').change(function() {
+			cli.storage.prefs.nextAmount = $('#nextAmount').val();
+			cli.storage.save();
 
-		$('#showLanguage').click(function(e) {
-			e.preventDefault();
-			$('.settings').fadeOut(150);
+			console.log('Settings Saved');
 
-			setTimeout("$(document).click(function() {$('#languageDialog').fadeOut(75); $(document).off('click');});", 200);
-			
-		});		
+			if (ui.lists.selected() == 'next') {
+				ui.tasks.populate('next');
+			};
+		});
 
 		$('#theme').change(function() {
 			var theme = $(this).val();
@@ -397,18 +401,6 @@ ui = {
 					 clearInterval(sync_timer);
 			}
 			cli.storage.prefs.sync = sync;
-		});
-
-		//Select box
-		$('.settings form select').change(function() {
-			cli.storage.prefs.nextAmount = $('#nextAmount').val();
-			cli.storage.save();
-
-			console.log('Settings Saved');
-
-			if (ui.lists.selected() == 'next') {
-				ui.tasks.populate('next');
-			};
 		});
 
 		/* INIT SETTINGS */
