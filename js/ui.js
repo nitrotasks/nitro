@@ -325,25 +325,7 @@ ui = {
 
 		// Settings pop up
 		$('#settingsBTN img').click(function() {
-			if($('#prefsDialog').is(':visible')) {
-				$('#prefsDialog').fadeOut(100);
-
-			} else {
-				//Adds prefs in
-				/*$('#deleteWarnings').prop('checked', cli.storage.prefs.deleteWarnings);
-				$('#gpu').prop('checked', cli.storage.prefs.gpu);
-				$('#over50').prop('checked', cli.storage.prefs.over50);
-				$('#nextAmount').val(cli.storage.prefs.nextAmount);
-				$('#theme').val(cli.storage.prefs.theme);
-				$('#sync').val(cli.storage.prefs.sync);*/
-
-				$('#prefsDialog').fadeIn(100)
-				/*.click(function(e) {
-					e.stopPropagation();
-				});*/
-
-				//setTimeout("$(document).click(function() {$('#prefsDialog').fadeOut(100); $(document).off('click');});", 200);
-			}
+			$('#prefsDialog').fadeToggle(100)
 		});
 
 		//Check Boxes
@@ -365,23 +347,6 @@ ui = {
 		$('#showLanguage').click(function(e) {
 			e.preventDefault();
 			$('.settings').fadeOut(150);
-			$('#languageDialog a.current').removeClass('current');
-			$('#languageDialog .language a').each(function() {
-				if($(this).data('value') == cli.storage.prefs.lang) {
-					$(this).addClass('current');
-				}
-			});
-			$('#languageDialog').fadeIn(150).unbind('click').bind('click', function(e) {
-				e.stopPropagation(); // This is the preferred method.
-				console.log($(e.srcElement));
-				if($(e.srcElement).is('.language a')) {
-					cli.storage.prefs.lang = $(e.srcElement).data('value');
-					cli.storage.save();
-
-					window.location.reload()
-					return false;
-				}
-			});
 
 			setTimeout("$(document).click(function() {$('#languageDialog').fadeOut(75); $(document).off('click');});", 200);
 			
@@ -450,6 +415,35 @@ ui = {
 		if (cli.storage.prefs.gpu) {
 			toggleFx();
 		};
+
+		//Adds prefs in
+		$(function() {
+			$('#deleteWarnings').prop('checked', cli.storage.prefs.deleteWarnings);
+			$('#gpu').prop('checked', cli.storage.prefs.gpu);
+			$('#over50').prop('checked', cli.storage.prefs.over50);
+			$('#nextAmount').val(cli.storage.prefs.nextAmount);
+			$('#theme').val(cli.storage.prefs.theme);
+			$('#sync').val(cli.storage.prefs.sync);
+
+			//Language
+			$('#tabLanguage a.current').removeClass('current');
+			$('#tabLanguage .language a').each(function() {
+				if($(this).data('value') == cli.storage.prefs.lang) {
+					$(this).addClass('current');
+				}
+			});
+			$('#tabLanguage').bind('click', function(e) {
+				
+				if($(e.srcElement).is('.language a')) {
+					cli.storage.prefs.lang = $(e.srcElement).data('value');
+					cli.storage.save();
+
+					window.location.reload()
+					return false;
+				}
+			});
+		})
+		
 
 		// Search
 		$('#search').keyup(function() {

@@ -347,51 +347,7 @@ body {
         #panel #right ul li#syncBTN img {
           background: url(../../images/sync.png) no-repeat 5px 0px; }
         #panel #right ul li .settings {
-          display: none;
-          cursor: default;
-          width: 300px;
-          background: #222;
-          position: absolute;
-          top: 50px;
-          left: 50%;
-          margin-left: -185px;
-          z-index: 5; }
-          #panel #right ul li .settings img {
-            cursor: pointer; }
-          #panel #right ul li .settings h2 {
-            color: #fff;
-            font-size: 15px;
-            text-align: center; }
-          #panel #right ul li .settings form {
-            width: 280px;
-            margin-left: 10px;
-            margin-right: 10px;
-            margin-bottom: 7px; }
-            #panel #right ul li .settings form label {
-              color: #fff;
-              width: 170px;
-              margin-bottom: 7px;
-              text-align: right;
-              display: block;
-              font-size: 13px;
-              float: left;
-              clear: left;
-              margin-right: 5px; }
-            #panel #right ul li .settings form input, #panel #right ul li .settings form select {
-              float: left;
-              cursor: pointer; }
-            #panel #right ul li .settings form input:after {
-              content: '';
-              clear: both; }
-            #panel #right ul li .settings form button {
-              float: left;
-              font-size: 13px;
-              margin: 0 0 7px; }
-            #panel #right ul li .settings form select {
-              margin-bottom: 7px;
-              font-family: 'Helvetica', 'Arial', 'Ubuntu', sans-serif;
-              font-size: 13px;
-              width: 100%; }
+          display: none; }
         #panel #right ul li #search {
           position: relative;
           width: 150px; }

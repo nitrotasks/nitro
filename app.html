@@ -31,10 +31,68 @@
 		<p>General</p>  
 		</div>  
 		<div class="tab-pane" id="tabLanguage">  
-		<p>Language</p>  
+			<h2 data-translate="languageText" class="translate"></h2>
+			<table>
+				<thead>
+					<tr>
+						<th>Language</th>
+						<th>Author</th>
+						<th>Language</th>
+						<th>Author</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="language"><a href="#" data-value="english">English</a></td>
+						<td class="author">Caffeinated Code</td>
+						<td class="language"><a href="#" data-value="portuguese">Português</a></td>
+						<td class="author"><a href="mailto:email@belenos.me">Belenos Govannon</a></td>
+					</td>
+					<tr>
+						<td class="language"><a href="#" data-value="pirate">English (Pirate)</a></td>
+						<td class="author">Caffeinated Code</td>
+						<td class="language"><a href="#" data-value="russian">Русский</a></td>
+						<td class="author"><a href="mailto:a.pryah@gmail.com">Andrej Pryakhin</a></td>
+					</tr>
+					<tr>
+						<td class="language"><a href="#" data-value="basque">Euskara</a></td>
+						<td class="author"><a href="mailto:atxooy@gmail.com">Naxo Oyanguren</a></td>
+						<td class="language"><a href="#" data-value="finnish">Suomi</a></td>
+						<td class="author"><a href="mailto:rami.selin@gmail.com">Rami Selin</a></td>
+					</tr>
+					<tr>
+						<td class="language"><a href="#" data-value="french">Français</a></td>
+						<td class="author"><a href="mailto:maurin.raphael@gmail.com">Raphaël Maurin</a></td>
+						<td class="language"><a href="#" data-value="vietnamese">Tiếng Việt</a></td>
+						<td class="author"><a href="mailto:dinhquan@narga.net">Nguyễn Đình Quân</a></td>
+					</tr>
+					<tr>
+						<td class="language"><a href="#" data-value="german">Deutsch</a></td>
+						<td class="author"><a href="mailto:d.peteranderl@googlemail.com">Dennis Peteranderl</a></td>
+						<td class="language"><a href="#" data-value="chinese">中文(简体)</a></td>
+						<td class="author"><a href="mailto:1132321739qq@gmail.com">tuhaihe</a>, 2012</td>
+					</tr>
+					<tr>
+						<td class="language"><a href="#" data-value="italian">Italiano</a></td>
+						<td class="author"><a href="mailto:lmassa@bwlab.it.com">Luigi Massa</a></td>
+						<td class="language"><a href="#" data-value="arabic">‏العربية‏</a></td>
+						<td class="author"><a href="mailto:fouad.hassouneh@gmail.com">Fouad Hassouneh</td>
+					</tr>
+				</tbody>
+			</table>  
 		</div>  
 		<div class="tab-pane" id="tabTheme">  
-		<p>Theme</p>  
+			<h2>Theme</h2>
+			<select id="theme">
+				<option value="default">Default</option>
+				<option value="ambiance">Ambiance</option>
+				<option value="adwaita">Adwaita</option>
+				<option value="coffee">Coffee</option>
+				<option value="elementary">Elementary</option>
+				<option value="radiance">Radiance</option>
+				<option value="wunderlist">Wunderlist</option>
+				<option value="bieber">Justin Bieber</option>
+			</select>
 		</div>
 		<div class="tab-pane" id="tabSync">  
 		<p>Sync</p>  
@@ -42,55 +100,6 @@
 	</div>
 </div>
 <div id="languageDialog" class="modal">
-	<h3 data-translate="languageText" class="translate"></h3>
-	<table>
-		<thead>
-			<tr>
-				<th>Language</th>
-				<th>Author</th>
-				<th>Language</th>
-				<th>Author</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td class="language"><a href="#" data-value="english">English</a></td>
-				<td class="author">Caffeinated Code</td>
-				<td class="language"><a href="#" data-value="portuguese">Português</a></td>
-				<td class="author"><a href="mailto:email@belenos.me">Belenos Govannon</a></td>
-			</td>
-			<tr>
-				<td class="language"><a href="#" data-value="pirate">English (Pirate)</a></td>
-				<td class="author">Caffeinated Code</td>
-				<td class="language"><a href="#" data-value="russian">Русский</a></td>
-				<td class="author"><a href="mailto:a.pryah@gmail.com">Andrej Pryakhin</a></td>
-			</tr>
-			<tr>
-				<td class="language"><a href="#" data-value="basque">Euskara</a></td>
-				<td class="author"><a href="mailto:atxooy@gmail.com">Naxo Oyanguren</a></td>
-				<td class="language"><a href="#" data-value="finnish">Suomi</a></td>
-				<td class="author"><a href="mailto:rami.selin@gmail.com">Rami Selin</a></td>
-			</tr>
-			<tr>
-				<td class="language"><a href="#" data-value="french">Français</a></td>
-				<td class="author"><a href="mailto:maurin.raphael@gmail.com">Raphaël Maurin</a></td>
-				<td class="language"><a href="#" data-value="vietnamese">Tiếng Việt</a></td>
-				<td class="author"><a href="mailto:dinhquan@narga.net">Nguyễn Đình Quân</a></td>
-			</tr>
-			<tr>
-				<td class="language"><a href="#" data-value="german">Deutsch</a></td>
-				<td class="author"><a href="mailto:d.peteranderl@googlemail.com">Dennis Peteranderl</a></td>
-				<td class="language"><a href="#" data-value="chinese">中文(简体)</a></td>
-				<td class="author"><a href="mailto:1132321739qq@gmail.com">tuhaihe</a>, 2012</td>
-			</tr>
-			<tr>
-				<td class="language"><a href="#" data-value="italian">Italiano</a></td>
-				<td class="author"><a href="mailto:lmassa@bwlab.it.com">Luigi Massa</a></td>
-				<td class="language"><a href="#" data-value="arabic">‏العربية‏</a></td>
-				<td class="author"><a href="mailto:fouad.hassouneh@gmail.com">Fouad Hassouneh</td>
-			</tr>
-		</tbody>
-	</table>
 </div>	
 <div id="overlay"></div>
 	<section id="panel">
@@ -115,16 +124,6 @@
 								<option value="noLists" class="translate" data-translate="nextNoLists"></option>
 								<option value="threeItems" class="translate" data-translate="nextThreeLists"></option>
 								<option value="everything" class="translate" data-translate="nextEntireLists"></option>
-							</select>
-							<select id="theme">
-								<option value="default">Theme: Default</option>
-								<option value="ambiance">Theme: Ambiance</option>
-								<option value="adwaita">Theme: Adwaita</option>
-								<option value="coffee">Theme: Coffee</option>
-								<option value="elementary">Theme: Elementary</option>
-								<option value="radiance">Theme: Radiance</option>
-								<option value="wunderlist">Theme: Wunderlist</option>
-								<option value="bieber">Theme: Justin Bieber</option>
 							</select>
 							<select id="sync">
 								<option value="never">Sync: Never (No notifications)</option>

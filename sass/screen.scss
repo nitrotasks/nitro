@@ -184,63 +184,6 @@ body {
 
 				.settings {
 					display: none;
-					
-					cursor: default;
-					width: 300px;
-					background: #222;
-					position: absolute;
-					top: 50px;
-					left: 50%;
-					margin-left: -185px;
-					z-index: 5;
-
-					img {
-						cursor: pointer;
-					}
-
-					h2 {
-						color: #fff;
-						font-size: 15px;
-						text-align: center;
-					}
-
-					form {
-						width: 280px;
-						margin-left: 10px;
-						margin-right: 10px;
-						margin-bottom: 7px;
-
-						label {
-							color: #fff;
-							width: 170px;
-							margin-bottom: 7px;
-							text-align: right;
-							display: block;
-							font-size: 13px;
-							float: left;
-							clear: left;
-							margin-right: 5px;
-						}
-						input, select {
-							float: left;
-							cursor: pointer;
-						}
-						input:after{
-							content: '';
-							clear: both;
-						}
-						button {
-							float: left;
-							font-size: 13px;
-							margin: 0 0 7px;
-						}
-						select {
-							margin-bottom: 7px;
-							font-family: 'Helvetica', 'Arial', 'Ubuntu', sans-serif;
-							font-size: 13px;
-							width: 100%;
-						}
-					}					
 				}
 
 				#search {
