@@ -760,7 +760,8 @@ ui = {
 							ui.tasks.populate('next')
 						}
 
-						cli.today(id).calculate()
+						//Recomment in if it breaks something!
+						//cli.today(id).calculate()
 						ui.lists.updateCount('all');
 					}
 				}
