@@ -474,7 +474,8 @@ var cli = {
 					time: {
 						name: 0,
 						order: 0
-					}
+					},
+					synced: false
 				};
 
 				//Adds to order array
