@@ -13,6 +13,9 @@
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+//Define OS (Linux or JS)
+app = 'js';
+
 
 $(document).ready(function() {
 	// Update database with timestamps
@@ -27,10 +30,21 @@ $(document).ready(function() {
 		cli.storage.save();
 	}
 
-	//Loads in - JavaScript Version
-	$.getJSON('js/translations/' + cli.storage.prefs.lang + '.json', function(data) {  
-		language(data)
-	});
+	if (app == 'js') {
+		//Loads Translation
+		$.getJSON('js/translations/' + cli.storage.prefs.lang + '.json', function(data) {  
+			language(data)
+		});
+
+		//Sets up keyboard shortcuts
+		ui.external.key()
+		
+	} else if (app == 'python') {
+		//Loads Translation
+		document.title = 'null';
+		document.title = 'load|' + cli.storage.prefs.lang + '.json';
+	}
+	
 
 	// Theme init
 	if (!cli.storage.prefs.theme) {
@@ -42,10 +56,6 @@ $(document).ready(function() {
 
 	//Give some time for the theme to load
 	setTimeout("$(window).resize()", 600);
-
-	//Loads - Python Version
-	//document.title = 'null';
-	//document.title = 'load|' + cli.storage.prefs.lang + '.json';
 	
 	//Bieber Theme
 	if (cli.storage.prefs.theme == 'bieber') {
@@ -1270,6 +1280,22 @@ ui = {
 		}
 	},
 	external: {
+		key: function() {
+			key('n', function(){ ui.external.cmd('newtask') });
+			key('l', function(){ ui.external.cmd('newlist') });
+			key('s', function(){ ui.external.cmd('sync') });
+
+			key('f', function(){ ui.external.cmd('find') });
+			key('p', function(){ ui.external.cmd('prefs') });
+
+			key('0', function(){ ui.external.cmd('today') });
+			key('1', function(){ ui.external.cmd('next') });
+			key('2', function(){ ui.external.cmd('someday') });
+			key('3', function(){ ui.external.cmd('logbook') });
+
+			key('a', function(){ ui.external.cmd('about') });
+			key('h', function(){ ui.external.cmd('help') });
+		},
 		cmd: function(cmd) {
 			//Contains all the commands
 
