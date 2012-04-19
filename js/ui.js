@@ -318,7 +318,7 @@ ui = {
 		$('#syncBTN').click(function(e) {
 			e.preventDefault();
 			if(!$(this).is('.running') && cli.storage.prefs.sync != 'never') {
-				ui.sync.running();
+				ui.sync.running('on');
 				cli.storage.sync();
 			}
 		});
@@ -491,28 +491,48 @@ ui = {
 
 	},
 	sync: {
-		running: function() {
-			$('#syncBTN').addClass('running');
+		running: function(type) {
+			switch(type) {
+				case 'on':
+					$('#syncBTN').addClass('running');
+					break;
+				case 'off':
+					$('#syncBTN').removeClass('running');
+					break;
+			}
 		},
-		active: function() {
-			if(cli.storage.prefs.sync != 'never' && cli.storage.prefs.sync != 'auto') {
-				$('#syncBTN').addClass('active');
+		active: function(type) {
+			switch(type) {
+				case 'on':
+					if(cli.storage.prefs.sync != 'never' && cli.storage.prefs.sync != 'auto') {
+						$('#syncBTN').addClass('active');
+					}
+					break;
+				case 'off':
+					$('#syncBTN').removeClass('active');
+					break;
 			}
 		},
 		reload: function() {
 			console.log("Reloading UI");
 
 			// Stop sync icon
-			$('#syncBTN').removeClass('running');
+			ui.sync.active('off');
+			ui.sync.running('off');
 
-			// Display tasks
-			ui.tasks.populate(ui.lists.selected());
+			// Get selected list
+			var sel = ui.lists.selected();
 			
 			// Makes lists show up 
 			$('#userLists').html('');
 			for (var i=0; i<cli.storage.lists.order.length; i++) {
 				$('#userLists').append('<li id="' + cli.storage.lists.order[i] + 'List"><div class="editIcon" title="' + $.i18n._('titleEditList') + '"></div><div class="view">' + cli.storage.lists.items[cli.storage.lists.order[i]].name  + '<div class="count">0</div></div><div class="edit"><input type="text" value="' +  cli.storage.lists.items[cli.storage.lists.order[i]].name + '"><div class="delete" title="' + $.i18n._('titleDeleteList') + '"></div><div class="save" title="' + $.i18n._('titleSaveList') + '"></div></div></li>');
 			}
+
+			// Display tasks
+			ui.tasks.populate(sel);
+			$('#' + sel).addClass('selected');
+
 			ui.lists.updateCount('all');
 		},
 	},	
