@@ -569,7 +569,7 @@ ui = {
 		closeEditMode: function() {
 			if (ui.listEditMode != 'none') {
 
-				var newName = $('#' + ui.listEditMode + 'List .edit input').val();
+				var newName = $('#' + ui.listEditMode + 'List .edit input').blur().val();
 
 				$('#' + ui.listEditMode + 'List').removeClass('edit');
 				$('#' + ui.listEditMode + 'List .edit').hide(0);
