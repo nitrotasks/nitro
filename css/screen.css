@@ -328,7 +328,8 @@ body {
         #panel #right ul li img {
           padding: 5px;
           width: 30px;
-          height: 30px; }
+          height: 30px;
+          vertical-align: top; }
         #panel #right ul li:not(:last-child):hover {
           /*background: #484848;*/
           background: rgba(0, 0, 0, 0.3); }
@@ -338,6 +339,32 @@ body {
           background: url(../../images/darksprite.png) no-repeat 5px -118px; }
         #panel #right ul li#settingsBTN img {
           background: url(../../images/darksprite.png) no-repeat 5px -158px; }
+        #panel #right ul li#settingsBTN ul {
+          display: inline-block;
+          position: absolute;
+          top: 40px;
+          left: 0;
+          margin: 0;
+          background: rgba(0, 0, 0, 0.8);
+          color: #fff;
+          font-size: 13px;
+          text-shadow: 0 1px 0 rgba(0, 0, 0, 0.7);
+          width: 150px;
+          padding: 5px 0;
+          border-bottom-left-radius: 3px;
+          border-bottom-right-radius: 3px;
+          box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); }
+          #panel #right ul li#settingsBTN ul li {
+            display: block;
+            padding: 0 15px; }
+            #panel #right ul li#settingsBTN ul li:hover {
+              background-image: #666666;
+              background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #888888), color-stop(100%, #444444));
+              background: -webkit-linear-gradient(top, #888888 0%, #444444 100%);
+              background: -moz-linear-gradient(top, #888888 0%, #444444 100%);
+              background: -o-linear-gradient(top, #888888 0%, #444444 100%);
+              background: -ms-linear-gradient(top, #888888 0%, #444444 100%);
+              background: linear-gradient(top, #888888 0%, #444444 100%); }
         #panel #right ul li#syncBTN.active img {
           background: url(../../images/sync_active.png) no-repeat 5px 0px; }
         #panel #right ul li#syncBTN.running img {

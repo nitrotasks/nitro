@@ -335,8 +335,13 @@ ui = {
 
 		// Settings pop up
 		$('#settingsBTN img').click(function() {
-			$('#prefsDialog').fadeToggle(100)
+			$('#settingsBTN ul').fadeToggle(100)
 		});
+
+		$('#settingsBTN ul li').click(function() {
+			$('#settingsBTN ul').fadeOut(100)
+			ui.external.cmd($(this).attr('class'));
+		})
 
 		//Check Boxes
 		$('#tabGeneral form input').change(function() {
