@@ -194,6 +194,11 @@ body {
 								background-image: #666666;
 								@include background(linear-gradient(top, #888888 0%, #444444 100%));
 							}
+
+							a {
+								color: #fff;
+								text-decoration: none;
+							}
 						}
 					}
 				}

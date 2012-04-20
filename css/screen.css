@@ -365,6 +365,9 @@ body {
               background: -o-linear-gradient(top, #888888 0%, #444444 100%);
               background: -ms-linear-gradient(top, #888888 0%, #444444 100%);
               background: linear-gradient(top, #888888 0%, #444444 100%); }
+            #panel #right ul li#settingsBTN ul li a {
+              color: #fff;
+              text-decoration: none; }
         #panel #right ul li#syncBTN.active img {
           background: url(../../images/sync_active.png) no-repeat 5px 0px; }
         #panel #right ul li#syncBTN.running img {
