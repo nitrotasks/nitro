@@ -1339,11 +1339,11 @@ ui = {
 			} else if (cmd == 'about') {
 				$('#aboutDialog').fadeIn(100);
 			} else if (cmd == 'donate') {
-				//TODO: Add in Donate
+				window.location = 'http://nitrotasks.com/donate.html'
 			} else if (cmd == 'help') {
-				//TODO: Add in Help
+				window.location = 'http://nitrotasks.com/help'
 			} else if (cmd == 'bug') {
-				//TODO: Add in Bug reporting
+				window.location = 'https://github.com/stayradiated/Nitro/issues'
 			}
 		}
 	}
