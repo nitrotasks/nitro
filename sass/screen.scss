@@ -161,15 +161,17 @@ body {
 					cursor: pointer;
 				}
 
+				#logbookBTN, #settingsBTN {
+					vertical-align: top;
+				}
+
 				&#logbookBTN img {
 					background: url(../../images/darksprite.png) no-repeat 5px -118px;
-					vertical-align: top;
 				}
 
 				&#settingsBTN {
 					img {
 						background: url(../../images/darksprite.png) no-repeat 5px -158px;
-						vertical-align: top;
 					}
 
 					ul {

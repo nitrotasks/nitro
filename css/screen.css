@@ -334,12 +334,12 @@ body {
           background: rgba(0, 0, 0, 0.3); }
         #panel #right ul li:not(:last-child) {
           cursor: pointer; }
+        #panel #right ul li #logbookBTN, #panel #right ul li #settingsBTN {
+          vertical-align: top; }
         #panel #right ul li#logbookBTN img {
-          background: url(../../images/darksprite.png) no-repeat 5px -118px;
-          vertical-align: top; }
+          background: url(../../images/darksprite.png) no-repeat 5px -118px; }
         #panel #right ul li#settingsBTN img {
-          background: url(../../images/darksprite.png) no-repeat 5px -158px;
-          vertical-align: top; }
+          background: url(../../images/darksprite.png) no-repeat 5px -158px; }
         #panel #right ul li#settingsBTN ul {
           display: none;
           position: absolute;
