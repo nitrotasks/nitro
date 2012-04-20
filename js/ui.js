@@ -335,7 +335,7 @@ ui = {
 
 		// Settings pop up
 		$('#settingsBTN img').click(function() {
-			$('#settingsBTN ul').fadeToggle(100)
+			$('#settingsBTN ul').slideToggle(150)
 		});
 
 		$('#settingsBTN ul li').click(function() {
