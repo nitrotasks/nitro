@@ -260,8 +260,14 @@ body {
       background: -o-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
       background: -ms-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
       background: linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
-      border-radius: 5px;
+      border-radius: 0;
       box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5); }
+    #content #tasks ul li:first-of-type {
+      border-radius:5px 5px 0 0; }
+    #content #tasks ul li:last-of-type {
+      border-radius:0 0 5px 5px; }
+    #content #tasks ul li:only-of-type {
+      border-radius:5px; }
       #content #tasks ul li .todotxt {
         height: 30px;
         padding: 0 10px 0 0;
