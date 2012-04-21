@@ -16,6 +16,9 @@
 //Define OS (Linux or JS)
 app = 'js';
 
+// Define JSON themes file
+themes = {};
+
 
 $(document).ready(function() {
 	// Update database with timestamps
@@ -44,21 +47,30 @@ $(document).ready(function() {
 		document.title = 'null';
 		document.title = 'load|' + cli.storage.prefs.lang + '.json';
 	}
-	
 
-	// Theme init
-	if (!cli.storage.prefs.theme) {
-		cli.storage.prefs.theme = 'default';
-		cli.storage.save();
-	}
+	$.getJSON('css/themes.json?n=1', function(data) {
+		themes = data;
+		for(var i in themes) {
+			$('#theme').append('<option value="' + i + '">' + themes[i].name + '</option>');
+		}
 
-	$('link.theme').attr('href', 'css/themes/' + cli.storage.prefs.theme + '.css');
+		// Theme init
+		if (!cli.storage.prefs.theme) {
+			cli.storage.prefs.theme = {
+				value: 'default',
+				location: theme.default.location
+			}
+			cli.storage.save();
+		}
+
+		$('link.theme').attr('href', cli.storage.prefs.theme.location);
+	});
 
 	//Give some time for the theme to load
 	setTimeout("$(window).resize()", 600);
 	
 	//Bieber Theme
-	if (cli.storage.prefs.theme == 'bieber') {
+	if (cli.storage.prefs.theme.name == 'bieber') {
 		$('#brand').html('<img src="css/themes/bieber/heart.png" style="padding-right:8px;position: relative;top: -2px;">Justin Bieber');	
 	};	
 
@@ -108,7 +120,7 @@ function language(data) {
 }
 
 $(window).resize(function() {
-	if(cli.storage.prefs.theme == 'wunderlist') {
+	if(cli.storage.prefs.theme.name == 'Wunderlist') {
 		$('#userLists').height($(window).height() - $('#userLists').offset().top - 36);
 	} else {
 		$('#userLists').height($(window).height() - $('#userLists').offset().top);
@@ -372,11 +384,21 @@ ui = {
 		});
 
 		$('#theme').change(function() {
-			var theme = $(this).val();
+			var theme = themes[$(this).val()];
 
-			$('link.theme').attr('href', 'css/themes/' + theme + '.css')
+			$('#tabTheme')
+				.find('h3')
+					.html(theme.name)
+					.parent()
+				.find('.author')
+					.html(theme.author)
+					.parent()
+				.find('.description')
+					.html(theme.description);
 
-			if(theme == 'bieber') {
+			$('link.theme').attr('href', theme.location)
+
+			if(theme.name == 'Bieber') {
 				$('#brand').html('<img src="css/themes/bieber/heart.png" style="padding-right:8px;position: relative;top: -2px;">Justin Bieber');
 				$('body').append('<audio></audio>');
 				var $audio = $('audio');
@@ -394,7 +416,10 @@ ui = {
 			}
 			
 			//Saves Theme
-			cli.storage.prefs.theme = theme;
+			cli.storage.prefs.theme = {
+				value: $(this).val(),
+				location: theme.location
+			}
 			cli.storage.save();
 
 			//Gives some time for the theme to change
@@ -429,7 +454,7 @@ ui = {
 			$('#gpu').prop('checked', cli.storage.prefs.gpu);
 			$('#over50').prop('checked', cli.storage.prefs.over50);
 			$('#nextAmount').val(cli.storage.prefs.nextAmount);
-			$('#theme').val(cli.storage.prefs.theme);
+			$('#theme').val(cli.storage.prefs.theme.value);
 			$('#sync').val(cli.storage.prefs.sync);
 
 			//Language

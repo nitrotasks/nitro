@@ -209,10 +209,6 @@ td {
   color: black;
   padding: 0.2em 0; }
 
-@font-face {
-  font-family: "WebSymbolsRegular";
-  src: url('/css/fonts/../../fonts/websymbols-regular-webfont.eot') format('embedded-opentype'), url('/css/fonts/../../fonts/websymbols-regular-webfont.ttf') format('truetype'); }
-
 @-webkit-keyframes rotate {
   from {
     -webkit-transform: rotate(0deg); }
@@ -648,33 +644,6 @@ body {
     text-align: center;
     color: #545454;
     line-height: 20px; }
-  .modal table {
-    font-size: 13px;
-    line-height: 20px;
-    margin: 10px 30px 30px;
-    color: #444; }
-    .modal table th {
-      text-align: left;
-      font-size: 14px;
-      border-bottom: 1px solid #999; }
-    .modal table tr {
-      border-bottom: 1px solid #ccc; }
-      .modal table tr td, .modal table tr th {
-        padding: 5px 15px; }
-      .modal table tr a {
-        color: #0ba1d0;
-        text-decoration: none; }
-        .modal table tr a:hover {
-          cursor: pointer;
-          text-decoration: underline; }
-        .modal table tr a.current {
-          font-weight: bold;
-          color: #444; }
-      .modal table tr td.author {
-        font-style: italic;
-        color: #888; }
-        .modal table tr td.author a {
-          color: #555; }
   .modal button:first-of-type {
     margin-left: 58px; }
   .modal button {
@@ -769,7 +738,7 @@ button {
   margin-left: -250px;
   top: 100px;
   background: #fff;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.7);
   z-index: 100;
   border-radius: 5px; }
   #prefsDialog ul {
@@ -778,13 +747,13 @@ button {
     padding: 0;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-    background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #e9e9e8));
-    background: -webkit-linear-gradient(top, #ffffff 0%, #e9e9e8 100%);
-    background: -moz-linear-gradient(top, #ffffff 0%, #e9e9e8 100%);
-    background: -o-linear-gradient(top, #ffffff 0%, #e9e9e8 100%);
-    background: -ms-linear-gradient(top, #ffffff 0%, #e9e9e8 100%);
-    background: linear-gradient(top, #ffffff 0%, #e9e9e8 100%); }
+    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+    background: -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #d9d9d9), color-stop(100%, #f2f2f2));
+    background: -webkit-linear-gradient(bottom, #d9d9d9 0%, #f2f2f2 100%);
+    background: -moz-linear-gradient(bottom, #d9d9d9 0%, #f2f2f2 100%);
+    background: -o-linear-gradient(bottom, #d9d9d9 0%, #f2f2f2 100%);
+    background: -ms-linear-gradient(bottom, #d9d9d9 0%, #f2f2f2 100%);
+    background: linear-gradient(bottom, #d9d9d9 0%, #f2f2f2 100%); }
     #prefsDialog ul li {
       display: inline-block;
       margin: 0;
@@ -796,13 +765,12 @@ button {
       line-height: 30px;
       height: 30px; }
       #prefsDialog ul li.active {
-        background: -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #ffffff), color-stop(100%, #e9e9e8));
-        background: -webkit-linear-gradient(bottom, #ffffff 0%, #e9e9e8 100%);
-        background: -moz-linear-gradient(bottom, #ffffff 0%, #e9e9e8 100%);
-        background: -o-linear-gradient(bottom, #ffffff 0%, #e9e9e8 100%);
-        background: -ms-linear-gradient(bottom, #ffffff 0%, #e9e9e8 100%);
-        background: linear-gradient(bottom, #ffffff 0%, #e9e9e8 100%);
-        box-shadow: 0 1px 0 #fff; }
+        background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #f0f0f0));
+        background: -webkit-linear-gradient(top, #ffffff 0%, #f0f0f0 100%);
+        background: -moz-linear-gradient(top, #ffffff 0%, #f0f0f0 100%);
+        background: -o-linear-gradient(top, #ffffff 0%, #f0f0f0 100%);
+        background: -ms-linear-gradient(top, #ffffff 0%, #f0f0f0 100%);
+        background: linear-gradient(top, #ffffff 0%, #f0f0f0 100%); }
         #prefsDialog ul li.active a {
           color: #222; }
       #prefsDialog ul li:first-child {
@@ -822,6 +790,65 @@ button {
     padding: 15px; }
     #prefsDialog .tab-content .tab-pane.active {
       display: block; }
+
+#tabLanguage table {
+  font-size: 13px;
+  line-height: 20px;
+  color: #444; }
+  #tabLanguage table th {
+    text-align: left;
+    font-size: 14px;
+    border-bottom: 1px solid #999; }
+  #tabLanguage table tr {
+    border-bottom: 1px solid #ccc; }
+    #tabLanguage table tr td, #tabLanguage table tr th {
+      padding: 5px 14px; }
+    #tabLanguage table tr a {
+      color: #0ba1d0;
+      text-decoration: none; }
+      #tabLanguage table tr a:hover {
+        cursor: pointer;
+        text-decoration: underline; }
+      #tabLanguage table tr a.current {
+        font-weight: bold;
+        color: #444; }
+    #tabLanguage table tr td.author {
+      font-style: italic;
+      color: #888; }
+      #tabLanguage table tr td.author a {
+        color: #555; }
+
+#tabTheme select {
+  font-size: 13px;
+  line-height: 18px;
+  width: 110px;
+  float: left;
+  margin-bottom: 15px; }
+  #tabTheme select:focus, #tabTheme select:active {
+    outline: none; }
+#tabTheme .right {
+  float: left;
+  margin-left: 15px;
+  width: 365px; }
+#tabTheme img {
+  margin: 0 0 5px 0;
+  width: 365px;
+  height: 150px; }
+#tabTheme h3 {
+  clear: both;
+  display: inline-block;
+  margin-bottom: 5px; }
+#tabTheme .author {
+  font-style: italic;
+  font-size: 13px;
+  color: #777;
+  display: inline-block;
+  margin-bottom: 5px; }
+  #tabTheme .author:before {
+    content: 'by '; }
+#tabTheme .description {
+  margin-top: 0;
+  font-size: 14px; }
 
 #aboutDialog {
   position: fixed;

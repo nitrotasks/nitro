@@ -1,8 +1,5 @@
 @import "reset";
-@import "compass/css3/font-face";
 @import "compass/css3/images";
-
-@include font-face("WebSymbolsRegular", font-files("../../fonts/websymbols-regular-webfont.eot", "../../fonts/websymbols-regular-webfont.ttf"));
 
 @-webkit-keyframes rotate {
   from {
@@ -634,42 +631,6 @@ body {
 		color: #545454;
 		line-height: 20px;
 	}
-	table {
-		font-size: 13px;
-		line-height: 20px;
-		margin: 10px 30px 30px;
-		color: #444;
-		th {
-			text-align: left;
-			font-size: 14px;
-			border-bottom: 1px solid #999;
-		}
-		tr {
-			border-bottom: 1px solid #ccc;
-			td, th {
-				padding: 5px 15px;
-			}
-			a {
-				color: #0ba1d0;
-				text-decoration: none;
-				&:hover {
-					cursor: pointer;
-					text-decoration: underline;
-				}
-				&.current {
-					font-weight: bold;
-					color: #444;
-				}	
-			}
-			td.author {
-				font-style: italic;
-				color: #888;
-				a {
-					color: #555;
-				}
-			}
-		}
-	}
 	/*Center Buttons*/
 	button:first-of-type {
 		margin-left: 58px;
@@ -761,7 +722,7 @@ button {
 	margin-left: -250px;
 	top: 100px;
 	background: #fff;
-	box-shadow: 0 0 15px rgba(0,0,0,0.8);
+	box-shadow: 0 2px 15px rgba(0,0,0,0.7);
 	z-index: 100;
 	border-radius: 5px;
 
@@ -771,8 +732,9 @@ button {
 		padding: 0;
 		border-top-left-radius: 5px;
 		border-top-right-radius: 5px;
-		border-bottom:  1px solid rgba(0,0,0,0.2);
-		@include background(linear-gradient(top, #ffffff 0%, #e9e9e8 100%));
+		border-bottom:  1px solid rgba(0,0,0,0.5);
+		// @include background(linear-gradient(top, #ffffff 0%, #e9e9e8 100%));
+		@include background(linear-gradient(bottom, #d9d9d9 0%, #f2f2f2 100%));
 
 		li {
 			display: inline-block;
@@ -786,8 +748,9 @@ button {
 			height: 30px;
 
 			&.active {
-				@include background(linear-gradient(bottom, #ffffff 0%, #e9e9e8 100%));
-				box-shadow: 0 1px 0 #fff;
+				@include background(linear-gradient(top, #ffffff 0%, #f0f0f0 100%));
+				// @include background(linear-gradient(bottom, #bfbfbf 0%, #d9d9d9 100%));
+				// box-shadow: 0 1px 0 #fff;
 
 				a {
 					color: #222;
@@ -825,6 +788,87 @@ button {
 				display: block;
 			}
 		}
+	}
+}
+
+#tabLanguage {
+	table {
+		font-size: 13px;
+		line-height: 20px;
+		color: #444;
+		th {
+			text-align: left;
+			font-size: 14px;
+			border-bottom: 1px solid #999;
+		}
+		tr {
+			border-bottom: 1px solid #ccc;
+			td, th {
+				padding: 5px 14px;
+			}
+			a {
+				color: #0ba1d0;
+				text-decoration: none;
+				&:hover {
+					cursor: pointer;
+					text-decoration: underline;
+				}
+				&.current {
+					font-weight: bold;
+					color: #444;
+				}	
+			}
+			td.author {
+				font-style: italic;
+				color: #888;
+				a {
+					color: #555;
+				}
+			}
+		}
+	}
+}
+
+#tabTheme {
+	select {
+		font-size: 13px;
+		line-height: 18px;
+		width: 110px;
+		float: left;
+		margin-bottom: 15px;
+		&:focus, &:active {
+			outline: none;
+		}
+	}
+	.right {
+		float: left;
+		margin-left: 15px;
+		width: 365px;
+	}
+	img {
+		margin: 0 0 5px 0;
+		width: 365px;
+		height: 150px;
+	}
+	h3 {
+		clear: both;
+		display: inline-block;
+		margin-bottom: 5px;
+	}
+	.author {
+		font-style: italic;
+		font-size: 13px;
+		color: #777;
+		display: inline-block;
+		margin-bottom: 5px;
+
+		&:before {
+			content: 'by ';
+		}
+	}
+	.description {
+		margin-top: 0;
+		font-size: 14px;
 	}
 }
 
