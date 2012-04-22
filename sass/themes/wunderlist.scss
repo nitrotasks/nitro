@@ -336,7 +336,15 @@ body {
 	// TASKS
 	#tasks {
 		// position
-		padding: 40px 260px 40px 0;
+		padding: 0;
+		position: absolute;
+		top: 40px;
+		right: 250px;
+		left: 0;
+		bottom: 0;
+		background-position: center center;
+		background-repeat: repeat;
+		background-size: cover;
 
 		// EXPLANATION
 		.explanation {

@@ -202,7 +202,15 @@ body {
       margin-right: 20px;
       text-align: center; }
 #content #tasks {
-  padding: 40px 0 40px 250px; }
+  padding: 0;
+  position: absolute;
+  top: 40px;
+  right: 0;
+  left: 250px;
+  bottom: 0;
+  background-position: center center;
+  background-repeat: repeat;
+  background-size: cover; }
   #content #tasks .explanation {
     width: 300px;
     padding: 15px;
