@@ -550,7 +550,7 @@ ui = {
 				// Read only the first file
 				var reader = new FileReader();
 				reader.onload = function (event) {
-					$body[0].style.backgroundImage = 'url(' + event.target.result + ')';
+					$('#tasks')[0].style.backgroundImage = 'url(' + event.target.result + ')';
 					localStorage.setItem('background', event.target.result);
 				};
 				reader.readAsDataURL(files[0]);
