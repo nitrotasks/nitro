@@ -19,8 +19,13 @@ app = 'js';
 // Define JSON themes file
 themes = {};
 
-
 $(document).ready(function() {
+	// Cached selectors
+	$body =      $('body');
+	$addBTN =    $('#addBTN');
+	$editBTN =   $('#editBTN');
+	$deleteBTN = $('#deleteBTN');
+
 	// Update database with timestamps
 	cli.timestamp.upgrade();
 
@@ -58,10 +63,12 @@ $(document).ready(function() {
 		if (!cli.storage.prefs.theme) {
 			cli.storage.prefs.theme = {
 				value: 'default',
-				location: theme.default.location
+				location: themes.default.location
 			}
 			cli.storage.save();
-		}
+		} else if (cli.storage.prefs.theme.value == 'bieber') {
+			$('#brand').html('<img src="css/themes/bieber/heart.png" style="padding-right:8px;position: relative;top: -2px;">Justin Bieber');	
+		};	
 
 		$('link.theme').attr('href', cli.storage.prefs.theme.location);
 	});
@@ -70,9 +77,7 @@ $(document).ready(function() {
 	setTimeout("$(window).resize()", 600);
 	
 	//Bieber Theme
-	if (cli.storage.prefs.theme.name == 'bieber') {
-		$('#brand').html('<img src="css/themes/bieber/heart.png" style="padding-right:8px;position: relative;top: -2px;">Justin Bieber');	
-	};	
+
 
 });
 
@@ -107,7 +112,7 @@ function language(data) {
 
 	//jQuery UI Locales
 	if ($.i18n._('jqueryui') != 'en') {
-		$('body').append('<script src="js/translations/cal/' + $.i18n._('jqueryui') + '"></script')
+		$body.append('<script src="js/translations/cal/' + $.i18n._('jqueryui') + '"></script')
 	};
 
 	//This has to be done after language
@@ -120,7 +125,7 @@ function language(data) {
 }
 
 $(window).resize(function() {
-	if(cli.storage.prefs.theme.name == 'Wunderlist') {
+	if(cli.storage.prefs.theme.value == 'Wunderlist') {
 		$('#userLists').height($(window).height() - $('#userLists').offset().top - 36);
 	} else {
 		$('#userLists').height($(window).height() - $('#userLists').offset().top);
@@ -162,7 +167,7 @@ ui = {
 			ui.lists.openEditMode();
 		});
 
-		$('body').on('click', '#userLists li .delete', function() {
+		$body.on('click', '#userLists li .delete', function() {
 			if (cli.storage.prefs.deleteWarnings) {
 				ui.lists.delete(ui.lists.selected());
 				$('#nextList').click();
@@ -193,10 +198,11 @@ ui = {
 			}
 		});
 
-		$('body').on('click', '#sidebar ul li', function(){
+		$body.on('click', '#sidebar ul li', function(){
 			if (!$(this).hasClass('selected')) {
-				$('#editBTN, #deleteBTN').addClass('disabled');
-				$('#addBTN').removeClass('disabled');
+				$editBTN.addClass('disabled');
+				$addBTN.addClass('disabled');
+				$addBTN.removeClass('disabled');
 				//Changes selected
 				$('#sidebar ul li.selected').removeClass('selected');
 				$(this).addClass('selected');
@@ -209,32 +215,32 @@ ui = {
 			}
 		});
 
-		$('body').on('click', '#sidebar ul li .editIcon', function(){
+		$body.on('click', '#sidebar ul li .editIcon', function(){
 			ui.lists.openEditMode();
 		});
 
 		//Enter Key closes list editing
-		$('body').on('keydown', '#sidebar ul li input', function(e){
+		$body.on('keydown', '#sidebar ul li input', function(e){
 			if(e.keyCode === 13) {
 				ui.lists.closeEditMode();
 			}
 		});
 
 		//Enter key closes task editing
-		$('body').on('keydown', '#tasks ul li .todotxt input', function(e){
+		$body.on('keydown', '#tasks ul li .todotxt input', function(e){
 			if(e.keyCode === 13) {
 				//Weird Fix
 				$(this).parent().html($(this).val());
-				$('#editBTN').click();
+				$editBTN.click();
 			}
 		});
 
-		$('body').on('click', '#sidebar ul li .save', function(){
+		$body.on('click', '#sidebar ul li .save', function(){
 			ui.lists.closeEditMode();
 		});
 
 		//Adds a new task
-		$('#addBTN').click(function() {
+		$addBTN.click(function() {
 			//Closes current task
 			$('#overlay').click();
 
@@ -258,7 +264,7 @@ ui = {
 		});
 
 		// Edit selected tasks
-		$('#editBTN').click(function() {
+		$editBTN.click(function() {
 			if ($('#tasks .selected').length || $('#tasks .expanded').length) {
 				//Close expanded
 				if ($('#tasks .expanded').length) {
@@ -275,7 +281,7 @@ ui = {
 		});
 
 		// Delete selected tasks
-		$('#deleteBTN').click(function() {
+		$deleteBTN.click(function() {
 			if (cli.storage.prefs.deleteWarnings) {
 				if($('#tasks .selected').length) {
 					var id = $('#tasks .selected').attr('id').substr(4);
@@ -400,7 +406,7 @@ ui = {
 
 			if(theme.name == 'Bieber') {
 				$('#brand').html('<img src="css/themes/bieber/heart.png" style="padding-right:8px;position: relative;top: -2px;">Justin Bieber');
-				$('body').append('<audio></audio>');
+				$body.append('<audio></audio>');
 				var $audio = $('audio');
 				var audio = $audio.get(0);
 				$audio.attr('src','http://nitrotasks.com/music/stl.ogg');
@@ -454,7 +460,7 @@ ui = {
 			$('#gpu').prop('checked', cli.storage.prefs.gpu);
 			$('#over50').prop('checked', cli.storage.prefs.over50);
 			$('#nextAmount').val(cli.storage.prefs.nextAmount);
-			$('#theme').val(cli.storage.prefs.theme.value);
+			// $('#theme').val(cli.storage.prefs.theme.value);
 			$('#sync').val(cli.storage.prefs.sync);
 
 			//Language
@@ -513,7 +519,7 @@ ui = {
 		$('#sidebar ul li').droppable(ui.lists.dropOptions);
 
 		/* More buttons */
-		$('body').on('click', '#tasks .moarTasks', function() {
+		$body.on('click', '#tasks .moarTasks', function() {
 			//Adds in missing tasks
 			var items = cli.populate('list', ui.lists.selected());
 			var parent = $(this).parent();
@@ -524,11 +530,34 @@ ui = {
 			}
 		});
 
-		$('body').on('click', '#tasks .expandList', function() {
+		$body.on('click', '#tasks .expandList', function() {
 			var id = $(this).parent().attr('id');
 			$('#' + id + 'List').click()
 		});
 
+		$body.bind({
+			dragover: function() {
+				// Stop the browser from opening the image
+				return false;
+			},
+			drop: function(e) {
+				// Get the files from the event
+				e = e || window.event;
+				e.preventDefault();
+				e = e.originalEvent || e;
+				var files = (e.files || e.dataTransfer.files);
+
+				// Read only the first file
+				var reader = new FileReader();
+				reader.onload = function (event) {
+					$body[0].style.backgroundImage = 'url(' + event.target.result + ')';
+					localStorage.setItem('background', event.target.result);
+				};
+				reader.readAsDataURL(files[0]);
+
+				return false;
+			}
+		});
 	},
 	sync: {
 		running: function(type) {
@@ -948,7 +977,7 @@ ui = {
 			});
 
 			// Checking off tasks
-			$('body').on('change', '#tasks ul li input[type=checkbox]', function() {
+			$body.on('change', '#tasks ul li input[type=checkbox]', function() {
 
 				var id = $(this).closest('li').attr('id').substr(4);
 				cli.logbook(id);
@@ -968,7 +997,7 @@ ui = {
 			});
 
 			// Priority
-			$('body').on('click', '#tasks .priority', function() {
+			$body.on('click', '#tasks .priority', function() {
 
 				// Get id of task
 				var id = $(this).closest('li').attr('id').substr(4);
@@ -987,7 +1016,7 @@ ui = {
 			});
 
 			//Edit mode
-			$('body').on('click', '#tasks ul li .todotxt', function(e){
+			$body.on('click', '#tasks ul li .todotxt', function(e){
 
 				//Enables Edit button & delete button
 				$('#editBTN, #deleteBTN').removeClass('disabled');
@@ -1008,7 +1037,7 @@ ui = {
 				} else {
 					
 					$('#tasks ul li.selected:not(#' + id + ')').removeClass('selected');
-					//$('#editBTN').removeClass('disabled');
+					//$editBTN.removeClass('disabled');
 
 					$('#' + id).toggleClass('selected');
 
@@ -1026,7 +1055,7 @@ ui = {
 					};
 
 					/*if ($('#tasks ul li.selected').length == 0 && $('#tasks ul li.margin').length == 0) {
-						$('#editBTN').addClass('disabled');
+						$editBTN.addClass('disabled');
 					};*/
 				};
 			});
@@ -1035,7 +1064,7 @@ ui = {
 
 		selected: {
 			init: function() {
-				$('body').on('blur', '#tasks ul li .todotxt input', function() {
+				$body.on('blur', '#tasks ul li .todotxt input', function() {
 					var id = $(this).parent().parent().parent().attr('id').substr(4);
 					var data = cli.taskData(id).display();
 
@@ -1044,7 +1073,7 @@ ui = {
 					cli.taskData(id).edit(data);
 				});
 
-				$('body').on('click', '.#tasks ul li .labels .today', function() {
+				$body.on('click', '.#tasks ul li .labels .today', function() {
 					var id = $(this).parent().parent().parent().attr('id').substr(4);
 	
 					if ($(this).hasClass('inToday')) {
@@ -1156,7 +1185,7 @@ ui = {
 				});
 
 				/* Date Close */
-				$('body').on('click', '.labels .date', function(e) {
+				$body.on('click', '.labels .date', function(e) {
 					//Position of datepicker
 					var pos = $(this).offset();
 					if (pos.top - 100 < 15 ) {
@@ -1226,7 +1255,7 @@ ui = {
 				});
 
 				/* Notes */
-				$('body').on('blur', '#tasks ul li textarea', function() {
+				$body.on('blur', '#tasks ul li textarea', function() {
 					var id = $(this).parent().parent().attr('id').substr(4);
 					var data = cli.taskData(id).display();
 
@@ -1331,7 +1360,7 @@ ui = {
 
 			/* File Menu */
 			if (cmd == 'newtask') {
-				$('#addBTN').click();
+				$addBTN.click();
 			} else if (cmd == 'newlist') {
 				$('#addListBTN').click()
 			} else if (cmd == 'sync') {
@@ -1385,7 +1414,7 @@ $(document).keydown(function(e){
     if(e.keyCode === konami_keys[konami_index++]){
         if(konami_index === konami_keys.length){
             $(document).unbind('keydown', arguments.callee);
-            $('body').append('<section id="song"><a onclick="play(\'george\')" href="#"><img src="images/george.png"></a><a onclick="play(\'jono\')" href="#"><img src="images/jono.png"></a></section>');
+            $body.append('<section id="song"><a onclick="play(\'george\')" href="#"><img src="images/george.png"></a><a onclick="play(\'jono\')" href="#"><img src="images/jono.png"></a></section>');
             $('#song').fadeIn(300);
         }
     }else{

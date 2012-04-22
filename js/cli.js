@@ -718,8 +718,7 @@ var cli = {
 			var client = {
 				tasks: cli.storage.tasks,
 				queue: cli.storage.queue,
-				lists: cli.storage.lists,
-				prefs: cli.storage.prefs
+				lists: cli.storage.lists
 			}
 			// socket.on('token', function(data) {
 			// 	window.open(data);

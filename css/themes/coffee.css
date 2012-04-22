@@ -1,5 +1,6 @@
 body {
-  background: url(coffee/blue.jpg);
+  background: url(coffee/blue.jpg) repeat center center fixed;
+  background-size: cover;
   font-family: "Helvetica", "Arial", "Ubuntu", sans-serif; }
 
 #panel {
