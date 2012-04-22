@@ -463,6 +463,11 @@ ui = {
 			// $('#theme').val(cli.storage.prefs.theme.value);
 			$('#sync').val(cli.storage.prefs.sync);
 
+			// Custom background
+			if(localStorage.hasOwnProperty('background')) {
+				$('#tasks')[0].style.backgroundImage = 'url(' + localStorage.getItem('background') + ')';
+			}
+			
 			//Language
 			$('#tabLanguage a.current').removeClass('current');
 			$('#tabLanguage .language a').each(function() {
