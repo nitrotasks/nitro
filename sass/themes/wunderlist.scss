@@ -393,8 +393,21 @@ body {
 				border: none;
 				background: #fcfcfc;
 				@include background(linear-gradient(top, color-stops(#fff 0%, #f9f9f9 100%)));
-				border-radius: 5px;
+				border-radius: 0;
 				box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
+
+        // special cases for the border-radius
+        &:first-of-type {
+          border-radius:5px 5px 0 0;
+        }
+
+        &:last-of-type {
+          border-radius:0 0 5px 5px;
+        }
+
+        &:only-of-type {
+          border-radius:5px;
+        }
 
 				// TEXT
 				.todotxt {
