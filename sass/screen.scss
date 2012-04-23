@@ -849,15 +849,27 @@ button {
 		font-size: 13px;
 		line-height: 20px;
 		color: #444;
+		width: 100%;
 		th {
 			text-align: left;
 			font-size: 14px;
-			border-bottom: 1px solid #999;
+			border-bottom: 2px solid #ccc;
 		}
 		tr {
 			border-bottom: 1px solid #ccc;
 			td, th {
-				padding: 5px 14px;
+				padding: 5px 0;
+
+				&:first-of-type, &:nth-of-type(3) {
+					width: 20%;
+				}
+				&:nth-of-type(2) {
+					width: 30%;
+					border-right: 1px solid #ccc;
+				}
+				&:nth-of-type(4) {
+					width: 30%;
+				}
 			}
 			a {
 				color: #0ba1d0;

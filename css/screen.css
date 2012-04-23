@@ -829,15 +829,23 @@ button {
 #tabLanguage table {
   font-size: 13px;
   line-height: 20px;
-  color: #444; }
+  color: #444;
+  width: 100%; }
   #tabLanguage table th {
     text-align: left;
     font-size: 14px;
-    border-bottom: 1px solid #999; }
+    border-bottom: 2px solid #ccc; }
   #tabLanguage table tr {
     border-bottom: 1px solid #ccc; }
     #tabLanguage table tr td, #tabLanguage table tr th {
-      padding: 5px 14px; }
+      padding: 5px 0; }
+      #tabLanguage table tr td:first-of-type, #tabLanguage table tr td:nth-of-type(3), #tabLanguage table tr th:first-of-type, #tabLanguage table tr th:nth-of-type(3) {
+        width: 20%; }
+      #tabLanguage table tr td:nth-of-type(2), #tabLanguage table tr th:nth-of-type(2) {
+        width: 30%;
+        border-right: 1px solid #ccc; }
+      #tabLanguage table tr td:nth-of-type(4), #tabLanguage table tr th:nth-of-type(4) {
+        width: 30%; }
     #tabLanguage table tr a {
       color: #0ba1d0;
       text-decoration: none; }
