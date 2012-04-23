@@ -31,19 +31,16 @@
 	<div class="tab-content">  
 		<div class="tab-pane active" id="tabGeneral">  
 		<form>
-			<label for="deleteWarnings" class="translate" data-translate="hideWarnings"></label><input type="checkbox" id="deleteWarnings"><br>
-			<label for="gpu" class="translate" data-translate="lowGraphics"></label><input type="checkbox" id="gpu"><br>
-			<select id="nextAmount">
+			<input type="checkbox" id="deleteWarnings"><label for="deleteWarnings" class="translate" data-translate="hideWarnings"></label><br>
+			<label class="description">This disables the confirm box that apprears when you delete a task or list.</label><br>
+			<input type="checkbox" id="gpu"><label for="gpu" class="translate" data-translate="lowGraphics"></label><br>
+			<label class="description">This disables all the fancy animations so that Nitro is even quicker on lesser powered hardware.</label>
+			<hr>
+			<label class="left">Show other lists in Next: </label><select id="nextAmount">
 				<option value="noLists" class="translate" data-translate="nextNoLists"></option>
 				<option value="threeItems" class="translate" data-translate="nextThreeLists"></option>
 				<option value="everything" class="translate" data-translate="nextEntireLists"></option>
 			</select><br>
-			<select id="sync">
-				<option value="never">Sync: Never (No notifications)</option>
-				<option value="manual">Sync: Manually</option>
-				<option value="timer">Sync: Every 5 minutes</option>
-				<option value="auto">Sync: Every time a change is made</option>
-			</select>
 		</form>
 		</div>  
 		<div class="tab-pane" id="tabLanguage">  
@@ -103,6 +100,7 @@
 		<div class="tab-pane" id="tabTheme">  
 			<select id="theme"></select>
 			<button id="removeBG">Remove Custom Background</button>
+			<p>Drag and drop an image onto nitro to set it as the background</p>
 			<h4>Heading Color</h4>
 			<input type="radio" name="headingColor" tabindex="1" value="light"/> Light
 			<input type="radio" name="headingColor" tabindex="2" value="dark"/> Dark
@@ -111,6 +109,12 @@
 		<div class="tab-pane" id="tabSync">  
 			<h2>Sync</h2>
 			<p>Sync is finished but we need your help. With your donations we can make sync &amp; mobile apps possible.</p>
+			<label>Sync:</label><select id="sync">
+				<option value="never">Never (No notifications)</option>
+				<option value="manual">Manually</option>
+				<option value="timer">Every 5 minutes</option>
+				<option value="auto">Every time a change is made</option>
+			</select>
 		</div>
 	</div>
 </div>

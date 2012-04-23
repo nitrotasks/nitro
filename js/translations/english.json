@@ -26,9 +26,9 @@
 	
 	"hideWarnings":   		"Hide delete warnings",
 	"lowGraphics":    		"Low Graphics Mode",
-	"nextNoLists":    		"Don't show other lists in Next",
-	"nextThreeLists": 		"Show 3 items from other lists in Next",
-	"nextEntireLists":		"Show entire lists in Next",
+	"nextNoLists":    		"Don't show any",
+	"nextThreeLists": 		"Only show three tasks",
+	"nextEntireLists":		"Show all tasks",
 
 	"focus":          		"Focus",
 	"lists":          		"Lists",

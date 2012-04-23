@@ -546,10 +546,6 @@ ui = {
 		});
 
 		$body.bind({
-			dragover: function() {
-				// Stop the browser from opening the image
-				return false;
-			},
 			drop: function(e) {
 				// Get the files from the event
 				e = e || window.event;
@@ -560,8 +556,8 @@ ui = {
 				// Read only the first file
 				var reader = new FileReader();
 				reader.onload = function (event) {
-					$tasks[0].style.backgroundImage = 'url(' + event.target.result + ')';
 					localStorage.setItem('background', event.target.result);
+					$tasks[0].style.backgroundImage = 'url(' + event.target.result + ')';
 				};
 				reader.readAsDataURL(files[0]);
 

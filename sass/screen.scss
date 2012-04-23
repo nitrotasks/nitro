@@ -799,6 +799,27 @@ button {
 			display: none;
 			padding: 15px;
 
+			font-size: 14px;
+			
+			input[type=checkbox] {
+				margin-left: 100px;
+				margin-right: 10px;
+			}
+
+			label.left {
+				display: inline-block;
+				width: 240px;
+				margin-right: 10px;
+				text-align: right;
+			}
+
+			.description {
+				margin-left: 120px;
+				display: block;
+				font-size: 12px;
+				width: 300px;
+			}
+
 			&.active {
 				display: block;
 			}
