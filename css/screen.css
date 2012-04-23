@@ -798,20 +798,31 @@ button {
   #prefsDialog .tab-content .tab-pane {
     display: none;
     padding: 15px;
-    font-size: 14px; }
+    font-size: 13px;
+    line-height: 18px; }
     #prefsDialog .tab-content .tab-pane input[type=checkbox] {
-      margin-left: 100px;
+      margin-left: 40px;
       margin-right: 10px; }
+    #prefsDialog .tab-content .tab-pane label:not(.description) {
+      font-weight: bold; }
     #prefsDialog .tab-content .tab-pane label.left {
       display: inline-block;
-      width: 240px;
+      margin-left: 60px;
       margin-right: 10px;
       text-align: right; }
     #prefsDialog .tab-content .tab-pane .description {
-      margin-left: 120px;
+      margin-left: 60px;
       display: block;
       font-size: 12px;
-      width: 300px; }
+      line-height: 16px;
+      width: 400px; }
+    #prefsDialog .tab-content .tab-pane button {
+      margin-bottom: 5px;
+      font-size: 13px; }
+    #prefsDialog .tab-content .tab-pane select {
+      font-size: 14px;
+      line-height: 22px;
+      margin-bottom: 5px; }
     #prefsDialog .tab-content .tab-pane.active {
       display: block; }
 
@@ -841,13 +852,6 @@ button {
       color: #888; }
       #tabLanguage table tr td.author a {
         color: #555; }
-
-#tabTheme select {
-  font-size: 13px;
-  line-height: 18px;
-  width: 110px;
-  float: left;
-  margin-bottom: 15px; }
 
 #aboutDialog {
   position: fixed;

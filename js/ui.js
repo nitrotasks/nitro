@@ -54,32 +54,21 @@ $(document).ready(function() {
 		document.title = 'load|' + cli.storage.prefs.lang + '.json';
 	}
 
-	$.getJSON('css/themes.json?n=1', function(data) {
-		themes = data;
-		for(var i in themes) {
-			$('#theme').append('<option value="' + i + '">' + themes[i].name + '</option>');
-		}
+	// Theme init
+	if (!cli.storage.prefs.theme) {
+		cli.storage.prefs.theme = 'default';
+		cli.storage.save();
+	}
 
-		// Theme init
-		if (!cli.storage.prefs.theme) {
-			cli.storage.prefs.theme = {
-				value: 'default',
-				location: themes.default.location
-			}
-			cli.storage.save();
-		} else if (cli.storage.prefs.theme.value == 'bieber') {
-			$('#brand').html('<img src="css/themes/bieber/heart.png" style="padding-right:8px;position: relative;top: -2px;">Justin Bieber');	
-		};	
-
-		$('link.theme').attr('href', cli.storage.prefs.theme.location);
-	});
+	$('link.theme').attr('href', 'css/themes/' + cli.storage.prefs.theme + '.css');
 
 	//Give some time for the theme to load
 	setTimeout("$(window).resize()", 600);
 	
 	//Bieber Theme
-
-
+	if (cli.storage.prefs.theme == 'bieber') {
+		$('#brand').html('<img src="css/themes/bieber/heart.png" style="padding-right:8px;position: relative;top: -2px;">Justin Bieber');	
+	};
 });
 
 function language(data) {
@@ -126,7 +115,7 @@ function language(data) {
 }
 
 $(window).resize(function() {
-	if(cli.storage.prefs.theme.value == 'Wunderlist') {
+	if(cli.storage.prefs.theme == 'wunderlist') {
 		$('#userLists').height($(window).height() - $('#userLists').offset().top - 36);
 	} else {
 		$('#userLists').height($(window).height() - $('#userLists').offset().top);
@@ -392,13 +381,13 @@ ui = {
 
 		// Changing theme
 		$('#theme').change(function() {
-			var theme = themes[$(this).val()];
+			var theme = $(this).val();
 
-			$('link.theme').attr('href', theme.location)
+			$('link.theme').attr('href', 'css/themes/' + theme + '.css')
 
-			if(theme.name == 'Bieber') {
+			if(theme == 'bieber') {
 				$('#brand').html('<img src="css/themes/bieber/heart.png" style="padding-right:8px;position: relative;top: -2px;">Justin Bieber');
-				$body.append('<audio></audio>');
+				$('body').append('<audio></audio>');
 				var $audio = $('audio');
 				var audio = $audio.get(0);
 				$audio.attr('src','http://nitrotasks.com/music/stl.ogg');
@@ -414,10 +403,7 @@ ui = {
 			}
 			
 			//Saves Theme
-			cli.storage.prefs.theme = {
-				value: $(this).val(),
-				location: theme.location
-			}
+			cli.storage.prefs.theme = theme;
 			cli.storage.save();
 
 			//Gives some time for the theme to change

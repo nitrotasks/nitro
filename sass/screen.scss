@@ -799,25 +799,42 @@ button {
 			display: none;
 			padding: 15px;
 
-			font-size: 14px;
+			font-size: 13px;
+			line-height: 18px;
 			
 			input[type=checkbox] {
-				margin-left: 100px;
+				margin-left: 40px;
 				margin-right: 10px;
+			}
+
+			label:not(.description) {
+				font-weight: bold;
 			}
 
 			label.left {
 				display: inline-block;
-				width: 240px;
+				margin-left: 60px;
 				margin-right: 10px;
 				text-align: right;
 			}
 
 			.description {
-				margin-left: 120px;
+				margin-left: 60px;
 				display: block;
 				font-size: 12px;
-				width: 300px;
+				line-height: 16px;
+				width: 400px;
+			}
+
+			button {
+				margin-bottom: 5px;
+				font-size: 13px;
+			}
+
+			select {
+				font-size: 14px;
+				line-height: 22px;
+				margin-bottom: 5px;
 			}
 
 			&.active {
@@ -862,16 +879,6 @@ button {
 				}
 			}
 		}
-	}
-}
-
-#tabTheme {
-	select {
-		font-size: 13px;
-		line-height: 18px;
-		width: 110px;
-		float: left;
-		margin-bottom: 15px;
 	}
 }
 
