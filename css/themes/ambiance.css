@@ -215,7 +215,7 @@ body {
     width: 300px;
     padding: 15px;
     top: 100px;
-    margin-left: -36px;
+    margin-left: -150px;
     background: rgba(255, 255, 255, 0.7);
     border: 1px solid #aaa;
     border-radius: 5px;
@@ -225,6 +225,9 @@ body {
     font-size: 18px;
     color: rgba(0, 0, 0, 0.7);
     text-shadow: 0 1px 0 #EEE; }
+  #content #tasks p {
+    color: rgba(0, 0, 0, 0.7);
+    text-shadow: 0 1px 0 #eee; }
   #content #tasks ul {
     padding: 0 15px;
     margin-bottom: 30px; }
