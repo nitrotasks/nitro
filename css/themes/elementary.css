@@ -56,31 +56,25 @@ body {
           background: url(../../images/darksprite.png) no-repeat 0 -40px; }
         #panel nav ul li .icon.delete {
           background: url(../../images/darksprite.png) no-repeat 0 -78px; }
-  #panel #right ul li {
+  #panel #right > ul > li {
     height: 32px;
     top: 2px;
     border-radius: 3px;
     border: 1px solid transparent; }
-    #panel #right ul li:not(:last-of-type):hover {
+    #panel #right > ul > li:not(:last-of-type):hover {
       background: transparent; }
-    #panel #right ul li:not(:last-of-type):active {
+    #panel #right > ul > li:not(:last-of-type):active {
       background: transparent; }
-    #panel #right ul li img {
+    #panel #right > ul > li img {
       width: 30px;
       height: 30px; }
-    #panel #right ul li#logbookBTN img {
+    #panel #right > ul > li#logbookBTN img {
       background: url(../../images/darksprite.png) no-repeat 5px -118px; }
-    #panel #right ul li#settingsBTN img {
+    #panel #right > ul > li#settingsBTN img {
       background: url(../../images/darksprite.png) no-repeat 5px -158px; }
-    #panel #right ul li .settings {
-      top: 50px;
-      margin-left: -185px;
-      width: 300px;
-      background: rgba(51, 51, 51, 0.95);
-      box-shadow: 0 1px 19px rgba(0, 0, 0, 0.35), inset 0 0 1px rgba(255, 255, 255, 0.2);
-      border: 1px solid rgba(0, 0, 0, 0.3);
-      border-radius: 5px; }
-    #panel #right ul li #search {
+    #panel #right > ul > li#settingsBTN ul {
+      top: 37px; }
+    #panel #right > ul > li #search {
       top: -2px;
       border: 0;
       position: relative;
@@ -96,7 +90,7 @@ body {
       -webkit-transition: 200ms ease width;
       border: 1px solid #aaa;
       box-shadow: 0 1px 0 #dedede, 0 2px 5px rgba(0, 0, 0, 0.08) inset; }
-      #panel #right ul li #search:focus {
+      #panel #right > ul > li #search:focus {
         width: 250px; }
 
 #search::-webkit-input-placeholder {

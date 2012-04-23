@@ -50,24 +50,18 @@ body {
         background: url(coffee/delete.png) no-repeat 0 1px; }
   #panel #right {
     height: 25px; }
-    #panel #right ul li img {
+    #panel #right > ul > li img {
       margin-top: 5px;
       padding: 0 3px;
       width: 30px;
       height: 30px; }
-    #panel #right ul li#logbookBTN img {
+    #panel #right > ul > li#logbookBTN img {
       background: url(coffee/logbook.png) no-repeat 5px 0px; }
-    #panel #right ul li#settingsBTN img {
+    #panel #right > ul > li#settingsBTN img {
       background: url(coffee/settings.png) no-repeat 5px 0px; }
-    #panel #right ul li .settings {
-      top: 50px;
-      margin-left: -185px;
-      width: 300px;
-      background: rgba(51, 51, 51, 0.95);
-      box-shadow: 0 1px 19px rgba(0, 0, 0, 0.35), inset 0 0 1px rgba(255, 255, 255, 0.2);
-      border: 1px solid rgba(0, 0, 0, 0.3);
-      border-radius: 5px; }
-    #panel #right ul li #search {
+    #panel #right > ul > li#settingsBTN ul {
+      top: 36px; }
+    #panel #right > ul > li #search {
       border: 0;
       position: relative;
       width: 100px;
@@ -79,7 +73,7 @@ body {
       margin-left: 7px;
       background: url(../../images/whitesprite.png) no-repeat 5px -65px, white;
       -webkit-transition: 200ms ease width; }
-      #panel #right ul li #search:focus {
+      #panel #right > ul > li #search:focus {
         width: 250px; }
 
 #content #sidebar {

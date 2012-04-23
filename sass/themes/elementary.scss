@@ -89,9 +89,8 @@ body {
 	}
 
 	#right {
-		ul {
-			li {
-
+		& > ul {
+			& > li {
 				height: 32px;
 				top: 2px;
 				border-radius: 3px;
@@ -118,19 +117,10 @@ body {
 				}
 
 				// SETTINGS
-				.settings {
-					// position
-					top: 50px;
-					margin-left: -185px;
-
-					// size
-					width: 300px;
-
-					// background
-					background: rgba(51,51,51,0.95);
-					box-shadow: 0 1px 19px rgba(0,0,0,0.35), inset 0 0 1px rgba(255,255,255,0.2);
-					border: 1px solid rgba(0,0,0,0.3);
-					border-radius: 5px;
+				&#settingsBTN {
+					ul {
+						top: 37px;
+					}
 				}
 
 				// SEARCH
