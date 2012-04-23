@@ -360,6 +360,14 @@ body {
 		h2 {
 			text-align: center;
 		}
+		h2.light {
+			color: #fff !important;
+			text-shadow: 0 1px 3px rgba(0,0,0,0.5) !important;
+		}
+		h2.dark {
+			color: rgba(0,0,0,0.7) !important;
+			text-shadow: 0 1px 0 #eee !important;
+		}
 
 		ul {
 			&#next {
@@ -376,10 +384,20 @@ body {
 			font-size: 12px;
 			position: relative;
 			z-index: 2;
-			color: rgba(0,0,0,0.7);
-			text-shadow: 0 1px 0 #eee;
 			height: 0;
+			color: #eee;
+			text-shadow: 0 1px 3px rgba(0,0,0,0.5);
 		}
+
+		p.light {
+			color: #eee !important;
+			text-shadow: 0 1px 3px rgba(0,0,0,0.5) !important;
+		}
+		p.dark {
+			color: rgba(0,0,0,0.7) !important;
+			text-shadow: 0 1px 0 #eee !important;
+		}
+		
 
 		#someday li .labels .date, #someday li .labels .today, #logbook li .labels {
 			display: none;
@@ -836,39 +854,6 @@ button {
 		width: 110px;
 		float: left;
 		margin-bottom: 15px;
-		&:focus, &:active {
-			outline: none;
-		}
-	}
-	.right {
-		float: left;
-		margin-left: 15px;
-		width: 365px;
-	}
-	img {
-		margin: 0 0 5px 0;
-		width: 365px;
-		height: 150px;
-	}
-	h3 {
-		clear: both;
-		display: inline-block;
-		margin-bottom: 5px;
-	}
-	.author {
-		font-style: italic;
-		font-size: 13px;
-		color: #777;
-		display: inline-block;
-		margin-bottom: 5px;
-
-		&:before {
-			content: 'by ';
-		}
-	}
-	.description {
-		margin-top: 0;
-		font-size: 14px;
 	}
 }
 

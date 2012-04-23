@@ -452,6 +452,12 @@ body {
     text-align: center; }
   #content #tasks h2 {
     text-align: center; }
+  #content #tasks h2.light {
+    color: #fff !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important; }
+  #content #tasks h2.dark {
+    color: rgba(0, 0, 0, 0.7) !important;
+    text-shadow: 0 1px 0 #eee !important; }
   #content #tasks ul#next {
     min-height: 30px; }
   #content #tasks p {
@@ -463,9 +469,15 @@ body {
     font-size: 12px;
     position: relative;
     z-index: 2;
-    color: rgba(0, 0, 0, 0.7);
-    text-shadow: 0 1px 0 #eee;
-    height: 0; }
+    height: 0;
+    color: #eee;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); }
+  #content #tasks p.light {
+    color: #eee !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important; }
+  #content #tasks p.dark {
+    color: rgba(0, 0, 0, 0.7) !important;
+    text-shadow: 0 1px 0 #eee !important; }
   #content #tasks #someday li .labels .date, #content #tasks #someday li .labels .today, #content #tasks #logbook li .labels {
     display: none; }
   #content #tasks li {
@@ -824,31 +836,6 @@ button {
   width: 110px;
   float: left;
   margin-bottom: 15px; }
-  #tabTheme select:focus, #tabTheme select:active {
-    outline: none; }
-#tabTheme .right {
-  float: left;
-  margin-left: 15px;
-  width: 365px; }
-#tabTheme img {
-  margin: 0 0 5px 0;
-  width: 365px;
-  height: 150px; }
-#tabTheme h3 {
-  clear: both;
-  display: inline-block;
-  margin-bottom: 5px; }
-#tabTheme .author {
-  font-style: italic;
-  font-size: 13px;
-  color: #777;
-  display: inline-block;
-  margin-bottom: 5px; }
-  #tabTheme .author:before {
-    content: 'by '; }
-#tabTheme .description {
-  margin-top: 0;
-  font-size: 14px; }
 
 #aboutDialog {
   position: fixed;

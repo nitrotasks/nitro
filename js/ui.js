@@ -21,10 +21,11 @@ themes = {};
 
 $(document).ready(function() {
 	// Cached selectors
-	$body =      $('body');
-	$addBTN =    $('#addBTN');
-	$editBTN =   $('#editBTN');
+	$body      = $('body');
+	$addBTN    = $('#addBTN');
+	$editBTN   = $('#editBTN');
 	$deleteBTN = $('#deleteBTN');
+	$tasks     = $('#tasks');
 
 	// Update database with timestamps
 	cli.timestamp.upgrade();
@@ -389,18 +390,9 @@ ui = {
 			};
 		});
 
+		// Changing theme
 		$('#theme').change(function() {
 			var theme = themes[$(this).val()];
-
-			$('#tabTheme')
-				.find('h3')
-					.html(theme.name)
-					.parent()
-				.find('.author')
-					.html(theme.author)
-					.parent()
-				.find('.description')
-					.html(theme.description);
 
 			$('link.theme').attr('href', theme.location)
 
@@ -430,6 +422,19 @@ ui = {
 
 			//Gives some time for the theme to change
 			setTimeout("$(window).resize()", 600);
+		});
+
+		// Remove custom background
+		$('#removeBG').click(function() {
+			localStorage.removeItem('background');
+			$tasks[0].style.backgroundImage = 'none';
+		});
+
+		$('#tabTheme input[name=headingColor]').change(function() {
+			cli.storage.prefs.theme.color = $(this)[0].value;
+			cli.storage.save();
+
+			$('#tasks h2, #tasks p').removeClass('light dark').addClass($(this)[0].value);
 		});
 
 		$('#sync').change(function() {
@@ -465,7 +470,7 @@ ui = {
 
 			// Custom background
 			if(localStorage.hasOwnProperty('background')) {
-				$('#tasks')[0].style.backgroundImage = 'url(' + localStorage.getItem('background') + ')';
+				$tasks[0].style.backgroundImage = 'url(' + localStorage.getItem('background') + ')';
 			}
 			
 			//Language
@@ -494,7 +499,7 @@ ui = {
 			$('#sidebar ul li.selected').removeClass('selected');
 			var query = this.value,
 				results = cli.populate('search', query);
-			$('#tasks').html('<h2>' + $.i18n._('searchResults') + query + '</h2><ul></ul>');
+			$tasks.html('<h2 class="' + cli.storage.prefs.theme.color + '">' + $.i18n._('searchResults') + query + '</h2><ul></ul>');
 			for(var i = 0; i < results.length; i++) {
 				$('#tasks ul').append(ui.tasks.draw(results[i]));
 			}
@@ -555,7 +560,7 @@ ui = {
 				// Read only the first file
 				var reader = new FileReader();
 				reader.onload = function (event) {
-					$('#tasks')[0].style.backgroundImage = 'url(' + event.target.result + ')';
+					$tasks[0].style.backgroundImage = 'url(' + event.target.result + ')';
 					localStorage.setItem('background', event.target.result);
 				};
 				reader.readAsDataURL(files[0]);
@@ -721,7 +726,7 @@ ui = {
 			var items = cli.populate('list', id);
 
 			if (id == 'logbook') {
-				$('#tasks').html('<h2>' + $.i18n._('logbook') + '</h2><ul id="logbook"></ul>');
+				$tasks.html('<h2 class="' + cli.storage.prefs.theme.color + '">' + $.i18n._('logbook') + '</h2><ul id="logbook"></ul>');
 
 				//Populates
 				for (var i=0; i < items.length; i++) {
@@ -734,7 +739,7 @@ ui = {
 
 				//If nothing is logged, a description appears
 				if (items.length == 0) {
-					$('#tasks').append('<div class="explanation">' + $.i18n._('logbookText') + '</div>');
+					$tasks.append('<div class="explanation">' + $.i18n._('logbookText') + '</div>');
 				}
 
 				//Breaks loop
@@ -742,7 +747,7 @@ ui = {
 			};
 
 			//Clears page
-			$('#tasks').html('');
+			$tasks.html('');
 			
 			if (id == 'next' && cli.storage.prefs.nextAmount != 'noLists') {
 				for (var i=0; i<cli.storage.lists.order.length; i++) {
@@ -751,7 +756,7 @@ ui = {
 
 					if (newListItems.length != 0) {
 						//Makes a new section for a new list
-						$('#tasks').append('<h2 class="' + cli.storage.lists.order[i] + '">' + listData.name + '</h2><ul id="' + cli.storage.lists.order[i] + '"></ul>');
+						$tasks.append('<h2 class="' + cli.storage.lists.order[i] + " " + cli.storage.prefs.theme.color + '">' + listData.name + '</h2><ul id="' + cli.storage.lists.order[i] + '"></ul>');
 
 						//Loop inside a loop. Loopception...
 						for (var l=0; l<newListItems.length; l++) {
@@ -776,13 +781,13 @@ ui = {
 			//Fixes a bug that I don't know how to reproduce...
 			// Causes name of list to be undefined
 			if (ui.lists.selected() == 'today') {
-				$('#tasks').prepend('<h2>' + $.i18n._('today') + '</h2><ul id="' + id + '"></ul>');
+				$tasks.prepend('<h2 class="' + cli.storage.prefs.theme.color + '">' + $.i18n._('today') + '</h2><ul id="' + id + '"></ul>');
 			} else if (ui.lists.selected() == 'next') {
-				$('#tasks').prepend('<h2>' + $.i18n._('next') + '</h2><ul id="' + id + '"></ul>');
+				$tasks.prepend('<h2 class="' + cli.storage.prefs.theme.color + '">' + $.i18n._('next') + '</h2><ul id="' + id + '"></ul>');
 			} else if (ui.lists.selected() == 'someday') {
-				$('#tasks').prepend('<h2>' + $.i18n._('someday') + '</h2><ul id="' + id + '"></ul>');
+				$tasks.prepend('<h2 class="' + cli.storage.prefs.theme.color + '">' + $.i18n._('someday') + '</h2><ul id="' + id + '"></ul>');
 			} else {
-				$('#tasks').prepend('<h2>' + cli.storage.lists.items[id].name + '</h2><ul id="' + id + '"></ul>');
+				$tasks.prepend('<h2 class="' + cli.storage.prefs.theme.color + '">' + cli.storage.lists.items[id].name + '</h2><ul id="' + id + '"></ul>');
 			}
 			
 
@@ -819,7 +824,7 @@ ui = {
 				} else {
 					var reason = $.i18n._('customText');
 				}
-				$('#tasks').append('<div class="explanation">' + reason + '</div>')
+				$tasks.append('<div class="explanation">' + reason + '</div>')
 			}
 
 			$('#tasks ul').sortable({

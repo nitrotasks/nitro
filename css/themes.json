@@ -1,50 +1,34 @@
 {
 	"default": {
 		"name": "Default",
-		"author": "Caffeinated Code",
-		"description": "Default Nitro theme",
 		"location": "css/themes/default.css"
 	},
 	"adwaita": {
 		"name": "Adwaita",
-		"author": "Jono Cooper",
-		"description": "Adwaita theme for Ubuntu",
 		"location": "css/themes/adwaita.css"
 	},
 	"ambiance": {
 		"name": "Ambiance",
-		"author": "Jono Cooper",
-		"description": "Ambiance theme for Ubuntu",
 		"location": "css/themes/ambiance.css"
 	},
 	"radiance": {
 		"name": "Radiance",
-		"author": "Jono Cooper",
-		"description": "Radiance theme for Ubuntu",
 		"location": "css/themes/radiance.css"
 	},
 	"elementary": {
 		"name": "Elementary",
-		"author": "Jono Cooper",
-		"description": "Theme for Elementary",
 		"location": "css/themes/elementary.css"
 	},
 	"coffee": {
 		"name": "Blue Coffee",
-		"author": "George Czabania",
-		"description": "It's like coffee. Except blue.",
 		"location": "css/themes/coffee.css"
 	},
-	"Wunderlist": {
+	"wunderlist": {
 		"name": "Wunderlist",
-		"author": "Caffeinated Code",
-		"description": "Wunderlist theme",
 		"location": "css/themes/wunderlist.css"
 	},
 	"bieber": {
 		"name": "Bieber",
-		"author": "Caffeinated Code",
-		"description": "Just because.",
 		"location": "css/themes/bieber.css"
 	}
 }
