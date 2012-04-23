@@ -1,0 +1,78 @@
+{
+	"author":				"Marcin Tydelski <marcin.tydelski@gmail.com>",
+	"jqueryui":				"en",
+
+	"listWarning":    		"Czy jesteś pewien by usunąć tą listę? Wszystkie zadania z tej listy zostaną również usunięte.",
+	"taskWarning":    		"Czy jesteś pewien by usunąć to zadanie? Po usunięciu nie da się go odzyskać.",
+	
+	"todayText":      		"Lista <strong>Na Dziś</strong> służy do zapisania wszystkiego, co chciałbyś wykonać w dniu dzisiejszym. Zadania pojawią się w niej automatycznie.",
+	"nextText":       		"Przyszłe zadania pojawią się na liście <strong>Następne</strong>. Zadania z dzisiaj oraz trzy pierwsze z pozostałych list pojawią się tutaj automatycznie.",
+	"somedayText":    		"Lista <strong>Później</strong> jest listą przeznaczoną na zadania, których daty wykonania jeszcze nie znasz.",
+	"logbookText":    		"<strong>Rejest zadań</strong> zawiera informacje dotyczące zadań, które zostały wykonane.",
+	"customText":     		"Na tej liście nie ma żadnych zadań do wykonania.",
+
+	"yesTask":        		"Usuń zadanie",
+	"yesList":        		"Usuń listę",
+	"cancelDialog":    		"Anuluj",
+	"warningText":			"Uwaga!",
+	"languageText":			"Wybierz język",
+
+	"add":            		"Dodaj",
+	"edit":           		"Edytuj",
+	"delete":         		"Usuń",
+	"logbook":        		"Rejestr zadań",
+	"settings":       		"Ustawienia",
+	"search":         		"Szukaj",
+	
+	"hideWarnings":   		"Nie wyświetlaj potwierdzeń usunięcia",
+	"lowGraphics":    		"Tryb graficzny z mniejszą ilością szczegółów",
+	"nextNoLists":    		"Nie wyświetlaj innych list na liście Następne",
+	"nextThreeLists": 		"Pokaż 3 elementy z innych list na liście Następne",
+	"nextEntireLists":		"Pokaż listy w całości na liście Następne",
+
+	"focus":          		"Focus",
+	"lists":          		"Listy",
+	"today":          		"Na Dziś",
+	"next":           		"Następne",
+	"someday":        		"Później",
+
+	"newList":        		"Nowa lista",
+	"newTask":        		"Nowe zadanie",
+
+	"taskName":				"Nazwa zadania",
+	"notes":          		"Komentarz",
+	"showInToday":    		"Pokaż na liście Na Dziś",
+	"removeFromToday":		"Usuń z listy Na Dziś",
+	"none":           		"Brak",
+	"low":            		"Niski",
+	"medium":         		"Średni",
+	"important":      		"Ważne",
+	"setDueDate":     		"Ustaw termin",
+	"removeDueDate":  		"Usuń termin",
+	"doToday":        		"Wykonać dzisiaj",
+
+	"oneMore":      		"Pokaż 1 zadanie więcej",
+	"morethanOne":			"Pokaż %s zadań więcej",
+
+	"dayLeft":				"Pozostał 1 dzień",
+	"daysLeft": 			"Pozostało %s dni",
+	"dayOverdue": 			"Opóźnienie 1 dzień",
+	"daysOverdue":			"Opóźnienie %s dni",
+	"month":				["Sty", "Lut", "Mar", "Kwi", "Maj", "Cze", "Lip", "Sie", "Wrz", "Paź", "Lis", "Gru"],
+
+	"searchResults":  		"Wyniki wyszukiwania: ",
+
+	"titleAddTask":   		"Utwórz zadanie",
+	"titleEditTask":  		"Edytuj wybrane zadanie",
+	"titleDeleteTask":		"Usuń wybrane zadanie",
+
+	"titleAddList":   		"Utwórz listę",
+	"titleDeleteList":		"Usuń listę",
+	"titleEditList":  		"Edytuj listę",
+	"titleSaveList":  		"Zachowaj zmiany",
+
+	"showTime":				"Pokaż na liście Na Dziś:",
+	"1day":					"1 dzień wcześniej",
+	"moreday":				"%s dni wcześniej",
+	"never":				"Nigdy"
+}
