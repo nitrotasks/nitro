@@ -34,7 +34,6 @@ var deCSS3 = {
     var that  = this,
         rules = [
       "animation-name:none",
-      "border-radius:0",
       "box-shadow:none",
       "column-span:all",
       "text-shadow:none",
