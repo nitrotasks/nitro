@@ -42,29 +42,58 @@ var cli = {
 			}
 		},
 		upgrade: function() {
+			var changed = false;
 			for(var id in cli.storage.tasks) {
 				if(id != 'length') {
 					if(!cli.storage.tasks[id].hasOwnProperty('time')) {
-						console.log("Upgrading database to Nitro 1.1 (timestamps)")
-						for(var id in cli.storage.tasks) {
-							cli.storage.tasks[id].time = {
-								content: 0,
-								priority: 0,
-								date: 0,
-								notes: 0,
-								today: 0,
-								showInToday: 0,
-								list: 0,
-								logged: 0
-							}
-						}
-						for(var id in cli.storage.lists.items) {
-							if(id != 0 && id != 'today' && id != 'next' && id != 'someday') cli.storage.lists.items[id].time = 0;
+						console.log("Upgrading task: '" + id + "' to Nitro 1.1 (timestamps)");
+						cli.storage.tasks[id].time = {
+							content: 0,
+							priority: 0,
+							date: 0,
+							notes: 0,
+							today: 0,
+							showInToday: 0,
+							list: 0,
+							logged: 0
 						}
 						cli.storage.save();
 					}
+					if(!cli.storage.tasks[id].hasOwnProperty('synced')) {
+						console.log("Upgrading task: '" + id + "' to Nitro 1.1 (sync)");
+						cli.storage.tasks[id].synced = false;
+						changed = true;
+					}
 					break;
 				}
+			}
+			for(var id in cli.storage.lists.items) {
+				if(id != 'length' && id != '0') {
+					if(!cli.storage.lists.items[id].hasOwnProperty('time') || typeof(cli.storage.lists.items[id].time) == 'number') {
+						console.log("Upgrading list: '" + id + "' to Nitro 1.2");
+						cli.storage.lists.items[id].time = {
+							name: 0,
+							order: 0
+						}
+						if(id != 'today' && id != 'next' && id != 'someday') {
+							cli.storage.lists.items[id].synced = 'false';
+						}
+						changed = true;
+					}
+				}
+			}
+			if(!cli.storage.lists.hasOwnProperty('time')) {
+				console.log("Upgrading lists to Nitro 1.2");
+				cli.storage.lists.time = 0;
+				changed = true;
+			}
+			if(!cli.storage.prefs.hasOwnProperty('sync')) {
+				console.log("Upgrading prefs to Nitro 1.2 (sync)");
+				cli.storage.prefs.sync = 'manual';
+				changed = true;
+			}
+			if(changed) {
+				cli.storage.save();
 			}
 		}
 	},
@@ -695,7 +724,7 @@ var cli = {
 		//Object where data is stored
 		tasks: $.jStorage.get('tasks', {length: 0}),
 		queue: $.jStorage.get('queue', {}),
-		lists: $.jStorage.get('lists', {order: [], items:{today: {name: "Today", order:[], time: {}}, next: {name: "Next", order:[], time: {}}, someday: {name: "Someday", order:[], time: {}}, 0: {order:[]}, length: 1}, time: 0}),
+		lists: $.jStorage.get('lists', {order: [], items:{today: {name: "Today", order:[], time: {name: 0, order: 0}}, next: {name: "Next", order:[], time: {name: 0, order: 0}}, someday: {name: "Someday", order:[], time: {name: 0, order: 0}}, 0: {order:[]}, length: 1}, time: 0}),
 		prefs: $.jStorage.get('prefs', {deleteWarnings: false, gpu: false, nextAmount: 'threeItems', over50: true, lang: 'english', sync: 'manual'}),
 		// NB: Over 50 caps amount of tasks in List to 50 but causes drag and drop problems.
 		// I CBF fixing it.
@@ -742,7 +771,6 @@ var cli = {
 				cli.storage.tasks = data.tasks;
 				cli.storage.queue = data.queue;
 				cli.storage.lists = data.lists;
-				delete cli.storage.prefs.synced;
 				cli.storage.save();
 				ui.sync.reload();
 			});
