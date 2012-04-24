@@ -40,7 +40,7 @@
 				<option value="noLists" class="translate" data-translate="nextNoLists"></option>
 				<option value="threeItems" class="translate" data-translate="nextThreeLists"></option>
 				<option value="everything" class="translate" data-translate="nextEntireLists"></option>
-			</select><br>
+			</select>
 		</form>
 		</div>  
 		<div class="tab-pane" id="tabLanguage">  
@@ -112,6 +112,11 @@
 			<hr>
 			<label class="left">Set a custom background: </label><button id="addBG">Choose background</button><br>
 			<label class="left">Use the default background: </label><button id="removeBG">Remove background</button><br>
+			<label class="left">Background size: </label><select id="backgroundSize">
+				<option value="zoom">Fill screen</option>
+				<option value="center">Center</option>
+				<option value="tile">Tile</option>
+			</select>
 			<label class="description">Drag and drop an image onto Nitro to set it as the background</label>
 			<hr>
 			<label class="left">Heading color: </label>
@@ -122,15 +127,26 @@
 			</select>
 			<label class="description">Change the color of the text so that it looks nice with your custom background.</label>
 		</div>
-		<div class="tab-pane" id="tabSync">  
-			<h2>Sync</h2>
-			<p>Sync is finished but we need your help. With your donations we can make sync &amp; mobile apps possible.</p>
-			<label>Sync:</label><select id="sync">
+		<div class="tab-pane" id="tabSync">
+			<blockquote><img src="images/cog.png" class="icon">Sync is finished but we need your help. With your donations we can make sync &amp; mobile apps possible.</blockquote>
+			<hr>
+			<label class="left">Sync:</label><select id="sync">
 				<option value="never">Never (No notifications)</option>
 				<option value="manual">Manually</option>
 				<option value="timer">Every 5 minutes</option>
 				<option value="auto">Every time a change is made</option>
-			</select>
+			</select><br>
+			<label class="description">Sync allows you to access your tasks from other computers and smartphones</label>
+			<hr>
+			<blockquote>
+				<label class="right">Service: </label><select id="syncService">
+					<option value="dropbox">Dropbox</option>
+					<option value="ubuntu">Ubuntu One</option>
+				</select><br>
+				<label class="right">Username: </label><input type="text"><br>
+				<label class="right">Password: </label><input type="password"><br>
+				<label class="right"></label><button>Connect</button>
+			</blockquote>
 		</div>
 	</div>
 </div>

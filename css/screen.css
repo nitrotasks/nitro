@@ -798,6 +798,7 @@ button {
   #prefsDialog .tab-content .tab-pane {
     display: none;
     padding: 15px;
+    border-bottom-radius: 5px;
     font-size: 13px;
     line-height: 18px; }
     #prefsDialog .tab-content .tab-pane input[type=checkbox] {
@@ -810,6 +811,11 @@ button {
       margin-left: 60px;
       margin-right: 10px;
       text-align: right; }
+    #prefsDialog .tab-content .tab-pane label.right {
+      display: inline-block;
+      margin-right: 10px;
+      width: 120px;
+      text-align: right; }
     #prefsDialog .tab-content .tab-pane .description {
       margin-left: 60px;
       display: block;
@@ -817,12 +823,31 @@ button {
       line-height: 16px;
       width: 400px; }
     #prefsDialog .tab-content .tab-pane button {
-      margin-bottom: 5px;
+      margin: 5px 0;
       font-size: 13px; }
+      #prefsDialog .tab-content .tab-pane button:last-child {
+        margin-bottom: 0; }
     #prefsDialog .tab-content .tab-pane select {
       font-size: 14px;
       line-height: 22px;
-      margin-bottom: 5px; }
+      margin: 5px 0; }
+      #prefsDialog .tab-content .tab-pane select:last-child {
+        margin-bottom: 0; }
+    #prefsDialog .tab-content .tab-pane input[type=text], #prefsDialog .tab-content .tab-pane input[type=password] {
+      margin: 5px 0;
+      width: 200px;
+      font-size: 13px;
+      line-height: 18px;
+      height: 18px; }
+    #prefsDialog .tab-content .tab-pane blockquote {
+      width: 400px;
+      padding: 10px;
+      background: #eee;
+      border: 3px solid #ddd;
+      border-radius: 5px; }
+      #prefsDialog .tab-content .tab-pane blockquote .icon {
+        float: left;
+        margin: 0 10px 0 0; }
     #prefsDialog .tab-content .tab-pane.active {
       display: block; }
 
@@ -834,17 +859,16 @@ button {
   #tabLanguage table th {
     text-align: left;
     font-size: 14px;
-    border-bottom: 2px solid #ccc; }
+    border-bottom: 1px solid #aaa; }
   #tabLanguage table tr {
     border-bottom: 1px solid #ccc; }
+    #tabLanguage table tr:last-of-type {
+      border-bottom: none; }
     #tabLanguage table tr td, #tabLanguage table tr th {
       padding: 5px 0; }
       #tabLanguage table tr td:first-of-type, #tabLanguage table tr td:nth-of-type(3), #tabLanguage table tr th:first-of-type, #tabLanguage table tr th:nth-of-type(3) {
         width: 20%; }
-      #tabLanguage table tr td:nth-of-type(2), #tabLanguage table tr th:nth-of-type(2) {
-        width: 30%;
-        border-right: 1px solid #ccc; }
-      #tabLanguage table tr td:nth-of-type(4), #tabLanguage table tr th:nth-of-type(4) {
+      #tabLanguage table tr td:nth-of-type(4), #tabLanguage table tr td:nth-of-type(2), #tabLanguage table tr th:nth-of-type(4), #tabLanguage table tr th:nth-of-type(2) {
         width: 30%; }
     #tabLanguage table tr a {
       color: #0ba1d0;

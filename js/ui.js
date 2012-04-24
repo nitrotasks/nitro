@@ -416,8 +416,8 @@ ui = {
 			$tasks[0].style.backgroundImage = 'none';
 		});
 
-		$('#tabTheme input[name=headingColor]').change(function() {
-			cli.storage.prefs.theme.color = $(this)[0].value;
+		$('#headingColor').change(function() {
+			cli.storage.prefs.color = $(this)[0].value;
 			cli.storage.save();
 
 			$('#tasks h2, #tasks p').removeClass('light dark').addClass($(this)[0].value);
@@ -451,7 +451,8 @@ ui = {
 			$('#gpu').prop('checked', cli.storage.prefs.gpu);
 			$('#over50').prop('checked', cli.storage.prefs.over50);
 			$('#nextAmount').val(cli.storage.prefs.nextAmount);
-			// $('#theme').val(cli.storage.prefs.theme.value);
+			$('#theme').val(cli.storage.prefs.theme);
+			$('#headingColor').val(cli.storage.prefs.color);
 			$('#sync').val(cli.storage.prefs.sync);
 
 			// Custom background
@@ -485,7 +486,7 @@ ui = {
 			$('#sidebar ul li.selected').removeClass('selected');
 			var query = this.value,
 				results = cli.populate('search', query);
-			$tasks.html('<h2 class="' + cli.storage.prefs.theme.color + '">' + $.i18n._('searchResults') + query + '</h2><ul></ul>');
+			$tasks.html('<h2 class="' + cli.storage.prefs.color + '">' + $.i18n._('searchResults') + query + '</h2><ul></ul>');
 			for(var i = 0; i < results.length; i++) {
 				$('#tasks ul').append(ui.tasks.draw(results[i]));
 			}
@@ -708,7 +709,7 @@ ui = {
 			var items = cli.populate('list', id);
 
 			if (id == 'logbook') {
-				$tasks.html('<h2 class="' + cli.storage.prefs.theme.color + '">' + $.i18n._('logbook') + '</h2><ul id="logbook"></ul>');
+				$tasks.html('<h2 class="' + cli.storage.prefs.color + '">' + $.i18n._('logbook') + '</h2><ul id="logbook"></ul>');
 
 				//Populates
 				for (var i=0; i < items.length; i++) {
@@ -738,7 +739,7 @@ ui = {
 
 					if (newListItems.length != 0) {
 						//Makes a new section for a new list
-						$tasks.append('<h2 class="' + cli.storage.lists.order[i] + " " + cli.storage.prefs.theme.color + '">' + listData.name + '</h2><ul id="' + cli.storage.lists.order[i] + '"></ul>');
+						$tasks.append('<h2 class="' + cli.storage.lists.order[i] + " " + cli.storage.prefs.color + '">' + listData.name + '</h2><ul id="' + cli.storage.lists.order[i] + '"></ul>');
 
 						//Loop inside a loop. Loopception...
 						for (var l=0; l<newListItems.length; l++) {
@@ -763,13 +764,13 @@ ui = {
 			//Fixes a bug that I don't know how to reproduce...
 			// Causes name of list to be undefined
 			if (ui.lists.selected() == 'today') {
-				$tasks.prepend('<h2 class="' + cli.storage.prefs.theme.color + '">' + $.i18n._('today') + '</h2><ul id="' + id + '"></ul>');
+				$tasks.prepend('<h2 class="' + cli.storage.prefs.color + '">' + $.i18n._('today') + '</h2><ul id="' + id + '"></ul>');
 			} else if (ui.lists.selected() == 'next') {
-				$tasks.prepend('<h2 class="' + cli.storage.prefs.theme.color + '">' + $.i18n._('next') + '</h2><ul id="' + id + '"></ul>');
+				$tasks.prepend('<h2 class="' + cli.storage.prefs.color + '">' + $.i18n._('next') + '</h2><ul id="' + id + '"></ul>');
 			} else if (ui.lists.selected() == 'someday') {
-				$tasks.prepend('<h2 class="' + cli.storage.prefs.theme.color + '">' + $.i18n._('someday') + '</h2><ul id="' + id + '"></ul>');
+				$tasks.prepend('<h2 class="' + cli.storage.prefs.color + '">' + $.i18n._('someday') + '</h2><ul id="' + id + '"></ul>');
 			} else {
-				$tasks.prepend('<h2 class="' + cli.storage.prefs.theme.color + '">' + cli.storage.lists.items[id].name + '</h2><ul id="' + id + '"></ul>');
+				$tasks.prepend('<h2 class="' + cli.storage.prefs.color + '">' + cli.storage.lists.items[id].name + '</h2><ul id="' + id + '"></ul>');
 			}
 			
 

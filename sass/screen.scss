@@ -798,6 +798,7 @@ button {
 		.tab-pane {
 			display: none;
 			padding: 15px;
+			border-bottom-radius: 5px;
 
 			font-size: 13px;
 			line-height: 18px;
@@ -817,6 +818,12 @@ button {
 				margin-right: 10px;
 				text-align: right;
 			}
+			label.right {
+				display: inline-block;
+				margin-right: 10px;
+				width: 120px;
+				text-align: right;
+			}
 
 			.description {
 				margin-left: 60px;
@@ -827,14 +834,43 @@ button {
 			}
 
 			button {
-				margin-bottom: 5px;
+				margin: 5px 0;
 				font-size: 13px;
+
+				&:last-child {
+					margin-bottom: 0;
+				}
 			}
 
 			select {
 				font-size: 14px;
 				line-height: 22px;
-				margin-bottom: 5px;
+				margin: 5px 0;
+
+				&:last-child {
+					margin-bottom: 0;
+				}
+			}
+
+			input[type=text], input[type=password] {
+				margin: 5px 0;
+				width: 200px;
+				font-size: 13px;
+				line-height: 18px;
+				height:18px;
+			}
+
+			blockquote {
+				width: 400px;
+				padding: 10px;
+				background: #eee;
+				border: 3px solid #ddd;
+				border-radius: 5px;
+
+				.icon {
+					float: left;
+					margin: 0 10px 0 0;
+				}
 			}
 
 			&.active {
@@ -853,21 +889,20 @@ button {
 		th {
 			text-align: left;
 			font-size: 14px;
-			border-bottom: 2px solid #ccc;
+			border-bottom: 1px solid #aaa;
 		}
 		tr {
 			border-bottom: 1px solid #ccc;
+			&:last-of-type{
+				border-bottom: none;
+			}
 			td, th {
 				padding: 5px 0;
 
 				&:first-of-type, &:nth-of-type(3) {
 					width: 20%;
 				}
-				&:nth-of-type(2) {
-					width: 30%;
-					border-right: 1px solid #ccc;
-				}
-				&:nth-of-type(4) {
+				&:nth-of-type(4), &:nth-of-type(2) {
 					width: 30%;
 				}
 			}
