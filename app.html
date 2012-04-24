@@ -27,16 +27,16 @@
 </div>
 <div id="prefsDialog">
 	<!-- I hate HTML Whitespace =( -->
-	<ul class="nav nav-tabs"><li class="active"><a href="#" data-target="#tabGeneral" data-toggle="tab">General</a></li><li><a href="#" data-target="#tabLanguage" data-toggle="tab">Language</a></li><li><a href="#" data-target="#tabTheme" data-toggle="tab">Theme</a></li><li><a href="#" data-target="#tabSync" data-toggle="tab">Sync</a></li></ul>  
+	<ul class="nav nav-tabs"><li class="active"><a href="#" data-target="#tabGeneral" data-toggle="tab" class="translate" data-translate="general">g</a></li><li><a href="#" data-target="#tabLanguage" data-toggle="tab" class="translate" data-translate="language">g</a></li><li><a href="#" data-target="#tabTheme" data-toggle="tab" class="translate" data-translate="theme">g</a></li><li><a href="#" data-target="#tabSync" data-toggle="tab" class="translate" data-translate="sync">g</a></li></ul>  
 	<div class="tab-content">  
 		<div class="tab-pane active" id="tabGeneral">  
 		<form>
 			<input type="checkbox" id="deleteWarnings"><label for="deleteWarnings" class="translate" data-translate="hideWarnings"></label><br>
-			<label class="description">This disables the confirm box that appears when you delete a task or list.</label><br>
+			<label class="description translate" data-translate="deleteWarningsDescription"></label><br>
 			<input type="checkbox" id="gpu"><label for="gpu" class="translate" data-translate="lowGraphics"></label><br>
-			<label class="description">This disables all the fancy animations so that Nitro is even quicker on lesser powered hardware.</label>
+			<label class="description translate" data-translate="deleteWarningsDescription"></label>
 			<hr>
-			<label class="left">Show other lists in Next: </label><select id="nextAmount">
+			<label class="left translate" data-translate="nextDescription"> </label><select id="nextAmount">
 				<option value="noLists" class="translate" data-translate="nextNoLists"></option>
 				<option value="threeItems" class="translate" data-translate="nextThreeLists"></option>
 				<option value="everything" class="translate" data-translate="nextEntireLists"></option>
@@ -47,10 +47,10 @@
 			<table>
 				<thead>
 					<tr>
-						<th>Language</th>
-						<th>Author</th>
-						<th>Language</th>
-						<th>Author</th>
+						<th class="translate" data-translate="language"></th>
+						<th class="translate" data-translate="authortext"></th>
+						<th class="translate" data-translate="language"></th>
+						<th class="translate" data-translate="authortext"></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -98,7 +98,7 @@
 			</table>  
 		</div>  
 		<div class="tab-pane" id="tabTheme">  
-			<label class="left">Pick a theme: </label><select id="theme">
+			<label class="left translate" data-translate="pickTheme"></label><select id="theme">
 				<option value="default">Default</option>
 				<option value="ambiance">Ambiance</option>
 				<option value="adwaita">Adwaita</option>
@@ -108,44 +108,43 @@
 				<option value="wunderlist">Wunderlist</option>
 				<option value="bieber">Justin Bieber</option>
 			</select><br>
-			<label class="description">Themes allow you to change the look of Nitro.<br>You can even use CSS to create your own!</label>
+			<label class="description translate" data-translate="themeDescription"></label>
 			<hr>
-			<label class="left">Set a custom background: </label><button id="addBG">Choose background</button><br>
-			<label class="left">Use the default background: </label><button id="removeBG">Remove background</button><br>
-			<label class="left">Background size: </label><select id="backgroundSize">
-				<option value="zoom">Fill screen</option>
-				<option value="center">Center</option>
-				<option value="tile">Tile</option>
+			<label class="left translate" data-translate="useDefault"></label><button id="removeBG" class="translate" data-translate="removeBG"></button><br>
+			<label class="left translate" data-translate="bgSize"></label><select id="backgroundSize">
+				<option value="zoom" class="translate" data-translate="fill"></option>
+				<option value="center" class="translate" data-translate="center"></option>
+				<option value="tile" class="translate" data-translate="tile"></option>
 			</select>
-			<label class="description">Drag and drop an image onto Nitro to set it as the background</label>
+			<label class="description translate" data-translate="bgDescription"></label>
 			<hr>
-			<label class="left">Heading color: </label>
+			<label class="left translate" data-translate="headingColor"></label>
 			<select id="headingColor">
-				<option value="light">Light</option>
-				<option value="dark">Dark</option>
-				<option value="">Default</option>
+				<option value="light" class="translate" data-translate="light"></option>
+				<option value="dark" class="translate" data-translate="dark"></option>
+				<option value="" class="translate" data-translate="default"></option>
 			</select>
-			<label class="description">Change the color of the text so that it looks nice with your custom background.</label>
+			<label class="description translate" data-translate="headingDescription"></label>
 		</div>
 		<div class="tab-pane" id="tabSync">
-			<blockquote><img src="images/cog.png" class="icon">Sync is finished but we need your help. With your donations we can make sync &amp; mobile apps possible.</blockquote>
+			<blockquote><img src="images/cog.png" class="icon"><span class="translate" data-translate="donateText"></span></blockquote>
 			<hr>
-			<label class="left">Sync:</label><select id="sync">
-				<option value="never">Never (No notifications)</option>
-				<option value="manual">Manually</option>
-				<option value="timer">Every 5 minutes</option>
-				<option value="auto">Every time a change is made</option>
+			<label class="left translate" data-translate="syncLabel"></label><select id="sync">
+				<option value="never" class="translate" data-translate="syncNever"></option>
+				<option value="manual" class="translate" data-translate="syncManual"></option>
+				<option value="timer" class="translate" data-translate="sync5"></option>
+				<option value="auto" class="translate" data-translate="syncAuto"></option>
 			</select><br>
-			<label class="description">Sync allows you to access your tasks from other computers and smartphones</label>
+			<label class="description translate" data-translate="syncDescription"></label>
 			<hr>
 			<blockquote>
-				<label class="right">Service: </label><select id="syncService">
+				<label class="right translate" data-translate="syncService"></label><select id="syncService">
 					<option value="dropbox">Dropbox</option>
 					<option value="ubuntu">Ubuntu One</option>
 				</select><br>
-				<label class="right">Username: </label><input type="text"><br>
-				<label class="right">Password: </label><input type="password"><br>
-				<label class="right"></label><button>Connect</button>
+				<label class="right translate" data-translate="syncUsername"></label><input type="text"><br>
+				<label class="right translate" data-translate="syncPassword"></label><input type="password"><br>
+				<label class="right"></label><button class="translate" data-translate="syncConnect"></button>
 			</blockquote>
 		</div>
 	</div>
