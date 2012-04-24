@@ -69,24 +69,9 @@ var deCSS3 = {
             regex    : /column-count(.*?)\;/g,
             sentinel : 'column-count',
             repl     : 'column-count: 1;'
-          },
-          rgba   : {
-            regex    : /rgba\((.*?)\)\;/g,
-            sentinel : 'rgba',
-            repl     : 'rgba();'
-          },
-          hsla   : {
-            regex    : /hsla\((.*?)\)\;/g,
-            sentinel : 'hsla',
-            repl     : 'hsla();'
-          },
-          linear : {
-            regex    : /linear-gradient\((.*?)\)\;/g,
-            sentinel : 'linear-gradient',
-            repl     : 'linear-gradient();'
           }
         },
-        rFound   = /\@media|column-count|rgba|hsla|linear-gradient/g,
+        rFound   = /\@media|column-count/g,
         ruleReplacer = function ( found, newRule, sentinel, regex, repl ) {
           if ( found && ~ found.indexOf( sentinel ) ) {
             newRule = newRule.replace( regex, repl );
