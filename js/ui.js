@@ -458,6 +458,8 @@ ui = {
 			// Custom background
 			if(localStorage.hasOwnProperty('background')) {
 				$tasks[0].style.backgroundImage = 'url(' + localStorage.getItem('background') + ')';
+			} else if(cli.storage.prefs.hasOwnProperty('background')) {
+				$tasks[0].style.backgroundImage = 'url(' + cli.storage.prefs.background + ')';
 			}
 			
 			//Language
@@ -543,7 +545,7 @@ ui = {
 				// Read only the first file
 				var reader = new FileReader();
 				reader.onload = function (event) {
-					localStorage.setItem('background', event.target.result);
+					app == 'js' ? localStorage.setItem('background', event.target.result) : cli.storage.prefs.background = event.target.result;
 					$tasks[0].style.backgroundImage = 'url(' + event.target.result + ')';
 				};
 				reader.readAsDataURL(files[0]);
