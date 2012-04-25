@@ -898,7 +898,7 @@ button {
 #aboutDialog {
   position: fixed;
   width: 450px;
-  top: 100px;
+  top: 50px;
   left: 50%;
   padding: 15px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
@@ -906,7 +906,7 @@ button {
   text-align: center;
   z-index: 100;
   font-size: 13px;
-  margin-left: -115px;
+  margin-left: -225px;
   background: #fff;
   display: none; }
 
