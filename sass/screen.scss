@@ -444,6 +444,11 @@ body {
 						border: 0 !important;
 					}
 				}
+
+				&.selected, &.expanded {
+					color: #444;
+					background: #ddd;
+				}
 			}
 
 			.boxhelp {

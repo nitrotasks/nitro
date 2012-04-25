@@ -770,9 +770,9 @@ ui = {
 							if (l == 3 && cli.storage.prefs.nextAmount == 'threeItems') {
 								//Because english matters
 								if (parseInt(newListItems.length) - 3 == 1) {
-									$('#tasks ul#' + cli.storage.lists.order[i]).append('<p class="expandList">' + $.i18n._('oneMore') + '</p>');
+									$('#tasks ul#' + cli.storage.lists.order[i]).append('<p class="expandList ' + cli.storage.prefs.color + '">' + $.i18n._('oneMore') + '</p>');
 								} else {
-									$('#tasks ul#' + cli.storage.lists.order[i]).append('<p class="expandList">' + $.i18n._('morethanOne', [(parseInt(newListItems.length) - 3)]) + '</p>');
+									$('#tasks ul#' + cli.storage.lists.order[i]).append('<p class="expandList ' + cli.storage.prefs.color + '">' + $.i18n._('morethanOne', [(parseInt(newListItems.length) - 3)]) + '</p>');
 								};
 								break;
 							}
@@ -1464,10 +1464,26 @@ ui = {
 					break;
 
 				case 'prevTask':
-					$('#tasks .selected').prev('li').find('.todotxt').click();
+					if(ui.lists.selected() == 'next') {
+						if($('#tasks .selected').is(':first-of-type')) {
+							$('#tasks .selected').parent().prev().prev().find('li').last().find('.todotxt').click();
+						} else {
+							$('#tasks .selected').prev('li').find('.todotxt').click();
+						}
+					} else {
+						$('#tasks .selected').prev('li').find('.todotxt').click();
+					}
 					break;
 				case 'nextTask':
-					$('#tasks .selected').next('li').find('.todotxt').click();
+					if(ui.lists.selected() == 'next') {
+						if($('#tasks .selected').is(':last-of-type')) {
+							$('#tasks .selected').parent().next().next().find('li').first().find('.todotxt').click();
+						} else {
+							$('#tasks .selected').next('li').find('.todotxt').click();
+						}
+					} else {
+						$('#tasks .selected').next('li').find('.todotxt').click();
+					}
 					break;
 				case 'prevList':
 					$('#sidebar .selected').prev('li').click();

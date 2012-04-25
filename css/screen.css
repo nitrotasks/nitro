@@ -510,6 +510,9 @@ body {
         #content #tasks li.logged .checkbox input[type=checkbox]:hover {
           box-shadow: 0 0 0px #000 !important;
           border: 0 !important; }
+      #content #tasks li.logged.selected, #content #tasks li.logged.expanded {
+        color: #444;
+        background: #ddd; }
     #content #tasks li .boxhelp {
       display: -webkit-box;
       display: -moz-box;
