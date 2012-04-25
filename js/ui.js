@@ -1464,25 +1464,34 @@ ui = {
 					break;
 
 				case 'prevTask':
-					if(ui.lists.selected() == 'next') {
-						if($('#tasks .selected').is(':first-of-type')) {
-							$('#tasks .selected').parent().prev().prev().find('li').last().find('.todotxt').click();
+					if(!$('#tasks .selected').length) {
+						$('#tasks li').first().addClass('selected');
+					} else {
+						if(ui.lists.selected() == 'next') {
+							if($('#tasks .selected').is(':first-of-type')) {
+								$('#tasks .selected').parent().prev().prev().find('li').last().find('.todotxt').click();
+							} else {
+								$('#tasks .selected').prev('li').find('.todotxt').click();
+							}
 						} else {
 							$('#tasks .selected').prev('li').find('.todotxt').click();
-						}
-					} else {
-						$('#tasks .selected').prev('li').find('.todotxt').click();
 					}
+					}
+					
 					break;
 				case 'nextTask':
-					if(ui.lists.selected() == 'next') {
-						if($('#tasks .selected').is(':last-of-type')) {
-							$('#tasks .selected').parent().next().next().find('li').first().find('.todotxt').click();
+						if(!$('#tasks .selected').length) {
+						$('#tasks li').first().addClass('selected');
+					} else {
+						if(ui.lists.selected() == 'next') {
+							if($('#tasks .selected').is(':last-of-type')) {
+								$('#tasks .selected').parent().next().next().find('li').first().find('.todotxt').click();
+							} else {
+								$('#tasks .selected').next('li').find('.todotxt').click();
+							}
 						} else {
 							$('#tasks .selected').next('li').find('.todotxt').click();
 						}
-					} else {
-						$('#tasks .selected').next('li').find('.todotxt').click();
 					}
 					break;
 				case 'prevList':
