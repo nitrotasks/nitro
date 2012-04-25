@@ -1355,74 +1355,125 @@ ui = {
 	},
 	external: {
 		key: function() {
-			key('n', function(){ ui.external.cmd('newtask') });
-			key('l', function(){ ui.external.cmd('newlist') });
-			key('s', function(){ ui.external.cmd('sync') });
+			key('up, j', function() {ui.external.cmd('prevTask')});
+			key('down, k', function() {ui.external.cmd('nextTask')});
+			key('⌘+up, ⌘+j', function() {});
+			key('⌘+down, ⌘+k', function() {});
 
-			key('f', function(){ ui.external.cmd('find') });
-			key('p', function(){ ui.external.cmd('prefs') });
+			key('⇧+up, ⇧+j', function() {ui.external.cmd('prevList')});
+			key('⇧+down, ⇧+k', function() {ui.external.cmd('nextList')});
+			key('⇧+⌘+up, ⇧+⌘+j', function() {});
+			key('⇧+⌘+down, ⇧+⌘+k', function() {});
 
-			key('0', function(){ ui.external.cmd('today') });
-			key('1', function(){ ui.external.cmd('next') });
-			key('2', function(){ ui.external.cmd('someday') });
-			key('3', function(){ ui.external.cmd('logbook') });
+			key('space', function() {ui.external.cmd('check')});
+			key('enter', function() {ui.external.cmd('editTask'); return false;});
+			key('⌘+enter', function() {ui.external.cmd('editList'); return false;});
 
-			key('a', function(){ ui.external.cmd('about') });
-			key('h', function(){ ui.external.cmd('help') });
+			key('f', function() {ui.external.cmd('find'); return false;});
+			key('p', function() {ui.external.cmd('prefs') });
+			key('a', function() {ui.external.cmd('about') });
+			key('h', function() {ui.external.cmd('help') });
+
+			key('n', function() {ui.external.cmd('newtask'); return false;});
+			key('l', function() {ui.external.cmd('newlist'); return false;});
+			key('s', function() {ui.external.cmd('sync') });
+
+			key('1', function() {ui.external.cmd('today') });
+			key('2', function() {ui.external.cmd('next') });
+			key('3', function() {ui.external.cmd('someday') });
+			key('4', function() {ui.external.cmd('logbook') });
 		},
 		cmd: function(cmd) {
-			//Contains all the commands
+			// Contains all the commands
 
-			/* File Menu */
-			if (cmd == 'newtask') {
-				$addBTN.click();
-			} else if (cmd == 'newlist') {
-				$('#addListBTN').click()
-			} else if (cmd == 'sync') {
-				$('#prefsDialog').fadeIn(100);
-				$('a[data-target=#tabSync]').tab('show')
-				$('#settingsOverlay').show(0);
+			switch(cmd) {
+				// File Menu 
+				case 'newtask':
+					$addBTN.click();
+					break;
+				case 'newlist':
+					$('#addListBTN').click()
+					break;
+				case 'sync':
+					$('#prefsDialog').fadeIn(100);
+					$('a[data-target=#tabSync]').tab('show')
+					$('#settingsOverlay').show(0);
+					break;
 
-			/* Edit Menu */
-			} else if (cmd == 'find') {
-				$('#search').focus();
+				// Edit Menu 
+				case 'find':
+					$('#search').focus();
+					break;
+				case 'prefs':
+					$('#prefsDialog').fadeToggle(150);
+					$('a[data-target=#tabGeneral]').tab('show')
+					$('#settingsOverlay').toggle(0);
+					break;
 
-			} else if (cmd == 'prefs') {
-				$('#prefsDialog').fadeIn(100);
-				$('a[data-target=#tabGeneral]').tab('show')
-				$('#settingsOverlay').show(0);
+				// GoTo
+				case 'today':
+					$('#todayList').click()
+					break;
+				case 'next':
+					$('#nextList').click()
+					break;
+				case 'someday':
+					$('#somedayList').click()
+					break;
+				case 'logbook':
+					$('#logbookBTN').click()
+					break;
 
-			/* View Menu */
+				// View menu
+				case 'language':
+					$('#prefsDialog').fadeToggle(150);
+					$('a[data-target=#tabLanguage]').tab('show')
+					$('#settingsOverlay').toggle(0);
+					break;
+				case 'theme':
+					$('#prefsDialog').fadeToggle(150);
+					$('a[data-target=#tabTheme]').tab('show')
+					$('#settingsOverlay').toggle(0);
+					break;
 
-			//GoTO
-			} else if (cmd == 'today') {
-				$('#todayList').click()
-			} else if (cmd == 'next') {
-				$('#nextList').click()
-			} else if (cmd == 'someday') {
-				$('#somedayList').click()
-			} else if (cmd == 'logbook') {
-				$('#logbookBTN').click()
+				// Help Menu
+				case 'about':
+					$('#aboutDialog').fadeToggle(150);
+					$('#settingsOverlay').toggle(0);
+					break;
+				case 'donate':
+					window.location = 'http://nitrotasks.com/donate.html';
+					break;
+				case 'help':
+					window.location = 'http://nitrotasks.com/help';
+					break;
+				case 'bug':
+					window.location = 'https://github.com/stayradiated/Nitro/issues';
+					break;
 
-			} else if (cmd == 'language') {
-				$('#prefsDialog').fadeIn(100);
-				$('a[data-target=#tabLanguage]').tab('show')
-				$('#settingsOverlay').show(0);
-			} else if (cmd == 'theme') {
-				$('#prefsDialog').fadeIn(100);
-				$('a[data-target=#tabTheme]').tab('show')
-				$('#settingsOverlay').show(0);
-				
-			/* Help Menu */
-			} else if (cmd == 'about') {
-				$('#aboutDialog').fadeIn(100);
-				$('#settingsOverlay').show(0);
-			} else if (cmd == 'donate') {
-				window.location = 'http://nitrotasks.com/donate.html'
-			} else if (cmd == 'help') {
-				window.location = 'http://nitrotasks.com/help'
-			} else if (cmd == 'bug') {
-				window.location = 'https://github.com/stayradiated/Nitro/issues'
+				// Extra stuff for keyboard shortcuts
+				case 'editTask':
+					$editBTN.click();
+					break;
+				case 'editList':
+					$('.selected .editIcon').click();
+					break;
+				case 'check':
+					$('.selected input[type=checkbox]').click();
+					break;
+
+				case 'prevTask':
+					$('#tasks .selected').prev('li').find('.todotxt').click();
+					break;
+				case 'nextTask':
+					$('#tasks .selected').next('li').find('.todotxt').click();
+					break;
+				case 'prevList':
+					$('#sidebar .selected').prev('li').click();
+					break;
+				case 'nextList':
+					$('#sidebar .selected').next('li').click();
+					break;
 			}
 		}
 	}
