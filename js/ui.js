@@ -1357,8 +1357,8 @@ ui = {
 		key: function() {
 			key('up, j', function() {ui.external.cmd('prevTask')});
 			key('down, k', function() {ui.external.cmd('nextTask')});
-			key('⌘+up, ⌘+j', function() {});
-			key('⌘+down, ⌘+k', function() {});
+			key('⌘+up, ⌘+j', function() {ui.external.cmd('moveTaskUp')});
+			key('⌘+down, ⌘+k', function() {ui.external.cmd('moveTaskDown')});
 
 			key('⇧+up, ⇧+j', function() {ui.external.cmd('prevList')});
 			key('⇧+down, ⇧+k', function() {ui.external.cmd('nextList')});
@@ -1473,6 +1473,31 @@ ui = {
 					break;
 				case 'nextList':
 					$('#sidebar .selected').next('li').click();
+					break;
+
+				case 'moveTaskUp':
+					var id = parseInt($('#tasks .selected').attr('id').substr(4)),
+						l = cli.storage.lists.items[ui.lists.selected()].order,
+						i = l.indexOf(id);
+					if(i != 0) {
+						l.splice(i, 1);
+						l.splice(i - 1, 0, id);
+						ui.tasks.populate(ui.lists.selected());
+						$('#task' + id).addClass('selected');
+					}
+					break;
+				case 'moveTaskDown':
+					var id = parseInt($('#tasks .selected').attr('id').substr(4)),
+						l = cli.storage.lists.items[ui.lists.selected()].order,
+						i = l.indexOf(id);
+					l.splice(i, 1);
+					l.splice(i + 1, 0, id);
+					ui.tasks.populate(ui.lists.selected());
+					$('#task' + id).addClass('selected');
+					break;
+				case 'moveListUp':
+					break;
+				case 'moveListDown':
 					break;
 			}
 		}
