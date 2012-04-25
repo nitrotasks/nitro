@@ -136,9 +136,7 @@ ui = {
 		$('#date').hide(0);
 
 		/* Makes lists show up */
-		for (var i=0; i<cli.storage.lists.order.length; i++) {
-			$('#userLists').append('<li id="' + cli.storage.lists.order[i] + 'List"><div class="editIcon" title="' + $.i18n._('titleEditList') + '"></div><div class="view">' + cli.storage.lists.items[cli.storage.lists.order[i]].name  + '<div class="count">0</div></div><div class="edit"><input type="text" value="' +  cli.storage.lists.items[cli.storage.lists.order[i]].name + '"><div class="delete" title="' + $.i18n._('titleDeleteList') + '"></div><div class="save" title="' + $.i18n._('titleSaveList') + '"></div></div></li>');
-		}
+		ui.lists.populate();
 
 		/* Buttons */
 		$('#addListBTN').click(function() {
@@ -608,10 +606,7 @@ ui = {
 			var sel = ui.lists.selected();
 			
 			// Makes lists show up 
-			$('#userLists').html('');
-			for (var i=0; i<cli.storage.lists.order.length; i++) {
-				$('#userLists').append('<li id="' + cli.storage.lists.order[i] + 'List"><div class="editIcon" title="' + $.i18n._('titleEditList') + '"></div><div class="view">' + cli.storage.lists.items[cli.storage.lists.order[i]].name  + '<div class="count">0</div></div><div class="edit"><input type="text" value="' +  cli.storage.lists.items[cli.storage.lists.order[i]].name + '"><div class="delete" title="' + $.i18n._('titleDeleteList') + '"></div><div class="save" title="' + $.i18n._('titleSaveList') + '"></div></div></li>');
-			}
+			ui.lists.populate();
 
 			// Display tasks
 			ui.tasks.populate(sel);
@@ -628,7 +623,13 @@ ui = {
 				return '';
 			}
 		},
-			
+
+		populate: function() {
+			$('#userLists').html('');
+			for (var i=0; i<cli.storage.lists.order.length; i++) {
+				$('#userLists').append('<li id="' + cli.storage.lists.order[i] + 'List"><div class="editIcon" title="' + $.i18n._('titleEditList') + '"></div><div class="view">' + cli.storage.lists.items[cli.storage.lists.order[i]].name  + '<div class="count">0</div></div><div class="edit"><input type="text" value="' +  cli.storage.lists.items[cli.storage.lists.order[i]].name + '"><div class="delete" title="' + $.i18n._('titleDeleteList') + '"></div><div class="save" title="' + $.i18n._('titleSaveList') + '"></div></div></li>');
+			}
+		},			
 
 		openEditMode: function() {
 			$('#' + ui.lists.selected() + 'List').addClass('edit');
@@ -1362,8 +1363,8 @@ ui = {
 
 			key('⇧+up, ⇧+k', function() {ui.external.cmd('prevList')});
 			key('⇧+down, ⇧+j', function() {ui.external.cmd('nextList')});
-			key('⇧+⌘+up, ⇧+⌘+k', function() {});
-			key('⇧+⌘+down, ⇧+⌘+j', function() {});
+			key('⇧+⌘+up, ⇧+⌘+k', function() {ui.external.cmd('moveListUp')});
+			key('⇧+⌘+down, ⇧+⌘+j', function() {ui.external.cmd('moveListDown')});
 
 			key('space', function() {ui.external.cmd('check')});
 			key('enter', function() {ui.external.cmd('editTask'); return false;});
@@ -1476,7 +1477,7 @@ ui = {
 					break;
 
 				case 'moveTaskUp':
-					var id = parseInt($('#tasks .selected').attr('id').substr(4)),
+					var id = $('#tasks .selected').attr('id').substr(4),
 						l = cli.storage.lists.items[ui.lists.selected()].order,
 						i = l.indexOf(id);
 					if(i != 0) {
@@ -1484,22 +1485,42 @@ ui = {
 						l.splice(i - 1, 0, id);
 						ui.tasks.populate(ui.lists.selected());
 						$('#task' + id).addClass('selected');
-						// cli.storage.save();
+						cli.storage.save();
 					}
 					break;
 				case 'moveTaskDown':
-					var id = parseInt($('#tasks .selected').attr('id').substr(4)),
+					var id = $('#tasks .selected').attr('id').substr(4),
 						l = cli.storage.lists.items[ui.lists.selected()].order,
 						i = l.indexOf(id);
 					l.splice(i, 1);
 					l.splice(i + 1, 0, id);
 					ui.tasks.populate(ui.lists.selected());
 					$('#task' + id).addClass('selected');
-					// cli.storage.save();
+					cli.storage.save();
 					break;
 				case 'moveListUp':
+					var id = parseInt(ui.lists.selected()),
+						l = cli.storage.lists.order,
+						i = l.indexOf(id);
+					if(i > 0) {
+						l.splice(i, 1);
+						l.splice(i - 1, 0, id);
+						ui.lists.populate();
+						$('#' + id + 'List').addClass('selected');
+						cli.storage.save();
+					}
 					break;
 				case 'moveListDown':
+					var id = parseInt(ui.lists.selected()),
+						l = cli.storage.lists.order,
+						i = l.indexOf(id);
+					if(i > -1) {
+						l.splice(i, 1);
+						l.splice(i + 1, 0, id);
+						ui.lists.populate();
+						$('#' + id + 'List').addClass('selected');
+						cli.storage.save();
+					}
 					break;
 			}
 		}
