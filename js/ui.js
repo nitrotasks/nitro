@@ -1511,26 +1511,32 @@ ui = {
 					break;
 
 				case 'moveTaskUp':
-					var id = $('#tasks .selected').attr('id').substr(4),
-						l = cli.storage.lists.items[ui.lists.selected()].order,
-						i = l.indexOf(id);
-					if(i != 0) {
-						l.splice(i, 1);
-						l.splice(i - 1, 0, id);
-						ui.tasks.populate(ui.lists.selected());
-						$('#task' + id).addClass('selected');
-						cli.storage.save();
+					if($('#tasks .selected').length) {
+						var id = parseInt($('#tasks .selected').attr('id').substr(4)),
+							l = cli.storage.lists.items[ui.lists.selected()].order,
+							i = l.indexOf(id);
+						if(i > 0) {
+							l.splice(i, 1);
+							l.splice(i - 1, 0, id);
+							ui.tasks.populate(ui.lists.selected());
+							$('#task' + id).addClass('selected');
+							cli.storage.save();
+						}
 					}
 					break;
 				case 'moveTaskDown':
-					var id = $('#tasks .selected').attr('id').substr(4),
-						l = cli.storage.lists.items[ui.lists.selected()].order,
-						i = l.indexOf(id);
-					l.splice(i, 1);
-					l.splice(i + 1, 0, id);
-					ui.tasks.populate(ui.lists.selected());
-					$('#task' + id).addClass('selected');
-					cli.storage.save();
+					if($('#tasks .selected').length) {
+						var id = parseInt($('#tasks .selected').attr('id').substr(4)),
+							l = cli.storage.lists.items[ui.lists.selected()].order,
+							i = l.indexOf(id);
+						if(i > -1) {
+							l.splice(i, 1);
+							l.splice(i + 1, 0, id);
+							ui.tasks.populate(ui.lists.selected());
+							$('#task' + id).addClass('selected');
+							cli.storage.save();
+						}
+					}
 					break;
 				case 'moveListUp':
 					var id = parseInt(ui.lists.selected()),

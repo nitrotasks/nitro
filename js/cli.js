@@ -362,8 +362,8 @@ var cli = {
 				//If the task.list is today, we place back in today & next
 				if (task.list == 'today') {
 					
-					lists.today.order.unshift(id);
-					lists.next.order.unshift(id);
+					lists.today.order.unshift(parseInt(id));
+					lists.next.order.unshift(parseInt(id));
 
 					console.log('List in today, placed in today');
 				} else {
@@ -371,14 +371,14 @@ var cli = {
 					if (task.today == 'manual' || task.today == 'yesAuto') {
 						//Adds to Today & Next arrays
 						console.log('List either manually set or Date set. In today');
-						lists.today.order.unshift(id);
-						lists.next.order.unshift(id);
+						lists.today.order.unshift(parseInt(id));
+						lists.next.order.unshift(parseInt(id));
 					} else {
 						console.log('Not in today');
 						//Do nothing unless in Next list
 						if (task.list == 'next') {
 							//Adds to Next array
-							lists.next.order.unshift(id);
+							lists.next.order.unshift(parseInt(id));
 						};
 					};
 				}
