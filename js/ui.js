@@ -255,14 +255,18 @@ ui = {
 		$editBTN.click(function() {
 			if ($('#tasks .selected').length || $('#tasks .expanded').length) {
 				//Close expanded
-				if ($('#tasks .expanded').length) {
-					ui.tasks.selected.collapse($('#tasks ul li.expanded'));
-				}
+				
 
 				//Open Selected
 				if ($('#tasks .selected').length) {
+					if ($('#tasks .expanded').length) {
+						ui.tasks.selected.collapse($('#tasks ul li.expanded'));
+					}
 					ui.tasks.selected.expand($('#tasks .selected'));
 				} else {
+					if ($('#tasks .expanded').length) {
+						ui.tasks.selected.collapse($('#tasks ul li.expanded'), "stay_selected");
+					}
 					$('#editBTN, #deleteBTN').addClass('disabled');
 				}
 			}
@@ -987,7 +991,7 @@ ui = {
 				if ($('#date').css('display') != 'block') {
 					$('#editBTN, #deleteBTN').addClass('disabled');
 					$('#tasks ul li.selected').removeClass('selected');
-					ui.tasks.selected.collapse($('#tasks ul li.expanded'))
+					ui.tasks.selected.collapse($('#tasks ul li.expanded'), "stay_selected")
 					$('.settings').fadeOut(150);
 				};				
 			});
@@ -1048,7 +1052,7 @@ ui = {
 					if (ui.tasks.clicks == 2 && id == ui.tasks.lastClicked) {
 						//Close on double click
 						$('#tasks ul li.expanded .todotxt').blur();
-						ui.tasks.selected.collapse($('#tasks ul li.expanded'));
+						ui.tasks.selected.collapse($('#tasks ul li.expanded'), "stay_selected");
 					};
 				} else {
 					
@@ -1282,7 +1286,7 @@ ui = {
 				});
 			},
 			expand: function(id) {
-				id.addClass('expanded').removeClass('selected');
+				id.addClass('expanded').removeClass('selected')
 				var data = id.attr('id').substr(4);
 				var taskData = cli.taskData(data).display();
 
@@ -1315,7 +1319,7 @@ ui = {
 				});
 			},
 
-			collapse: function(id) {
+			collapse: function(id, staySelected) {
 				if (id.attr('id')) {
 
 					//Gets taskData
@@ -1343,13 +1347,18 @@ ui = {
 
 					//Turns edit mode off
 					id.children().children('.todotxt').html(id.find('input[type="text"]').val());
-					id.children().children('.labels').html(today + date);
+					id.children().children('.labels').html(today + date);					
 
 					//Animations
 					id.children('.hidden').slideUp(150);
 					id.addClass('deletion').removeClass('margin');
-					setTimeout("$('#tasks ul li.deletion .hidden').remove()", 150);
-					setTimeout("$('#tasks ul li.deletion').removeClass('deletion expanded')", 150);
+					setTimeout(function() {
+						$('#tasks ul li.deletion .hidden').remove()
+						$('#tasks ul li.deletion').removeClass('deletion expanded');
+						if(staySelected) {
+							$(id).addClass('selected');
+						}
+					}, 150);
 				}
 			}
 		}
