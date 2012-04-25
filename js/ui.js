@@ -1355,15 +1355,15 @@ ui = {
 	},
 	external: {
 		key: function() {
-			key('up, j', function() {ui.external.cmd('prevTask')});
-			key('down, k', function() {ui.external.cmd('nextTask')});
-			key('⌘+up, ⌘+j', function() {ui.external.cmd('moveTaskUp')});
-			key('⌘+down, ⌘+k', function() {ui.external.cmd('moveTaskDown')});
+			key('up, k', function() {ui.external.cmd('prevTask')});
+			key('down, j', function() {ui.external.cmd('nextTask')});
+			key('⌘+up, ⌘+k', function() {ui.external.cmd('moveTaskUp')});
+			key('⌘+down, ⌘+j', function() {ui.external.cmd('moveTaskDown')});
 
-			key('⇧+up, ⇧+j', function() {ui.external.cmd('prevList')});
-			key('⇧+down, ⇧+k', function() {ui.external.cmd('nextList')});
-			key('⇧+⌘+up, ⇧+⌘+j', function() {});
-			key('⇧+⌘+down, ⇧+⌘+k', function() {});
+			key('⇧+up, ⇧+k', function() {ui.external.cmd('prevList')});
+			key('⇧+down, ⇧+j', function() {ui.external.cmd('nextList')});
+			key('⇧+⌘+up, ⇧+⌘+k', function() {});
+			key('⇧+⌘+down, ⇧+⌘+j', function() {});
 
 			key('space', function() {ui.external.cmd('check')});
 			key('enter', function() {ui.external.cmd('editTask'); return false;});
@@ -1484,6 +1484,7 @@ ui = {
 						l.splice(i - 1, 0, id);
 						ui.tasks.populate(ui.lists.selected());
 						$('#task' + id).addClass('selected');
+						// cli.storage.save();
 					}
 					break;
 				case 'moveTaskDown':
@@ -1494,6 +1495,7 @@ ui = {
 					l.splice(i + 1, 0, id);
 					ui.tasks.populate(ui.lists.selected());
 					$('#task' + id).addClass('selected');
+					// cli.storage.save();
 					break;
 				case 'moveListUp':
 					break;
