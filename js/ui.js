@@ -540,6 +540,8 @@ ui = {
 			$('#' + id + 'List').click()
 		});
 
+		// Custom backgrounds
+		// Drag and drop
 		$body.bind({
 			dragover: function () {
 				// Stop the window from opening the file
@@ -551,18 +553,26 @@ ui = {
 				e.preventDefault();
 				e = e.originalEvent || e;
 				var files = (e.files || e.dataTransfer.files);
-
-				// Read only the first file
-				var reader = new FileReader();
-				reader.onload = function (event) {
-					app == 'js' ? localStorage.setItem('background', event.target.result) : cli.storage.prefs.background = event.target.result;
-					$tasks[0].style.backgroundImage = 'url(' + event.target.result + ')';
-				};
-				reader.readAsDataURL(files[0]);
-
+				setBG(files[0]);
 				return false;
 			}
 		});
+
+		// Button upload
+		$('#chooseBG').change(function(e) {
+			var files = $(this)[0].files;
+			setBG(files[0]);
+		});
+
+		// Takes a file and sets it as the background
+		setBG = function(f) {
+			var reader = new FileReader();
+			reader.onload = function (event) {
+				app == 'js' ? localStorage.setItem('background', event.target.result) : cli.storage.prefs.background = event.target.result;
+				$tasks[0].style.backgroundImage = 'url(' + event.target.result + ')';
+			};
+			reader.readAsDataURL(f);
+		};
 	},
 	sync: {
 		running: function(type) {

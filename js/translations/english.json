@@ -40,6 +40,7 @@
 	"theme":				"Theme",
 	"pickTheme":			"Pick a theme: ",
 	"themeDescription": 	"Themes allow you to change the look of Nitro. You can even use CSS to create your own!",
+	"replaceDefault":		"Change the background: ",
 	"useDefault": 			"Use the default background: ",
 	"removeBG":				"Remove background",
 	"bgSize": 				"Background size: ",
