@@ -1,6 +1,6 @@
 {
 	"author":				"Marcin Tydelski <marcin.tydelski@gmail.com>",
-	"jqueryui":				"en",
+	"jqueryui":				"jquery.ui.datepicker-pl.js",
 
 	"listWarning":    		"Czy jesteś pewien by usunąć tą listę? Wszystkie zadania z tej listy zostaną również usunięte.",
 	"taskWarning":    		"Czy jesteś pewien by usunąć to zadanie? Po usunięciu nie da się go odzyskać.",
