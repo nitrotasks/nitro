@@ -341,6 +341,12 @@ ui = {
 			}
 		});
 
+		//Closes Settings & About
+		$('#settingsOverlay').click(function() {
+			$(this).hide(0);
+			$('#prefsDialog, #aboutDialog').fadeOut(100);
+		})
+
 		// Settings pop up
 		$('#settingsBTN img').click(function() {
 			$('#settingsBTN ul').slideToggle(150)
@@ -1361,6 +1367,7 @@ ui = {
 			} else if (cmd == 'sync') {
 				$('#prefsDialog').fadeIn(100);
 				$('a[data-target=#tabSync]').tab('show')
+				$('#settingsOverlay').show(0);
 
 			/* Edit Menu */
 			} else if (cmd == 'find') {
@@ -1369,6 +1376,7 @@ ui = {
 			} else if (cmd == 'prefs') {
 				$('#prefsDialog').fadeIn(100);
 				$('a[data-target=#tabGeneral]').tab('show')
+				$('#settingsOverlay').show(0);
 
 			/* View Menu */
 
@@ -1385,13 +1393,16 @@ ui = {
 			} else if (cmd == 'language') {
 				$('#prefsDialog').fadeIn(100);
 				$('a[data-target=#tabLanguage]').tab('show')
+				$('#settingsOverlay').show(0);
 			} else if (cmd == 'theme') {
 				$('#prefsDialog').fadeIn(100);
 				$('a[data-target=#tabTheme]').tab('show')
+				$('#settingsOverlay').show(0);
 				
 			/* Help Menu */
 			} else if (cmd == 'about') {
 				$('#aboutDialog').fadeIn(100);
+				$('#settingsOverlay').show(0);
 			} else if (cmd == 'donate') {
 				window.location = 'http://nitrotasks.com/donate.html'
 			} else if (cmd == 'help') {
