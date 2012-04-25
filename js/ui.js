@@ -541,6 +541,10 @@ ui = {
 		});
 
 		$body.bind({
+			dragover: function () {
+				// Stop the window from opening the file
+				return false;
+			},
 			drop: function(e) {
 				// Get the files from the event
 				e = e || window.event;
