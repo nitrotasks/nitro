@@ -1744,7 +1744,7 @@ var ui = {
 							if($('#tasks .selected').is(':first-of-type')) {
 								$('#tasks .selected').parent().prev().prev().find('li').last().find('.todotxt').click();
 							} else {
-								$('#tasks .selected').prev('li').find('.todotxt').click();
+								$('#tasks .selected').prevAll('li:not(".hidden")').first().find('.todotxt').click();
 							}
 						} else {
 							$('#tasks .selected').prev('li').find('.todotxt').click();
@@ -1760,7 +1760,7 @@ var ui = {
 							if($('#tasks .selected').is(':last-of-type')) {
 								$('#tasks .selected').parent().next().next().find('li').first().find('.todotxt').click();
 							} else {
-								$('#tasks .selected').next('li').find('.todotxt').click();
+								$('#tasks .selected').nextAll('li:not(".hidden")').first().find('.todotxt').click();
 							}
 						} else {
 							$('#tasks .selected').next('li').find('.todotxt').click();
