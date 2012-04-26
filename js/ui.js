@@ -98,9 +98,12 @@ var toggleFx = function () {
 	$.fx.off = !$.fx.off;
 };
 
+// My super awesome function that converts a string to a number
+// "421".toNum()  -> 421
+// "word".toNum() -> "word"
 String.prototype.toNum = function () {
 	var x = parseInt(this, 10);
-	if(x > -1) {
+	if(x > -100) {
 		return x;
 	} else {
 		return this.toString();
@@ -614,7 +617,12 @@ var ui = {
 			$parent.find('li, p').remove();
 
 			for (var i in items) {
-				$parent.append(ui.tasks.draw(items[i]));
+				if ($('#T' + items[i]).length) {
+					// Task already exists
+					// $parent.append('<li class="hidden" data-id="' + items[i] + '"></li>');
+				} else {
+					$parent.append(ui.tasks.draw(items[i]));
+				}
 			}
 		});
 
@@ -633,7 +641,7 @@ var ui = {
 		// OVERLAY
 		$('#overlay').click(function () {
 			if ($('#date').css('display') !== 'block') {
-				$addBTN.addClass('disabled');
+				$deleteBTN.addClass('disabled');
 				$editBTN.addClass('disabled');
 				$tasks.find('.selected').removeClass('selected');
 				ui.tasks.selected.collapse($('#tasks .expanded'));
@@ -1471,9 +1479,9 @@ var ui = {
 				priority = '';
 			}
 
+			// TODAY LABEL
 			var today;
 			if (ui.lists.selected() !== 'today') {
-				// TODAY LABEL
 				if (data.today === 'yesAuto' || data.today === 'manual') {
 					today = '<span class="todayLabel">' + $.i18n._('doToday') + '</span>';
 				} else if (data.today === 'noAuto' || data.today === 'false') {
@@ -1494,8 +1502,13 @@ var ui = {
 			return '<li ' + priority + 'id="T' + id + '"><div class="boxhelp"><div class="checkbox"><input type="checkbox"></div><div class="todotxt">' + data.content + '</div><div class="labels">' + today + date + '</div></div></li>';
 		},
 
-
 		selected: {
+
+
+			/**********************************
+				GET SELECTED TASK ID
+			**********************************/
+
 			getID: function () {
 				if($tasks.find('.selected').length) {
 					return $tasks.find('.selected').attr('id').substr(1).toNum();
@@ -1505,6 +1518,13 @@ var ui = {
 					return '';
 				}
 			},
+
+
+
+			/**********************************
+				EXPAND A TASK
+			**********************************/
+
 			expand: function (task) {
 				task.addClass('expanded').removeClass('selected');
 				var id = task.attr('id').substr(1).toNum();
@@ -1540,6 +1560,12 @@ var ui = {
 					$('#content textarea').focus().closest('li').find('input').focus();
 				});
 			},
+
+
+
+			/**********************************
+				COLLAPSE A TASK
+			**********************************/
 
 			collapse: function (id, staySelected) {
 				if (id.attr('id')) {
@@ -1588,6 +1614,13 @@ var ui = {
 		}
 	},
 	external: {
+
+
+
+		/**********************************
+			KEYBOARD SHORTCUTS
+		**********************************/
+
 		key: function () {
 			key('up, k', function () {ui.external.cmd('prevTask');});
 			key('down, j', function () {ui.external.cmd('nextTask');});
@@ -1608,7 +1641,7 @@ var ui = {
 			key('a', function () {ui.external.cmd('about');});
 			key('h', function () {ui.external.cmd('help');});
 
-			key('n', function () {ui.external.cmd('newtask'); return false;});
+			key('n, t', function () {ui.external.cmd('newtask'); return false;});
 			key('l', function () {ui.external.cmd('newlist'); return false;});
 			key('s', function () {ui.external.cmd('sync');});
 
@@ -1617,6 +1650,13 @@ var ui = {
 			key('3', function () {ui.external.cmd('someday');});
 			key('4', function () {ui.external.cmd('logbook');});
 		},
+
+
+
+		/**********************************
+			COMMAND WRAPPERS
+		**********************************/
+
 		cmd: function (cmd) {
 			// Contains all the commands
 
@@ -1728,17 +1768,31 @@ var ui = {
 					}
 					break;
 				case 'prevList':
-					$('#sidebar .selected').prev('li').click();
+					if ($('#sidebar .selected').is(':first-of-type')) {
+						$('#sidebar .selected').parent().prev('h2').prev('ul').find('li').last().click();
+					} else {
+						$('#sidebar .selected').prev('li').click();
+					}
 					break;
 				case 'nextList':
-					$('#sidebar .selected').next('li').click();
+					if ($('#sidebar .selected').is(':last-of-type')) {
+						$('#sidebar .selected').parent().next('h2').next('ul').find('li').first().click();
+					} else {
+						$('#sidebar .selected').next('li').click();
+					}
 					break;
 
 				case 'moveTaskUp':
 					if($('#tasks .selected').length) {
-						var id = ui.tasks.selected.getID,
-							l = cli.storage.lists.items[ui.lists.selected()].order,
-							i = l.indexOf(id);
+						var id = ui.tasks.selected.getID();
+						if(ui.lists.selected() === 'next') {
+							var l = cli.storage.lists.items[$('#T' + id).parent().attr('id')].order,
+								i = l.indexOf(id);
+						} else {
+							var	l = cli.storage.lists.items[ui.lists.selected()].order,
+								i = l.indexOf(id);
+						}
+
 						if(i > 0) {
 							l.splice(i, 1);
 							l.splice(i - 1, 0, id);
@@ -1750,9 +1804,14 @@ var ui = {
 					break;
 				case 'moveTaskDown':
 					if($('#tasks .selected').length) {
-						var id = ui.tasks.selected.getID(),
-							l = cli.storage.lists.items[ui.lists.selected()].order,
-							i = l.indexOf(id);
+						var id = ui.tasks.selected.getID();
+						if(ui.lists.selected() === 'next') {
+							var l = cli.storage.lists.items[$('#T' + id).parent().attr('id')].order,
+								i = l.indexOf(id);
+						} else {
+							var	l = cli.storage.lists.items[ui.lists.selected()].order,
+								i = l.indexOf(id);
+						}
 						if(i > -1) {
 							l.splice(i, 1);
 							l.splice(i + 1, 0, id);
@@ -1789,6 +1848,12 @@ var ui = {
 			}
 		}
 	},
+
+
+
+	/**************************************************************
+		LANGUAGE
+	**************************************************************/
 
 	language: function (data) {
 		$.i18n.setDictionary(data);

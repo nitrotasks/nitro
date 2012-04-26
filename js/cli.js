@@ -347,13 +347,8 @@ var cli = {
 					return;
 				}
 
-
-				console.log('BEFORE CALC DATE', cli.storage.lists.items.today.order);
-
 				//Calculates date. Changes today Status
 				cli.calc.date(id);
-
-				console.log('BEFORE CALC', cli.storage.lists.items.today.order);
 				
 				//If the task.list is today, we place back in today & next
 				if (task.list === 'today') {
@@ -379,7 +374,9 @@ var cli = {
 					}
 				}
 
-				console.log('AFTER CALC', cli.storage.lists.items.today.order);
+				// DeDupe today and next lists
+				cli.storage.lists.items.today.order = deDupe(cli.storage.lists.items.today.order);
+				cli.storage.lists.items.next.order = deDupe(cli.storage.lists.items.next.order)
 				
 				//Saves data
 				cli.storage.save();
@@ -594,7 +591,7 @@ var cli = {
 				lists = cli.storage.lists.items;
 
 			//If it's already in today, do nothing. If it doesn't have a date, do nothing.
-			if (task.today != 'manual' && task.date !== '') {
+			if (task.today !== 'manual' && task.date !== '') {
 				if (task.showInToday === 'none') {
 					//Remove from today
 					task.today = 'false';
@@ -783,8 +780,8 @@ var cli = {
 	}
 };
 
-function eliminateDuplicates(arr) {
-	/*var r = new Array();
+function deDupe(arr) {
+	var r = [];
 	o:for(var i = 0, n = arr.length; i < n; i++) {
 		for(var x = 0, y = r.length; x < y; x++) {
 			if (r[x]===arr[i]) {
@@ -793,7 +790,5 @@ function eliminateDuplicates(arr) {
 		}
 		r[r.length] = arr[i];
 	}
-	return r;*/
-
-	return arr;
+	return r;
 }
