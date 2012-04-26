@@ -1,4 +1,4 @@
-/* Nitro UI 
+/* Nitro UI
  *
  * Copyright (C) 2012 Caffeinated Code <http://caffeinatedco.de>
  * Copyright (C) 2012 Jono Cooper
@@ -13,387 +13,393 @@
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-//Define OS (Linux or JS)
-app = 'js';
+// Define system (python|js)
+var app = 'js';
 
-// Define JSON themes file
-themes = {};
+/********************************************************************************
+	MAIN INIT
+********************************************************************************/
 
-$(document).ready(function() {
+var $body, $addBTN, $editBTN, $deleteBTN, $logbookBTN, $settingsBTN, $syncBTN, $tasks, $sidebar, $userLists, $addListBTN, $warning;
+
+$(document).ready(function () {
+	"use strict";
+
 	// Cached selectors
-	$body      = $('body');
-	$addBTN    = $('#addBTN');
-	$editBTN   = $('#editBTN');
-	$deleteBTN = $('#deleteBTN');
-	$tasks     = $('#tasks');
+	$body        = $('body');
+	$addBTN      = $('#addBTN');
+	$editBTN     = $('#editBTN');
+	$deleteBTN   = $('#deleteBTN');
+	$logbookBTN  = $('#logbookBTN');
+	$settingsBTN = $('#settingsBTN');
+	$syncBTN     = $('#syncBTN');
+	$tasks       = $('#tasks');
+	$sidebar     = $('#sidebar');
+	$userLists   = $('#userLists');
+	$addListBTN  = $('#addListBTN');
+	$warning     = $('#warning');
 
-	// Update database with timestamps
+	// Make sure the database is up to date
 	cli.timestamp.upgrade();
 
-	//Refreshes Today
+	// Check the dates on the Today list
 	cli.calc.todayQueue.refresh();
 
-	//Language init - For computers that don't have the pref there
-	if (!cli.storage.prefs.lang) {
-		cli.storage.prefs.lang = 'english';
-		cli.storage.save();
-	}
-
-	if (app == 'js') {
-		//Loads Translation
-		$.getJSON('js/translations/' + cli.storage.prefs.lang + '.json', function(data) {  
-			language(data)
+	// Load different versions
+	switch (app) {
+	case 'js':
+		// Loads Translation
+		$.getJSON('js/translations/' + cli.storage.prefs.lang + '.json', function (data) {
+			ui.language(data);
 		});
 
-		//Sets up keyboard shortcuts
-		ui.external.key()
-		
-	} else if (app == 'python') {
-		//Loads Translation
+		// Sets up keyboard shortcuts
+		ui.external.key();
+		break;
+
+	case 'python':
+		// Loads Translation
 		document.title = 'null';
 		document.title = 'load|' + cli.storage.prefs.lang + '.json';
+		break;
 	}
 
 	// Theme init
-	if (!cli.storage.prefs.theme) {
-		cli.storage.prefs.theme = 'default';
-		cli.storage.save();
+	cli.storage.prefs.theme = cli.storage.prefs.theme || 'default';
+	$('link.theme')
+		.attr('href', 'css/themes/' + cli.storage.prefs.theme + '.css')
+		.ready(function () {
+			$(window).resize();
+		});
+
+	// GPU init
+	if (cli.storage.prefs.gpu) {
+		toggleFx();
 	}
 
-	$('link.theme').attr('href', 'css/themes/' + cli.storage.prefs.theme + '.css');
-
-	//Give some time for the theme to load
-	setTimeout("$(window).resize()", 600);
-	
 	//Bieber Theme
-	if (cli.storage.prefs.theme == 'bieber') {
-		$('#brand').html('<img src="css/themes/bieber/heart.png" style="padding-right:8px;position: relative;top: -2px;">Justin Bieber');	
-	};
+	/* if (cli.storage.prefs.theme == 'bieber') {
+		$('#brand').html('<img src="css/themes/bieber/heart.png" style="padding-right:8px;position: relative;top: -2px;">Justin Bieber');
+	}; */
 });
 
-function language(data) {
-	$.i18n.setDictionary(data);
-
-	//Adds in Translations
-	$('.translate').map(function() {
-		$(this).text($.i18n._($(this).attr('data-translate')));
-	});
-
-	//Adds in Translated Title Text
-	$('.translateTitle').map(function() {
-		$(this).attr('title', $.i18n._($(this).attr('data-translate')));
-	});
-
-	//Search is placeholder - needs to be done manually
-	$('#search').attr('placeholder', $.i18n._('search'));
-
-	//Date Picker
-	var i=1; 
-	$('#showTime').children().map(function() { 
-		if (i == 1) {
-			$(this).text($.i18n._('1day'));
-		} else if (i == 15) {
-			$(this).text($.i18n._('never'));
-		} else {
-			$(this).text($.i18n._('moreday', [i]));
-		};
-		i++;
-	})
-
-	//jQuery UI Locales
-	if ($.i18n._('jqueryui') != 'en') {
-		$body.append('<script src="js/translations/cal/' + $.i18n._('jqueryui') + '"></script')
-	};
-
-	//This has to be done after language
-	//Resizes tasks
-	ui.init();
-	ui.tasks.init();
-	ui.tasks.selected.init();
-	ui.lists.updateCount('all');
-	ui.tasks.populate(ui.lists.selected());
-}
-
-$(window).resize(function() {
-	if(cli.storage.prefs.theme == 'wunderlist') {
-		$('#userLists').height($(window).height() - $('#userLists').offset().top - 36);
+$(window).resize(function () {
+	"use strict";
+	if (cli.storage.prefs.theme === 'wunderlist') {
+		$userLists.height($(window).height() - $('#userLists').offset().top - 36);
 	} else {
-		$('#userLists').height($(window).height() - $('#userLists').offset().top);
+		$userLists.height($(window).height() - $('#userLists').offset().top);
 	}
-})
+});
 
-
-var toggleFx = function() {
-	deCSS3.init( document.querySelectorAll( '.deCSS3-Style' ) );
+var toggleFx = function () {
+	"use strict";
+	deCSS3.init(document.querySelectorAll('.deCSS3-Style'));
 	$.fx.off = !$.fx.off;
 };
 
-ui = {
+String.prototype.toNum = function () {
+	var x = parseInt(this, 10);
+	if(x > -1) {
+		return x;
+	} else {
+		return this.toString();
+	}
+}
+
+/********************************************************************************
+	THE UI
+********************************************************************************/
+
+var ui = {
 	listEditMode: 'none',
 	listClicks: 0,
 
-	init: function() {
+	/**************************************************************
+		INIT
+	**************************************************************/
+
+	init: function () {
+		"use strict";
+
+		// Hide datepicker
 		$('#date').hide(0);
 
-		/* Makes lists show up */
+		// Makes lists show up
 		ui.lists.populate();
 
-		/* Buttons */
-		$('#addListBTN').click(function() {
-			//Appends to UI
-			$('#userLists').append('<li id="' + (cli.storage.lists.items.length) + 'List"><div class="editIcon" title="' + $.i18n._('titleEditList') + '"></div><div class="view">' + $.i18n._('newList') + '<div class="count">0</div></div><div class="edit"><input type="text" value="' + $.i18n._('newList') + '"><div class="delete" title="' + $.i18n._('titleDeleteList') + '"></div><div class="save" title="' + $.i18n._('titleSaveList') + '"></div></li>');
 
-			//Makes it droppable
-			$('#sidebar ul li').droppable('destroy');
-			$('#sidebar ul li').droppable(ui.lists.dropOptions);
 
-			//Adds to CLI
-			cli.list('', $.i18n._('newList')).add();
+		/**********************************
+			PANEL BUTTONS
+		**********************************/
 
-			//Clicks the new list
-			$('#' + (cli.storage.lists.items.length - 1) + 'List').click()
-			ui.lists.openEditMode();
-		});
+		// ADD TASK BUTTON
+		$addBTN.click(function () {
 
-		$body.on('click', '#userLists li .delete', function() {
-			if (cli.storage.prefs.deleteWarnings) {
-				ui.lists.delete(ui.lists.selected());
-				$('#nextList').click();
-			} else {
-
-				$('#warning').click(function(e) {
-					e.stopPropagation();
-					return false;
-				})
-				.find('p').html($.i18n._('listWarning')).parent()
-				.find('.yes').html($.i18n._('yesList')).parent().fadeIn(75)
-				.find('.yes').off('click')
-				.on('click', function() {
-					$(this).parent().fadeOut(75);
-					var id = ui.lists.selected();
-					ui.lists.delete(id);
-					$(document).off('click');
-					$('#nextList').click();
-				})
-				.parent().find('.no').off('click')
-				.on('click', function() {
-					$(document).off('click');
-					$(this).parent().fadeOut(75);
-				});
-
-				//Closes when not clicked in square box
-				setTimeout("$(document).click(function() {$('#warning').fadeOut(75); $(document).off('click');});", 100);
-			}
-		});
-
-		$body.on('click', '#sidebar ul li', function(){
-			if (!$(this).hasClass('selected')) {
-				$editBTN.addClass('disabled');
-				$addBTN.addClass('disabled');
-				$addBTN.removeClass('disabled');
-				//Changes selected
-				$('#sidebar ul li.selected').removeClass('selected');
-				$(this).addClass('selected');
-
-				ui.lists.closeEditMode();
-
-				//Sends the id of the list to populate
-				var id = $(this).attr('id').slice(0, -4);
-				ui.tasks.populate(id);
-			}
-		});
-
-		$body.on('click', '#sidebar ul li .editIcon', function(){
-			ui.lists.openEditMode();
-		});
-
-		//Enter Key closes list editing
-		$body.on('keydown', '#sidebar ul li input', function(e){
-			if(e.keyCode === 13) {
-				ui.lists.closeEditMode();
-			}
-		});
-
-		//Enter key closes task editing
-		$body.on('keydown', '#tasks ul li .todotxt input', function(e){
-			if(e.keyCode === 13) {
-				//Weird Fix
-				$(this).parent().html($(this).val());
-				$editBTN.click();
-			}
-		});
-
-		$body.on('click', '#sidebar ul li .save', function(){
-			ui.lists.closeEditMode();
-		});
-
-		//Adds a new task
-		$addBTN.click(function() {
-			//Closes current task
+			// Closes current task
 			$('#overlay').click();
 
+			// Adds a new task via the CLI
 			cli.addTask($.i18n._('newTask'), ui.lists.selected());
-			
-			// Shows in UI
-			$('#tasks ul').first().prepend(ui.tasks.draw(cli.storage.tasks.length - 1));
 
-			//Remove notice
-			$('#tasks .explanation').remove();		
+			// Show task in UI
+			$('#tasks ul').first().prepend(ui.tasks.draw(cli.storage.tasks.length - 1));
+			$('#tasks .explanation').remove();
 
 			//Update list count if task is added to today
-			if (ui.lists.selected() == 'today') {
+			if (ui.lists.selected() === 'today') {
 				ui.lists.updateCount('all');
 			} else {
 				ui.lists.updateCount();
 			}
 
 			//Expands Task
-			ui.tasks.selected.expand($('#task' + (cli.storage.tasks.length - 1)))
+			ui.tasks.selected.expand($('#T' + (cli.storage.tasks.length - 1)));
 		});
 
-		// Edit selected tasks
-		$editBTN.click(function() {
+		// EDIT TASK BUTTON
+		$editBTN.click(function () {
+
+			// Only run if at least one task is selected or expanded
 			if ($('#tasks .selected').length || $('#tasks .expanded').length) {
-				//Close expanded
-				
 
-				//Open Selected
+				// Expand Selected
 				if ($('#tasks .selected').length) {
+
 					if ($('#tasks .expanded').length) {
-						ui.tasks.selected.collapse($('#tasks ul li.expanded'));
+						ui.tasks.selected.collapse($('#tasks li.expanded'));
 					}
+
 					ui.tasks.selected.expand($('#tasks .selected'));
+
+				// Close expanded
 				} else {
 					if ($('#tasks .expanded').length) {
-						ui.tasks.selected.collapse($('#tasks ul li.expanded'), "stay_selected");
+						ui.tasks.selected.collapse($('#tasks li.expanded'), "stay_selected");
 					}
-					$('#editBTN, #deleteBTN').addClass('disabled');
 				}
 			}
 		});
 
-		// Delete selected tasks
-		$deleteBTN.click(function() {
+		// DELETE TASK BUTTON
+		$deleteBTN.click(function () {
+
+			var id = ui.tasks.selected.getID();
+
 			if (cli.storage.prefs.deleteWarnings) {
-				if($('#tasks .selected').length) {
-					var id = $('#tasks .selected').attr('id').substr(4);
-				} else {
-					var id = $('#tasks .expanded').attr('id').substr(4);
-				}
+
 				cli.deleteTask(id);
-				$('#task' + id).remove();
-				
-				//Disable edit and delete button if there is no expanded or selected task
-				if(!$('#tasks .selected').length && !$('#tasks .expanded').length) {
-					$('#editBTN, #deleteBTN').addClass('disabled');
-				}
-
+				$('#T' + id).remove();
 				ui.lists.updateCount('all');
-			} else {
-				if($('#tasks .selected').length || $('#tasks .expanded').length) {
-					$('#warning')
-						.find('p').html($.i18n._('taskWarning')).parent()
-						.find('.yes').html($.i18n._('yesTask')).parent().fadeIn(75)
-						.find('.yes').off('click')
-						.on('click', function() {
-							$(this).parent().fadeOut(75);
-							if($('#tasks .selected').length) {
-								var id = $('#tasks .selected').attr('id').substr(4);
-							} else {
-								var id = $('#tasks .expanded').attr('id').substr(4);
-							}
-							cli.deleteTask(id);
-							$('#task' + id).remove();
-							
-							//Disable edit and delete button if there is no expanded or selected task
-							if(!$('#tasks .selected').length && !$('#tasks .expanded').length) {
-								$('#editBTN, #deleteBTN').addClass('disabled');
-							}
 
-							ui.lists.updateCount('all');
-							$(document).off('click');
-
-						})
-						.parent().find('.no').off('click')
-						.on('click', function() {
-							$(this).parent().fadeOut(75);
-							$(document).off('click');
-						});
-
-					//Closes when not clicked in square box
-					setTimeout("$(document).click(function() {$('#warning').fadeOut(75); $(document).off('click');});", 100);
+				//Disable edit and delete button if there is no expanded or selected task
+				if (!$('#tasks .selected').length && !$('#tasks .expanded').length) {
+					$editBTN.addClass('disabled');
+					$deleteBTN.addClass('disabled');
 				}
+
+			} else if (id) {
+
+				$warning
+					.find('p').html($.i18n._('taskWarning')).parent()
+					.find('.yes').html($.i18n._('yesTask')).parent().fadeIn(75)
+					.find('.yes').off('click')
+					.on('click', function () {
+						$(this).parent().fadeOut(75);
+						cli.deleteTask(id);
+						$('#T' + id).remove();
+						ui.lists.updateCount('all');
+
+						//Disable edit and delete button if there is no expanded or selected task
+						if (!$('#tasks .selected').length && !$('#tasks .expanded').length) {
+							$editBTN.addClass('disabled');
+							$deleteBTN.addClass('disabled');
+						}
+						$(document).off('click');
+
+					})
+					.parent().find('.no').off('click')
+					.on('click', function () {
+						$(this).parent().fadeOut(75);
+						$(document).off('click');
+					});
+
+				//Closes when not clicked in square box
+				setTimeout(function () {
+					$(document).click(function () {
+						$('#warning').fadeOut(75);
+						$(document).off('click');
+					});
+				}, 100);
 			}
+		});
 
- 		});
 
-		// Logbook
-		$('#logbookBTN').click(function() {
-			$('#addBTN, #editBTN, #deleteBTN').addClass('disabled');
-			$('#sidebar ul li.selected').removeClass('selected');
+
+		/**********************************
+			SIDEBAR
+		**********************************/
+
+		// ADD LIST BUTTON
+		$addListBTN.click(function () {
+			// Appends to UI
+			$('#userLists').append('<li id="L' + (cli.storage.lists.items.length) + '"><div class="editIcon" title="' + $.i18n._('titleEditList') + '"></div><div class="view">' + $.i18n._('newList') + '<div class="count">0</div></div><div class="edit"><input type="text" value="' + $.i18n._('newList') + '"><div class="delete" title="' + $.i18n._('titleDeleteList') + '"></div><div class="save" title="' + $.i18n._('titleSaveList') + '"></div></li>');
+
+			// Makes it droppable
+			$('#sidebar ul li').droppable('destroy').droppable(ui.lists.dropOptions);
+
+			// Adds to CLI
+			cli.list('', $.i18n._('newList')).add();
+
+			// Clicks the new list
+			$('#L' + (cli.storage.lists.items.length - 1)).click();
+			ui.lists.openEditMode();
+		});
+
+		// DELETE LIST BUTTON
+		$body.on('click', '#userLists li .delete', function () {
+
+			if (cli.storage.prefs.deleteWarnings) {
+				// Delete straight away, no questions asked
+				ui.lists.remove(ui.lists.selected());
+
+			} else {
+				// Display warning modal
+				$('#warning')
+					.click(function (e) {
+						e.stopPropagation();
+						return false;
+					})
+					.find('p').html($.i18n._('listWarning')).parent()
+					.find('.yes').html($.i18n._('yesList')).parent().fadeIn(75)
+					.find('.yes').off('click')
+					.on('click', function () {
+						$(this).parent().fadeOut(75);
+						var id = ui.lists.selected();
+						ui.lists.remove(id);
+						$(document).off('click');
+					})
+					.parent().find('.no').off('click')
+					.on('click', function () {
+						$(document).off('click');
+						$(this).parent().fadeOut(75);
+					});
+
+				//Closes when not clicked in square box
+				setTimeout(function () {
+					$(document).click(function () {
+						$('#warning').fadeOut(75);
+						$(document).off('click');
+					});
+				}, 100);
+			}
+		});
+
+		// SELECTING A LIST
+		$body.on('click', '#sidebar ul li', function () {
+
+			if (!$(this).hasClass('selected')) {
+
+				$editBTN.addClass('disabled');
+				$deleteBTN.addClass('disabled');
+				$addBTN.removeClass('disabled');
+
+				// Changes selected
+				$('#sidebar ul li.selected').removeClass('selected');
+				$(this).addClass('selected');
+
+				ui.lists.closeEditMode();
+
+				// Sends the id of the list to populate
+				ui.tasks.populate(ui.lists.selected());
+			}
+		});
+
+		// EDITING A LIST
+		$body.on('click', '#sidebar .editIcon', function () {
+			ui.lists.openEditMode();
+		});
+
+		// Enter Key closes list editing
+		$body.on('keydown', '#sidebar input', function (e) {
+			if (e.keyCode === 13) {
+				ui.lists.closeEditMode();
+			}
+		});
+
+		// Clicking the save button closes enter mode
+		$body.on('click', '#sidebar ul li .save', function () {
+			ui.lists.closeEditMode();
+		});
+
+		// LOGBOOK BUTTON
+		$logbookBTN.click(function () {
+			$addBTN.addClass('disabled');
+			$editBTN.addClass('disabled');
+			$deleteBTN.addClass('disabled');
+			$sidebar.find('.selected').removeClass('selected');
 			ui.tasks.populate('logbook');
 		});
 
-		// Sync
-		$('#syncBTN').click(function(e) {
-			e.preventDefault();
-			if(!$(this).is('.running') && cli.storage.prefs.sync != 'never') {
-				ui.sync.running('on');
-				cli.storage.sync();
-			}
+		/**********************************
+			SETTINGS
+		**********************************/
+
+		// DROP DOWN MENU
+		$settingsBTN.find('img').click(function () {
+			$settingsBTN.find('ul').slideToggle(150);
 		});
-
-		//Closes Settings & About
-		$('#settingsOverlay').click(function() {
-			$(this).hide(0);
-			$('#prefsDialog, #aboutDialog').fadeOut(100);
-		})
-
-		// Settings pop up
-		$('#settingsBTN img').click(function() {
-			$('#settingsBTN ul').slideToggle(150)
-		});
-
-		$('#settingsBTN ul li').click(function() {
-			$('#settingsBTN ul').fadeOut(100)
+		$settingsBTN.find('li').click(function () {
+			$settingsBTN.find('ul').fadeOut(100);
 			ui.external.cmd($(this).attr('class'));
-		})
+		});
 
-		//Check Boxes
-		$('#tabGeneral form input').change(function() {
+		// CHECK BOXES [DELETE WARNINGS & LOW GRAPHICS MODE]
+		$('#tabGeneral form input').change(function () {
 
 			cli.storage.prefs.deleteWarnings = $('#deleteWarnings').prop('checked');
 			cli.storage.prefs.gpu = $('#gpu').prop('checked');
-			cli.storage.prefs.over50 = $('#over50').prop('checked');
-
 			cli.storage.save();
 
-			if ($(this).attr('id') == 'gpu') {
+			if ($(this).attr('id') === 'gpu') {
 				toggleFx();
-			};
+			}
 
 			console.log('Settings Saved');
 		});
-		
-		//Select box
-		$('#tabGeneral form select').change(function() {
-			cli.storage.prefs.nextAmount = $('#nextAmount').val();
+
+		// NEXT AMOUNT
+		$('#nextAmount').change(function () {
+
+			cli.storage.prefs.nextAmount = this.value;
 			cli.storage.save();
 
-			console.log('Settings Saved');
-
-			if (ui.lists.selected() == 'next') {
+			if (ui.lists.selected() === 'next') {
 				ui.tasks.populate('next');
-			};
+			}
+
+			console.log('Settings Saved');
 		});
 
-		// Changing theme
-		$('#theme').change(function() {
-			var theme = $(this).val();
+		// THEME
+		$('#theme').change(function () {
 
-			$('link.theme').attr('href', 'css/themes/' + theme + '.css')
+			// Get value
+			var theme = $(this)[0].value;
 
-			if(theme == 'bieber') {
+			// Set CSS file
+			$('link.theme')
+				.attr('href', 'css/themes/' + theme + '.css')
+				.ready(function () {
+					$(window).resize();
+				});
+
+			//Saves Theme
+			cli.storage.prefs.theme = theme;
+			cli.storage.save();
+
+			/*if(theme == 'bieber') {
 				$('#brand').html('<img src="css/themes/bieber/heart.png" style="padding-right:8px;position: relative;top: -2px;">Justin Bieber');
 				$('body').append('<audio></audio>');
 				var $audio = $('audio');
@@ -401,121 +407,192 @@ ui = {
 				$audio.attr('src','http://nitrotasks.com/music/stl.ogg');
 				audio.load();
 				audio.play();
-				audio.addEventListener('ended', function() {
+				audio.addEventListener('ended', function () {
 					this.currentTime = 0;
 					this.play();
 				}, false);
 			} else {
 				$('#brand').html('<img src="images/flash.png" style="padding-right:8px;position: relative;top: -2px;">Nitro');
 				$('audio').remove();
-			}
-			
-			//Saves Theme
-			cli.storage.prefs.theme = theme;
-			cli.storage.save();
-
-			//Gives some time for the theme to change
-			setTimeout("$(window).resize()", 600);
+			}*/
 		});
 
-		// Remove custom background
-		$('#removeBG').click(function() {
+
+
+		/**********************************
+			CUSTOM BACKGROUNDS
+		**********************************/
+
+		// REMOVE CUSTOM BACKGROUND
+		$('#removeBG').click(function () {
 			localStorage.removeItem('background');
 			$tasks[0].style.backgroundImage = 'none';
 		});
 
-		$('#headingColor').change(function() {
+		// DRAG AND DROP
+		$body.bind({
+			dragover: function () {
+				// Stop the window from opening the file
+				return false;
+			},
+			drop: function (e) {
+				// Get the files from the event
+				e = e || window.event;
+				e.preventDefault();
+				e = e.originalEvent || e;
+				if (e.hasOwnProperty('files') || e.hasOwnProperty('dataTransfer')) {
+					var files = (e.files || e.dataTransfer.files);
+					setBG(files[0]);
+					return false;
+				}
+			}
+		});
+
+		// BUTTON UPLOAD
+		$('#chooseBG').change(function (e) {
+			var files = $(this)[0].files;
+			setBG(files[0]);
+		});
+
+		// Takes a file and sets it as the background
+		var setBG = function (f) {
+			var reader = new FileReader();
+			reader.onload = function (event) {
+
+				if (app === 'js') {
+					localStorage.setItem('background', event.target.result);
+				} else {
+					cli.storage.prefs.background = event.target.result;
+				}
+
+				$tasks[0].style.backgroundImage = 'url(' + event.target.result + ')';
+			};
+			reader.readAsDataURL(f);
+		};
+
+		// HEADING COLOR
+		$('#headingColor').change(function () {
 			cli.storage.prefs.color = $(this)[0].value;
 			cli.storage.save();
 
 			$('#tasks h2, #tasks p').removeClass('light dark').addClass($(this)[0].value);
 		});
 
-		$('#sync').change(function() {
-			var sync = $(this).val();
-			switch(sync) {
-				case 'timer': 
-					// var sync_timer = setInterval(function() {
-					// 	cli.storage.sync();
-					// }, 20000);
-					// sync_timer;
-					break;
-				case 'never':
-					$('#syncBTN').addClass('disabled');
-				default:
-					 clearInterval(sync_timer);
+
+
+		/**********************************
+			SYNC
+		**********************************/
+
+		// SYNC TYPE
+		$('#sync').change(function () {
+			var sync = this.value;
+			switch (sync) {
+			case 'timer':
+				/*var sync_timer = setInterval(function () {
+					cli.storage.sync();
+				}, 20000);
+				sync_timer;*/
+				break;
+			case 'never':
+				$syncBTN.addClass('disabled');
+				// clearInterval(sync_timer);
+				break;
+			default:
+				// clearInterval(sync_timer);
 			}
 			cli.storage.prefs.sync = sync;
 		});
 
-		/* INIT SETTINGS */
-		if (cli.storage.prefs.gpu) {
-			toggleFx();
-		};
-
-		//Adds prefs in
-		$(function() {
-			$('#deleteWarnings').prop('checked', cli.storage.prefs.deleteWarnings);
-			$('#gpu').prop('checked', cli.storage.prefs.gpu);
-			$('#over50').prop('checked', cli.storage.prefs.over50);
-			$('#nextAmount').val(cli.storage.prefs.nextAmount);
-			$('#theme').val(cli.storage.prefs.theme);
-			$('#headingColor').val(cli.storage.prefs.color);
-			$('#sync').val(cli.storage.prefs.sync);
-
-			// Custom background
-			if(localStorage.hasOwnProperty('background')) {
-				$tasks[0].style.backgroundImage = 'url(' + localStorage.getItem('background') + ')';
-			} else if(cli.storage.prefs.hasOwnProperty('background')) {
-				$tasks[0].style.backgroundImage = 'url(' + cli.storage.prefs.background + ')';
+		// SYNC BUTTON
+		$syncBTN.click(function () {
+			if (!$(this).is('.running') && cli.storage.prefs.sync !== 'never') {
+				ui.sync.running('on');
+				cli.storage.sync();
 			}
-			
-			//Language
-			$('#tabLanguage a.current').removeClass('current');
-			$('#tabLanguage .language a').each(function() {
-				if($(this).data('value') == cli.storage.prefs.lang) {
-					$(this).addClass('current');
-				}
-			});
-			$('#tabLanguage').bind('click', function(e) {
-				
-				if($(e.srcElement).is('.language a')) {
-					cli.storage.prefs.lang = $(e.srcElement).data('value');
-					cli.storage.save();
+		});
 
-					window.location.reload()
-					return false;
-				}
-			});
-		})
-		
 
-		// Search
-		$('#search').keyup(function() {
-			$('#addBTN, #editBTN, #deleteBTN').addClass('disabled');
+
+		/**********************************
+			LOADING PREFERENCES
+		**********************************/
+
+		$('#deleteWarnings').prop('checked', cli.storage.prefs.deleteWarnings);
+		$('#gpu').prop('checked', cli.storage.prefs.gpu);
+		$('#nextAmount').val(cli.storage.prefs.nextAmount);
+		$('#theme').val(cli.storage.prefs.theme);
+		$('#headingColor').val(cli.storage.prefs.color);
+		$('#sync').val(cli.storage.prefs.sync);
+
+		// CUSTOM BACKGROUND
+		if (localStorage.hasOwnProperty('background')) {
+			$tasks[0].style.backgroundImage = 'url(' + localStorage.getItem('background') + ')';
+		} else if (cli.storage.prefs.hasOwnProperty('background')) {
+			$tasks[0].style.backgroundImage = 'url(' + cli.storage.prefs.background + ')';
+		}
+
+		// LANGUAGE
+		$('#tabLanguage a.current').removeClass('current');
+		$('#tabLanguage .language a').each(function () {
+			if ($(this).data('value') === cli.storage.prefs.lang) {
+				$(this).addClass('current');
+			}
+		});
+		$('#tabLanguage').bind('click', function (e) {
+			if ($(e.srcElement).is('.language a')) {
+				cli.storage.prefs.lang = $(e.srcElement).data('value');
+				cli.storage.save();
+
+				window.location.reload();
+				return false;
+			}
+		});
+
+
+
+		/**********************************
+			SEARCH
+		**********************************/
+
+		$('#search').keyup(function () {
+			// Disable buttons
+			$addBTN.addClass('disabled');
+			$editBTN.addClass('disabled');
+			$deleteBTN.addClass('disabled');
+
+			// Deselect lists
 			$('#sidebar ul li.selected').removeClass('selected');
+
+			// Get query and run search
 			var query = this.value,
 				results = cli.populate('search', query);
+
+			// Display results
 			$tasks.html('<h2 class="' + cli.storage.prefs.color + '">' + $.i18n._('searchResults') + query + '</h2><ul></ul>');
 			for(var i = 0; i < results.length; i++) {
 				$('#tasks ul').append(ui.tasks.draw(results[i]));
 			}
 		});
 
-		//Sorting list
+
+
+		/**********************************
+			REORDING TASKS
+		**********************************/
 		$('#userLists').sortable({
-			containment: 'parent', 
-			axis: 'y', 
-			distance: 20, 
+			containment: 'parent',
+			axis: 'y',
+			distance: 20,
 			placeholder: 'listPlaceholder',
-			stop: function(event, ui) {
+			stop: function (event, ui) {
 
 				//Saves Everything, including order
-				var listOrder = new Array();
+				var listOrder = [];
 
 				//Loops through lists & adds the to an array
-				$('#userLists').children().map(function() { 
-					listOrder.push(parseInt($(this).attr('id').slice(0, -4))); 
+				$('#userLists').children().map(function () {
+					listOrder.push($(this).attr('id').substr(1).toNum());
 				});
 
 				//Saves
@@ -525,81 +602,404 @@ ui = {
 
 		$('#sidebar ul li').droppable(ui.lists.dropOptions);
 
-		/* More buttons */
-		$body.on('click', '#tasks .moarTasks', function() {
-			//Adds in missing tasks
-			var items = cli.populate('list', ui.lists.selected());
-			var parent = $(this).parent();
-			$(this).remove();
 
-			for (var i=50; i<items.length; i++) {
-				parent.append(ui.tasks.draw(items[i]));	
+
+		/**********************************
+			SHOW MORE TASKS
+		**********************************/
+
+		$body.on('click', '#tasks .expandList', function () {
+			var $parent = $(this).parent();
+			var items = cli.populate('list', $parent.attr('id'));
+			$parent.find('li, p').remove();
+
+			for (var i in items) {
+				$parent.append(ui.tasks.draw(items[i]));
 			}
 		});
 
-		$body.on('click', '#tasks .expandList', function() {
-			var id = $(this).parent().attr('id');
-			$('#' + id + 'List').click()
+
+
+		/**********************************
+			OVERLAY
+		**********************************/
+
+		// OVERLAY
+		$('#settingsOverlay').click(function () {
+			$(this).hide(0);
+			$('#prefsDialog, #aboutDialog').fadeOut(100);
 		});
 
-		// Custom backgrounds
-		// Drag and drop
-		$body.bind({
-			dragover: function () {
-				// Stop the window from opening the file
-				return false;
-			},
-			drop: function(e) {
-				// Get the files from the event
-				e = e || window.event;
-				e.preventDefault();
-				e = e.originalEvent || e;
-				var files = (e.files || e.dataTransfer.files);
-				setBG(files[0]);
-				return false;
+		// OVERLAY
+		$('#overlay').click(function () {
+			if ($('#date').css('display') !== 'block') {
+				$addBTN.addClass('disabled');
+				$editBTN.addClass('disabled');
+				$tasks.find('.selected').removeClass('selected');
+				ui.tasks.selected.collapse($('#tasks .expanded'));
+				$('.settings').fadeOut(150);
 			}
 		});
 
-		// Button upload
-		$('#chooseBG').change(function(e) {
-			var files = $(this)[0].files;
-			setBG(files[0]);
+
+
+		/**********************************
+			TASKS
+		**********************************/
+
+		// KEYBOARD SHORTCUTS
+		$body.on('keydown', '#tasks input', function (e) {
+			if(e.keyCode === 13) {
+				$(this).parent().html($(this).val());
+				$editBTN.click();
+			}
 		});
 
-		// Takes a file and sets it as the background
-		setBG = function(f) {
-			var reader = new FileReader();
-			reader.onload = function (event) {
-				app == 'js' ? localStorage.setItem('background', event.target.result) : cli.storage.prefs.background = event.target.result;
-				$tasks[0].style.backgroundImage = 'url(' + event.target.result + ')';
-			};
-			reader.readAsDataURL(f);
-		};
+		// CHECKBOX
+		$body.on('change', '#tasks input[type=checkbox]', function () {
+
+			var id = $(this).closest('li').attr('id').substr(1).toNum();
+			cli.logbook(id);
+
+			if ($(this).prop('checked')) {
+				$('#T' + id).addClass('logged');
+			} else {
+				$('#T' + id).removeClass('logged');
+			}
+
+			if ($('#T' + id + ' input[type=checkbox]').attr('checked') !== 'checked') {
+				cli.today(id).calculate();
+			}
+
+			// Update list count
+			ui.lists.updateCount('all');
+
+		});
+
+		// PRIORITY
+		$body.on('click', '#tasks .priority', function () {
+
+			// Get id of task
+			var id = $(this).closest('li').attr('id').substr(1).toNum();
+
+			// Remove old checkbox colour
+			$('#T' + id).removeClass(cli.priority(id).get());
+
+			// Update priority
+			cli.priority(id).set();
+
+			// Display priority (HTML and Class)
+			$(this)
+				.html($.i18n._(cli.priority(id).get()))
+				.removeClass()
+				.addClass(cli.priority(id).get() + ' priority');
+
+			// Add new checkbox colour
+			$('#T' + id).addClass(cli.priority(id).get());
+
+		});
+
+		// EDITING A TASK
+		$body.on('click', '#tasks .todotxt', function (e) {
+
+			$editBTN.removeClass('disabled');
+			$deleteBTN.removeClass('disabled');
+
+			ui.tasks.clicks++;
+			setTimeout(function () {
+				ui.tasks.clicks = 0;
+			}, 300);
+
+			var id = $(this).closest('li').attr('id').substr(1).toNum();
+
+			if ($('#T' + id).hasClass('expanded')) {
+
+				if (ui.tasks.clicks === 2 && id === ui.tasks.lastClicked) {
+
+					//Close on double click
+					$('#tasks .expanded .todotxt').blur();
+					ui.tasks.selected.collapse($('#tasks .expanded'), "stay_selected");
+
+				}
+
+			} else {
+
+				$('#tasks .selected:not(#T' + id + ')').removeClass('selected');
+				$('#T' + id).toggleClass('selected');
+
+				if (ui.tasks.clicks === 1) {
+
+					ui.tasks.lastClicked = id;
+
+				} else if (ui.tasks.clicks === 2 && id === ui.tasks.lastClicked) {
+
+					ui.tasks.selected.collapse($('#tasks .expanded'));
+
+					if (!$(this).parent().hasClass('expanded')) {
+
+						ui.tasks.selected.expand($('#T' + id));
+
+					}
+				}
+
+				/*if ($('#tasks ul li.selected').length == 0 && $('#tasks ul li.margin').length == 0) {
+					$editBTN.addClass('disabled');
+				};*/
+			}
+		});
+
+		/**********************************
+			SELECTED TASK
+		**********************************/
+
+		// SAVE NAME WHEN INPUT LOSES FOCUS
+		$body.on('blur', '#tasks .todotxt input', function () {
+			var id = $(this).closest('li').attr('id').substr(1).toNum();
+			var data = cli.taskData(id).display();
+
+			// Edits Data
+			data.content = this.value;
+			cli.taskData(id).edit(data);
+		});
+
+		// SHOW IN TODAY BUTTON
+		$body.on('click', '.#tasks .today', function () {
+			var id = $(this).closest('li').attr('id').substr(1).toNum();
+
+			if ($(this).hasClass('inToday')) {
+				// Takes out of today
+
+				// Checkbox & Label
+				$('#T' + id).removeClass('today');
+				$(this).removeClass('inToday').html($.i18n._('showInToday'));
+
+				// We need to remove the other node in Next
+				if (ui.lists.selected() === 'next') {
+					$('#next li.hidden').map(function () {
+						if ($(this).attr('data-id') === id) {
+							$(this).remove();
+						}
+					});
+				}
+
+				//Cli
+				cli.today(id).remove();
+				
+			} else {
+				//Adds to Today
+
+				//Checkbox & Label
+				$('#T' + id).addClass('today');
+				$(this).addClass('inToday').html($.i18n._('removeFromToday'));
+
+				if (ui.lists.selected() === 'next') {
+					if (cli.taskData(id).display().list !== 'next') {
+						$('#next').append('<li class="hidden" data-id="' + id + '"></li>');
+					}
+				}
+				
+				cli.today(id).add();
+			}
+
+			if (ui.lists.selected() === 'today') {
+				ui.tasks.populate(ui.lists.selected());
+			} else {
+				ui.tasks.sortStop();
+			}
+
+			//Updates counts
+			ui.lists.updateCount('all');
+		});
+
+		// SET DUE DATE
+		$('#datepicker').datepicker({
+			onSelect: function () {
+				var id = $('#tasks .expanded').attr('id').substr(1).toNum();
+
+				//Saves Date
+				var task = cli.taskData(id).display();
+				task.date = cli.calc.dateConvert($('#datepicker').datepicker('getDate'));
+
+				//Draws the date label
+				$('.date').removeClass().addClass('date ' + cli.calc.prettyDate.difference(task.date)[1]);
+
+				cli.taskData(id).edit(task);
+
+				//Edits UI
+				$('#T' + id + ' .date').html(cli.calc.prettyDate.difference(task.date)[0]);
+
+				//Runs a bunch of Today functions
+				cli.calc.date(id);
+				cli.today(id).calculate();
+
+				if (cli.taskData(id).display().today === 'yesAuto' || cli.taskData(id).display().today === 'manual') {
+					$('#tasks li.expanded div.labels span.today').addClass('inToday').html($.i18n._('removeFromToday'));
+				} else if (cli.taskData(id).display().today === 'noAuto' || cli.taskData(id).display().today === 'false') {
+					$('#tasks li.expanded div.labels span.today').removeClass('inToday').html($.i18n._('showInToday'));
+				}
+
+				ui.lists.updateCount('all');
+			}
+		}).children().show();
+
+		// REMOVE DATE
+		$('#removeDate').click(function () {
+			var id = $('#tasks ul li.expanded').attr('id').substr(1).toNum();
+
+			//Hides window thing
+			$('#date').hide(0);
+			$('#task' + id + ' .labels .date').html($.i18n._('setDueDate'));
+			$(document).off('click');
+
+			//Removes Date
+			var data = cli.taskData(id).display();
+			data.date = '';
+
+			//Changes to false if yesAuto or noAuto
+			if (data.today === 'yesAuto' || data.today === 'noAuto') {
+				$('#task' + id + ' .labels .today').html($.i18n._('showInToday')).removeClass('inToday');
+				data.today = 'false';
+			}
+			cli.taskData(id).edit(data);
+
+			//Runs a bunch of Today functions
+			cli.calc.date(id);
+			cli.today(id).calculate();
+
+			if (ui.lists.selected() === 'today') {
+				ui.tasks.populate(ui.lists.selected());
+			} else {
+				ui.tasks.sortStop();
+			}
+			ui.lists.updateCount('all');
+		});
+
+		// CLOSE DATEPICKER
+		$body.on('click', '.labels .date', function (e) {
+			//Position of datepicker
+			var pos = $(this).offset();
+			var top;
+			if (pos.top - 100 < 15 ) {
+				top = 115;
+			} else {
+				top = $(this).offset().top;
+			}
+
+			$('#date').show();
+			
+			//Puts new data into date picker
+			var id = $(this).closest('li').attr('id').substr(1).toNum();
+			var date = cli.taskData(id).display().date;
+			
+			//Only populate date picker if it has a date
+			if (date === '') {
+				$('#datepicker').datepicker('setDate', new Date());
+			} else {
+				$('#datepicker').datepicker('setDate', date);
+			}
+
+			//Populate Show in today box
+			$('#showTime').val(cli.taskData(id).display().showInToday);
+				
+			$('#date').css({'left': pos.left - 275, 'top': top - 100});
+
+			$("#date").click(function (e) {
+				e.stopPropagation();
+				return false;
+			});
+
+			function dateClose() {
+				$(document).click(function () {
+					//Hides Picker
+					$('#date').hide();
+					$(this).off('click');
+					if (ui.lists.selected() === 'today') {
+						ui.tasks.populate(ui.lists.selected());
+					} else {
+						ui.tasks.sortStop();
+					}
+				});
+			}
+			setTimeout(dateClose, 100);
+		});
+
+		/* Show in Today */
+		$('#showTime').change(function () {
+			var id = $('#tasks ul li.expanded').attr('id').substr(1).toNum();
+
+			//Saves Date
+			var task = cli.taskData(id).display();
+			task.showInToday = this.value;
+
+			cli.taskData(id).edit(task);
+
+			//Runs a bunch of Today functions
+			cli.calc.date(id);
+			cli.today(id).calculate();
+
+			if (cli.taskData(id).display().today === 'yesAuto' || cli.taskData(id).display().today === 'manual') {
+				$('#tasks ul li.expanded .labels .today').addClass('inToday').html($.i18n._('removeFromToday'));
+			} else if (cli.taskData(id).display().today === 'noAuto' || cli.taskData(id).display().today === 'false') {
+				$('#tasks ul li.expanded .labels .today').removeClass('inToday').html($.i18n._('showInToday'));
+			}
+		});
+
+		/* Notes */
+		$body.on('blur', '#tasks ul li textarea', function () {
+			var id = $(this).closest('li').attr('id').substr(1).toNum();
+			var data = cli.taskData(id).display();
+
+			//Edits Data
+			data.notes = this.value;
+			cli.taskData(id).edit(data);
+
+		});
 	},
+
+
+
+	/**************************************************************
+		SYNC
+	**************************************************************/
+
 	sync: {
-		running: function(type) {
+
+
+
+		/**********************************
+			SYNC BUTTON STYLES
+		**********************************/
+
+		running: function (type) {
 			switch(type) {
 				case 'on':
-					$('#syncBTN').addClass('running');
+					$syncBTN.addClass('running');
 					break;
 				case 'off':
-					$('#syncBTN').removeClass('running');
+					$syncBTN.removeClass('running');
 					break;
 			}
 		},
-		active: function(type) {
+		active: function (type) {
 			switch(type) {
 				case 'on':
-					if(cli.storage.prefs.sync != 'never' && cli.storage.prefs.sync != 'auto') {
-						$('#syncBTN').addClass('active');
+					if(cli.storage.prefs.sync !== 'never' && cli.storage.prefs.sync !== 'auto') {
+						$syncBTN.addClass('active');
 					}
 					break;
 				case 'off':
-					$('#syncBTN').removeClass('active');
+					$syncBTN.removeClass('active');
 					break;
 			}
 		},
-		reload: function() {
+
+
+
+		/**********************************
+			RELOAD UI
+		**********************************/
+
+		reload: function () {
 			console.log("Reloading UI");
 
 			// Stop sync icon
@@ -608,8 +1008,8 @@ ui = {
 
 			// Get selected list
 			var sel = ui.lists.selected();
-			
-			// Makes lists show up 
+
+			// Makes lists show up
 			ui.lists.populate();
 
 			// Display tasks
@@ -617,102 +1017,167 @@ ui = {
 			$('#' + sel).addClass('selected');
 
 			ui.lists.updateCount('all');
-		},
-	},	
+		}
+	},
+
+
+
+	/**************************************************************
+		LISTS
+	**************************************************************/
+
 	lists: {
-		selected: function() { 
+
+
+		/**********************************
+			GET SELECTED LIST
+		**********************************/
+
+		selected: function () {
 			if($('#sidebar ul li.selected').length) {
-				return $('#sidebar ul li.selected').attr('id').slice(0, -4);	
+				return $('#sidebar ul li.selected').attr('id').substr(1).toNum();
 			} else {
 				return '';
 			}
 		},
 
-		populate: function() {
-			$('#userLists').html('');
+
+
+		/**********************************
+			POPUPLATE SIDEBAR
+		**********************************/
+
+		populate: function () {
+
+			// Clear lists
+			$userLists.html('');
+
+			// Loop through lists and generate HTML for each list
 			for (var i=0; i<cli.storage.lists.order.length; i++) {
-				$('#userLists').append('<li id="' + cli.storage.lists.order[i] + 'List"><div class="editIcon" title="' + $.i18n._('titleEditList') + '"></div><div class="view">' + cli.storage.lists.items[cli.storage.lists.order[i]].name  + '<div class="count">0</div></div><div class="edit"><input type="text" value="' +  cli.storage.lists.items[cli.storage.lists.order[i]].name + '"><div class="delete" title="' + $.i18n._('titleDeleteList') + '"></div><div class="save" title="' + $.i18n._('titleSaveList') + '"></div></div></li>');
+				$userLists.append('<li id="L' + cli.storage.lists.order[i] + '"><div class="editIcon" title="' + $.i18n._('titleEditList') + '"></div><div class="view">' + cli.storage.lists.items[cli.storage.lists.order[i]].name  + '<div class="count">0</div></div><div class="edit"><input type="text" value="' +  cli.storage.lists.items[cli.storage.lists.order[i]].name + '"><div class="delete" title="' + $.i18n._('titleDeleteList') + '"></div><div class="save" title="' + $.i18n._('titleSaveList') + '"></div></div></li>');
 			}
-		},			
+		},
 
-		openEditMode: function() {
-			$('#' + ui.lists.selected() + 'List').addClass('edit');
-			$('#' + ui.lists.selected() + 'List .view').hide(0);
 
-			$('#' + ui.lists.selected() + 'List .edit').show(0);
-			$('#' + ui.lists.selected() + 'List .edit input').focus();
+
+		/**********************************
+			START EDITING LIST
+		**********************************/
+
+		openEditMode: function () {
+			$('#L' + ui.lists.selected()).addClass('edit');
+			$('#L' + ui.lists.selected() + ' .view').hide(0);
+			$('#L' + ui.lists.selected() + ' .edit').show(0);
+			$('#L' + ui.lists.selected() + ' .edit input').focus();
 
 			ui.listEditMode = ui.lists.selected();
 		},
 
-		closeEditMode: function() {
-			if (ui.listEditMode != 'none') {
 
-				var newName = $('#' + ui.listEditMode + 'List .edit input').blur().val();
 
-				$('#' + ui.listEditMode + 'List').removeClass('edit');
-				$('#' + ui.listEditMode + 'List .edit').hide(0);
-				$('#' + ui.listEditMode + 'List .view').html(newName + '<div class="count"></div>').show(0);
+		/**********************************
+			FINISH EDITING LIST
+		**********************************/
+
+		closeEditMode: function () {
+			if (ui.listEditMode !== 'none') {
+
+				var newName = $('#L' + ui.listEditMode + ' .edit input').blur().val();
+
+				$('#L' + ui.listEditMode).removeClass('edit');
+				$('#L' + ui.listEditMode + ' .edit').hide(0);
+				$('#L' + ui.listEditMode + ' .view').html(newName + '<div class="count"></div>').show(0);
 
 				ui.lists.updateCount('all');
 				
 				$('#tasks h2').html(newName);
 
-				//Edits list (FIX FOR DELETED LIST)
-				try {
-					cli.list(ui.listEditMode, newName).rename();
-				} catch (err) {}
+				// Renames list
+				cli.list(ui.listEditMode, newName).rename();
 				ui.listEditMode = 'none';
 
-			};
+			}
 		},
 
-		delete: function(id) {
+
+		/**********************************
+			DELETE LIST
+		**********************************/
+
+		remove: function (id) {
 			// Deletes list
-			cli.list(id).delete();
+			cli.list(id).remove();
 
-			// Removes list from menu and then selects the next list
-			var $listToDelete = $('#' + id + 'List');
-			if($('#userLists li').length == 1) $listToDelete.remove();
-			else if($listToDelete.is(':last-child')) $listToDelete.prev().addClass('selected').next().remove();
-			else $listToDelete.next().addClass('selected').prev().remove();
+			// Close edit mode
+			ui.listEditMode = 'none';
+
+			// Get list
+			var $listToDelete = $('#L' + id);
+
+			// Removes list from sidebar and then selects a new one
+			if($('#userLists li').length === 1) {
+				// The last list left -> select next list
+				$listToDelete.remove();
+				$('#Lnext').click();
+			} else if($listToDelete.is(':last-child')) {
+				// The list is at the bottom -> Select the one above it
+				$listToDelete.prev().addClass('selected').next().remove();
+			} else {
+				// The list has one below it -> select it
+				$listToDelete.next().addClass('selected').prev().remove();
+			}
 		},
 
-		updateCount: function(type) {
-			var type = type || 'selected';
+
+
+		/**********************************
+			UPDATE LIST COUNT
+		**********************************/
+
+		updateCount: function (type) {
+
+			// If no type is specified, update the selected list by default
+			type = type || 'selected';
+
 			switch(type) {
 				case 'all':
-					$('#sidebar ul li').map(function() {
-						var list = $(this).attr('id').slice(0, -4);
-						$('#sidebar ul li#' + list + 'List .count').html(cli.populate('list', list).length);
+					$('#sidebar li').map(function () {
+						$(this).find('.count').html(cli.populate('list', $(this).attr('id').substr(1).toNum()).length);
 					});
 					return;
 				case 'selected':
-					var list = $('#sidebar ul li.selected').attr('id').slice(0, -4);
+					var list = ui.lists.selected();
 					break;
 				default:
-					var list = $('#sidebar ul li#' + type + 'List').attr('id').slice(0, -4);
+					// We don't need to do anything, we already have the id
+					var list = type;
 					break;
 			}
-			$('#sidebar ul li#' + list + 'List .count').html(cli.populate('list', list).length);
+			$('#L' + list + ' .count').html(cli.populate('list', list).length);
 		},
+
+
+
+		/**********************************
+			MOVING A TASK TO A NEW LIST
+		**********************************/
+
 		dropOptions: {
 			hoverClass: "dragHover",
-			accept: '#tasks ul li',
-			drop: function(event, uix) {
-				listId = $(this).attr('id').slice(0, -4);
-				taskId = $(uix.draggable).attr('id').substr(4);
+			accept: '#tasks li',
+			drop: function (event, uix) {
+				var listId = $(this).attr('id').substr(1).toNum(),
+					taskId = $(uix.draggable).attr('id').substr(1).toNum();
 
 				//Next list if task is dropped into same list
-				if (ui.lists.selected() == 'next') {
-
-					if (cli.taskData(taskId).display().list == $(event.target).attr('id').slice(0, -4)) {
+				if (ui.lists.selected() === 'next') {
+					if (cli.taskData(taskId).display().list === $(event.target).attr('id').substr(1).toNum()) {
 						return;
 					}
-				};
+				}
 
 				//If item in Today is added to today
-				if ($(event.target).attr('id').slice(0, -4) == 'today') {
+				if ($(event.target).attr('id').substr(1).toNum() === 'today') {
 					cli.today(taskId).add();
 				} else {
 					//Moves Task
@@ -720,121 +1185,143 @@ ui = {
 				}
 
 				//Updates Tasks
-				ui.tasks.populate(ui.lists.selected())
+				ui.tasks.populate(ui.lists.selected());
 
 				//Update Counts
 				ui.lists.updateCount('all');
 			}
 		}
 	},
+
+
+
+	/**************************************************************
+		TASKS
+	**************************************************************/
+
 	tasks: {
 		clicks: 0,
 		lastClicked: "",
 
-		populate: function(id) {
 
+
+		/**********************************
+			POPULATE LIST WITH TASKS
+		**********************************/
+
+		populate: function (id) {
+
+			// Get task IDs in that list
 			var items = cli.populate('list', id);
 
-			if (id == 'logbook') {
+			// LOGBOOK
+
+			if (id === 'logbook') {
 				$tasks.html('<h2 class="' + cli.storage.prefs.color + '">' + $.i18n._('logbook') + '</h2><ul id="logbook"></ul>');
 
-				//Populates
-				for (var i=0; i < items.length; i++) {
+				// Populates
+				for (var i = 0; i < items.length; i++) {
 					$('#tasks ul').append(ui.tasks.draw(items[i]));
 
 					// Set checked to true
-					$('#task' + items[i]).addClass('logged');
-					$('#task' + items[i] + " input[type=checkbox]").prop('checked', true);
-				};
+					$('#T' + items[i]).addClass('logged');
+					$('#T' + items[i] + " input[type=checkbox]").prop('checked', true);
+				}
 
 				//If nothing is logged, a description appears
-				if (items.length == 0) {
+				if (items.length === 0) {
 					$tasks.append('<div class="explanation">' + $.i18n._('logbookText') + '</div>');
 				}
 
 				//Breaks loop
 				return;
-			};
+			}
 
-			//Clears page
+			// Clears page
 			$tasks.html('');
 			
-			if (id == 'next' && cli.storage.prefs.nextAmount != 'noLists') {
-				for (var i=0; i<cli.storage.lists.order.length; i++) {
-					var listData = cli.storage.lists.items[cli.storage.lists.order[i]];
-					var newListItems = cli.populate('list', cli.storage.lists.order[i]);
+			// NEXT - MULTIPLE LISTS
 
-					if (newListItems.length != 0) {
-						//Makes a new section for a new list
+			if (id === 'next' && cli.storage.prefs.nextAmount !== 'noLists') {
+
+				for (var i = 0; i < cli.storage.lists.order.length; i++) {
+
+					var listData = cli.storage.lists.items[cli.storage.lists.order[i]],
+						newListItems = cli.populate('list', cli.storage.lists.order[i]);
+
+					if (newListItems.length !== 0) {
+
+						// Makes a new section for a new list
 						$tasks.append('<h2 class="' + cli.storage.lists.order[i] + " " + cli.storage.prefs.color + '">' + listData.name + '</h2><ul id="' + cli.storage.lists.order[i] + '"></ul>');
 
-						//Loop inside a loop. Loopception...
-						for (var l=0; l<newListItems.length; l++) {
+						// Loop inside a loop. Loopception...
+						for (var l = 0; l < newListItems.length; l++) {
 
-							if (l == 3 && cli.storage.prefs.nextAmount == 'threeItems') {
-								//Because english matters
-								if (parseInt(newListItems.length) - 3 == 1) {
+							if (l === 3 && cli.storage.prefs.nextAmount === 'threeItems') {
+
+								// Because english matters
+								if (newListItems.length - 3 === 1) {
 									$('#tasks ul#' + cli.storage.lists.order[i]).append('<p class="expandList ' + cli.storage.prefs.color + '">' + $.i18n._('oneMore') + '</p>');
 								} else {
-									$('#tasks ul#' + cli.storage.lists.order[i]).append('<p class="expandList ' + cli.storage.prefs.color + '">' + $.i18n._('morethanOne', [(parseInt(newListItems.length) - 3)]) + '</p>');
-								};
+									$('#tasks ul#' + cli.storage.lists.order[i]).append('<p class="expandList ' + cli.storage.prefs.color + '">' + $.i18n._('morethanOne', [newListItems.length - 3]) + '</p>');
+								}
 								break;
 							}
 
 							//Draws each task in the new list
 							$('#tasks ul#' + cli.storage.lists.order[i]).append(ui.tasks.draw(newListItems[l]));
-						};
-					};				
-				};
+						}
+					}
+				}
 			}
 
-			//Fixes a bug that I don't know how to reproduce...
-			// Causes name of list to be undefined
-			if (ui.lists.selected() == 'today') {
-				$tasks.prepend('<h2 class="' + cli.storage.prefs.color + '">' + $.i18n._('today') + '</h2><ul id="' + id + '"></ul>');
-			} else if (ui.lists.selected() == 'next') {
-				$tasks.prepend('<h2 class="' + cli.storage.prefs.color + '">' + $.i18n._('next') + '</h2><ul id="' + id + '"></ul>');
-			} else if (ui.lists.selected() == 'someday') {
-				$tasks.prepend('<h2 class="' + cli.storage.prefs.color + '">' + $.i18n._('someday') + '</h2><ul id="' + id + '"></ul>');
-			} else {
-				$tasks.prepend('<h2 class="' + cli.storage.prefs.color + '">' + cli.storage.lists.items[id].name + '</h2><ul id="' + id + '"></ul>');
+			switch(ui.lists.selected()) {
+				case 'today':
+					$tasks.prepend('<h2 class="' + cli.storage.prefs.color + '">' + $.i18n._('today') + '</h2><ul id="' + id + '"></ul>');
+					break;
+				case 'next':
+					$tasks.prepend('<h2 class="' + cli.storage.prefs.color + '">' + $.i18n._('next') + '</h2><ul id="' + id + '"></ul>');
+					break;
+				case 'someday':
+					$tasks.prepend('<h2 class="' + cli.storage.prefs.color + '">' + $.i18n._('someday') + '</h2><ul id="' + id + '"></ul>');
+					break;
+				default:
+					$tasks.prepend('<h2 class="' + cli.storage.prefs.color + '">' + cli.storage.lists.items[id].name + '</h2><ul id="' + id + '"></ul>');
+					break;
 			}
 			
 
 			//Populates
 			for (var i=0; i < items.length; i++) {
-				//Checks if element exists first
-				if ($('#task' + items[i]).length == 0) {
-					$('#tasks ul#' + id).append(ui.tasks.draw(items[i]));
+				if ($('#T' + items[i]).length) {
+					// Task already exists
+					$('#tasks ul#' + id).append('<li class="hidden" data-id="' + items[i] + '"></li>');
 				} else {
-					$('#tasks ul#' + id).append('<li class="hidden" data-id="' + items[i] + '"></li>')
-				};
-
-				if (i == 49) {
-				 	if(!cli.storage.prefs.over50) {
-						//English Helps
-						if (parseInt(items.length) - 50 == 1) {
-							$('#tasks ul#' + id).append('<p class="moarTasks">' + $.i18n._('oneMore') + '</p>');
-						} else {
-							$('#tasks ul#' + id).append('<p class="moarTasks">' + $.i18n._('oneMore', [(parseInt(newListItems.length) - 50)]) + '</p>');
-						};
-						break;
-					};
-				};
-			};
+					$('#tasks ul#' + id).append(ui.tasks.draw(items[i]));
+				}
+			}
 
 			//If there are no tasks, there is an explanation
-			if (items.length == 0 && $('#tasks ul').length == 1) {
-				if (ui.lists.selected() == 'today') {
-					var reason = $.i18n._('todayText');
-				} else if (ui.lists.selected() == 'next') {
-					var reason = $.i18n._('nextText');
-				} else if (ui.lists.selected() == 'someday') {
-					var reason = $.i18n._('somedayText');
-				} else {
-					var reason = $.i18n._('customText');
+			if (items.length === 0 && $('#tasks ul').length === 1) {
+
+				var reason;
+
+				switch(ui.lists.selected()) {
+					case 'today':
+						reason = $.i18n._('todayText');
+						break;
+					case 'next':
+						reason = $.i18n._('nextText');
+						break;
+					case 'someday':
+						reason = $.i18n._('somedayText');
+						break;
+					default:
+						reason = $.i18n._('customText');
+						break;
 				}
-				$tasks.append('<div class="explanation">' + reason + '</div>')
+
+				$tasks.append('<div class="explanation">' + reason + '</div>');
 			}
 
 			$('#tasks ul').sortable({
@@ -842,63 +1329,75 @@ ui = {
 				distance: 20,
 				appendTo:'body',
 				items: 'li',
-				helper:function(){ return $("<div class='dragbox'></div>"); },
-				cursorAt:{top:15,left:15},
+				cursorAt: {
+					top:15,
+					left:15
+				},
 				scroll: false,
 				connectWith: $('#tasks ul'),
-				stop: function(event, elem) {
+				helper: function () {
+					return $("<div class='dragbox'></div>");
+				},
+				stop: function (event, elem) {
 
-					var from = event.target.id;
-					var to = $(elem.item).parent().attr('id');
+					var from = event.target.id,
+						to = $(elem.item).parent().attr('id'),
+						id = $(elem.item).attr('id').substr(1).toNum(),
+						data = cli.taskData(id).display();
 
-					var id = $(elem.item).attr('id').substr(4);
-					var data = cli.taskData(id).display();
-
-					//If the list has been changed...
-					if (from != to) {
+					// If the list has been changed...
+					if (from !== to) {
 						data.list = to;
 						cli.taskData(id).edit(data);
 					}
 
 					ui.tasks.sortStop(event, elem);
 
-					//If on the motherfucking three mode. 
-					//Fuck fuck I've spent two fucking hours making this work
-					if (ui.lists.selected() == 'next') {
-						if(cli.storage.prefs.nextAmount == 'threeItems') {
-							ui.tasks.populate('next')
+					// If on the motherfucking three mode.
+					// Fuck fuck I've spent two fucking hours making this work
+					if (ui.lists.selected() === 'next') {
+						if(cli.storage.prefs.nextAmount === 'threeItems') {
+							ui.tasks.populate('next');
 						}
 
-						//Recomment in if it breaks something!
-						//cli.today(id).calculate()
+						// Recomment in if it breaks something!
+						// cli.today(id).calculate()
 						ui.lists.updateCount('all');
 					}
 				}
 			});
 		},
 
-		sortStop: function(event, elem) {
-			
 
-			//Removes duplicates from next list (if any)
-			if (ui.lists.selected() == 'next') {
-				var hiddenValues = new Array();
-				$('#next .hidden').map(function() { 
-					hiddenValues.push($(this).attr('data-id'))
+
+		/**********************************
+			SOMETHING TO DO WITH SORTING
+		**********************************/
+
+		sortStop: function (event, elem) {
+			
+			// Removes duplicates from next list (if any)
+			if (ui.lists.selected() === 'next') {
+
+				var hiddenValues = [];
+
+				$('#next .hidden').map(function () {
+					hiddenValues.push($(this).attr('data-id'));
 				});
 
 				for (var i=0; i<hiddenValues.length; i++) {
+
 					//If it is next & has a hidden item, remove the hidden item
-					if ($('#next #task' + hiddenValues[i]).length != 0) {
+					if ($('#next #T' + hiddenValues[i]).length) {
 						$('#next li[data-id=' + hiddenValues[i] + ']').remove();
 						console.log('Hidden Item: ' + hiddenValues[i] + ' removed!');
 					}
 				}
-			};
+			}
 
-			var taskOrder = new Array();
+			var taskOrder = [];
 
-			$('#tasks ul#' + ui.lists.selected()).children('li').map(function() {
+			$('#tasks ul#' + ui.lists.selected()).children('li').map(function () {
 
 				if ($(this).children('input[type=checkbox]').attr('checked')) {
 					//Log item
@@ -906,30 +1405,31 @@ ui = {
 					if ($(this).hasClass('hidden')) {
 						taskOrder.push($(this).attr('data-id'));
 					} else {
-						var id = $(this).attr('id').substr(4); 
+						var id = $(this).attr('id').substr(1).toNum();
 						taskOrder.push(id);
-					};								
-				};	
+					}
+				}
 			});
 			cli.list(ui.lists.selected()).taskOrder(taskOrder);
 
-			if (ui.lists.selected() == 'next') {
+			if (ui.lists.selected() === 'next') {
 				//Special Next list
-				if (cli.storage.prefs.nextAmount != 'noLists') {
+				if (cli.storage.prefs.nextAmount !== 'noLists') {
 					for (var i=0; i<cli.storage.lists.order.length; i++) {
 						//Gotta love loopception 😄
-						var tmpOrder = new Array;
-						$('#tasks ul#' + cli.storage.lists.order[i]).children('li').map(function() {
+						var tmpOrder = [];
+						$('#tasks ul#' + cli.storage.lists.order[i]).children('li').map(function () {
 							
 							if ($(this).children('input[type=checkbox]').attr('checked')) {
 								//Log item
 							} else {
-								var id = $(this).attr('id').substr(4); 
+								var id = $(this).attr('id').substr(1).toNum();
 								tmpOrder.push(id);
-							};
+							}
+
 						});
 
-						if (cli.storage.prefs.nextAmount == 'threeItems') {
+						if (cli.storage.prefs.nextAmount === 'threeItems') {
 							//gets old array
 							var oldArr = cli.populate('list', cli.storage.lists.order[i]);
 							oldArr.splice(0,3);
@@ -944,416 +1444,140 @@ ui = {
 
 				//Updates Counts for all lists
 				ui.lists.updateCount('all');
-			};
+			}
 
-			//Deletes empty lists
-			$('#tasks ul:not(#next)').map(function(){ 
-				if ($(this).children().length == 0) {
-					$('#tasks h2.' + $(this).attr('id')).remove(); $(this).remove(); 
+			// Deletes empty lists
+			$('#tasks ul:not(#next)').map(function () {
+				if ($(this).children().length === 0) {
+					$('#tasks h2.' + $(this).attr('id')).remove(); $(this).remove();
 				}
 			});
 		},
 
-		draw: function(id) {
+
+
+		/**********************************
+			GENERATE HTML FOR A TASK
+		**********************************/
+
+		draw: function (id) {
 			var data = cli.taskData(id).display();
 
-			//Draws the checkbox
-			if (data.priority != 'none') {
-				var priority = 'class="' + data.priority + '" ';
+			// CHECKBOX
+			var priority;
+			if (data.priority !== 'none') {
+				priority = 'class="' + data.priority + '" ';
 			} else {
-				var priority = '';
-			};
-
-			if (ui.lists.selected() != 'today') {
-				//Draws the today label
-				if (data.today == 'yesAuto' || data.today == 'manual') {
-					var today = '<span class="todayLabel">' + $.i18n._('doToday') + '</span>'
-				} else if (data.today == 'noAuto' || data.today == 'false') {
-					var today = ''
-				};
-			} else {
-				var today = '';
+				priority = '';
 			}
 
-			//Draws the date label
-			if (data.date != '') {
-				var date = '<span class="dateLabel ' + cli.calc.prettyDate.difference(data.date)[1] + '">' + cli.calc.prettyDate.difference(data.date)[0] + '</span>';
-			} else {
-				var date = '';
-			}
-
-			return '<li ' + priority + 'id="task' + id + '"><div class="boxhelp"><div class="checkbox"><input type="checkbox"></div><div class="todotxt">' + data.content + '</div><div class="labels">' + today + date + '</div></div></li>';
-		},
-
-		init: function() {
-			//Overlay
-			$('#overlay').click(function() {
-				if ($('#date').css('display') != 'block') {
-					$('#editBTN, #deleteBTN').addClass('disabled');
-					$('#tasks ul li.selected').removeClass('selected');
-					ui.tasks.selected.collapse($('#tasks ul li.expanded'), "stay_selected")
-					$('.settings').fadeOut(150);
-				};				
-			});
-
-			// Checking off tasks
-			$body.on('change', '#tasks ul li input[type=checkbox]', function() {
-
-				var id = $(this).closest('li').attr('id').substr(4);
-				cli.logbook(id);
-
-				if ($(this).prop('checked')) {
-					$('#task' + id).addClass('logged');
-				} else {
-					$('#task' + id).removeClass('logged');
+			var today;
+			if (ui.lists.selected() !== 'today') {
+				// TODAY LABEL
+				if (data.today === 'yesAuto' || data.today === 'manual') {
+					today = '<span class="todayLabel">' + $.i18n._('doToday') + '</span>';
+				} else if (data.today === 'noAuto' || data.today === 'false') {
+					today = '';
 				}
+			} else {
+				today = '';
+			}
 
-				if ($('#task' + id + ' input[type=checkbox]').attr('checked') != 'checked') {
-					cli.today(id).calculate()
-				} 
-				//Update counts
-				ui.lists.updateCount('all');
+			// DATE LABEL
+			var date;
+			if (data.date !== '') {
+				date = '<span class="dateLabel ' + cli.calc.prettyDate.difference(data.date)[1] + '">' + cli.calc.prettyDate.difference(data.date)[0] + '</span>';
+			} else {
+				date = '';
+			}
 
-			});
-
-			// Priority
-			$body.on('click', '#tasks .priority', function() {
-
-				// Get id of task
-				var id = $(this).closest('li').attr('id').substr(4);
-
-				// Remove old checkbox colour
-				$('#tasks #task' + id).removeClass(cli.priority(id).get());
-
-				// Update priority
-				cli.priority(id).set();
-
-				// Display priority (Html and Class)
-				$(this).html($.i18n._(cli.priority(id).get())).removeClass().addClass(cli.priority(id).get() + ' priority');
-
-				// Add new checkbox colour
-				$('#tasks #task' + id).addClass(cli.priority(id).get());
-			});
-
-			//Edit mode
-			$body.on('click', '#tasks ul li .todotxt', function(e){
-
-				//Enables Edit button & delete button
-				$('#editBTN, #deleteBTN').removeClass('disabled');
-
-				//TIL, you can't just copy de pasty code expecting it to work.
-				ui.tasks.clicks++
-				setTimeout("ui.tasks.clicks = 0", 300);
-
-				//"this" seems to be playing up. We'll use ids instead
-				var id = $(this).parent().parent().attr('id');
-
-				if ($('#' + id).hasClass('expanded')) {
-					if (ui.tasks.clicks == 2 && id == ui.tasks.lastClicked) {
-						//Close on double click
-						$('#tasks ul li.expanded .todotxt').blur();
-						ui.tasks.selected.collapse($('#tasks ul li.expanded'), "stay_selected");
-					};
-				} else {
-					
-					$('#tasks ul li.selected:not(#' + id + ')').removeClass('selected');
-					//$editBTN.removeClass('disabled');
-
-					$('#' + id).toggleClass('selected');
-
-					if (ui.tasks.clicks == 1) {
-						ui.tasks.lastClicked = id;	
-					} else if (ui.tasks.clicks == 2 && id == ui.tasks.lastClicked) {
-
-						ui.tasks.selected.collapse($('#tasks ul li.expanded'));
-
-						if ($(this).parent().hasClass('expanded')) {
-							//Do Nothing
-						} else {
-							ui.tasks.selected.expand($('#' + id));
-						};
-					};
-
-					/*if ($('#tasks ul li.selected').length == 0 && $('#tasks ul li.margin').length == 0) {
-						$editBTN.addClass('disabled');
-					};*/
-				};
-			});
-
+			return '<li ' + priority + 'id="T' + id + '"><div class="boxhelp"><div class="checkbox"><input type="checkbox"></div><div class="todotxt">' + data.content + '</div><div class="labels">' + today + date + '</div></div></li>';
 		},
+
 
 		selected: {
-			init: function() {
-				$body.on('blur', '#tasks ul li .todotxt input', function() {
-					var id = $(this).parent().parent().parent().attr('id').substr(4);
-					var data = cli.taskData(id).display();
-
-					//Edits Data
-					data.content = $(this).val();
-					cli.taskData(id).edit(data);
-				});
-
-				$body.on('click', '.#tasks ul li .labels .today', function() {
-					var id = $(this).parent().parent().parent().attr('id').substr(4);
-	
-					if ($(this).hasClass('inToday')) {
-						//Takes out of today
-
-						//Checkbox & Label
-						$('#task' + id).removeClass('today')
-						$(this).removeClass('inToday').html($.i18n._('showInToday'));
-
-						//We need to remove the other node in Next
-						if (ui.lists.selected() == 'next') {
-							$('#next li.hidden').map(function() {
-								if ($(this).attr('data-id') == id) {
-									$(this).remove();
-								}
-							});
-						}
-
-						//Cli
-						cli.today(id).remove();
-						
-					} else {
-						//Adds to Today
-
-						//Checkbox & Label
-						$('#task' + id).addClass('today')
-						$(this).addClass('inToday').html($.i18n._('removeFromToday'));
-
-						if (ui.lists.selected() == 'next') {
-							if (cli.taskData(id).display().list != 'next') {
-								$('#next').append('<li class="hidden" data-id="' + id + '"></li>');
-							}
-						}
-						
-						cli.today(id).add();
-					};
-
-					if (ui.lists.selected() == 'today') {
-						ui.tasks.populate(ui.lists.selected())
-					} else {
-						ui.tasks.sortStop();
-					};
-
-					//Updates counts
-					ui.lists.updateCount('all');
-				});
-
-				/* Date Select */
-				$('#datepicker').datepicker({
-					onSelect: function() {
-						var id = $('#tasks ul li.expanded').attr('id').substr(4);
-
-						//Saves Date
-						var task = cli.taskData(id).display();
-						task.date = cli.calc.dateConvert($('#datepicker').datepicker('getDate'));
-
-						//Draws the date label
-						$('.date').removeClass().addClass('date').addClass(cli.calc.prettyDate.difference(task.date)[1]);
-
-						cli.taskData(id).edit(task);
-
-						//Edits UI
-						$('#task' + id + ' .labels .date').html(cli.calc.prettyDate.difference(task.date)[0]);
-
-						//Runs a bunch of Today functions
-						cli.calc.date(id);
-						cli.today(id).calculate();
-
-						if (cli.taskData(id).display().today == 'yesAuto' || cli.taskData(id).display().today == 'manual') {
-							$('#tasks ul li.expanded .labels .today').addClass('inToday').html($.i18n._('removeFromToday'));
-						} else if (cli.taskData(id).display().today == 'noAuto' || cli.taskData(id).display().today == 'false') {
-							$('#tasks ul li.expanded .labels .today').removeClass('inToday').html($.i18n._('showInToday'));
-						};
-
-						ui.lists.updateCount('all');
-					}
-				}).children().show();
- 
-				//Remove Date
-				$('#removeDate').click(function() {
-					var id = $('#tasks ul li.expanded').attr('id').substr(4);
-
-					//Hides window thing
-					$('#date').hide(0);
-					$('#task' + id + ' .labels .date').html($.i18n._('setDueDate'));
-					$(document).off('click');
-
-					//Removes Date
-					var data = cli.taskData(id).display()
-					data.date = '';
-
-					//Changes to false if yesAuto or noAuto
-					if (data.today == 'yesAuto' || data.today == 'noAuto') {
-						$('#task' + id + ' .labels .today').html($.i18n._('showInToday')).removeClass('inToday');
-						data.today = 'false';
-					}
-					cli.taskData(id).edit(data);
-
-					//Runs a bunch of Today functions
-					cli.calc.date(id);
-					cli.today(id).calculate();
-
-					if (ui.lists.selected() == 'today') {
-						ui.tasks.populate(ui.lists.selected())
-					} else {
-						ui.tasks.sortStop();
-					};
-					ui.lists.updateCount('all');
-				});
-
-				/* Date Close */
-				$body.on('click', '.labels .date', function(e) {
-					//Position of datepicker
-					var pos = $(this).offset();
-					if (pos.top - 100 < 15 ) {
-						var top = 115;
-					} else {
-						var top = $(this).offset().top;
-					}
-
-					$('#date').show();
-					
-					//Puts new data into date picker
-					var id = $(this).parent().parent().parent().attr('id').substr(4);
-					var date = cli.taskData(id).display().date;
-					
-					//Only populate date picker if it has a date
-					if (date == '') {
-						$('#datepicker').datepicker('setDate', new Date);
-					} else {
-						$('#datepicker').datepicker('setDate', date);
-					};
-
-					//Populate Show in today box
-					$('#showTime').val(cli.taskData(id).display().showInToday);
-						
-					$('#date').css({'left': pos.left - 275, 'top': top - 100});
-
-					$("#date").click(function(e) {
-					    e.stopPropagation(); // This is the preferred method.
-					    return false;        // This should not be used unless you do not want
-					                         // any click events registering inside the div
-					});
-
-					function dateClose() {
-						$(document).click(function() {
-							//Hides Picker
-							$('#date').hide();
-							$(this).off('click');
-							if (ui.lists.selected() == 'today') {
-								ui.tasks.populate(ui.lists.selected())
-							} else {
-								ui.tasks.sortStop();
-							};
-						});
-					}
-					setTimeout(dateClose, 100);
-				});
-
-				/* Show in Today */
-				$('#showTime').change(function() {
-					var id = $('#tasks ul li.expanded').attr('id').substr(4);
-
-					//Saves Date
-					var task = cli.taskData(id).display();
-					task.showInToday = $(this).val();
-
-					cli.taskData(id).edit(task);
-
-					//Runs a bunch of Today functions
-					cli.calc.date(id);
-					cli.today(id).calculate();
-
-					if (cli.taskData(id).display().today == 'yesAuto' || cli.taskData(id).display().today == 'manual') {
-						$('#tasks ul li.expanded .labels .today').addClass('inToday').html($.i18n._('removeFromToday'));
-					} else if (cli.taskData(id).display().today == 'noAuto' || cli.taskData(id).display().today == 'false') {
-						$('#tasks ul li.expanded .labels .today').removeClass('inToday').html($.i18n._('showInToday'));
-					};
-				});
-
-				/* Notes */
-				$body.on('blur', '#tasks ul li textarea', function() {
-					var id = $(this).parent().parent().attr('id').substr(4);
-					var data = cli.taskData(id).display();
-
-					//Edits Data
-					data.notes = $(this).val();
-					cli.taskData(id).edit(data);
-
-				});
+			getID: function () {
+				if($tasks.find('.selected').length) {
+					return $tasks.find('.selected').attr('id').substr(1).toNum();
+				} else if($tasks.find('.expanded').length) {
+					return $tasks.find('.expanded').attr('id').substr(1).toNum();
+				} else {
+					return '';
+				}
 			},
-			expand: function(id) {
-				id.addClass('expanded').removeClass('selected')
-				var data = id.attr('id').substr(4);
-				var taskData = cli.taskData(data).display();
+			expand: function (task) {
+				task.addClass('expanded').removeClass('selected');
+				var id = task.attr('id').substr(1).toNum();
+				var taskData = cli.taskData(id).display();
 
 				//Draws the Today Label
-				if (taskData.today == 'manual' || taskData.today == 'yesAuto') {
-					var today = '<span class="today inToday">' + $.i18n._('removeFromToday') + '</span>';
+				var today;
+				if (taskData.today === 'manual' || taskData.today === 'yesAuto') {
+					today = '<span class="today inToday">' + $.i18n._('removeFromToday') + '</span>';
 				} else {
-					var today = '<span class="today">' + $.i18n._('showInToday') + '</span>';
-				};
+					today = '<span class="today">' + $.i18n._('showInToday') + '</span>';
+				}
 
-				if (taskData.date == '') {
-					var date = '">' + $.i18n._('setDueDate');
+				var date;
+				if (taskData.date === '') {
+					date = '">' + $.i18n._('setDueDate');
 				} else {
-					var date = cli.calc.prettyDate.difference(taskData.date)[1] + '">' + cli.calc.prettyDate.difference(taskData.date)[0];
+					date = cli.calc.prettyDate.difference(taskData.date)[1] + '">' + cli.calc.prettyDate.difference(taskData.date)[0];
 				}
 
 
 				//Adds expanded data
-				id.children().children('.todotxt').html('<input type="text" placeholder="' + $.i18n._('taskName') + '" value="' + taskData.content + '">').children('input').focus();
-				id.children().children('.labels').html(today + '<span class="priority ' + taskData.priority + '">' + $.i18n._(taskData.priority) + '</span><span class="date ' + date + '</span>')
-				id.append('<div class="hidden"><textarea placeholder="' + $.i18n._('notes') + '">' + taskData.notes + '</textarea></div>');
+				task.children().children('.todotxt').html('<input type="text" placeholder="' + $.i18n._('taskName') + '" value="' + taskData.content + '">').children('input').focus();
+				task.children().children('.labels').html(today + '<span class="priority ' + taskData.priority + '">' + $.i18n._(taskData.priority) + '</span><span class="date ' + date + '</span>');
+				task.append('<div class="hidden"><textarea placeholder="' + $.i18n._('notes') + '">' + taskData.notes + '</textarea></div>');
 
 				//Auto resize
-				$('#content textarea').TextAreaExpander()
+				$('#content textarea').TextAreaExpander();
 
 				//Animations
-				id.addClass('margin');
-				id.children('.hidden').slideDown(150, function() {
+				task.addClass('margin');
+				task.children('.hidden').slideDown(150, function () {
 					$('#content textarea').focus().closest('li').find('input').focus();
 				});
 			},
 
-			collapse: function(id, staySelected) {
+			collapse: function (id, staySelected) {
 				if (id.attr('id')) {
 
 					//Gets taskData
-					var data = id.attr('id').substr(4);
-					var taskData = cli.taskData(data).display()
+					var data = id.attr('id').substr(1).toNum();
+					var taskData = cli.taskData(data).display();
 
 					//Calculates labels
+					var today;
 					if (ui.lists.selected() !== 'today') {
 						//Draws the today label
-						if (taskData.today == 'yesAuto' || taskData.today == 'manual') {
-							var today = '<span class="todayLabel">' + $.i18n._('doToday') + '</span>'
-						} else if (taskData.today == 'noAuto' || taskData.today == 'false') {
-							var today = ''
-						};
+						if (taskData.today === 'yesAuto' || taskData.today === 'manual') {
+							today = '<span class="todayLabel">' + $.i18n._('doToday') + '</span>';
+						} else if (taskData.today === 'noAuto' || taskData.today === 'false') {
+							today = '';
+						}
 					} else {
-						var today = '';
+						today = '';
 					}
 
 					//Draws the date label
+					var date;
 					if (taskData.date !== '') {
-						var date = '<span class="dateLabel ' + cli.calc.prettyDate.difference(taskData.date)[1] + '">' + cli.calc.prettyDate.difference(taskData.date)[0] + '</span>';
+						date = '<span class="dateLabel ' + cli.calc.prettyDate.difference(taskData.date)[1] + '">' + cli.calc.prettyDate.difference(taskData.date)[0] + '</span>';
 					} else {
-						var date = '';
+						date = '';
 					}
 
 					//Turns edit mode off
 					id.children().children('.todotxt').html(id.find('input[type="text"]').val());
-					id.children().children('.labels').html(today + date);					
+					id.children().children('.labels').html(today + date);
 
 					//Animations
 					id.children('.hidden').slideUp(150);
 					id.addClass('deletion').removeClass('margin');
-					setTimeout(function() {
-						$('#tasks ul li.deletion .hidden').remove()
+					setTimeout(function () {
+						$('#tasks ul li.deletion .hidden').remove();
 						$('#tasks ul li.deletion').removeClass('deletion expanded');
 						if(staySelected) {
 							$(id).addClass('selected');
@@ -1364,85 +1588,85 @@ ui = {
 		}
 	},
 	external: {
-		key: function() {
-			key('up, k', function() {ui.external.cmd('prevTask')});
-			key('down, j', function() {ui.external.cmd('nextTask')});
-			key('⌘+up, ⌘+k', function() {ui.external.cmd('moveTaskUp')});
-			key('⌘+down, ⌘+j', function() {ui.external.cmd('moveTaskDown')});
+		key: function () {
+			key('up, k', function () {ui.external.cmd('prevTask');});
+			key('down, j', function () {ui.external.cmd('nextTask');});
+			key('⌘+up, ⌘+k', function () {ui.external.cmd('moveTaskUp');});
+			key('⌘+down, ⌘+j', function () {ui.external.cmd('moveTaskDown');});
 
-			key('⇧+up, ⇧+k', function() {ui.external.cmd('prevList')});
-			key('⇧+down, ⇧+j', function() {ui.external.cmd('nextList')});
-			key('⇧+⌘+up, ⇧+⌘+k', function() {ui.external.cmd('moveListUp')});
-			key('⇧+⌘+down, ⇧+⌘+j', function() {ui.external.cmd('moveListDown')});
+			key('⇧+up, ⇧+k', function () {ui.external.cmd('prevList');});
+			key('⇧+down, ⇧+j', function () {ui.external.cmd('nextList');});
+			key('⇧+⌘+up, ⇧+⌘+k', function () {ui.external.cmd('moveListUp');});
+			key('⇧+⌘+down, ⇧+⌘+j', function () {ui.external.cmd('moveListDown');});
 
-			key('space', function() {ui.external.cmd('check')});
-			key('enter', function() {ui.external.cmd('editTask'); return false;});
-			key('⌘+enter', function() {ui.external.cmd('editList'); return false;});
+			key('space', function () {ui.external.cmd('check');});
+			key('enter', function () {ui.external.cmd('editTask'); return false;});
+			key('⌘+enter', function () {ui.external.cmd('editList'); return false;});
 
-			key('f', function() {ui.external.cmd('find'); return false;});
-			key('p', function() {ui.external.cmd('prefs') });
-			key('a', function() {ui.external.cmd('about') });
-			key('h', function() {ui.external.cmd('help') });
+			key('f', function () {ui.external.cmd('find'); return false;});
+			key('p', function () {ui.external.cmd('prefs');});
+			key('a', function () {ui.external.cmd('about');});
+			key('h', function () {ui.external.cmd('help');});
 
-			key('n', function() {ui.external.cmd('newtask'); return false;});
-			key('l', function() {ui.external.cmd('newlist'); return false;});
-			key('s', function() {ui.external.cmd('sync') });
+			key('n', function () {ui.external.cmd('newtask'); return false;});
+			key('l', function () {ui.external.cmd('newlist'); return false;});
+			key('s', function () {ui.external.cmd('sync');});
 
-			key('1', function() {ui.external.cmd('today') });
-			key('2', function() {ui.external.cmd('next') });
-			key('3', function() {ui.external.cmd('someday') });
-			key('4', function() {ui.external.cmd('logbook') });
+			key('1', function () {ui.external.cmd('today');});
+			key('2', function () {ui.external.cmd('next');});
+			key('3', function () {ui.external.cmd('someday');});
+			key('4', function () {ui.external.cmd('logbook');});
 		},
-		cmd: function(cmd) {
+		cmd: function (cmd) {
 			// Contains all the commands
 
 			switch(cmd) {
-				// File Menu 
+				// File Menu
 				case 'newtask':
 					$addBTN.click();
 					break;
 				case 'newlist':
-					$('#addListBTN').click()
+					$addListBTN.click();
 					break;
 				case 'sync':
 					$('#prefsDialog').fadeIn(100);
-					$('a[data-target=#tabSync]').tab('show')
+					$('a[data-target=#tabSync]').tab('show');
 					$('#settingsOverlay').show(0);
 					break;
 
-				// Edit Menu 
+				// Edit Menu
 				case 'find':
 					$('#search').focus();
 					break;
 				case 'prefs':
 					$('#prefsDialog').fadeToggle(150);
-					$('a[data-target=#tabGeneral]').tab('show')
+					$('a[data-target=#tabGeneral]').tab('show');
 					$('#settingsOverlay').toggle(0);
 					break;
 
 				// GoTo
 				case 'today':
-					$('#todayList').click()
+					$('#todayList').click();
 					break;
 				case 'next':
-					$('#nextList').click()
+					$('#nextList').click();
 					break;
 				case 'someday':
-					$('#somedayList').click()
+					$('#somedayList').click();
 					break;
 				case 'logbook':
-					$('#logbookBTN').click()
+					$logbookBTN.click();
 					break;
 
 				// View menu
 				case 'language':
 					$('#prefsDialog').fadeToggle(150);
-					$('a[data-target=#tabLanguage]').tab('show')
+					$('a[data-target=#tabLanguage]').tab('show');
 					$('#settingsOverlay').toggle(0);
 					break;
 				case 'theme':
 					$('#prefsDialog').fadeToggle(150);
-					$('a[data-target=#tabTheme]').tab('show')
+					$('a[data-target=#tabTheme]').tab('show');
 					$('#settingsOverlay').toggle(0);
 					break;
 
@@ -1476,7 +1700,7 @@ ui = {
 					if(!$('#tasks .selected').length) {
 						$('#tasks li').first().addClass('selected');
 					} else {
-						if(ui.lists.selected() == 'next') {
+						if(ui.lists.selected() === 'next') {
 							if($('#tasks .selected').is(':first-of-type')) {
 								$('#tasks .selected').parent().prev().prev().find('li').last().find('.todotxt').click();
 							} else {
@@ -1489,10 +1713,10 @@ ui = {
 					
 					break;
 				case 'nextTask':
-						if(!$('#tasks .selected').length) {
+					if(!$('#tasks .selected').length) {
 						$('#tasks li').first().addClass('selected');
 					} else {
-						if(ui.lists.selected() == 'next') {
+						if(ui.lists.selected() === 'next') {
 							if($('#tasks .selected').is(':last-of-type')) {
 								$('#tasks .selected').parent().next().next().find('li').first().find('.todotxt').click();
 							} else {
@@ -1512,66 +1736,108 @@ ui = {
 
 				case 'moveTaskUp':
 					if($('#tasks .selected').length) {
-						var id = parseInt($('#tasks .selected').attr('id').substr(4)),
+						var id = ui.tasks.selected.getID,
 							l = cli.storage.lists.items[ui.lists.selected()].order,
 							i = l.indexOf(id);
 						if(i > 0) {
 							l.splice(i, 1);
 							l.splice(i - 1, 0, id);
 							ui.tasks.populate(ui.lists.selected());
-							$('#task' + id).addClass('selected');
+							$('#T' + id).addClass('selected');
 							cli.storage.save();
 						}
 					}
 					break;
 				case 'moveTaskDown':
 					if($('#tasks .selected').length) {
-						var id = parseInt($('#tasks .selected').attr('id').substr(4)),
+						var id = ui.tasks.selected.getID(),
 							l = cli.storage.lists.items[ui.lists.selected()].order,
 							i = l.indexOf(id);
 						if(i > -1) {
 							l.splice(i, 1);
 							l.splice(i + 1, 0, id);
 							ui.tasks.populate(ui.lists.selected());
-							$('#task' + id).addClass('selected');
+							$('#T' + id).addClass('selected');
 							cli.storage.save();
 						}
 					}
 					break;
 				case 'moveListUp':
-					var id = parseInt(ui.lists.selected()),
+					var id = ui.lists.selected(),
 						l = cli.storage.lists.order,
 						i = l.indexOf(id);
 					if(i > 0) {
 						l.splice(i, 1);
 						l.splice(i - 1, 0, id);
 						ui.lists.populate();
-						$('#' + id + 'List').addClass('selected');
+						$('#L' + id).addClass('selected');
 						cli.storage.save();
 					}
 					break;
 				case 'moveListDown':
-					var id = parseInt(ui.lists.selected()),
+					var id = ui.lists.selected(),
 						l = cli.storage.lists.order,
 						i = l.indexOf(id);
 					if(i > -1) {
 						l.splice(i, 1);
 						l.splice(i + 1, 0, id);
 						ui.lists.populate();
-						$('#' + id + 'List').addClass('selected');
+						$('#L' + id).addClass('selected');
 						cli.storage.save();
 					}
 					break;
 			}
 		}
+	},
+
+	language: function (data) {
+		$.i18n.setDictionary(data);
+
+		// Adds in Translations
+		$('.translate').map(function () {
+			$(this).text($.i18n._($(this).attr('data-translate')));
+		});
+
+		// Adds in Translated Title Text
+		$('.translateTitle').map(function () {
+			$(this).attr('title', $.i18n._($(this).attr('data-translate')));
+		});
+
+		// Search is placeholder - needs to be done manually
+		$('#search').attr('placeholder', $.i18n._('search'));
+
+		// Date Picker
+		var i = 1;
+		$('#showTime').children().map(function () {
+			if (i === 1) {
+				$(this).text($.i18n._('1day'));
+			} else if (i === 15) {
+				$(this).text($.i18n._('never'));
+			} else {
+				$(this).text($.i18n._('moreday', [i]));
+			}
+			i++;
+		});
+
+		// jQuery UI Locales
+		if ($.i18n._('jqueryui') !== 'en') {
+			$body.append('<script src="js/translations/cal/' + $.i18n._('jqueryui') + '"></script');
+		}
+
+		// This has to be done after language
+		// Resizes tasks
+		ui.init();
+		ui.lists.updateCount('all');
+		ui.tasks.populate(ui.lists.selected());
 	}
 };
+
 /* Konami Code */
 var konami_keys = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
 var konami_index = 0;
-$(document).keydown(function(e){
-    if(e.keyCode === konami_keys[konami_index++]){
-        if(konami_index === konami_keys.length){
+$(document).keydown(function (e) {
+    if(e.keyCode === konami_keys[konami_index++]) {
+        if(konami_index === konami_keys.length) {
             $(document).unbind('keydown', arguments.callee);
             $body.append('<section id="song"><a onclick="play(\'george\')" href="#"><img src="images/george.png"></a><a onclick="play(\'jono\')" href="#"><img src="images/jono.png"></a></section>');
             $('#song').fadeIn(300);
@@ -1583,11 +1849,12 @@ $(document).keydown(function(e){
 
 function play(developer) {
 	//Gets Data from server
-	$.getJSON('http://nitrotasks.com/music/?callback=?', function(data) {
-		if (developer == 'george') {
-			var music = data[0];
-		} else if (developer == 'jono') {
-			var music = data[1];
+	$.getJSON('http://nitrotasks.com/music/?callback=?', function (data) {
+		var music;
+		if (developer === 'george') {
+			music = data[0];
+		} else if (developer === 'jono') {
+			music = data[1];
 		}
 
 		//Chooses a random song
