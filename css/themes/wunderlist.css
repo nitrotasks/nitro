@@ -219,15 +219,9 @@ body {
       width: 50px;
       text-align: center; }
 #content #tasks {
-  padding: 0;
-  position: absolute;
   top: 36px;
   right: 260px;
-  left: 0;
-  bottom: 0;
-  background-position: center center;
-  background-repeat: repeat;
-  background-size: cover; }
+  left: 0; }
   #content #tasks .explanation {
     width: 300px;
     padding: 15px;

@@ -45,7 +45,7 @@
 	"removeBG":				"Remove background",
 	"bgSize": 				"Background size: ",
 	"fill":					"Fill screen",
-	"center":				"Center",
+	"shrink":				"Shrink",
 	"tile":					"Tile",
 	"bgDescription": 		"Change the color of the text so that it looks nice with your custom background.",
 	"headingColor":			"Heading color",

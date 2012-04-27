@@ -473,9 +473,26 @@ var ui = {
 			reader.readAsDataURL(f);
 		};
 
+		// BACKGROUND SIZE
+		$('#backgroundSize').change(function () {
+			cli.storage.prefs.bg.size = this.value;
+			switch (this.value) {
+				case 'tile':
+					$tasks.removeClass('shrink').addClass('tile');
+					break;
+				case 'shrink':
+					$tasks.removeClass('tile').addClass('shrink');
+					break;
+				case 'zoom':
+					$tasks.removeClass('tile shrink');
+					break;
+			}
+			cli.storage.save();
+		});
+
 		// HEADING COLOR
 		$('#headingColor').change(function () {
-			cli.storage.prefs.color = $(this)[0].value;
+			cli.storage.prefs.bg.color = this.value;
 			cli.storage.save();
 
 			$('#tasks h2, #tasks p').removeClass('light dark').addClass($(this)[0].value);
@@ -525,7 +542,8 @@ var ui = {
 		$('#gpu').prop('checked', cli.storage.prefs.gpu);
 		$('#nextAmount').val(cli.storage.prefs.nextAmount);
 		$('#theme').val(cli.storage.prefs.theme);
-		$('#headingColor').val(cli.storage.prefs.color);
+		$('#backgroundSize').val(cli.storage.prefs.bg.size);
+		$('#headingColor').val(cli.storage.prefs.bg.color);
 		$('#sync').val(cli.storage.prefs.sync);
 
 		// CUSTOM BACKGROUND
@@ -572,7 +590,7 @@ var ui = {
 				results = cli.populate('search', query);
 
 			// Display results
-			$tasks.html('<h2 class="' + cli.storage.prefs.color + '">' + $.i18n._('searchResults') + query + '</h2><ul></ul>');
+			$tasks.html('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('searchResults') + query + '</h2><ul></ul>');
 			for(var i = 0; i < results.length; i++) {
 				$('#tasks ul').append(ui.tasks.draw(results[i]));
 			}
@@ -1225,7 +1243,7 @@ var ui = {
 			// LOGBOOK
 
 			if (id === 'logbook') {
-				$tasks.html('<h2 class="' + cli.storage.prefs.color + '">' + $.i18n._('logbook') + '</h2><ul id="logbook"></ul>');
+				$tasks.html('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('logbook') + '</h2><ul id="logbook"></ul>');
 
 				// Populates
 				for (var i = 0; i < items.length; i++) {
@@ -1260,7 +1278,7 @@ var ui = {
 					if (newListItems.length !== 0) {
 
 						// Makes a new section for a new list
-						$tasks.append('<h2 class="' + cli.storage.lists.order[i] + " " + cli.storage.prefs.color + '">' + listData.name + '</h2><ul id="' + cli.storage.lists.order[i] + '"></ul>');
+						$tasks.append('<h2 class="' + cli.storage.lists.order[i] + " " + cli.storage.prefs.bg.color + '">' + listData.name + '</h2><ul id="' + cli.storage.lists.order[i] + '"></ul>');
 
 						// Loop inside a loop. Loopception...
 						for (var l = 0; l < newListItems.length; l++) {
@@ -1269,9 +1287,9 @@ var ui = {
 
 								// Because english matters
 								if (newListItems.length - 3 === 1) {
-									$('#tasks ul#' + cli.storage.lists.order[i]).append('<p class="expandList ' + cli.storage.prefs.color + '">' + $.i18n._('oneMore') + '</p>');
+									$('#tasks ul#' + cli.storage.lists.order[i]).append('<p class="expandList ' + cli.storage.prefs.bg.color + '">' + $.i18n._('oneMore') + '</p>');
 								} else {
-									$('#tasks ul#' + cli.storage.lists.order[i]).append('<p class="expandList ' + cli.storage.prefs.color + '">' + $.i18n._('morethanOne', [newListItems.length - 3]) + '</p>');
+									$('#tasks ul#' + cli.storage.lists.order[i]).append('<p class="expandList ' + cli.storage.prefs.bg.color + '">' + $.i18n._('morethanOne', [newListItems.length - 3]) + '</p>');
 								}
 								break;
 							}
@@ -1285,16 +1303,16 @@ var ui = {
 
 			switch(ui.lists.selected()) {
 				case 'today':
-					$tasks.prepend('<h2 class="' + cli.storage.prefs.color + '">' + $.i18n._('today') + '</h2><ul id="' + id + '"></ul>');
+					$tasks.prepend('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('today') + '</h2><ul id="' + id + '"></ul>');
 					break;
 				case 'next':
-					$tasks.prepend('<h2 class="' + cli.storage.prefs.color + '">' + $.i18n._('next') + '</h2><ul id="' + id + '"></ul>');
+					$tasks.prepend('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('next') + '</h2><ul id="' + id + '"></ul>');
 					break;
 				case 'someday':
-					$tasks.prepend('<h2 class="' + cli.storage.prefs.color + '">' + $.i18n._('someday') + '</h2><ul id="' + id + '"></ul>');
+					$tasks.prepend('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('someday') + '</h2><ul id="' + id + '"></ul>');
 					break;
 				default:
-					$tasks.prepend('<h2 class="' + cli.storage.prefs.color + '">' + cli.storage.lists.items[id].name + '</h2><ul id="' + id + '"></ul>');
+					$tasks.prepend('<h2 class="' + cli.storage.prefs.bg.color + '">' + cli.storage.lists.items[id].name + '</h2><ul id="' + id + '"></ul>');
 					break;
 			}
 			
@@ -1627,8 +1645,8 @@ var ui = {
 			key('⌘+up, ⌘+k', function () {ui.external.cmd('moveTaskUp');});
 			key('⌘+down, ⌘+j', function () {ui.external.cmd('moveTaskDown');});
 
-			key('⇧+up, ⇧+k', function () {ui.external.cmd('prevList');});
-			key('⇧+down, ⇧+j', function () {ui.external.cmd('nextList');});
+			key('⇧+up, ⇧+k, i', function () {ui.external.cmd('prevList');});
+			key('⇧+down, ⇧+j, u', function () {ui.external.cmd('nextList');});
 			key('⇧+⌘+up, ⇧+⌘+k', function () {ui.external.cmd('moveListUp');});
 			key('⇧+⌘+down, ⇧+⌘+j', function () {ui.external.cmd('moveListDown');});
 
@@ -1649,6 +1667,8 @@ var ui = {
 			key('2', function () {ui.external.cmd('next');});
 			key('3', function () {ui.external.cmd('someday');});
 			key('4', function () {ui.external.cmd('logbook');});
+
+			key('esc', function() {ui.external.cmd('escape');});
 		},
 
 
@@ -1844,6 +1864,10 @@ var ui = {
 						$('#L' + id).addClass('selected');
 						cli.storage.save();
 					}
+					break;
+
+				case 'escape':
+					$('#overlay').click();
 					break;
 			}
 		}

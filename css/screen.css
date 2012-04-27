@@ -451,7 +451,17 @@ body {
       #content #sidebar ul li .count {
         float: right; }
 #content #tasks {
-  padding: 40px 0 40px 250px; }
+  padding: 0;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background-position: center center;
+  background-repeat: repeat;
+  background-size: cover; }
+  #content #tasks.tile {
+    background-size: auto; }
+  #content #tasks.shrink {
+    background-size: contain; }
   #content #tasks .explanation {
     position: fixed;
     left: 50%;

@@ -7,13 +7,13 @@
 $font: 'Helvetica', 'Arial', 'Ubuntu', sans-serif;
 
 body {
-	background: url(bieber/large.jpeg);
+	background: url(shades/arches.png);
 	width: 100%;
 	font-family: $font;
 }
 
 #panel {
-	@include background(linear-gradient(top, rgba(173,127,168,0.85) 0%, rgba(128,0,128,0.85) 100%));
+	@include background(linear-gradient(top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.7) 100%));
 
 	box-shadow:  0 0 4px rgba(0,0,0,0.7);
 
@@ -285,17 +285,10 @@ body {
 	// TASKS
 	#tasks {
 		// position
-		padding: 0;
-		position: absolute;
 		top: 0;
-		right: 0;
 		left: 0;
-		bottom: 0;
-		margin-top: 40px;
-		margin-left: 250px;
-		background-position: center center;
-		background-repeat: repeat;
-		background-size: cover;
+		padding-top: 40px;
+		padding-left: 250px;
 
 		// EXPLANATION
 		.explanation {
@@ -323,8 +316,8 @@ body {
 			font-size: 18px;
 
 			// color
-			color: #fff;
-			text-shadow: 0 2px 4px #333;
+			color: rgba(0,0,0,0.7);
+			text-shadow: 0 1px 0 #eee;
 		}
 		p {
 			color: rgba(0,0,0,0.7);
