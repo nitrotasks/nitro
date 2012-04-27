@@ -109,17 +109,24 @@ var cli = {
 			cli.storage.prefs.bg       = cli.storage.prefs.bg       || {};
 			cli.storage.prefs.bg.color = cli.storage.prefs.bg.color || '';
 			cli.storage.prefs.bg.size  = cli.storage.prefs.bg.size  || 'zoom';
-			
+
+			// Save
+			cli.storage.save();
+
 			if (passCheck) {
 				// Database is up to date
 				console.log("Database is up to date")
 			} else {
 				// Database was old
 				console.log("Database was old")
-			}
+				console.log("Regex all the things!")
 
-			// Save
-			cli.storage.save();
+				//Regexes for funny chars
+				localStorage.jStorage = localStorage.jStorage.replace(/\\\\/g, "&#92;").replace(/\|/g, "&#124").replace(/\\"/g, "&#34;").replace(/\'/g, "&#39;");
+
+				//Reloads jStorage
+				$.jStorage.reInit()
+			}
 		}
 	},
 	escape: function (str) {
