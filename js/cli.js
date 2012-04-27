@@ -99,6 +99,13 @@ var cli = {
 							cli.storage.lists.items[id].synced = 'false';
 						}
 					}
+
+					// Convert everything to numbers
+					for  (var x = 0; x < cli.storage.lists.items[id].order.length; x++) {
+						if(typeof cli.storage.lists.items[id].order[x] === 'string') {
+							cli.storage.lists.items[id].order[x] = cli.storage.lists.items[id].order[x].toNum();
+						}
+					}
 				}
 			}
 
@@ -841,4 +848,16 @@ function deDupe(arr) {
 		r[r.length] = arr[i];
 	}
 	return r;
+}
+
+// My super awesome function that converts a string to a number
+// "421".toNum()  -> 421
+// "word".toNum() -> "word"
+String.prototype.toNum = function () {
+	var x = parseInt(this, 10);
+	if(x > -100) {
+		return x;
+	} else {
+		return this.toString();
+	}
 }

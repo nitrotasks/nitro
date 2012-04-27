@@ -7,7 +7,7 @@
 $font: 'Helvetica', 'Arial', 'Ubuntu', sans-serif;
 
 body {
-	background: url(shades/arches.png);
+	background: url(bieber/large.jpeg);
 	width: 100%;
 	font-family: $font;
 }
@@ -316,12 +316,12 @@ body {
 			font-size: 18px;
 
 			// color
-			color: rgba(0,0,0,0.7);
-			text-shadow: 0 1px 0 #eee;
+			color: #fff;
+			text-shadow: 0 1px 3px rgba(0,0,0,0.5);
 		}
 		p {
-			color: rgba(0,0,0,0.7);
-			text-shadow: 0 1px 0 #eee;
+			color: #eee;
+			text-shadow: 0 1px 3px rgba(0,0,0,0.5);
 		}
 
 		// LISTS INSIDE LISTS

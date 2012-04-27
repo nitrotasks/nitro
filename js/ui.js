@@ -98,18 +98,6 @@ var toggleFx = function () {
 	$.fx.off = !$.fx.off;
 };
 
-// My super awesome function that converts a string to a number
-// "421".toNum()  -> 421
-// "word".toNum() -> "word"
-String.prototype.toNum = function () {
-	var x = parseInt(this, 10);
-	if(x > -100) {
-		return x;
-	} else {
-		return this.toString();
-	}
-}
-
 /********************************************************************************
 	THE UI
 ********************************************************************************/

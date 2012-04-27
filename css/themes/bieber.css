@@ -3,7 +3,7 @@
  * http://caffeinatedco.de
  */
 body {
-  background: url(shades/arches.png);
+  background: url(bieber/large.jpeg);
   width: 100%;
   font-family: "Helvetica", "Arial", "Ubuntu", sans-serif; }
 
@@ -173,11 +173,11 @@ body {
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }
   #content #tasks h2 {
     font-size: 18px;
-    color: rgba(0, 0, 0, 0.7);
-    text-shadow: 0 1px 0 #eee; }
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); }
   #content #tasks p {
-    color: rgba(0, 0, 0, 0.7);
-    text-shadow: 0 1px 0 #eee; }
+    color: #eee;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); }
   #content #tasks ul {
     padding: 0 15px;
     margin-bottom: 30px; }
