@@ -39,10 +39,18 @@ var cli = {
 			}
 		},
 		upgrade: function () {
+
+			var passCheck = true;
+
+			// Check tasks for timestamps
 			for(var id in cli.storage.tasks) {
 				if (id !== 'length') {
+
+					// Check task has time object
 					if (!cli.storage.tasks[id].hasOwnProperty('time')) {
 						console.log("Upgrading task: '" + id + "' to Nitro 1.1 (timestamps)");
+						passCheck = false;
+
 						cli.storage.tasks[id].time = {
 							content: 0,
 							priority: 0,
@@ -54,34 +62,63 @@ var cli = {
 							logged: 0
 						};
 					}
+
+					// Check task has sync status
 					if (!cli.storage.tasks[id].hasOwnProperty('synced')) {
 						console.log("Upgrading task: '" + id + "' to Nitro 1.1 (sync)");
+						passCheck = false;
+
 						cli.storage.tasks[id].synced = false;
 					}
 					break;
 				}
 			}
+
+			// Check lists for timestamps
 			for(var id in cli.storage.lists.items) {
 				if (id !== 'length' && id !== '0') {
+
+					// Check list has time object
 					if (!cli.storage.lists.items[id].hasOwnProperty('time') || typeof(cli.storage.lists.items[id].time) === 'number') {
-						console.log("Upgrading list: '" + id + "' to Nitro 1.2");
+						console.log("Upgrading list: '" + id + "' to Nitro 1.2 (timestamp)");
+						passCheck = false;
+
+						// Add or reset time object
 						cli.storage.lists.items[id].time = {
 							name: 0,
 							order: 0
-						};
-						if (id !== 'today' && id !== 'next' && id !== 'someday') {
+						};						
+					}
+
+					if (id !== 'today' && id !== 'next' && id !== 'someday') {
+						// Check list has synced status
+						if (!cli.storage.lists.items[id].hasOwnProperty('synced')) {
+							console.log("Upgrading list: '" + id + "' to Nitro 1.2 (sync)");
+							passCheck = false;
+
 							cli.storage.lists.items[id].synced = 'false';
 						}
 					}
 				}
 			}
 
-			//REGEX FOR LATER: replace(/\\\\/g, "&#92;").replace(/\|/g, "&#124").replace(/\\"/g, "&#34;").replace(/\'/g, "&#39;");
-			cli.storage.lists.time  = cli.storage.prefs.time  || 0;
-			cli.storage.prefs.sync  = cli.storage.prefs.sync  || 'manual';
-			cli.storage.prefs.lang  = cli.storage.prefs.lang  || 'english';
+			// Check preferences exist. If not, set to default
+			cli.storage.lists.time     = cli.storage.prefs.time     || 0;
+			cli.storage.prefs.sync     = cli.storage.prefs.sync     || 'manual';
+			cli.storage.prefs.lang     = cli.storage.prefs.lang     || 'english';
+			cli.storage.prefs.bg       = cli.storage.prefs.bg       || {};
 			cli.storage.prefs.bg.color = cli.storage.prefs.bg.color || '';
-			cli.storage.prefs.bg.size = cli.storage.prefs.bg.size || 'zoom';
+			cli.storage.prefs.bg.size  = cli.storage.prefs.bg.size  || 'zoom';
+			
+			if (passCheck) {
+				// Database is up to date
+				console.log("Database is up to date")
+			} else {
+				// Database was old
+				console.log("Database was old")
+			}
+
+			// Save
 			cli.storage.save();
 		}
 	},
@@ -89,8 +126,11 @@ var cli = {
 		//Regexes a bunch of shit that breaks the Linux version
 
 		if (typeof str === 'string') {
-			//Backslash, Pipe, newline, quote
-			str = str.replace(/\\/g, "&#92;").replace(/\|/g, "&#124").replace(/\"/g, "&#34;").replace(/\'/g, "&#39;");
+			str = str
+				.replace(/\\/g, "&#92;") // Backslash
+				.replace(/\|/g, "&#124") // Pipe
+				.replace(/\"/g, "&#34;") // Quote
+				.replace(/\'/g, "&#39;"); // Apostrophe
 			return str;
 		} else {
 			return str;
