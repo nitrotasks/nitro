@@ -1656,8 +1656,8 @@ var ui = {
 
 			key('f', function () {ui.external.cmd('find'); return false;});
 			key('p', function () {ui.external.cmd('prefs');});
-			key('a', function () {ui.external.cmd('about');});
-			key('h', function () {ui.external.cmd('help');});
+			// key('a', function () {ui.external.cmd('about');});
+			// key('h', function () {ui.external.cmd('help');});
 
 			key('n, t', function () {ui.external.cmd('newtask'); return false;});
 			key('l', function () {ui.external.cmd('newlist'); return false;});
@@ -1867,7 +1867,7 @@ var ui = {
 					break;
 
 				case 'escape':
-					$('#overlay').click();
+					$('#overlay, #settingsOverlay').click();
 					break;
 			}
 		}
