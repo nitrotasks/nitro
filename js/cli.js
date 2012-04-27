@@ -126,13 +126,16 @@ var cli = {
 			} else {
 				// Database was old
 				console.log("Database was old")
-				console.log("Regex all the things!")
 
-				//Regexes for funny chars
-				localStorage.jStorage = localStorage.jStorage.replace(/\\\\/g, "&#92;").replace(/\|/g, "&#124").replace(/\\"/g, "&#34;").replace(/\'/g, "&#39;");
+				if (app == 'js') {
+					console.log("Regex all the things!")
 
-				//Reloads jStorage
-				$.jStorage.reInit()
+					//Regexes for funny chars
+					localStorage.jStorage = localStorage.jStorage.replace(/\\\\/g, "&#92;").replace(/\|/g, "&#124").replace(/\\"/g, "&#34;").replace(/\'/g, "&#39;");
+
+					//Reloads jStorage
+					$.jStorage.reInit()
+				};
 			}
 		}
 	},
