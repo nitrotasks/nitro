@@ -829,6 +829,7 @@ button {
 			padding: 15px;
 			border-bottom-radius: 5px;
 
+			color: #3b3b3b;
 			font-size: 13px;
 			line-height: 18px;
 			
@@ -871,8 +872,8 @@ button {
 				}
 			}
 
-			select {
-				font-size: 14px;
+			select, input[type=file] {
+				font-size: 13px;
 				line-height: 22px;
 				margin: 5px 0;
 
@@ -892,9 +893,16 @@ button {
 			blockquote {
 				width: 400px;
 				padding: 10px;
-				background: #eee;
-				border: 3px solid #ddd;
+				background: #a9dcff;
+				color: #1d2830;
+				border: 3px solid #8ab0f0;
 				border-radius: 5px;
+
+				&.disabled {
+					color: #3b3b3b;
+					background: #eee;
+					border-color: #ddd;
+				}
 
 				.icon {
 					float: left;

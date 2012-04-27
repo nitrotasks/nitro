@@ -621,14 +621,13 @@ var ui = {
 			var $parent = $(this).parent();
 			var items = cli.populate('list', $parent.attr('id'));
 			$parent.find('li, p').remove();
-
 			for (var i in items) {
-				if ($('#T' + items[i]).length) {
-					// Task already exists
-					// $parent.append('<li class="hidden" data-id="' + items[i] + '"></li>');
+				if($('#T' + items[i]).length) {
+
 				} else {
-					$parent.append(ui.tasks.draw(items[i]));
+					$parent.addClass('wholeList').append(ui.tasks.draw(items[i]));
 				}
+				
 			}
 		});
 
@@ -665,6 +664,12 @@ var ui = {
 		$body.on('keydown', '#tasks input', function (e) {
 			if(e.keyCode === 13) {
 				$(this).parent().html($(this).val());
+				$editBTN.click();
+			}
+		});
+
+		$body.on('keydown', '#tasks input, #tasks textarea', function (e) {
+			if (e.keyCode === 27) {
 				$editBTN.click();
 			}
 		});
@@ -1792,9 +1797,11 @@ var ui = {
 
 				case 'moveTaskUp':
 					if($('#tasks .selected').length) {
-						var id = ui.tasks.selected.getID();
+						var id = ui.tasks.selected.getID(),
+							$parent = $('#T' + id).parent();
+
 						if(ui.lists.selected() === 'next') {
-							var l = cli.storage.lists.items[$('#T' + id).parent().attr('id')].order,
+							var l = cli.storage.lists.items[$parent.attr('id')].order,
 								i = l.indexOf(id);
 						} else {
 							var	l = cli.storage.lists.items[ui.lists.selected()].order,
@@ -1804,7 +1811,16 @@ var ui = {
 						if(i > 0) {
 							l.splice(i, 1);
 							l.splice(i - 1, 0, id);
-							ui.tasks.populate(ui.lists.selected());
+
+							if($parent.is('.wholeList')) {
+								$parent.find('li, p').remove();
+								for (var i in l) {
+									$parent.addClass('wholeList').append(ui.tasks.draw(l[i]));
+								}
+							} else {
+								ui.tasks.populate(ui.lists.selected());
+							}
+
 							$('#T' + id).addClass('selected');
 							cli.storage.save();
 						}
@@ -1812,18 +1828,30 @@ var ui = {
 					break;
 				case 'moveTaskDown':
 					if($('#tasks .selected').length) {
-						var id = ui.tasks.selected.getID();
+						var id = ui.tasks.selected.getID(),
+							$parent = $('#T' + id).parent();
+
 						if(ui.lists.selected() === 'next') {
-							var l = cli.storage.lists.items[$('#T' + id).parent().attr('id')].order,
+							var l = cli.storage.lists.items[$parent.attr('id')].order,
 								i = l.indexOf(id);
 						} else {
 							var	l = cli.storage.lists.items[ui.lists.selected()].order,
 								i = l.indexOf(id);
 						}
-						if(i > -1) {
+
+						if(i > -1 && !$('#T' + id).is(':last-of-type')) {
 							l.splice(i, 1);
 							l.splice(i + 1, 0, id);
-							ui.tasks.populate(ui.lists.selected());
+
+							if($parent.is('.wholeList')) {
+								$parent.find('li, p').remove();
+								for (var i in l) {
+									$parent.addClass('wholeList').append(ui.tasks.draw(l[i]));
+								}
+							} else {
+								ui.tasks.populate(ui.lists.selected());
+							}
+
 							$('#T' + id).addClass('selected');
 							cli.storage.save();
 						}

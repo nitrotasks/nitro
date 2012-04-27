@@ -822,6 +822,7 @@ button {
     display: none;
     padding: 15px;
     border-bottom-radius: 5px;
+    color: #3b3b3b;
     font-size: 13px;
     line-height: 18px; }
     #prefsDialog .tab-content .tab-pane input[type=checkbox] {
@@ -850,11 +851,11 @@ button {
       font-size: 13px; }
       #prefsDialog .tab-content .tab-pane button:last-child {
         margin-bottom: 0; }
-    #prefsDialog .tab-content .tab-pane select {
-      font-size: 14px;
+    #prefsDialog .tab-content .tab-pane select, #prefsDialog .tab-content .tab-pane input[type=file] {
+      font-size: 13px;
       line-height: 22px;
       margin: 5px 0; }
-      #prefsDialog .tab-content .tab-pane select:last-child {
+      #prefsDialog .tab-content .tab-pane select:last-child, #prefsDialog .tab-content .tab-pane input[type=file]:last-child {
         margin-bottom: 0; }
     #prefsDialog .tab-content .tab-pane input[type=text], #prefsDialog .tab-content .tab-pane input[type=password] {
       margin: 5px 0;
@@ -865,9 +866,14 @@ button {
     #prefsDialog .tab-content .tab-pane blockquote {
       width: 400px;
       padding: 10px;
-      background: #eee;
-      border: 3px solid #ddd;
+      background: #a9dcff;
+      color: #1d2830;
+      border: 3px solid #8ab0f0;
       border-radius: 5px; }
+      #prefsDialog .tab-content .tab-pane blockquote.disabled {
+        color: #3b3b3b;
+        background: #eee;
+        border-color: #ddd; }
       #prefsDialog .tab-content .tab-pane blockquote .icon {
         float: left;
         margin: 0 10px 0 0; }
