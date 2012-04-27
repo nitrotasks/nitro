@@ -8,12 +8,12 @@ body {
   font-family: "Helvetica", "Arial", "Ubuntu", sans-serif; }
 
 #panel {
-  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, rgba(0, 0, 0, 0.6)), color-stop(100%, rgba(0, 0, 0, 0.7)));
-  background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.7) 100%);
-  background: -moz-linear-gradient(top, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.7) 100%);
-  background: -o-linear-gradient(top, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.7) 100%);
-  background: -ms-linear-gradient(top, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.7) 100%);
-  background: linear-gradient(top, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.7) 100%);
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, rgba(173, 127, 168, 0.85)), color-stop(100%, rgba(128, 0, 128, 0.85)));
+  background: -webkit-linear-gradient(top, rgba(173, 127, 168, 0.85) 0%, rgba(128, 0, 128, 0.85) 100%);
+  background: -moz-linear-gradient(top, rgba(173, 127, 168, 0.85) 0%, rgba(128, 0, 128, 0.85) 100%);
+  background: -o-linear-gradient(top, rgba(173, 127, 168, 0.85) 0%, rgba(128, 0, 128, 0.85) 100%);
+  background: -ms-linear-gradient(top, rgba(173, 127, 168, 0.85) 0%, rgba(128, 0, 128, 0.85) 100%);
+  background: linear-gradient(top, rgba(173, 127, 168, 0.85) 0%, rgba(128, 0, 128, 0.85) 100%);
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.7); }
   #panel #brand {
     color: #fff;
