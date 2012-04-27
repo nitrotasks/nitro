@@ -75,6 +75,8 @@ var cli = {
 					}
 				}
 			}
+
+			//REGEX FOR LATER: replace(/\\\\/g, "&#92;").replace(/\|/g, "&#124").replace(/\\"/g, "&#34;").replace(/\'/g, "&#39;");
 			cli.storage.lists.time  = cli.storage.prefs.time  || 0;
 			cli.storage.prefs.sync  = cli.storage.prefs.sync  || 'manual';
 			cli.storage.prefs.lang  = cli.storage.prefs.lang  || 'english';
