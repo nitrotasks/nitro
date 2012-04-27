@@ -75,11 +75,11 @@ var cli = {
 					}
 				}
 			}
-			cli.storage.lists.time  = cli.storage.prefs.time  || 0;
-			cli.storage.prefs.sync  = cli.storage.prefs.sync  || 'manual';
-			cli.storage.prefs.lang  = cli.storage.prefs.lang  || 'english';
+			cli.storage.lists.time     = cli.storage.prefs.time     || 0;
+			cli.storage.prefs.sync     = cli.storage.prefs.sync     || 'manual';
+			cli.storage.prefs.lang     = cli.storage.prefs.lang     || 'english';
 			cli.storage.prefs.bg.color = cli.storage.prefs.bg.color || '';
-			cli.storage.prefs.bg.size = cli.storage.prefs.bg.size || 'zoom';
+			cli.storage.prefs.bg.size  = cli.storage.prefs.bg.size  || 'zoom';
 			cli.storage.save();
 		}
 	},
@@ -87,8 +87,11 @@ var cli = {
 		//Regexes a bunch of shit that breaks the Linux version
 
 		if (typeof str === 'string') {
-			//Backslash, Pipe, newline, quote
-			str = str.replace(/\\/g, "&#92;").replace(/\|/g, "&#124").replace(/\"/g, "&#34;").replace(/\'/g, "&#39;");
+			str = str
+				.replace(/\\/g, "&#92;") // Backslash
+				.replace(/\|/g, "&#124") // Pipe
+				.replace(/\"/g, "&#34;") // Quote
+				.replace(/\'/g, "&#39;"); // Apostrophe
 			return str;
 		} else {
 			return str;
