@@ -807,7 +807,23 @@ var cli = {
 
 				// Upload to server
 				// var socket = io.connect('http://hollow-wind-1576.herokuapp.com/');
-				socket = io.connect('http://localhost:8080/');
+				// socket = io.connect('http://localhost:8080/');
+
+				$.ajax({
+					type: "GET",
+					url: 'http://localhost:3000/auth/',
+					dataType: 'jsonp',
+					data: {getURL: 'true'},
+					success: function (data) {
+						console.log("Nitro Sync server is ready");
+
+						// Display popup window
+						var left = (screen.width/2)-(800/2),
+							top = (screen.height/2)-(600/2),
+							title = "Authorise Dropbox",
+							targetWin = window.open (data, title, 'toolbar=no, type=popup, status=no, width=800, height=600, top='+top+', left='+left);
+					}
+				});
 
 				// socket.on('token', function (data) {
 				// 	if(cli.storage.prefs.hasOwnProperty('dropbox')) {
@@ -829,10 +845,6 @@ var cli = {
 				// 		verify();
 				// 	}
 				// }
-
-				socket.on('ready', function () {
-					console.log("Nitro Sync server is ready");
-				});	
 
 			},
 
