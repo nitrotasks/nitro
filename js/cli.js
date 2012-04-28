@@ -115,7 +115,7 @@ var cli = {
 			cli.storage.prefs.lang     = cli.storage.prefs.lang     || 'english';
 			cli.storage.prefs.bg       = cli.storage.prefs.bg       || {};
 			cli.storage.prefs.bg.color = cli.storage.prefs.bg.color || '';
-			cli.storage.prefs.bg.size  = cli.storage.prefs.bg.size  || 'zoom';
+			cli.storage.prefs.bg.size  = cli.storage.prefs.bg.size  || 'tile';
 
 			// Save
 			cli.storage.save();
@@ -787,7 +787,7 @@ var cli = {
 		tasks: $.jStorage.get('tasks', {length: 0}),
 		queue: $.jStorage.get('queue', {}),
 		lists: $.jStorage.get('lists', {order: [], items:{today: {name: "Today", order:[], time: {name: 0, order: 0}}, next: {name: "Next", order:[], time: {name: 0, order: 0}}, someday: {name: "Someday", order:[], time: {name: 0, order: 0}}, 0: {order:[]}, length: 1}, time: 0}),
-		prefs: $.jStorage.get('prefs', {deleteWarnings: false, gpu: false, nextAmount: 'threeItems', over50: true, lang: 'english', bg: {color: '', size: 'zoom'}, sync: 'manual'}),
+		prefs: $.jStorage.get('prefs', {deleteWarnings: false, gpu: false, nextAmount: 'threeItems', over50: true, lang: 'english', bg: {color: '', size: 'tile'}, sync: 'manual'}),
 		// NB: Over 50 caps amount of tasks in List to 50 but causes drag and drop problems.
 		// I CBF fixing it.
 
