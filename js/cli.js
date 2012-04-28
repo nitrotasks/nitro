@@ -809,26 +809,26 @@ var cli = {
 				// var socket = io.connect('http://hollow-wind-1576.herokuapp.com/');
 				socket = io.connect('http://localhost:8080/');
 
-				socket.on('token', function (data) {
-					if(cli.storage.prefs.hasOwnProperty('dropbox')) {
-						socket.emit('allowed', '');
-					} else {
-						window.open(data);
-						if (verify()) {
-							cli.storage.prefs.dropbox = true;
-							cli.storage.save();
-							socket.emit('allowed', '');
-						}
-					}
-				});
+				// socket.on('token', function (data) {
+				// 	if(cli.storage.prefs.hasOwnProperty('dropbox')) {
+				// 		socket.emit('allowed', '');
+				// 	} else {
+				// 		window.open(data);
+				// 		if (verify()) {
+				// 			cli.storage.prefs.dropbox = true;
+				// 			cli.storage.save();
+				// 			socket.emit('allowed', '');
+				// 		}
+				// 	}
+				// });
 
-				function verify() {
-					if (confirm("Did you allow Nitro?")) {
-						return true;
-					} else {
-						verify();
-					}
-				}
+				// function verify() {
+				// 	if (confirm("Did you allow Nitro?")) {
+				// 		return true;
+				// 	} else {
+				// 		verify();
+				// 	}
+				// }
 
 				socket.on('ready', function () {
 					console.log("Nitro Sync server is ready");
@@ -843,17 +843,22 @@ var cli = {
 					lists: cli.storage.lists
 				};
 
-				socket.emit('upload', client);
-
-				// Get from server
-				socket.on('download', function (data) {
-					console.log("Finished sync");
-					cli.storage.tasks = data.tasks;
-					cli.storage.queue = data.queue;
-					cli.storage.lists = data.lists;
-					cli.storage.save();
-					ui.sync.reload();
+				$.ajax({
+					type: "GET",
+					url: 'http://localhost:3000/sync/',
+					dataType: 'json',
+					async: false,
+					data: client,
+					success: function (data) {
+						console.log("Finished sync");
+						cli.storage.tasks = data.tasks;
+						cli.storage.queue = data.queue;
+						cli.storage.lists = data.lists;
+						cli.storage.save();
+						ui.sync.reload();
+					}
 				});
+
 			}
 		}
 	}
