@@ -1938,18 +1938,16 @@ var ui = {
 };
 
 /* Konami Code */
-var konami_keys = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
-var konami_index = 0;
-$(document).keydown(function (e) {
-    if(e.keyCode === konami_keys[konami_index++]) {
-        if(konami_index === konami_keys.length) {
-            $(document).unbind('keydown', arguments.callee);
-            $body.append('<section id="song"><a onclick="play(\'george\')" href="#"><img src="images/george.png"></a><a onclick="play(\'jono\')" href="#"><img src="images/jono.png"></a></section>');
-            $('#song').fadeIn(300);
-        }
-    }else{
-        konami_index = 0;
-    }
+var kkeys = [],
+konami    = '38,38,40,40,37,39,37,39,66,65';
+
+$(document).keydown(function(e) {
+	kkeys.push(e.keyCode);
+	if (kkeys.toString().indexOf( konami ) >= 0) {
+		$(document).unbind('keydown');
+		$body.append('<section id="song"><a onclick="play(\'george\')" href="#"><img src="images/george.png"></a><a onclick="play(\'jono\')" href="#"><img src="images/jono.png"></a></section>');
+		$('#song').fadeIn(300);
+	}
 });
 
 function play(developer) {

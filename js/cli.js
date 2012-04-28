@@ -799,43 +799,60 @@ var cli = {
 			$.jStorage.set('prefs', cli.storage.prefs);
 		},
 
-		sync: function () {
+		sync: {
+			connect: function () {
 
-			console.log("Running sync");
+				console.log("Connecting to Nitro Sync server");
 
-			// Upload to server
-			// var socket = io.connect('http://hollow-wind-1576.herokuapp.com/');
-			var socket = io.connect('http://localhost:8080/');
-			var client = {
-				tasks: cli.storage.tasks,
-				queue: cli.storage.queue,
-				lists: cli.storage.lists
-			};
-			/*socket.on('token', function (data) {
-				window.open(data);
-				if (verify()) {
-					socket.emit('allowed', '');
+				// Upload to server
+				// var socket = io.connect('http://hollow-wind-1576.herokuapp.com/');
+				var socket = io.connect('http://localhost:8080/');
+				var client = {
+					tasks: cli.storage.tasks,
+					queue: cli.storage.queue,
+					lists: cli.storage.lists
+				};
+
+				socket.on('token', function (data) {
+					if(cli.storage.prefs.hasOwnProperty('dropbox')) {
+						socket.emit('allowed', '');
+					} else {
+						window.open(data);
+						if (verify()) {
+							cli.storage.prefs.dropbox = true;
+							cli.storage.save();
+							socket.emit('allowed', '');
+						}
+					}
+				});
+
+				function verify() {
+					if (confirm("Did you allow Nitro?")) {
+						return true;
+					} else {
+						verify();
+					}
 				}
-			});
-			function verify() {
-				if (confirm("Did you allow Nitro?")) {
-					return true;
-				} else {
-					verify();
-				}
-			}*/
-			console.log(client);
-			socket.emit('upload', client);
 
-			// Get from server
-			socket.on('download', function (data) {
-				console.log("Finished sync");
-				cli.storage.tasks = data.tasks;
-				cli.storage.queue = data.queue;
-				cli.storage.lists = data.lists;
-				cli.storage.save();
-				ui.sync.reload();
-			});
+				socket.on('ready', function () {
+					console.log("Nitro Sync server is ready");
+				});	
+
+			},
+
+			emit: function () {
+				socket.emit('upload', client);
+
+				// Get from server
+				socket.on('download', function (data) {
+					console.log("Finished sync");
+					cli.storage.tasks = data.tasks;
+					cli.storage.queue = data.queue;
+					cli.storage.lists = data.lists;
+					cli.storage.save();
+					ui.sync.reload();
+				});
+			}
 		}
 	}
 };
