@@ -219,7 +219,7 @@
 			"file": "js/cli.js",
 			"settings":
 			{
-				"buffer_size": 14119,
+				"buffer_size": 17778,
 				"line_ending": "Windows"
 			}
 		},
@@ -227,7 +227,15 @@
 			"file": "js/translations/english.json",
 			"settings":
 			{
-				"buffer_size": 2820,
+				"buffer_size": 2852,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Nitro.sublime-workspace",
+			"settings":
+			{
+				"buffer_size": 12600,
 				"line_ending": "Unix"
 			}
 		},
@@ -235,7 +243,7 @@
 			"file": "js/ui.js",
 			"settings":
 			{
-				"buffer_size": 35690,
+				"buffer_size": 39408,
 				"line_ending": "Unix"
 			}
 		}
@@ -470,7 +478,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -478,15 +486,15 @@
 					"file": "js/cli.js",
 					"settings":
 					{
-						"buffer_size": 14119,
+						"buffer_size": 17778,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								12414,
-								12414
+								0,
+								0
 							]
 						],
 						"settings":
@@ -505,15 +513,15 @@
 					"file": "js/translations/english.json",
 					"settings":
 					{
-						"buffer_size": 2820,
+						"buffer_size": 2852,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2818,
-								2703
+								0,
+								0
 							]
 						],
 						"settings":
@@ -529,18 +537,45 @@
 				},
 				{
 					"buffer": 2,
-					"file": "js/ui.js",
+					"file": "Nitro.sublime-workspace",
 					"settings":
 					{
-						"buffer_size": 35690,
+						"buffer_size": 12600,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								28170,
-								28170
+								157,
+								157
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "js/ui.js",
+					"settings":
+					{
+						"buffer_size": 39408,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
 							]
 						],
 						"settings":
