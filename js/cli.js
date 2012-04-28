@@ -14,6 +14,7 @@
  */
 
 console.info('Nitro 1.2\nCopyright (C) 2012 Caffeinated Code\nBy George Czabania & Jono Cooper');
+var socket;
 var cli = {
 	timestamp: {
 		update: function (id, key) {
@@ -806,12 +807,7 @@ var cli = {
 
 				// Upload to server
 				// var socket = io.connect('http://hollow-wind-1576.herokuapp.com/');
-				var socket = io.connect('http://localhost:8080/');
-				var client = {
-					tasks: cli.storage.tasks,
-					queue: cli.storage.queue,
-					lists: cli.storage.lists
-				};
+				socket = io.connect('http://localhost:8080/');
 
 				socket.on('token', function (data) {
 					if(cli.storage.prefs.hasOwnProperty('dropbox')) {
@@ -841,6 +837,12 @@ var cli = {
 			},
 
 			emit: function () {
+				var client = {
+					tasks: cli.storage.tasks,
+					queue: cli.storage.queue,
+					lists: cli.storage.lists
+				};
+
 				socket.emit('upload', client);
 
 				// Get from server
