@@ -158,9 +158,9 @@ body {
       display: inline-block;
       vertical-align: middle; }
     #content #sidebar ul li .edit .delete {
-      background: url("../../images/remove.png") no-repeat 0 0; }
+      background: url(../../images/whitesprite.png) no-repeat 0 -120px; }
     #content #sidebar ul li .edit .save {
-      background: url("../../images/ok.png") no-repeat 0 0; }
+      background: url(../../images/whitesprite.png) no-repeat 0 -198px; }
     #content #sidebar ul li .count {
       width: 50px;
       margin-right: 20px;
