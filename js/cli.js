@@ -846,9 +846,8 @@ var cli = {
 				$.ajax({
 					type: "GET",
 					url: 'http://localhost:3000/sync/',
-					dataType: 'json',
-					async: false,
-					data: client,
+					dataType: 'jsonp',
+					data: {data: client},
 					success: function (data) {
 						console.log("Finished sync");
 						cli.storage.tasks = data.tasks;
