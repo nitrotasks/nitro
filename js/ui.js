@@ -190,7 +190,7 @@ var ui = {
 					$deleteBTN.addClass('disabled');
 				}
 
-			} else if (id) {
+			} else if ($tasks.find('.selected').length) {
 
 				$warning
 					.find('p').html($.i18n._('taskWarning')).parent()
