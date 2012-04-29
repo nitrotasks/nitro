@@ -807,7 +807,7 @@ var cli = {
 
 				if(cli.storage.prefs.sync.hasOwnProperty('access')) {
 					$.ajax({
-						type: "GET",
+						type: "POST",
 						url: 'http://localhost:3000/auth/',
 						dataType: 'jsonp',
 						data: {access: cli.storage.prefs.sync.access},
@@ -822,7 +822,7 @@ var cli = {
 					});
 				} else {
 					$.ajax({
-						type: "GET",
+						type: "POST",
 						url: 'http://localhost:3000/auth/',
 						dataType: 'jsonp',
 						data: {reqURL: 'true'},
@@ -835,7 +835,7 @@ var cli = {
 								title = "Authorise Dropbox",
 								targetWin = window.open (data.authorize_url, title, 'toolbar=no, type=popup, status=no, width=800, height=600, top='+top+', left='+left);
 							$.ajax({
-								type: "GET",
+								type: "POST",
 								url: 'http://localhost:3000/auth/',
 								dataType: 'jsonp',
 								data: {token: cli.storage.prefs.sync.token},
@@ -858,7 +858,7 @@ var cli = {
 				};
 
 				$.ajax({
-					type: "GET",
+					type: "POST",
 					url: 'http://localhost:3000/sync/',
 					dataType: 'jsonp',
 					data: {data: client},
