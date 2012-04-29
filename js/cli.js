@@ -852,7 +852,7 @@ var cli = {
 
 			emit: function () {
 				var client = {
-					tasks: JSON.parse(compress(JSON.stringify(cli.storage.tasks))),
+					tasks: cli.storage.tasks,
 					queue: cli.storage.queue,
 					lists: cli.storage.lists
 				};
@@ -861,8 +861,9 @@ var cli = {
 					type: "POST",
 					url: 'http://localhost:3000/sync/',
 					dataType: 'json',
-					data: {data: client},
+					data: {data: compress(client)},
 					success: function (data) {
+						data = decompress(data);
 						console.log("Finished sync");
 						cli.storage.tasks = data.tasks;
 						cli.storage.queue = data.queue;
@@ -902,49 +903,8 @@ String.prototype.toNum = function () {
 	}
 }
 
-function miniJSON(obj) {
-	var chart = {
-		name :       'a',
-		tasks:       'b',
-		content:     'c',
-		priority:    'd',
-		date:        'e',
-		today:       'f',
-		showInToday: 'g',
-		list:        'h',
-		lists:       'i',
-		logged:      'j',
-		time:        'k',
-		sync:        'l',
-		synced:      'm',
-		order:       'n',
-		queue:       'o',
-		length:      'p',
-		notes:       'q',
-		items:       'r',
-		next:        's',
-		someday:     't'
-	},
-	mini = {};
-
-	for (var key in obj) {
-		if (chart.hasOwnProperty(key)) {
-			mini[chart[key]] = obj[key];
-			if (typeof obj[key] === 'object') {
-				mini[chart[key]] = miniJSON(mini[chart[key]]);
-			}
-		} else {
-			mini[key] = obj[key];
-			if (typeof obj[key] === 'object') {
-				mini[key] = miniJSON(mini[key]);
-			}
-		}
-	}
-	return mini;
-}
-
 //Compresses & Deflates data
-function compress(str) {
+/*function compress(str) {
 	var final = str
 		.replace(/\"content\"/g, "\"a\"")
 		.replace(/\"priority\"/g, "\"b\"")
@@ -974,4 +934,87 @@ function deflate(str) {
 		.replace(/\"j\"/g, "\"synced\"")
 
 	return final;
+}
+*/
+
+function compress(obj) {
+	var chart = {
+		name :       'a',
+		tasks:       'b',
+		content:     'c',
+		priority:    'd',
+		date:        'e',
+		today:       'f',
+		showInToday: 'g',
+		list:        'h',
+		lists:       'i',
+		logged:      'j',
+		time:        'k',
+		sync:        'l',
+		synced:      'm',
+		order:       'n',
+		queue:       'o',
+		length:      'p',
+		notes:       'q',
+		items:       'r',
+		next:        's',
+		someday:     't'
+	},
+	out = {};
+
+	for (var key in obj) {
+		if (chart.hasOwnProperty(key)) {
+			out[chart[key]] = obj[key];
+			if (typeof obj[key] === 'object') {
+				out[chart[key]] = compress(out[chart[key]]);
+			}
+		} else {
+			out[key] = obj[key];
+			if (typeof obj[key] === 'object') {
+				out[key] = compress(out[key]);
+			}
+		}
+	}
+	return out;
+}
+
+function decompress(obj) {
+	var chart = {
+		a: 'name',
+		b: 'tasks',
+		c: 'content',
+		d: 'priority',
+		e: 'date',
+		f: 'today',
+		g: 'showInToday',
+		h: 'list',
+		i: 'lists',
+		j: 'logged',
+		k: 'time',
+		l: 'sync',
+		m: 'synced',
+		n: 'order',
+		o: 'queue',
+		p: 'length',
+		q: 'notes',
+		r: 'items',
+		s: 'next',
+		t: 'someday'
+	},
+	out = {};
+
+	for (var key in obj) {
+		if (chart.hasOwnProperty(key)) {
+			out[chart[key]] = obj[key];
+			if (typeof obj[key] === 'object') {
+				out[chart[key]] = decompress(out[chart[key]]);
+			}
+		} else {
+			out[key] = obj[key];
+			if (typeof obj[key] === 'object') {
+				out[key] = decompress(out[key]);
+			}
+		}
+	}
+	return out;
 }
