@@ -52,9 +52,6 @@ $(document).ready(function () {
 		$.getJSON('js/translations/' + cli.storage.prefs.lang + '.json', function (data) {
 			ui.language(data);
 		});
-
-		// Sets up keyboard shortcuts
-		ui.external.key();
 		break;
 
 	case 'python':
@@ -63,6 +60,9 @@ $(document).ready(function () {
 		document.title = 'load|' + cli.storage.prefs.lang + '.json';
 		break;
 	}
+	
+	// Sets up keyboard shortcuts
+	ui.external.key();
 
 	// Theme init
 	cli.storage.prefs.theme = cli.storage.prefs.theme || 'default';

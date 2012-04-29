@@ -1,7 +1,7 @@
 {
   "name": "Nitro",
-  "description": "Super Awesome Task Management",
-  "version": "1.2",
+  "description": "Get stuff done with Nitro.",
+  "version": "1.2.2",
   "app": {
     "launch": {
       "local_path": "app.html"
