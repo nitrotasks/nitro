@@ -809,7 +809,7 @@ var cli = {
 					$.ajax({
 						type: "POST",
 						url: 'http://localhost:3000/auth/',
-						dataType: 'jsonp',
+						dataType: 'json',
 						data: {access: cli.storage.prefs.sync.access},
 						success: function (data) {
 							console.log(data);
@@ -824,7 +824,7 @@ var cli = {
 					$.ajax({
 						type: "POST",
 						url: 'http://localhost:3000/auth/',
-						dataType: 'jsonp',
+						dataType: 'json',
 						data: {reqURL: 'true'},
 						success: function (data) {
 							console.log("Verifying dropbox");
@@ -837,7 +837,7 @@ var cli = {
 							$.ajax({
 								type: "POST",
 								url: 'http://localhost:3000/auth/',
-								dataType: 'jsonp',
+								dataType: 'json',
 								data: {token: cli.storage.prefs.sync.token},
 								success: function (data) {
 									console.log("Nitro Sync server is ready");
@@ -860,7 +860,7 @@ var cli = {
 				$.ajax({
 					type: "POST",
 					url: 'http://localhost:3000/sync/',
-					dataType: 'jsonp',
+					dataType: 'json',
 					data: {data: client},
 					success: function (data) {
 						console.log("Finished sync");
@@ -900,4 +900,45 @@ String.prototype.toNum = function () {
 	} else {
 		return this.toString();
 	}
+}
+
+function miniJSON(obj) {
+	var chart = {
+		name :       'a',
+		tasks:       'b',
+		content:     'c',
+		priority:    'd',
+		date:        'e',
+		today:       'f',
+		showInToday: 'g',
+		list:        'h',
+		lists:       'i',
+		logged:      'j',
+		time:        'k',
+		sync:        'l',
+		synced:      'm',
+		order:       'n',
+		queue:       'o',
+		length:      'p',
+		notes:       'q',
+		items:       'r',
+		next:        's',
+		someday:     't'
+	},
+	mini = {};
+
+	for (var key in obj) {
+		if (chart.hasOwnProperty(key)) {
+			mini[chart[key]] = obj[key];
+			if (typeof obj[key] === 'object') {
+				mini[chart[key]] = miniJSON(mini[chart[key]]);
+			}
+		} else {
+			mini[key] = obj[key];
+			if (typeof obj[key] === 'object') {
+				mini[key] = miniJSON(mini[key]);
+			}
+		}
+	}
+	return mini;
 }

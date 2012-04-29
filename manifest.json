@@ -8,7 +8,8 @@
     }
   },
   "permissions": [
-    "unlimitedStorage"
+    "unlimitedStorage",
+    "http://localhost:3000/"
   ],
   "icons": {
     "16": "images/16.png",
