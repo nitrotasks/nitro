@@ -852,7 +852,7 @@ var cli = {
 
 			emit: function () {
 				var client = {
-					tasks: compress(JSON.stringify(cli.storage.tasks)),
+					tasks: JSON.parse(compress(JSON.stringify(cli.storage.tasks))),
 					queue: cli.storage.queue,
 					lists: cli.storage.lists
 				};
@@ -864,7 +864,7 @@ var cli = {
 					data: {data: client},
 					success: function (data) {
 						console.log("Finished sync");
-						cli.storage.tasks = JSON.parse(deflate(JSON.stringify(data.tasks)));
+						cli.storage.tasks = data.tasks;
 						cli.storage.queue = data.queue;
 						cli.storage.lists = data.lists;
 						cli.storage.save();
