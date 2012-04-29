@@ -852,7 +852,7 @@ var cli = {
 
 			emit: function () {
 				var client = {
-					tasks: compress(cli.storage.tasks),
+					tasks: cli.storage.tasks,
 					queue: cli.storage.queue,
 					lists: cli.storage.lists
 				};
@@ -864,7 +864,7 @@ var cli = {
 					data: {data: client},
 					success: function (data) {
 						console.log("Finished sync");
-						cli.storage.tasks = decompress(data.tasks);
+						cli.storage.tasks = data.tasks;
 						cli.storage.queue = data.queue;
 						cli.storage.lists = data.lists;
 						cli.storage.save();
