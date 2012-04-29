@@ -788,7 +788,7 @@ var cli = {
 		tasks: $.jStorage.get('tasks', {length: 0}),
 		queue: $.jStorage.get('queue', {}),
 		lists: $.jStorage.get('lists', {order: [], items:{today: {name: "Today", order:[], time: {name: 0, order: 0}}, next: {name: "Next", order:[], time: {name: 0, order: 0}}, someday: {name: "Someday", order:[], time: {name: 0, order: 0}}, 0: {order:[]}, length: 1}, time: 0}),
-		prefs: $.jStorage.get('prefs', {deleteWarnings: false, gpu: false, nextAmount: 'threeItems', over50: true, lang: 'english', bg: {color: '', size: 'tile'}, sync: 'manual'}),
+		prefs: $.jStorage.get('prefs', {deleteWarnings: false, gpu: false, nextAmount: 'threeItems', over50: true, lang: 'english', bg: {color: '', size: 'tile'}, sync: {}}),
 		// NB: Over 50 caps amount of tasks in List to 50 but causes drag and drop problems.
 		// I CBF fixing it.
 
@@ -805,47 +805,49 @@ var cli = {
 
 				console.log("Connecting to Nitro Sync server");
 
-				// Upload to server
-				// var socket = io.connect('http://hollow-wind-1576.herokuapp.com/');
-				// socket = io.connect('http://localhost:8080/');
-
-				$.ajax({
-					type: "GET",
-					url: 'http://localhost:3000/auth/',
-					dataType: 'jsonp',
-					data: {getURL: 'true'},
-					success: function (data) {
-						console.log("Nitro Sync server is ready");
-
-						// Display popup window
-						var left = (screen.width/2)-(800/2),
-							top = (screen.height/2)-(600/2),
-							title = "Authorise Dropbox",
-							targetWin = window.open (data, title, 'toolbar=no, type=popup, status=no, width=800, height=600, top='+top+', left='+left);
-					}
-				});
-
-				// socket.on('token', function (data) {
-				// 	if(cli.storage.prefs.hasOwnProperty('dropbox')) {
-				// 		socket.emit('allowed', '');
-				// 	} else {
-				// 		window.open(data);
-				// 		if (verify()) {
-				// 			cli.storage.prefs.dropbox = true;
-				// 			cli.storage.save();
-				// 			socket.emit('allowed', '');
-				// 		}
-				// 	}
-				// });
-
-				// function verify() {
-				// 	if (confirm("Did you allow Nitro?")) {
-				// 		return true;
-				// 	} else {
-				// 		verify();
-				// 	}
-				// }
-
+				if(cli.storage.prefs.sync.hasOwnProperty('access')) {
+					$.ajax({
+						type: "GET",
+						url: 'http://localhost:3000/auth/',
+						dataType: 'jsonp',
+						data: {access: cli.storage.prefs.sync.access},
+						success: function (data) {
+							console.log(data);
+							if(data == "success") {
+								console.log("Nitro Sync server is ready");
+							} else if (data == "failed") {
+								console.log("Could not connect to Dropbox");
+							}
+						}
+					});
+				} else {
+					$.ajax({
+						type: "GET",
+						url: 'http://localhost:3000/auth/',
+						dataType: 'jsonp',
+						data: {reqURL: 'true'},
+						success: function (data) {
+							console.log("Verifying dropbox");
+							cli.storage.prefs.sync.token = data;
+							// Display popup window
+							var left = (screen.width/2)-(800/2),
+								top = (screen.height/2)-(600/2),
+								title = "Authorise Dropbox",
+								targetWin = window.open (data.authorize_url, title, 'toolbar=no, type=popup, status=no, width=800, height=600, top='+top+', left='+left);
+							$.ajax({
+								type: "GET",
+								url: 'http://localhost:3000/auth/',
+								dataType: 'jsonp',
+								data: {token: cli.storage.prefs.sync.token},
+								success: function (data) {
+									console.log("Nitro Sync server is ready");
+									cli.storage.prefs.sync.access = data;
+									cli.storage.save();
+								}
+							});
+						}
+					});
+				}
 			},
 
 			emit: function () {
