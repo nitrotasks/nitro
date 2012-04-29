@@ -944,6 +944,7 @@ function miniJSON(obj) {
 }
 
 function compress(str) {
+	var start = Date.now()
 	var final = str
 		.replace(/\"content\"/g, "\"a\"")
 		.replace(/\"priority\"/g, "\"b\"")
@@ -955,6 +956,8 @@ function compress(str) {
 		.replace(/\"logged\"/g, "\"h\"")
 		.replace(/\"time\"/g, "\"i\"")
 		.replace(/\"synced\"/g, "\"j\"")
+
+	console.log(Date.now() - start)
 	return final;
 
 }
