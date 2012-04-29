@@ -964,12 +964,12 @@ function compress(obj) {
 	for (var key in obj) {
 		if (chart.hasOwnProperty(key)) {
 			out[chart[key]] = obj[key];
-			if (typeof obj[key] === 'object') {
+			if (typeof obj[key] === 'object' && isArray(obj[key]) == false) {
 				out[chart[key]] = compress(out[chart[key]]);
 			}
 		} else {
 			out[key] = obj[key];
-			if (typeof obj[key] === 'object') {
+			if (typeof obj[key] === 'object' && isArray(obj[key]) == false) {
 				out[key] = compress(out[key]);
 			}
 		}
@@ -1005,15 +1005,20 @@ function decompress(obj) {
 	for (var key in obj) {
 		if (chart.hasOwnProperty(key)) {
 			out[chart[key]] = obj[key];
-			if (typeof obj[key] === 'object') {
+			if (typeof obj[key] === 'object' && isArray(obj[key]) == false) {
 				out[chart[key]] = decompress(out[chart[key]]);
 			}
 		} else {
 			out[key] = obj[key];
-			if (typeof obj[key] === 'object') {
+			if (typeof obj[key] === 'object' && isArray(obj[key]) == false) {
 				out[key] = decompress(out[key]);
 			}
 		}
 	}
 	return out;
+}
+
+// Because typeof is useless here
+function isArray(obj) {
+    return obj.constructor == Array;
 }
