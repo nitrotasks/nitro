@@ -942,3 +942,19 @@ function miniJSON(obj) {
 	}
 	return mini;
 }
+
+function compress(str) {
+	var final = str
+		.replace(/\"content\"/g, "\"a\"")
+		.replace(/\"priority\"/g, "\"b\"")
+		.replace(/\"date\"/g, "\"c\"")
+		.replace(/\"notes\"/g, "\"d\"")
+		.replace(/\"today\"/g, "\"e\"")
+		.replace(/\"showInToday\"/g, "\"f\"")
+		.replace(/\"list\"/g, "\"g\"")
+		.replace(/\"logged\"/g, "\"h\"")
+		.replace(/\"time\"/g, "\"i\"")
+		.replace(/\"synced\"/g, "\"j\"")
+	return final;
+
+}
