@@ -852,7 +852,7 @@ var cli = {
 
 			emit: function () {
 				var client = {
-					tasks: cli.storage.tasks,
+					tasks: compress(JSON.stringify(cli.storage.tasks)),
 					queue: cli.storage.queue,
 					lists: cli.storage.lists
 				};
@@ -864,7 +864,7 @@ var cli = {
 					data: {data: client},
 					success: function (data) {
 						console.log("Finished sync");
-						cli.storage.tasks = data.tasks;
+						cli.storage.tasks = JSON.parse(deflate(JSON.stringify(data.tasks)));
 						cli.storage.queue = data.queue;
 						cli.storage.lists = data.lists;
 						cli.storage.save();
@@ -943,8 +943,8 @@ function miniJSON(obj) {
 	return mini;
 }
 
+//Compresses & Deflates data
 function compress(str) {
-	var start = Date.now()
 	var final = str
 		.replace(/\"content\"/g, "\"a\"")
 		.replace(/\"priority\"/g, "\"b\"")
@@ -957,7 +957,21 @@ function compress(str) {
 		.replace(/\"time\"/g, "\"i\"")
 		.replace(/\"synced\"/g, "\"j\"")
 
-	console.log(Date.now() - start)
 	return final;
+}
 
+function deflate(str) {
+	var final = str
+		.replace(/\"a\"/g, "\"content\"")
+		.replace(/\"b\"/g, "\"priority\"")
+		.replace(/\"c\"/g, "\"date\"")
+		.replace(/\"d\"/g, "\"notes\"")
+		.replace(/\"e\"/g, "\"today\"")
+		.replace(/\"f\"/g, "\"showInToday\"")
+		.replace(/\"g\"/g, "\"list\"")
+		.replace(/\"h\"/g, "\"logged\"")
+		.replace(/\"i\"/g, "\"time\"")
+		.replace(/\"j\"/g, "\"synced\"")
+
+	return final;
 }
