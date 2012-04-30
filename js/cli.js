@@ -861,8 +861,9 @@ var cli = {
 					type: "POST",
 					url: 'http://localhost:3000/sync/',
 					dataType: 'json',
-					data: {data: client},
+					data: {data: compress(client)},
 					success: function (data) {
+						data = decompress(data);
 						console.log("Finished sync");
 						cli.storage.tasks = data.tasks;
 						cli.storage.queue = data.queue;
