@@ -32,8 +32,8 @@
 
 	"general":				"Generale",
 	"nextDescription": 		"Mostra le altre liste in Prossimo ", 
-	"deleteWarningsDescription": "This disables the confirm box that appears when you delete a task or list.",
-	"lowGraphicsDescription": "This disables all the fancy animations so that Nitro is even quicker on lesser powered hardware.",
+	"deleteWarningsDescription": "Questa opzione disabilita la conferma che appare quando cancelli un'attività o una lista.",
+	"lowGraphicsDescription": "Questa opzione disabilita tutte le animazioni per rendere Nitro più veloce e meno esoso di energia.",
 
 	"language":				"Lingua",
 	"authortext": 			"Autore",
@@ -41,6 +41,7 @@
 	"theme":				"Tema",
 	"pickTheme":			"Seleziona un theme: ",
 	"themeDescription": 	"I temi ti permettono di modificare l'aspetto di Nitro. Puoi anche crearne uno tramite i CSS",
+	"replaceDefault":		"Rimpiazza il default",
 	"useDefault": 			"Usa il seguente sfondo: ",
 	"removeBG":				"Rimuovi lo sfondo",
 	"bgSize": 				"Grandezza sfondo: ",
