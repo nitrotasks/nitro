@@ -788,7 +788,7 @@ var cli = {
 		tasks: $.jStorage.get('tasks', {length: 0}),
 		queue: $.jStorage.get('queue', {}),
 		lists: $.jStorage.get('lists', {order: [], items:{today: {name: "Today", order:[], time: {name: 0, order: 0}}, next: {name: "Next", order:[], time: {name: 0, order: 0}}, someday: {name: "Someday", order:[], time: {name: 0, order: 0}}, 0: {order:[]}, length: 1}, time: 0}),
-		prefs: $.jStorage.get('prefs', {deleteWarnings: false, gpu: false, nextAmount: 'threeItems', over50: true, lang: 'english', bg: {color: '', size: 'tile'}, sync: 'manual'}),
+		prefs: $.jStorage.get('prefs', {deleteWarnings: false, gpu: false, nextAmount: 'threeItems', over50: true, lang: 'english', bg: {color: '', size: 'tile'}, sync: {}}),
 		// NB: Over 50 caps amount of tasks in List to 50 but causes drag and drop problems.
 		// I CBF fixing it.
 
@@ -805,35 +805,49 @@ var cli = {
 
 				console.log("Connecting to Nitro Sync server");
 
-				// Upload to server
-				// var socket = io.connect('http://hollow-wind-1576.herokuapp.com/');
-				socket = io.connect('http://localhost:8080/');
-
-				// socket.on('token', function (data) {
-				// 	if(cli.storage.prefs.hasOwnProperty('dropbox')) {
-				// 		socket.emit('allowed', '');
-				// 	} else {
-				// 		window.open(data);
-				// 		if (verify()) {
-				// 			cli.storage.prefs.dropbox = true;
-				// 			cli.storage.save();
-				// 			socket.emit('allowed', '');
-				// 		}
-				// 	}
-				// });
-
-				// function verify() {
-				// 	if (confirm("Did you allow Nitro?")) {
-				// 		return true;
-				// 	} else {
-				// 		verify();
-				// 	}
-				// }
-
-				socket.on('ready', function () {
-					console.log("Nitro Sync server is ready");
-				});	
-
+				if(cli.storage.prefs.sync.hasOwnProperty('access')) {
+					$.ajax({
+						type: "POST",
+						url: 'http://localhost:3000/auth/',
+						dataType: 'json',
+						data: {access: cli.storage.prefs.sync.access},
+						success: function (data) {
+							console.log(data);
+							if(data == "success") {
+								console.log("Nitro Sync server is ready");
+							} else if (data == "failed") {
+								console.log("Could not connect to Dropbox");
+							}
+						}
+					});
+				} else {
+					$.ajax({
+						type: "POST",
+						url: 'http://localhost:3000/auth/',
+						dataType: 'json',
+						data: {reqURL: 'true'},
+						success: function (data) {
+							console.log("Verifying dropbox");
+							cli.storage.prefs.sync.token = data;
+							// Display popup window
+							var left = (screen.width/2)-(800/2),
+								top = (screen.height/2)-(600/2),
+								title = "Authorise Dropbox",
+								targetWin = window.open (data.authorize_url, title, 'toolbar=no, type=popup, status=no, width=800, height=600, top='+top+', left='+left);
+							$.ajax({
+								type: "POST",
+								url: 'http://localhost:3000/auth/',
+								dataType: 'json',
+								data: {token: cli.storage.prefs.sync.token},
+								success: function (data) {
+									console.log("Nitro Sync server is ready");
+									cli.storage.prefs.sync.access = data;
+									cli.storage.save();
+								}
+							});
+						}
+					});
+				}
 			},
 
 			emit: function () {
@@ -843,12 +857,15 @@ var cli = {
 					lists: cli.storage.lists
 				};
 
+				console.log(JSON.stringify(compress(client)));
+
 				$.ajax({
-					type: "GET",
+					type: "POST",
 					url: 'http://localhost:3000/sync/',
-					dataType: 'jsonp',
-					data: {data: client},
+					dataType: 'json',
+					data: {data: JSON.stringify(compress(client))},
 					success: function (data) {
+						data = decompress(data);
 						console.log("Finished sync");
 						cli.storage.tasks = data.tasks;
 						cli.storage.queue = data.queue;
@@ -886,4 +903,125 @@ String.prototype.toNum = function () {
 	} else {
 		return this.toString();
 	}
+}
+
+//Compresses & Deflates data
+/*function compress(str) {
+	var final = str
+		.replace(/\"content\"/g, "\"a\"")
+		.replace(/\"priority\"/g, "\"b\"")
+		.replace(/\"date\"/g, "\"c\"")
+		.replace(/\"notes\"/g, "\"d\"")
+		.replace(/\"today\"/g, "\"e\"")
+		.replace(/\"showInToday\"/g, "\"f\"")
+		.replace(/\"list\"/g, "\"g\"")
+		.replace(/\"logged\"/g, "\"h\"")
+		.replace(/\"time\"/g, "\"i\"")
+		.replace(/\"synced\"/g, "\"j\"")
+
+	return final;
+}
+
+function deflate(str) {
+	var final = str
+		.replace(/\"a\"/g, "\"content\"")
+		.replace(/\"b\"/g, "\"priority\"")
+		.replace(/\"c\"/g, "\"date\"")
+		.replace(/\"d\"/g, "\"notes\"")
+		.replace(/\"e\"/g, "\"today\"")
+		.replace(/\"f\"/g, "\"showInToday\"")
+		.replace(/\"g\"/g, "\"list\"")
+		.replace(/\"h\"/g, "\"logged\"")
+		.replace(/\"i\"/g, "\"time\"")
+		.replace(/\"j\"/g, "\"synced\"")
+
+	return final;
+}
+*/
+
+function compress(obj) {
+	var chart = {
+		name :       'a',
+		tasks:       'b',
+		content:     'c',
+		priority:    'd',
+		date:        'e',
+		today:       'f',
+		showInToday: 'g',
+		list:        'h',
+		lists:       'i',
+		logged:      'j',
+		time:        'k',
+		sync:        'l',
+		synced:      'm',
+		order:       'n',
+		queue:       'o',
+		length:      'p',
+		notes:       'q',
+		items:       'r',
+		next:        's',
+		someday:     't'
+	},
+	out = {};
+
+	for (var key in obj) {
+		if (chart.hasOwnProperty(key)) {
+			out[chart[key]] = obj[key];
+			if (typeof obj[key] === 'object' && isArray(obj[key]) == false) {
+				out[chart[key]] = compress(out[chart[key]]);
+			}
+		} else {
+			out[key] = obj[key];
+			if (typeof obj[key] === 'object' && isArray(obj[key]) == false) {
+				out[key] = compress(out[key]);
+			}
+		}
+	}
+	return out;
+}
+
+function decompress(obj) {
+	var chart = {
+		a: 'name',
+		b: 'tasks',
+		c: 'content',
+		d: 'priority',
+		e: 'date',
+		f: 'today',
+		g: 'showInToday',
+		h: 'list',
+		i: 'lists',
+		j: 'logged',
+		k: 'time',
+		l: 'sync',
+		m: 'synced',
+		n: 'order',
+		o: 'queue',
+		p: 'length',
+		q: 'notes',
+		r: 'items',
+		s: 'next',
+		t: 'someday'
+	},
+	out = {};
+
+	for (var key in obj) {
+		if (chart.hasOwnProperty(key)) {
+			out[chart[key]] = obj[key];
+			if (typeof obj[key] === 'object' && isArray(obj[key]) == false) {
+				out[chart[key]] = decompress(out[chart[key]]);
+			}
+		} else {
+			out[key] = obj[key];
+			if (typeof obj[key] === 'object' && isArray(obj[key]) == false) {
+				out[key] = decompress(out[key]);
+			}
+		}
+	}
+	return out;
+}
+
+// Because typeof is useless here
+function isArray(obj) {
+    return obj.constructor == Array;
 }

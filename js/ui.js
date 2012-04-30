@@ -52,9 +52,6 @@ $(document).ready(function () {
 		$.getJSON('js/translations/' + cli.storage.prefs.lang + '.json', function (data) {
 			ui.language(data);
 		});
-
-		// Sets up keyboard shortcuts
-		ui.external.key();
 		break;
 
 	case 'python':
@@ -63,6 +60,9 @@ $(document).ready(function () {
 		document.title = 'load|' + cli.storage.prefs.lang + '.json';
 		break;
 	}
+	
+	// Sets up keyboard shortcuts
+	ui.external.key();
 
 	// Theme init
 	cli.storage.prefs.theme = cli.storage.prefs.theme || 'default';
@@ -782,20 +782,22 @@ var ui = {
 		});
 
 		// SHOW IN TODAY BUTTON
-		$body.on('click', '.#tasks .today', function () {
+		$body.on('click', '#tasks ul li .labels .today', function () {
 			var id = $(this).closest('li').attr('id').substr(1).toNum();
 
 			if ($(this).hasClass('inToday')) {
 				// Takes out of today
 
+
 				// Checkbox & Label
 				$('#T' + id).removeClass('today');
+
 				$(this).removeClass('inToday').html($.i18n._('showInToday'));
 
 				// We need to remove the other node in Next
 				if (ui.lists.selected() === 'next') {
 					$('#next li.hidden').map(function () {
-						if ($(this).attr('data-id') === id) {
+						if ($(this).attr('data-id').toNum() === id) {
 							$(this).remove();
 						}
 					});
@@ -957,9 +959,17 @@ var ui = {
 			cli.today(id).calculate();
 
 			if (cli.taskData(id).display().today === 'yesAuto' || cli.taskData(id).display().today === 'manual') {
-				$('#tasks ul li.expanded .labels .today').addClass('inToday').html($.i18n._('removeFromToday'));
+
+				$('#tasks ul li.expanded .labels .today')
+					.addClass('inToday')
+					.html($.i18n._('removeFromToday'));
+
 			} else if (cli.taskData(id).display().today === 'noAuto' || cli.taskData(id).display().today === 'false') {
-				$('#tasks ul li.expanded .labels .today').removeClass('inToday').html($.i18n._('showInToday'));
+
+				$('#tasks ul li.expanded .labels .today')
+					.removeClass('inToday')
+					.html($.i18n._('showInToday'));
+
 			}
 		});
 

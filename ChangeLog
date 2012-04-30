@@ -1,6 +1,20 @@
 Changelog
 =========
 
+
+### 1.2.3 (2012-04-30)
+- Added Hungarian
+- Fixes bug where remove from today would look ugly
+- New Sync settings
+
+### 1.2.2 (2012-04-29)
+- Updated Italian
+- Added Spanish
+- Background size is now set to tile by default
+- Coffee theme list buttons are fixed
+- You can now delete task 0
+- Additional Keyboard Shortcuts for Linux
+
 ### 1.2 (2012-04-27)
 - Adds Keyboard Shortcuts
 - Chrome Version has custom backgrounds

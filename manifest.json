@@ -1,14 +1,15 @@
 {
   "name": "Nitro",
-  "description": "Super Awesome Task Management",
-  "version": "1.2",
+  "description": "Get stuff done with Nitro.",
+  "version": "1.2.3",
   "app": {
     "launch": {
       "local_path": "app.html"
     }
   },
   "permissions": [
-    "unlimitedStorage"
+    "unlimitedStorage",
+    "http://localhost:3000/"
   ],
   "icons": {
     "16": "images/16.png",
