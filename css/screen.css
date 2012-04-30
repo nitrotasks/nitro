@@ -872,8 +872,14 @@ button {
       border-radius: 5px; }
       #prefsDialog .tab-content .tab-pane blockquote.disabled {
         color: #3b3b3b;
-        background: #eee;
-        border-color: #ddd; }
+        background: #fff;
+        border-color: #fff;
+        width: 490px;
+        padding: 0;
+        margin: 0; }
+        #prefsDialog .tab-content .tab-pane blockquote.disabled img {
+          margin: 0 13px;
+          cursor: pointer; }
       #prefsDialog .tab-content .tab-pane blockquote .icon {
         float: left;
         margin: 0 10px 0 0; }
