@@ -857,11 +857,13 @@ var cli = {
 					lists: cli.storage.lists
 				};
 
+				console.log(JSON.stringify(compress(client)));
+
 				$.ajax({
 					type: "POST",
 					url: 'http://localhost:3000/sync/',
 					dataType: 'json',
-					data: {data: compress(client)},
+					data: {data: JSON.stringify(compress(client))},
 					success: function (data) {
 						data = decompress(data);
 						console.log("Finished sync");

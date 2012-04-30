@@ -959,9 +959,17 @@ var ui = {
 			cli.today(id).calculate();
 
 			if (cli.taskData(id).display().today === 'yesAuto' || cli.taskData(id).display().today === 'manual') {
-				$('#tasks ul li.expanded .labels .today').addClass('inToday').html($.i18n._('removeFromToday'));
+
+				$('#tasks ul li.expanded .labels .today')
+					.addClass('inToday')
+					.html($.i18n._('removeFromToday'));
+
 			} else if (cli.taskData(id).display().today === 'noAuto' || cli.taskData(id).display().today === 'false') {
-				$('#tasks ul li.expanded .labels .today').removeClass('inToday').html($.i18n._('showInToday'));
+
+				$('#tasks ul li.expanded .labels .today')
+					.removeClass('inToday')
+					.html($.i18n._('showInToday'));
+
 			}
 		});
 
