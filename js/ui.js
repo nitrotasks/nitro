@@ -782,20 +782,22 @@ var ui = {
 		});
 
 		// SHOW IN TODAY BUTTON
-		$body.on('click', '.#tasks .today', function () {
+		$body.on('click', '#tasks ul li .labels .today', function () {
 			var id = $(this).closest('li').attr('id').substr(1).toNum();
 
 			if ($(this).hasClass('inToday')) {
 				// Takes out of today
 
+
 				// Checkbox & Label
 				$('#T' + id).removeClass('today');
+
 				$(this).removeClass('inToday').html($.i18n._('showInToday'));
 
 				// We need to remove the other node in Next
 				if (ui.lists.selected() === 'next') {
 					$('#next li.hidden').map(function () {
-						if ($(this).attr('data-id') === id) {
+						if ($(this).attr('data-id').toNum() === id) {
 							$(this).remove();
 						}
 					});
