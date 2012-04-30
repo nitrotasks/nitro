@@ -227,22 +227,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "/opt/lampp/htdocs/j25/administrator/components/com_bwlabforms/models/forms/bwl_form_layout.xml",
-			"settings":
-			{
-				"buffer_size": 1404,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/opt/lampp/htdocs/j25/administrator/components/com_bwlabforms/views/bwlabform/tmpl/default.php",
-			"settings":
-			{
-				"buffer_size": 2588,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -276,6 +260,8 @@
 	},
 	"file_history":
 	[
+		"/opt/lampp/htdocs/j25/administrator/components/com_bwlabforms/models/forms/bwl_form_layout.xml",
+		"/opt/lampp/htdocs/j25/administrator/components/com_bwlabforms/views/bwlabform/tmpl/default.php",
 		"/home/lmassa/Documenti/Impresa/Progetti_interni/incubatore/Google/Nitro/Nitro/js/ui.js",
 		"/home/lmassa/Documenti/Impresa/Progetti_interni/incubatore/Google/Nitro/Nitro/Nitro.sublime-workspace",
 		"/home/lmassa/Documenti/Impresa/Progetti_interni/incubatore/Google/Nitro/Nitro/js/translations/english.json",
@@ -478,65 +464,8 @@
 	"groups":
 	[
 		{
-			"selected": 1,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "/opt/lampp/htdocs/j25/administrator/components/com_bwlabforms/models/forms/bwl_form_layout.xml",
-					"settings":
-					{
-						"buffer_size": 1404,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								45,
-								45
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/XML/XML.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/opt/lampp/htdocs/j25/administrator/components/com_bwlabforms/views/bwlabform/tmpl/default.php",
-					"settings":
-					{
-						"buffer_size": 2588,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								736,
-								736
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],
