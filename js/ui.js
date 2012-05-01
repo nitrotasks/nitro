@@ -1135,10 +1135,10 @@ var ui = {
 				$('#Lnext').click();
 			} else if($listToDelete.is(':last-child')) {
 				// The list is at the bottom -> Select the one above it
-				$listToDelete.prev().addClass('selected').next().remove();
+				$listToDelete.prev().click().next().remove();
 			} else {
 				// The list has one below it -> select it
-				$listToDelete.next().addClass('selected').prev().remove();
+				$listToDelete.next().click().prev().remove();
 			}
 		},
 
