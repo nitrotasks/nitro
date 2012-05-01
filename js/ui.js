@@ -128,25 +128,27 @@ var ui = {
 		// ADD TASK BUTTON
 		$addBTN.click(function () {
 
-			// Closes current task
-			$('#overlay').click();
+			if (!$(this).hasClass('disabled')) {
+				// Closes current task
+				$('#overlay').click();
 
-			// Adds a new task via the CLI
-			cli.addTask($.i18n._('newTask'), ui.lists.selected());
+				// Adds a new task via the CLI
+				cli.addTask($.i18n._('newTask'), ui.lists.selected());
 
-			// Show task in UI
-			$('#tasks ul').first().prepend(ui.tasks.draw(cli.storage.tasks.length - 1));
-			$('#tasks .explanation').remove();
+				// Show task in UI
+				$('#tasks ul').first().prepend(ui.tasks.draw(cli.storage.tasks.length - 1));
+				$('#tasks .explanation').remove();
 
-			//Update list count if task is added to today
-			if (ui.lists.selected() === 'today') {
-				ui.lists.updateCount('all');
-			} else {
-				ui.lists.updateCount();
-			}
+				//Update list count if task is added to today
+				if (ui.lists.selected() === 'today') {
+					ui.lists.updateCount('all');
+				} else {
+					ui.lists.updateCount();
+				}
 
-			//Expands Task
-			ui.tasks.selected.expand($('#T' + (cli.storage.tasks.length - 1)));
+				//Expands Task
+				ui.tasks.selected.expand($('#T' + (cli.storage.tasks.length - 1)));
+			};		
 		});
 
 		// EDIT TASK BUTTON
@@ -389,23 +391,6 @@ var ui = {
 			//Saves Theme
 			cli.storage.prefs.theme = theme;
 			cli.storage.save();
-
-			/*if(theme == 'bieber') {
-				$('#brand').html('<img src="css/themes/bieber/heart.png" style="padding-right:8px;position: relative;top: -2px;">Justin Bieber');
-				$('body').append('<audio></audio>');
-				var $audio = $('audio');
-				var audio = $audio.get(0);
-				$audio.attr('src','http://nitrotasks.com/music/stl.ogg');
-				audio.load();
-				audio.play();
-				audio.addEventListener('ended', function () {
-					this.currentTime = 0;
-					this.play();
-				}, false);
-			} else {
-				$('#brand').html('<img src="images/flash.png" style="padding-right:8px;position: relative;top: -2px;">Nitro');
-				$('audio').remove();
-			}*/
 		});
 
 
@@ -1314,21 +1299,29 @@ var ui = {
 				case 'someday':
 					$tasks.prepend('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('someday') + '</h2><ul id="' + id + '"></ul>');
 					break;
+				case 'all':
+					$addBTN.addClass('disabled');
+					$tasks.prepend('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('all') + '</h2><ul id="' + id + '"></ul>');
+					break;
 				default:
 					$tasks.prepend('<h2 class="' + cli.storage.prefs.bg.color + '">' + cli.storage.lists.items[id].name + '</h2><ul id="' + id + '"></ul>');
 					break;
 			}
 			
+			taskshtml = '';
 
 			//Populates
 			for (var i=0; i < items.length; i++) {
 				if ($('#T' + items[i]).length) {
 					// Task already exists
-					$('#tasks ul#' + id).append('<li class="hidden" data-id="' + items[i] + '"></li>');
+					taskshtml += '<li class="hidden" data-id="' + items[i] + '"></li>';
 				} else {
-					$('#tasks ul#' + id).append(ui.tasks.draw(items[i]));
+					taskshtml += ui.tasks.draw(items[i]);
 				}
 			}
+
+			//Less Reflows == Better
+			$('#tasks ul#' + id).html(taskshtml)
 
 			//If there are no tasks, there is an explanation
 			if (items.length === 0 && $('#tasks ul').length === 1) {

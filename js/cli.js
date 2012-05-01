@@ -253,7 +253,24 @@ var cli = {
 					}
 
 					return logbook;
+				
+				} else if (query === 'all') {
 
+					var results = [];
+
+					// Search loop
+					for (var t = 0; t < cli.storage.tasks.length; t++) {
+
+						// If task exists
+						if (cli.storage.tasks[t]) {
+
+							// Exclude logged tasks
+							if (cli.storage.tasks[t].logged == false || cli.storage.tasks[t].logged == 'false') {
+								results.push(t);
+							}
+						}
+					}
+					return results;
 				} else {
 
 					if (query in cli.storage.lists.items) {
@@ -281,7 +298,7 @@ var cli = {
 					if (cli.storage.tasks[t]) {
 
 						// Exclude logged tasks
-						if (!cli.storage.tasks[t].logged) {
+						if (cli.storage.tasks[t].logged == false || cli.storage.tasks[t].logged == 'false') {
 
 							var pass1 = [],
 								pass2  = true;
