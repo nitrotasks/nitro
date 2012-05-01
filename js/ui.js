@@ -436,6 +436,7 @@ var ui = {
 			reader.onload = function (event) {
 
 				if (app === 'js') {
+					localStorage.removeItem('background');
 					localStorage.setItem('background', event.target.result);
 				} else {
 					cli.storage.prefs.background = event.target.result;
@@ -451,13 +452,13 @@ var ui = {
 			cli.storage.prefs.bg.size = this.value;
 			switch (this.value) {
 				case 'tile':
-					$tasks.removeClass('shrink').addClass('tile');
+					$tasks.removeClass('shrink zoom').addClass('tile');
 					break;
 				case 'shrink':
-					$tasks.removeClass('tile').addClass('shrink');
+					$tasks.removeClass('tile zoom').addClass('shrink');
 					break;
 				case 'zoom':
-					$tasks.removeClass('tile shrink');
+					$tasks.removeClass('tile shrink').addClass('zoom');
 					break;
 			}
 			cli.storage.save();
@@ -525,6 +526,8 @@ var ui = {
 		} else if (cli.storage.prefs.hasOwnProperty('background')) {
 			$tasks[0].style.backgroundImage = 'url(' + cli.storage.prefs.background + ')';
 		}
+
+		$tasks.addClass(cli.storage.prefs.bg.size);
 
 		// LANGUAGE
 		$('#tabLanguage a.current').removeClass('current');
@@ -1438,7 +1441,7 @@ var ui = {
 				//Special Next list
 				if (cli.storage.prefs.nextAmount !== 'noLists') {
 					for (var i=0; i<cli.storage.lists.order.length; i++) {
-						//Gotta love loopception 😄
+						//Gotta love loopception 
 						var tmpOrder = [];
 						$('#tasks ul#' + cli.storage.lists.order[i]).children('li').map(function () {
 							
