@@ -239,8 +239,8 @@ var ui = {
 			// Appends to UI
 			$('#userLists').append('\
 				<li id="L' + (cli.storage.lists.items.length) + '">\
-					<div class="editIcon" style="display: none" title="' + $.i18n._('titleEditList') + '"></div>\
-					<div class="delete" style="display: block" title="' + $.i18n._('titleDeleteList') + '"></div>\
+					<div class="editIcon" title="' + $.i18n._('titleEditList') + '"></div>\
+					<div class="delete" title="' + $.i18n._('titleDeleteList') + '"></div>\
 					<div class="count">0</div>\
 					<div class="view">\
 						<p>' + $.i18n._('newList') + '</p>\
@@ -1138,7 +1138,6 @@ var ui = {
 
 				$('#L' + ui.listEditMode).removeClass('edit');
 				$('#L' + ui.listEditMode + ' .edit').hide(0);
-				$('#L' + ui.lists.selected() + ' .editIcon').show(0);
 				$('#L' + ui.listEditMode + ' .view p').html(newName).parent().show(0);
 
 				ui.lists.updateCount();
