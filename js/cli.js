@@ -291,6 +291,37 @@ var cli = {
 					results = [],
 					search;
 
+				function searcher(key) {
+					var pass1 = [],
+						pass2  = true;
+
+					// Loop through each word in the query
+					for (var q = 0; q < query.length; q++) {
+
+						// Create new search
+						search = new RegExp(query[q], 'i');
+
+						// Search
+						if (search.test(cli.storage.tasks[key].content + cli.storage.tasks[key].notes)) {
+							pass1.push(true);
+						} else {
+							pass1.push(false);
+						}
+					}
+
+					// This makes sure that the task has matched each word in the query
+					for (var p = 0; p < pass1.length; p++) {
+						if (pass1[p] === false) {
+							pass2 = false;
+						}
+					}
+
+					// If all terms match then add task to the results array
+					if (pass2) {
+						return (key)
+					}
+				}
+
 				if (searchlist == 'all') {
 					// Search loop
 					for (var t = 0; t < cli.storage.tasks.length; t++) {
@@ -301,34 +332,11 @@ var cli = {
 							// Exclude logged tasks
 							if (cli.storage.tasks[t].logged == false || cli.storage.tasks[t].logged == 'false') {
 
-								var pass1 = [],
-									pass2  = true;
-
-								// Loop through each word in the query
-								for (var q = 0; q < query.length; q++) {
-
-									// Create new search
-									search = new RegExp(query[q], 'i');
-
-									// Search
-									if (search.test(cli.storage.tasks[t].content + cli.storage.tasks[t].notes)) {
-										pass1.push(true);
-									} else {
-										pass1.push(false);
-									}
-								}
-
-								// This makes sure that the task has matched each word in the query
-								for (var p = 0; p < pass1.length; p++) {
-									if (pass1[p] === false) {
-										pass2 = false;
-									}
-								}
-
-								// If all terms match then add task to the results array
-								if (pass2) {
-									results.push(t);
-								}
+								//Seaches Task
+								var str = searcher(t);
+								if (str != undefined) {
+									results.push();
+								}				
 							}
 						}
 					}
@@ -336,33 +344,9 @@ var cli = {
 					//Do Something
 				} else {
 					for (var key in cli.storage.lists.items[searchlist].order) {
-						var pass1 = [],
-							pass2  = true;
-
-						// Loop through each word in the query
-						for (var q = 0; q < query.length; q++) {
-
-							// Create new search
-							search = new RegExp(query[q], 'i');
-
-							// Search
-							if (search.test(cli.storage.tasks[key].content + cli.storage.tasks[key].notes)) {
-								pass1.push(true);
-							} else {
-								pass1.push(false);
-							}
-						}
-
-						// This makes sure that the task has matched each word in the query
-						for (var p = 0; p < pass1.length; p++) {
-							if (pass1[p] === false) {
-								pass2 = false;
-							}
-						}
-
-						// If all terms match then add task to the results array
-						if (pass2) {
-							results.push(key);
+						var str = parseInt(searcher(key))
+						if (!isNaN(str)) {
+							results.push(str);
 						}
 					}
 				}
@@ -956,40 +940,6 @@ String.prototype.toNum = function () {
 		return this.toString();
 	}
 }
-
-//Compresses & Deflates data
-/*function compress(str) {
-	var final = str
-		.replace(/\"content\"/g, "\"a\"")
-		.replace(/\"priority\"/g, "\"b\"")
-		.replace(/\"date\"/g, "\"c\"")
-		.replace(/\"notes\"/g, "\"d\"")
-		.replace(/\"today\"/g, "\"e\"")
-		.replace(/\"showInToday\"/g, "\"f\"")
-		.replace(/\"list\"/g, "\"g\"")
-		.replace(/\"logged\"/g, "\"h\"")
-		.replace(/\"time\"/g, "\"i\"")
-		.replace(/\"synced\"/g, "\"j\"")
-
-	return final;
-}
-
-function deflate(str) {
-	var final = str
-		.replace(/\"a\"/g, "\"content\"")
-		.replace(/\"b\"/g, "\"priority\"")
-		.replace(/\"c\"/g, "\"date\"")
-		.replace(/\"d\"/g, "\"notes\"")
-		.replace(/\"e\"/g, "\"today\"")
-		.replace(/\"f\"/g, "\"showInToday\"")
-		.replace(/\"g\"/g, "\"list\"")
-		.replace(/\"h\"/g, "\"logged\"")
-		.replace(/\"i\"/g, "\"time\"")
-		.replace(/\"j\"/g, "\"synced\"")
-
-	return final;
-}
-*/
 
 function compress(obj) {
 	var chart = {

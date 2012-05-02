@@ -558,18 +558,16 @@ var ui = {
 			$editBTN.addClass('disabled');
 			$deleteBTN.addClass('disabled');
 
-			// Deselect lists
-			$('#sidebar ul li.selected').removeClass('selected');
-
 			// Get query and run search
 			var query = this.value,
-				results = cli.populate('search', query);
+				results = cli.populate('search', query, ui.lists.selected());
 
+			var taskResults = '';
 			// Display results
-			$tasks.html('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('searchResults') + query + '</h2><ul></ul>');
 			for(var i = 0; i < results.length; i++) {
-				$('#tasks ul').append(ui.tasks.draw(results[i]));
+				taskResults += ui.tasks.draw(results[i]);
 			}
+			$tasks.html('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('searchResults') + query + '</h2><ul>' + taskResults + '</ul>')
 		});
 
 
