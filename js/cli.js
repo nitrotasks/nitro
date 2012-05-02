@@ -839,7 +839,20 @@ var cli = {
 		},
 
 		sync: {
-			connect: function () {
+
+			// Magical function that handles connect and emit
+			run: function() {
+
+				if(cli.storage.prefs.access) {
+					cli.storage.sync.emit()
+				} else {
+					cli.storage.sync.connect(function() {
+						cli.storage.sync.emit();
+					});
+				}
+
+			},
+			connect: function (callback) {
 
 				console.log("Connecting to Nitro Sync server");
 
@@ -853,6 +866,7 @@ var cli = {
 							console.log(data);
 							if(data == "success") {
 								console.log("Nitro Sync server is ready");
+								callback();
 							} else if (data == "failed") {
 								console.log("Could not connect to Dropbox");
 							}
@@ -880,6 +894,7 @@ var cli = {
 								success: function (data) {
 									console.log("Nitro Sync server is ready");
 									cli.storage.prefs.sync.access = data;
+									callback();
 									cli.storage.save();
 								}
 							});
