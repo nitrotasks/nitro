@@ -757,24 +757,20 @@ var cli = {
 						difference = Math.abs(difference);
 						if (difference !== 1) {
 							return [$.i18n._('daysOverdue', [difference]), 'overdue'];
-						} else {
-							return [$.i18n._('dayOverdue'), 'overdue'];
 						}
 					} else if (difference === -1) {
 						// Yesterday
-						return ["yesterday", 'due'];
+						return ["due yesterday", 'due'];
 					} else if (difference === 0) {
 						// Due
-						return ["today", 'due'];
+						return ["due today", 'due'];
 					} else if (difference === 1) {
 						// Due
-						return ["tomorrow", ''];
+						return ["due tomorrow", ''];
 					} else if (difference < 15) {
 						// Due in the next 15 days
 						if (difference !== 1) {
 							return [$.i18n._('daysLeft', [difference]), ''];
-						} else {
-							return [$.i18n._('dayLeft'), ''];
 						}
 					} else {
 						// Due after 15 days
