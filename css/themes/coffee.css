@@ -123,6 +123,20 @@ body {
     border-bottom: 1px solid #efeff0; }
     #content #sidebar ul li.dragHover:not(.selected) {
       background: #ecf8ff; }
+    #content #sidebar ul li .editIcon {
+      left: auto;
+      right: 65px;
+      top: 7px;
+      width: 17px;
+      height: 17px;
+      background: url(../../images/whitesprite.png) no-repeat -1px -145px; }
+    #content #sidebar ul li .delete {
+      left: auto;
+      right: 45px;
+      top: 9px;
+      width: 18px;
+      height: 16px;
+      background: url(../../images/whitesprite.png) no-repeat 0 -120px; }
     #content #sidebar ul li.selected {
       font-weight: bold;
       color: #fff;
@@ -136,35 +150,24 @@ body {
       box-shadow: inset 0 1px 0 #6ad2ef, 0 1px 0 #75a9e2 inset, 0 -1px 0 #7783d1 inset;
       border-bottom: 1px solid #1a638f;
       border-top: 1px solid #1a638f; }
-      #content #sidebar ul li.selected .editIcon {
-        left: 5px;
-        top: 7px;
-        width: 17px;
-        height: 17px;
-        cursor: pointer;
-        background: url(../../images/whitesprite.png) no-repeat -1px -145px; }
     #content #sidebar ul li .edit input {
       padding: 3px 4px;
       margin-left: -5px;
       margin-right: 5px;
-      width: 168px;
+      width: 135px;
       border: 0;
       outline: 0;
       background: white;
       border-radius: 2px; }
-    #content #sidebar ul li .edit .delete, #content #sidebar ul li .edit .save {
+    #content #sidebar ul li .edit .save {
       width: 18px;
       height: 16px;
-      display: inline-block;
-      vertical-align: middle; }
+      left: auto;
+      right: 65px;
+      top: 8px;
+      background: url(../../images/whitesprite.png) no-repeat 0 -198px; }
     #content #sidebar ul li .edit .delete {
       background: url(../../images/whitesprite.png) no-repeat 0 -120px; }
-    #content #sidebar ul li .edit .save {
-      background: url(../../images/whitesprite.png) no-repeat 0 -198px; }
-    #content #sidebar ul li .count {
-      width: 50px;
-      margin-right: 20px;
-      text-align: center; }
 #content #tasks {
   top: 36px;
   left: 250px; }
