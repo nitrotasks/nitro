@@ -227,7 +227,7 @@ var cli = {
 		//Saves
 		cli.storage.save();
 	},
-	populate: function (type, query) {
+	populate: function (type, query, searchlist) {
 		query = cli.escape(query);
 		// Displays a list
 		switch(type) {
@@ -291,43 +291,78 @@ var cli = {
 					results = [],
 					search;
 
-				// Search loop
-				for (var t = 0; t < cli.storage.tasks.length; t++) {
+				if (searchlist == 'all') {
+					// Search loop
+					for (var t = 0; t < cli.storage.tasks.length; t++) {
 
-					// If task exists
-					if (cli.storage.tasks[t]) {
+						// If task exists
+						if (cli.storage.tasks[t]) {
 
-						// Exclude logged tasks
-						if (cli.storage.tasks[t].logged == false || cli.storage.tasks[t].logged == 'false') {
+							// Exclude logged tasks
+							if (cli.storage.tasks[t].logged == false || cli.storage.tasks[t].logged == 'false') {
 
-							var pass1 = [],
-								pass2  = true;
+								var pass1 = [],
+									pass2  = true;
 
-							// Loop through each word in the query
-							for (var q = 0; q < query.length; q++) {
+								// Loop through each word in the query
+								for (var q = 0; q < query.length; q++) {
 
-								// Create new search
-								search = new RegExp(query[q], 'i');
+									// Create new search
+									search = new RegExp(query[q], 'i');
 
-								// Search
-								if (search.test(cli.storage.tasks[t].content + cli.storage.tasks[t].notes)) {
-									pass1.push(true);
-								} else {
-									pass1.push(false);
+									// Search
+									if (search.test(cli.storage.tasks[t].content + cli.storage.tasks[t].notes)) {
+										pass1.push(true);
+									} else {
+										pass1.push(false);
+									}
+								}
+
+								// This makes sure that the task has matched each word in the query
+								for (var p = 0; p < pass1.length; p++) {
+									if (pass1[p] === false) {
+										pass2 = false;
+									}
+								}
+
+								// If all terms match then add task to the results array
+								if (pass2) {
+									results.push(t);
 								}
 							}
+						}
+					}
+				} else if (searchlist == 'logbook') {
+					//Do Something
+				} else {
+					for (var key in cli.storage.lists.items[searchlist].order) {
+						var pass1 = [],
+							pass2  = true;
 
-							// This makes sure that the task has matched each word in the query
-							for (var p = 0; p < pass1.length; p++) {
-								if (pass1[p] === false) {
-									pass2 = false;
-								}
-							}
+						// Loop through each word in the query
+						for (var q = 0; q < query.length; q++) {
 
-							// If all terms match then add task to the results array
-							if (pass2) {
-								results.push(t);
+							// Create new search
+							search = new RegExp(query[q], 'i');
+
+							// Search
+							if (search.test(cli.storage.tasks[key].content + cli.storage.tasks[key].notes)) {
+								pass1.push(true);
+							} else {
+								pass1.push(false);
 							}
+						}
+
+						// This makes sure that the task has matched each word in the query
+						for (var p = 0; p < pass1.length; p++) {
+							if (pass1[p] === false) {
+								pass2 = false;
+							}
+						}
+
+						// If all terms match then add task to the results array
+						if (pass2) {
+							results.push(key);
 						}
 					}
 				}
