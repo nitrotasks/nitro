@@ -846,7 +846,7 @@ var cli = {
 				if(cli.storage.prefs.sync.hasOwnProperty('access')) {
 					$.ajax({
 						type: "POST",
-						url: 'http://localhost:3000/auth/',
+						url: 'http://stark-fog-5496.herokuapp.com/auth/',
 						dataType: 'json',
 						data: {access: cli.storage.prefs.sync.access},
 						success: function (data) {
@@ -861,7 +861,7 @@ var cli = {
 				} else {
 					$.ajax({
 						type: "POST",
-						url: 'http://localhost:3000/auth/',
+						url: 'http://stark-fog-5496.herokuapp.com/auth/',
 						dataType: 'json',
 						data: {reqURL: 'true'},
 						success: function (data) {
@@ -874,7 +874,7 @@ var cli = {
 								targetWin = window.open (data.authorize_url, title, 'toolbar=no, type=popup, status=no, width=800, height=600, top='+top+', left='+left);
 							$.ajax({
 								type: "POST",
-								url: 'http://localhost:3000/auth/',
+								url: 'http://stark-fog-5496.herokuapp.com/auth/',
 								dataType: 'json',
 								data: {token: cli.storage.prefs.sync.token},
 								success: function (data) {
@@ -899,7 +899,7 @@ var cli = {
 
 				$.ajax({
 					type: "POST",
-					url: 'http://localhost:3000/sync/',
+					url: 'http://stark-fog-5496.herokuapp.com/sync/',
 					dataType: 'json',
 					data: {data: JSON.stringify(compress(client)), access: cli.storage.prefs.sync.access},
 					success: function (data) {
