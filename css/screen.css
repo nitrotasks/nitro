@@ -463,7 +463,7 @@ body {
         position: absolute;
         top: 1px;
         right: 5px;
-        width: 45px;
+        width: 40px;
         text-indent: 0;
         text-align: center; }
       #content #sidebar ul li.dragHover:not(.selected) {
