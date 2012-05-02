@@ -335,7 +335,7 @@ var cli = {
 								//Seaches Task
 								var str = searcher(t);
 								if (str != undefined) {
-									results.push();
+									results.push(str);
 								}				
 							}
 						}
