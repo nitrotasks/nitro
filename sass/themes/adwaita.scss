@@ -214,16 +214,26 @@ body {
 				// EDIT ICON
 				.editIcon {
 					// position
-					left: 6px;
-					top: 7px;
+					left: auto;
+					right: 65px;
+					top: 4px;
 
-					// size
+					// color
 					width: 17px;
 					height: 17px;
-
-					// background
 					background: url(../../images/whitesprite.png) no-repeat -1px -145px;
 				}
+
+				.delete {
+					left: auto;
+					right: 45px;
+					top: 6px;
+
+					width: 18px;
+					height: 16px;
+					background: url(../../images/whitesprite.png) no-repeat 0 -120px;
+				}
+
 
 				// SELECTED LIST
 				&.selected {
@@ -235,15 +245,6 @@ body {
 					background-color: #4a90d9;
 					text-shadow: 0 1px 1px rgba(0,0,0,0.3);
 
-					// EDIT ICON (SELECTED)
-					.editIcon {
-						// position
-						left: 5px;
-						top: 6px;
-
-						// color
-						background: url(../../images/whitesprite.png) no-repeat -1px -147px;
-					}
 				}
 
 				// EDITING A LIST
@@ -257,7 +258,7 @@ body {
 						margin-right: 5px;
 
 						// size
-						width: 168px;
+						width: 135px;
 						border: 0;
 						outline: 0;
 
@@ -267,31 +268,17 @@ body {
 					}
 
 					// DELETE AND SAVE ICONS
-					.delete, .save {
+					.save {
 						// size
 						width: 18px;
 						height: 16px;
 
-						// position
-						display: inline-block;
-						vertical-align: middle;
-					}
-					.delete {
-						background: url(../../images/whitesprite.png) no-repeat 0 -120px;
-					}
-					.save {
+						left: auto;
+						right: 65px;
+						top: 5px;
+
 						background: url(../../images/whitesprite.png) no-repeat 0 -198px;
 					}
-				}
-
-				// COUNT
-				.count {
-					// size
-					width: 50px;
-
-					// position
-					margin-right: 20px;
-					text-align: center;
 				}
 			}
 		}

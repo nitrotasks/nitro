@@ -239,6 +239,10 @@ body {
 					&:focus {
 						outline: none;
 					}
+
+					&::-webkit-input-placeholder {
+						color: #999;
+					}
 				}
 			}
 		}
@@ -305,53 +309,96 @@ body {
 				// default
 				height: 30px;
 
-				.editIcon {
+				p {
+					display: inline-block;
+					margin: 0;
+					width: 165px;
+					text-overflow: ellipsis;
+					overflow: hidden;
+					white-space: nowrap;
+					position: absolute;
+				}
+
+				.editIcon, .delete {
 					position: absolute;
 					display: none;
+				}
+
+				/* EDIT AND DELETE BUTTONS */
+
+				.editIcon, .delete, .save {
+					// position
+					position: absolute;
+					opacity: 0.5;
+
+					&:hover {
+						opacity: 1;
+					}
 				}
 
 				&.selected {
 					background: #f0f0f0;
 
-					&:hover .editIcon {
+					&:hover .editIcon, &:hover .delete {
+						display: block;
+					}
+
+				}
+
+				&.edit {
+					.editIcon {
+						display: none !important;
+					}
+					.delete, .save {
 						display: block;
 					}
 				}
+
+				.editIcon {
+					// size
+					width: 17px;
+					height: 17px;
+				}
+
+				.delete {
+					// size
+					width: 18px;
+					height: 16px;
+				}
+
+				.count {
+					position: absolute;
+					top: 1px;
+					right: 5px;
+					width: 45px;
+					text-indent: 0;
+					text-align: center;
+				}
+
+				/* HOVERING WITH TASK */
 
 				&.dragHover:not(.selected) {
 					background: #ddd;
 				}
 
-				&.edit:hover .editIcon {
+/*				&.edit:hover .editIcon {
 					display: none;
-				}
-
-				.view {
-					overflow: hidden;
-				}
+				}*/
 
 				.edit {
 					display: none;
 					div {
 						display: inline;
 					}
-					.delete, .save {
+					.save {
+						position: absolute;
 						width: 18px;
-						height: 16px;
-						display: inline-block;
-						vertical-align: middle;
-					}
-					.delete {
-						background: url(../../images/whitesprite.png) no-repeat 0 -120px;
 					}
 					.save {
 						background: url(../../images/whitesprite.png) no-repeat 0 -198px;
 					}	
 				}
 
-				.count {
-					float: right;
-				}
 			}
 		}
 	}
@@ -396,6 +443,9 @@ body {
 		ul {
 			&#next {
 				min-height: 30px;
+			}
+			&:last-of-type {
+				padding-bottom: 50px;
 			}
 		}
 

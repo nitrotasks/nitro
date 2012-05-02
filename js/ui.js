@@ -237,7 +237,19 @@ var ui = {
 		// ADD LIST BUTTON
 		$addListBTN.click(function () {
 			// Appends to UI
-			$('#userLists').append('<li id="L' + (cli.storage.lists.items.length) + '"><div class="editIcon" title="' + $.i18n._('titleEditList') + '"></div><div class="view">' + $.i18n._('newList') + '<div class="count">0</div></div><div class="edit"><input type="text" value="' + $.i18n._('newList') + '"><div class="delete" title="' + $.i18n._('titleDeleteList') + '"></div><div class="save" title="' + $.i18n._('titleSaveList') + '"></div></li>');
+			$('#userLists').append('\
+				<li id="L' + (cli.storage.lists.items.length) + '">\
+					<div class="editIcon" style="display: none" title="' + $.i18n._('titleEditList') + '"></div>\
+					<div class="delete" style="display: block" title="' + $.i18n._('titleDeleteList') + '"></div>\
+					<div class="count">0</div>\
+					<div class="view">\
+						<p>' + $.i18n._('newList') + '</p>\
+					</div>\
+					<div class="edit">\
+						<input type="text" value="' + $.i18n._('newList') + '">\
+						<div class="save" title="' + $.i18n._('titleSaveList') + '">\
+					</div>\
+				</li>');
 
 			// Makes it droppable
 			$('#sidebar ul li').droppable('destroy').droppable(ui.lists.dropOptions);
@@ -564,6 +576,15 @@ var ui = {
 
 			var taskResults = '';
 			// Display results
+<<<<<<< HEAD
+=======
+			if(results.length) {
+				$tasks.html('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('searchResults') + query + '</h2><ul></ul>');
+			} else {
+				$tasks.html('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('noResults') + '</h2><ul></ul>');
+			}
+			
+>>>>>>> Bug fixes, improvements and sync
 			for(var i = 0; i < results.length; i++) {
 				taskResults += ui.tasks.draw(results[i]);
 			}
@@ -1064,13 +1085,29 @@ var ui = {
 
 		populate: function () {
 
+			var output = "";
+
 			// Clear lists
 			$userLists.html('');
 
 			// Loop through lists and generate HTML for each list
 			for (var i=0; i<cli.storage.lists.order.length; i++) {
-				$userLists.append('<li id="L' + cli.storage.lists.order[i] + '"><div class="editIcon" title="' + $.i18n._('titleEditList') + '"></div><div class="view">' + cli.storage.lists.items[cli.storage.lists.order[i]].name  + '<div class="count">0</div></div><div class="edit"><input type="text" value="' +  cli.storage.lists.items[cli.storage.lists.order[i]].name + '"><div class="delete" title="' + $.i18n._('titleDeleteList') + '"></div><div class="save" title="' + $.i18n._('titleSaveList') + '"></div></div></li>');
+				output += '\
+					<li id="L' + cli.storage.lists.order[i] + '">\
+						<div class="editIcon" title="' + $.i18n._('titleEditList') + '"></div>\
+						<div class="delete" title="' + $.i18n._('titleDeleteList') + '"></div>\
+						<div class="count"></div>\
+						<div class="view">\
+							<p>' + cli.storage.lists.items[cli.storage.lists.order[i]].name  + '</p>\
+						</div>\
+						<div class="edit">\
+							<input type="text" value="' +  cli.storage.lists.items[cli.storage.lists.order[i]].name + '">\
+							<div class="save" title="' + $.i18n._('titleSaveList') + '"></div>\
+						</div>\
+					</li>';
 			}
+
+			$userLists.html(output);
 		},
 
 
@@ -1101,7 +1138,8 @@ var ui = {
 
 				$('#L' + ui.listEditMode).removeClass('edit');
 				$('#L' + ui.listEditMode + ' .edit').hide(0);
-				$('#L' + ui.listEditMode + ' .view').html(newName + '<div class="count"></div>').show(0);
+				$('#L' + ui.lists.selected() + ' .editIcon').show(0);
+				$('#L' + ui.listEditMode + ' .view p').html(newName).parent().show(0);
 
 				ui.lists.updateCount('all');
 				
@@ -1487,34 +1525,32 @@ var ui = {
 			var data = cli.taskData(id).display();
 
 			// CHECKBOX
-			var priority;
+			var priority = "";
 			if (data.priority !== 'none') {
 				priority = 'class="' + data.priority + '" ';
-			} else {
-				priority = '';
 			}
-
 			// TODAY LABEL
-			var today;
+			var today = "";
 			if (ui.lists.selected() !== 'today') {
 				if (data.today === 'yesAuto' || data.today === 'manual') {
 					today = '<span class="todayLabel">' + $.i18n._('doToday') + '</span>';
-				} else if (data.today === 'noAuto' || data.today === 'false') {
-					today = '';
 				}
-			} else {
-				today = '';
 			}
+			
 
 			// DATE LABEL
-			var date;
+			var date = "";
 			if (data.date !== '') {
 				date = '<span class="dateLabel ' + cli.calc.prettyDate.difference(data.date)[1] + '">' + cli.calc.prettyDate.difference(data.date)[0] + '</span>';
-			} else {
-				date = '';
 			}
 
-			return '<li ' + priority + 'id="T' + id + '"><div class="boxhelp"><div class="checkbox"><input type="checkbox"></div><div class="todotxt">' + data.content + '</div><div class="labels">' + today + date + '</div></div></li>';
+			// NOTES
+			var notes = "";
+			if (data.notes !== '') {
+				notes = '<span class="notesIcon"></span>'
+			}
+
+			return '<li ' + priority + 'id="T' + id + '"><div class="boxhelp"><div class="checkbox"><input type="checkbox"></div><div class="todotxt">' + data.content + '</div>' + notes + '<div class="labels">' + today + date + '</div></div></li>';
 		},
 
 		selected: {
@@ -1567,7 +1603,7 @@ var ui = {
 				task.append('<div class="hidden"><textarea placeholder="' + $.i18n._('notes') + '">' + taskData.notes + '</textarea></div>');
 
 				//Auto resize
-				$('#content textarea').TextAreaExpander();
+				$('#content textarea').TextAreaExpander(0, 400);
 
 				//Animations
 				task.addClass('margin');
@@ -1650,6 +1686,8 @@ var ui = {
 			key('space', function () {ui.external.cmd('check');});
 			key('enter', function () {ui.external.cmd('editTask'); return false;});
 			key('⌘+enter', function () {ui.external.cmd('editList'); return false;});
+
+			key('delete', function() {ui.external.cmd('delete');});
 
 			key('f', function () {ui.external.cmd('find'); return false;});
 			key('p', function () {ui.external.cmd('prefs');});
@@ -1752,6 +1790,10 @@ var ui = {
 				case 'check':
 					$('.selected input[type=checkbox]').click();
 					break;
+				case 'delete':
+					if($warning.is(':visible')) $("#overlay").click();
+					else $deleteBTN.click();
+					break;
 
 				case 'prevTask':
 					if(!$('#tasks .selected').length) {
@@ -1785,14 +1827,18 @@ var ui = {
 					}
 					break;
 				case 'prevList':
-					if ($('#sidebar .selected').is(':first-of-type')) {
+					if(!$('#sidebar .selected').length) {
+						$('#sidebar li').first().click();
+					} else if ($('#sidebar .selected').is(':first-of-type')) {
 						$('#sidebar .selected').parent().prev('h2').prev('ul').find('li').last().click();
 					} else {
 						$('#sidebar .selected').prev('li').click();
 					}
 					break;
 				case 'nextList':
-					if ($('#sidebar .selected').is(':last-of-type')) {
+					if(!$('#sidebar .selected').length) {
+						$('#sidebar li').first().click();
+					} else if ($('#sidebar .selected').is(':last-of-type')) {
 						$('#sidebar .selected').parent().next('h2').next('ul').find('li').first().click();
 					} else {
 						$('#sidebar .selected').next('li').click();

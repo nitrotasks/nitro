@@ -9,7 +9,8 @@
   },
   "permissions": [
     "unlimitedStorage",
-    "http://localhost:3000/"
+    "http://localhost:3000/",
+    "http://stark-fog-5496.herokuapp.com/"
   ],
   "icons": {
     "16": "images/16.png",

@@ -99,6 +99,7 @@
 	"month":				["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
 
 	"searchResults":  		"Search Results: ",
+	"noResults":			"No Search Results",
 
 	"titleAddTask":   		"Add a new task",
 	"titleEditTask":  		"Edit the selected task",

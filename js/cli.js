@@ -752,7 +752,7 @@ var cli = {
 					difference = Math.ceil((date.getTime() - now.getTime()) / oneDay);
 
 					// Show difference nicely
-					if (difference < 0) {
+					if (difference < -1) {
 						// Overdue
 						difference = Math.abs(difference);
 						if (difference !== 1) {
@@ -760,9 +760,15 @@ var cli = {
 						} else {
 							return [$.i18n._('dayOverdue'), 'overdue'];
 						}
+					} else if (difference === -1) {
+						// Yesterday
+						return ["yesterday", 'due'];
 					} else if (difference === 0) {
 						// Due
-						return ["due today", 'due'];
+						return ["today", 'due'];
+					} else if (difference === 1) {
+						// Due
+						return ["tomorrow", ''];
 					} else if (difference < 15) {
 						// Due in the next 15 days
 						if (difference !== 1) {
@@ -899,7 +905,7 @@ var cli = {
 					type: "POST",
 					url: 'http://localhost:3000/sync/',
 					dataType: 'json',
-					data: {data: JSON.stringify(compress(client))},
+					data: {data: JSON.stringify(compress(client)), access: cli.storage.prefs.sync.access},
 					success: function (data) {
 						data = decompress(data);
 						console.log("Finished sync");
