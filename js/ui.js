@@ -141,7 +141,7 @@ var ui = {
 
 				//Update list count if task is added to today
 				if (ui.lists.selected() === 'today') {
-					ui.lists.updateCount('all');
+					ui.lists.updateCount();
 				} else {
 					ui.lists.updateCount();
 				}
@@ -184,7 +184,7 @@ var ui = {
 
 				cli.deleteTask(id);
 				$('#T' + id).remove();
-				ui.lists.updateCount('all');
+				ui.lists.updateCount();
 
 				//Disable edit and delete button if there is no expanded or selected task
 				if (!$('#tasks .selected').length && !$('#tasks .expanded').length) {
@@ -202,7 +202,7 @@ var ui = {
 						$(this).parent().fadeOut(75);
 						cli.deleteTask(id);
 						$('#T' + id).remove();
-						ui.lists.updateCount('all');
+						ui.lists.updateCount();
 
 						//Disable edit and delete button if there is no expanded or selected task
 						if (!$('#tasks .selected').length && !$('#tasks .expanded').length) {
@@ -698,7 +698,7 @@ var ui = {
 			}
 
 			// Update list count
-			ui.lists.updateCount('all');
+			ui.lists.updateCount();
 
 		});
 
@@ -836,7 +836,7 @@ var ui = {
 			}
 
 			//Updates counts
-			ui.lists.updateCount('all');
+			ui.lists.updateCount();
 		});
 
 		// SET DUE DATE
@@ -866,7 +866,7 @@ var ui = {
 					$('#tasks li.expanded div.labels span.today').removeClass('inToday').html($.i18n._('showInToday'));
 				}
 
-				ui.lists.updateCount('all');
+				ui.lists.updateCount();
 			}
 		}).children().show();
 
@@ -899,7 +899,7 @@ var ui = {
 			} else {
 				ui.tasks.sortStop();
 			}
-			ui.lists.updateCount('all');
+			ui.lists.updateCount();
 		});
 
 		// CLOSE DATEPICKER
@@ -1052,7 +1052,7 @@ var ui = {
 			ui.tasks.populate(sel);
 			$('#' + sel).addClass('selected');
 
-			ui.lists.updateCount('all');
+			ui.lists.updateCount();
 		}
 	},
 
@@ -1141,7 +1141,7 @@ var ui = {
 				$('#L' + ui.lists.selected() + ' .editIcon').show(0);
 				$('#L' + ui.listEditMode + ' .view p').html(newName).parent().show(0);
 
-				ui.lists.updateCount('all');
+				ui.lists.updateCount();
 				
 				$('#tasks h2').html(newName);
 
@@ -1188,25 +1188,9 @@ var ui = {
 		**********************************/
 
 		updateCount: function (type) {
-
-			// If no type is specified, update the selected list by default
-			type = type || 'selected';
-
-			switch(type) {
-				case 'all':
-					$('#sidebar li').map(function () {
-						$(this).find('.count').html(cli.populate('list', $(this).attr('id').substr(1).toNum()).length);
-					});
-					return;
-				case 'selected':
-					var list = ui.lists.selected();
-					break;
-				default:
-					// We don't need to do anything, we already have the id
-					var list = type;
-					break;
-			}
-			$('#L' + list + ' .count').html(cli.populate('list', list).length);
+			$('#sidebar li').map(function () {
+				$(this).find('.count').html(cli.populate('list', $(this).attr('id').substr(1).toNum()).length);
+			});
 		},
 
 
@@ -1241,7 +1225,7 @@ var ui = {
 				ui.tasks.populate(ui.lists.selected());
 
 				//Update Counts
-				ui.lists.updateCount('all');
+				ui.lists.updateCount();
 			}
 		}
 	},
@@ -1423,7 +1407,7 @@ var ui = {
 
 						// Recomment in if it breaks something!
 						// cli.today(id).calculate()
-						ui.lists.updateCount('all');
+						ui.lists.updateCount();
 					}
 				}
 			});
@@ -1504,7 +1488,7 @@ var ui = {
 				}
 
 				//Updates Counts for all lists
-				ui.lists.updateCount('all');
+				ui.lists.updateCount();
 			}
 
 			// Deletes empty lists
@@ -1982,7 +1966,7 @@ var ui = {
 		// This has to be done after language
 		// Resizes tasks
 		ui.init();
-		ui.lists.updateCount('all');
+		ui.lists.updateCount();
 		ui.tasks.populate(ui.lists.selected());
 	}
 };
