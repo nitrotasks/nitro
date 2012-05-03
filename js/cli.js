@@ -110,6 +110,21 @@ var cli = {
 				}
 			}
 
+			//Check someday list
+			if (cli.storage.lists.items.someday) {
+				console.log('Upgrading DB to Nitro 1.3');
+				//Create Someday List
+				cli.list('', 'Someday').add();
+
+				for (var key in cli.storage.lists.items.someday.order) {
+					//Moves Tasks into New List
+					cli.moveTask(cli.storage.lists.items.someday.order[key], cli.storage.lists.items.length - 1);
+				}
+
+				delete cli.storage.lists.items.someday;
+				cli.storage.save();
+			}
+
 			// Check preferences exist. If not, set to default
 			cli.storage.lists.deleted = cli.storage.lists.deleted   || {};
 			cli.storage.lists.time     = cli.storage.prefs.time     || 0;
@@ -345,7 +360,7 @@ var cli = {
 					//Do Something
 				} else {
 					for (var key in cli.storage.lists.items[searchlist].order) {
-						var str = parseInt(searcher(key))
+						var str = parseInt(searcher(cli.storage.lists.items[searchlist].order[key]))
 						if (!isNaN(str)) {
 							results.push(str);
 						}
@@ -827,7 +842,7 @@ var cli = {
 		//Object where data is stored
 		tasks: $.jStorage.get('tasks', {length: 0}),
 		queue: $.jStorage.get('queue', {}),
-		lists: $.jStorage.get('lists', {order: [], items:{today: {name: "Today", order:[], time: {name: 0, order: 0}}, next: {name: "Next", order:[], time: {name: 0, order: 0}}, someday: {name: "Someday", order:[], time: {name: 0, order: 0}}, 0: {order:[]}, length: 1}, time: 0}),
+		lists: $.jStorage.get('lists', {order: [], items:{today: {name: "Today", order:[], time: {name: 0, order: 0}}, next: {name: "Next", order:[], time: {name: 0, order: 0}}, 0: {order:[]}, length: 1}, time: 0}),
 		prefs: $.jStorage.get('prefs', {deleteWarnings: false, gpu: false, nextAmount: 'threeItems', over50: true, lang: 'english', bg: {color: '', size: 'tile'}, sync: {}}),
 		// NB: Over 50 caps amount of tasks in List to 50 but causes drag and drop problems.
 		// I CBF fixing it.
