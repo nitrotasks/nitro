@@ -45,7 +45,7 @@ var cli = {
 
 			// Check tasks for timestamps
 			for(var id in cli.storage.tasks) {
-				if (id !== 'length') {
+				if (id !== 'length' && !cli.storage.tasks[id].hasOwnProperty('deleted')) {
 
 					// Check task has time object
 					if (!cli.storage.tasks[id].hasOwnProperty('time')) {
@@ -111,6 +111,7 @@ var cli = {
 			}
 
 			// Check preferences exist. If not, set to default
+			cli.storage.lists.deleted = cli.storage.lists.deleted   || {};
 			cli.storage.lists.time     = cli.storage.prefs.time     || 0;
 			cli.storage.prefs.sync     = cli.storage.prefs.sync     || 'manual';
 			cli.storage.prefs.lang     = cli.storage.prefs.lang     || 'english';
@@ -629,11 +630,12 @@ var cli = {
 				//Deletes data in list
 				for (var i=0; i<cli.storage.lists.items[id].order.length; i++) {
 					cli.today(cli.storage.lists.items[id].order[i]).remove();
-					delete cli.storage.tasks[cli.storage.lists.items[id].order[i]];
+					cli.storage.tasks[cli.storage.lists.items[id].order[i]] = {deleted: Date.now()};
 				}
 
 				//Deletes actual list
-				delete cli.storage.lists.items[id];
+				delete cli.storage.lists.items[id]
+				cli.storage.lists.deleted[id] = Date.now();
 				cli.storage.lists.order.splice(jQuery.inArray(id, cli.storage.lists.order), 1);
 
 				// Update timestamp for list order
@@ -918,13 +920,17 @@ var cli = {
 					dataType: 'json',
 					data: {data: JSON.stringify(compress(client)), access: cli.storage.prefs.sync.access},
 					success: function (data) {
-						data = decompress(data);
-						console.log("Finished sync");
-						cli.storage.tasks = data.tasks;
-						cli.storage.queue = data.queue;
-						cli.storage.lists = data.lists;
-						cli.storage.save();
-						ui.sync.reload();
+						if(data != 'failed') {
+							data = decompress(data);
+							console.log("Finished sync");
+							cli.storage.tasks = data.tasks;
+							cli.storage.queue = data.queue;
+							cli.storage.lists = data.lists;
+							cli.storage.save();
+							ui.sync.reload();
+						} else {
+							console.log("Sync failed. You probably need to delete cli.storage.prefs.sync.");
+						}
 					}
 				});
 
@@ -979,7 +985,8 @@ function compress(obj) {
 		notes:       'q',
 		items:       'r',
 		next:        's',
-		someday:     't'
+		someday:     't',
+		deleted:     'u'
 	},
 	out = {};
 
@@ -1020,7 +1027,8 @@ function decompress(obj) {
 		q: 'notes',
 		r: 'items',
 		s: 'next',
-		t: 'someday'
+		t: 'someday',
+		u: 'deleted'
 	},
 	out = {};
 
