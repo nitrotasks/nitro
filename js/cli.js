@@ -979,6 +979,16 @@ String.prototype.toNum = function () {
 	}
 }
 
+// "http://google.com" -> "<a href=http://google.com>http://google.com</a>"
+function convertStringToLink(text) {
+	var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+	return text.replace(exp,'<a href=$1>$1</a>');
+}
+function convertLinkToString(text) {
+	var exp = /<a\b[^>]*>(.*?)<\/a>/ig;
+	return text.replace(exp, '$1');
+}
+
 function compress(obj) {
 	var chart = {
 		name :       'a',

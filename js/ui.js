@@ -670,14 +670,16 @@ var ui = {
 		// KEYBOARD SHORTCUTS
 		$body.on('keydown', '#tasks input', function (e) {
 			if(e.keyCode === 13) {
-				$(this).parent().html($(this).val());
+				// $(this).parent().html($(this).val());
 				$editBTN.click();
+				return false;
 			}
 		});
 
 		$body.on('keydown', '#tasks input, #tasks textarea', function (e) {
 			if (e.keyCode === 27) {
 				$editBTN.click();
+				return false;
 			}
 		});
 
@@ -784,7 +786,7 @@ var ui = {
 			var data = cli.taskData(id).display();
 
 			// Edits Data
-			data.content = this.value;
+			data.content = convertStringToLink(this.value);
 			cli.taskData(id).edit(data);
 		});
 
@@ -1579,6 +1581,7 @@ var ui = {
 					date = cli.calc.prettyDate.difference(taskData.date)[1] + '">' + cli.calc.prettyDate.difference(taskData.date)[0];
 				}
 
+				taskData.content = convertLinkToString(taskData.content);
 
 				//Adds expanded data
 				task.children().children('.todotxt').html('<input type="text" placeholder="' + $.i18n._('taskName') + '" value="' + taskData.content + '">').children('input').focus();
@@ -1630,7 +1633,7 @@ var ui = {
 					}
 
 					//Turns edit mode off
-					id.children().children('.todotxt').html(id.find('input[type="text"]').val());
+					id.children().children('.todotxt').html(convertStringToLink(id.find('input[type="text"]').val()));
 					id.children().children('.labels').html(today + date);
 
 					//Animations
