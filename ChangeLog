@@ -1,6 +1,23 @@
 Changelog
 =========
 
+### 1.2.5 (2012-04-03)
+- Added 'All Tasks' list
+- Search now only searches the current list (use the All Tasks list to search all tasks)
+- Fixes dropdown menu position in Wunderlist theme
+- Added a keyboard shortcut for deleting tasks (the delete key)
+- If no lists are selected (e.g. in logbook view) Shift+U and Shift+I now auto select the today list
+- Placeholder text in search box is now fainter
+- '1 day left' -> 'due tomorrow' and '1 day overdue' -> 'due yesterday'
+- Removed 'dayLeft' and 'dayOverdue' from translation
+- If there are no search results, "No Search Results" will be displayed
+- Add padding to the bottom of the tasks so that you can scroll past the last task
+- Set a max height for the notes editor
+- Deleting a list will no longer display the old tasks
+- Centered warning dialog in Wunderlist theme (again)
+- Updated German
+- Fixes Low Graphics Label in settings
+
 
 ### 1.2.3 (2012-04-30)
 - Added Hungarian

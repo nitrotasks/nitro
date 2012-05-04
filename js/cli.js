@@ -45,7 +45,7 @@ var cli = {
 
 			// Check tasks for timestamps
 			for(var id in cli.storage.tasks) {
-				if (id !== 'length') {
+				if (id !== 'length' && !cli.storage.tasks[id].hasOwnProperty('deleted')) {
 
 					// Check task has time object
 					if (!cli.storage.tasks[id].hasOwnProperty('time')) {
@@ -110,7 +110,23 @@ var cli = {
 				}
 			}
 
+			//Check someday list
+			if (cli.storage.lists.items.someday) {
+				console.log('Upgrading DB to Nitro 1.3');
+				//Create Someday List
+				cli.list('', 'Someday').add();
+
+				for (var key in cli.storage.lists.items.someday.order) {
+					//Moves Tasks into New List
+					cli.moveTask(cli.storage.lists.items.someday.order[key], cli.storage.lists.items.length - 1);
+				}
+
+				delete cli.storage.lists.items.someday;
+				cli.storage.save();
+			}
+
 			// Check preferences exist. If not, set to default
+			cli.storage.lists.deleted = cli.storage.lists.deleted   || {};
 			cli.storage.lists.time     = cli.storage.prefs.time     || 0;
 			cli.storage.prefs.sync     = cli.storage.prefs.sync     || 'manual';
 			cli.storage.prefs.lang     = cli.storage.prefs.lang     || 'english';
@@ -227,7 +243,7 @@ var cli = {
 		//Saves
 		cli.storage.save();
 	},
-	populate: function (type, query) {
+	populate: function (type, query, searchlist) {
 		query = cli.escape(query);
 		// Displays a list
 		switch(type) {
@@ -253,7 +269,24 @@ var cli = {
 					}
 
 					return logbook;
+				
+				} else if (query === 'all') {
 
+					var results = [];
+
+					// Search loop
+					for (var t = 0; t < cli.storage.tasks.length; t++) {
+
+						// If task exists
+						if (cli.storage.tasks[t]) {
+
+							// Exclude logged tasks
+							if (cli.storage.tasks[t].logged == false || cli.storage.tasks[t].logged == 'false') {
+								results.push(t);
+							}
+						}
+					}
+					return results;
 				} else {
 
 					if (query in cli.storage.lists.items) {
@@ -274,43 +307,62 @@ var cli = {
 					results = [],
 					search;
 
-				// Search loop
-				for (var t = 0; t < cli.storage.tasks.length; t++) {
+				function searcher(key) {
+					var pass1 = [],
+						pass2  = true;
 
-					// If task exists
-					if (cli.storage.tasks[t]) {
+					// Loop through each word in the query
+					for (var q = 0; q < query.length; q++) {
 
-						// Exclude logged tasks
-						if (!cli.storage.tasks[t].logged) {
+						// Create new search
+						search = new RegExp(query[q], 'i');
 
-							var pass1 = [],
-								pass2  = true;
+						// Search
+						if (search.test(cli.storage.tasks[key].content + cli.storage.tasks[key].notes)) {
+							pass1.push(true);
+						} else {
+							pass1.push(false);
+						}
+					}
 
-							// Loop through each word in the query
-							for (var q = 0; q < query.length; q++) {
+					// This makes sure that the task has matched each word in the query
+					for (var p = 0; p < pass1.length; p++) {
+						if (pass1[p] === false) {
+							pass2 = false;
+						}
+					}
 
-								// Create new search
-								search = new RegExp(query[q], 'i');
+					// If all terms match then add task to the results array
+					if (pass2) {
+						return (key)
+					}
+				}
 
-								// Search
-								if (search.test(cli.storage.tasks[t].content + cli.storage.tasks[t].notes)) {
-									pass1.push(true);
-								} else {
-									pass1.push(false);
-								}
+				if (searchlist == 'all') {
+					// Search loop
+					for (var t = 0; t < cli.storage.tasks.length; t++) {
+
+						// If task exists
+						if (cli.storage.tasks[t]) {
+
+							// Exclude logged tasks
+							if (cli.storage.tasks[t].logged == false || cli.storage.tasks[t].logged == 'false') {
+
+								//Seaches Task
+								var str = searcher(t);
+								if (str != undefined) {
+									results.push(str);
+								}				
 							}
-
-							// This makes sure that the task has matched each word in the query
-							for (var p = 0; p < pass1.length; p++) {
-								if (pass1[p] === false) {
-									pass2 = false;
-								}
-							}
-
-							// If all terms match then add task to the results array
-							if (pass2) {
-								results.push(t);
-							}
+						}
+					}
+				} else if (searchlist == 'logbook') {
+					//Do Something
+				} else {
+					for (var key in cli.storage.lists.items[searchlist].order) {
+						var str = parseInt(searcher(cli.storage.lists.items[searchlist].order[key]))
+						if (!isNaN(str)) {
+							results.push(str);
 						}
 					}
 				}
@@ -593,11 +645,12 @@ var cli = {
 				//Deletes data in list
 				for (var i=0; i<cli.storage.lists.items[id].order.length; i++) {
 					cli.today(cli.storage.lists.items[id].order[i]).remove();
-					delete cli.storage.tasks[cli.storage.lists.items[id].order[i]];
+					cli.storage.tasks[cli.storage.lists.items[id].order[i]] = {deleted: Date.now()};
 				}
 
 				//Deletes actual list
-				delete cli.storage.lists.items[id];
+				delete cli.storage.lists.items[id]
+				cli.storage.lists.deleted[id] = Date.now();
 				cli.storage.lists.order.splice(jQuery.inArray(id, cli.storage.lists.order), 1);
 
 				// Update timestamp for list order
@@ -716,23 +769,25 @@ var cli = {
 					difference = Math.ceil((date.getTime() - now.getTime()) / oneDay);
 
 					// Show difference nicely
-					if (difference < 0) {
+					if (difference < -1) {
 						// Overdue
 						difference = Math.abs(difference);
 						if (difference !== 1) {
 							return [$.i18n._('daysOverdue', [difference]), 'overdue'];
-						} else {
-							return [$.i18n._('dayOverdue'), 'overdue'];
 						}
+					} else if (difference === -1) {
+						// Yesterday
+						return ["due yesterday", 'due'];
 					} else if (difference === 0) {
 						// Due
 						return ["due today", 'due'];
+					} else if (difference === 1) {
+						// Due
+						return ["due tomorrow", ''];
 					} else if (difference < 15) {
 						// Due in the next 15 days
 						if (difference !== 1) {
 							return [$.i18n._('daysLeft', [difference]), ''];
-						} else {
-							return [$.i18n._('dayLeft'), ''];
 						}
 					} else {
 						// Due after 15 days
@@ -787,7 +842,7 @@ var cli = {
 		//Object where data is stored
 		tasks: $.jStorage.get('tasks', {length: 0}),
 		queue: $.jStorage.get('queue', {}),
-		lists: $.jStorage.get('lists', {order: [], items:{today: {name: "Today", order:[], time: {name: 0, order: 0}}, next: {name: "Next", order:[], time: {name: 0, order: 0}}, someday: {name: "Someday", order:[], time: {name: 0, order: 0}}, 0: {order:[]}, length: 1}, time: 0}),
+		lists: $.jStorage.get('lists', {order: [], items:{today: {name: "Today", order:[], time: {name: 0, order: 0}}, next: {name: "Next", order:[], time: {name: 0, order: 0}}, 0: {order:[]}, length: 1}, time: 0}),
 		prefs: $.jStorage.get('prefs', {deleteWarnings: false, gpu: false, nextAmount: 'threeItems', over50: true, lang: 'english', bg: {color: '', size: 'tile'}, sync: {}}),
 		// NB: Over 50 caps amount of tasks in List to 50 but causes drag and drop problems.
 		// I CBF fixing it.
@@ -801,20 +856,34 @@ var cli = {
 		},
 
 		sync: {
-			connect: function () {
+
+			// Magical function that handles connect and emit
+			run: function() {
+
+				if(cli.storage.prefs.access) {
+					cli.storage.sync.emit()
+				} else {
+					cli.storage.sync.connect(function() {
+						cli.storage.sync.emit();
+					});
+				}
+
+			},
+			connect: function (callback) {
 
 				console.log("Connecting to Nitro Sync server");
 
 				if(cli.storage.prefs.sync.hasOwnProperty('access')) {
 					$.ajax({
 						type: "POST",
-						url: 'http://localhost:3000/auth/',
+						url: 'http://stark-fog-5496.herokuapp.com/auth/',
 						dataType: 'json',
 						data: {access: cli.storage.prefs.sync.access},
 						success: function (data) {
 							console.log(data);
 							if(data == "success") {
 								console.log("Nitro Sync server is ready");
+								callback();
 							} else if (data == "failed") {
 								console.log("Could not connect to Dropbox");
 							}
@@ -823,7 +892,7 @@ var cli = {
 				} else {
 					$.ajax({
 						type: "POST",
-						url: 'http://localhost:3000/auth/',
+						url: 'http://stark-fog-5496.herokuapp.com/auth/',
 						dataType: 'json',
 						data: {reqURL: 'true'},
 						success: function (data) {
@@ -836,12 +905,13 @@ var cli = {
 								targetWin = window.open (data.authorize_url, title, 'toolbar=no, type=popup, status=no, width=800, height=600, top='+top+', left='+left);
 							$.ajax({
 								type: "POST",
-								url: 'http://localhost:3000/auth/',
+								url: 'http://stark-fog-5496.herokuapp.com/auth/',
 								dataType: 'json',
 								data: {token: cli.storage.prefs.sync.token},
 								success: function (data) {
 									console.log("Nitro Sync server is ready");
 									cli.storage.prefs.sync.access = data;
+									callback();
 									cli.storage.save();
 								}
 							});
@@ -861,17 +931,21 @@ var cli = {
 
 				$.ajax({
 					type: "POST",
-					url: 'http://localhost:3000/sync/',
+					url: 'http://stark-fog-5496.herokuapp.com/sync/',
 					dataType: 'json',
-					data: {data: JSON.stringify(compress(client))},
+					data: {data: JSON.stringify(compress(client)), access: cli.storage.prefs.sync.access},
 					success: function (data) {
-						data = decompress(data);
-						console.log("Finished sync");
-						cli.storage.tasks = data.tasks;
-						cli.storage.queue = data.queue;
-						cli.storage.lists = data.lists;
-						cli.storage.save();
-						ui.sync.reload();
+						if(data != 'failed') {
+							data = decompress(data);
+							console.log("Finished sync");
+							cli.storage.tasks = data.tasks;
+							cli.storage.queue = data.queue;
+							cli.storage.lists = data.lists;
+							cli.storage.save();
+							ui.sync.reload();
+						} else {
+							console.log("Sync failed. You probably need to delete cli.storage.prefs.sync.");
+						}
 					}
 				});
 
@@ -905,39 +979,15 @@ String.prototype.toNum = function () {
 	}
 }
 
-//Compresses & Deflates data
-/*function compress(str) {
-	var final = str
-		.replace(/\"content\"/g, "\"a\"")
-		.replace(/\"priority\"/g, "\"b\"")
-		.replace(/\"date\"/g, "\"c\"")
-		.replace(/\"notes\"/g, "\"d\"")
-		.replace(/\"today\"/g, "\"e\"")
-		.replace(/\"showInToday\"/g, "\"f\"")
-		.replace(/\"list\"/g, "\"g\"")
-		.replace(/\"logged\"/g, "\"h\"")
-		.replace(/\"time\"/g, "\"i\"")
-		.replace(/\"synced\"/g, "\"j\"")
-
-	return final;
+// "http://google.com" -> "<a href=http://google.com>http://google.com</a>"
+function convertStringToLink(text) {
+	var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+	return text.replace(exp,'<a href=$1>$1</a>');
 }
-
-function deflate(str) {
-	var final = str
-		.replace(/\"a\"/g, "\"content\"")
-		.replace(/\"b\"/g, "\"priority\"")
-		.replace(/\"c\"/g, "\"date\"")
-		.replace(/\"d\"/g, "\"notes\"")
-		.replace(/\"e\"/g, "\"today\"")
-		.replace(/\"f\"/g, "\"showInToday\"")
-		.replace(/\"g\"/g, "\"list\"")
-		.replace(/\"h\"/g, "\"logged\"")
-		.replace(/\"i\"/g, "\"time\"")
-		.replace(/\"j\"/g, "\"synced\"")
-
-	return final;
+function convertLinkToString(text) {
+	var exp = /<a\b[^>]*>(.*?)<\/a>/ig;
+	return text.replace(exp, '$1');
 }
-*/
 
 function compress(obj) {
 	var chart = {
@@ -960,7 +1010,8 @@ function compress(obj) {
 		notes:       'q',
 		items:       'r',
 		next:        's',
-		someday:     't'
+		someday:     't',
+		deleted:     'u'
 	},
 	out = {};
 
@@ -1001,7 +1052,8 @@ function decompress(obj) {
 		q: 'notes',
 		r: 'items',
 		s: 'next',
-		t: 'someday'
+		t: 'someday',
+		u: 'deleted'
 	},
 	out = {};
 

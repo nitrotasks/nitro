@@ -72,6 +72,7 @@
 	"today":          		"Today",
 	"next":           		"Next",
 	"someday":        		"Someday",
+	"all":					"All Tasks",
 
 	"newList":        		"New List",
 	"newTask":        		"New Task",
@@ -91,13 +92,12 @@
 	"oneMore":      		"Show 1 more task",
 	"morethanOne":			"Show %s more tasks",
 
-	"dayLeft":				"1 day left",
 	"daysLeft": 			"%s days left",
-	"dayOverdue": 			"Overdue 1 day",
 	"daysOverdue":			"Overdue %s days",
 	"month":				["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
 
 	"searchResults":  		"Search Results: ",
+	"noResults":			"No Search Results",
 
 	"titleAddTask":   		"Add a new task",
 	"titleEditTask":  		"Edit the selected task",

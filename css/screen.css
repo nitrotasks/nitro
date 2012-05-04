@@ -383,6 +383,8 @@ body {
           width: 150px; }
           #panel #right ul li #search:focus {
             outline: none; }
+          #panel #right ul li #search::-webkit-input-placeholder {
+            color: #999; }
 
 #search::-webkit-input-placeholder {
   color: #555;
@@ -421,35 +423,60 @@ body {
       list-style-type: none;
       cursor: pointer;
       position: relative;
-      height: 30px; }
-      #content #sidebar ul li .editIcon {
+      height: 30px;
+      /* EDIT AND DELETE BUTTONS */
+      /* HOVERING WITH TASK */
+      /*				&.edit:hover .editIcon {
+      					display: none;
+      				}*/ }
+      #content #sidebar ul li p {
+        display: inline-block;
+        margin: 0;
+        width: 165px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        position: absolute; }
+      #content #sidebar ul li .editIcon, #content #sidebar ul li .delete {
         position: absolute;
         display: none; }
+      #content #sidebar ul li .editIcon, #content #sidebar ul li .delete, #content #sidebar ul li .save {
+        position: absolute;
+        opacity: 0.5; }
+        #content #sidebar ul li .editIcon:hover, #content #sidebar ul li .delete:hover, #content #sidebar ul li .save:hover {
+          opacity: 1; }
       #content #sidebar ul li.selected {
         background: #f0f0f0; }
-        #content #sidebar ul li.selected:hover .editIcon {
+        #content #sidebar ul li.selected:hover .editIcon, #content #sidebar ul li.selected:hover .delete {
           display: block; }
+      #content #sidebar ul li.edit .editIcon {
+        display: none !important; }
+      #content #sidebar ul li.edit .delete, #content #sidebar ul li.edit .save {
+        display: block; }
+      #content #sidebar ul li .editIcon {
+        width: 17px;
+        height: 17px; }
+      #content #sidebar ul li .delete {
+        width: 18px;
+        height: 16px; }
+      #content #sidebar ul li .count {
+        position: absolute;
+        top: 1px;
+        right: 5px;
+        width: 40px;
+        text-indent: 0;
+        text-align: center; }
       #content #sidebar ul li.dragHover:not(.selected) {
         background: #ddd; }
-      #content #sidebar ul li.edit:hover .editIcon {
-        display: none; }
-      #content #sidebar ul li .view {
-        overflow: hidden; }
       #content #sidebar ul li .edit {
         display: none; }
         #content #sidebar ul li .edit div {
           display: inline; }
-        #content #sidebar ul li .edit .delete, #content #sidebar ul li .edit .save {
-          width: 18px;
-          height: 16px;
-          display: inline-block;
-          vertical-align: middle; }
-        #content #sidebar ul li .edit .delete {
-          background: url(../../images/whitesprite.png) no-repeat 0 -120px; }
+        #content #sidebar ul li .edit .save {
+          position: absolute;
+          width: 18px; }
         #content #sidebar ul li .edit .save {
           background: url(../../images/whitesprite.png) no-repeat 0 -198px; }
-      #content #sidebar ul li .count {
-        float: right; }
 #content #tasks {
   padding: 0;
   position: absolute;
@@ -480,6 +507,8 @@ body {
     text-shadow: 0 1px 0 #eee !important; }
   #content #tasks ul#next {
     min-height: 30px; }
+  #content #tasks ul:last-of-type {
+    padding-bottom: 50px; }
   #content #tasks p {
     display: block;
     font-weight: bold;
@@ -872,8 +901,14 @@ button {
       border-radius: 5px; }
       #prefsDialog .tab-content .tab-pane blockquote.disabled {
         color: #3b3b3b;
-        background: #eee;
-        border-color: #ddd; }
+        background: #fff;
+        border-color: #fff;
+        width: 490px;
+        padding: 0;
+        margin: 0; }
+        #prefsDialog .tab-content .tab-pane blockquote.disabled img {
+          margin: 0 13px;
+          cursor: pointer; }
       #prefsDialog .tab-content .tab-pane blockquote .icon {
         float: left;
         margin: 0 10px 0 0; }

@@ -146,7 +146,7 @@ body {
 		h2 {
 			// position
 			margin: 0;
-			padding: 10px 25px 10px 15px;
+			padding: 10px 18px 10px 15px;
 
 			// font
 			font-weight: bold;
@@ -196,12 +196,24 @@ body {
 				// EDIT ICON
 				.editIcon {
 					// position
-					left: 6px;
+					left: auto;
+					right: 65px;
 					top: 7px;
 
-					// size
+					// color
 					width: 17px;
 					height: 17px;
+					background: url(../../images/whitesprite.png) no-repeat -1px -145px;
+				}
+
+				.delete {
+					left: auto;
+					right: 45px;
+					top: 9px;
+
+					width: 18px;
+					height: 16px;
+					background: url(../../images/whitesprite.png) no-repeat 0 -120px;
 				}
 
 				// SELECTED LIST
@@ -216,15 +228,6 @@ body {
 					text-shadow: 0 1px 1px rgba(0,0,0,0.3);
 					box-shadow: 0 1px 0 #75a9e2 inset, 0 -1px 0 #5080c7 inset;
 
-					// EDIT ICON (SELECTED)
-					.editIcon {
-						// position
-						left: 5px;
-						top: 6px;
-
-						// color
-						background: url(../../images/whitesprite.png) no-repeat -1px -145px;
-					}
 				}
 
 				// EDITING A LIST
@@ -238,7 +241,7 @@ body {
 						margin-right: 5px;
 
 						// size
-						width: 168px;
+						width: 135px;
 						border: 0;
 						outline: 0;
 
@@ -248,18 +251,17 @@ body {
 					}
 
 					// DELETE AND SAVE ICONS
-					.delete, .save {
+					.save {
 						// size
 						width: 18px;
 						height: 16px;
 
 						// position
-						display: inline-block;
-						vertical-align: middle;
+						left: auto;
+						right: 65px;
+						top: 8px;
 					}
-					.delete {
-						background: url(../../images/whitesprite.png) no-repeat 0 -120px;
-					}
+					
 					.save {
 						background: url(../../images/whitesprite.png) no-repeat 0 -198px;
 					}
@@ -268,11 +270,8 @@ body {
 				// COUNT
 				.count {
 					// size
-					width: 50px;
-
-					// position
-					margin-right: 20px;
-					text-align: center;
+					width: 40px;
+					right: 5px;
 				}
 			}
 		}

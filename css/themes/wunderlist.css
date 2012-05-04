@@ -61,7 +61,7 @@ body {
       #panel #right > ul > li#settingsBTN ul {
         top: 36px;
         left: auto;
-        right: -30px; }
+        right: 0px; }
       #panel #right > ul > li img {
         width: 22px;
         height: 22px;
@@ -86,7 +86,7 @@ body {
         border: 0;
         position: relative;
         width: 204px;
-        line-height: 13px;
+        line-height: 14px;
         font-size: 13px;
         padding: 4px;
         padding-left: 23px;
@@ -173,13 +173,14 @@ body {
       background: -o-linear-gradient(top, #ffffff 0%, #f7f8fa 100%);
       background: -ms-linear-gradient(top, #ffffff 0%, #f7f8fa 100%);
       background: linear-gradient(top, #ffffff 0%, #f7f8fa 100%); }
+    #content #sidebar ul li p {
+      width: 155px; }
     #content #sidebar ul li.dragHover:not(.selected) {
       background: #ecf8ff; }
-    #content #sidebar ul li .editIcon {
-      left: 6px;
-      top: 7px;
-      width: 17px;
-      height: 17px; }
+    #content #sidebar ul li .count {
+      position: absolute;
+      right: 0;
+      top: 4px; }
     #content #sidebar ul li.selected {
       font-weight: bold;
       color: #fff;
@@ -194,29 +195,41 @@ body {
       box-shadow: 0 1px 0 #75a9e2 inset, 0 -1px 0 #5080c7 inset; }
       #content #sidebar ul li.selected .editIcon {
         left: auto;
-        right: 40px;
+        right: 65px;
         top: 7px;
+        width: 17px;
+        height: 17px;
         background: url(../../images/whitesprite.png) no-repeat -1px -145px; }
+      #content #sidebar ul li.selected .delete {
+        left: auto;
+        right: 45px;
+        top: 9px;
+        width: 18px;
+        height: 16px;
+        background: url(../../images/whitesprite.png) no-repeat 0 -120px; }
     #content #sidebar ul li .edit input {
       padding: 3px 4px;
       margin-left: -5px;
       margin-right: 5px;
-      width: 175px;
+      width: 150px;
       border: 0;
       outline: 0;
-      background: white;
-      border-radius: 4px; }
-    #content #sidebar ul li .edit .delete, #content #sidebar ul li .edit .save {
+      color: #fff;
+      font-weight: bold;
+      background: #26648f;
+      border-radius: 10px;
+      box-shadow: inset 0 2px 2px #1e5070; }
+    #content #sidebar ul li .edit .save {
       width: 18px;
       height: 16px;
-      display: inline-block;
-      vertical-align: middle; }
-    #content #sidebar ul li .edit .delete {
-      background: url(../../images/whitesprite.png) no-repeat 0 -120px; }
+      position: absolute;
+      left: auto;
+      right: 65px;
+      top: 9px; }
     #content #sidebar ul li .edit .save {
       background: url(../../images/whitesprite.png) no-repeat 0 -198px; }
     #content #sidebar ul li .count {
-      width: 50px;
+      width: 45px;
       text-align: center; }
 #content #tasks {
   top: 36px;
@@ -405,3 +418,6 @@ body {
 
 #loading {
   display: none; }
+
+.modal#warning {
+  margin: 0 0 0 -300px; }

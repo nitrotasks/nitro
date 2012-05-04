@@ -128,7 +128,7 @@ body {
   box-shadow: 0 0 1px #000; }
   #content #sidebar h2 {
     margin: 0;
-    padding: 8px 25px 8px 15px;
+    padding: 8px 18px 8px 15px;
     font-weight: bold;
     font-size: 13px;
     line-height: 13px;
@@ -152,11 +152,19 @@ body {
     #content #sidebar ul li.dragHover:not(.selected) {
       background: #ecf8ff; }
     #content #sidebar ul li .editIcon {
-      left: 6px;
-      top: 7px;
+      left: auto;
+      right: 65px;
+      top: 4px;
       width: 17px;
       height: 17px;
       background: url(../../images/whitesprite.png) no-repeat -1px -145px; }
+    #content #sidebar ul li .delete {
+      left: auto;
+      right: 45px;
+      top: 6px;
+      width: 18px;
+      height: 16px;
+      background: url(../../images/whitesprite.png) no-repeat 0 -120px; }
     #content #sidebar ul li.selected {
       font-weight: bold;
       color: #fff;
@@ -169,32 +177,25 @@ body {
       background: linear-gradient(top, #f58050 0%, #e96d3a 100%);
       text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
       box-shadow: 0 1px 0 #e1632f inset, 0 -1px 0 #e1632f inset; }
-      #content #sidebar ul li.selected .editIcon {
-        left: 5px;
-        top: 6px;
-        background: url(../../images/whitesprite.png) no-repeat -1px -147px; }
     #content #sidebar ul li .edit input {
       padding: 3px 4px;
       margin-left: -5px;
       margin-right: 5px;
-      width: 168px;
+      width: 135px;
       border: 0;
       outline: 0;
       background: white;
       border-radius: 4px; }
-    #content #sidebar ul li .edit .delete, #content #sidebar ul li .edit .save {
+    #content #sidebar ul li .edit .save {
       width: 18px;
       height: 16px;
-      display: inline-block;
-      vertical-align: middle; }
-    #content #sidebar ul li .edit .delete {
-      background: url(../../images/whitesprite.png) no-repeat 0 -120px; }
-    #content #sidebar ul li .edit .save {
+      left: auto;
+      right: 65px;
+      top: 5px;
       background: url(../../images/whitesprite.png) no-repeat 0 -198px; }
     #content #sidebar ul li .count {
-      width: 50px;
-      margin-right: 20px;
-      text-align: center; }
+      width: 40px;
+      right: 5px; }
 #content #tasks {
   top: 40px;
   left: 250px; }
