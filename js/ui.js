@@ -124,25 +124,31 @@ var ui = {
 		$addBTN.click(function () {
 
 			if (!$(this).hasClass('disabled')) {
+
 				// Closes current task
 				$('#overlay').click();
 
-				// Adds a new task via the CLI
-				cli.addTask($.i18n._('newTask'), ui.lists.selected());
-
-				// Show task in UI
-				$('#tasks ul').first().prepend(ui.tasks.draw(cli.storage.tasks.length - 1));
-				$('#tasks .explanation').remove();
-
-				//Update list count if task is added to today
-				if (ui.lists.selected() === 'today') {
-					ui.lists.updateCount();
+				if (ui.lists.selected() == 'scheduled') {
+					alert('add scheduled')
 				} else {
-					ui.lists.updateCount();
-				}
+					
+					// Adds a new task via the CLI
+					cli.addTask($.i18n._('newTask'), ui.lists.selected());
 
-				//Expands Task
-				ui.tasks.selected.expand($('#T' + (cli.storage.tasks.length - 1)));
+					// Show task in UI
+					$('#tasks ul').first().prepend(ui.tasks.draw(cli.storage.tasks.length - 1));
+					$('#tasks .explanation').remove();
+
+					//Update list count if task is added to today
+					if (ui.lists.selected() === 'today') {
+						ui.lists.updateCount();
+					} else {
+						ui.lists.updateCount();
+					}
+
+					//Expands Task
+					ui.tasks.selected.expand($('#T' + (cli.storage.tasks.length - 1)));
+				};
 			};		
 		});
 
@@ -642,7 +648,7 @@ var ui = {
 		// OVERLAY
 		$('#settingsOverlay').click(function () {
 			$(this).hide(0);
-			$('#prefsDialog, #aboutDialog').fadeOut(100);
+			$('#prefsDialog, #aboutDialog, #donateDialog').fadeOut(100);
 		});
 
 		// OVERLAY
@@ -1754,6 +1760,9 @@ var ui = {
 					$('#aboutDialog').fadeToggle(150);
 					$('#settingsOverlay').toggle(0);
 					break;
+				case 'donors':
+					$('#donateDialog').fadeToggle(150);
+					$('#settingsOverlay').toggle(0);
 				case 'donate':
 					window.location = 'http://nitrotasks.com/donate.html';
 					break;

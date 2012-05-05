@@ -1024,7 +1024,7 @@ button {
 	}
 }
 
-#aboutDialog {
+#aboutDialog, #donateDialog {
 	position: fixed;
 	width: 450px;
 	top: 50px;
@@ -1038,7 +1038,10 @@ button {
 	margin-left: -225px;
 	background: #fff;
 	display: none;
+}
 
+#donateDialog {
+	height: 300px;
 }
 
 @import "jquery-ui-1.8.16.custom";

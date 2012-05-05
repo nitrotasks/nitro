@@ -949,7 +949,7 @@ button {
       #tabLanguage table tr td.author a {
         color: #555; }
 
-#aboutDialog {
+#aboutDialog, #donateDialog {
   position: fixed;
   width: 450px;
   top: 50px;
@@ -963,6 +963,9 @@ button {
   margin-left: -225px;
   background: #fff;
   display: none; }
+
+#donateDialog {
+  height: 300px; }
 
 /*
  * jQuery UI Bootstrap (0.22)
