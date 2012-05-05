@@ -31,7 +31,19 @@
 </div>
 <div id="scheduledDialog">
 	<div class="inner">
-		Schedule a task
+		Schedule<br>
+		<label for="reviewNo">Review in:</label><input id="reviewNo" min="1" type="number" value="5"><select id="reviewLength">
+				<option value="days">days</option>
+				<option value="weeks">weeks</option>
+				<option value="months">months</option>
+				<option value="years">years</option>
+			</select><br>
+		<label for="reviewAction">In 𝑥𝑦:</label><select id="reviewAction">
+				<option value="today">Move to Today</option>
+				<option value="next">Move to Next</option>
+				<option value="list">Move to other list</option>
+			</select><br>
+		<button>Cancel</button><button>Create</button>
 	</div>
 </div>
 <div id="prefsDialog">

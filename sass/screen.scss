@@ -1056,13 +1056,13 @@ button {
 	z-index: 3;
 	width: 100%;
 	height: 100%;
-	display: none;
+	//display: none;
 
 	.inner {
 		background: #fff;
 		width: 400px;
 		height: 200px;
-		display: none;
+		//display: none;
 		position: fixed;
 		top: 40px;
 		padding: 15px;
@@ -1071,6 +1071,10 @@ button {
 		border-bottom-left-radius: 5px;
 		margin-left: -215px;
 		box-shadow: 0 0 5px rgba(0,0,0,0.8);
+
+		input {
+			width:50px;
+		}
 	}
 }
 
