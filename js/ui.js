@@ -1763,6 +1763,7 @@ var ui = {
 				case 'donors':
 					$('#donateDialog').fadeToggle(150);
 					$('#settingsOverlay').toggle(0);
+					break;
 				case 'donate':
 					window.location = 'http://nitrotasks.com/donate.html';
 					break;
