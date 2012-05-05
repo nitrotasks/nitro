@@ -76,11 +76,6 @@ $(document).ready(function () {
 	if (cli.storage.prefs.gpu) {
 		toggleFx();
 	}
-
-	//Bieber Theme
-	/* if (cli.storage.prefs.theme == 'bieber') {
-		$('#brand').html('<img src="css/themes/bieber/heart.png" style="padding-right:8px;position: relative;top: -2px;">Justin Bieber');
-	}; */
 });
 
 $(window).resize(function () {
@@ -1322,6 +1317,9 @@ var ui = {
 					break;
 				case 'someday':
 					$tasks.prepend('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('someday') + '</h2><ul id="' + id + '"></ul>');
+					break;
+				case 'scheduled':
+					$tasks.prepend('<h2 class="' + cli.storage.prefs.bg.color + '">Scheduled</h2><ul id="' + id + '"></ul>');
 					break;
 				case 'all':
 					$addBTN.addClass('disabled');
