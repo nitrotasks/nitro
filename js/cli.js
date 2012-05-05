@@ -883,7 +883,7 @@ var cli = {
 
 					if (task.next != '0' && task.type == 'scheduled') {
 						//Add the task to the list if the date has been passed
-						if (task.next < Date()) { 
+						if (new Date(task.next).getTime() <= new Date().getTime()) { 
 							cli.addTask(task.content, task.list);
 							var data = cli.taskData(cli.storage.tasks.length -1).display();
 
@@ -893,7 +893,7 @@ var cli = {
 
 							//Creates a due date
 							if (task.date != 'none') {
-								var tmpdate =  new Date(task.next);
+								var tmpdate = new Date(task.next);
 								tmpdate.setDate(tmpdate.getDate() + task.date);
 								console.log(tmpdate)
 								data.date = cli.calc.dateConvert(tmpdate);
