@@ -129,7 +129,8 @@ var ui = {
 				$('#overlay').click();
 
 				if (ui.lists.selected() == 'scheduled') {
-					alert('add scheduled')
+					$('#scheduledDialog .inner').fadeToggle(150);
+					$('#scheduledDialog').toggle(0);			
 				} else {
 					
 					// Adds a new task via the CLI
