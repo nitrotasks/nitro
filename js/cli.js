@@ -125,6 +125,11 @@ var cli = {
 				cli.storage.save();
 			}
 
+			//Check for scheduled
+			if (!cli.storage.lists.scheduled) {
+				cli.storage.lists.scheduled = {items: {length: 0}, queue: {}};
+			}
+
 			// Check preferences exist. If not, set to default
 			cli.storage.lists.deleted = cli.storage.lists.deleted   || {};
 			cli.storage.lists.time     = cli.storage.prefs.time     || 0;
@@ -835,6 +840,76 @@ var cli = {
 					cli.storage.save();
 				}
 			}
+		}
+	},
+
+	scheduled: {
+		add: function(name, type) {
+			console.log("Added a new " + type + " task")
+			if (type == 'scheduled') {
+				cli.storage.lists.scheduled.items[cli.storage.lists.scheduled.items.length] = {
+					content: name,
+					priority: 'none',
+					date: '',
+					notes: '',
+					list: 'today',
+					type: 'scheduled',
+					next: '0',
+					date: 'none'
+				}
+
+				cli.storage.lists.scheduled.items.length++;
+				cli.storage.save();
+			}
+		},
+
+		edit: function(id, data) {
+			//Returns data if nothing is passed to it
+			if (data) {
+				cli.storage.lists.scheduled.items[id] = data;
+				cli.storage.save();
+			};
+			
+			return cli.storage.lists.scheduled.items[id];
+		},
+
+		update: function() {
+			//Loops through all da tasks
+			for (var i=0; i < cli.storage.lists.scheduled.items.length; i++) {
+				var task = cli.storage.lists.scheduled.items[i];
+
+				if (task.next != '0' && task.type == 'scheduled') {
+					//Add the task to the list if the date has been passed
+					if (task.next < Date()) { 
+						cli.addTask(task.content, task.list);
+						var data = cli.taskData(cli.storage.tasks.length -1).display();
+
+						//Sets Data
+						data.notes = task.notes;
+						data.priority = task.priority;
+
+						//Creates a due date
+						if (task.date != 'none') {
+							var tmpdate =  new Date(task.next);
+							tmpdate.setDate(tmpdate.getDate() + task.date);
+							console.log(tmpdate)
+							data.date = cli.calc.dateConvert(tmpdate);
+						}
+
+						cli.taskData(cli.storage.tasks.length -1).edit(data);
+
+						//Calcs a due date
+						if (task.date != 'none') {
+							cli.calc.date(cli.storage.tasks.length -1);
+						}
+
+						delete cli.storage.lists.scheduled.items[i];
+						cli.storage.save();
+
+						console.log('Task: ' + i + ' has been moved');
+					}
+				};
+			};
 		}
 	},
 
