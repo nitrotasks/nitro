@@ -28,6 +28,10 @@ var cli = {
 						cli.storage.lists.items[id].time[key] = Date.now();
 						cli.timestamp.sync();
 					}
+				},
+				scheduled: function () {
+					cli.storage.lists.scheduled[id].time[key] = Date.now();
+					cli.timestamp.sync();
 				}
 			};
 		},
@@ -880,7 +884,17 @@ var cli = {
 					list: 'today',
 					type: 'scheduled',
 					next: '0',
-					date: ''
+					date: '',
+					time: {
+						content: 0,
+						priority: 0,
+						date: 0,
+						notes: 0,
+						list: 0,
+						type: 0,
+						next: 0,
+						date: 0
+					}
 				}
 
 				cli.storage.lists.scheduled.length++;
