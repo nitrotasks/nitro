@@ -976,11 +976,13 @@ button {
   background: rgba(0, 0, 0, 0.3);
   z-index: 3;
   width: 100%;
-  height: 100%; }
+  height: 100%;
+  display: none; }
   #scheduledDialog .inner {
     background: #fff;
     width: 400px;
     height: 200px;
+    display: none;
     position: fixed;
     top: 40px;
     padding: 15px;

@@ -127,7 +127,7 @@ var cli = {
 
 			//Check for scheduled
 			if (!cli.storage.lists.scheduled) {
-				cli.storage.lists.scheduled = {items: {length: 0}, queue: {}};
+				cli.storage.lists.scheduled = {length: 0};
 			}
 
 			// Check preferences exist. If not, set to default
@@ -847,7 +847,7 @@ var cli = {
 		add: function(name, type) {
 			console.log("Added a new " + type + " task")
 			if (type == 'scheduled') {
-				cli.storage.lists.scheduled.items[cli.storage.lists.scheduled.items.length] = {
+				cli.storage.lists.scheduled[cli.storage.lists.scheduled.length] = {
 					content: name,
 					priority: 'none',
 					date: '',
@@ -858,7 +858,7 @@ var cli = {
 					date: 'none'
 				}
 
-				cli.storage.lists.scheduled.items.length++;
+				cli.storage.lists.scheduled.length++;
 				cli.storage.save();
 			}
 		},
@@ -866,20 +866,20 @@ var cli = {
 		edit: function(id, data) {
 			//Returns data if nothing is passed to it
 			if (data) {
-				cli.storage.lists.scheduled.items[id] = data;
+				cli.storage.lists.scheduled[id] = data;
 				cli.storage.save();
 			};
 			
-			return cli.storage.lists.scheduled.items[id];
+			return cli.storage.lists.scheduled[id];
 		},
 
 		update: function() {
 			//Loops through all da tasks
-			for (var i=0; i < cli.storage.lists.scheduled.items.length; i++) {
+			for (var i=0; i < cli.storage.lists.scheduled.length; i++) {
 
 				//Checks if tasks exists
-				if (cli.storage.lists.scheduled.items[i]) {
-					var task = cli.storage.lists.scheduled.items[i];
+				if (cli.storage.lists.scheduled[i]) {
+					var task = cli.storage.lists.scheduled[i];
 
 					if (task.next != '0' && task.type == 'scheduled') {
 						//Add the task to the list if the date has been passed
@@ -906,7 +906,7 @@ var cli = {
 								cli.calc.date(cli.storage.tasks.length -1);
 							}
 
-							delete cli.storage.lists.scheduled.items[i];
+							delete cli.storage.lists.scheduled[i];
 							cli.storage.save();
 
 							console.log('Task: ' + i + ' has been moved');

@@ -407,7 +407,26 @@ var ui = {
 			cli.storage.save();
 		});
 
+		/**********************************
+			SCHEDULED TASKS
+		**********************************/
+		$('#scheduledDialog .create').click(function() {
+			//Creates a new Scheduled Task
+			cli.scheduled.add('New Task', 'scheduled');
 
+			//Edits Data inside of it
+			var task = cli.scheduled.edit(cli.storage.lists.scheduled.length -1);
+			task.list = $('#reviewAction').val();
+
+			//Saves
+			cli.scheduled.edit(cli.storage.lists.scheduled.length, task);
+
+			//Closes
+			$addBTN.click();
+		})
+		$('#scheduledDialog .cancel').click(function() {
+			$addBTN.click();
+		});
 
 		/**********************************
 			CUSTOM BACKGROUNDS
