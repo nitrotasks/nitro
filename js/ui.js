@@ -1435,6 +1435,11 @@ var ui = {
 				$tasks.append('<div class="explanation">' + reason + '</div>');
 			}
 
+			if (ui.lists.selected() == 'scheduled') {
+				//No sorting in scheduled.
+				return;
+			}
+
 			$('#tasks ul').sortable({
 				placeholder: "placeholder",
 				distance: 20,

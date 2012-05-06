@@ -562,11 +562,20 @@ var cli = {
 	priority: function (id) {
 		return {
 			get: function () {
-				var priority = cli.storage.tasks[id].priority;
+				//Scheduled
+				if (id.substr(0,1) === 's') {
+					var priority = cli.storage.lists.scheduled[id.toString().substr(1)].priority;
+				} else {
+					var priority = cli.storage.tasks[id].priority;	
+				}
 				return priority;
 			},
 			set: function () {
-				var priority = cli.storage.tasks[id].priority;
+				if (id.substr(0,1) === 's') {
+					var priority = cli.storage.lists.scheduled[id.toString().substr(1)].priority;
+				} else {
+					var priority = cli.storage.tasks[id].priority;	
+				}
 				switch(priority) {
 					case "low":
 						priority = "medium";
@@ -584,7 +593,12 @@ var cli = {
 
 				cli.timestamp.update(id, 'priority').task();
 
-				cli.storage.tasks[id].priority = priority;
+				if (id.substr(0,1) === 's') {
+					cli.storage.lists.scheduled[id.toString().substr(1)].priority = priority;
+				} else {
+					cli.storage.tasks[id].priority = priority;
+				}
+				
 				cli.storage.save();
 				return priority;
 			}
