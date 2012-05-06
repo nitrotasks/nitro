@@ -963,37 +963,44 @@ var ui = {
 
 		// CLOSE DATEPICKER
 		$body.on('click', '.labels .date', function (e) {
-			//Position of datepicker
-			var pos = $(this).offset();
-			var top;
-			if (pos.top - 100 < 15 ) {
-				top = 115;
-			} else {
-				top = $(this).offset().top;
-			}
 
-			$('#date').show();
-			
-			//Puts new data into date picker
-			var id = $(this).closest('li').attr('id').substr(1).toNum();
-			var date = cli.taskData(id).display().date;
-			
-			//Only populate date picker if it has a date
-			if (date === '') {
-				$('#datepicker').datepicker('setDate', new Date());
+			if (ui.lists.selected() === 'scheduled') {
+				alert('other shit');
 			} else {
-				$('#datepicker').datepicker('setDate', date);
-			}
+				//Position of datepicker
+				var pos = $(this).offset();
+				var top;
+				if (pos.top - 100 < 15 ) {
+					top = 115;
+				} else {
+					top = $(this).offset().top;
+				}
 
-			//Populate Show in today box
-			$('#showTime').val(cli.taskData(id).display().showInToday);
+				$('#date').show();
 				
-			$('#date').css({'left': pos.left - 275, 'top': top - 100});
+				//Puts new data into date picker
+				var id = $(this).closest('li').attr('id').substr(1).toNum();
+				var date = cli.taskData(id).display().date;
+				
+				//Only populate date picker if it has a date
+				if (date === '') {
+					$('#datepicker').datepicker('setDate', new Date());
+				} else {
+					$('#datepicker').datepicker('setDate', date);
+				}
 
-			$("#date").click(function (e) {
-				e.stopPropagation();
-				return false;
-			});
+				//Populate Show in today box
+				$('#showTime').val(cli.taskData(id).display().showInToday);
+					
+				$('#date').css({'left': pos.left - 275, 'top': top - 100});
+
+				$("#date").click(function (e) {
+					e.stopPropagation();
+					return false;
+				});
+
+				setTimeout(dateClose, 100);
+			}
 
 			function dateClose() {
 				$(document).click(function () {
@@ -1007,7 +1014,6 @@ var ui = {
 					}
 				});
 			}
-			setTimeout(dateClose, 100);
 		});
 
 		/* Show in Today */
@@ -1649,7 +1655,7 @@ var ui = {
 				};
 				
 				//Draws the Today Label
-				var today;
+				var today = '';
 				if (ui.lists.selected() !== 'scheduled') {
 					if (taskData.today === 'manual' || taskData.today === 'yesAuto') {
 						today = '<span class="today inToday">' + $.i18n._('removeFromToday') + '</span>';
@@ -1661,7 +1667,7 @@ var ui = {
 				var date;
 				//We'll do something special here later =)
 				if (ui.lists.selected() === 'scheduled') {
-
+					date = '">Schedule';
 				} else {
 					if (taskData.date === '') {
 						date = '">' + $.i18n._('setDueDate');
@@ -1701,7 +1707,6 @@ var ui = {
 					var taskData = cli.taskData(data).display();
 
 					//Calculates labels
-					var today;
 					if (ui.lists.selected() !== 'today' && ui.lists.selected() !== 'scheduled') {
 						//Draws the today label
 						if (taskData.today === 'yesAuto' || taskData.today === 'manual') {
@@ -1715,7 +1720,10 @@ var ui = {
 
 					var date;
 					//Draws the date label
-					if (ui.lists.selected() !== 'scheduled') {
+					if (ui.lists.selected() === 'scheduled') {
+						//Add a countdown thing
+						date = ''
+					} else {
 						if (taskData.date !== '') {
 							date = '<span class="dateLabel ' + cli.calc.prettyDate.difference(taskData.date)[1] + '">' + cli.calc.prettyDate.difference(taskData.date)[0] + '</span>';
 						} else {
