@@ -292,6 +292,17 @@ var cli = {
 						}
 					}
 					return results;
+				} else if (query === 'scheduled') {
+					var results = []
+					for (key in cli.storage.lists.scheduled) {
+						//Pushes Results
+						if (cli.storage.lists.scheduled[key].type === 'scheduled') {
+							results.push('s' + key)
+						} else if (cli.storage.lists.scheduled[key].type === 'recurring') {
+
+						};
+					};
+					return results;
 				} else {
 
 					if (query in cli.storage.lists.items) {

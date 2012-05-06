@@ -1560,7 +1560,11 @@ var ui = {
 		**********************************/
 
 		draw: function (id) {
-			var data = cli.taskData(id).display();
+			if (id.toString().substr(0,1) === 's') {
+				return '⌘';
+			} else {
+				var data = cli.taskData(id).display();
+			};
 
 			// CHECKBOX
 			var priority = "";
