@@ -427,9 +427,9 @@ var ui = {
 			today.setMinutes(0);
 			today.setHours(0);
 			var tmpdate = new Date()
-			tmpdate.setSeconds(0);
-			tmpdate.setMinutes(0);
-			tmpdate.setHours(0);
+			//tmpdate.setSeconds(0);
+			//tmpdate.setMinutes(0);
+			//tmpdate.setHours(0);
 
 
 			if (unit == 'days') {
@@ -443,7 +443,8 @@ var ui = {
 			};
 
 			//Calculates Difference
-			task.date = (Math.round((today.getTime() - tmpdate.getTime()) / 1000 / 60 / 60 /24));
+			//task.date = (Math.round((today.getTime() - tmpdate.getTime()) / 1000 / 60 / 60 /24));
+			task.next = cli.calc.dateConvert(today);
 			task.list = $('#reviewAction').val();
 
 			//Saves
