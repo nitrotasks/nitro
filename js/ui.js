@@ -416,10 +416,38 @@ var ui = {
 
 			//Edits Data inside of it
 			var task = cli.scheduled.edit(cli.storage.lists.scheduled.length -1);
+
+			//Calculates Date
+			var date = parseInt($('#reviewNo').val());
+			var unit = $('#reviewLength').val();
+
+			//Zeros Days
+			var today = new Date();
+			today.setSeconds(0);
+			today.setMinutes(0);
+			today.setHours(0);
+			var tmpdate = new Date()
+			tmpdate.setSeconds(0);
+			tmpdate.setMinutes(0);
+			tmpdate.setHours(0);
+
+
+			if (unit == 'days') {
+				today.setDate(today.getDate() + date);
+			} else if (unit == 'weeks') {
+				today.setDate(today.getDate() + (date * 7));
+			} else if (unit == 'months') {
+				today.setMonth(today.getMonth() + date);
+			} else if (unit == 'years') {
+				today.setYear(today.getFullYear() + date);
+			};
+
+			//Calculates Difference
+			task.date = (Math.round((today.getTime() - tmpdate.getTime()) / 1000 / 60 / 60 /24));
 			task.list = $('#reviewAction').val();
 
 			//Saves
-			cli.scheduled.edit(cli.storage.lists.scheduled.length, task);
+			cli.scheduled.edit(cli.storage.lists.scheduled.length -1, task);
 
 			//Closes
 			$addBTN.click();
