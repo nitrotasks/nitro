@@ -833,11 +833,18 @@ var ui = {
 		// SAVE NAME WHEN INPUT LOSES FOCUS
 		$body.on('blur', '#tasks .todotxt input', function () {
 			var id = $(this).closest('li').attr('id').substr(1).toNum();
-			var data = cli.taskData(id).display();
 
-			// Edits Data
-			data.content = convertStringToLink(this.value);
-			cli.taskData(id).edit(data);
+			//Edit Data
+			if (id.toString().substr(0, 1) === 's') {
+				var data = cli.scheduled.edit([id.toString().substr(1)]);
+				data.content = convertStringToLink(this.value);
+				cli.scheduled.edit([id.toString().substr(1)], data);
+			} else {
+				var data = cli.taskData(id).display();
+				data.content = convertStringToLink(this.value);
+				cli.taskData(id).edit(data);
+			}
+			
 		});
 
 		// SHOW IN TODAY BUTTON
@@ -1035,12 +1042,17 @@ var ui = {
 		/* Notes */
 		$body.on('blur', '#tasks ul li textarea', function () {
 			var id = $(this).closest('li').attr('id').substr(1).toNum();
-			var data = cli.taskData(id).display();
 
-			//Edits Data
-			data.notes = this.value;
-			cli.taskData(id).edit(data);
-
+			//Edit Data
+			if (id.toString().substr(0, 1) === 's') {
+				var data = cli.scheduled.edit([id.toString().substr(1)]);
+				data.notes = this.value;
+				cli.scheduled.edit([id.toString().substr(1)], data);
+			} else {
+				var data = cli.taskData(id).display();
+				data.notes = this.value;
+				cli.taskData(id).edit(data);
+			}
 		});
 	},
 
@@ -1622,21 +1634,35 @@ var ui = {
 			expand: function (task) {
 				task.addClass('expanded').removeClass('selected');
 				var id = task.attr('id').substr(1).toNum();
-				var taskData = cli.taskData(id).display();
 
+				//Use the correct data store
+				if (ui.lists.selected() === 'scheduled') {
+					id = id.substr(1);
+					var taskData = cli.storage.lists.scheduled[id];
+				} else {
+					var taskData = cli.taskData(id).display();
+				};
+				
 				//Draws the Today Label
 				var today;
-				if (taskData.today === 'manual' || taskData.today === 'yesAuto') {
-					today = '<span class="today inToday">' + $.i18n._('removeFromToday') + '</span>';
-				} else {
-					today = '<span class="today">' + $.i18n._('showInToday') + '</span>';
+				if (ui.lists.selected() !== 'scheduled') {
+					if (taskData.today === 'manual' || taskData.today === 'yesAuto') {
+						today = '<span class="today inToday">' + $.i18n._('removeFromToday') + '</span>';
+					} else {
+						today = '<span class="today">' + $.i18n._('showInToday') + '</span>';
+					}
 				}
 
 				var date;
-				if (taskData.date === '') {
-					date = '">' + $.i18n._('setDueDate');
+				//We'll do something special here later =)
+				if (ui.lists.selected() === 'scheduled') {
+
 				} else {
-					date = cli.calc.prettyDate.difference(taskData.date)[1] + '">' + cli.calc.prettyDate.difference(taskData.date)[0];
+					if (taskData.date === '') {
+						date = '">' + $.i18n._('setDueDate');
+					} else {
+						date = cli.calc.prettyDate.difference(taskData.date)[1] + '">' + cli.calc.prettyDate.difference(taskData.date)[0];
+					}
 				}
 
 				taskData.content = convertLinkToString(taskData.content);
@@ -1671,7 +1697,7 @@ var ui = {
 
 					//Calculates labels
 					var today;
-					if (ui.lists.selected() !== 'today') {
+					if (ui.lists.selected() !== 'today' && ui.lists.selected() !== 'scheduled') {
 						//Draws the today label
 						if (taskData.today === 'yesAuto' || taskData.today === 'manual') {
 							today = '<span class="todayLabel">' + $.i18n._('doToday') + '</span>';
@@ -1682,13 +1708,16 @@ var ui = {
 						today = '';
 					}
 
-					//Draws the date label
 					var date;
-					if (taskData.date !== '') {
-						date = '<span class="dateLabel ' + cli.calc.prettyDate.difference(taskData.date)[1] + '">' + cli.calc.prettyDate.difference(taskData.date)[0] + '</span>';
-					} else {
-						date = '';
+					//Draws the date label
+					if (ui.lists.selected() !== 'scheduled') {
+						if (taskData.date !== '') {
+							date = '<span class="dateLabel ' + cli.calc.prettyDate.difference(taskData.date)[1] + '">' + cli.calc.prettyDate.difference(taskData.date)[0] + '</span>';
+						} else {
+							date = '';
+						}
 					}
+					
 
 					//Turns edit mode off
 					id.children().children('.todotxt').html(convertStringToLink(id.find('input[type="text"]').val()));
