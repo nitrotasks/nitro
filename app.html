@@ -1,0 +1,249 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Nitro</title>
+
+	<meta name="viewport" content="width=device-width">
+	<link rel="stylesheet" href="css/screen.css">
+	<link class="theme" rel="stylesheet" href="">
+	<link rel="shortcut icon" href="images/favicon.ico">
+
+</head>
+<body>
+<div id="loading"></div>
+<div id="settingsOverlay"></div>
+<div id="warning" class="modal">
+	<h3 data-translate="warningText" class="translate"></h3>
+	<p></p>
+	<button class="yes s1"></button>
+	<button class="no s1 translate" data-translate="cancelDialog"></button>
+</div>
+<div id="aboutDialog">
+	<img src="images/128.png">
+	<h2>Nitro 1.3 dev</h2>
+	<p>By George Czabania &amp; Jono Cooper<br>Copyright &copy; 2012 Caffeinated Code</p>
+	<p>Licensed under the BSD license</p>
+</div>
+<div id="donateDialog">
+	<iframe src="donors.html"></iframe>
+</div>
+<div id="scheduledDialog">
+	<div class="inner">
+		Schedule<br>
+		<label for="reviewNo">Review in:</label><input id="reviewNo" min="1" type="number" value="5"><select id="reviewLength">
+				<option value="days">days</option>
+				<option value="weeks">weeks</option>
+				<option value="months">months</option>
+				<option value="years">years</option>
+			</select><br>
+		<label for="reviewAction">In 𝑥𝑦:</label><select id="reviewAction">
+				<option value="today">Move to Today</option>
+				<option value="next">Move to Next</option>
+				<option value="today">Move to other list</option>
+			</select><br>
+		<button class="cancel">Cancel</button><button class="create">Create</button>
+	</div>
+</div>
+<div id="prefsDialog">
+	<!-- I hate HTML Whitespace =( -->
+	<ul class="nav nav-tabs"><li class="active"><a href="#" data-target="#tabGeneral" data-toggle="tab" class="translate" data-translate="general">g</a></li><li><a href="#" data-target="#tabLanguage" data-toggle="tab" class="translate" data-translate="language">g</a></li><li><a href="#" data-target="#tabTheme" data-toggle="tab" class="translate" data-translate="theme">g</a></li><li><a href="#" data-target="#tabSync" data-toggle="tab" class="translate" data-translate="sync">g</a></li></ul>  
+	<div class="tab-content">  
+		<div class="tab-pane active" id="tabGeneral">  
+		<form>
+			<input type="checkbox" id="deleteWarnings"><label for="deleteWarnings" class="translate" data-translate="hideWarnings"></label><br>
+			<label class="description translate" data-translate="deleteWarningsDescription"></label><br>
+			<input type="checkbox" id="gpu"><label for="gpu" class="translate" data-translate="lowGraphics"></label><br>
+			<label class="description translate" data-translate="lowGraphicsDescription"></label>
+			<hr>
+			<label class="left translate" data-translate="nextDescription"> </label><select id="nextAmount">
+				<option value="noLists" class="translate" data-translate="nextNoLists"></option>
+				<option value="threeItems" class="translate" data-translate="nextThreeLists"></option>
+				<option value="everything" class="translate" data-translate="nextEntireLists"></option>
+			</select>
+		</form>
+		</div>  
+		<div class="tab-pane" id="tabLanguage">  
+			<table>
+				<thead>
+					<tr>
+						<th class="translate" data-translate="language"></th>
+						<th class="translate" data-translate="authortext"></th>
+						<th class="translate" data-translate="language"></th>
+						<th class="translate" data-translate="authortext"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="language"><a href="#" data-value="english">English</a></td>
+						<td class="author">Caffeinated Code</td>
+						<td class="language"><a href="#" data-value="hungarian">Magyar</a></td>
+						<td class="author"><a href="mailto:sjozsef0227@gmail.com">József Samu</a>
+					</td>
+					<tr>
+						<td class="language"><a href="#" data-value="pirate">English (Pirate)</a></td>
+						<td class="author">Caffeinated Code</td>
+						<td class="language"><a href="#" data-value="portuguese">Português</a></td>
+						<td class="author"><a href="mailto:email@belenos.me">Belenos Govannon</a></td>	
+					</tr>
+					<tr>
+						<td class="language"><a href="#" data-value="german">Deutsch</a></td>
+						<td class="author"><a href="mailto:d.peteranderl@googlemail.com">Dennis Peteranderl</a>, <a href="info@agentur-simon.de">Bertram Simon</a></td>
+						<td class="language"><a href="#" data-value="russian">Русский</a></td>
+						<td class="author"><a href="mailto:a.pryah@gmail.com">Andrej Pryakhin</a></td>
+					</tr>
+					<tr>
+						<td class="language"><a href="#" data-value="spanish">Español</a></td>
+						<td class="author"><a href="mailto:admin@bumxu.com">Juande Martos</a></td></td>
+						<td class="language"><a href="#" data-value="finnish">Suomi</a></td>
+						<td class="author"><a href="mailto:rami.selin@gmail.com">Rami Selin</a></td>				
+					</tr>
+					<tr>
+						<td class="language"><a href="#" data-value="basque">Euskara</a></td>
+						<td class="author"><a href="mailto:atxooy@gmail.com">Naxo Oyanguren</a></td>
+						<td class="language"><a href="#" data-value="vietnamese">Tiếng Việt</a></td>
+						<td class="author"><a href="mailto:dinhquan@narga.net">Nguyễn Đình Quân</a></td>						
+					</tr>
+					<tr>
+						<td class="language"><a href="#" data-value="french">Français</a></td>
+						<td class="author"><a href="mailto:maurin.raphael@gmail.com">Raphaël Maurin</a></td>
+						<td class="language"><a href="#" data-value="arabic">‏العربية‏</a></td>
+						<td class="author"><a href="mailto:fouad.hassouneh@gmail.com">Fouad Hassouneh</td>				
+					</tr>
+					<tr>
+						<td class="language"><a href="#" data-value="italian">Italiano</a></td>
+						<td class="author"><a href="mailto:lmassa@bwlab.it.com">Luigi Massa</a></td>
+						<td class="language"><a href="#" data-value="chinese">中文(简体)</a></td>
+						<td class="author"><a href="mailto:1132321739qq@gmail.com">tuhaihe</a>, 2012</td>
+					</tr>
+					<tr>
+						<td class="language"><a href="#" data-value="polish">Polski</a></td>
+						<td class="author">Marcin Tydelski,<br>Kajetan Szczepaniak</td>
+					</tr>
+				</tbody>
+			</table>  
+		</div>  
+		<div class="tab-pane" id="tabTheme">  
+			<label class="left translate" data-translate="pickTheme"></label><select id="theme">
+				<option value="default">Default</option>
+				<option value="ambiance">Ambiance</option>
+				<option value="adwaita">Adwaita</option>
+				<option value="coffee">Coffee</option>
+				<option value="elementary">Elementary</option>
+				<option value="radiance">Radiance</option>
+				<option value="wunderlist">Wunderlist</option>
+				<option value="bieber">Justin Bieber</option>
+			</select><br>
+			<label class="description translate" data-translate="themeDescription"></label>
+			<hr>
+			<label class="left translate" data-translate="replaceDefault"></label><input type="file" id="chooseBG"><br>
+			<label class="left translate" data-translate="useDefault"></label><button id="removeBG" class="translate" data-translate="removeBG"></button><br>
+			<label class="left translate" data-translate="bgSize"></label><select id="backgroundSize">
+				<option value="zoom" class="translate" data-translate="fill"></option>
+				<option value="shrink" class="translate" data-translate="shrink"></option>
+				<option value="tile" class="translate" data-translate="tile"></option>
+			</select>
+			<label class="description translate" data-translate="bgDescription"></label>
+			<hr>
+			<label class="left translate" data-translate="headingColor"></label>
+			<select id="headingColor">
+				<option value="light" class="translate" data-translate="light"></option>
+				<option value="dark" class="translate" data-translate="dark"></option>
+				<option value="" class="translate" data-translate="default"></option>
+			</select>
+			<label class="description translate" data-translate="headingDescription"></label>
+		</div>
+		<div class="tab-pane" id="tabSync">
+			<blockquote><img src="images/cog.png" class="icon"><span class="translate" data-translate="donateText"></span></blockquote>
+			<hr>
+			<label class="left translate" data-translate="syncLabel"></label><select id="sync" disabled>
+				<option value="never" class="translate" data-translate="syncNever"></option>
+				<option value="manual" class="translate" data-translate="syncManual"></option>
+				<option value="timer" class="translate" data-translate="sync5"></option>
+				<option value="auto" class="translate" data-translate="syncAuto"></option>
+			</select><br>
+			<label class="description translate" data-translate="syncDescription"></label>
+			<hr>
+			<blockquote class="disabled"><img src="images/dropbox.png" title="Dropbox"><img src="images/ubuntu.png" title="Ubuntu"><img src="images/googledrive.png" title="Google Drive"></blockquote>
+		</div>
+	</div>
+</div>
+<div id="languageDialog" class="modal">
+</div>	
+<div id="overlay"></div>
+	<section id="panel">
+		<div id="brand">
+			<img src="images/flash.png" style="padding-right:8px;position: relative;top: -2px;">Nitro
+		</div>
+		<nav>
+			<ul>
+				<li id="addBTN" class="translateTitle" data-translate="titleAddTask"><span class="icon add"></span><span class="translate" data-translate="add"></span></li><li id="editBTN" class="translateTitle disabled" data-translate="titleEditTask"><span class="icon edit"></span><span class="translate" data-translate="edit"></span></li><li id="deleteBTN" class="translateTitle disabled" data-translate="titleDeleteTask"><span class="icon delete"></span><span class="translate" data-translate="delete"></span></li>
+			</ul>
+		</nav>
+		<div id="right">
+			<ul>
+				<li id="logbookBTN" class="translateTitle" data-translate="logbook"><img src="images/blank.png"></li>
+				<li id="settingsBTN" class="translateTitle" data-translate="settings"><img src="images/blank.png"><ul><li><a href="http://nitrotasks.com/help" target="_blank">Help</a></li><li class="donors">Donors</li><li><a href="http://nitrotasks.com/donate.html" target="_blank">Donate</a></li><li><a href="https://github.com/stayradiated/Nitro/issues" target="_blank">Report a bug</a></li><li class="prefs">Settings</li><li class="about">About</li></ul></li>
+				<!--li id="syncBTN" class="translateTitle" data-translate="sync"><img src="images/blank.png"></li-->
+				<li id="searchWrap"><input id="search" type="text"></li>
+			</ul>
+		</div>
+	</section>
+	<section id="content">
+		<div id="sidebar">
+			<h2 class="translate" data-translate="focus"></h2>
+			<ul>
+				<li id="Ltoday" class="selected"><span class="translate" data-translate="today"></span><span class="count"></span></li>
+				<li id="Lnext"><span class="translate" data-translate="next"></span><span class="count"></span></li>
+				<li id="Lscheduled">Scheduled<span class="count"></span></li>
+				<li id="Lall"><span class="translate" data-translate="all"></span><span class="count"></span></li>
+			</ul>
+			<h2><span class="translate" data-translate="lists"></span><span id="addListBTN"></span></h2>
+			<ul id="userLists"></ul>
+		</div>
+		<section id="tasks"></section>
+	</section>
+
+<div id="date">
+	<div id="datepicker">
+	</div>
+	<div id="showInToday">
+		<form>
+			<label for="showTime"><span class="translate" data-translate="showInToday"></span>:</label>
+				<select id="showTime" name="showTime">
+					<option value="1"></option>
+					<option value="2"></option>
+					<option value="3"></option>
+					<option value="4"></option>
+					<option value="5"></option>
+					<option value="6"></option>
+					<option value="7"></option>
+					<option value="8"></option>
+					<option value="9"></option>
+					<option value="10"></option>
+					<option value="11"></option>
+					<option value="12"></option>
+					<option value="13"></option>
+					<option value="14"></option>
+					<option value="none"></option>
+				</select>
+				<span id="removeDate" class="translateTitle" data-translate="removeDueDate"></span>
+		</form>
+	</div>
+</div>
+
+<script src="js/libs/jquery-1.7.1.min.js"></script>
+<script src="js/libs/jstorage.js"></script>
+<script src="js/libs/jquery.textarearesize.js"></script>
+<script src="js/libs/jquery.i18n.min.js"></script>
+<script src="js/libs/jquery-ui-1.8.18.custom.min.js"></script>
+<script src="js/libs/jquery.ui.datepicker.js"></script>
+<script src="js/libs/deCSS3.js"></script>
+<script src="js/libs/bootstrap-tab.js"></script>
+<script src="js/libs/keymaster.min.js"></script>
+
+<script src="js/cli.js"></script>
+<script src="js/ui.js"></script>
+</body>
+</html>
