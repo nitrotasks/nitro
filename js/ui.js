@@ -1561,7 +1561,8 @@ var ui = {
 
 		draw: function (id) {
 			if (id.toString().substr(0,1) === 's') {
-				return '⌘';
+				console.log()
+				var data = cli.storage.lists.scheduled[parseInt(id.toString().substr(1))];
 			} else {
 				var data = cli.taskData(id).display();
 			};
@@ -1584,7 +1585,7 @@ var ui = {
 			var date = "";
 			if (data.date !== '') {
 				date = '<span class="dateLabel ' + cli.calc.prettyDate.difference(data.date)[1] + '">' + cli.calc.prettyDate.difference(data.date)[0] + '</span>';
-			}
+			};
 
 			// NOTES
 			var notes = "";

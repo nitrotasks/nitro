@@ -866,7 +866,7 @@ var cli = {
 					list: 'today',
 					type: 'scheduled',
 					next: '0',
-					date: 'none'
+					date: ''
 				}
 
 				cli.storage.lists.scheduled.length++;
