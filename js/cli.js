@@ -595,11 +595,13 @@ var cli = {
 						break;
 				}
 
-				cli.timestamp.update(id, 'priority').task();
+				
 
 				if (id.substr(0,1) === 's') {
+					cli.timestamp.update(id.toString().substr(1), 'priority').scheduled();
 					cli.storage.lists.scheduled[id.toString().substr(1)].priority = priority;
 				} else {
+					cli.timestamp.update(id, 'priority').task();
 					cli.storage.tasks[id].priority = priority;
 				}
 				
@@ -902,10 +904,18 @@ var cli = {
 			}
 		},
 
-		edit: function(id, data) {
+		edit: function(id, obj) {
 			//Returns data if nothing is passed to it
-			if (data) {
-				cli.storage.lists.scheduled[id] = data;
+			if (obj) {
+				$.each(obj, function (i, value) {
+					if (typeof value === "string") {
+						obj[i] = cli.escape(value);
+					}
+					if (obj[i] !== $.jStorage.get('lists').scheduled[id][i] && i !== 'time') {
+						cli.timestamp.update(id, i).scheduled();
+					}
+				});
+				cli.storage.lists.scheduled[id] = obj;
 				cli.storage.save();
 			};
 			
