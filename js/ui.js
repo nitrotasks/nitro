@@ -111,6 +111,13 @@ var ui = {
 	init: function () {
 		"use strict";
 
+		//Loading Button
+		$('#loading button').click(function() {
+			$(this).remove();
+			$('#loading').css('z-index', '0');
+			$('#everything').css({'opacity': '1', '-webkit-transform': 'scale(1)'});
+		})
+
 		// Hide datepicker
 		$('#date').hide(0);
 

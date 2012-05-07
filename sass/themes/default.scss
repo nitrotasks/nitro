@@ -7,8 +7,11 @@
 $font: 'Helvetica', 'Arial', 'Ubuntu', sans-serif;
 
 body {
-	background: url(../../images/back.png) repeat center center;
 	font-family: $font;
+}
+
+#everything {
+	background: url(../../images/back.png) repeat center center;
 }
 
 #panel {
@@ -486,9 +489,4 @@ body {
 			}
 		}
 	}
-}
-
-//Hides loading when loading is done
-#loading {
-	display: none;
 }
