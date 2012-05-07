@@ -416,37 +416,37 @@ var ui = {
 
 			var id = $(this).parent().attr('data-type');
 
+			//Calculates Date
+			var date = parseInt($('#reviewNo').val());
+			var unit = $('#reviewLength').val();
+
+			//Zeros Days
+			var today = new Date();
+			today.setSeconds(0);
+			today.setMinutes(0);
+			today.setHours(0);
+			var tmpdate = new Date()
+			//tmpdate.setSeconds(0);
+			//tmpdate.setMinutes(0);
+			//tmpdate.setHours(0);
+
+
+			if (unit == 'days') {
+				today.setDate(today.getDate() + date);
+			} else if (unit == 'weeks') {
+				today.setDate(today.getDate() + (date * 7));
+			} else if (unit == 'months') {
+				today.setMonth(today.getMonth() + date);
+			} else if (unit == 'years') {
+				today.setYear(today.getFullYear() + date);
+			};
+
 			if (id == 'add') {
 				//Creates a new Scheduled Task
 				cli.scheduled.add('New Task', 'scheduled');
 
 				//Edits Data inside of it
 				var task = cli.scheduled.edit(cli.storage.lists.scheduled.length -1);
-
-				//Calculates Date
-				var date = parseInt($('#reviewNo').val());
-				var unit = $('#reviewLength').val();
-
-				//Zeros Days
-				var today = new Date();
-				today.setSeconds(0);
-				today.setMinutes(0);
-				today.setHours(0);
-				var tmpdate = new Date()
-				//tmpdate.setSeconds(0);
-				//tmpdate.setMinutes(0);
-				//tmpdate.setHours(0);
-
-
-				if (unit == 'days') {
-					today.setDate(today.getDate() + date);
-				} else if (unit == 'weeks') {
-					today.setDate(today.getDate() + (date * 7));
-				} else if (unit == 'months') {
-					today.setMonth(today.getMonth() + date);
-				} else if (unit == 'years') {
-					today.setYear(today.getFullYear() + date);
-				};
 
 				//Calculates Difference
 				//task.date = (Math.round((today.getTime() - tmpdate.getTime()) / 1000 / 60 / 60 /24));
@@ -456,16 +456,22 @@ var ui = {
 				//Saves
 				cli.scheduled.edit(cli.storage.lists.scheduled.length -1, task);
 
-				//Closes
-				$addBTN.click();
 			} else {
 				if (id.substr(1,1) == 's') {
-					//Fills in Values
 					var task = cli.scheduled.edit(id.substr(2));
-					console.log(task)
-				}
-				
+					
+					//Edits Values
+					task.next = cli.calc.dateConvert(today);
+					task.list = $('#reviewAction').val();
+
+					//Saves
+					cli.scheduled.edit(id.substr(2), task);
+				}	
 			}
+
+			//Closes
+			$('#scheduledDialog .inner').fadeOut(150);
+			$('#scheduledDialog').hide(0);
 		});
 			
 		$('#scheduledDialog .cancel').click(function() {
