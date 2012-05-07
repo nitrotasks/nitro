@@ -129,8 +129,9 @@ var ui = {
 				$('#overlay').click();
 
 				if (ui.lists.selected() == 'scheduled') {
-					$('#scheduledDialog .inner').fadeToggle(150);
-					$('#scheduledDialog').toggle(0);			
+					$('#scheduledDialog .inner').fadeToggle(150).attr('data-type', 'add');
+					$('#scheduledDialog').toggle(0);
+					ui.tasks.scheduled('add');
 				} else {
 					
 					// Adds a new task via the CLI
@@ -410,49 +411,63 @@ var ui = {
 		/**********************************
 			SCHEDULED TASKS
 		**********************************/
-		$('#scheduledDialog .create').click(function() {
-			//Creates a new Scheduled Task
-			cli.scheduled.add('New Task', 'scheduled');
 
-			//Edits Data inside of it
-			var task = cli.scheduled.edit(cli.storage.lists.scheduled.length -1);
+		$('#scheduledDialog .inner .create').click(function() {
 
-			//Calculates Date
-			var date = parseInt($('#reviewNo').val());
-			var unit = $('#reviewLength').val();
+			var id = $(this).parent().attr('data-type');
 
-			//Zeros Days
-			var today = new Date();
-			today.setSeconds(0);
-			today.setMinutes(0);
-			today.setHours(0);
-			var tmpdate = new Date()
-			//tmpdate.setSeconds(0);
-			//tmpdate.setMinutes(0);
-			//tmpdate.setHours(0);
+			if (id == 'add') {
+				//Creates a new Scheduled Task
+				cli.scheduled.add('New Task', 'scheduled');
+
+				//Edits Data inside of it
+				var task = cli.scheduled.edit(cli.storage.lists.scheduled.length -1);
+
+				//Calculates Date
+				var date = parseInt($('#reviewNo').val());
+				var unit = $('#reviewLength').val();
+
+				//Zeros Days
+				var today = new Date();
+				today.setSeconds(0);
+				today.setMinutes(0);
+				today.setHours(0);
+				var tmpdate = new Date()
+				//tmpdate.setSeconds(0);
+				//tmpdate.setMinutes(0);
+				//tmpdate.setHours(0);
 
 
-			if (unit == 'days') {
-				today.setDate(today.getDate() + date);
-			} else if (unit == 'weeks') {
-				today.setDate(today.getDate() + (date * 7));
-			} else if (unit == 'months') {
-				today.setMonth(today.getMonth() + date);
-			} else if (unit == 'years') {
-				today.setYear(today.getFullYear() + date);
-			};
+				if (unit == 'days') {
+					today.setDate(today.getDate() + date);
+				} else if (unit == 'weeks') {
+					today.setDate(today.getDate() + (date * 7));
+				} else if (unit == 'months') {
+					today.setMonth(today.getMonth() + date);
+				} else if (unit == 'years') {
+					today.setYear(today.getFullYear() + date);
+				};
 
-			//Calculates Difference
-			//task.date = (Math.round((today.getTime() - tmpdate.getTime()) / 1000 / 60 / 60 /24));
-			task.next = cli.calc.dateConvert(today);
-			task.list = $('#reviewAction').val();
+				//Calculates Difference
+				//task.date = (Math.round((today.getTime() - tmpdate.getTime()) / 1000 / 60 / 60 /24));
+				task.next = cli.calc.dateConvert(today);
+				task.list = $('#reviewAction').val();
 
-			//Saves
-			cli.scheduled.edit(cli.storage.lists.scheduled.length -1, task);
+				//Saves
+				cli.scheduled.edit(cli.storage.lists.scheduled.length -1, task);
 
-			//Closes
-			$addBTN.click();
-		})
+				//Closes
+				$addBTN.click();
+			} else {
+				if (id.substr(1,1) == 's') {
+					//Fills in Values
+					var task = cli.scheduled.edit(id.substr(2));
+					console.log(task)
+				}
+				
+			}
+		});
+			
 		$('#scheduledDialog .cancel').click(function() {
 			$addBTN.click();
 		});
@@ -965,7 +980,9 @@ var ui = {
 		$body.on('click', '.labels .date', function (e) {
 
 			if (ui.lists.selected() === 'scheduled') {
-				alert('other shit');
+				$('#scheduledDialog .inner').fadeToggle(150).attr('data-type', $(this).parent().parent().parent().attr('id'));
+				$('#scheduledDialog').toggle(0);
+				ui.tasks.scheduled('edit');
 			} else {
 				//Position of datepicker
 				var pos = $(this).offset();
@@ -1309,7 +1326,17 @@ var ui = {
 		clicks: 0,
 		lastClicked: "",
 
+		scheduled: function(type) {
+			if (type == 'edit') {
+				var id = $('#scheduledDialog .inner').attr('data-type');
 
+				if (id.substr(1,1) == 's') {
+					//Fills in Values
+					var task = cli.scheduled.edit(id.substr(2));
+					console.log(task)
+				}
+			}
+		},
 
 		/**********************************
 			POPULATE LIST WITH TASKS
