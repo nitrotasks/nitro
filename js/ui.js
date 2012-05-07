@@ -42,6 +42,9 @@ $(document).ready(function () {
 	// Make sure the database is up to date
 	cli.timestamp.upgrade();
 
+	//Reschedule Schedule
+	cli.scheduled.update();
+
 	// Check the dates on the Today list
 	cli.calc.todayQueue.refresh();
 
@@ -472,6 +475,9 @@ var ui = {
 			//Closes
 			$('#scheduledDialog .inner').fadeOut(150);
 			$('#scheduledDialog').hide(0);
+
+			//Reschedule Schedule
+			cli.scheduled.update();
 		});
 			
 		$('#scheduledDialog .cancel').click(function() {
