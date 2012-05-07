@@ -1339,9 +1339,33 @@ var ui = {
 				if (id.substr(1,1) == 's') {
 					//Fills in Values
 					var task = cli.scheduled.edit(id.substr(2));
-					console.log(task)
+
+					//Zeros Days
+					var today = new Date();
+					today.setSeconds(0);
+					today.setMinutes(0);
+					today.setHours(0);
+					var tmpdate = new Date(task.next)
+
+					var no = (Math.round((tmpdate.getTime() - today.getTime()) / 1000 / 60 / 60 /24)),
+						length = 'days',
+						action = task.list,
+						text = 'Edit';
 				}
+
+			} else {
+				var no = 5,
+					length = 'days',
+					action = 'today',
+					text = 'Create';
 			}
+
+			//Updates UI
+			$('#reviewNo').val(no);
+			$('#reviewLength').val(length);
+			$('#reviewAction').val(action);
+			$('#scheduledDialog .inner .create').html(text)
+
 		},
 
 		/**********************************
