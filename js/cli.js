@@ -981,11 +981,12 @@ var cli = {
 
 							//Task is recurring
 							} else if (task.type == 'recurring') {
+
 								//Calculates Due Date
 								if (task.date != '') {
 									//Adds number to next
 									var tmpdate = new Date(task.next);
-									tmpdate.setDate(tmpdate.getDate() + task.date);
+									tmpdate.setDate(tmpdate.getDate() + parseInt(task.date));
 									data.date = cli.calc.dateConvert(tmpdate);
 
 									//Saves
@@ -993,7 +994,15 @@ var cli = {
 									cli.calc.date(cli.storage.tasks.length -1);
 								}
 
-	
+								//Change the Next Date
+								if (task.recurType == 'daily') {
+									var tmpdate = new Date(task.next);
+									tmpdate.setDate(tmpdate.getDate() + task.recurInterval[0]);
+									task.next = cli.calc.dateConvert(tmpdate);
+								}
+
+								//Saves
+								cli.scheduled.edit(i, task);	
 
 								console.log('Task: ' + i + ' has been recurred')
 							}
