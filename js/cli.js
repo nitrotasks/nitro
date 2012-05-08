@@ -877,7 +877,7 @@ var cli = {
 	scheduled: {
 		add: function(name, type) {
 			console.log("Added a new " + type + " task")
-			if (type == 'scheduled') {
+			if (type === 'scheduled') {
 				cli.storage.lists.scheduled[cli.storage.lists.scheduled.length] = {
 					content: name,
 					priority: 'none',
@@ -899,9 +899,37 @@ var cli = {
 					}
 				}
 
-				cli.storage.lists.scheduled.length++;
-				cli.storage.save();
+			} else if (type === 'recurring') {
+				cli.storage.lists.scheduled[cli.storage.lists.scheduled.length] = {
+					content: name,
+					priority: 'none',
+					date: '',
+					notes: '',
+					list: 'today',
+					type: 'recurring',
+					next: '0',
+					date: '',
+					recurType: 'daily',
+					recurInterval: [1],
+					ends: '0',
+					time: {
+						content: 0,
+						priority: 0,
+						date: 0,
+						notes: 0,
+						list: 0,
+						type: 0,
+						next: 0,
+						date: 0,
+						recurType: 0,
+						recurInterval: 0,
+						ends: 0
+					}
+				}
 			}
+
+			cli.storage.lists.scheduled.length++;
+			cli.storage.save();
 		},
 
 		edit: function(id, obj) {
