@@ -112,11 +112,16 @@ var ui = {
 		"use strict";
 
 		//Loading Button
-		$('#loading button').click(function() {
-			$(this).remove();
-			$('#loading').css('z-index', '0');
-			$('#everything').css({'opacity': '1', '-webkit-transform': 'scale(1)'});
-		})
+		if (app == 'web') {
+			$('#loading button').click(function() {
+				$(this).remove();
+				$('#loading').css('z-index', '0');
+				$('#everything').css({'opacity': '1', '-webkit-transform': 'scale(1)'});
+			})
+
+		} else {
+			$('#loading').remove();
+		};
 
 		// Hide datepicker
 		$('#date').hide(0);
