@@ -958,9 +958,11 @@ var cli = {
 				if (cli.storage.lists.scheduled[i]) {
 					var task = cli.storage.lists.scheduled[i];
 
-					if (task.next != '0' && task.type == 'scheduled') {
+					if (task.next != '0') {
+
 						//Add the task to the list if the date has been passed
-						if (new Date(task.next).getTime() <= new Date().getTime()) { 
+						if (new Date(task.next).getTime() <= new Date().getTime()) {
+
 							cli.addTask(task.content, task.list);
 							var data = cli.taskData(cli.storage.tasks.length -1).display();
 
@@ -968,25 +970,35 @@ var cli = {
 							data.notes = task.notes;
 							data.priority = task.priority;
 
-							//Creates a due date
-							if (task.date != 'none') {
-								var tmpdate = new Date(task.next);
-								tmpdate.setDate(tmpdate.getDate() + task.date);
-								console.log(tmpdate)
-								data.date = cli.calc.dateConvert(tmpdate);
+							//Task is scheduled
+							if (task.type == 'scheduled') {
+
+								cli.taskData(cli.storage.tasks.length -1).edit(data);
+
+								//Deletes from scheduled							
+								delete cli.storage.lists.scheduled[i];
+								console.log('Task: ' + i + ' has been scheduled');
+
+							//Task is recurring
+							} else if (task.type == 'recurring') {
+								//Calculates Due Date
+								if (task.date != '') {
+									//Adds number to next
+									var tmpdate = new Date(task.next);
+									tmpdate.setDate(tmpdate.getDate() + task.date);
+									data.date = cli.calc.dateConvert(tmpdate);
+
+									//Saves
+									cli.taskData(cli.storage.tasks.length -1).edit(data);
+									cli.calc.date(cli.storage.tasks.length -1);
+								}
+
+	
+
+								console.log('Task: ' + i + ' has been recurred')
 							}
 
-							cli.taskData(cli.storage.tasks.length -1).edit(data);
-
-							//Calcs a due date
-							if (task.date != 'none') {
-								cli.calc.date(cli.storage.tasks.length -1);
-							}
-
-							delete cli.storage.lists.scheduled[i];
 							cli.storage.save();
-
-							console.log('Task: ' + i + ' has been moved');
 						}
 					};
 				};
