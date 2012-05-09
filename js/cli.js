@@ -1015,6 +1015,47 @@ var cli = {
 									}
 									//Next date as the next one coming up
 									task.next = cli.calc.dateConvert(Array.min(nextArr));
+								} else if (task.recurType == 'monthly') {
+									var nextArr = []
+
+									//Loop through everything and create new dates
+									for (var key in task.recurInterval) {
+										//Checks if date has been passed
+										if (new Date(task.recurInterval[key][3]).getTime() <= new Date().getTime()) {
+											if (task.recurInterval[key][2] == 'day') {
+												
+												if (Date.today().set({day: task.recurInterval[key][1]}).getTime() <= new Date().getTime()) {
+													//If it's been, set it for the next month
+													task.recurInterval[key][3] = cli.calc.dateConvert(Date.today().set({day: task.recurInterval[key][1]}).addMonths(1).getTime());
+												} else {
+													//If it hasn't, set it for this month
+													task.recurInterval[key][3] = cli.calc.dateConvert(Date.today().set({day: task.recurInterval[key][1]}).getTime());
+												}
+											} else {
+												console.log('boop')
+												var namearr = ['zero', 'set({day: 1})', 'second()', 'third()', 'fourth()', 'last()'];
+												var datearr = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+												//Fuckit. Using eval. Stupid date.js
+												var result = eval('Date.today().' + namearr[task.recurInterval[key][1]] + '.' + datearr[task.recurInterval[key][2]] + '()')
+
+												console.log(result)
+
+												//If it's already been, next month
+												if (result.getTime() < new Date().getTime()) {
+													var result = eval('Date.today().' + namearr[task.recurInterval[key][1]] + '.addMonths(1).' + datearr[task.recurInterval[key][2]] + '()')
+												}
+
+												task.recurInterval[key][3] = cli.calc.dateConvert(new Date(result));
+											}
+										}
+
+										//Even if it hasn't, we'll still push it to an array.
+										nextArr.push(new Date(task.recurInterval[key][3]).getTime());
+									}
+
+									//Next date as the next one coming up
+									task.next = cli.calc.dateConvert(Array.min(nextArr));
+
 								}
 
 								//Saves
