@@ -999,6 +999,22 @@ var cli = {
 									var tmpdate = new Date(task.next);
 									tmpdate.setDate(tmpdate.getDate() + task.recurInterval[0]);
 									task.next = cli.calc.dateConvert(tmpdate);
+								} else if (task.recurType == 'weekly') {
+									var nextArr = [];
+
+									//Loop through everything and create new dates
+									for (var key in task.recurInterval) {
+										//Checks if date has been passed
+										if (new Date(task.recurInterval[key][2]).getTime() <= new Date().getTime()) {
+											//If it has, we'll work out the next date.
+											task.recurInterval[key][2] = cli.calc.dateConvert(Date.parse(task.recurInterval[key][2]).addWeeks(parseInt(task.recurInterval[key][0]) - 1).moveToDayOfWeek(parseInt(task.recurInterval[key][1])));
+										}
+
+										//Even if it hasn't, we'll still push it to an array.
+										nextArr.push(new Date(task.recurInterval[key][2]).getTime());
+									}
+									//Next date as the next one coming up
+									task.next = cli.calc.dateConvert(Array.min(nextArr));
 								}
 
 								//Saves
@@ -1249,6 +1265,13 @@ function decompress(obj) {
 	}
 	return out;
 }
+//Because I'm lazy.
+Array.max = function( array ){
+    return Math.max.apply( Math, array );
+};
+Array.min = function( array ){
+    return Math.min.apply( Math, array );
+};
 
 // Because typeof is useless here
 function isArray(obj) {
