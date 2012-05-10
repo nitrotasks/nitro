@@ -1743,7 +1743,13 @@ var ui = {
 				notes = '<span class="notesIcon"></span>'
 			}
 
-			return '<li ' + priority + 'id="T' + id + '"><div class="boxhelp"><div class="checkbox"><input type="checkbox"></div><div class="todotxt">' + data.content + '</div>' + notes + '<div class="labels">' + today + date + '</div></div></li>';
+			if (id.toString().substr(0,1) === 'r') {
+				var checkbox = '<img src="images/recur.png">';
+			} else {
+				var checkbox = '<input type="checkbox">';
+			}
+
+			return '<li ' + priority + 'id="T' + id + '"><div class="boxhelp"><div class="checkbox">' + checkbox + '</div><div class="todotxt">' + data.content + '</div>' + notes + '<div class="labels">' + today + date + '</div></div></li>';
 		},
 
 		selected: {
