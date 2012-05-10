@@ -301,9 +301,9 @@ var cli = {
 					for (key in cli.storage.lists.scheduled) {
 						//Pushes Results
 						if (cli.storage.lists.scheduled[key].type === 'scheduled') {
-							results.push('s' + key)
+							results.push('s' + key);
 						} else if (cli.storage.lists.scheduled[key].type === 'recurring') {
-
+							results.push('r' + key);
 						};
 					};
 					return results;

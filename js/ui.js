@@ -1711,8 +1711,7 @@ var ui = {
 		**********************************/
 
 		draw: function (id) {
-			if (id.toString().substr(0,1) === 's') {
-				console.log()
+			if (id.toString().substr(0,1) === 's' || id.toString().substr(0,1) === 'r') {
 				var data = cli.storage.lists.scheduled[parseInt(id.toString().substr(1))];
 			} else {
 				var data = cli.taskData(id).display();
