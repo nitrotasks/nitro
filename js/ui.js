@@ -42,6 +42,9 @@ $(document).ready(function () {
 	// Make sure the database is up to date
 	cli.timestamp.upgrade();
 
+	//Reschedule Schedule
+	cli.scheduled.update();
+
 	// Check the dates on the Today list
 	cli.calc.todayQueue.refresh();
 
@@ -76,11 +79,6 @@ $(document).ready(function () {
 	if (cli.storage.prefs.gpu) {
 		toggleFx();
 	}
-
-	//Bieber Theme
-	/* if (cli.storage.prefs.theme == 'bieber') {
-		$('#brand').html('<img src="css/themes/bieber/heart.png" style="padding-right:8px;position: relative;top: -2px;">Justin Bieber');
-	}; */
 });
 
 $(window).resize(function () {
@@ -113,6 +111,18 @@ var ui = {
 	init: function () {
 		"use strict";
 
+		//Loading Button
+		if (app == 'web') {
+			$('#loading button').click(function() {
+				$(this).remove();
+				$('#loading').css('z-index', '0');
+				$('#everything').css({'opacity': '1', '-webkit-transform': 'scale(1)'});
+			})
+
+		} else {
+			$('#loading').remove();
+		};
+
 		// Hide datepicker
 		$('#date').hide(0);
 
@@ -129,25 +139,33 @@ var ui = {
 		$addBTN.click(function () {
 
 			if (!$(this).hasClass('disabled')) {
+
 				// Closes current task
 				$('#overlay').click();
 
-				// Adds a new task via the CLI
-				cli.addTask($.i18n._('newTask'), ui.lists.selected());
-
-				// Show task in UI
-				$('#tasks ul').first().prepend(ui.tasks.draw(cli.storage.tasks.length - 1));
-				$('#tasks .explanation').remove();
-
-				//Update list count if task is added to today
-				if (ui.lists.selected() === 'today') {
-					ui.lists.updateCount();
+				if (ui.lists.selected() == 'scheduled') {
+					$('#scheduledDialog .inner').fadeToggle(150).attr('data-type', 'add');
+					$('#scheduledDialog').toggle(0);
+					ui.tasks.scheduled('add');
 				} else {
-					ui.lists.updateCount();
-				}
+					
+					// Adds a new task via the CLI
+					cli.addTask($.i18n._('newTask'), ui.lists.selected());
 
-				//Expands Task
-				ui.tasks.selected.expand($('#T' + (cli.storage.tasks.length - 1)));
+					// Show task in UI
+					$('#tasks ul').first().prepend(ui.tasks.draw(cli.storage.tasks.length - 1));
+					$('#tasks .explanation').remove();
+
+					//Update list count if task is added to today
+					if (ui.lists.selected() === 'today') {
+						ui.lists.updateCount();
+					} else {
+						ui.lists.updateCount();
+					}
+
+					//Expands Task
+					ui.tasks.selected.expand($('#T' + (cli.storage.tasks.length - 1)));
+				};
 			};		
 		});
 
@@ -405,7 +423,78 @@ var ui = {
 			cli.storage.save();
 		});
 
+		/**********************************
+			SCHEDULED TASKS
+		**********************************/
 
+		$('#scheduledDialog .inner .create').click(function() {
+
+			var id = $(this).parent().attr('data-type');
+
+			//Calculates Date
+			var date = parseInt($('#reviewNo').val());
+			var unit = $('#reviewLength').val();
+
+			//Zeros Days
+			var today = new Date();
+			today.setSeconds(0);
+			today.setMinutes(0);
+			today.setHours(0);
+			var tmpdate = new Date()
+			//tmpdate.setSeconds(0);
+			//tmpdate.setMinutes(0);
+			//tmpdate.setHours(0);
+
+
+			if (unit == 'days') {
+				today.setDate(today.getDate() + date);
+			} else if (unit == 'weeks') {
+				today.setDate(today.getDate() + (date * 7));
+			} else if (unit == 'months') {
+				today.setMonth(today.getMonth() + date);
+			} else if (unit == 'years') {
+				today.setYear(today.getFullYear() + date);
+			};
+
+			if (id == 'add') {
+				//Creates a new Scheduled Task
+				cli.scheduled.add('New Task', 'scheduled');
+
+				//Edits Data inside of it
+				var task = cli.scheduled.edit(cli.storage.lists.scheduled.length -1);
+
+				//Calculates Difference
+				//task.date = (Math.round((today.getTime() - tmpdate.getTime()) / 1000 / 60 / 60 /24));
+				task.next = cli.calc.dateConvert(today);
+				task.list = $('#reviewAction').val();
+
+				//Saves
+				cli.scheduled.edit(cli.storage.lists.scheduled.length -1, task);
+
+			} else {
+				if (id.substr(1,1) == 's') {
+					var task = cli.scheduled.edit(id.substr(2));
+					
+					//Edits Values
+					task.next = cli.calc.dateConvert(today);
+					task.list = $('#reviewAction').val();
+
+					//Saves
+					cli.scheduled.edit(id.substr(2), task);
+				}	
+			}
+
+			//Closes
+			$('#scheduledDialog .inner').fadeOut(150);
+			$('#scheduledDialog').hide(0);
+
+			//Reschedule Schedule
+			cli.scheduled.update();
+		});
+			
+		$('#scheduledDialog .cancel').click(function() {
+			$addBTN.click();
+		});
 
 		/**********************************
 			CUSTOM BACKGROUNDS
@@ -647,7 +736,7 @@ var ui = {
 		// OVERLAY
 		$('#settingsOverlay').click(function () {
 			$(this).hide(0);
-			$('#prefsDialog, #aboutDialog').fadeOut(100);
+			$('#prefsDialog, #aboutDialog, #donateDialog').fadeOut(100);
 		});
 
 		// OVERLAY
@@ -783,11 +872,18 @@ var ui = {
 		// SAVE NAME WHEN INPUT LOSES FOCUS
 		$body.on('blur', '#tasks .todotxt input', function () {
 			var id = $(this).closest('li').attr('id').substr(1).toNum();
-			var data = cli.taskData(id).display();
 
-			// Edits Data
-			data.content = convertStringToLink(this.value);
-			cli.taskData(id).edit(data);
+			//Edit Data
+			if (id.toString().substr(0, 1) === 's') {
+				var data = cli.scheduled.edit([id.toString().substr(1)]);
+				data.content = convertStringToLink(this.value);
+				cli.scheduled.edit([id.toString().substr(1)], data);
+			} else {
+				var data = cli.taskData(id).display();
+				data.content = convertStringToLink(this.value);
+				cli.taskData(id).edit(data);
+			}
+			
 		});
 
 		// SHOW IN TODAY BUTTON
@@ -906,37 +1002,46 @@ var ui = {
 
 		// CLOSE DATEPICKER
 		$body.on('click', '.labels .date', function (e) {
-			//Position of datepicker
-			var pos = $(this).offset();
-			var top;
-			if (pos.top - 100 < 15 ) {
-				top = 115;
-			} else {
-				top = $(this).offset().top;
-			}
 
-			$('#date').show();
-			
-			//Puts new data into date picker
-			var id = $(this).closest('li').attr('id').substr(1).toNum();
-			var date = cli.taskData(id).display().date;
-			
-			//Only populate date picker if it has a date
-			if (date === '') {
-				$('#datepicker').datepicker('setDate', new Date());
+			if (ui.lists.selected() === 'scheduled') {
+				$('#scheduledDialog .inner').fadeToggle(150).attr('data-type', $(this).parent().parent().parent().attr('id'));
+				$('#scheduledDialog').toggle(0);
+				ui.tasks.scheduled('edit');
 			} else {
-				$('#datepicker').datepicker('setDate', date);
-			}
+				//Position of datepicker
+				var pos = $(this).offset();
+				var top;
+				if (pos.top - 100 < 15 ) {
+					top = 115;
+				} else {
+					top = $(this).offset().top;
+				}
 
-			//Populate Show in today box
-			$('#showTime').val(cli.taskData(id).display().showInToday);
+				$('#date').show();
 				
-			$('#date').css({'left': pos.left - 275, 'top': top - 100});
+				//Puts new data into date picker
+				var id = $(this).closest('li').attr('id').substr(1).toNum();
+				var date = cli.taskData(id).display().date;
+				
+				//Only populate date picker if it has a date
+				if (date === '') {
+					$('#datepicker').datepicker('setDate', new Date());
+				} else {
+					$('#datepicker').datepicker('setDate', date);
+				}
 
-			$("#date").click(function (e) {
-				e.stopPropagation();
-				return false;
-			});
+				//Populate Show in today box
+				$('#showTime').val(cli.taskData(id).display().showInToday);
+					
+				$('#date').css({'left': pos.left - 275, 'top': top - 100});
+
+				$("#date").click(function (e) {
+					e.stopPropagation();
+					return false;
+				});
+
+				setTimeout(dateClose, 100);
+			}
 
 			function dateClose() {
 				$(document).click(function () {
@@ -950,7 +1055,6 @@ var ui = {
 					}
 				});
 			}
-			setTimeout(dateClose, 100);
 		});
 
 		/* Show in Today */
@@ -985,12 +1089,17 @@ var ui = {
 		/* Notes */
 		$body.on('blur', '#tasks ul li textarea', function () {
 			var id = $(this).closest('li').attr('id').substr(1).toNum();
-			var data = cli.taskData(id).display();
 
-			//Edits Data
-			data.notes = this.value;
-			cli.taskData(id).edit(data);
-
+			//Edit Data
+			if (id.toString().substr(0, 1) === 's') {
+				var data = cli.scheduled.edit([id.toString().substr(1)]);
+				data.notes = this.value;
+				cli.scheduled.edit([id.toString().substr(1)], data);
+			} else {
+				var data = cli.taskData(id).display();
+				data.notes = this.value;
+				cli.taskData(id).edit(data);
+			}
 		});
 	},
 
@@ -1241,7 +1350,41 @@ var ui = {
 		clicks: 0,
 		lastClicked: "",
 
+		scheduled: function(type) {
+			if (type == 'edit') {
+				var id = $('#scheduledDialog .inner').attr('data-type');
 
+				if (id.substr(1,1) == 's') {
+					//Fills in Values
+					var task = cli.scheduled.edit(id.substr(2));
+
+					//Zeros Days
+					var today = new Date();
+					today.setSeconds(0);
+					today.setMinutes(0);
+					today.setHours(0);
+					var tmpdate = new Date(task.next)
+
+					var no = (Math.round((tmpdate.getTime() - today.getTime()) / 1000 / 60 / 60 /24)),
+						length = 'days',
+						action = task.list,
+						text = 'Edit';
+				}
+
+			} else {
+				var no = 5,
+					length = 'days',
+					action = 'today',
+					text = 'Create';
+			}
+
+			//Updates UI
+			$('#reviewNo').val(no);
+			$('#reviewLength').val(length);
+			$('#reviewAction').val(action);
+			$('#scheduledDialog .inner .create').html(text)
+
+		},
 
 		/**********************************
 			POPULATE LIST WITH TASKS
@@ -1323,6 +1466,9 @@ var ui = {
 				case 'someday':
 					$tasks.prepend('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('someday') + '</h2><ul id="' + id + '"></ul>');
 					break;
+				case 'scheduled':
+					$tasks.prepend('<h2 class="' + cli.storage.prefs.bg.color + '">Scheduled</h2><ul id="' + id + '"></ul>');
+					break;
 				case 'all':
 					$addBTN.addClass('disabled');
 					$tasks.prepend('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('all') + '</h2><ul id="' + id + '"></ul>');
@@ -1368,6 +1514,11 @@ var ui = {
 				}
 
 				$tasks.append('<div class="explanation">' + reason + '</div>');
+			}
+
+			if (ui.lists.selected() == 'scheduled') {
+				//No sorting in scheduled.
+				return;
 			}
 
 			$('#tasks ul').sortable({
@@ -1507,7 +1658,12 @@ var ui = {
 		**********************************/
 
 		draw: function (id) {
-			var data = cli.taskData(id).display();
+			if (id.toString().substr(0,1) === 's') {
+				console.log()
+				var data = cli.storage.lists.scheduled[parseInt(id.toString().substr(1))];
+			} else {
+				var data = cli.taskData(id).display();
+			};
 
 			// CHECKBOX
 			var priority = "";
@@ -1527,7 +1683,7 @@ var ui = {
 			var date = "";
 			if (data.date !== '') {
 				date = '<span class="dateLabel ' + cli.calc.prettyDate.difference(data.date)[1] + '">' + cli.calc.prettyDate.difference(data.date)[0] + '</span>';
-			}
+			};
 
 			// NOTES
 			var notes = "";
@@ -1564,21 +1720,35 @@ var ui = {
 			expand: function (task) {
 				task.addClass('expanded').removeClass('selected');
 				var id = task.attr('id').substr(1).toNum();
-				var taskData = cli.taskData(id).display();
 
-				//Draws the Today Label
-				var today;
-				if (taskData.today === 'manual' || taskData.today === 'yesAuto') {
-					today = '<span class="today inToday">' + $.i18n._('removeFromToday') + '</span>';
+				//Use the correct data store
+				if (ui.lists.selected() === 'scheduled') {
+					id = id.substr(1);
+					var taskData = cli.storage.lists.scheduled[id];
 				} else {
-					today = '<span class="today">' + $.i18n._('showInToday') + '</span>';
+					var taskData = cli.taskData(id).display();
+				};
+				
+				//Draws the Today Label
+				var today = '';
+				if (ui.lists.selected() !== 'scheduled') {
+					if (taskData.today === 'manual' || taskData.today === 'yesAuto') {
+						today = '<span class="today inToday">' + $.i18n._('removeFromToday') + '</span>';
+					} else {
+						today = '<span class="today">' + $.i18n._('showInToday') + '</span>';
+					}
 				}
 
 				var date;
-				if (taskData.date === '') {
-					date = '">' + $.i18n._('setDueDate');
+				//We'll do something special here later =)
+				if (ui.lists.selected() === 'scheduled') {
+					date = '">Schedule';
 				} else {
-					date = cli.calc.prettyDate.difference(taskData.date)[1] + '">' + cli.calc.prettyDate.difference(taskData.date)[0];
+					if (taskData.date === '') {
+						date = '">' + $.i18n._('setDueDate');
+					} else {
+						date = cli.calc.prettyDate.difference(taskData.date)[1] + '">' + cli.calc.prettyDate.difference(taskData.date)[0];
+					}
 				}
 
 				taskData.content = convertLinkToString(taskData.content);
@@ -1612,8 +1782,7 @@ var ui = {
 					var taskData = cli.taskData(data).display();
 
 					//Calculates labels
-					var today;
-					if (ui.lists.selected() !== 'today') {
+					if (ui.lists.selected() !== 'today' && ui.lists.selected() !== 'scheduled') {
 						//Draws the today label
 						if (taskData.today === 'yesAuto' || taskData.today === 'manual') {
 							today = '<span class="todayLabel">' + $.i18n._('doToday') + '</span>';
@@ -1624,13 +1793,19 @@ var ui = {
 						today = '';
 					}
 
-					//Draws the date label
 					var date;
-					if (taskData.date !== '') {
-						date = '<span class="dateLabel ' + cli.calc.prettyDate.difference(taskData.date)[1] + '">' + cli.calc.prettyDate.difference(taskData.date)[0] + '</span>';
+					//Draws the date label
+					if (ui.lists.selected() === 'scheduled') {
+						//Add a countdown thing
+						date = ''
 					} else {
-						date = '';
+						if (taskData.date !== '') {
+							date = '<span class="dateLabel ' + cli.calc.prettyDate.difference(taskData.date)[1] + '">' + cli.calc.prettyDate.difference(taskData.date)[0] + '</span>';
+						} else {
+							date = '';
+						}
 					}
+					
 
 					//Turns edit mode off
 					id.children().children('.todotxt').html(convertStringToLink(id.find('input[type="text"]').val()));
@@ -1754,6 +1929,10 @@ var ui = {
 				// Help Menu
 				case 'about':
 					$('#aboutDialog').fadeToggle(150);
+					$('#settingsOverlay').toggle(0);
+					break;
+				case 'donors':
+					$('#donateDialog').fadeToggle(150);
 					$('#settingsOverlay').toggle(0);
 					break;
 				case 'donate':

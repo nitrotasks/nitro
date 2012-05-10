@@ -16,6 +16,15 @@ body {
 	color: #222;
 }
 
+#everything {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	//opacity: 0;
+	//-webkit-transform: scale(0.5);
+	//-webkit-transition: 2s ease all;
+}
+
 #overlay {
 	width: 100%;
 	height: 100%;
@@ -1024,7 +1033,7 @@ button {
 	}
 }
 
-#aboutDialog {
+#aboutDialog, #donateDialog {
 	position: fixed;
 	width: 450px;
 	top: 50px;
@@ -1038,7 +1047,44 @@ button {
 	margin-left: -225px;
 	background: #fff;
 	display: none;
+}
 
+#donateDialog {
+	height: 300px;
+
+	iframe {
+		width: 100%;
+		height: 100%;
+		border: 0;
+	}
+}
+
+#scheduledDialog {
+	position: fixed;
+	background: rgba(0,0,0,0.3);
+	z-index: 3;
+	width: 100%;
+	height: 100%;
+	display: none;
+
+	.inner {
+		background: #fff;
+		width: 400px;
+		height: 200px;
+		display: none;
+		position: fixed;
+		top: 40px;
+		padding: 15px;
+		left: 50%;
+		border-bottom-right-radius: 5px;
+		border-bottom-left-radius: 5px;
+		margin-left: -215px;
+		box-shadow: 0 0 5px rgba(0,0,0,0.8);
+
+		input {
+			width:50px;
+		}
+	}
 }
 
 @import "jquery-ui-1.8.16.custom";

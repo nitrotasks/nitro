@@ -3,8 +3,10 @@
  * http://caffeinatedco.de
  */
 body {
-  background: url(../../images/back.png) repeat center center;
   font-family: "Helvetica", "Arial", "Ubuntu", sans-serif; }
+
+#everything {
+  background: url(../../images/back.png) repeat center center; }
 
 #panel {
   background: url(../../images/dark.png);
@@ -321,6 +323,3 @@ body {
         background: -ms-linear-gradient(bottom, #ffbbbb 15%, #ffaaaa 100%);
         background: linear-gradient(bottom, #ffbbbb 15%, #ffaaaa 100%);
         border: 1px solid #f44; }
-
-#loading {
-  display: none; }
