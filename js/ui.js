@@ -485,6 +485,10 @@ var ui = {
 
 					if (task.recurType === 'daily') {
 						task.recurInterval = [parseInt($('#recurSpecial input').val())];
+					} else if (task.recurType === 'weekly') {
+						task.recurInterval = [[parseInt($('#recurSpecial input').val()), $('#recurSpecial select').val(), task.next]];
+					} else if (task.recurType == 'monthly') {
+						alert('Not implemented yet...')
 					}
 
 					//Saves
