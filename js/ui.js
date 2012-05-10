@@ -925,7 +925,7 @@ var ui = {
 			var id = $(this).closest('li').attr('id').substr(1).toNum();
 
 			//Edit Data
-			if (id.toString().substr(0, 1) === 's') {
+			if (id.toString().substr(0, 1) === 's' || id.toString().substr(0, 1) === 'r') {
 				var data = cli.scheduled.edit([id.toString().substr(1)]);
 				data.content = convertStringToLink(this.value);
 				cli.scheduled.edit([id.toString().substr(1)], data);
@@ -1142,7 +1142,7 @@ var ui = {
 			var id = $(this).closest('li').attr('id').substr(1).toNum();
 
 			//Edit Data
-			if (id.toString().substr(0, 1) === 's') {
+			if (id.toString().substr(0, 1) === 's' || id.toString().substr(0, 1) === 'r') {
 				var data = cli.scheduled.edit([id.toString().substr(1)]);
 				data.notes = this.value;
 				cli.scheduled.edit([id.toString().substr(1)], data);
