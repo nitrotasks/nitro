@@ -496,6 +496,33 @@ var ui = {
 			$addBTN.click();
 		});
 
+		$('#scheduledDialog input[type=radio]').on('change', function() {
+			var toggle = $(this).val();
+
+			if (toggle === 'scheduled') {
+				$('#scheduledDialog .inner .schedule').show(0);
+				$('#scheduledDialog .inner .recurring').hide(0);
+			} else if (toggle === 'recurring') {
+				$('#scheduledDialog .inner .schedule').hide(0);
+				$('#scheduledDialog .inner .recurring').show(0);
+			}
+		});
+
+		//First time:
+		$('#recurSpecial').html('Every <input type="text"> days');
+
+		$('#recurType').on('change', function() {
+			var toggle = $(this).val();
+
+			if (toggle === 'daily') {
+				$('#recurSpecial').html('Every <input type="text"> days');
+			} else if (toggle === 'weekly') {
+				$('#recurSpecial').html('Every <input type="text"> weeks on <select><option value="monday">Monday</option><option value="tuesday">Tuesday</option><option value="wednesday">Wednesday</option> <option value="thursday">Thursday</option> <option value="friday">Friday</option> <option value="saturday">Saturday</option> <option value="sunday">Sunday</option>');
+			} else if (toggle === 'monthly') {
+				$('#recurSpecial').html('Every <input type="text"> months on I CBF WRITING THIS HTML!');
+			}
+		});
+
 		/**********************************
 			CUSTOM BACKGROUNDS
 		**********************************/
@@ -1379,6 +1406,8 @@ var ui = {
 			}
 
 			//Updates UI
+			$('#scheduledDialog .inner .schedule').show(0);
+			$('#scheduledDialog .inner .recurring').hide(0);
 			$('#reviewNo').val(no);
 			$('#reviewLength').val(length);
 			$('#reviewAction').val(action);
