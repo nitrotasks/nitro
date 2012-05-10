@@ -1420,18 +1420,34 @@ var ui = {
 						length = 'days',
 						action = task.list,
 						text = 'Edit';
+					
+					//Hides Bits of UI
+					$('#scheduledDialog .inner .schedule').show(0);
+					$('#scheduledDialog .inner .recurring').hide(0);
+					
+
+				} else if (id.substr(1,1) == 'r') {
+					//Hides Bits of UI
+					$('#scheduledDialog .inner .schedule').hide(0);
+					$('#scheduledDialog .inner .recurring').show(0);
 				}
+
+				$('.radioscheduled').hide(0);
 
 			} else {
 				var no = 5,
 					length = 'days',
 					action = 'today',
 					text = 'Create';
+
+				$('.radioscheduled').show(0);
+				$('#scheduledDialog .inner .schedule').show(0);
+				$('#scheduledDialog .inner .recurring').hide(0);
+
+				
 			}
 
 			//Updates UI
-			$('#scheduledDialog .inner .schedule').show(0);
-			$('#scheduledDialog .inner .recurring').hide(0);
 			$('#reviewNo').val(no);
 			$('#reviewLength').val(length);
 			$('#reviewAction').val(action);
