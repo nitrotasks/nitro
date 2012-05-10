@@ -457,19 +457,39 @@ var ui = {
 			};
 
 			if (id == 'add') {
-				//Creates a new Scheduled Task
-				cli.scheduled.add('New Task', 'scheduled');
+				if ($('#scheduledDialog input[type=radio]:checked').val() === 'scheduled') {
+					//Creates a new Scheduled Task
+					cli.scheduled.add('New Task', 'scheduled');
 
-				//Edits Data inside of it
-				var task = cli.scheduled.edit(cli.storage.lists.scheduled.length -1);
+					//Edits Data inside of it
+					var task = cli.scheduled.edit(cli.storage.lists.scheduled.length -1);
 
-				//Calculates Difference
-				//task.date = (Math.round((today.getTime() - tmpdate.getTime()) / 1000 / 60 / 60 /24));
-				task.next = cli.calc.dateConvert(today);
-				task.list = $('#reviewAction').val();
+					//Calculates Difference
+					//task.date = (Math.round((today.getTime() - tmpdate.getTime()) / 1000 / 60 / 60 /24));
+					task.next = cli.calc.dateConvert(today);
+					task.list = $('#reviewAction').val();
 
-				//Saves
-				cli.scheduled.edit(cli.storage.lists.scheduled.length -1, task);
+					//Saves
+					cli.scheduled.edit(cli.storage.lists.scheduled.length -1, task);
+
+				} else if ($('#scheduledDialog input[type=radio]:checked').val() === 'recurring') {
+					//Creates a new Recurring Task
+					cli.scheduled.add('New Task', 'recurring');	
+
+					//Edits Data inside of it
+					var task = cli.scheduled.edit(cli.storage.lists.scheduled.length -1);
+
+					task.next = $('#recurNext').val();
+					task.ends = $('#recurEnds').val();
+					task.recurType = $('#recurType').val();
+
+					if (task.recurType === 'daily') {
+						task.recurInterval = [parseInt($('#recurSpecial input').val())];
+					}
+
+					//Saves
+					cli.scheduled.edit(cli.storage.lists.scheduled.length -1, task);
+				}
 
 			} else {
 				if (id.substr(1,1) == 's') {
