@@ -1110,9 +1110,9 @@ var cli = {
 				if(cli.storage.prefs.sync.hasOwnProperty('access')) {
 					$.ajax({
 						type: "POST",
-						url: 'http://stark-fog-5496.herokuapp.com/auth/',
+						url: 'http://localhost:3000/auth/',
 						dataType: 'json',
-						data: {access: cli.storage.prefs.sync.access},
+						data: {access: cli.storage.prefs.sync.access, service: 'ubuntu'},
 						success: function (data) {
 							console.log(data);
 							if(data == "success") {
@@ -1126,22 +1126,22 @@ var cli = {
 				} else {
 					$.ajax({
 						type: "POST",
-						url: 'http://stark-fog-5496.herokuapp.com/auth/',
+						url: 'http://localhost:3000/auth/',
 						dataType: 'json',
-						data: {reqURL: 'true'},
+						data: {reqURL: 'true', service: 'ubuntu'},
 						success: function (data) {
 							console.log("Verifying dropbox");
 							cli.storage.prefs.sync.token = data;
 							// Display popup window
 							var left = (screen.width/2)-(800/2),
 								top = (screen.height/2)-(600/2),
-								title = "Authorise Dropbox",
+								title = "Authorise Nitro",
 								targetWin = window.open (data.authorize_url, title, 'toolbar=no, type=popup, status=no, width=800, height=600, top='+top+', left='+left);
 							$.ajax({
 								type: "POST",
-								url: 'http://stark-fog-5496.herokuapp.com/auth/',
+								url: 'http://localhost:3000/auth/',
 								dataType: 'json',
-								data: {token: cli.storage.prefs.sync.token},
+								data: {token: cli.storage.prefs.sync.token, service: 'ubuntu'},
 								success: function (data) {
 									console.log("Nitro Sync server is ready");
 									cli.storage.prefs.sync.access = data;
@@ -1165,9 +1165,9 @@ var cli = {
 
 				$.ajax({
 					type: "POST",
-					url: 'http://stark-fog-5496.herokuapp.com/sync/',
+					url: 'http://localhost:3000/sync/',
 					dataType: 'json',
-					data: {data: JSON.stringify(compress(client)), access: cli.storage.prefs.sync.access},
+					data: {data: JSON.stringify(compress(client)), access: cli.storage.prefs.sync.access, service: 'ubuntu'},
 					success: function (data) {
 						if(data != 'failed') {
 							data = decompress(data);
