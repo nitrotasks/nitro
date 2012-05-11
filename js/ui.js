@@ -496,16 +496,30 @@ var ui = {
 				}
 
 			} else {
+				var task = cli.scheduled.edit(id.substr(2));
+
 				if (id.substr(1,1) == 's') {
-					var task = cli.scheduled.edit(id.substr(2));
 					
 					//Edits Values
 					task.next = cli.calc.dateConvert(today);
 					task.list = $('#reviewAction').val();
 
-					//Saves
-					cli.scheduled.edit(id.substr(2), task);
-				}	
+				} else if (id.substr(1,1) == 'r') {
+					task.next = $('#recurNext').val();
+					task.ends = $('#recurEnds').val();
+					task.recurType = $('#recurType').val();
+
+					if (task.recurType === 'daily') {
+						task.recurInterval = [parseInt($('#recurSpecial input').val())];
+					} else if (task.recurType === 'weekly') {
+						task.recurInterval = [[parseInt($('#recurSpecial input').val()), $('#recurSpecial select').val(), task.next]];
+					} else if (task.recurType == 'monthly') {
+						alert('Not implemented yet...')
+					}
+				}
+
+				//Saves
+				cli.scheduled.edit(id.substr(2), task);
 			}
 
 			//Closes
@@ -541,7 +555,7 @@ var ui = {
 			if (toggle === 'daily') {
 				$('#recurSpecial').html('Every <input type="text"> days');
 			} else if (toggle === 'weekly') {
-				$('#recurSpecial').html('Every <input type="text"> weeks on <select><option value="monday">Monday</option><option value="tuesday">Tuesday</option><option value="wednesday">Wednesday</option> <option value="thursday">Thursday</option> <option value="friday">Friday</option> <option value="saturday">Saturday</option> <option value="sunday">Sunday</option>');
+				$('#recurSpecial').html('Every <input type="text"> weeks on <select><option value="1">Monday</option><option value="2">Tuesday</option><option value="3">Wednesday</option> <option value="4">Thursday</option> <option value="5">Friday</option> <option value="6">Saturday</option> <option value="0">Sunday</option>');
 			} else if (toggle === 'monthly') {
 				$('#recurSpecial').html('Every <input type="text"> months on I CBF WRITING THIS HTML!');
 			}
@@ -1405,10 +1419,12 @@ var ui = {
 			if (type == 'edit') {
 				var id = $('#scheduledDialog .inner').attr('data-type');
 
-				if (id.substr(1,1) == 's') {
-					//Fills in Values
-					var task = cli.scheduled.edit(id.substr(2));
+				//Fills in Values
+				var task = cli.scheduled.edit(id.substr(2));
+				var text = 'Edit';
 
+				if (id.substr(1,1) == 's') {
+					
 					//Zeros Days
 					var today = new Date();
 					today.setSeconds(0);
@@ -1418,8 +1434,7 @@ var ui = {
 
 					var no = (Math.round((tmpdate.getTime() - today.getTime()) / 1000 / 60 / 60 /24)),
 						length = 'days',
-						action = task.list,
-						text = 'Edit';
+						action = task.list;
 					
 					//Hides Bits of UI
 					$('#scheduledDialog .inner .schedule').show(0);
@@ -1430,6 +1445,19 @@ var ui = {
 					//Hides Bits of UI
 					$('#scheduledDialog .inner .schedule').hide(0);
 					$('#scheduledDialog .inner .recurring').show(0);
+
+					//Changes UI
+					$('#recurType').val(task.recurType).change();
+
+					if (task.recurType == 'daily') {
+						$('#recurSpecial input').val(task.recurInterval[0]);
+					} else if (task.recurType == 'weekly') {
+						$('#recurSpecial input').val(task.recurInterval[0][0]);
+						$('#recurSpecial select').val(task.recurInterval[0][1]);
+					}
+
+					$('#recurNext').val(task.next);
+					$('#recurEnds').val(task.ends);
 				}
 
 				$('.radioscheduled').hide(0);
