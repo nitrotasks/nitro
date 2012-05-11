@@ -15,7 +15,6 @@
 	"yesList":        		"Poista lista",
 	"cancelDialog":    		"Peruuta",
 	"warningText":			"Varoitus!",
-	"languageText":			"Valitse kielesi",
 
 	"add":            		"Lisää",
 	"edit":           		"Muokkaa",
@@ -26,9 +25,9 @@
 	
 	"hideWarnings":   		"Piilota poistovaroitukset",
 	"lowGraphics":    		"Matalan grafiikan tila",
-	"nextNoLists":    		"Älä näytä muita listoja Seuraavissa",
-	"nextThreeLists": 		"Näytä 3 tehtävää muista listoista Seuraavissa",
-	"nextEntireLists":		"Näytä kokonaiset listat Seuraavissa",
+	"nextNoLists":    		"Älä näytä mitään",
+	"nextThreeLists": 		"Näytä vain kolme tehtävää",
+	"nextEntireLists":		"Näytä kaikki tehtävät",
 
 	"general":				"Yleiset",
 	"nextDescription": 		"Näytä muut listat seuraavissa: ", 
@@ -41,6 +40,7 @@
 	"theme":				"Teema",
 	"pickTheme":			"Valitse teema: ",
 	"themeDescription": 	"Teemat mahdollistavat Nitron ulkoasun muuttamisen. CSS:llä voit jopa luoda oman teeman!",
+	"replaceDefault":		"Vaihda tausta: ",
 	"useDefault": 			"Käytä oletustaustaa: ",
 	"removeBG":				"Poista tausta",
 	"bgSize": 				"Taustan koko: ",
@@ -72,6 +72,7 @@
 	"today":          		"Tämänpäiväiset",
 	"next":           		"Seuraavat",
 	"someday":        		"Joskus",
+	"all":					"Kaikki tehtävät",
 
 	"newList":        		"Uusi lista",
 	"newTask":        		"Uusi tehtävä",
@@ -86,7 +87,7 @@
 	"important":      		"Tärkeä",
 	"setDueDate":     		"Aseta eräpäivä",
 	"removeDueDate":  		"Poista eräpäivä",
-	"doToday":        		"erääntyy tänään",
+	"doToday":        		"Tee tänään",
 
 	"oneMore":      		"Näytä 1 tehtävä lisää",
 	"morethanOne":			"Näytä %s tehtävää lisää",
