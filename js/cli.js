@@ -567,7 +567,7 @@ var cli = {
 		return {
 			get: function () {
 				//Scheduled
-				if (id.substr(0,1) === 's' || id.substr(0,1) === 'r') {
+				if (typeof(id) != 'number' && id.substr(0,1) === 's' || typeof(id) != 'number' && id.substr(0,1) === 'r') {
 					var priority = cli.storage.lists.scheduled[id.toString().substr(1)].priority;
 				} else {
 					var priority = cli.storage.tasks[id].priority;	
@@ -575,7 +575,7 @@ var cli = {
 				return priority;
 			},
 			set: function () {
-				if (id.substr(0,1) === 's' || id.substr(0,1) === 'r') {
+				if (typeof(id) != 'number' && id.substr(0,1) === 's' || typeof(id) != 'number' && id.substr(0,1) === 'r') {
 					var priority = cli.storage.lists.scheduled[id.toString().substr(1)].priority;
 				} else {
 					var priority = cli.storage.tasks[id].priority;	
@@ -597,7 +597,7 @@ var cli = {
 
 				
 
-				if (id.substr(0,1) === 's' || id.substr(0,1) === 'r') {
+				if (typeof(id) != 'number' && id.substr(0,1) === 's' || typeof(id) != 'number' && id.substr(0,1) === 'r') {
 					cli.timestamp.update(id.toString().substr(1), 'priority').scheduled();
 					cli.storage.lists.scheduled[id.toString().substr(1)].priority = priority;
 				} else {
