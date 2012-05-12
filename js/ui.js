@@ -486,7 +486,13 @@ var ui = {
 					if (task.recurType === 'daily') {
 						task.recurInterval = [parseInt($('#recurSpecial input').val())];
 					} else if (task.recurType === 'weekly') {
-						task.recurInterval = [[parseInt($('#recurSpecial input').val()), $('#recurSpecial select').val(), task.next]];
+						var interval = [];
+
+						$('#recurSpecial div').map(function() { 
+							interval.push([parseInt($(this).children('input').val()), $(this).children('select').val(), task.next]);
+						})
+
+						task.recurInterval = interval;
 					} else if (task.recurType == 'monthly') {
 						alert('Not implemented yet...')
 					}
@@ -534,6 +540,16 @@ var ui = {
 			$addBTN.click();
 		});
 
+		var weeks = '<input type="text"> weeks on <select><option value="1">Monday</option><option value="2">Tuesday</option><option value="3">Wednesday</option> <option value="4">Thursday</option> <option value="5">Friday</option> <option value="6">Saturday</option> <option value="0">Sunday</option></select>'
+		
+		$body.on('click', '.addRecur', function() {
+			$('#recurSpecial').append('<div>And ' + weeks + '<span class="removeRecur">-</span></div>')
+		});
+
+		$body.on('click', '.removeRecur', function() {
+			$(this).parent().remove();
+		})
+
 		$('#scheduledDialog input[type=radio]').on('change', function() {
 			var toggle = $(this).val();
 
@@ -555,7 +571,7 @@ var ui = {
 			if (toggle === 'daily') {
 				$('#recurSpecial').html('Every <input type="text"> days');
 			} else if (toggle === 'weekly') {
-				$('#recurSpecial').html('Every <input type="text"> weeks on <select><option value="1">Monday</option><option value="2">Tuesday</option><option value="3">Wednesday</option> <option value="4">Thursday</option> <option value="5">Friday</option> <option value="6">Saturday</option> <option value="0">Sunday</option>');
+				$('#recurSpecial').html('<div>Every ' + weeks + '<span class="addRecur">+</span></div>');
 			} else if (toggle === 'monthly') {
 				$('#recurSpecial').html('Every <input type="text"> months on I CBF WRITING THIS HTML!');
 			}
