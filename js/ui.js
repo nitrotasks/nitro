@@ -1343,7 +1343,7 @@ var ui = {
 			$('#L' + ui.lists.selected()).addClass('edit');
 			$('#L' + ui.lists.selected() + ' .view').hide(0);
 			$('#L' + ui.lists.selected() + ' .edit').show(0);
-			$('#L' + ui.lists.selected() + ' .edit input').focus();
+			$('#L' + ui.lists.selected() + ' .edit input').select();
 
 			ui.listEditMode = ui.lists.selected();
 		},
@@ -1929,10 +1929,8 @@ var ui = {
 				$('#content textarea').TextAreaExpander(0, 400);
 
 				//Animations
-				task.addClass('margin');
-				task.children('.hidden').slideDown(150, function () {
-					$('#content textarea').focus().closest('li').find('input').focus();
-				});
+				task.addClass('margin').children('.boxhelp').children('.todotxt').children('input').select();
+				task.children('.hidden').slideDown(150);
 			},
 
 
