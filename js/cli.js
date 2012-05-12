@@ -385,6 +385,24 @@ var cli = {
 					}
 				} else if (searchlist == 'logbook') {
 					//Do Something
+					for (var t = 0; t < cli.storage.tasks.length; t++) {
+
+						// If task exists
+						if (cli.storage.tasks[t]) {
+
+							// Exclude logged tasks
+							if (cli.storage.tasks[t].logged == true || cli.storage.tasks[t].logged == 'true') {
+
+								//Seaches Task
+								var str = searcher(t);
+								if (str != undefined) {
+									results.push(str);
+								}				
+							}
+						}
+					}
+				} else if (searchlist == 'scheduled') {
+					
 				} else {
 					for (var key in cli.storage.lists.items[searchlist].order) {
 						var str = parseInt(searcher(cli.storage.lists.items[searchlist].order[key]))

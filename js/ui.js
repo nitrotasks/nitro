@@ -1296,7 +1296,7 @@ var ui = {
 			if($('#sidebar ul li.selected').length) {
 				return $('#sidebar ul li.selected').attr('id').substr(1).toNum();
 			} else {
-				return '';
+				return 'logbook';
 			}
 		},
 
@@ -1559,13 +1559,11 @@ var ui = {
 				$tasks.html('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('logbook') + '</h2><ul id="logbook"></ul>');
 
 				// Populates
+				var content = '';
 				for (var i = 0; i < items.length; i++) {
-					$('#tasks ul').append(ui.tasks.draw(items[i]));
-
-					// Set checked to true
-					$('#T' + items[i]).addClass('logged');
-					$('#T' + items[i] + " input[type=checkbox]").prop('checked', true);
+					content += ui.tasks.draw(items[i]);
 				}
+				$('#tasks ul').html(content);
 
 				//If nothing is logged, a description appears
 				if (items.length === 0) {
@@ -1816,6 +1814,7 @@ var ui = {
 		**********************************/
 
 		draw: function (id) {
+
 			if (id.toString().substr(0,1) === 's' || id.toString().substr(0,1) === 'r') {
 				var data = cli.storage.lists.scheduled[parseInt(id.toString().substr(1))];
 			} else {
@@ -1848,13 +1847,17 @@ var ui = {
 				notes = '<span class="notesIcon"></span>'
 			}
 
+			var logged = '';
 			if (id.toString().substr(0,1) === 'r') {
 				var checkbox = '<img src="images/recur.png">';
+			} else if (cli.storage.tasks[id] && cli.storage.tasks[id].logged == true || cli.storage.tasks[id] && cli.storage.tasks[id].logged == 'true') {
+				var checkbox = '<input type="checkbox" checked>';
+				var logged = 'class="logged"'
 			} else {
 				var checkbox = '<input type="checkbox">';
 			}
 
-			return '<li ' + priority + 'id="T' + id + '"><div class="boxhelp"><div class="checkbox">' + checkbox + '</div><div class="todotxt">' + data.content + '</div>' + notes + '<div class="labels">' + today + date + '</div></div></li>';
+			return '<li ' + priority + 'id="T' + id + '" ' + logged + '><div class="boxhelp"><div class="checkbox">' + checkbox + '</div><div class="todotxt">' + data.content + '</div>' + notes + '<div class="labels">' + today + date + '</div></div></li>';
 		},
 
 		selected: {
