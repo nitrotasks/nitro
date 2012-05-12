@@ -229,28 +229,35 @@ var cli = {
 
 	},
 	deleteTask: function (id) {
-		var task = cli.taskData(id).display();
 
-		// Timestamp (list order)
-		cli.timestamp.update(task.list, 'order').list();
+		//If it's a recurring or scheduled task
+		if (id.substr(0,1) === 'r'  || id.substr(0,1) == 's') {
+			delete cli.storage.lists.scheduled[id.substr(1)];
+			cli.storage.save();
+		} else {
+			var task = cli.taskData(id).display();
 
-		cli.calc.removeFromList(id, task.list);
+			// Timestamp (list order)
+			cli.timestamp.update(task.list, 'order').list();
 
-		//Changes task List to 0 so today.calculate removes it.
-		task.list = 0;
-		cli.taskData(id).edit(task);
+			cli.calc.removeFromList(id, task.list);
 
-		//Removes from Today and Next
-		cli.today(id).calculate();
+			//Changes task List to 0 so today.calculate removes it.
+			task.list = 0;
+			cli.taskData(id).edit(task);
 
-		//Removes from list
-		cli.calc.removeFromList(id, 0);
+			//Removes from Today and Next
+			cli.today(id).calculate();
 
-		//Deletes Data
-		cli.storage.tasks[id] = { deleted: Date.now() };
+			//Removes from list
+			cli.calc.removeFromList(id, 0);
 
-		//Saves
-		cli.storage.save();
+			//Deletes Data
+			cli.storage.tasks[id] = { deleted: Date.now() };
+
+			//Saves
+			cli.storage.save();
+		}
 	},
 	populate: function (type, query, searchlist) {
 		query = cli.escape(query);
