@@ -518,7 +518,13 @@ var ui = {
 					if (task.recurType === 'daily') {
 						task.recurInterval = [parseInt($('#recurSpecial input').val())];
 					} else if (task.recurType === 'weekly') {
-						task.recurInterval = [[parseInt($('#recurSpecial input').val()), $('#recurSpecial select').val(), task.next]];
+						var interval = [];
+
+						$('#recurSpecial div').map(function() { 
+							interval.push([parseInt($(this).children('input').val()), $(this).children('select').val(), task.next]);
+						})
+
+						task.recurInterval = interval;
 					} else if (task.recurType == 'monthly') {
 						alert('Not implemented yet...')
 					}
@@ -1468,8 +1474,14 @@ var ui = {
 					if (task.recurType == 'daily') {
 						$('#recurSpecial input').val(task.recurInterval[0]);
 					} else if (task.recurType == 'weekly') {
-						$('#recurSpecial input').val(task.recurInterval[0][0]);
-						$('#recurSpecial select').val(task.recurInterval[0][1]);
+						for (var i=0; i<task.recurInterval.length; i++) {
+							if (i != 0) {
+								$('.addRecur').click()
+							}
+							//Puts data in
+							$($('#recurSpecial div')[i]).children('input').val(task.recurInterval[i][0]);
+							$($('#recurSpecial div')[i]).children('select').val(task.recurInterval[i][1]);
+						}
 					}
 
 					$('#recurNext').val(task.next);
