@@ -757,11 +757,16 @@ var ui = {
 				taskResults += ui.tasks.draw(results[i]);
 			}
 
-			if(results.length) {
-				$tasks.html('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('searchResults') + query + '</h2><ul>' + taskResults + '</ul>')
+			if (query.length == 0) {
+				ui.tasks.populate(ui.lists.selected());
 			} else {
-				$tasks.html('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('noResults') + '</h2><ul></ul>');
+				if(results.length) {
+					$tasks.html('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('searchResults') + query + '</h2><ul>' + taskResults + '</ul>')
+				} else {
+					$tasks.html('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('noResults') + '</h2><ul></ul>');
+				}
 			}
+			
 			
 			
 			
