@@ -9,8 +9,8 @@ html { font-size: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 10
 html, button, input, select, textarea { font-family: 'Helvetica', 'Arial', 'Ubuntu', sans-serif; color: #222; }
 body { margin: 0; font-size: 1em; line-height: 1.4; }
 
-:not(.notes)::-moz-selection { background: transparent; }
-:not(.notes)::selection { background: transparent; }
+:not(input)::-moz-selection { background: transparent; }
+:not(input)::selection { background: transparent; }
 
 a { color: #00e; }
 a:visited { color: #551a8b; }

@@ -528,6 +528,8 @@ body {
 				display: -moz-box;
 				display: box;
 				width: 100%;
+				overflow: hidden;
+				height: 30px;
 			}
 
 			&.selected {
@@ -565,10 +567,11 @@ body {
 			.checkbox {
 				width: 13px;
 				height: 13px;
-				padding: 9px 8px 8px 8px;
+				padding: 9px 8px 0 8px;
 				vertical-align: top;
 				position: relative;
 				z-index: 1;
+				line-height: 1;
 
 
 				input[type=checkbox] {

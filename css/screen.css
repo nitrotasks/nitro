@@ -27,10 +27,10 @@ body {
   font-size: 1em;
   line-height: 1.4; }
 
-:not(.notes)::-moz-selection {
+:not(input)::-moz-selection {
   background: transparent; }
 
-:not(.notes)::selection {
+:not(input)::selection {
   background: transparent; }
 
 a {
@@ -561,7 +561,9 @@ body {
       display: -webkit-box;
       display: -moz-box;
       display: box;
-      width: 100%; }
+      width: 100%;
+      overflow: hidden;
+      height: 30px; }
     #content #tasks li.selected {
       background: #ccc; }
     #content #tasks li.placeholder {
@@ -581,10 +583,11 @@ body {
     #content #tasks li .checkbox {
       width: 13px;
       height: 13px;
-      padding: 9px 8px 8px 8px;
+      padding: 9px 8px 0 8px;
       vertical-align: top;
       position: relative;
-      z-index: 1; }
+      z-index: 1;
+      line-height: 1; }
       #content #tasks li .checkbox input[type=checkbox] {
         -webkit-appearance: none;
         -moz-appearance: none;
