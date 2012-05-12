@@ -1844,7 +1844,8 @@ var ui = {
 			// NOTES
 			var notes = "";
 			if (data.notes !== '') {
-				notes = '<span class="notesIcon"></span>'
+				//TODO: Breaks firefox! Fix it later
+				//notes = '<span class="notesIcon"></span>'
 			}
 
 			var logged = '';
