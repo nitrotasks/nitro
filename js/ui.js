@@ -1674,8 +1674,8 @@ var ui = {
 				$tasks.append('<div class="explanation">' + reason + '</div>');
 			}
 
-			if (ui.lists.selected() == 'scheduled') {
-				//No sorting in scheduled.
+			if (ui.lists.selected() == 'scheduled' || ui.lists.selected() == 'all') {
+				//No sorting in scheduled or all tasks.
 				return;
 			}
 
