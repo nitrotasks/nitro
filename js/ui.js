@@ -429,7 +429,7 @@ var ui = {
 
 		$('#scheduledDialog .inner .create').click(function() {
 
-			var id = $(this).parent().attr('data-type');
+			var id = $(this).parent().parent().attr('data-type');
 
 			//Calculates Date
 			var date = parseInt($('#reviewNo').val());
@@ -558,7 +558,7 @@ var ui = {
 			$addBTN.click();
 		});
 
-		var weeks = '<input type="text"> weeks on <select><option value="1">Monday</option><option value="2">Tuesday</option><option value="3">Wednesday</option> <option value="4">Thursday</option> <option value="5">Friday</option> <option value="6">Saturday</option> <option value="0">Sunday</option></select>';
+		var weeks = '<input type="number"> weeks on <select><option value="1">Monday</option><option value="2">Tuesday</option><option value="3">Wednesday</option> <option value="4">Thursday</option> <option value="5">Friday</option> <option value="6">Saturday</option> <option value="0">Sunday</option></select>';
 		var months = 'on the <select class="type"><option value="1">1st</option> <option value="2">2nd</option> <option value="3">3rd</option> <option value="4">4th</option> <option value="5">5th</option> <option value="6">6th</option> <option value="7">7th</option> <option value="8">8th</option> <option value="9">9th</option> <option value="10">10th</option> <option value="11">11th</option> <option value="12">12th</option> <option value="13">13th</option> <option value="14">14th</option> <option value="15">15th</option> <option value="16">16th</option> <option value="17">17th</option> <option value="18">18th</option> <option value="19">19th</option> <option value="20">20th</option> <option value="21">21st</option> <option value="22">22nd</option> <option value="23">23rd</option> <option value="24">24th</option> <option value="25">25th</option> <option value="26">26th</option> <option value="27">27th</option> <option value="28">28th</option> <option value="29">29th</option> <option value="30">30th</option> <option value="31">31st</option></select> day';
 
 		$body.on('click', '.addRecur', function() {
@@ -589,17 +589,17 @@ var ui = {
 		});
 
 		//First time:
-		$('#recurSpecial').html('<td>Every</td><td><input type="number" min="1"> days</td>');
+		$('#recurSpecial').html('<table><tr><td>Every:</td><td><input type="number" min="1" value="7"> days</td></tr></table>');
 
 		$('#recurType').on('change', function() {
 			var toggle = $(this).val();
 
 			if (toggle === 'daily') {
-				$('#recurSpecial').html('<td>Every</td><td><input type="number" min="1"> days.</td>');
+				$('#recurSpecial').html('<table><tr><td>Every:</td><td><input type="number" min="1" value="7"> days</td></tr></table>');
 			} else if (toggle === 'weekly') {
-				$('#recurSpecial').html('<td>Every</td><td>' + weeks + '<span class="addRecur">+</span></td>');
+				$('#recurSpecial').html('<div>Every ' + weeks + '<span class="addRecur">+</span></div>');
 			} else if (toggle === 'monthly') {
-				$('#recurSpecial').html('<td>Every month</td><td>' + months + '<span class="addRecur">+</span></td>');
+				$('#recurSpecial').html('<div>Every month ' + months + '<span class="addRecur">+</span></div>');
 			}
 		});
 

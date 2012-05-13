@@ -1009,6 +1009,11 @@ button {
         #scheduledDialog .inner table tr td:first-child {
           width: 100px;
           text-align: right; }
+    #scheduledDialog .inner #recurSpecial {
+      margin: 5px auto; }
+      #scheduledDialog .inner #recurSpecial div {
+        text-align: center;
+        margin: 3px auto; }
     #scheduledDialog .inner #buttonbox {
       text-align: right; }
     #scheduledDialog .inner button {
