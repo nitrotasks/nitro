@@ -33,38 +33,62 @@
 	</div>
 	<div id="scheduledDialog">
 		<div class="inner">
-			Schedule<br>
-			<div class="radioscheduled">
-			<input type="radio" name="scheduledtype" value="scheduled" checked>Scheduled<input type="radio" name="scheduledtype" value="recurring">Recurring<br>
-			</div>
-			<div class="schedule">
-				Schedule<br>
-				<label for="reviewNo">Review in:</label><input id="reviewNo" min="1" type="number"><select id="reviewLength">
-						<option value="days">days</option>
-						<option value="weeks">weeks</option>
-						<option value="months">months</option>
-						<option value="years">years</option>
-					</select><br>
-				<label for="reviewAction">In 𝑥𝑦:</label><select id="reviewAction">
-						<option value="today">Move to Today</option>
-						<option value="next">Move to Next</option>
-						<!--option value="today">Move to other list</option-->
-					</select><br>
-			</div>
-			<div class="recurring">
-				Recurring<br>
-				<label for="recurType">Copies are created:</label><select id="recurType">
-						<option value="daily">daily</option>
-						<option value="weekly">weekly</option>
-						<option value="monthly">monthly</option>
-					</select>
-				<div id="innerRecur">
-					<div id="recurSpecial">
-					</div>
-					<label for="recurNext">Next:</label><input type="text" id="recurNext"><br>
-					<label for="recurEnds">Ends:</label><input type="text" id="recurEnds">
-				</div>
-			</div>
+
+			<table>
+				<tr class="radioscheduled">
+					<td><input type="radio" name="scheduledtype" id="scheduledRadio" value="scheduled" checked></td>
+					<td><label for="scheduledRadio">Scheduled</label></td>
+				</tr>
+				<tr class="radioscheduled bottom">
+					<td><input type="radio" name="scheduledtype" value="recurring" id="recurringRadio"></td>
+					<td><label for="recurringRadio">Recurring</label><br></td>
+				</tr>
+				<tr class="schedule">
+					<td>
+						<label for="reviewNo">Review in:</label>
+					</td>
+					<td>
+						<input id="reviewNo" min="1" type="number">
+						<select id="reviewLength">
+							<option value="days">days</option>
+							<option value="weeks">weeks</option>
+							<option value="months">months</option>
+							<option value="years">years</option>
+						</select>
+					</td>
+				</tr>
+				<tr class="schedule">
+					<td>
+						<label for="reviewAction">In 𝑥𝑦:</label>
+					</td>
+					<td>
+						<select id="reviewAction">
+							<option value="today">Move to Today</option>
+							<option value="next">Move to Next</option>
+							<!--option value="today">Move to other list</option-->
+						</select><br>
+					</td>
+				</tr>
+			
+				<tr class="recurring">
+					<td><label for="recurType">Created:</label></td>
+					<td><select id="recurType">
+							<option value="daily">daily</option>
+							<option value="weekly">weekly</option>
+							<option value="monthly">monthly</option>
+						</select></td>
+				</tr>
+				<tr class="recurring" id="recurSpecial">
+				</tr>
+				<tr class="recurring">
+					<td><label for="recurNext">Next:</label></td>
+					<td><input type="text" id="recurNext"></td>
+				</tr>
+				<tr class="recurring">
+					<td><label for="recurEnds">Ends:</label></td>
+					<td><input type="text" id="recurEnds"></td>
+				</tr>
+			</table>
 			<button class="cancel">Cancel</button><button class="create"></button>
 		</div>
 	</div>

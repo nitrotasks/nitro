@@ -1072,8 +1072,8 @@ button {
 
 	.inner {
 		background: #fff;
-		width: 400px;
-		height: 200px;
+		width: 300px;
+		height: 150px;
 		display: none;
 		position: fixed;
 		top: 40px;
@@ -1081,11 +1081,34 @@ button {
 		left: 50%;
 		border-bottom-right-radius: 5px;
 		border-bottom-left-radius: 5px;
-		margin-left: -215px;
+		margin-left: -115px;
 		box-shadow: 0 0 5px rgba(0,0,0,0.8);
+		font-size: 14px;
 
-		input {
-			width:50px;
+		table {
+
+			width: 100%;
+
+			tr {
+
+				&.bottom td {
+					padding-bottom: 10px;
+				}
+
+				td {
+					-webkit-box-sizing: border-box;
+					padding: 0 5px;
+
+					&:first-child {
+						width: 100px;
+						text-align: right;
+					}
+				}
+			}
+		}
+
+		input[type=text], input[type=number] {
+			width: 50px;
 		}
 	}
 }

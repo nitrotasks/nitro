@@ -988,8 +988,8 @@ button {
   display: none; }
   #scheduledDialog .inner {
     background: #fff;
-    width: 400px;
-    height: 200px;
+    width: 300px;
+    height: 150px;
     display: none;
     position: fixed;
     top: 40px;
@@ -997,9 +997,20 @@ button {
     left: 50%;
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
-    margin-left: -215px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.8); }
-    #scheduledDialog .inner input {
+    margin-left: -115px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+    font-size: 14px; }
+    #scheduledDialog .inner table {
+      width: 100%; }
+      #scheduledDialog .inner table tr.bottom td {
+        padding-bottom: 10px; }
+      #scheduledDialog .inner table tr td {
+        -webkit-box-sizing: border-box;
+        padding: 0 5px; }
+        #scheduledDialog .inner table tr td:first-child {
+          width: 100px;
+          text-align: right; }
+    #scheduledDialog .inner input[type=text], #scheduledDialog .inner input[type=number] {
       width: 50px; }
 
 /*

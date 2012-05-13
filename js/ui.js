@@ -589,7 +589,7 @@ var ui = {
 		});
 
 		//First time:
-		$('#recurSpecial').html('Every <input type="text"> days');
+		$('#recurSpecial').html('<td>Every</td><td><input type="text"> days</td>');
 
 		$('#recurType').on('change', function() {
 			var toggle = $(this).val();
