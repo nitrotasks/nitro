@@ -1116,12 +1116,10 @@ button {
 
 		#buttonbox {
 			text-align: right;
-		}
-
-		button {
-			font-size: 13px;
-			text-align: right;
-			margin: 15px 0 0;
+			button {
+				text-align: right;
+				margin: 15px 0 0;
+			}
 		}
 
 		input[type=number] {

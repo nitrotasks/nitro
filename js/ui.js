@@ -431,6 +431,11 @@ var ui = {
 
 			var id = $(this).parent().parent().attr('data-type');
 
+			var test = $('#recurNext').val();
+			if (test == '' || new Date(test) == 'Invalid Date') {
+				return;
+			}
+
 			//Calculates Date
 			var date = parseInt($('#reviewNo').val());
 			var unit = $('#reviewLength').val();
@@ -575,6 +580,9 @@ var ui = {
 		$body.on('click', '.removeRecur', function() {
 			$(this).parent().remove();
 		})
+
+		//Date Picker
+		$('#recurNext, #recurEnds').datepicker();
 
 		$('#scheduledDialog input[type=radio]').on('change', function() {
 			var toggle = $(this).val();

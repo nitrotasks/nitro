@@ -1016,10 +1016,9 @@ button {
         margin: 3px auto; }
     #scheduledDialog .inner #buttonbox {
       text-align: right; }
-    #scheduledDialog .inner button {
-      font-size: 13px;
-      text-align: right;
-      margin: 15px 0 0; }
+      #scheduledDialog .inner #buttonbox button {
+        text-align: right;
+        margin: 15px 0 0; }
     #scheduledDialog .inner input[type=number] {
       width: 50px; }
     #scheduledDialog .inner input[type=text] {
