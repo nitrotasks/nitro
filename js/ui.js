@@ -145,6 +145,7 @@ var ui = {
 
 				if (ui.lists.selected() == 'scheduled') {
 					$('#scheduledDialog .inner').fadeToggle(150).attr('data-type', 'add');
+					$('.radioscheduled input[value=scheduled]').attr('checked', 'true');
 					$('#scheduledDialog').toggle(0);
 					ui.tasks.scheduled('add');
 				} else {
@@ -431,10 +432,7 @@ var ui = {
 
 			var id = $(this).parent().parent().attr('data-type');
 
-			var test = $('#recurNext').val();
-			if (test == '' || new Date(test) == 'Invalid Date') {
-				return;
-			}
+			
 
 			//Calculates Date
 			var date = parseInt($('#reviewNo').val());
@@ -478,6 +476,11 @@ var ui = {
 					cli.scheduled.edit(cli.storage.lists.scheduled.length -1, task);
 
 				} else if ($('#scheduledDialog input[type=radio]:checked').val() === 'recurring') {
+
+					var test = $('#recurNext').val();
+					if (test == '' || new Date(test) == 'Invalid Date') {
+						return;
+					}
 					//Creates a new Recurring Task
 					cli.scheduled.add('New Task', 'recurring');	
 
@@ -557,6 +560,11 @@ var ui = {
 
 			//Reschedule Schedule
 			cli.scheduled.update();
+
+			//Reload UI
+			ui.tasks.populate('scheduled');
+			ui.lists.updateCount();
+
 		});
 			
 		$('#scheduledDialog .cancel').click(function() {
