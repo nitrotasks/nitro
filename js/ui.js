@@ -1859,6 +1859,8 @@ var ui = {
 			var logged = '';
 			if (id.toString().substr(0,1) === 'r') {
 				var checkbox = '<img src="images/recur.png">';
+			} else if (id.toString().substr(0,1) === 's') {
+				var checkbox = '<img src="images/scheduled.png">';
 			} else if (cli.storage.tasks[id] && cli.storage.tasks[id].logged == true || cli.storage.tasks[id] && cli.storage.tasks[id].logged == 'true') {
 				var checkbox = '<input type="checkbox" checked>';
 				var logged = 'class="logged"'
