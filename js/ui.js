@@ -589,17 +589,17 @@ var ui = {
 		});
 
 		//First time:
-		$('#recurSpecial').html('<td>Every</td><td><input type="text"> days</td>');
+		$('#recurSpecial').html('<td>Every</td><td><input type="number" min="1"> days</td>');
 
 		$('#recurType').on('change', function() {
 			var toggle = $(this).val();
 
 			if (toggle === 'daily') {
-				$('#recurSpecial').html('Every <input type="text"> days');
+				$('#recurSpecial').html('<td>Every</td><td><input type="number" min="1"> days.</td>');
 			} else if (toggle === 'weekly') {
-				$('#recurSpecial').html('<div>Every ' + weeks + '<span class="addRecur">+</span></div>');
+				$('#recurSpecial').html('<td>Every</td><td>' + weeks + '<span class="addRecur">+</span></td>');
 			} else if (toggle === 'monthly') {
-				$('#recurSpecial').html('<div>Every month ' + months + '<span class="addRecur">+</span></div>');
+				$('#recurSpecial').html('<td>Every month</td><td>' + months + '<span class="addRecur">+</span></td>');
 			}
 		});
 

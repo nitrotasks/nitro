@@ -1071,9 +1071,8 @@ button {
 	display: none;
 
 	.inner {
-		background: #fff;
+		background: rgba(255,255,255,0.9);
 		width: 300px;
-		height: 150px;
 		display: none;
 		position: fixed;
 		top: 40px;
@@ -1083,7 +1082,7 @@ button {
 		border-bottom-left-radius: 5px;
 		margin-left: -115px;
 		box-shadow: 0 0 5px rgba(0,0,0,0.8);
-		font-size: 14px;
+		font-size: 13px;
 
 		table {
 
@@ -1097,7 +1096,7 @@ button {
 
 				td {
 					-webkit-box-sizing: border-box;
-					padding: 0 5px;
+					padding: 2px 5px;
 
 					&:first-child {
 						width: 100px;
@@ -1107,8 +1106,21 @@ button {
 			}
 		}
 
-		input[type=text], input[type=number] {
+		#buttonbox {
+			text-align: right;
+		}
+
+		button {
+			font-size: 13px;
+			text-align: right;
+			margin: 15px 0 0;
+		}
+
+		input[type=number] {
 			width: 50px;
+		}
+		input[type=text] {
+			width: 100px;
 		}
 	}
 }
