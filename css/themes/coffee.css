@@ -118,7 +118,6 @@ body {
     height: 30px;
     font-size: 13px;
     line-height: 30px;
-    text-indent: 25px;
     border-top: 1px solid transparent;
     border-bottom: 1px solid #efeff0; }
     #content #sidebar ul li.dragHover:not(.selected) {

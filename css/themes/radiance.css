@@ -137,8 +137,7 @@ body {
   #content #sidebar ul li {
     height: 26px;
     font-size: 13px;
-    line-height: 26px;
-    text-indent: 25px; }
+    line-height: 26px; }
     #content #sidebar ul li.dragHover:not(.selected) {
       background: #ecf8ff; }
     #content #sidebar ul li .editIcon {

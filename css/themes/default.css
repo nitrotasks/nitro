@@ -105,7 +105,7 @@ body {
     height: 30px;
     font-size: 13px;
     line-height: 30px;
-    text-indent: 25px; }
+    padding-left: 25px; }
     #content #sidebar ul li.dragHover:not(.selected) {
       background: #ecf8ff; }
     #content #sidebar ul li .editIcon {

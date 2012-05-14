@@ -437,7 +437,7 @@ body {
       #content #sidebar ul li p {
         display: inline-block;
         margin: 0;
-        width: 165px;
+        width: 145px;
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
@@ -469,7 +469,6 @@ body {
         top: 1px;
         right: 5px;
         width: 40px;
-        text-indent: 0;
         text-align: center; }
       #content #sidebar ul li.dragHover:not(.selected) {
         background: #ddd; }
@@ -670,6 +669,10 @@ body {
 .dragbox {
   background: #f7f7f7;
   background: url(../images/whitesprite.png) no-repeat 5px 8px, -webkit-linear-gradient(bottom, #eeeeee 0%, white 100%);
+  background: url(../images/whitesprite.png) no-repeat 5px 8px, -ms-linear-gradient(bottom, #eeeeee 0%, white 100%);
+  background: url(../images/whitesprite.png) no-repeat 5px 8px, -moz-linear-gradient(bottom, #eeeeee 0%, white 100%);
+  background: url(../images/whitesprite.png) no-repeat 5px 8px, -o-linear-gradient(bottom, #eeeeee 0%, white 100%);
+  background: url(../images/whitesprite.png) no-repeat 5px 8px, linear-gradient(bottom, #eeeeee 0%, #ffffff 100%);
   box-shadow: 0px 0px 2px #888888, 0px 1px 4px rgba(0, 0, 0, 0.3);
   width: 35px !important;
   border-radius: 3px;
