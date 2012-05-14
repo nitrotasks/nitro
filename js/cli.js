@@ -232,7 +232,7 @@ var cli = {
 
 		//If it's a recurring or scheduled task
 		if (id.toString().substr(0,1) === 'r'  || id.toString().substr(0,1) === 's') {
-			delete cli.storage.lists.scheduled[id.substr(1)];
+			cli.storage.lists.scheduled[id.substr(1)] = { deleted: Date.now() };
 			cli.storage.save();
 		} else {
 			var task = cli.taskData(id).display();
