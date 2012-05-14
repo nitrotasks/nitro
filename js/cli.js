@@ -231,7 +231,7 @@ var cli = {
 	deleteTask: function (id) {
 
 		//If it's a recurring or scheduled task
-		if (id.substr(0,1) === 'r'  || id.substr(0,1) == 's') {
+		if (id.toString().substr(0,1) === 'r'  || id.toString().substr(0,1) === 's') {
 			delete cli.storage.lists.scheduled[id.substr(1)];
 			cli.storage.save();
 		} else {
@@ -1001,11 +1001,22 @@ var cli = {
 								cli.taskData(cli.storage.tasks.length -1).edit(data);
 
 								//Deletes from scheduled							
-								delete cli.storage.lists.scheduled[i];
+								cli.deleteTask('s' + i);
 								console.log('Task: ' + i + ' has been scheduled');
 
 							//Task is recurring
 							} else if (task.type == 'recurring') {
+
+								//Checks Ends
+								if (task.ends != 0 || task.ends != '') {
+									//If it's ended
+									if (new Date(task.ends).getTime() <= new Date().getTime()) {
+										//Task has finished.
+										console.log('The recurring has come to an end. Casting into oblivion.');
+										cli.deleteTask('r' + i);
+										return;
+									}
+								}
 
 								//Calculates Due Date
 								if (task.date != '') {
