@@ -14,7 +14,6 @@
  */
 
 console.info('Nitro 1.3\nCopyright (C) 2012 Caffeinated Code\nBy George Czabania & Jono Cooper');
-var socket;
 var cli = {
 	timestamp: {
 		update: function (id, key) {

@@ -25,6 +25,14 @@ var $body, $addBTN, $editBTN, $deleteBTN, $logbookBTN, $settingsBTN, $syncBTN, $
 $(document).ready(function () {
 	"use strict";
 
+	// Theme init
+	cli.storage.prefs.theme = cli.storage.prefs.theme || 'default';
+	$('link.theme')
+		.attr('href', 'css/themes/' + cli.storage.prefs.theme + '.css')
+		.ready(function () {
+			$(window).resize();
+		});
+
 	// Cached selectors
 	$body        = $('body');
 	$addBTN      = $('#addBTN');
@@ -61,19 +69,14 @@ $(document).ready(function () {
 		// Loads Translation
 		document.title = 'null';
 		document.title = 'load|' + cli.storage.prefs.lang + '.json';
+
+		//Removes unwanted things
+		$('.pythonshit').remove();
 		break;
 	}
 	
 	// Sets up keyboard shortcuts
 	ui.external.key();
-
-	// Theme init
-	cli.storage.prefs.theme = cli.storage.prefs.theme || 'default';
-	$('link.theme')
-		.attr('href', 'css/themes/' + cli.storage.prefs.theme + '.css')
-		.ready(function () {
-			$(window).resize();
-		});
 
 	// GPU init
 	if (cli.storage.prefs.gpu) {
