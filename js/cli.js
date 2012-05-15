@@ -14,10 +14,6 @@
  */
 
 console.info('Nitro 1.3\nCopyright (C) 2012 Caffeinated Code\nBy George Czabania & Jono Cooper');
-<<<<<<< HEAD
-=======
-
->>>>>>> Finally got rid of those pesky $.each()'s
 var cli = {
 	timestamp: {
 		update: function (id, key) {
