@@ -810,8 +810,8 @@ button {
   top: 100px;
   z-index: 100;
   left: 50%;
-  margin-left: -200px;
-  width: 370px;
+  margin-left: -250px;
+  width: 470px;
   padding: 30px 15px;
   text-align: center;
   background: #fff;
@@ -819,7 +819,8 @@ button {
   border-radius: 5px;
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.7); }
   #syncDialog p {
-    margin-top: 0; }
+    margin-top: 0;
+    font-size: 13px; }
   #syncDialog img {
     padding: 0 10px; }
 

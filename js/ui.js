@@ -873,7 +873,7 @@ var ui = {
 		// OVERLAY
 		$('#settingsOverlay').click(function () {
 			$(this).hide(0);
-			$('#prefsDialog, #aboutDialog, #donateDialog').fadeOut(100);
+			$('#prefsDialog, #aboutDialog, #donateDialog, #syncDialog').fadeOut(100);
 		});
 
 		// OVERLAY
