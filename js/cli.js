@@ -14,6 +14,10 @@
  */
 
 console.info('Nitro 1.3\nCopyright (C) 2012 Caffeinated Code\nBy George Czabania & Jono Cooper');
+<<<<<<< HEAD
+=======
+
+>>>>>>> Finally got rid of those pesky $.each()'s
 var cli = {
 	timestamp: {
 		update: function (id, key) {
@@ -643,14 +647,15 @@ var cli = {
 			},
 			edit: function (obj) {
 				// Edit taskData
-				$.each(obj, function (i, value) {
-					if (typeof value === "string") {
-						obj[i] = cli.escape(value);
+				
+				for(var value in obj) {
+					if (typeof obj[value] === 'string') {
+						obj[value] = cli.escape(obj[value]);
 					}
-					if (obj[i] !== $.jStorage.get('tasks')[id][i] && i !== 'time') {
-						cli.timestamp.update(id, i).task();
+					if (obj[value] !== $.jStorage.get('tasks')[id][value] && value !== 'time') {
+						cli.timestamp.update(id, value).task();
 					}
-				});
+				}
 
 				cli.storage.tasks[id] = obj;
 				cli.storage.save();
@@ -959,14 +964,16 @@ var cli = {
 		edit: function(id, obj) {
 			//Returns data if nothing is passed to it
 			if (obj) {
-				$.each(obj, function (i, value) {
-					if (typeof value === "string") {
-						obj[i] = cli.escape(value);
+					
+				for(var value in obj) {
+					if (typeof obj[value] === 'string') {
+						obj[value] = cli.escape(obj[value]);
 					}
-					if (obj[i] !== $.jStorage.get('lists').scheduled[id][i] && i !== 'time') {
-						cli.timestamp.update(id, i).scheduled();
+					if (obj[value] !== $.jStorage.get('lists')[id][value] && value !== 'time') {
+						cli.timestamp.update(id, value).scheduled();
 					}
-				});
+				}
+
 				cli.storage.lists.scheduled[id] = obj;
 				cli.storage.save();
 			};
