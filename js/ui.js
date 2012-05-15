@@ -427,6 +427,12 @@ var ui = {
 			cli.storage.save();
 		});
 
+		// SYNC
+		$('#setUpSync').click(function() {
+			$('#prefsDialog').fadeOut(150);
+			$('#syncDialog').fadeIn(150);
+		})
+
 		/**********************************
 			SCHEDULED TASKS
 		**********************************/

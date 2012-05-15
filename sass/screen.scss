@@ -827,6 +827,29 @@ button {
 	z-index: 1000;
 }
 
+#syncDialog {
+	position: fixed;
+	top: 100px;
+	z-index: 100;
+	left: 50%;
+	margin-left: -200px;
+	width: 370px;
+	padding: 30px 15px;
+	text-align: center;
+	background: #fff;
+	display: none;
+	border-radius: 5px;
+	box-shadow: 0 2px 15px rgba(0,0,0,0.7);
+
+	p {
+		margin-top: 0;
+	}
+
+	img {
+		padding: 0 10px;
+	}
+}
+
 #prefsDialog {
 	display: none;
 	position: fixed;
