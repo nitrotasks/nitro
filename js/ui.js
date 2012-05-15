@@ -2307,7 +2307,7 @@ var ui = {
 
 		// Adds in Translations
 		$('.translate').map(function () {
-			$(this).text($.i18n._($(this).attr('data-translate')));
+			$(this).html($.i18n._($(this).attr('data-translate')));
 		});
 
 		// Adds in Translated Title Text

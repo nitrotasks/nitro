@@ -55,7 +55,7 @@
 	"headingDescription":	"Change the color of the text so that it looks nice with your custom background.",
 
 	"sync": 				"Sync",
-	"donateText":			"Nitro Sync is currently being developed. Your donations are welcomed.",
+	"donateText":			"Nitro Sync costs money to run. Help support the development and keep sync free by <a href='http://nitrotasks.com#donate'>donating</a>!",
 	"syncLabel":			"Sync :",
 	"syncDescription":		"Sync allows you to access your tasks from other computers and smartphones.",
 	"syncNever":			"Never (No notifications)",
