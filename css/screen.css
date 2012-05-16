@@ -925,8 +925,8 @@ button {
     #prefsDialog .tab-content .tab-pane blockquote {
       width: 400px;
       color: #3b3b3b;
-      border: 3px solid #aaf;
-      background: #aaf;
+      border: 3px solid #0a6fea;
+      background: #0a6fea;
       border-radius: 5px; }
       #prefsDialog .tab-content .tab-pane blockquote h1 {
         text-align: center;
