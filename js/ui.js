@@ -700,6 +700,10 @@ var ui = {
 		/**********************************
 			SYNC
 		**********************************/
+		
+		$('#tabSync a.icon').click(function() {
+			cli.storage.sync.run($(this).data('service'));
+		});
 
 		// SYNC TYPE
 		$('#sync').change(function () {
