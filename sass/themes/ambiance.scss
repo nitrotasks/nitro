@@ -23,6 +23,7 @@ body {
 	}
 
 	nav {
+		left: 0;
 		ul {
 			li {
 				font-size: 12px;
@@ -163,8 +164,7 @@ body {
 
 		// position
 		width: 250px;
-		top: 0; /* Set to panel height */
-		z-index: 7;
+		top: 40px; /* Set to panel height */
 
 		// color
 		background-color: #f2f1f0;
@@ -214,6 +214,7 @@ body {
 				// font
 				font-size: 13px;
 				line-height: 26px;
+				padding-left: 25px;
 
 				// DRAG HOVER
 				&.dragHover:not(.selected) {

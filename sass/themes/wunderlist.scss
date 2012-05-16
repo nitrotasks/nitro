@@ -13,6 +13,11 @@ body {
 	//Not using background-size: cover because it makes things super laggy!
 }
 
+#scheduledDialog .inner {
+	top: 36px;
+	margin-left: -285px;
+}
+
 #panel {
 	@include background(linear-gradient(top, #646464 0%, #424242 100%));
 	box-shadow:  0 0 4px rgba(0,0,0,0.7);
