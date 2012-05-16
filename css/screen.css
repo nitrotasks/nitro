@@ -591,8 +591,6 @@ body {
         margin-top: -5px; }
       #content #tasks li .checkbox input[type=checkbox] {
         -webkit-appearance: none;
-        -moz-appearance: none;
-        -webkit-appearance: none;
         -o-appearance: none;
         appearance: none;
         -webkit-box-sizing: border-box;
