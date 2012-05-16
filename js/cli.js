@@ -19,17 +19,17 @@ var cli = {
 		update: function (id, key) {
 			return {
 				task: function () {
-					cli.storage.tasks[id].time[key] = Date.now();
+					cli.storage.tasks[id].time[key] = Date.now().getTime();
 					cli.timestamp.sync();
 				},
 				list: function () {
 					if (id !== 0) {
-						cli.storage.lists.items[id].time[key] = Date.now();
+						cli.storage.lists.items[id].time[key] = Date.now().getTime();
 						cli.timestamp.sync();
 					}
 				},
 				scheduled: function () {
-					cli.storage.lists.scheduled[id].time[key] = Date.now();
+					cli.storage.lists.scheduled[id].time[key] = Date.now().getTime();
 					cli.timestamp.sync();
 				}
 			};
@@ -231,7 +231,7 @@ var cli = {
 
 		//If it's a recurring or scheduled task
 		if (id.toString().substr(0,1) === 'r'  || id.toString().substr(0,1) === 's') {
-			cli.storage.lists.scheduled[id.substr(1)] = { deleted: Date.now() };
+			cli.storage.lists.scheduled[id.substr(1)] = { deleted: Date.now().getTime() };
 			cli.storage.save();
 		} else {
 			var task = cli.taskData(id).display();
@@ -252,7 +252,7 @@ var cli = {
 			cli.calc.removeFromList(id, 0);
 
 			//Deletes Data
-			cli.storage.tasks[id] = { deleted: Date.now() };
+			cli.storage.tasks[id] = { deleted: Date.now().getTime() };
 
 			//Saves
 			cli.storage.save();
@@ -686,7 +686,7 @@ var cli = {
 				console.log("Created List: '" + name + "' with id: " + newId);
 
 				// Update timestamp for list order
-				cli.storage.lists.time = Date.now();
+				cli.storage.lists.time = Date.now().getTime();
 
 				//Updates Total
 				cli.storage.lists.items.length++;
@@ -707,16 +707,16 @@ var cli = {
 				//Deletes data in list
 				for (var i=0; i<cli.storage.lists.items[id].order.length; i++) {
 					cli.today(cli.storage.lists.items[id].order[i]).remove();
-					cli.storage.tasks[cli.storage.lists.items[id].order[i]] = {deleted: Date.now()};
+					cli.storage.tasks[cli.storage.lists.items[id].order[i]] = {deleted: Date.now().getTime()};
 				}
 
 				//Deletes actual list
 				delete cli.storage.lists.items[id]
-				cli.storage.lists.deleted[id] = Date.now();
+				cli.storage.lists.deleted[id] = Date.now().getTime();
 				cli.storage.lists.order.splice(jQuery.inArray(id, cli.storage.lists.order), 1);
 
 				// Update timestamp for list order
-				cli.storage.lists.time = Date.now();
+				cli.storage.lists.time = Date.now().getTime();
 
 				//Saves to disk
 				cli.storage.save();
@@ -732,7 +732,7 @@ var cli = {
 			},
 			order: function (order) {
 				// Order of lists
-				cli.storage.lists.time = Date.now();
+				cli.storage.lists.time = Date.now().getTime();
 				cli.storage.lists.order = order;
 				cli.storage.save();
 			}
@@ -913,6 +913,7 @@ var cli = {
 					type: 'scheduled',
 					next: '0',
 					date: '',
+					synced: false,
 					time: {
 						content: 0,
 						priority: 0,
@@ -938,6 +939,7 @@ var cli = {
 					recurType: 'daily',
 					recurInterval: [1],
 					ends: '0',
+					synced: false,
 					time: {
 						content: 0,
 						priority: 0,
