@@ -644,12 +644,13 @@ var cli = {
 			edit: function (obj) {
 				// Edit taskData
 				
-				for(var value in obj) {
-					if (typeof obj[value] === 'string') {
-						obj[value] = cli.escape(obj[value]);
+				for(var i in obj) {
+					var value = obj[i];
+					if (typeof value === "string") {
+						obj[i] = cli.escape(value);
 					}
-					if (obj[value] !== $.jStorage.get('tasks')[id][value] && value !== 'time') {
-						cli.timestamp.update(id, value).task();
+					if (obj[i] !== $.jStorage.get('tasks')[id][i] && i !== 'time') {
+						cli.timestamp.update(id, i).task();
 					}
 				}
 
@@ -960,13 +961,14 @@ var cli = {
 		edit: function(id, obj) {
 			//Returns data if nothing is passed to it
 			if (obj) {
-					
-				for(var value in obj) {
-					if (typeof obj[value] === 'string') {
-						obj[value] = cli.escape(obj[value]);
+				
+				for(var i in obj) {
+					var value = obj[i];
+					if (typeof value === "string") {
+						obj[i] = cli.escape(value);
 					}
-					if (obj[value] !== $.jStorage.get('lists')[id][value] && value !== 'time') {
-						cli.timestamp.update(id, value).scheduled();
+					if (obj[i] !== $.jStorage.get('lists').scheduled[id][i] && i !== 'time') {
+						cli.timestamp.update(id, i).scheduled();
 					}
 				}
 
@@ -1130,7 +1132,9 @@ var cli = {
 		sync: {
 
 			// Magical function that handles connect and emit
-			run: function() {
+			run: function(service) {
+				
+				cli.storage.prefs.sync.service = service;
 
 				if(cli.storage.prefs.access) {
 					cli.storage.sync.emit()
@@ -1150,7 +1154,7 @@ var cli = {
 						type: "POST",
 						url: 'http://localhost:3000/auth/',
 						dataType: 'json',
-						data: {access: cli.storage.prefs.sync.access, service: 'ubuntu'},
+						data: {access: cli.storage.prefs.sync.access, service: cli.storage.prefs.sync.service},
 						success: function (data) {
 							console.log(data);
 							if(data == "success") {
@@ -1166,7 +1170,7 @@ var cli = {
 						type: "POST",
 						url: 'http://localhost:3000/auth/',
 						dataType: 'json',
-						data: {reqURL: 'true', service: 'ubuntu'},
+						data: {reqURL: 'true', service: cli.storage.prefs.sync.service},
 						success: function (data) {
 							console.log("Verifying dropbox");
 							cli.storage.prefs.sync.token = data;
@@ -1179,7 +1183,7 @@ var cli = {
 								type: "POST",
 								url: 'http://localhost:3000/auth/',
 								dataType: 'json',
-								data: {token: cli.storage.prefs.sync.token, service: 'ubuntu'},
+								data: {token: cli.storage.prefs.sync.token, service: cli.storage.prefs.sync.service},
 								success: function (data) {
 									console.log("Nitro Sync server is ready");
 									cli.storage.prefs.sync.access = data;
@@ -1205,7 +1209,7 @@ var cli = {
 					type: "POST",
 					url: 'http://localhost:3000/sync/',
 					dataType: 'json',
-					data: {data: JSON.stringify(compress(client)), access: cli.storage.prefs.sync.access, service: 'ubuntu'},
+					data: {data: JSON.stringify(compress(client)), access: cli.storage.prefs.sync.access, service: cli.storage.prefs.sync.service},
 					success: function (data) {
 						if(data != 'failed') {
 							data = decompress(data);
