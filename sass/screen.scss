@@ -1038,8 +1038,7 @@ button {
 			
 			
 			a.icon {
-				display: block;
-				float: left;
+				display: inline-block;
 				width: 150px;
 				height: 122px;
 				margin: 12.5px;
@@ -1061,6 +1060,21 @@ button {
 			a.icon img {
 				margin-left: 7px;
 				margin-top: 8.5px;
+			}
+			
+			&#tabSync {
+				position: relative;
+				
+				.waiting, .settings {
+					display: none;
+				}
+				
+				.spinner {
+					position: absolute;
+					left: 50%;
+					top: 50%;
+					margin: -32px 0 0 -32px;
+				}
 			}
 		}
 	}

@@ -1134,17 +1134,27 @@ var cli = {
 		sync: {
 
 			// Magical function that handles connect and emit
-			run: function(service) {
+			run: function(service, callback) {
 				
 				cli.storage.prefs.sync.service = service;
 
 				if(cli.storage.prefs.access) {
-					cli.storage.sync.emit()
+					
+					cli.storage.sync.emit();
+					
+					callback(true);
+					
 				} else {
-					cli.storage.sync.connect(function() {
+
+					cli.storage.sync.connect(function(result) {
 						cli.storage.sync.emit();
+						
+						callback(result);
 					});
+					
 				}
+				
+				
 
 			},
 			connect: function (callback) {
@@ -1161,9 +1171,10 @@ var cli = {
 							console.log(data);
 							if(data == "success") {
 								console.log("Nitro Sync server is ready");
-								callback();
+								callback(true);
 							} else if (data == "failed") {
 								console.log("Could not connect to Dropbox");
+								callback(false);
 							}
 						}
 					});
@@ -1188,8 +1199,10 @@ var cli = {
 								data: {token: cli.storage.prefs.sync.token, service: cli.storage.prefs.sync.service},
 								success: function (data) {
 									console.log("Nitro Sync server is ready");
-									cli.storage.prefs.sync.access = data;
-									callback();
+									cli.storage.prefs.sync.access = data.access;
+									cli.storage.prefs.sync.email = data.email;
+									delete cli.storage.prefs.sync.token;
+									callback(true);
 									cli.storage.save();
 								}
 							});
@@ -1221,8 +1234,9 @@ var cli = {
 							cli.storage.lists = data.lists;
 							cli.storage.save();
 							ui.sync.reload();
+							return true;
 						} else {
-							console.log("Sync failed. You probably need to delete cli.storage.prefs.sync.");
+							return false;
 						}
 					}
 				});

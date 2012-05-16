@@ -216,15 +216,21 @@
 				<hr>
 				<a class="icon" href="#" data-service="dropbox"><img src="images/dropbox.png"></a>
 				<a class="icon" href="#" data-service="ubuntu"><img src="images/ubuntu.png"></a>
-				<!-- <label class="left translate" data-translate="syncLabel"></label><select id="sync" disabled>
-					<option value="never" class="translate" data-translate="syncNever"></option>
-					<option value="manual" class="translate" data-translate="syncManual"></option>
-					<option value="timer" class="translate" data-translate="sync5"></option>
-					<option value="auto" class="translate" data-translate="syncAuto"></option>
-				</select><br>
-				<label class="description translate" data-translate="syncDescription"></label>
-				<hr>
-				<blockquote class="disabled"><a href="#" id="setUpSync">Set up Sync</a></blockquote> -->
+				<div class="waiting">
+					<p>Waiting for Nitro to be authenticated...</p>
+					<img class="spinner" src="images/spinner.gif">
+					<button>Cancel</button>
+				</div>
+				<div class="settings">
+					<label class="left translate" data-translate="syncLabel"></label><select id="sync">
+						<option value="never" class="translate" data-translate="syncNever"></option>
+						<option value="manual" class="translate" data-translate="syncManual"></option>
+						<option value="timer" class="translate" data-translate="sync5"></option>
+						<option value="auto" class="translate" data-translate="syncAuto"></option>
+					</select><br>
+					<label class="description translate" data-translate="syncDescription"></label>
+					<label>Logged in as: <b class="email">no-one</b></label>
+				</div>				
 			</div>
 		</div>
 	</div>
