@@ -819,6 +819,8 @@ var ui = {
 
 			if (query.length == 0) {
 				ui.tasks.populate(ui.lists.selected());
+				// Re-enable buttons
+				$addBTN.removeClass('disabled');
 			} else {
 				if(results.length) {
 					$tasks.html('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('searchResults') + query + '</h2><ul>' + taskResults + '</ul>')
