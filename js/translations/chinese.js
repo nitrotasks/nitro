@@ -1,4 +1,4 @@
-{
+ui.language({
 	"author":				"tuhaihe 1132321739qq@gmail.com",
 	"jqueryui":				"jquery.ui.datepicker-zh-CN.js",
 
@@ -112,4 +112,4 @@
 	"1day":					"1 天前",
 	"moreday":				"%s 天前",
 	"never":				"从不"
-}
+});

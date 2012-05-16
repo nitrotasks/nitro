@@ -1,4 +1,4 @@
-{
+ui.language({
 	"author":				"Rami Selin <rami.selin@gmail.com>",
 	"jqueryui":				"jquery.ui.datepicker-fi.js",
 
@@ -113,4 +113,4 @@
 	"1day":					"1 päivää aiemmin",
 	"moreday":				"%s päivää aiemmin",
 	"never":				"Ei koskaan"
-}
+});

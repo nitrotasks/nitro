@@ -1,4 +1,4 @@
-{
+ui.language({
 	"author":				"Pryakhin Andrej <a.pryah@gmail.com>",
 	"jqueryui":				"jquery.ui.datepicker-ru.js",
 
@@ -112,4 +112,4 @@
 	"1day":					"1 день назад",
 	"moreday":				"%s дня(ей) назад",
 	"never":				"Никогда"
-}
+});

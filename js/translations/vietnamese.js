@@ -1,4 +1,4 @@
-{
+ui.language({
 	"author":				"Nguyễn Đình Quân <dinhquan@narga.net>",
 	"jqueryui":				"jquery.ui.datepicker-vi.js",
 
@@ -112,4 +112,4 @@
 	"1day":					"trước một ngày",
 	"moreday":				"trước %s ngày",
 	"never":				"Không hiện"
-}
+});

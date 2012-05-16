@@ -1,4 +1,4 @@
-{
+ui.language({
 	"author":				"Raphaël Maurin <maurin.raphael@gmail.com>",
 	"jqueryui":				"jquery.ui.datepicker-fr.js",
 
@@ -112,4 +112,4 @@
 	"1day":					"1 jour avant",
 	"moreday":				"%s jours avant",
 	"never":				"Jamais"
-}
+};

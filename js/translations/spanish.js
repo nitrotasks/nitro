@@ -1,4 +1,4 @@
-{
+ui.language({
 	"author":				"Juande Martos <admin@bumxu.com>",
 	"jqueryui":				"jquery.ui.datepicker-es.js",
 	"_updated":				"14/5/2012",
@@ -116,4 +116,4 @@
 	"1day":					"1 día antes",
 	"moreday":				"%s días antes",
 	"never":				"No mostrar"
-}
+});
