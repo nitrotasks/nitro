@@ -924,11 +924,26 @@ button {
       height: 18px; }
     #prefsDialog .tab-content .tab-pane blockquote {
       width: 400px;
-      padding: 10px;
-      background: #a9dcff;
-      color: #1d2830;
-      border: 3px solid #8ab0f0;
+      color: #3b3b3b;
+      border: 3px solid #d7423a;
+      background: #d7423a;
       border-radius: 5px; }
+      #prefsDialog .tab-content .tab-pane blockquote h1 {
+        text-align: center;
+        font-size: 15px;
+        margin: 0;
+        padding: 5px;
+        color: #fff; }
+      #prefsDialog .tab-content .tab-pane blockquote span {
+        display: block;
+        padding: 10px;
+        background: #fff;
+        border-radius: 3px; }
+      #prefsDialog .tab-content .tab-pane blockquote a {
+        color: #0080ff;
+        text-decoration: none; }
+        #prefsDialog .tab-content .tab-pane blockquote a:hover {
+          text-decoration: underline; }
       #prefsDialog .tab-content .tab-pane blockquote.disabled {
         color: #3b3b3b;
         background: #fff;
@@ -944,6 +959,24 @@ button {
         margin: 0 10px 0 0; }
     #prefsDialog .tab-content .tab-pane.active {
       display: block; }
+    #prefsDialog .tab-content .tab-pane a.icon {
+      display: block;
+      float: left;
+      width: 150px;
+      height: 122px;
+      margin: 12.5px;
+      border-radius: 5px;
+      box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2), 0 1px 0 white;
+      background: rgba(0, 0, 0, 0.05); }
+    #prefsDialog .tab-content .tab-pane a.icon:hover {
+      background: -webkit-linear-gradient(#fcfcfc, #e5e5e5);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }
+    #prefsDialog .tab-content .tab-pane a.icon:active {
+      background: -webkit-linear-gradient(#e5e5e5, #fcfcfc);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }
+    #prefsDialog .tab-content .tab-pane a.icon img {
+      margin-left: 7px;
+      margin-top: 8.5px; }
 
 #tabLanguage table {
   font-size: 13px;

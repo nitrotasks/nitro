@@ -17,7 +17,7 @@ Changelog
 - Fixes dropdown menu position in Wunderlist theme
 - Added a keyboard shortcut for deleting tasks (the delete key)
 - If no lists are selected (e.g. in logbook view) Shift+U and Shift+I now auto select the today list
-- Placeholder text in search box is now fainter
+- Placeholder text in search beox is now fainter
 - '1 day left' -> 'due tomorrow' and '1 day overdue' -> 'due yesterday'
 - Removed 'dayLeft' and 'dayOverdue' from translation
 - If there are no search results, "No Search Results" will be displayed
