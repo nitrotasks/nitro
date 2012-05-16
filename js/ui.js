@@ -56,23 +56,13 @@ $(document).ready(function () {
 	// Check the dates on the Today list
 	cli.calc.todayQueue.refresh();
 
+	// Loads Translation
+	$('#languagescript').attr('src', 'js/translations/' + cli.storage.prefs.lang + '.js');
+
 	// Load different versions
-	switch (app) {
-	case 'js':
-		// Loads Translation
-		$.getJSON('js/translations/' + cli.storage.prefs.lang + '.json', function (data) {
-			ui.language(data);
-		});
-		break;
-
-	case 'python':
-		// Loads Translation
-		document.title = 'null';
-		document.title = 'load|' + cli.storage.prefs.lang + '.json';
-
+	if (app == 'python') {
 		//Removes unwanted things
 		$('.pythonshit').remove();
-		break;
 	}
 	
 	// Sets up keyboard shortcuts

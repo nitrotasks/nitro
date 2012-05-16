@@ -1,4 +1,4 @@
-{
+ui.language({
 	"author":				"Fouad Hassouneh <fouad.hassouneh@gmail.com>",
 	"jqueryui":				"jquery.ui.datepicker-ar.js",
 
@@ -112,4 +112,4 @@
 	"1day":					"١ يوم قبل",
 	"moreday":				" أيام قبل %",
 	"never":				"مطلقا"
-}
+});

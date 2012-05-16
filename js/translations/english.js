@@ -1,4 +1,4 @@
-{
+ui.language({
 	"author":				"Jono Cooper <jono@jonocooper.com>",
 	"jqueryui":				"en",
 
@@ -112,4 +112,4 @@
 	"1day":					"1 day before",
 	"moreday":				"%s days before",
 	"never":				"Never"
-}
+});
