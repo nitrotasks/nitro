@@ -1441,6 +1441,8 @@ var ui = {
 				// The list has one below it -> select it
 				$listToDelete.next().click().prev().remove();
 			}
+			
+			ui.lists.updateCount();
 		},
 
 
@@ -1449,7 +1451,7 @@ var ui = {
 			UPDATE LIST COUNT
 		**********************************/
 
-		updateCount: function (type) {
+		updateCount: function () {
 			$('#sidebar li').map(function () {
 				$(this).find('.count').html(cli.populate('list', $(this).attr('id').substr(1).toNum()).length);
 			});
