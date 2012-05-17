@@ -56,7 +56,7 @@ ui.language({
 
 	"sync": 				"Sync",
 	"donateText":			"Sync is beta. If Nitro breaks, explodes or melts your computer - we warned you. It is pretty stable but if anything does break, you can contact <a href='https://twitter.com/GeorgeCzabania'>@GeorgeCzabania</a> or <a href='https://twitter.com/consindo'>@consindo",
-	"syncLabel":			"Sync :",
+	"syncLabel":			"Run sync: ",
 	"syncDescription":		"Sync allows you to access your tasks from other computers and smartphones.",
 	"syncNever":			"Never (No notifications)",
 	"syncManual":			"Manually",

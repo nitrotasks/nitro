@@ -701,18 +701,31 @@ var ui = {
 			SYNC
 		**********************************/
 		
+		if(cli.storage.prefs.sync.hasOwnProperty('access')) {
+			var $tabSync = $('#tabSync');
+			
+			// Load settings
+			$tabSync.find('.email').html(cli.storage.prefs.sync.email);
+			$tabSync.find('.service').html(cli.storage.prefs.sync.service);
+			
+			// Show settings
+			$tabSync.find('.connect').hide();
+			$tabSync.find('.settings').show();
+		}
+		
 		$('#tabSync a.icon').click(function() {
 			
-			var $tabSync = $('#tabSync');
+			var $tabSync = $('#tabSync'),
+				service = $(this).data('service');
 				
 				
 			// Run sync
-			
-			cli.storage.sync.run($(this).data('service'), function (result) {
+			cli.storage.sync.run(service, function (result) {
 				if(result) {
 					$tabSync.find('.email').html(cli.storage.prefs.sync.email);
-					$tabSync.find('.waiting').fadeOut(150);
-					$tabSync.find('.settings').fadeIn(150);
+					$tabSync.find('.service').html(service);
+					$tabSync.find('.waiting').hide(0);
+					$tabSync.find('.settings').show(0);
 				} else {
 					alert('Sync failed :(')
 				}
@@ -720,12 +733,29 @@ var ui = {
 			
 			var height = $tabSync.height();
 			
-			$tabSync.children().fadeOut(150, function() {
+			$tabSync.find('.connect').fadeOut(0, function() {
 				$tabSync.height(height)
 			});
-			$tabSync.find('.waiting').fadeIn(150);
+			$tabSync.find('.waiting').show(0);
 		});
-
+		
+		$('#tabSync button.cancel').click(function () {
+			$('#tabSync').find('.waiting').hide(0);
+			$('#tabSync').find('.connect').show(0);
+		});
+		
+		$('#tabSync .logout').click(function () {
+			var $tabSync = $('#tabSync');
+			
+			// Delete tokens from localstorage
+			cli.storage.prefs.sync = {};
+			cli.storage.save();
+			
+			// Go back to main page
+			$tabSync.find('.settings').hide();
+			$tabSync.find('.connect').show(); 
+		});
+		
 		// SYNC TYPE
 		$('#sync').change(function () {
 			var sync = this.value;

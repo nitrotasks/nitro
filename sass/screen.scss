@@ -1069,6 +1069,21 @@ button {
 					display: none;
 				}
 				
+				.waiting {
+					text-align: center;
+				}
+				
+				.settings {
+					.service {
+						text-transform: capitalize;
+					}
+					.logout {
+						display: block;
+						float: right;
+						margin-right: 20px;
+					}
+				}
+				
 				.spinner {
 					position: absolute;
 					left: 50%;

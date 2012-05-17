@@ -27,12 +27,6 @@
 		<p>By George Czabania &amp; Jono Cooper<br>Copyright &copy; 2012 Caffeinated Code</p>
 		<p>Licensed under the BSD license</p>
 	</div>
-	<div id="syncDialog">
-		<p>Sync is beta. If Nitro breaks, explodes or melts your computer - we warned you. It is pretty stable but if anything does break, you can contact <a href="https://twitter.com/GeorgeCzabania">@GeorgeCzabania</a> or <a href="https://twitter.com/consindo">@consindo</a>.
-		<p>Please select a service to set up Nitro Sync.</p>
-		<a href="#"><img src="images/dropbox.png"></a>
-		<a href="#"><img src="images/ubuntu.png"></a>
-	</div>
 	<div id="donateDialog">
 		<iframe src="donors.html"></iframe>
 	</div>
@@ -212,16 +206,27 @@
 				</div>
 			</div>
 			<div class="tab-pane" id="tabSync">
-				<blockquote><h1>Nitro Sync Beta</h1><span class="translate" data-translate="donateText"></span></blockquote>
-				<hr>
-				<a class="icon" href="#" data-service="dropbox"><img src="images/dropbox.png"></a>
-				<a class="icon" href="#" data-service="ubuntu"><img src="images/ubuntu.png"></a>
+				<div class="connect">
+					<blockquote><h1>Nitro Sync Beta</h1><span class="translate" data-translate="donateText"></span></blockquote>
+					<hr>
+					<a class="icon" href="#" data-service="dropbox"><img src="images/dropbox.png"></a>
+					<a class="icon" href="#" data-service="ubuntu"><img src="images/ubuntu.png"></a>
+				</div>
 				<div class="waiting">
 					<p>Waiting for Nitro to be authenticated...</p>
 					<img class="spinner" src="images/spinner.gif">
-					<button>Cancel</button>
+					<button class="cancel">Cancel</button>
 				</div>
 				<div class="settings">
+					<a class="left logout" href="#">Logout</a>
+					<label class="left">Logged in as: </label><span class="email right">Not logged in.</span><br>
+					<label class="left">Service: </label><span class="service">No service set.</span>					
+					<hr>
+					<label class="left">Delete server: </label><button>Delete</button>
+					<label class="description">WARNING: This will delete the nitro_data.json file on your storage account! This action cannot be undone!</label>
+					<label class="left">Delete client: </label><button>Delete client</button>
+					<label class="description">WARNING: This will delete all your tasks! You will lose everything!</label>
+					<hr>
 					<label class="left translate" data-translate="syncLabel"></label><select id="sync">
 						<option value="never" class="translate" data-translate="syncNever"></option>
 						<option value="manual" class="translate" data-translate="syncManual"></option>
@@ -229,8 +234,7 @@
 						<option value="auto" class="translate" data-translate="syncAuto"></option>
 					</select><br>
 					<label class="description translate" data-translate="syncDescription"></label>
-					<label>Logged in as: <b class="email">no-one</b></label>
-				</div>				
+				</div>			
 			</div>
 		</div>
 	</div>

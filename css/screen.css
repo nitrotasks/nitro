@@ -289,6 +289,9 @@ button.s1.no:hover { background: -webkit-gradient(linear, 50% 0%, 50% 100%, colo
 #prefsDialog .tab-content .tab-pane a.icon img { margin-left: 7px; margin-top: 8.5px; }
 #prefsDialog .tab-content .tab-pane#tabSync { position: relative; }
 #prefsDialog .tab-content .tab-pane#tabSync .waiting, #prefsDialog .tab-content .tab-pane#tabSync .settings { display: none; }
+#prefsDialog .tab-content .tab-pane#tabSync .waiting { text-align: center; }
+#prefsDialog .tab-content .tab-pane#tabSync .settings .service { text-transform: capitalize; }
+#prefsDialog .tab-content .tab-pane#tabSync .settings .logout { display: block; float: right; margin-right: 20px; }
 #prefsDialog .tab-content .tab-pane#tabSync .spinner { position: absolute; left: 50%; top: 50%; margin: -32px 0 0 -32px; }
 
 #tabLanguage table { font-size: 13px; line-height: 20px; color: #444; width: 100%; }
