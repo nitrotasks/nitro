@@ -13,8 +13,8 @@
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// Define system (python|js)
-var app = 'js';
+// Define system (python|js|web)
+var app = 'web';
 
 /********************************************************************************
 	MAIN INIT
@@ -24,6 +24,11 @@ var $body, $addBTN, $editBTN, $deleteBTN, $logbookBTN, $settingsBTN, $syncBTN, $
 
 $(document).ready(function () {
 	"use strict";
+
+	//Login thing
+	if (app != 'web') {
+		$('#login').remove();
+	}
 
 	// Theme init
 	cli.storage.prefs.theme = cli.storage.prefs.theme || 'default';
@@ -63,7 +68,7 @@ $(document).ready(function () {
 	if (app == 'python') {
 		//Removes unwanted things
 		$('.pythonshit').remove();
-	}
+	};
 	
 	// Sets up keyboard shortcuts
 	ui.external.key();
@@ -695,7 +700,22 @@ var ui = {
 			$('#tasks h2, #tasks p').removeClass('light dark').addClass($(this)[0].value);
 		});
 
+		/**********************************
+			WEB UI LOGIN THING
+		**********************************/
+		$('#login div').click(function() {
+			var service = $(this).attr('class');
 
+			//$('#tabSync a.icon[data-service=' + service + ']').click();
+			// Run sync
+			cli.storage.sync.run(service, function (result) {
+				if(result) {
+					$('#login').html('Success! Loading...')
+				} else {
+					alert('Sync failed :(')
+				}
+			});
+		})
 
 		/**********************************
 			SYNC
@@ -1348,6 +1368,11 @@ var ui = {
 			$('#' + sel).addClass('selected');
 
 			ui.lists.updateCount();
+
+			if (app == 'web') {
+				$('#login').hide(0);
+			}
+
 		}
 	},
 

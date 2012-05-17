@@ -108,6 +108,8 @@ td { vertical-align: top; }
 
 body { height: 100%; width: 100%; color: #222; }
 
+#login { top: 0; left: 0; height: 100%; width: 100%; position: fixed; background: #fff; z-index: 100; }
+
 #everything { width: 100%; min-height: 100%; position: absolute; }
 
 #overlay { width: 100%; height: 100%; position: fixed; top: 0; left: 0; z-index: 1; }

@@ -16,6 +16,16 @@ body {
 	color: #222;
 }
 
+#login {
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	background: #fff;
+	z-index: 100;
+}
+
 #everything {
 	width: 100%;
 	min-height: 100%;
