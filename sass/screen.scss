@@ -238,15 +238,13 @@ body {
 
 				&#syncBTN {
 					&.active img {
-						background: url(../../images/sync_active.png) no-repeat 5px 0px;
+						background: url(../../images/sync_active.gif) no-repeat 8px 7px;
 					}
 					&.running img {
-						-webkit-animation: rotate 0.4s infinite linear;
-						-moz-animation:    rotate 0.4s infinite linear;
-						-webkit-transform-origin: 17px 12px;
+						background: url(../../images/sync_running.gif) no-repeat 8px 7px;
 					}
 					img {
-						background: url(../../images/sync.png) no-repeat 5px 0px;
+						background: url(../../images/sync.gif) no-repeat 8px 7px;
 					}
 				}
 

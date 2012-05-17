@@ -1136,20 +1136,27 @@ var cli = {
 			// Magical function that handles connect and emit
 			run: function(service, callback) {
 				
-				cli.storage.prefs.sync.service = service;
+				if(service) {
+					cli.storage.prefs.sync.service = service;
+				} else if(!cli.storage.prefs.sync.hasOwnProperty('service')) {
+					console.log("Error: Don't know what service to use.");
+					if(typeof callback === "function") callback(false);
+					else return;
+				}
+				
 
 				if(cli.storage.prefs.access) {
 					
 					cli.storage.sync.emit();
 					
-					callback(true);
+					if(typeof callback === "function") callback(true);
 					
 				} else {
 
 					cli.storage.sync.connect(function(result) {
 						cli.storage.sync.emit();
 						
-						callback(result);
+						if(typeof callback === "function") callback(result);
 					});
 					
 				}

@@ -777,9 +777,10 @@ var ui = {
 		});
 		
 		// SYNC TYPE
-		$('#sync').change(function () {
-			var sync = this.value;
-			switch (sync) {
+		$('#syncInterval').change(function () {
+			var interval = this.value;
+			
+			switch (interval) {
 			case 'timer':
 				/*var sync_timer = setInterval(function () {
 					cli.storage.sync();
@@ -793,14 +794,16 @@ var ui = {
 			default:
 				// clearInterval(sync_timer);
 			}
-			cli.storage.prefs.sync = sync;
+			
+			cli.storage.prefs.sync.interval = interval;
+			cli.storage.save();
 		});
 
 		// SYNC BUTTON
 		$syncBTN.click(function () {
 			if (!$(this).is('.running') && cli.storage.prefs.sync !== 'never') {
 				ui.sync.running('on');
-				cli.storage.sync();
+				cli.storage.sync.run();
 			}
 		});
 
@@ -816,7 +819,7 @@ var ui = {
 		$('#theme').val(cli.storage.prefs.theme);
 		$('#backgroundSize').val(cli.storage.prefs.bg.size);
 		$('#headingColor').val(cli.storage.prefs.bg.color);
-		$('#sync').val(cli.storage.prefs.sync);
+		$('#syncInterval').val(cli.storage.prefs.sync.interval);
 
 		// CUSTOM BACKGROUND
 		if (localStorage.hasOwnProperty('background')) {
