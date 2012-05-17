@@ -1157,13 +1157,14 @@ var cli = {
 				
 
 			},
+			ajaxdata: {'data': {}},
 			connect: function (callback) {
 
 				console.log("Connecting to Nitro Sync server");
 
 				if(cli.storage.prefs.sync.hasOwnProperty('access')) {
 
-					var ajaxdata = {'data': {}};
+					var ajaxdata = cli.storage.sync.ajaxdata;
 
 					//Yes, this code is in the complete wrong order but we need python integration
 					ajaxdata.watch('data', function(id, oldval, newval) {
@@ -1175,6 +1176,10 @@ var cli = {
 							console.log("Could not connect to Dropbox");
 							callback(false);
 						}
+
+						//Unbind AJAX thing
+						ajaxdata.unwatch();
+
 					});
 
 					$.ajax({
@@ -1189,7 +1194,7 @@ var cli = {
 					});
 
 				} else {
-					var ajaxdata = {'data': {}};
+					var ajaxdata = cli.storage.sync.ajaxdata;
 
 					//Yes, this code is in the complete wrong order but we need python integration
 					ajaxdata.watch('data', function(id, oldval, newval) {
@@ -1214,6 +1219,9 @@ var cli = {
 							delete cli.storage.prefs.sync.token;
 							callback(true);
 							cli.storage.save();
+
+							//Unbind AJAX thing
+							ajaxdata.unwatch();
 						});
 
 						//^ Ajax Request we're watching for
@@ -1250,8 +1258,20 @@ var cli = {
 					lists: cli.storage.lists
 				};
 
-				console.log(JSON.stringify(compress(client)));
+				var ajaxdata = cli.storage.sync.ajaxdata;
 
+				//Watches Ajax request
+				ajaxdata.watch('data', function(id, oldval, newval) {
+					newval = decompress(newval);
+					console.log("Finished sync");
+					cli.storage.tasks = newval.tasks;
+					cli.storage.queue = newval.queue;
+					cli.storage.lists = newval.lists;
+					cli.storage.save();
+					ui.sync.reload();
+				});
+
+				//^ Ajax Request we're watching for
 				$.ajax({
 					type: "POST",
 					url: 'http://localhost:3000/sync/',
@@ -1259,13 +1279,7 @@ var cli = {
 					data: {data: JSON.stringify(compress(client)), access: cli.storage.prefs.sync.access, service: cli.storage.prefs.sync.service},
 					success: function (data) {
 						if(data != 'failed') {
-							data = decompress(data);
-							console.log("Finished sync");
-							cli.storage.tasks = data.tasks;
-							cli.storage.queue = data.queue;
-							cli.storage.lists = data.lists;
-							cli.storage.save();
-							ui.sync.reload();
+							ajaxdata.data = data;
 							return true;
 						} else {
 							return false;
