@@ -1162,22 +1162,32 @@ var cli = {
 				console.log("Connecting to Nitro Sync server");
 
 				if(cli.storage.prefs.sync.hasOwnProperty('access')) {
+
+					var ajaxdata = {'data': {}};
+
+					//Yes, this code is in the complete wrong order but we need python integration
+					ajaxdata.watch('data', function(id, oldval, newval) {
+						console.log(newval);
+						if(newval == "success") {
+							console.log("Nitro Sync server is ready");
+							callback(true);
+						} else if (newval == "failed") {
+							console.log("Could not connect to Dropbox");
+							callback(false);
+						}
+					});
+
 					$.ajax({
 						type: "POST",
 						url: 'http://localhost:3000/auth/',
 						dataType: 'json',
 						data: {access: cli.storage.prefs.sync.access, service: cli.storage.prefs.sync.service},
 						success: function (data) {
-							console.log(data);
-							if(data == "success") {
-								console.log("Nitro Sync server is ready");
-								callback(true);
-							} else if (data == "failed") {
-								console.log("Could not connect to Dropbox");
-								callback(false);
-							}
+
+							ajaxdata.data = data;	
 						}
 					});
+
 				} else {
 					var ajaxdata = {'data': {}};
 
