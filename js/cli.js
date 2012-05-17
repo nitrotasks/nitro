@@ -1179,33 +1179,55 @@ var cli = {
 						}
 					});
 				} else {
+					var ajaxdata = {'data': {}};
+
+					//Yes, this code is in the complete wrong order but we need python integration
+					ajaxdata.watch('data', function(id, oldval, newval) {
+
+						console.log("Verifying Storagebackend");
+						cli.storage.prefs.sync.token = newval;
+
+						// Display popup window
+						var left = (screen.width/2)-(800/2),
+							top = (screen.height/2)-(600/2),
+							title = "Authorise Nitro",
+							targetWin = window.open (newval.authorize_url, title, 'toolbar=no, type=popup, status=no, width=800, height=600, top='+top+', left='+left);
+
+						//Unbind first AJAX thing
+						ajaxdata.unwatch();
+
+						//New Ajax Request
+						ajaxdata.watch('data', function(id, oldval, newval) {
+							console.log("Nitro Sync server is ready");
+							cli.storage.prefs.sync.access = newval.access;
+							cli.storage.prefs.sync.email = newval.email;
+							delete cli.storage.prefs.sync.token;
+							callback(true);
+							cli.storage.save();
+						});
+
+						//^ Ajax Request we're watching for
+						$.ajax({
+							type: "POST",
+							url: 'http://localhost:3000/auth/',
+							dataType: 'json',
+							data: {token: cli.storage.prefs.sync.token, service: cli.storage.prefs.sync.service},
+							success: function (data) {
+								ajaxdata.data = data;
+							}
+						});
+
+						return newval;
+					})
+
+					//^ Ajax Request we're watching for
 					$.ajax({
 						type: "POST",
 						url: 'http://localhost:3000/auth/',
 						dataType: 'json',
 						data: {reqURL: 'true', service: cli.storage.prefs.sync.service},
 						success: function (data) {
-							console.log("Verifying dropbox");
-							cli.storage.prefs.sync.token = data;
-							// Display popup window
-							var left = (screen.width/2)-(800/2),
-								top = (screen.height/2)-(600/2),
-								title = "Authorise Nitro",
-								targetWin = window.open (data.authorize_url, title, 'toolbar=no, type=popup, status=no, width=800, height=600, top='+top+', left='+left);
-							$.ajax({
-								type: "POST",
-								url: 'http://localhost:3000/auth/',
-								dataType: 'json',
-								data: {token: cli.storage.prefs.sync.token, service: cli.storage.prefs.sync.service},
-								success: function (data) {
-									console.log("Nitro Sync server is ready");
-									cli.storage.prefs.sync.access = data.access;
-									cli.storage.prefs.sync.email = data.email;
-									delete cli.storage.prefs.sync.token;
-									callback(true);
-									cli.storage.save();
-								}
-							});
+							ajaxdata.data = data;
 						}
 					});
 				}
@@ -1375,4 +1397,60 @@ Array.min = function( array ){
 // Because typeof is useless here
 function isArray(obj) {
     return obj.constructor == Array;
+}
+
+//Useful maybe?
+/*
+ * object.watch polyfill
+ *
+ * 2012-04-03
+ *
+ * By Eli Grey, http://eligrey.com
+ * Public Domain.
+ * NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
+ */
+
+// object.watch
+if (!Object.prototype.watch) {
+	Object.defineProperty(Object.prototype, "watch", {
+		  enumerable: false
+		, configurable: true
+		, writable: false
+		, value: function (prop, handler) {
+			var
+			  oldval = this[prop]
+			, newval = oldval
+			, getter = function () {
+				return newval;
+			}
+			, setter = function (val) {
+				oldval = newval;
+				return newval = handler.call(this, prop, oldval, val);
+			}
+			;
+
+			if (delete this[prop]) { // can't watch constants
+				Object.defineProperty(this, prop, {
+					  get: getter
+					, set: setter
+					, enumerable: true
+					, configurable: true
+				});
+			}
+		}
+	});
+}
+
+// object.unwatch
+if (!Object.prototype.unwatch) {
+	Object.defineProperty(Object.prototype, "unwatch", {
+		  enumerable: false
+		, configurable: true
+		, writable: false
+		, value: function (prop) {
+			var val = this[prop];
+			delete this[prop]; // remove accessors
+			this[prop] = val;
+		}
+	});
 }
