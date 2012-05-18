@@ -68,7 +68,20 @@ $(document).ready(function () {
 	if (app == 'python') {
 		//Removes unwanted things
 		$('.pythonshit').remove();
-	};
+	} else if (app == 'web') {
+		//Adds Logout Button
+		$('#settingsBTN ul').append('<li class="logout">Logout</li>');
+		if (cli.storage.prefs.sync.hasOwnProperty('access')) {
+			$('#login').hide(0);
+		}
+
+		$('#tabSync').html('Not available on web version.');
+		$('#settingsBTN ul .logout').click(function() {
+			delete localStorage.jStorage;
+			delete localStorage.background;
+			window.location.reload();
+		});
+	}
 	
 	// Sets up keyboard shortcuts
 	ui.external.key();
