@@ -134,13 +134,14 @@ var cli = {
 			}
 
 			// Check preferences exist. If not, set to default
-			cli.storage.lists.deleted = cli.storage.lists.deleted   || {};
-			cli.storage.lists.time     = cli.storage.prefs.time     || 0;
-			cli.storage.prefs.sync     = cli.storage.prefs.sync     || 'manual';
-			cli.storage.prefs.lang     = cli.storage.prefs.lang     || 'english';
-			cli.storage.prefs.bg       = cli.storage.prefs.bg       || {};
-			cli.storage.prefs.bg.color = cli.storage.prefs.bg.color || '';
-			cli.storage.prefs.bg.size  = cli.storage.prefs.bg.size  || 'tile';
+			cli.storage.lists.deleted       = cli.storage.lists.deleted        || {};
+			cli.storage.lists.time          = cli.storage.prefs.time           || 0;
+			cli.storage.prefs.sync.interval = cli.storage.prefs.sync.interval  || 'manual';
+			cli.storage.prefs.sync.url      = cli.storage.prefs.sync.url       || 'http://nitro-sync.herokuapp.com'
+			cli.storage.prefs.lang          = cli.storage.prefs.lang           || 'english';
+			cli.storage.prefs.bg            = cli.storage.prefs.bg             || {};
+			cli.storage.prefs.bg.color      = cli.storage.prefs.bg.color       || '';
+			cli.storage.prefs.bg.size       = cli.storage.prefs.bg.size        || 'tile';
 
 			// Save
 			cli.storage.save();
@@ -1191,7 +1192,7 @@ var cli = {
 
 					$.ajax({
 						type: "POST",
-						url: 'http://localhost:3000/auth/',
+						url: cli.storage.prefs.sync.url + '/auth/',
 						dataType: 'json',
 						data: {access: cli.storage.prefs.sync.access, service: cli.storage.prefs.sync.service},
 						success: function (data) {
@@ -1234,7 +1235,7 @@ var cli = {
 						//^ Ajax Request we're watching for
 						$.ajax({
 							type: "POST",
-							url: 'http://localhost:3000/auth/',
+							url: cli.storage.prefs.sync.url + '/auth/',
 							dataType: 'json',
 							data: {token: cli.storage.prefs.sync.token, service: cli.storage.prefs.sync.service},
 							success: function (data) {
@@ -1248,7 +1249,7 @@ var cli = {
 					//^ Ajax Request we're watching for
 					$.ajax({
 						type: "POST",
-						url: 'http://localhost:3000/auth/',
+						url: cli.storage.prefs.sync.url + '/auth/',
 						dataType: 'json',
 						data: {reqURL: 'true', service: cli.storage.prefs.sync.service},
 						success: function (data) {
@@ -1281,7 +1282,7 @@ var cli = {
 				//^ Ajax Request we're watching for
 				$.ajax({
 					type: "POST",
-					url: 'http://localhost:3000/sync/',
+					url: cli.storage.prefs.sync.url + '/sync/',
 					dataType: 'json',
 					data: {data: JSON.stringify(compress(client)), access: cli.storage.prefs.sync.access, service: cli.storage.prefs.sync.service},
 					success: function (data) {

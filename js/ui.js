@@ -820,9 +820,13 @@ var ui = {
 
 		// SYNC BUTTON
 		$syncBTN.click(function () {
-			if (!$(this).is('.running') && cli.storage.prefs.sync !== 'never') {
+			if (cli.storage.prefs.sync.hasOwnProperty('access') && !$(this).is('.running') && cli.storage.prefs.sync !== 'never') {
 				ui.sync.running('on');
 				cli.storage.sync.run();
+			} else if (!cli.storage.prefs.sync.hasOwnProperty('access')) {
+				ui.external.cmd('syncSettings');
+			} else {
+				alert("Sync is turned off. You need to turn it back on to use this button.");
 			}
 		});
 
@@ -1344,6 +1348,7 @@ var ui = {
 		**********************************/
 
 		running: function (type) {
+			type = type || 'on';
 			switch(type) {
 				case 'on':
 					$syncBTN.addClass('running');
@@ -1354,9 +1359,10 @@ var ui = {
 			}
 		},
 		active: function (type) {
+			type = type || 'on';
 			switch(type) {
 				case 'on':
-					if(cli.storage.prefs.sync !== 'never' && cli.storage.prefs.sync !== 'auto') {
+					if(cli.storage.prefs.sync.interval !== 'never' && cli.storage.prefs.sync.interval !== 'auto') {
 						$syncBTN.addClass('active');
 					}
 					break;
@@ -2211,6 +2217,11 @@ var ui = {
 				case 'theme':
 					$('#prefsDialog').fadeToggle(150);
 					$('a[data-target=#tabTheme]').tab('show');
+					$('#settingsOverlay').toggle(0);
+					break;
+				case 'sync-settings':
+					$('#prefsDialog').fadeToggle(150);
+					$('a[data-target=#tabSync]').tab('show');
 					$('#settingsOverlay').toggle(0);
 					break;
 
