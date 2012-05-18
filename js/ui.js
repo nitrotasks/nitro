@@ -798,20 +798,25 @@ var ui = {
 		// SYNC TYPE
 		$('#syncInterval').change(function () {
 			var interval = this.value;
-			
 			switch (interval) {
 			case 'timer':
-				/*var sync_timer = setInterval(function () {
-					cli.storage.sync();
-				}, 20000);
-				sync_timer;*/
+				cli.storage.prefs.sync.active = true;
+				var sync_timer = function () {
+					console.log("RUNNING SYNC *****")
+					ui.sync.running();
+					cli.storage.sync.run();
+					if(cli.storage.prefs.sync.active) {
+						setTimeout(sync_timer, 30000)
+					}
+				};
+				sync_timer();
 				break;
 			case 'never':
 				$syncBTN.addClass('disabled');
-				// clearInterval(sync_timer);
+				cli.storage.prefs.sync.active = false;
 				break;
 			default:
-				// clearInterval(sync_timer);
+				cli.storage.prefs.sync.active = false;
 			}
 			
 			cli.storage.prefs.sync.interval = interval;
