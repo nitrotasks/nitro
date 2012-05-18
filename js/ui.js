@@ -27,7 +27,7 @@ $(document).ready(function () {
 
 	//Login thing
 	if (app != 'web') {
-		$('#login').remove();
+		$('#login').show(0);
 	}
 
 	// Theme init
