@@ -1233,6 +1233,8 @@ var cli = {
 							title = "Authorise Nitro",
 							targetWin = window.open (newval.authorize_url, title, 'toolbar=no, type=popup, status=no, width=800, height=600, top='+top+', left='+left);
 
+						$('#login .container').html('Loading... You may need to disable your popup blocker.')
+
 						//Unbind first AJAX thing
 						ajaxdata.unwatch();
 
