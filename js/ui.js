@@ -68,20 +68,7 @@ $(document).ready(function () {
 	if (app == 'python') {
 		//Removes unwanted things
 		$('.pythonshit').remove();
-	} else if (app == 'web') {
-		//Adds Logout Button
-		$('#settingsBTN ul').append('<li class="logout">Logout</li>');
-		if (cli.storage.prefs.sync.hasOwnProperty('access')) {
-			$('#login').hide(0);
-		}
-
-		$('#tabSync').html('Not available on web version.');
-		$('#settingsBTN ul .logout').click(function() {
-			delete localStorage.jStorage;
-			delete localStorage.background;
-			window.location.reload();
-		});
-	}
+	};
 	
 	// Sets up keyboard shortcuts
 	ui.external.key();
@@ -721,13 +708,32 @@ var ui = {
 
 			//$('#tabSync a.icon[data-service=' + service + ']').click();
 			// Run sync
-			cli.storage.sync.run(service, function (result) {
-				if(result) {
-					$('#login').html('Success! Loading...')
-				} else {
-					alert('Sync failed :(')
+			if (service == 'anon') {
+				$('#login').hide(0);
+			} else {
+				//Syncs
+				cli.storage.sync.run(service, function (result) {
+					if(result) {
+						$('#login').html('Success! Loading...')
+					} else {
+						alert('Sync failed :(')
+					}
+				});
+
+				//Adds Logout Button
+				$('#settingsBTN ul').append('<li class="logout">Logout</li>');
+				if (cli.storage.prefs.sync.hasOwnProperty('access')) {
+					$('#login').hide(0);
 				}
-			});
+
+				$('#tabSync').html('Not available on web version.');
+				$('#settingsBTN ul .logout').click(function() {
+					delete localStorage.jStorage;
+					delete localStorage.background;
+					window.location.reload();
+				});
+			}
+			
 		})
 
 		/**********************************
