@@ -26,8 +26,8 @@ $(document).ready(function () {
 	"use strict";
 
 	//Login thing
-	if (app == 'web') {
-		$('#login').show(0);
+	if (app != 'web') {
+		$('#login').remove();
 	}
 
 	// Theme init
@@ -799,21 +799,28 @@ var ui = {
 		$('#syncInterval').change(function () {
 			var interval = this.value;
 			switch (interval) {
-			case 'timer':
-				cli.storage.prefs.sync.active = true;
-				var sync_timer = function () {
-					console.log("RUNNING SYNC *****")
-					ui.sync.running();
-					cli.storage.sync.run();
-					if(cli.storage.prefs.sync.active) {
-						setTimeout(sync_timer, 30000)
-					}
-				};
-				sync_timer();
+			case 'auto':
+				cli.storage.prefs.sync.active = false;
+				setTimeout(function () {
+					cli.storage.prefs.sync.active = true;
+				}, 15000);
 				break;
 			case 'never':
 				$syncBTN.addClass('disabled');
 				cli.storage.prefs.sync.active = false;
+				break;
+			case 'timer':
+				cli.storage.prefs.sync.active = true;
+				var syncTimer = function () {
+					if(cli.storage.prefs.sync.active) {
+						cli.storage.sync.run();
+						ui.sync.running();
+						setTimeout(function() {
+							syncTimer();
+						}, cli.storage.prefs.sync.timer);
+					}
+				}
+				syncTimer();
 				break;
 			default:
 				cli.storage.prefs.sync.active = false;
@@ -1376,6 +1383,25 @@ var ui = {
 					break;
 			}
 		},
+		
+		
+		
+		/**********************************
+			SYNC BUTTON STYLES
+		**********************************/
+		beforeunload: function (type) {
+			type = type || 'on';
+			switch(type) {
+				case 'on':
+					window.onbeforeunload = function () {
+						return "Sync hasn't finished yet!"
+					};
+					break;
+				case 'off':
+					window.onbeforeunload = null;
+					break;
+			}	
+		},
 
 
 
@@ -1385,6 +1411,9 @@ var ui = {
 
 		reload: function () {
 			console.log("Reloading UI");
+			
+			// Ubind onbeforeunload
+			ui.sync.beforeunload('off');
 
 			// Stop sync icon
 			ui.sync.active('off');
@@ -2224,7 +2253,7 @@ var ui = {
 					$('a[data-target=#tabTheme]').tab('show');
 					$('#settingsOverlay').toggle(0);
 					break;
-				case 'sync-settings':
+				case 'syncSettings':
 					$('#prefsDialog').fadeToggle(150);
 					$('a[data-target=#tabSync]').tab('show');
 					$('#settingsOverlay').toggle(0);

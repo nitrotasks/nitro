@@ -60,7 +60,7 @@ ui.language({
 	"syncDescription":		"Sync allows you to access your tasks from other computers and smartphones.",
 	"syncNever":			"Never (No notifications)",
 	"syncManual":			"Manually",
-	"sync5": 				"Every 5 minutes",
+	"syncTimer": 			"Every 2 minutes",
 	"syncAuto":				"Every time a change is made",
 	"syncService":			"Service: ",
 	"syncUsername":			"Username: ",

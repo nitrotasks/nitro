@@ -36,7 +36,7 @@ var cli = {
 		},
 		sync: function () {
 
-			if (cli.storage.prefs.sync.interval === 'auto') {
+			if (cli.storage.prefs.sync.interval === 'auto' && cli.storage.prefs.sync.hasOwnProperty('access')) {
 				
 				console.log(cli.storage.prefs.sync.active)
 				
@@ -151,7 +151,8 @@ var cli = {
 			cli.storage.lists.time          = cli.storage.prefs.time           || 0;
 			cli.storage.prefs.sync.interval = cli.storage.prefs.sync.interval  || 'auto';
 			cli.storage.prefs.sync.active   = cli.storage.prefs.sync.active    || true;
-			cli.storage.prefs.sync.url      = cli.storage.prefs.sync.url       || 'http://nitro-sync.herokuapp.com'
+			cli.storage.prefs.sync.url      = cli.storage.prefs.sync.url       || 'http://app.nitrotasks.com'
+			cli.storage.prefs.sync.timer    = cli.storage.prefs.sync.timer     || 120000;
 			cli.storage.prefs.lang          = cli.storage.prefs.lang           || 'english';
 			cli.storage.prefs.bg            = cli.storage.prefs.bg             || {};
 			cli.storage.prefs.bg.color      = cli.storage.prefs.bg.color       || '';
@@ -1158,6 +1159,8 @@ var cli = {
 					if(typeof callback === "function") callback(false);
 					else return;
 				}
+				
+				ui.sync.beforeunload('on');
 				
 
 				if(cli.storage.prefs.access) {
