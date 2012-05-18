@@ -14,7 +14,7 @@
  */
 
 // Define system (python|js|web)
-var app = 'web';
+var app = 'js';
 
 /********************************************************************************
 	MAIN INIT
@@ -26,7 +26,7 @@ $(document).ready(function () {
 	"use strict";
 
 	//Login thing
-	if (app != 'web') {
+	if (app === 'web') {
 		$('#login').show(0);
 	}
 
