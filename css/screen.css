@@ -108,7 +108,7 @@ td { vertical-align: top; }
 
 body { height: 100%; width: 100%; color: #222; }
 
-#login { top: 0; left: 0; height: 100%; width: 100%; position: fixed; background: url(../images/blueback.png); z-index: 100; }
+#login { display: none; top: 0; left: 0; height: 100%; width: 100%; position: fixed; background: url(../images/blueback.png); z-index: 100; }
 #login .container, #login .container:after, #login .container:before { width: 550px; height: 250px; position: absolute; top: 50%; left: 50%; margin-left: -275px; margin-top: -200px; background: #fff; box-shadow: 0 1px 25px rgba(0, 0, 0, 0.3); border-radius: 5px; }
 #login .container:after, #login .container:before { content: ""; /*display: block;*/ }
 #login .container:after { margin-top: -120px; z-index: -1; }
