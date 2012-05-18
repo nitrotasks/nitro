@@ -26,8 +26,8 @@ $(document).ready(function () {
 	"use strict";
 
 	//Login thing
-	if (app != 'web') {
-		$('#login').remove();
+	if (app == 'web') {
+		$('#login').show(0);
 	}
 
 	// Theme init
