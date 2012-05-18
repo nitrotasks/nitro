@@ -35,9 +35,22 @@ var cli = {
 			};
 		},
 		sync: function () {
-			if (cli.storage.prefs.sync === 'auto') {
-				ui.sync.running();
-				cli.storage.sync();
+
+			if (cli.storage.prefs.sync.interval === 'auto') {
+				
+				console.log(cli.storage.prefs.sync.active)
+				
+				if(cli.storage.prefs.sync.active) {
+					
+					ui.sync.running();
+					cli.storage.sync.run();
+					cli.storage.prefs.sync.active = false;
+					setTimeout(function () {
+						cli.storage.prefs.sync.active = true;
+					}, 15000);
+					
+				}
+				
 			} else {
 				ui.sync.active();
 			}
@@ -136,7 +149,8 @@ var cli = {
 			// Check preferences exist. If not, set to default
 			cli.storage.lists.deleted       = cli.storage.lists.deleted        || {};
 			cli.storage.lists.time          = cli.storage.prefs.time           || 0;
-			cli.storage.prefs.sync.interval = cli.storage.prefs.sync.interval  || 'manual';
+			cli.storage.prefs.sync.interval = cli.storage.prefs.sync.interval  || 'auto';
+			cli.storage.prefs.sync.active   = cli.storage.prefs.sync.active    || true;
 			cli.storage.prefs.sync.url      = cli.storage.prefs.sync.url       || 'http://nitro-sync.herokuapp.com'
 			cli.storage.prefs.lang          = cli.storage.prefs.lang           || 'english';
 			cli.storage.prefs.bg            = cli.storage.prefs.bg             || {};
