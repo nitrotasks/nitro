@@ -1207,17 +1207,21 @@ var cli = {
 
 					});
 
-					$.ajax({
-						type: "POST",
-						url: cli.storage.prefs.sync.url + '/auth/',
-						dataType: 'json',
-						data: {access: cli.storage.prefs.sync.access, service: cli.storage.prefs.sync.service},
-						success: function (data) {
+					if (app == 'python') {
+						document.title = 'null';
+						document.title = 'ajax|access|' + cli.storage.prefs.sync.access + '|' + cli.storage.prefs.sync.service;
+					} else {
+						$.ajax({
+							type: "POST",
+							url: cli.storage.prefs.sync.url + '/auth/',
+							dataType: 'json',
+							data: {access: cli.storage.prefs.sync.access, service: cli.storage.prefs.sync.service},
+							success: function (data) {
 
-							ajaxdata.data = data;	
-						}
-					});
-
+								ajaxdata.data = data;	
+							}
+						});
+					}
 				} else {
 					var ajaxdata = cli.storage.sync.ajaxdata;
 
@@ -1228,13 +1232,19 @@ var cli = {
 						cli.storage.prefs.sync.token = newval;
 
 						// Display popup window
-						var left = (screen.width/2)-(800/2),
+						if (app == 'python') {
+							window.location = newval.authorize_url;
+						} else {
+							var left = (screen.width/2)-(800/2),
 							top = (screen.height/2)-(600/2),
 							title = "Authorise Nitro",
 							targetWin = window.open (newval.authorize_url, title, 'toolbar=no, type=popup, status=no, width=800, height=600, top='+top+', left='+left);
 
-						$('#login .container').html('Loading... You may need to disable your popup blocker.')
-
+							if (app == 'web') {
+								$('#login .container').html('Loading... You may need to disable your popup blocker.');
+							}
+						}
+						
 						//Unbind first AJAX thing
 						ajaxdata.unwatch();
 
@@ -1252,29 +1262,39 @@ var cli = {
 						});
 
 						//^ Ajax Request we're watching for
-						$.ajax({
-							type: "POST",
-							url: cli.storage.prefs.sync.url + '/auth/',
-							dataType: 'json',
-							data: {token: cli.storage.prefs.sync.token, service: cli.storage.prefs.sync.service},
-							success: function (data) {
-								ajaxdata.data = data;
-							}
-						});
+						if (app == 'python') {
+							document.title = 'null';
+							document.title = 'ajax|token|' + cli.storage.prefs.sync.token + '|' + cli.storage.prefs.sync.service;
+						} else {
+							$.ajax({
+								type: "POST",
+								url: cli.storage.prefs.sync.url + '/auth/',
+								dataType: 'json',
+								data: {token: cli.storage.prefs.sync.token, service: cli.storage.prefs.sync.service},
+								success: function (data) {
+									ajaxdata.data = data;
+								}
+							});
+						}
 
 						return newval;
 					})
 
 					//^ Ajax Request we're watching for
-					$.ajax({
-						type: "POST",
-						url: cli.storage.prefs.sync.url + '/auth/',
-						dataType: 'json',
-						data: {reqURL: 'true', service: cli.storage.prefs.sync.service},
-						success: function (data) {
-							ajaxdata.data = data;
-						}
-					});
+					if (app == 'python') {
+						document.title = 'null';
+						document.title = 'ajax|reqURL|' + cli.storage.prefs.sync.service;
+					} else {
+						$.ajax({
+							type: "POST",
+							url: cli.storage.prefs.sync.url + '/auth/',
+							dataType: 'json',
+							data: {reqURL: 'true', service: cli.storage.prefs.sync.service},
+							success: function (data) {
+								ajaxdata.data = data;
+							}
+						});
+					}
 				}
 			},
 
@@ -1299,21 +1319,25 @@ var cli = {
 				});
 
 				//^ Ajax Request we're watching for
-				$.ajax({
-					type: "POST",
-					url: cli.storage.prefs.sync.url + '/sync/',
-					dataType: 'json',
-					data: {data: JSON.stringify(compress(client)), access: cli.storage.prefs.sync.access, service: cli.storage.prefs.sync.service},
-					success: function (data) {
-						if(data != 'failed') {
-							ajaxdata.data = data;
-							return true;
-						} else {
-							return false;
+				if (app == 'python') {
+					document.title = 'null';
+					document.title = 'ajax|sync|' + JSON.stringify(compress(client)) + '|' +  JSON.stringify(cli.storage.prefs.sync.access) + '|' + cli.storage.prefs.sync.service;
+				} else {
+					$.ajax({
+						type: "POST",
+						url: cli.storage.prefs.sync.url + '/sync/',
+						dataType: 'json',
+						data: {data: JSON.stringify(compress(client)), access: cli.storage.prefs.sync.access, service: cli.storage.prefs.sync.service},
+						success: function (data) {
+							if(data != 'failed') {
+								ajaxdata.data = data;
+								return true;
+							} else {
+								return false;
+							}
 						}
-					}
-				});
-
+					});
+				}
 			}
 		}
 	}
