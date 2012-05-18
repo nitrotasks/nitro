@@ -716,7 +716,7 @@ var ui = {
 		/**********************************
 			WEB UI LOGIN THING
 		**********************************/
-		$('#login div').click(function() {
+		$('#login a').click(function() {
 			var service = $(this).attr('class');
 
 			//$('#tabSync a.icon[data-service=' + service + ']').click();
