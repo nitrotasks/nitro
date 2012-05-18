@@ -10,7 +10,7 @@
   "permissions": [
     "unlimitedStorage",
     "http://localhost:3000/",
-    "http://nitro-sync.herokuapp.com/"
+    "http://app.nitrotasks.com/"
   ],
   "icons": {
     "16": "images/16.png",
