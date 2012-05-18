@@ -794,7 +794,7 @@ var ui = {
 			$tabSync.find('.settings').hide();
 			$tabSync.find('.connect').show(); 
 		});
-		
+				
 		// SYNC TYPE
 		$('#syncInterval').change(function () {
 			var interval = this.value;
