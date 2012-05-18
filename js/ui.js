@@ -741,6 +741,9 @@ var ui = {
 		**********************************/
 		
 		if(cli.storage.prefs.sync.hasOwnProperty('access')) {
+			if (app == 'web') {
+				$('#login a.' + cli.storage.prefs.sync.service).click();
+			}
 			var $tabSync = $('#tabSync');
 			
 			// Load settings
