@@ -9,7 +9,7 @@
   },
   "permissions": [
     "unlimitedStorage",
-    "http://app.nitrotasks.com/"
+    "http://nitro-sync.herokuapp.com/"
   ],
   "icons": {
     "16": "images/16.png",
