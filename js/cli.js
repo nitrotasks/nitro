@@ -149,7 +149,7 @@ var cli = {
 			// Check preferences exist. If not, set to default
 			cli.storage.lists.deleted       = cli.storage.lists.deleted        || {};
 			cli.storage.lists.time          = cli.storage.prefs.time           || 0;
-			cli.storage.prefs.sync.interval = cli.storage.prefs.sync.interval  || 'auto';
+			cli.storage.prefs.sync.interval = cli.storage.prefs.sync.interval  || 'manual';
 			cli.storage.prefs.sync.active   = cli.storage.prefs.sync.active    || true;
 			cli.storage.prefs.sync.url      = cli.storage.prefs.sync.url       || 'http://app.nitrotasks.com'
 			cli.storage.prefs.sync.timer    = cli.storage.prefs.sync.timer     || 120000;
@@ -770,6 +770,8 @@ var cli = {
 				if (lists[list].order[i] === id) {
 					lists[list].order.splice(i, 1);
 					console.log('Removed: ' + id + ' from ' + list);
+					// Update timestamp;
+					cli.timestamp.update(list, 'order').list();
 				}
 			}
 
