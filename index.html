@@ -45,29 +45,29 @@
 			<table>
 				<tr class="radioscheduled">
 					<td><input type="radio" name="scheduledtype" id="scheduledRadio" value="scheduled" checked></td>
-					<td><label for="scheduledRadio">Scheduled</label></td>
+					<td><label for="scheduledRadio" class="translate" data-translate="scheduled"></label></td>
 				</tr>
 				<tr class="radioscheduled bottom">
 					<td><input type="radio" name="scheduledtype" value="recurring" id="recurringRadio"></td>
-					<td><label for="recurringRadio">Recurring</label><br></td>
+					<td><label for="recurringRadio" class="translate" data-translate="recurring"></label><br></td>
 				</tr>
 				<tr class="schedule">
 					<td>
-						<label for="reviewNo">Review in:</label>
+						<label for="reviewNo" class="translate" data-translate="reviewNo"></label>
 					</td>
 					<td>
 						<input id="reviewNo" min="1" type="number">
 						<select id="reviewLength">
-							<option value="days">days</option>
-							<option value="weeks">weeks</option>
-							<option value="months">months</option>
-							<option value="years">years</option>
+							<option value="days" class="translate" data-translate="days"></option>
+							<option value="weeks" class="translate" data-translate="weeks"></option>
+							<option value="months" class="translate" data-translate="months"></option>
+							<option value="years" class="translate" data-translate="years"></option>
 						</select>
 					</td>
 				</tr>
 				<tr class="schedule">
 					<td>
-						<label for="reviewAction">and place in:</label>
+						<label for="reviewAction" class="translate" data-translate="reviewAction"></label>
 					</td>
 					<td>
 						<select class="reviewAction"></select><br>
@@ -75,27 +75,27 @@
 				</tr>
 			
 				<tr class="recurring">
-					<td><label for="recurType">Created:</label></td>
+					<td><label for="recurType" class="translate" data-translate="recurType"></label></td>
 					<td><select id="recurType">
-							<option value="daily">daily</option>
-							<option value="weekly">weekly</option>
-							<option value="monthly">monthly</option>
+							<option value="daily" class="translate" data-translate="daily"></option>
+							<option value="weekly" class="translate" data-translate="weekly"></option>
+							<option value="monthly"class="translate" data-translate="monthly"></option>
 						</select></td>
 				</tr>
 			</table>
 				<div class="recurring" id="recurSpecial"></div>
 			<table>
 				<tr class="recurring">
-					<td><label for="recurNext">Next:</label></td>
+					<td><label for="recurNext" class="translate" data-translate="recurNext"></label></td>
 					<td><input type="text" id="recurNext" placeholder="Next Occurance"></td>
 				</tr>
 				<tr class="recurring">
-					<td><label for="recurEnds">Ends:</label></td>
+					<td><label for="recurEnds" class="translate" data-translate="recurEnds"></label></td>
 					<td><input type="text" id="recurEnds" placeholder="Last Occurance"></td>
 				</tr>
 				<tr class="recurring">
 					<td>
-						<label for="reviewAction">and place in:</label>
+						<label for="reviewAction" class="translate" data-tranlsate="reviewAction"></label>
 					</td>
 					<td>
 						<select class="reviewAction"></select><br>
@@ -103,7 +103,7 @@
 				</tr>
 			</table>
 			<div id="buttonbox">
-				<button class="cancel">Cancel</button>
+				<button class="cancel translate" data-translate="cancel"></button>
 				<button class="create"></button>
 			</div>
 		</div>
@@ -226,15 +226,14 @@
 					<a class="icon" href="#" data-service="ubuntu"><img src="images/ubuntu.png"></a>
 				</div>
 				<div class="waiting">
-					<p>Waiting for Nitro to be authenticated...</p>
+					<p class="syncAuthenticate" data-translate="syncAuthenticate"></p>
 					<img class="spinner" src="images/spinner.gif">
-					<button class="cancel">Cancel</button>
+					<button class="cancel translate" data-translate="cancel"></button>
 				</div>
 				<div class="settings">
-					<a class="left logout" href="#">Logout</a>
-					<label class="left">Logged in as: </label><span class="email right">Not logged in.</span><br>
-					<label class="left">Service: </label><span class="service">No service set.</span>					
-					<hr>
+					<a class="left logout translate" data-translate="syncLogout" href="#"></a>
+					<label class="left translate" data-translate="syncLoggedIn"></label><span class="email right">Not logged in.</span><br>
+					<label class="left translate" data-translate="syncService"></label><span class="service">No service set.</span>					
 					<!--label class="left">Delete server: </label><button class="deleteserver">Delete</button>
 					<label class="description">WARNING: This will delete the nitro_data.json file on your storage account! This action cannot be undone!</label>
 					<label class="left">Delete client: </label><button class="deleteclient">Delete client</button>

@@ -1624,7 +1624,7 @@ var ui = {
 
 				//Fills in Values
 				var task = cli.scheduled.edit(id.substr(2));
-				var text = 'Edit';
+				var text = $.i18n._('edit');
 
 				if (id.substr(1,1) == 's') {
 					
@@ -1683,14 +1683,14 @@ var ui = {
 				var no = 5,
 					length = 'days',
 					action = 'today',
-					text = 'Create';
+					text = $.i18n._('create');
 
 				$('.radioscheduled').show(0);
 				$('#scheduledDialog .inner .schedule').show(0);
 				$('#scheduledDialog .inner .recurring').hide(0);			
 			}
 
-			var output = '<option value="today">Today</option><option value="next">Next</option>';
+			var output = '<option value="today">' + $.i18n._('today') + '</option><option value="next">' + $.i18n._('next') + '</option>';
 			for (var i=0; i<cli.storage.lists.order.length; i++) {
 				output += '<option value="' + cli.storage.lists.order[i] + '">' + cli.storage.lists.items[cli.storage.lists.order[i]].name + '</option>'
 			};
