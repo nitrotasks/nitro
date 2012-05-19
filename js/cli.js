@@ -1165,7 +1165,7 @@ var cli = {
 				ui.sync.beforeunload('on');
 				
 
-				if(cli.storage.prefs.access) {
+				if(cli.storage.prefs.sync.hasOwnProperty('access')) {
 					
 					cli.storage.sync.emit();
 					
