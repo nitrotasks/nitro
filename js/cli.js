@@ -1215,7 +1215,7 @@ var cli = {
 							type: "POST",
 							url: cli.storage.prefs.sync.url + '/auth/',
 							dataType: 'json',
-							data: {access: cli.storage.prefs.sync.access, service: cli.storage.prefs.sync.service},
+							data: {access: JSON.stringify(cli.storage.prefs.sync.access), service: cli.storage.prefs.sync.service},
 							success: function (data) {
 
 								ajaxdata.data = data;	
@@ -1264,7 +1264,7 @@ var cli = {
 						//^ Ajax Request we're watching for
 						if (app == 'python') {
 							document.title = 'null';
-							document.title = 'ajax|token|' + cli.storage.prefs.sync.token + '|' + cli.storage.prefs.sync.service;
+							document.title = 'ajax|token|' + JSON.stringify(cli.storage.prefs.sync.token) + '|' + cli.storage.prefs.sync.service;
 						} else {
 							$.ajax({
 								type: "POST",
