@@ -1421,12 +1421,8 @@ var ui = {
 			// Get selected list
 			var sel = ui.lists.selected();
 
-			// Makes lists show up
-			ui.lists.populate();
-
 			// Display tasks
-			ui.tasks.populate(sel);
-			$('#' + sel).addClass('selected');
+			$('#L' + sel).removeClass('selected').click();
 
 			ui.lists.updateCount();
 
