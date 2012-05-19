@@ -957,19 +957,9 @@ var ui = {
 		/**********************************
 			SHOW MORE TASKS
 		**********************************/
-
 		$body.on('click', '#tasks .expandList', function () {
-			var $parent = $(this).parent();
-			var items = cli.populate('list', $parent.attr('id'));
-			$parent.find('li, p').remove();
-			for (var i in items) {
-				if($('#T' + items[i]).length) {
-
-				} else {
-					$parent.addClass('wholeList').append(ui.tasks.draw(items[i]));
-				}
-				
-			}
+			//When you're lazy and you know it - simulate a click!
+			$('#L' + $(this).parent().attr('id')).click();
 		});
 
 
