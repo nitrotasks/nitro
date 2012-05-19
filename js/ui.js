@@ -492,6 +492,7 @@ var ui = {
 
 					task.next = $('#recurNext').val();
 					task.ends = $('#recurEnds').val();
+					task.list = $('.recurring .reviewAction').val();
 					task.recurType = $('#recurType').val();
 
 					if (task.recurType === 'daily') {
