@@ -194,53 +194,59 @@ var ui = {
 		// DELETE TASK BUTTON
 		$deleteBTN.click(function () {
 
-			var id = ui.tasks.selected.getID();
+			if (!$(this).hasClass('disabled')) {
+				var id = ui.tasks.selected.getID();
 
-			if (cli.storage.prefs.deleteWarnings) {
+				if (cli.storage.prefs.deleteWarnings) {
 
-				cli.deleteTask(id);
-				$('#T' + id).remove();
-				ui.lists.updateCount();
+					cli.deleteTask(id);
+					$('#T' + id).remove();
+					ui.lists.updateCount();
 
-				//Disable edit and delete button if there is no expanded or selected task
-				if (!$('#tasks .selected').length && !$('#tasks .expanded').length) {
-					$editBTN.addClass('disabled');
+					//Disable edit and delete button if there is no expanded or selected task
+					if (!$('#tasks .selected').length && !$('#tasks .expanded').length) {
+						$editBTN.addClass('disabled');
+						$deleteBTN.addClass('disabled');
+					}
+
+				} else if ($tasks.find('.selected').length) {
 					$deleteBTN.addClass('disabled');
+
+					$warning
+						.find('p').html($.i18n._('taskWarning')).parent()
+						.find('.yes').html($.i18n._('yesTask')).parent().fadeIn(75)
+						.find('.yes').off('click')
+						.on('click', function () {
+							$(this).parent().fadeOut(75);
+							cli.deleteTask(id);
+							$('#T' + id).remove();
+							ui.lists.updateCount();
+
+							$deleteBTN.removeClass('disabled');
+
+							//Disable edit and delete button if there is no expanded or selected task
+							if (!$('#tasks .selected').length && !$('#tasks .expanded').length) {
+								$editBTN.addClass('disabled');
+								$deleteBTN.addClass('disabled');
+							}
+							$(document).off('click');
+
+						})
+						.parent().find('.no').off('click')
+						.on('click', function () {
+							$(this).parent().fadeOut(75);
+							$(document).off('click');
+						});
+
+					//Closes when not clicked in square box
+					setTimeout(function () {
+						$(document).click(function () {
+							$('#warning').fadeOut(75);
+							$(document).off('click');
+							$deleteBTN.removeClass('disabled');
+						});
+					}, 100);
 				}
-
-			} else if ($tasks.find('.selected').length) {
-
-				$warning
-					.find('p').html($.i18n._('taskWarning')).parent()
-					.find('.yes').html($.i18n._('yesTask')).parent().fadeIn(75)
-					.find('.yes').off('click')
-					.on('click', function () {
-						$(this).parent().fadeOut(75);
-						cli.deleteTask(id);
-						$('#T' + id).remove();
-						ui.lists.updateCount();
-
-						//Disable edit and delete button if there is no expanded or selected task
-						if (!$('#tasks .selected').length && !$('#tasks .expanded').length) {
-							$editBTN.addClass('disabled');
-							$deleteBTN.addClass('disabled');
-						}
-						$(document).off('click');
-
-					})
-					.parent().find('.no').off('click')
-					.on('click', function () {
-						$(this).parent().fadeOut(75);
-						$(document).off('click');
-					});
-
-				//Closes when not clicked in square box
-				setTimeout(function () {
-					$(document).click(function () {
-						$('#warning').fadeOut(75);
-						$(document).off('click');
-					});
-				}, 100);
 			}
 		});
 
