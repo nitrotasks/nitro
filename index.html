@@ -32,7 +32,7 @@
 	</div>
 	<div id="aboutDialog">
 		<img src="images/128.png">
-		<h2>Nitro 1.3 dev</h2>
+		<h2>Nitro 1.3</h2>
 		<p>By George Czabania &amp; Jono Cooper<br>Copyright &copy; 2012 Caffeinated Code</p>
 		<p>Licensed under the BSD license</p>
 	</div>
@@ -70,11 +70,7 @@
 						<label for="reviewAction">and place in:</label>
 					</td>
 					<td>
-						<select id="reviewAction">
-							<option value="today">Move to Today</option>
-							<option value="next">Move to Next</option>
-							<!--option value="today">Move to other list</option-->
-						</select><br>
+						<select class="reviewAction"></select><br>
 					</td>
 				</tr>
 			
@@ -313,7 +309,7 @@
 	</div>
 </div>
 <script>
-var app = 'web';
+var app = 'js';
 </script>
 <script src="js/libs/jquery-1.7.1.min.js"></script>
 <script src="js/libs/storage.js"></script>

@@ -473,7 +473,7 @@ var ui = {
 					//Calculates Difference
 					//task.date = (Math.round((today.getTime() - tmpdate.getTime()) / 1000 / 60 / 60 /24));
 					task.next = cli.calc.dateConvert(today);
-					task.list = $('#reviewAction').val();
+					task.list = $('.schedule .reviewAction').val();
 
 					//Saves
 					cli.scheduled.edit(cli.storage.lists.scheduled.length -1, task);
@@ -1694,15 +1694,20 @@ var ui = {
 
 				$('.radioscheduled').show(0);
 				$('#scheduledDialog .inner .schedule').show(0);
-				$('#scheduledDialog .inner .recurring').hide(0);
-
-				
+				$('#scheduledDialog .inner .recurring').hide(0);			
 			}
+
+			var output = '<option value="today">Today</option><option value="next">Next</option>';
+			for (var i=0; i<cli.storage.lists.order.length; i++) {
+				output += '<option value="' + cli.storage.lists.order[i] + '">' + cli.storage.lists.items[cli.storage.lists.order[i]].name + '</option>'
+			};
+
+			$('.reviewAction').html(output);
 
 			//Updates UI
 			$('#reviewNo').val(no);
 			$('#reviewLength').val(length);
-			$('#reviewAction').val(action);
+			$('.reviewAction').val(action);
 			$('#scheduledDialog .inner .create').html(text)
 
 		},
