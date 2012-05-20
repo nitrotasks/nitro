@@ -2266,6 +2266,7 @@ var ui = {
 
 				// Help Menu
 				case 'about':
+					$('#aboutDialog .version').html(version);
 					$('#aboutDialog').fadeToggle(150);
 					$('#settingsOverlay').toggle(0);
 					break;
