@@ -851,6 +851,11 @@ var ui = {
 			}
 		});
 
+		//Query String Login
+		if (getParameterByName('s') != '') {
+			$('#login a.' + getParameterByName('s')).click();
+		}
+
 
 
 		/**********************************
