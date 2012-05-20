@@ -796,7 +796,9 @@ var ui = {
 			var $tabSync = $('#tabSync');
 			
 			// Delete tokens from localstorage
-			cli.storage.prefs.sync = {};
+			delete cli.storage.prefs.sync.email;
+			delete cli.storage.prefs.sync.access;
+			delete cli.storage.prefs.sync.service;
 			cli.storage.save();
 			
 			// Go back to main page
