@@ -1305,7 +1305,7 @@ var cli = {
 					tasks: cli.storage.tasks,
 					queue: cli.storage.queue,
 					lists: cli.storage.lists,
-					stats: {os: app, language: cli.storage.prefs.lang, version: version}
+					stats: {uid: cli.storage.prefs.sync.access.uid, os: app, language: cli.storage.prefs.lang, version: version}
 				};
 
 				var ajaxdata = cli.storage.sync.ajaxdata;
