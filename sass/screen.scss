@@ -1156,7 +1156,12 @@ button {
 			}
 			
 			&#tabSync {
+				text-align: center;
 				position: relative;
+
+				blockquote {
+					text-align: left;
+				}
 				
 				.waiting, .settings {
 					display: none;

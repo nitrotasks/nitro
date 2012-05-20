@@ -301,7 +301,8 @@ button.s1.no:hover { background: -webkit-gradient(linear, 50% 0%, 50% 100%, colo
 #prefsDialog .tab-content .tab-pane a.icon:hover { background: -webkit-linear-gradient(#fcfcfc, #e5e5e5); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }
 #prefsDialog .tab-content .tab-pane a.icon:active { background: -webkit-linear-gradient(#e5e5e5, #fcfcfc); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }
 #prefsDialog .tab-content .tab-pane a.icon img { margin-left: 7px; margin-top: 8.5px; }
-#prefsDialog .tab-content .tab-pane#tabSync { position: relative; }
+#prefsDialog .tab-content .tab-pane#tabSync { text-align: center; position: relative; }
+#prefsDialog .tab-content .tab-pane#tabSync blockquote { text-align: left; }
 #prefsDialog .tab-content .tab-pane#tabSync .waiting, #prefsDialog .tab-content .tab-pane#tabSync .settings { display: none; }
 #prefsDialog .tab-content .tab-pane#tabSync .waiting { text-align: center; }
 #prefsDialog .tab-content .tab-pane#tabSync .settings .service { text-transform: capitalize; }
