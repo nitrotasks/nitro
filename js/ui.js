@@ -1430,6 +1430,10 @@ var ui = {
 			// Get selected list
 			var sel = ui.lists.selected();
 
+			//Reloads lists
+			ui.lists.populate();
+			$('#sidebar ul li').droppable('destroy').droppable(ui.lists.dropOptions);
+
 			// Display tasks
 			$('#L' + sel).removeClass('selected').click();
 
