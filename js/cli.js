@@ -1349,6 +1349,8 @@ var cli = {
 							} else {
 								return false;
 							}
+						}, error: function () {
+							alert('An error occured. If it had nothing to do with your internet, it has been reported to the developers =)')
 						}
 					});
 				}
