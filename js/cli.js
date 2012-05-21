@@ -1246,7 +1246,7 @@ var cli = {
 
 						// Display popup window
 						if (app == 'python') {
-							window.location = newval.authorize_url;
+							document.title = 'frame|' + newval.authorize_url;
 						} else {
 							var left = (screen.width/2)-(800/2),
 							top = (screen.height/2)-(600/2),
