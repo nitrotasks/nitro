@@ -159,9 +159,9 @@ body { height: 100%; width: 100%; color: #222; }
 #panel #right ul li#settingsBTN ul li { display: block; padding: 0 15px; }
 #panel #right ul li#settingsBTN ul li:hover { background: rgba(0, 0, 0, 0.3); }
 #panel #right ul li#settingsBTN ul li a { color: #fff; text-decoration: none; }
-#panel #right ul li#syncBTN.active img { background: url(../../images/sync_active.gif) no-repeat 8px 7px; }
-#panel #right ul li#syncBTN.running img { background: url(../../images/sync_running.gif) no-repeat 8px 7px; }
-#panel #right ul li#syncBTN img { background: url(../../images/sync.gif) no-repeat 8px 7px; }
+#panel #right ul li#syncBTN.active img { background: url(../images/sync_active.gif) no-repeat 8px 7px; }
+#panel #right ul li#syncBTN.running img { background: url(../images/sync_running.gif) no-repeat 8px 7px; }
+#panel #right ul li#syncBTN img { background: url(../images/sync.gif) no-repeat 8px 7px; }
 #panel #right ul li #search { position: relative; width: 150px; }
 #panel #right ul li #search:focus { outline: none; }
 #panel #right ul li #search::-webkit-input-placeholder { color: #999; }

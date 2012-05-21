@@ -38,18 +38,29 @@ var cli = {
 
 			if (cli.storage.prefs.sync.interval === 'auto' && cli.storage.prefs.sync.hasOwnProperty('access')) {
 				
-				console.log(cli.storage.prefs.sync.active)
+
+				setTimeout(function() {
+
+					console.log(cli.storage.prefs.sync.active)
+					ui.sync.active();
+
+					//Makes sure nothing is expanded - yes this should be in ui.js
+
+					if ($('.expanded').length == 0) {
+
+						if(cli.storage.prefs.sync.active) {
+							
+							ui.sync.running();
+							cli.storage.sync.run();
+							cli.storage.prefs.sync.active = false;
+							setTimeout(function () {
+								cli.storage.prefs.sync.active = true;
+							}, 15000);
+							
+						}
+					}
+				}, 2000);		
 				
-				if(cli.storage.prefs.sync.active) {
-					
-					ui.sync.running();
-					cli.storage.sync.run();
-					cli.storage.prefs.sync.active = false;
-					setTimeout(function () {
-						cli.storage.prefs.sync.active = true;
-					}, 15000);
-					
-				}
 				
 			} else {
 				ui.sync.active();
