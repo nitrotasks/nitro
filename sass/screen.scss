@@ -26,6 +26,17 @@ body {
 	background: url(../images/blueback.png);
 	z-index: 100;
 
+	.loading {
+		padding: 15px;
+		color: #fff;
+	}
+
+	.container .loading {
+		text-align: center;
+		color: #444;
+		padding: 13px;
+	}
+
 	.container, .container:after, .container:before {
 		width: 550px;
 		height: 250px;

@@ -1267,7 +1267,7 @@ var cli = {
 							targetWin = window.open (newval.authorize_url, title, 'toolbar=no, type=popup, status=no, width=800, height=600, top='+top+', left='+left);
 
 							if (app == 'web') {
-								$('#login .container').html('Loading... You may need to disable your popup blocker.');
+								$('#login .container').html('<div class="loading">Loading... You may need to disable your popup blocker.</div>');
 							}
 						}
 						

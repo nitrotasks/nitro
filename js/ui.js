@@ -720,7 +720,7 @@ var ui = {
 				//Syncs
 				cli.storage.sync.run(service, function (result) {
 					if(result) {
-						$('#login').html('Success! Loading...')
+						$('#login').html('<div class="loading">Success! Loading...</div>')
 					} else {
 						alert('Sync failed :(')
 					}
