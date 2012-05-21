@@ -105,35 +105,50 @@ var cli = {
 			// Check lists for timestamps
 			for(var id in cli.storage.lists.items) {
 				if (id !== 'length' && id !== '0') {
-
-					// Check list has time object
-					if (!cli.storage.lists.items[id].hasOwnProperty('time') || typeof(cli.storage.lists.items[id].time) === 'number') {
-						console.log("Upgrading list: '" + id + "' to Nitro 1.2 (timestamp)");
-						passCheck = false;
-
-						// Add or reset time object
-						cli.storage.lists.items[id].time = {
-							name: 0,
-							order: 0
-						};						
-					}
-
-					if (id !== 'today' && id !== 'next' && id !== 'someday') {
-						// Check list has synced status
-						if (!cli.storage.lists.items[id].hasOwnProperty('synced')) {
-							console.log("Upgrading list: '" + id + "' to Nitro 1.2 (sync)");
+					
+					// Check if list has been deleted
+					if (cli.storage.lists.items[id].hasOwnProperty('deleted')) {
+						// Don't do anything
+					} else {
+						// Check list has time object
+						if (!cli.storage.lists.items[id].hasOwnProperty('time') || typeof(cli.storage.lists.items[id].time) === 'number') {
+							console.log("Upgrading list: '" + id + "' to Nitro 1.2 (timestamp)");
 							passCheck = false;
-
-							cli.storage.lists.items[id].synced = 'false';
+						
+							// Add or reset time object
+							cli.storage.lists.items[id].time = {
+								name: 0,
+								order: 0
+							};						
 						}
-					}
-
-					// Convert everything to numbers
-					for  (var x = 0; x < cli.storage.lists.items[id].order.length; x++) {
-						if(typeof cli.storage.lists.items[id].order[x] === 'string') {
-							cli.storage.lists.items[id].order[x] = cli.storage.lists.items[id].order[x].toNum();
+						
+						if (id !== 'today' && id !== 'next' && id !== 'someday') {
+							// Check list has synced status
+							if (!cli.storage.lists.items[id].hasOwnProperty('synced')) {
+								console.log("Upgrading list: '" + id + "' to Nitro 1.2 (sync)");
+								passCheck = false;
+						
+								cli.storage.lists.items[id].synced = 'false';
+							}
 						}
+						
+						// Convert everything to numbers
+						for  (var x = 0; x < cli.storage.lists.items[id].order.length; x++) {
+							if(typeof cli.storage.lists.items[id].order[x] === 'string') {
+								cli.storage.lists.items[id].order[x] = cli.storage.lists.items[id].order[x].toNum();
+							}
+						}
+					}					
+				}
+			}
+			
+			// Make sure all lists exist
+			for(var id = 1; id < cli.storage.lists.items.length; id++) {
+				if(!cli.storage.lists.items.hasOwnProperty(id)) {
+					cli.storage.lists.items[id] = {
+						deleted: 0
 					}
+					passCheck = false;
 				}
 			}
 
@@ -158,7 +173,6 @@ var cli = {
 			}
 
 			// Check preferences exist. If not, set to default
-			cli.storage.lists.deleted       = cli.storage.lists.deleted        || {};
 			cli.storage.lists.time          = cli.storage.prefs.time           || 0;
 			cli.storage.prefs.sync.interval = cli.storage.prefs.sync.interval  || 'manual';
 			cli.storage.prefs.sync.active   = cli.storage.prefs.sync.active    || true;
@@ -738,8 +752,7 @@ var cli = {
 				}
 
 				//Deletes actual list
-				delete cli.storage.lists.items[id]
-				cli.storage.lists.deleted[id] = Date.now().getTime();
+				cli.storage.lists.items[id] = {deleted: Date.now().getTime()};
 				cli.storage.lists.order.splice(jQuery.inArray(id, cli.storage.lists.order), 1);
 
 				// Update timestamp for list order
