@@ -843,7 +843,9 @@ var ui = {
 
 		// SYNC BUTTON
 		$syncBTN.click(function () {
-			if (cli.storage.prefs.sync.hasOwnProperty('access') && !$(this).is('.running') && cli.storage.prefs.sync !== 'never') {
+			if ($syncBTN.hasClass('running')) {
+				// Nothing
+			} else if (cli.storage.prefs.sync.hasOwnProperty('access') && !$(this).is('.running') && cli.storage.prefs.sync !== 'never') {
 				ui.sync.running('on');
 				cli.storage.sync.run();
 			} else if (!cli.storage.prefs.sync.hasOwnProperty('access')) {
