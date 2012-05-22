@@ -18,6 +18,9 @@ body { background: url(../../images/back.png); font-family: "Ubuntu", "Helvetica
 #panel #right > ul > li:not(:last-of-type):hover { background: -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #d4cac0), color-stop(100%, #f0ebe7)); background: -webkit-linear-gradient(bottom, #d4cac0 0%, #f0ebe7 100%); background: -moz-linear-gradient(bottom, #d4cac0 0%, #f0ebe7 100%); background: -o-linear-gradient(bottom, #d4cac0 0%, #f0ebe7 100%); background: -ms-linear-gradient(bottom, #d4cac0 0%, #f0ebe7 100%); background: linear-gradient(bottom, #d4cac0 0%, #f0ebe7 100%); box-shadow: inset 0 0 1px rgba(255, 255, 255, 0.5); border: 1px solid rgba(0, 0, 0, 0.2); }
 #panel #right > ul > li:not(:last-of-type):active { background: #cfc4b9; box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2); border: 1px solid transparent; }
 #panel #right > ul > li img { width: 30px; height: 30px; }
+#panel #right > ul > li#syncBTN.active img { background: url(../../images/sync_active_dark.gif) no-repeat 8px 5px; }
+#panel #right > ul > li#syncBTN.running img { background: url(../../images/sync_running_dark.gif) no-repeat 8px 5px; }
+#panel #right > ul > li#syncBTN img { background: url(../../images/sync_dark.gif) no-repeat 8px 5px; }
 #panel #right > ul > li#logbookBTN img { background: url(../../images/darksprite.png) no-repeat 5px -118px; }
 #panel #right > ul > li#settingsBTN img { background: url(../../images/darksprite.png) no-repeat 5px -158px; }
 #panel #right > ul > li#settingsBTN ul { top: 37px; }
