@@ -12,7 +12,15 @@
 
 </head>
 <body>
-<div id="loading"><button>Press to Load</button></div>
+<div id="login">
+	<div class="container">
+		<h1>Login to Nitro</h1>
+		<p>Choose a sync service.</p>
+		<a href='#' class="dropbox"><img src="images/dropbox.png"></a>
+		<a href='#' class="ubuntu"><img src="images/ubuntu.png"></a>
+		<a href='#' class="anon">Offline Mode</a>
+	</div>
+</div>
 <div id="everything">
 
 	<div id="settingsOverlay"></div>
@@ -24,7 +32,7 @@
 	</div>
 	<div id="aboutDialog">
 		<img src="images/128.png">
-		<h2>Nitro 1.3 dev</h2>
+		<h2>Nitro <span class="version"></span></h2>
 		<p>By George Czabania &amp; Jono Cooper<br>Copyright &copy; 2012 Caffeinated Code</p>
 		<p>Licensed under the BSD license</p>
 	</div>
@@ -33,19 +41,71 @@
 	</div>
 	<div id="scheduledDialog">
 		<div class="inner">
-			Schedule<br>
-			<label for="reviewNo">Review in:</label><input id="reviewNo" min="1" type="number"><select id="reviewLength">
-					<option value="days">days</option>
-					<option value="weeks">weeks</option>
-					<option value="months">months</option>
-					<option value="years">years</option>
-				</select><br>
-			<label for="reviewAction">In 𝑥𝑦:</label><select id="reviewAction">
-					<option value="today">Move to Today</option>
-					<option value="next">Move to Next</option>
-					<!--option value="today">Move to other list</option-->
-				</select><br>
-			<button class="cancel">Cancel</button><button class="create"></button>
+
+			<table>
+				<tr class="radioscheduled">
+					<td><input type="radio" name="scheduledtype" id="scheduledRadio" value="scheduled" checked></td>
+					<td><label for="scheduledRadio" class="translate" data-translate="scheduled"></label></td>
+				</tr>
+				<tr class="radioscheduled bottom">
+					<td><input type="radio" name="scheduledtype" value="recurring" id="recurringRadio"></td>
+					<td><label for="recurringRadio" class="translate" data-translate="recurring"></label><br></td>
+				</tr>
+				<tr class="schedule">
+					<td>
+						<label for="reviewNo" class="translate" data-translate="reviewNo"></label>
+					</td>
+					<td>
+						<input id="reviewNo" min="1" type="number">
+						<select id="reviewLength">
+							<option value="days" class="translate" data-translate="days"></option>
+							<option value="weeks" class="translate" data-translate="weeks"></option>
+							<option value="months" class="translate" data-translate="months"></option>
+							<option value="years" class="translate" data-translate="years"></option>
+						</select>
+					</td>
+				</tr>
+				<tr class="schedule">
+					<td>
+						<label for="reviewAction" class="translate" data-translate="reviewAction"></label>
+					</td>
+					<td>
+						<select class="reviewAction"></select><br>
+					</td>
+				</tr>
+			
+				<tr class="recurring">
+					<td><label for="recurType" class="translate" data-translate="recurType"></label></td>
+					<td><select id="recurType">
+							<option value="daily" class="translate" data-translate="daily"></option>
+							<option value="weekly" class="translate" data-translate="weekly"></option>
+							<option value="monthly"class="translate" data-translate="monthly"></option>
+						</select></td>
+				</tr>
+			</table>
+				<div class="recurring" id="recurSpecial"></div>
+			<table>
+				<tr class="recurring">
+					<td><label for="recurNext" class="translate" data-translate="recurNext"></label></td>
+					<td><input type="text" id="recurNext" placeholder="Next Occurance"></td>
+				</tr>
+				<tr class="recurring">
+					<td><label for="recurEnds" class="translate" data-translate="recurEnds"></label></td>
+					<td><input type="text" id="recurEnds" placeholder="Last Occurance"></td>
+				</tr>
+				<tr class="recurring">
+					<td>
+						<label for="reviewAction" class="translate" data-tranlsate="reviewAction"></label>
+					</td>
+					<td>
+						<select class="reviewAction"></select><br>
+					</td>
+				</tr>
+			</table>
+			<div id="buttonbox">
+				<button class="cancel translate" data-translate="cancel"></button>
+				<button class="create"></button>
+			</div>
 		</div>
 	</div>
 	<div id="prefsDialog">
@@ -122,6 +182,8 @@
 						<tr>
 							<td class="language"><a href="#" data-value="polish">Polski</a></td>
 							<td class="author">Marcin Tydelski,<br>Kajetan Szczepaniak</td>
+							<td class="language"><a href="#" data-value="turkish">Türkçe</a></td>
+							<td class="author"><a href="mailto:selimssevgi@gmail.com">Selim Sırrı Sevgi</a></td>
 						</tr>
 					</tbody>
 				</table>  
@@ -138,36 +200,57 @@
 					<option value="bieber">Justin Bieber</option>
 				</select><br>
 				<label class="description translate" data-translate="themeDescription"></label>
-				<hr>
-				<label class="left translate" data-translate="replaceDefault"></label><input type="file" id="chooseBG"><br>
-				<label class="left translate" data-translate="useDefault"></label><button id="removeBG" class="translate" data-translate="removeBG"></button><br>
-				<label class="left translate" data-translate="bgSize"></label><select id="backgroundSize">
-					<option value="zoom" class="translate" data-translate="fill"></option>
-					<option value="shrink" class="translate" data-translate="shrink"></option>
-					<option value="tile" class="translate" data-translate="tile"></option>
-				</select>
-				<label class="description translate" data-translate="bgDescription"></label>
-				<hr>
-				<label class="left translate" data-translate="headingColor"></label>
-				<select id="headingColor">
-					<option value="light" class="translate" data-translate="light"></option>
-					<option value="dark" class="translate" data-translate="dark"></option>
-					<option value="" class="translate" data-translate="default"></option>
-				</select>
-				<label class="description translate" data-translate="headingDescription"></label>
+				<div class="pythonshit">
+					<hr>
+					<label class="left translate" data-translate="replaceDefault"></label><input type="file" id="chooseBG"><br>
+					<label class="left translate" data-translate="useDefault"></label><button id="removeBG" class="translate" data-translate="removeBG"></button><br>
+					<label class="left translate" data-translate="bgSize"></label><select id="backgroundSize">
+						<option value="zoom" class="translate" data-translate="fill"></option>
+						<option value="shrink" class="translate" data-translate="shrink"></option>
+						<option value="tile" class="translate" data-translate="tile"></option>
+					</select>
+					<label class="description translate" data-translate="bgDescription"></label>
+					<hr>
+					<label class="left translate" data-translate="headingColor"></label>
+					<select id="headingColor">
+						<option value="light" class="translate" data-translate="light"></option>
+						<option value="dark" class="translate" data-translate="dark"></option>
+						<option value="" class="translate" data-translate="default"></option>
+					</select>
+					<label class="description translate" data-translate="headingDescription"></label>
+				</div>
 			</div>
 			<div class="tab-pane" id="tabSync">
-				<blockquote><img src="images/cog.png" class="icon"><span class="translate" data-translate="donateText"></span></blockquote>
-				<hr>
-				<label class="left translate" data-translate="syncLabel"></label><select id="sync" disabled>
-					<option value="never" class="translate" data-translate="syncNever"></option>
-					<option value="manual" class="translate" data-translate="syncManual"></option>
-					<option value="timer" class="translate" data-translate="sync5"></option>
-					<option value="auto" class="translate" data-translate="syncAuto"></option>
-				</select><br>
-				<label class="description translate" data-translate="syncDescription"></label>
-				<hr>
-				<blockquote class="disabled"><img src="images/dropbox.png" title="Dropbox"><img src="images/ubuntu.png" title="Ubuntu"><img src="images/googledrive.png" title="Google Drive"></blockquote>
+				<div class="connect">
+					<blockquote><h1>Nitro Sync Beta</h1><span class="translate" data-translate="donateText"></span></blockquote>
+					<hr>
+					<div class="icons">
+						<a class="icon" href="#" data-service="dropbox"><img src="images/dropbox.png"></a>
+						<a class="icon" href="#" data-service="ubuntu"><img src="images/ubuntu.png"></a>
+					</div>
+				</div>
+				<div class="waiting">
+					<p class="translate" data-translate="syncAuthenticate"></p>
+					<img class="spinner" src="images/spinner.gif">
+					<button class="cancel translate" data-translate="cancel"></button>
+				</div>
+				<div class="settings">
+					<a class="left logout translate" data-translate="syncLogout" href="#"></a>
+					<label class="left translate" data-translate="syncLoggedIn"></label><span class="email right">Not logged in.</span><br>
+					<label class="left translate" data-translate="syncService"></label><span class="service">No service set.</span>					
+					<!--label class="left">Delete server: </label><button class="deleteserver">Delete</button>
+					<label class="description">WARNING: This will delete the nitro_data.json file on your storage account! This action cannot be undone!</label>
+					<label class="left">Delete client: </label><button class="deleteclient">Delete client</button>
+					<label class="description">WARNING: This will delete all your tasks! You will lose everything!</label-->
+					<hr>
+					<label class="left translate" data-translate="syncLabel"></label><select id="syncInterval">
+						<option value="never" class="translate" data-translate="syncNever"></option>
+						<option value="manual" class="translate" data-translate="syncManual"></option>
+						<option value="timer" class="translate" data-translate="syncTimer"></option>
+						<option value="auto" class="translate" data-translate="syncAuto"></option>
+					</select><br>
+					<label class="description translate" data-translate="syncDescription"></label>
+				</div>			
 			</div>
 		</div>
 	</div>
@@ -185,6 +268,7 @@
 			</nav>
 			<div id="right">
 				<ul>
+					<li id="syncBTN" class="translateTitle" data-translate="sync"><img src="images/blank.png"></li>
 					<li id="logbookBTN" class="translateTitle" data-translate="logbook"><img src="images/blank.png"></li>
 					<li id="settingsBTN" class="translateTitle" data-translate="settings"><img src="images/blank.png"><ul><li><a href="http://nitrotasks.com/help" target="_blank">Help</a></li><li class="donors">Donors</li><li><a href="http://nitrotasks.com/donate.html" target="_blank">Donate</a></li><li><a href="https://github.com/stayradiated/Nitro/issues" target="_blank">Report a bug</a></li><li class="prefs">Settings</li><li class="about">About</li></ul></li>
 					<!--li id="syncBTN" class="translateTitle" data-translate="sync"><img src="images/blank.png"></li-->
@@ -235,9 +319,12 @@
 		</div>
 	</div>
 </div>
-
+<script>
+var app = 'js';
+var version = 1.3;
+</script>
 <script src="js/libs/jquery-1.7.1.min.js"></script>
-<script src="js/libs/jstorage.js"></script>
+<script src="js/libs/storage.js"></script>
 <script src="js/libs/jquery.textarearesize.js"></script>
 <script src="js/libs/jquery.i18n.min.js"></script>
 <script src="js/libs/jquery-ui-1.8.18.custom.min.js"></script>
@@ -248,5 +335,7 @@
 
 <script src="js/cli.js"></script>
 <script src="js/ui.js"></script>
+
+<script id="languagescript"></script>
 </body>
 </html>

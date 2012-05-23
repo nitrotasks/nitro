@@ -7,11 +7,8 @@
 $font: 'Helvetica', 'Arial', 'Ubuntu', sans-serif;
 
 body {
-	font-family: $font;
-}
-
-#everything {
 	background: url(../../images/back.png) repeat center center;
+	font-family: $font;
 }
 
 #panel {
@@ -189,7 +186,7 @@ body {
 				// font
 				font-size: 13px;
 				line-height: 30px;
-				text-indent: 25px;
+				padding-left: 25px;
 
 				// DRAG HOVER
 				&.dragHover:not(.selected) {

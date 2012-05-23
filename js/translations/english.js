@@ -1,4 +1,4 @@
-{
+ui.language({
 	"author":				"Jono Cooper <jono@jonocooper.com>",
 	"jqueryui":				"en",
 
@@ -55,23 +55,36 @@
 	"headingDescription":	"Change the color of the text so that it looks nice with your custom background.",
 
 	"sync": 				"Sync",
-	"donateText":			"Nitro Sync is currently being developed. Your donations are welcomed.",
-	"syncLabel":			"Sync :",
+	"donateText":			"Sync is beta. If Nitro breaks, explodes or melts your computer - we warned you. It is pretty stable but if anything does break, you can contact <a href='https://twitter.com/GeorgeCzabania'>@GeorgeCzabania</a> or <a href='https://twitter.com/consindo'>@consindo",
+	"syncLabel":			"Run sync: ",
 	"syncDescription":		"Sync allows you to access your tasks from other computers and smartphones.",
 	"syncNever":			"Never (No notifications)",
 	"syncManual":			"Manually",
-	"sync5": 				"Every 5 minutes",
+	"syncTimer": 			"Every 2 minutes",
 	"syncAuto":				"Every time a change is made",
+	"syncLoggedIn":			"Logged in as: ",
 	"syncService":			"Service: ",
-	"syncUsername":			"Username: ",
-	"syncPassword": 		"Password: ",
-	"syncConnect":	 		"Connect",
+	"syncLogout": 			"Logout",
+	"syncAuthenticate":		"Waiting for Nitro to be authenticated...",
+
+	"recurring":			"Recurring",
+	"reviewNo":				"Review in:",
+	"recurType":			"Created:",
+	"daily":				"daily",
+	"weekly":				"weekly",
+	"monthly":				"monthly",
+	"recurNext":			"Next: ",
+	"recurEnds":			"Ends: ",
+	"reviewAction":			"and place in: ",
+	"create":				"Create",
+	"cancel":				"Cancel",
 
 	"focus":          		"Focus",
 	"lists":          		"Lists",
 	"today":          		"Today",
 	"next":           		"Next",
 	"someday":        		"Someday",
+	"scheduled":			"Scheduled",
 	"all":					"All Tasks",
 
 	"newList":        		"New List",
@@ -112,4 +125,4 @@
 	"1day":					"1 day before",
 	"moreday":				"%s days before",
 	"never":				"Never"
-}
+});

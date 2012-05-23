@@ -108,6 +108,18 @@ body {
 					height: 30px;
 				}
 
+				&#syncBTN {
+					&.active img {
+						background: url(../../images/sync_active_dark.gif) no-repeat 8px 5px;
+					}
+					&.running img {
+						background: url(../../images/sync_running_dark.gif) no-repeat 8px 5px;
+					}
+					img {
+						background: url(../../images/sync_dark.gif) no-repeat 8px 5px;
+					}
+				}
+
 				&#logbookBTN img {
 					background: url(../../images/darksprite.png) no-repeat 5px -118px
 				}
@@ -211,7 +223,7 @@ body {
 				// font
 				font-size: 13px;
 				line-height: 26px;
-				text-indent: 25px;
+				padding-left: 25px;
 
 				// DRAG HOVER
 				&.dragHover:not(.selected) {

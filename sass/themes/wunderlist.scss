@@ -1,4 +1,4 @@
-/* Nitro Default
+/* Wunderlist
  * Authors: Jono Cooper & George Czabania
  * http://caffeinatedco.de
  */
@@ -11,6 +11,11 @@ body {
 	font-family: $font;
 	
 	//Not using background-size: cover because it makes things super laggy!
+}
+
+#scheduledDialog .inner {
+	top: 36px;
+	margin-left: -285px;
 }
 
 #panel {

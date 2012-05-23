@@ -1,16 +1,15 @@
 {
   "name": "Nitro",
   "description": "Get stuff done with Nitro.",
-  "version": "1.2.5",
+  "version": "1.3",
   "app": {
     "launch": {
-      "local_path": "app.html"
+      "local_path": "index.html"
     }
   },
   "permissions": [
     "unlimitedStorage",
-    "http://localhost:3000/",
-    "http://stark-fog-5496.herokuapp.com/"
+    "http://app.nitrotasks.com/"
   ],
   "icons": {
     "16": "images/16.png",

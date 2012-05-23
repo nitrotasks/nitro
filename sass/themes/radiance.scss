@@ -23,6 +23,7 @@ body {
 	}
 
 	nav {
+		left: 0;
 		ul {
 			li {
 				font-size: 12px;
@@ -116,6 +117,18 @@ body {
 					height: 30px;
 				}
 
+				&#syncBTN {
+					&.active img {
+						background: url(../../images/sync_active_dark.gif) no-repeat 8px 5px;
+					}
+					&.running img {
+						background: url(../../images/sync_running_dark.gif) no-repeat 8px 5px;
+					}
+					img {
+						background: url(../../images/sync_dark.gif) no-repeat 8px 5px;
+					}
+				}
+
 				&#logbookBTN img {
 					background: url(../../images/darksprite.png) no-repeat 5px -118px
 				}
@@ -163,8 +176,7 @@ body {
 
 		// position
 		width: 250px;
-		top: 0; /* Set to panel height */
-		z-index: 7;
+		top: 40px; /* Set to panel height */
 
 		// color
 		background-color: #f6f4f2;
@@ -214,7 +226,7 @@ body {
 				// font
 				font-size: 13px;
 				line-height: 26px;
-				text-indent: 25px;
+				padding-left: 25px;
 
 				// DRAG HOVER
 				&.dragHover:not(.selected) {

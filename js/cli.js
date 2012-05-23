@@ -13,32 +13,55 @@
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-console.info('Nitro 1.2\nCopyright (C) 2012 Caffeinated Code\nBy George Czabania & Jono Cooper');
-var socket;
+console.info('Nitro ' + version + '\nCopyright (C) 2012 Caffeinated Code\nBy George Czabania & Jono Cooper');
 var cli = {
 	timestamp: {
 		update: function (id, key) {
 			return {
 				task: function () {
-					cli.storage.tasks[id].time[key] = Date.now();
+					cli.storage.tasks[id].time[key] = Date.now().getTime();
 					cli.timestamp.sync();
 				},
 				list: function () {
 					if (id !== 0) {
-						cli.storage.lists.items[id].time[key] = Date.now();
+						cli.storage.lists.items[id].time[key] = Date.now().getTime();
 						cli.timestamp.sync();
 					}
 				},
 				scheduled: function () {
-					cli.storage.lists.scheduled[id].time[key] = Date.now();
+					cli.storage.lists.scheduled[id].time[key] = Date.now().getTime();
 					cli.timestamp.sync();
 				}
 			};
 		},
 		sync: function () {
-			if (cli.storage.prefs.sync === 'auto') {
-				ui.sync.running();
-				cli.storage.sync();
+
+			if (cli.storage.prefs.sync.interval === 'auto' && cli.storage.prefs.sync.hasOwnProperty('access')) {
+				
+
+				setTimeout(function() {
+
+					console.log(cli.storage.prefs.sync.active)
+					ui.sync.active();
+
+					//Makes sure nothing is expanded - yes this should be in ui.js
+
+					if ($('.expanded').length == 0) {
+
+						if(cli.storage.prefs.sync.active) {
+							
+							ui.sync.running();
+							cli.storage.sync.run();
+							cli.storage.prefs.sync.active = false;
+							setTimeout(function () {
+								cli.storage.prefs.sync.active = true;
+							}, 15000);
+							
+						}
+					}
+				}, 2000);		
+				
+				
 			} else {
 				ui.sync.active();
 			}
@@ -82,35 +105,50 @@ var cli = {
 			// Check lists for timestamps
 			for(var id in cli.storage.lists.items) {
 				if (id !== 'length' && id !== '0') {
-
-					// Check list has time object
-					if (!cli.storage.lists.items[id].hasOwnProperty('time') || typeof(cli.storage.lists.items[id].time) === 'number') {
-						console.log("Upgrading list: '" + id + "' to Nitro 1.2 (timestamp)");
-						passCheck = false;
-
-						// Add or reset time object
-						cli.storage.lists.items[id].time = {
-							name: 0,
-							order: 0
-						};						
-					}
-
-					if (id !== 'today' && id !== 'next' && id !== 'someday') {
-						// Check list has synced status
-						if (!cli.storage.lists.items[id].hasOwnProperty('synced')) {
-							console.log("Upgrading list: '" + id + "' to Nitro 1.2 (sync)");
+					
+					// Check if list has been deleted
+					if (cli.storage.lists.items[id].hasOwnProperty('deleted')) {
+						// Don't do anything
+					} else {
+						// Check list has time object
+						if (!cli.storage.lists.items[id].hasOwnProperty('time') || typeof(cli.storage.lists.items[id].time) === 'number') {
+							console.log("Upgrading list: '" + id + "' to Nitro 1.2 (timestamp)");
 							passCheck = false;
-
-							cli.storage.lists.items[id].synced = 'false';
+						
+							// Add or reset time object
+							cli.storage.lists.items[id].time = {
+								name: 0,
+								order: 0
+							};						
 						}
-					}
-
-					// Convert everything to numbers
-					for  (var x = 0; x < cli.storage.lists.items[id].order.length; x++) {
-						if(typeof cli.storage.lists.items[id].order[x] === 'string') {
-							cli.storage.lists.items[id].order[x] = cli.storage.lists.items[id].order[x].toNum();
+						
+						if (id !== 'today' && id !== 'next' && id !== 'someday') {
+							// Check list has synced status
+							if (!cli.storage.lists.items[id].hasOwnProperty('synced')) {
+								console.log("Upgrading list: '" + id + "' to Nitro 1.2 (sync)");
+								passCheck = false;
+						
+								cli.storage.lists.items[id].synced = 'false';
+							}
 						}
+						
+						// Convert everything to numbers
+						for  (var x = 0; x < cli.storage.lists.items[id].order.length; x++) {
+							if(typeof cli.storage.lists.items[id].order[x] === 'string') {
+								cli.storage.lists.items[id].order[x] = cli.storage.lists.items[id].order[x].toNum();
+							}
+						}
+					}					
+				}
+			}
+			
+			// Make sure all lists exist
+			for(var id = 1; id < cli.storage.lists.items.length; id++) {
+				if(!cli.storage.lists.items.hasOwnProperty(id)) {
+					cli.storage.lists.items[id] = {
+						deleted: 0
 					}
+					passCheck = false;
 				}
 			}
 
@@ -135,13 +173,15 @@ var cli = {
 			}
 
 			// Check preferences exist. If not, set to default
-			cli.storage.lists.deleted = cli.storage.lists.deleted   || {};
-			cli.storage.lists.time     = cli.storage.prefs.time     || 0;
-			cli.storage.prefs.sync     = cli.storage.prefs.sync     || 'manual';
-			cli.storage.prefs.lang     = cli.storage.prefs.lang     || 'english';
-			cli.storage.prefs.bg       = cli.storage.prefs.bg       || {};
-			cli.storage.prefs.bg.color = cli.storage.prefs.bg.color || '';
-			cli.storage.prefs.bg.size  = cli.storage.prefs.bg.size  || 'tile';
+			cli.storage.lists.time          = cli.storage.prefs.time           || 0;
+			cli.storage.prefs.sync.interval = cli.storage.prefs.sync.interval  || 'manual';
+			cli.storage.prefs.sync.active   = cli.storage.prefs.sync.active    || true;
+			cli.storage.prefs.sync.url      = cli.storage.prefs.sync.url       || 'http://app.nitrotasks.com'
+			cli.storage.prefs.sync.timer    = cli.storage.prefs.sync.timer     || 120000;
+			cli.storage.prefs.lang          = cli.storage.prefs.lang           || 'english';
+			cli.storage.prefs.bg            = cli.storage.prefs.bg             || {};
+			cli.storage.prefs.bg.color      = cli.storage.prefs.bg.color       || '';
+			cli.storage.prefs.bg.size       = cli.storage.prefs.bg.size        || 'tile';
 
 			// Save
 			cli.storage.save();
@@ -229,28 +269,35 @@ var cli = {
 
 	},
 	deleteTask: function (id) {
-		var task = cli.taskData(id).display();
 
-		// Timestamp (list order)
-		cli.timestamp.update(task.list, 'order').list();
+		//If it's a recurring or scheduled task
+		if (id.toString().substr(0,1) === 'r'  || id.toString().substr(0,1) === 's') {
+			cli.storage.lists.scheduled[id.substr(1)] = { deleted: Date.now().getTime() };
+			cli.storage.save();
+		} else {
+			var task = cli.taskData(id).display();
 
-		cli.calc.removeFromList(id, task.list);
+			// Timestamp (list order)
+			cli.timestamp.update(task.list, 'order').list();
 
-		//Changes task List to 0 so today.calculate removes it.
-		task.list = 0;
-		cli.taskData(id).edit(task);
+			cli.calc.removeFromList(id, task.list);
 
-		//Removes from Today and Next
-		cli.today(id).calculate();
+			//Changes task List to 0 so today.calculate removes it.
+			task.list = 0;
+			cli.taskData(id).edit(task);
 
-		//Removes from list
-		cli.calc.removeFromList(id, 0);
+			//Removes from Today and Next
+			cli.today(id).calculate();
 
-		//Deletes Data
-		cli.storage.tasks[id] = { deleted: Date.now() };
+			//Removes from list
+			cli.calc.removeFromList(id, 0);
 
-		//Saves
-		cli.storage.save();
+			//Deletes Data
+			cli.storage.tasks[id] = { deleted: Date.now().getTime() };
+
+			//Saves
+			cli.storage.save();
+		}
 	},
 	populate: function (type, query, searchlist) {
 		query = cli.escape(query);
@@ -301,9 +348,9 @@ var cli = {
 					for (key in cli.storage.lists.scheduled) {
 						//Pushes Results
 						if (cli.storage.lists.scheduled[key].type === 'scheduled') {
-							results.push('s' + key)
+							results.push('s' + key);
 						} else if (cli.storage.lists.scheduled[key].type === 'recurring') {
-
+							results.push('r' + key);
 						};
 					};
 					return results;
@@ -378,6 +425,24 @@ var cli = {
 					}
 				} else if (searchlist == 'logbook') {
 					//Do Something
+					for (var t = 0; t < cli.storage.tasks.length; t++) {
+
+						// If task exists
+						if (cli.storage.tasks[t]) {
+
+							// Exclude logged tasks
+							if (cli.storage.tasks[t].logged == true || cli.storage.tasks[t].logged == 'true') {
+
+								//Seaches Task
+								var str = searcher(t);
+								if (str != undefined) {
+									results.push(str);
+								}				
+							}
+						}
+					}
+				} else if (searchlist == 'scheduled') {
+					
 				} else {
 					for (var key in cli.storage.lists.items[searchlist].order) {
 						var str = parseInt(searcher(cli.storage.lists.items[searchlist].order[key]))
@@ -567,7 +632,7 @@ var cli = {
 		return {
 			get: function () {
 				//Scheduled
-				if (id.substr(0,1) === 's') {
+				if (typeof(id) != 'number' && id.substr(0,1) === 's' || typeof(id) != 'number' && id.substr(0,1) === 'r') {
 					var priority = cli.storage.lists.scheduled[id.toString().substr(1)].priority;
 				} else {
 					var priority = cli.storage.tasks[id].priority;	
@@ -575,7 +640,7 @@ var cli = {
 				return priority;
 			},
 			set: function () {
-				if (id.substr(0,1) === 's') {
+				if (typeof(id) != 'number' && id.substr(0,1) === 's' || typeof(id) != 'number' && id.substr(0,1) === 'r') {
 					var priority = cli.storage.lists.scheduled[id.toString().substr(1)].priority;
 				} else {
 					var priority = cli.storage.tasks[id].priority;	
@@ -597,7 +662,7 @@ var cli = {
 
 				
 
-				if (id.substr(0,1) === 's') {
+				if (typeof(id) != 'number' && id.substr(0,1) === 's' || typeof(id) != 'number' && id.substr(0,1) === 'r') {
 					cli.timestamp.update(id.toString().substr(1), 'priority').scheduled();
 					cli.storage.lists.scheduled[id.toString().substr(1)].priority = priority;
 				} else {
@@ -619,14 +684,16 @@ var cli = {
 			},
 			edit: function (obj) {
 				// Edit taskData
-				$.each(obj, function (i, value) {
+				
+				for(var i in obj) {
+					var value = obj[i];
 					if (typeof value === "string") {
 						obj[i] = cli.escape(value);
 					}
 					if (obj[i] !== $.jStorage.get('tasks')[id][i] && i !== 'time') {
 						cli.timestamp.update(id, i).task();
 					}
-				});
+				}
 
 				cli.storage.tasks[id] = obj;
 				cli.storage.save();
@@ -660,7 +727,7 @@ var cli = {
 				console.log("Created List: '" + name + "' with id: " + newId);
 
 				// Update timestamp for list order
-				cli.storage.lists.time = Date.now();
+				cli.storage.lists.time = Date.now().getTime();
 
 				//Updates Total
 				cli.storage.lists.items.length++;
@@ -681,16 +748,15 @@ var cli = {
 				//Deletes data in list
 				for (var i=0; i<cli.storage.lists.items[id].order.length; i++) {
 					cli.today(cli.storage.lists.items[id].order[i]).remove();
-					cli.storage.tasks[cli.storage.lists.items[id].order[i]] = {deleted: Date.now()};
+					cli.storage.tasks[cli.storage.lists.items[id].order[i]] = {deleted: Date.now().getTime()};
 				}
 
 				//Deletes actual list
-				delete cli.storage.lists.items[id]
-				cli.storage.lists.deleted[id] = Date.now();
+				cli.storage.lists.items[id] = {deleted: Date.now().getTime()};
 				cli.storage.lists.order.splice(jQuery.inArray(id, cli.storage.lists.order), 1);
 
 				// Update timestamp for list order
-				cli.storage.lists.time = Date.now();
+				cli.storage.lists.time = Date.now().getTime();
 
 				//Saves to disk
 				cli.storage.save();
@@ -706,7 +772,7 @@ var cli = {
 			},
 			order: function (order) {
 				// Order of lists
-				cli.storage.lists.time = Date.now();
+				cli.storage.lists.time = Date.now().getTime();
 				cli.storage.lists.order = order;
 				cli.storage.save();
 			}
@@ -728,6 +794,8 @@ var cli = {
 				if (lists[list].order[i] === id) {
 					lists[list].order.splice(i, 1);
 					console.log('Removed: ' + id + ' from ' + list);
+					// Update timestamp;
+					cli.timestamp.update(list, 'order').list();
 				}
 			}
 
@@ -887,6 +955,7 @@ var cli = {
 					type: 'scheduled',
 					next: '0',
 					date: '',
+					synced: false,
 					time: {
 						content: 0,
 						priority: 0,
@@ -912,6 +981,7 @@ var cli = {
 					recurType: 'daily',
 					recurInterval: [1],
 					ends: '0',
+					synced: false,
 					time: {
 						content: 0,
 						priority: 0,
@@ -935,14 +1005,17 @@ var cli = {
 		edit: function(id, obj) {
 			//Returns data if nothing is passed to it
 			if (obj) {
-				$.each(obj, function (i, value) {
+				
+				for(var i in obj) {
+					var value = obj[i];
 					if (typeof value === "string") {
 						obj[i] = cli.escape(value);
 					}
 					if (obj[i] !== $.jStorage.get('lists').scheduled[id][i] && i !== 'time') {
 						cli.timestamp.update(id, i).scheduled();
 					}
-				});
+				}
+
 				cli.storage.lists.scheduled[id] = obj;
 				cli.storage.save();
 			};
@@ -976,11 +1049,22 @@ var cli = {
 								cli.taskData(cli.storage.tasks.length -1).edit(data);
 
 								//Deletes from scheduled							
-								delete cli.storage.lists.scheduled[i];
+								cli.deleteTask('s' + i);
 								console.log('Task: ' + i + ' has been scheduled');
 
 							//Task is recurring
 							} else if (task.type == 'recurring') {
+
+								//Checks Ends
+								if (task.ends != 0 || task.ends != '') {
+									//If it's ended
+									if (new Date(task.ends).getTime() <= new Date().getTime()) {
+										//Task has finished.
+										console.log('The recurring has come to an end. Casting into oblivion.');
+										cli.deleteTask('r' + i);
+										return;
+									}
+								}
 
 								//Calculates Due Date
 								if (task.date != '') {
@@ -1092,65 +1176,151 @@ var cli = {
 		sync: {
 
 			// Magical function that handles connect and emit
-			run: function() {
-
-				if(cli.storage.prefs.access) {
-					cli.storage.sync.emit()
-				} else {
-					cli.storage.sync.connect(function() {
-						cli.storage.sync.emit();
-					});
+			run: function(service, callback) {
+				
+				if(service) {
+					cli.storage.prefs.sync.service = service;
+				} else if(!cli.storage.prefs.sync.hasOwnProperty('service')) {
+					console.log("Error: Don't know what service to use.");
+					if(typeof callback === "function") callback(false);
+					else return;
 				}
+				
+				ui.sync.beforeunload('on');
+				
+
+				if(cli.storage.prefs.sync.hasOwnProperty('access')) {
+					
+					cli.storage.sync.emit();
+					
+					if(typeof callback === "function") callback(true);
+					
+				} else {
+
+					cli.storage.sync.connect(function(result) {
+						cli.storage.sync.emit();
+						
+						if(typeof callback === "function") callback(result);
+					});
+					
+				}
+				
+				
 
 			},
+			ajaxdata: {'data': {}},
 			connect: function (callback) {
 
 				console.log("Connecting to Nitro Sync server");
 
 				if(cli.storage.prefs.sync.hasOwnProperty('access')) {
-					$.ajax({
-						type: "POST",
-						url: 'http://stark-fog-5496.herokuapp.com/auth/',
-						dataType: 'json',
-						data: {access: cli.storage.prefs.sync.access},
-						success: function (data) {
-							console.log(data);
-							if(data == "success") {
-								console.log("Nitro Sync server is ready");
-								callback();
-							} else if (data == "failed") {
-								console.log("Could not connect to Dropbox");
+
+					var ajaxdata = cli.storage.sync.ajaxdata;
+
+					//Yes, this code is in the complete wrong order but we need python integration
+					ajaxdata.watch('data', function(id, oldval, newval) {
+						console.log(newval);
+						if(newval == "success") {
+							console.log("Nitro Sync server is ready");
+							callback(true);
+						} else if (newval == "failed") {
+							console.log("Could not connect to Dropbox");
+							callback(false);
+						}
+
+						//Unbind AJAX thing
+						ajaxdata.unwatch();
+
+					});
+
+					if (app == 'python') {
+						document.title = 'null';
+						document.title = 'ajax|access|' + cli.storage.prefs.sync.access + '|' + cli.storage.prefs.sync.service;
+					} else {
+						$.ajax({
+							type: "POST",
+							url: cli.storage.prefs.sync.url + '/auth/',
+							dataType: 'json',
+							data: {access: JSON.stringify(cli.storage.prefs.sync.access), service: cli.storage.prefs.sync.service},
+							success: function (data) {
+
+								ajaxdata.data = data;	
+							}
+						});
+					}
+				} else {
+					var ajaxdata = cli.storage.sync.ajaxdata;
+
+					//Yes, this code is in the complete wrong order but we need python integration
+					ajaxdata.watch('data', function(id, oldval, newval) {
+
+						console.log("Verifying Storagebackend");
+						cli.storage.prefs.sync.token = newval;
+
+						// Display popup window
+						if (app == 'python') {
+							document.title = 'frame|' + newval.authorize_url;
+						} else {
+							var left = (screen.width/2)-(800/2),
+							top = (screen.height/2)-(600/2),
+							title = "Authorise Nitro",
+							targetWin = window.open (newval.authorize_url, title, 'toolbar=no, type=popup, status=no, width=800, height=600, top='+top+', left='+left);
+
+							if (app == 'web') {
+								$('#login .container').html('<div class="loading">Loading... You may need to disable your popup blocker.</div>');
 							}
 						}
-					});
-				} else {
-					$.ajax({
-						type: "POST",
-						url: 'http://stark-fog-5496.herokuapp.com/auth/',
-						dataType: 'json',
-						data: {reqURL: 'true'},
-						success: function (data) {
-							console.log("Verifying dropbox");
-							cli.storage.prefs.sync.token = data;
-							// Display popup window
-							var left = (screen.width/2)-(800/2),
-								top = (screen.height/2)-(600/2),
-								title = "Authorise Dropbox",
-								targetWin = window.open (data.authorize_url, title, 'toolbar=no, type=popup, status=no, width=800, height=600, top='+top+', left='+left);
+						
+						//Unbind first AJAX thing
+						ajaxdata.unwatch();
+
+						//New Ajax Request
+						ajaxdata.watch('data', function(id, oldval, newval) {
+							console.log("Nitro Sync server is ready");
+							cli.storage.prefs.sync.access = newval.access;
+							cli.storage.prefs.sync.email = newval.email;
+							delete cli.storage.prefs.sync.token;
+							callback(true);
+							cli.storage.save();
+
+							//Unbind AJAX thing
+							ajaxdata.unwatch();
+						});
+
+						//^ Ajax Request we're watching for
+						if (app == 'python') {
+							document.title = 'null';
+							document.title = 'ajax|token|' + JSON.stringify(cli.storage.prefs.sync.token) + '|' + cli.storage.prefs.sync.service;
+						} else {
 							$.ajax({
 								type: "POST",
-								url: 'http://stark-fog-5496.herokuapp.com/auth/',
+								url: cli.storage.prefs.sync.url + '/auth/',
 								dataType: 'json',
-								data: {token: cli.storage.prefs.sync.token},
+								data: {token: cli.storage.prefs.sync.token, service: cli.storage.prefs.sync.service},
 								success: function (data) {
-									console.log("Nitro Sync server is ready");
-									cli.storage.prefs.sync.access = data;
-									callback();
-									cli.storage.save();
+									ajaxdata.data = data;
 								}
 							});
 						}
-					});
+
+						return newval;
+					})
+
+					//^ Ajax Request we're watching for
+					if (app == 'python') {
+						document.title = 'null';
+						document.title = 'ajax|reqURL|' + cli.storage.prefs.sync.service;
+					} else {
+						$.ajax({
+							type: "POST",
+							url: cli.storage.prefs.sync.url + '/auth/',
+							dataType: 'json',
+							data: {reqURL: 'true', service: cli.storage.prefs.sync.service},
+							success: function (data) {
+								ajaxdata.data = data;
+							}
+						});
+					}
 				}
 			},
 
@@ -1158,31 +1328,45 @@ var cli = {
 				var client = {
 					tasks: cli.storage.tasks,
 					queue: cli.storage.queue,
-					lists: cli.storage.lists
+					lists: cli.storage.lists,
+					stats: {uid: cli.storage.prefs.sync.email, os: app, language: cli.storage.prefs.lang, version: version}
 				};
 
-				console.log(JSON.stringify(compress(client)));
+				var ajaxdata = cli.storage.sync.ajaxdata;
 
-				$.ajax({
-					type: "POST",
-					url: 'http://stark-fog-5496.herokuapp.com/sync/',
-					dataType: 'json',
-					data: {data: JSON.stringify(compress(client)), access: cli.storage.prefs.sync.access},
-					success: function (data) {
-						if(data != 'failed') {
-							data = decompress(data);
-							console.log("Finished sync");
-							cli.storage.tasks = data.tasks;
-							cli.storage.queue = data.queue;
-							cli.storage.lists = data.lists;
-							cli.storage.save();
-							ui.sync.reload();
-						} else {
-							console.log("Sync failed. You probably need to delete cli.storage.prefs.sync.");
-						}
-					}
+				//Watches Ajax request
+				ajaxdata.watch('data', function(id, oldval, newval) {
+					newval = decompress(newval);
+					console.log("Finished sync");
+					cli.storage.tasks = newval.tasks;
+					cli.storage.queue = newval.queue;
+					cli.storage.lists = newval.lists;
+					cli.storage.save();
+					ui.sync.reload();
 				});
 
+				//^ Ajax Request we're watching for
+				if (app == 'python') {
+					document.title = 'null';
+					document.title = 'ajax|sync|' + JSON.stringify(compress(client)) + '|' +  JSON.stringify(cli.storage.prefs.sync.access) + '|' + cli.storage.prefs.sync.service;
+				} else {
+					$.ajax({
+						type: "POST",
+						url: cli.storage.prefs.sync.url + '/sync/',
+						dataType: 'json',
+						data: {data: JSON.stringify(compress(client)), access: cli.storage.prefs.sync.access, service: cli.storage.prefs.sync.service},
+						success: function (data) {
+							if(data != 'failed') {
+								ajaxdata.data = data;
+								return true;
+							} else {
+								return false;
+							}
+						}, error: function () {
+							alert('An error occured. If it had nothing to do with your internet, it has been reported to the developers =)')
+						}
+					});
+				}
 			}
 		}
 	}
@@ -1317,4 +1501,72 @@ Array.min = function( array ){
 // Because typeof is useless here
 function isArray(obj) {
     return obj.constructor == Array;
+}
+
+//Useful maybe?
+/*
+ * object.watch polyfill
+ *
+ * 2012-04-03
+ *
+ * By Eli Grey, http://eligrey.com
+ * Public Domain.
+ * NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
+ */
+
+// object.watch
+if (!Object.prototype.watch) {
+	Object.defineProperty(Object.prototype, "watch", {
+		  enumerable: false
+		, configurable: true
+		, writable: false
+		, value: function (prop, handler) {
+			var
+			  oldval = this[prop]
+			, newval = oldval
+			, getter = function () {
+				return newval;
+			}
+			, setter = function (val) {
+				oldval = newval;
+				return newval = handler.call(this, prop, oldval, val);
+			}
+			;
+
+			if (delete this[prop]) { // can't watch constants
+				Object.defineProperty(this, prop, {
+					  get: getter
+					, set: setter
+					, enumerable: true
+					, configurable: true
+				});
+			}
+		}
+	});
+}
+
+// object.unwatch
+if (!Object.prototype.unwatch) {
+	Object.defineProperty(Object.prototype, "unwatch", {
+		  enumerable: false
+		, configurable: true
+		, writable: false
+		, value: function (prop) {
+			var val = this[prop];
+			delete this[prop]; // remove accessors
+			this[prop] = val;
+		}
+	});
+}
+
+function getParameterByName(name)
+{
+  name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+  var regexS = "[\\?&]" + name + "=([^&#]*)";
+  var regex = new RegExp(regexS);
+  var results = regex.exec(window.location.search);
+  if(results == null)
+    return "";
+  else
+    return decodeURIComponent(results[1].replace(/\+/g, " "));
 }

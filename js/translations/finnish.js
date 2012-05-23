@@ -1,4 +1,4 @@
-{
+ui.language({
 	"author":				"Rami Selin <rami.selin@gmail.com>",
 	"jqueryui":				"jquery.ui.datepicker-fi.js",
 
@@ -15,7 +15,6 @@
 	"yesList":        		"Poista lista",
 	"cancelDialog":    		"Peruuta",
 	"warningText":			"Varoitus!",
-	"languageText":			"Valitse kielesi",
 
 	"add":            		"Lisää",
 	"edit":           		"Muokkaa",
@@ -26,9 +25,9 @@
 	
 	"hideWarnings":   		"Piilota poistovaroitukset",
 	"lowGraphics":    		"Matalan grafiikan tila",
-	"nextNoLists":    		"Älä näytä muita listoja Seuraavissa",
-	"nextThreeLists": 		"Näytä 3 tehtävää muista listoista Seuraavissa",
-	"nextEntireLists":		"Näytä kokonaiset listat Seuraavissa",
+	"nextNoLists":    		"Älä näytä mitään",
+	"nextThreeLists": 		"Näytä vain kolme tehtävää",
+	"nextEntireLists":		"Näytä kaikki tehtävät",
 
 	"general":				"Yleiset",
 	"nextDescription": 		"Näytä muut listat seuraavissa: ", 
@@ -41,6 +40,7 @@
 	"theme":				"Teema",
 	"pickTheme":			"Valitse teema: ",
 	"themeDescription": 	"Teemat mahdollistavat Nitron ulkoasun muuttamisen. CSS:llä voit jopa luoda oman teeman!",
+	"replaceDefault":		"Vaihda tausta: ",
 	"useDefault": 			"Käytä oletustaustaa: ",
 	"removeBG":				"Poista tausta",
 	"bgSize": 				"Taustan koko: ",
@@ -55,23 +55,37 @@
 	"headingDescription":	"Vaihda tekstin väriä vastaamaan paremmin valitsemaasi taustaa.",
 
 	"sync": 				"Synkronoi",
-	"donateText":			"Nitron synkronointi on kehityksen alla. Lahjoitukset ovat tervetulleita.",
+	"donateText":			"Synkronointi on beeta. Jos Nitro rikkoo, räjäyttää tai sulattaa tietokoneesi - me varoitimme sinua. Se toimii melko vakaasti, mutta jos jokin hajoaa, voit ottaa yhteyttä <a href='https://twitter.com/GeorgeCzabania'>@GeorgeCzabania</a> or <a href='https://twitter.com/consindo'>@consindo",
 	"syncLabel":			"Synkronoi :",
 	"syncDescription":		"Synkronointi mahdollistaa pääsyn tehtäviin muilta tietokoneilta ja älypuhelimilta.",
 	"syncNever":			"Ei koskaan (ei ilmoituksia)",
 	"syncManual":			"Manuaalisesti",
-	"sync5": 				"5 minuutin välein",
+	"syncTimer": 			"2 minuutin välein",
 	"syncAuto":				"Jokaisen muutoksen jälkeen",
+	"syncLoggedIn":			"Kirjauduttu nimellä: ",
 	"syncService":			"Palvelu: ",
-	"syncUsername":			"Käyttäjänimi: ",
-	"syncPassword": 		"Salasana: ",
-	"syncConnect":	 		"Yhdistä",
+	"syncLogout": 			"Kirjaudu ulos",
+	"syncAuthenticate":		"Odotetaan Nitron todentamista...",
+
+	"recurring":			"Toistuva",
+	"reviewNo":				"Käy läpi:",
+	"recurType":			"Luodaan:",
+	"daily":				"päivittäin",
+	"weekly":				"viikoittain",
+	"monthly":				"kuukausittain",
+	"recurNext":			"Seuraava: ",
+	"recurEnds":			"Päättyy: ",
+	"reviewAction":			"ja sijoita kohteeseen: ",
+	"create":				"Luo",
+	"cancel":				"Peruuta",
 
 	"focus":          		"Keskity",
 	"lists":          		"Listat",
 	"today":          		"Tämänpäiväiset",
 	"next":           		"Seuraavat",
 	"someday":        		"Joskus",
+	"scheduled":			"Ajastetut",
+	"all":					"Kaikki tehtävät",
 
 	"newList":        		"Uusi lista",
 	"newTask":        		"Uusi tehtävä",
@@ -86,18 +100,17 @@
 	"important":      		"Tärkeä",
 	"setDueDate":     		"Aseta eräpäivä",
 	"removeDueDate":  		"Poista eräpäivä",
-	"doToday":        		"erääntyy tänään",
+	"doToday":        		"Tee tänään",
 
 	"oneMore":      		"Näytä 1 tehtävä lisää",
 	"morethanOne":			"Näytä %s tehtävää lisää",
 
-	"dayLeft":				"1 päivä jäljellä",
 	"daysLeft": 			"%s päivää jäljellä",
-	"dayOverdue": 			"Myöhässä 1 päivä",
 	"daysOverdue":			"Myöhässä %s päivää",
 	"month":				["tammi", "helmi", "maalis", "huhti", "touko", "kesä", "heinä", "elo", "syys", "loka", "marras", "joulu"],
 
 	"searchResults":  		"Hakutulokset: ",
+	"noResults":			"Ei hakutuloksia",
 
 	"titleAddTask":   		"Lisää uusi tehtävä",
 	"titleEditTask":  		"Muokkaa valittua tehtävää",
@@ -112,4 +125,4 @@
 	"1day":					"1 päivää aiemmin",
 	"moreday":				"%s päivää aiemmin",
 	"never":				"Ei koskaan"
-}
+});

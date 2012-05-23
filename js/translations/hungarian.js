@@ -1,4 +1,4 @@
-{
+ui.language({
 	"author":				"József Samu <sjozsef0227@gmail.com>",
 	"jqueryui":				"jquery.ui.datepicker-hu.js",
 
@@ -112,4 +112,4 @@
 	"1day":					"1 nappal előtte",
 	"moreday":				"%s nappal előtte",
 	"never":				"Soha"
-}
+});

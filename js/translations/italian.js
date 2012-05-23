@@ -1,4 +1,4 @@
-{
+ui.language({
 	"author": "Luigi Massa <lmassa@bwlab.it.com>",
 	"jqueryui": "jquery.ui.datepicker-it.js",
 
@@ -113,4 +113,4 @@
 	"1day": "1 giorno prima",
 	"moreday": "giorni %s prima",
 	"never": "Mai"
-}
+});

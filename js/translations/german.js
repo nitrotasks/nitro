@@ -1,4 +1,4 @@
-{
+ui.language({
 	"author" : "Bertram Simon <info@agentur-simon.de>",
 	"jqueryui" : "jquery.ui.datepicker-de.js",
 
@@ -114,4 +114,4 @@
 	"1day" : "1 Tag vorher",
 	"moreday" : "%s Tage vorher",
 	"never" : "Nie"
-}
+});

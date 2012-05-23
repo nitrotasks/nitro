@@ -1,4 +1,4 @@
-{
+ui.language({
 	"author":				"George Czabania <dev@stayradiated.com>",
 	"jqueryui":				"en",
 
@@ -112,4 +112,4 @@
 	"1day":					"1 day before",
 	"moreday":				"%s days before",
 	"never":				"Never"
-}
+});
