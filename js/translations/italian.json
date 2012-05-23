@@ -39,7 +39,7 @@
 	"authortext": 			"Autore",
 
 	"theme":				"Tema",
-	"pickTheme":			"Seleziona un theme: ",
+	"pickTheme":			"Seleziona un tema: ",
 	"themeDescription": 	"I temi ti permettono di modificare l'aspetto di Nitro. Puoi anche crearne uno tramite i CSS",
 	"replaceDefault":		"Rimpiazza il default",
 	"useDefault": 			"Usa il seguente sfondo: ",
