@@ -202,19 +202,20 @@
 ----------------------------------*/
 
 /* states and images */
-.ui-icon { width: 16px; height: 16px; }
+.ui-icon { width: 16px; height: 16px; background-image: url(images/glyphicons-halflings.png); }
 
 .ui-icon.glyph-icon-arrow-left {
-  width: 16px; height: 16px; background-image: url(images/glyphicons-halflings.png);
+  width: 16px; height: 16px;
   background-position: -240px -96px;
   cursor: pointer;
 }
 .ui-icon.glyph-icon-arrow-right {
-  width: 16px; height: 16px; background-image: url(images/glyphicons-halflings.png);
+  width: 16px; height: 16px;
   background-position: -264px -96px;
   cursor: pointer;
 }
-
+.ui-icon-circle-triangle-e { background-position: -456px -72px; }
+.ui-icon-circle-triangle-w { background-position: -432px -72px; }
 
 /* Misc visuals
 ----------------------------------*/
