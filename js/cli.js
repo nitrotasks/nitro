@@ -12,7 +12,6 @@
  * Neither the name of Caffeinated Code nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 console.info('Nitro ' + version + '\nCopyright (C) 2012 Caffeinated Code\nBy George Czabania & Jono Cooper');
 var cli = {
 	timestamp: {
@@ -37,31 +36,30 @@ var cli = {
 		sync: function () {
 
 			if (cli.storage.prefs.sync.interval === 'auto' && cli.storage.prefs.sync.hasOwnProperty('access')) {
-				
 
-				setTimeout(function() {
+
+				setTimeout(function () {
 
 					console.log(cli.storage.prefs.sync.active)
 					ui.sync.active();
 
 					//Makes sure nothing is expanded - yes this should be in ui.js
-
 					if ($('.expanded').length == 0) {
 
-						if(cli.storage.prefs.sync.active) {
-							
+						if (cli.storage.prefs.sync.active) {
+
 							ui.sync.running();
 							cli.storage.sync.run();
 							cli.storage.prefs.sync.active = false;
 							setTimeout(function () {
 								cli.storage.prefs.sync.active = true;
 							}, 15000);
-							
+
 						}
 					}
-				}, 2000);		
-				
-				
+				}, 2000);
+
+
 			} else {
 				ui.sync.active();
 			}
@@ -71,7 +69,7 @@ var cli = {
 			var passCheck = true;
 
 			// Check tasks for timestamps
-			for(var id in cli.storage.tasks) {
+			for (var id in cli.storage.tasks) {
 				if (id !== 'length' && !cli.storage.tasks[id].hasOwnProperty('deleted')) {
 
 					// Check task has time object
@@ -103,48 +101,48 @@ var cli = {
 			}
 
 			// Check lists for timestamps
-			for(var id in cli.storage.lists.items) {
+			for (var id in cli.storage.lists.items) {
 				if (id !== 'length' && id !== '0') {
-					
+
 					// Check if list has been deleted
 					if (cli.storage.lists.items[id].hasOwnProperty('deleted')) {
 						// Don't do anything
 					} else {
 						// Check list has time object
-						if (!cli.storage.lists.items[id].hasOwnProperty('time') || typeof(cli.storage.lists.items[id].time) === 'number') {
+						if (!cli.storage.lists.items[id].hasOwnProperty('time') || typeof (cli.storage.lists.items[id].time) === 'number') {
 							console.log("Upgrading list: '" + id + "' to Nitro 1.2 (timestamp)");
 							passCheck = false;
-						
+
 							// Add or reset time object
 							cli.storage.lists.items[id].time = {
 								name: 0,
 								order: 0
-							};						
+							};
 						}
-						
+
 						if (id !== 'today' && id !== 'next' && id !== 'someday') {
 							// Check list has synced status
 							if (!cli.storage.lists.items[id].hasOwnProperty('synced')) {
 								console.log("Upgrading list: '" + id + "' to Nitro 1.2 (sync)");
 								passCheck = false;
-						
+
 								cli.storage.lists.items[id].synced = 'false';
 							}
 						}
-						
+
 						// Convert everything to numbers
-						for  (var x = 0; x < cli.storage.lists.items[id].order.length; x++) {
-							if(typeof cli.storage.lists.items[id].order[x] === 'string') {
+						for (var x = 0; x < cli.storage.lists.items[id].order.length; x++) {
+							if (typeof cli.storage.lists.items[id].order[x] === 'string') {
 								cli.storage.lists.items[id].order[x] = cli.storage.lists.items[id].order[x].toNum();
 							}
 						}
-					}					
+					}
 				}
 			}
-			
+
 			// Make sure all lists exist
-			for(var id = 1; id < cli.storage.lists.items.length; id++) {
-				if(!cli.storage.lists.items.hasOwnProperty(id)) {
+			for (var id = 1; id < cli.storage.lists.items.length; id++) {
+				if (!cli.storage.lists.items.hasOwnProperty(id)) {
 					cli.storage.lists.items[id] = {
 						deleted: 0
 					}
@@ -169,19 +167,21 @@ var cli = {
 
 			//Check for scheduled
 			if (!cli.storage.lists.scheduled) {
-				cli.storage.lists.scheduled = {length: 0};
+				cli.storage.lists.scheduled = {
+					length: 0
+				};
 			}
 
 			// Check preferences exist. If not, set to default
-			cli.storage.lists.time          = cli.storage.prefs.time           || 0;
-			cli.storage.prefs.sync.interval = cli.storage.prefs.sync.interval  || 'manual';
-			cli.storage.prefs.sync.active   = cli.storage.prefs.sync.active    || true;
-			cli.storage.prefs.sync.url      = cli.storage.prefs.sync.url       || 'http://app.nitrotasks.com'
-			cli.storage.prefs.sync.timer    = cli.storage.prefs.sync.timer     || 120000;
-			cli.storage.prefs.lang          = cli.storage.prefs.lang           || 'english';
-			cli.storage.prefs.bg            = cli.storage.prefs.bg             || {};
-			cli.storage.prefs.bg.color      = cli.storage.prefs.bg.color       || '';
-			cli.storage.prefs.bg.size       = cli.storage.prefs.bg.size        || 'tile';
+			cli.storage.lists.time = cli.storage.prefs.time || 0;
+			cli.storage.prefs.sync.interval = cli.storage.prefs.sync.interval || 'manual';
+			cli.storage.prefs.sync.active = cli.storage.prefs.sync.active || true;
+			cli.storage.prefs.sync.url = cli.storage.prefs.sync.url || 'http://app.nitrotasks.com'
+			cli.storage.prefs.sync.timer = cli.storage.prefs.sync.timer || 120000;
+			cli.storage.prefs.lang = cli.storage.prefs.lang || 'english';
+			cli.storage.prefs.bg = cli.storage.prefs.bg || {};
+			cli.storage.prefs.bg.color = cli.storage.prefs.bg.color || '';
+			cli.storage.prefs.bg.size = cli.storage.prefs.bg.size || 'tile';
 
 			// Save
 			cli.storage.save();
@@ -207,18 +207,16 @@ var cli = {
 	},
 	escape: function (str) {
 		//Regexes a bunch of shit that breaks the Linux version
-
 		if (typeof str === 'string') {
-			str = str
-				.replace(/\\/g, "&#92;") // Backslash
-				.replace(/\|/g, "&#124") // Pipe
-				.replace(/\"/g, "&#34;") // Quote
-				.replace(/\'/g, "&#39;"); // Apostrophe
+			str = str.replace(/\\/g, "&#92;") // Backslash
+			.replace(/\|/g, "&#124") // Pipe
+			.replace(/\"/g, "&#34;") // Quote
+			.replace(/\'/g, "&#39;"); // Apostrophe
 			return str;
 		} else {
 			return str;
 		}
-		
+
 	},
 	addTask: function (name, list) {
 		name = cli.escape(name);
@@ -271,8 +269,10 @@ var cli = {
 	deleteTask: function (id) {
 
 		//If it's a recurring or scheduled task
-		if (id.toString().substr(0,1) === 'r'  || id.toString().substr(0,1) === 's') {
-			cli.storage.lists.scheduled[id.substr(1)] = { deleted: Date.now().getTime() };
+		if (id.toString().substr(0, 1) === 'r' || id.toString().substr(0, 1) === 's') {
+			cli.storage.lists.scheduled[id.substr(1)] = {
+				deleted: Date.now().getTime()
+			};
 			cli.storage.save();
 		} else {
 			var task = cli.taskData(id).display();
@@ -293,7 +293,9 @@ var cli = {
 			cli.calc.removeFromList(id, 0);
 
 			//Deletes Data
-			cli.storage.tasks[id] = { deleted: Date.now().getTime() };
+			cli.storage.tasks[id] = {
+				deleted: Date.now().getTime()
+			};
 
 			//Saves
 			cli.storage.save();
@@ -302,161 +304,159 @@ var cli = {
 	populate: function (type, query, searchlist) {
 		query = cli.escape(query);
 		// Displays a list
-		switch(type) {
-			case "list":
-				// Get tasks from list
+		switch (type) {
+		case "list":
+			// Get tasks from list
+			if (query === 'logbook') {
+				var logbook = [];
 
-				if (query === 'logbook') {
-					var logbook = [];
+				for (var t = 0; t < cli.storage.tasks.length; t++) {
+					// looooooping through the tasks
+					if (cli.storage.tasks[t]) {
+						if (cli.storage.tasks[t].logged) {
+							var data = cli.taskData(t).display();
+							//remove today & date data
+							data.date = '';
+							data.today = 'false';
+							cli.taskData(t).edit(data);
 
-					for (var t = 0; t < cli.storage.tasks.length; t++) {
-						// looooooping through the tasks
-						if (cli.storage.tasks[t]) {
-							if (cli.storage.tasks[t].logged) {
-								var data = cli.taskData(t).display();
-								//remove today & date data
-								data.date = '';
-								data.today = 'false';
-								cli.taskData(t).edit(data);
-
-								logbook.push(t);
-							}
+							logbook.push(t);
 						}
-					}
-
-					return logbook;
-				
-				} else if (query === 'all') {
-
-					var results = [];
-
-					// Search loop
-					for (var t = 0; t < cli.storage.tasks.length; t++) {
-
-						// If task exists
-						if (cli.storage.tasks[t]) {
-
-							// Exclude logged tasks
-							if (cli.storage.tasks[t].logged == false || cli.storage.tasks[t].logged == 'false') {
-								results.push(t);
-							}
-						}
-					}
-					return results;
-				} else if (query === 'scheduled') {
-					var results = []
-					for (key in cli.storage.lists.scheduled) {
-						//Pushes Results
-						if (cli.storage.lists.scheduled[key].type === 'scheduled') {
-							results.push('s' + key);
-						} else if (cli.storage.lists.scheduled[key].type === 'recurring') {
-							results.push('r' + key);
-						};
-					};
-					return results;
-				} else {
-
-					if (query in cli.storage.lists.items) {
-						return cli.storage.lists.items[query].order;
-					} else {
-						return [];
-					}
-
-				}
-
-				break;
-
-			case "search":
-				// Run search
-
-				// Set vars
-				var query = query.split(' '),
-					results = [],
-					search;
-
-				function searcher(key) {
-					var pass1 = [],
-						pass2  = true;
-
-					// Loop through each word in the query
-					for (var q = 0; q < query.length; q++) {
-
-						// Create new search
-						search = new RegExp(query[q], 'i');
-
-						// Search
-						if (search.test(cli.storage.tasks[key].content + cli.storage.tasks[key].notes)) {
-							pass1.push(true);
-						} else {
-							pass1.push(false);
-						}
-					}
-
-					// This makes sure that the task has matched each word in the query
-					for (var p = 0; p < pass1.length; p++) {
-						if (pass1[p] === false) {
-							pass2 = false;
-						}
-					}
-
-					// If all terms match then add task to the results array
-					if (pass2) {
-						return (key)
 					}
 				}
 
-				if (searchlist == 'all') {
-					// Search loop
-					for (var t = 0; t < cli.storage.tasks.length; t++) {
+				return logbook;
 
-						// If task exists
-						if (cli.storage.tasks[t]) {
+			} else if (query === 'all') {
 
-							// Exclude logged tasks
-							if (cli.storage.tasks[t].logged == false || cli.storage.tasks[t].logged == 'false') {
+				var results = [];
 
-								//Seaches Task
-								var str = searcher(t);
-								if (str != undefined) {
-									results.push(str);
-								}				
-							}
-						}
-					}
-				} else if (searchlist == 'logbook') {
-					//Do Something
-					for (var t = 0; t < cli.storage.tasks.length; t++) {
+				// Search loop
+				for (var t = 0; t < cli.storage.tasks.length; t++) {
 
-						// If task exists
-						if (cli.storage.tasks[t]) {
+					// If task exists
+					if (cli.storage.tasks[t]) {
 
-							// Exclude logged tasks
-							if (cli.storage.tasks[t].logged == true || cli.storage.tasks[t].logged == 'true') {
-
-								//Seaches Task
-								var str = searcher(t);
-								if (str != undefined) {
-									results.push(str);
-								}				
-							}
-						}
-					}
-				} else if (searchlist == 'scheduled') {
-					
-				} else {
-					for (var key in cli.storage.lists.items[searchlist].order) {
-						var str = parseInt(searcher(cli.storage.lists.items[searchlist].order[key]))
-						if (!isNaN(str)) {
-							results.push(str);
+						// Exclude logged tasks
+						if (cli.storage.tasks[t].logged == false || cli.storage.tasks[t].logged == 'false') {
+							results.push(t);
 						}
 					}
 				}
 				return results;
+			} else if (query === 'scheduled') {
+				var results = []
+				for (key in cli.storage.lists.scheduled) {
+					//Pushes Results
+					if (cli.storage.lists.scheduled[key].type === 'scheduled') {
+						results.push('s' + key);
+					} else if (cli.storage.lists.scheduled[key].type === 'recurring') {
+						results.push('r' + key);
+					};
+				};
+				return results;
+			} else {
+
+				if (query in cli.storage.lists.items) {
+					return cli.storage.lists.items[query].order;
+				} else {
+					return [];
+				}
+
+			}
+
+			break;
+
+		case "search":
+			// Run search
+
+			// Set vars
+			var query = query.split(' '),
+				results = [],
+				search;
+
+			function searcher(key) {
+				var pass1 = [],
+					pass2 = true;
+
+				// Loop through each word in the query
+				for (var q = 0; q < query.length; q++) {
+
+					// Create new search
+					search = new RegExp(query[q], 'i');
+
+					// Search
+					if (search.test(cli.storage.tasks[key].content + cli.storage.tasks[key].notes)) {
+						pass1.push(true);
+					} else {
+						pass1.push(false);
+					}
+				}
+
+				// This makes sure that the task has matched each word in the query
+				for (var p = 0; p < pass1.length; p++) {
+					if (pass1[p] === false) {
+						pass2 = false;
+					}
+				}
+
+				// If all terms match then add task to the results array
+				if (pass2) {
+					return (key)
+				}
+			}
+
+			if (searchlist == 'all') {
+				// Search loop
+				for (var t = 0; t < cli.storage.tasks.length; t++) {
+
+					// If task exists
+					if (cli.storage.tasks[t]) {
+
+						// Exclude logged tasks
+						if (cli.storage.tasks[t].logged == false || cli.storage.tasks[t].logged == 'false') {
+
+							//Seaches Task
+							var str = searcher(t);
+							if (str != undefined) {
+								results.push(str);
+							}
+						}
+					}
+				}
+			} else if (searchlist == 'logbook') {
+				//Do Something
+				for (var t = 0; t < cli.storage.tasks.length; t++) {
+
+					// If task exists
+					if (cli.storage.tasks[t]) {
+
+						// Exclude logged tasks
+						if (cli.storage.tasks[t].logged == true || cli.storage.tasks[t].logged == 'true') {
+
+							//Seaches Task
+							var str = searcher(t);
+							if (str != undefined) {
+								results.push(str);
+							}
+						}
+					}
+				}
+			} else if (searchlist == 'scheduled') {
+
+			} else {
+				for (var key in cli.storage.lists.items[searchlist].order) {
+					var str = parseInt(searcher(cli.storage.lists.items[searchlist].order[key]))
+					if (!isNaN(str)) {
+						results.push(str);
+					}
+				}
+			}
+			return results;
 		}
 	},
 	moveTask: function (id, list) {
 		// Moves task to list
-
 		var task = cli.taskData(id).display(),
 			lists = cli.storage.lists.items;
 
@@ -521,13 +521,13 @@ var cli = {
 				// Removes from Today & Next
 				var task = cli.taskData(id).display(),
 					lists = cli.storage.lists.items;
-				
+
 				// Remove task from Today
 				cli.calc.removeFromList(id, 'today');
-				
+
 				// Remove task from Next
 				cli.calc.removeFromList(id, 'next');
-				
+
 				console.log('List: ' + task.list);
 				cli.timestamp.update(id, 'showInToday').task();
 				cli.timestamp.update(id, 'list').task();
@@ -547,10 +547,10 @@ var cli = {
 
 				//Calculates date. Changes today Status
 				cli.calc.date(id);
-				
+
 				//If the task.list is today, we place back in today & next
 				if (task.list === 'today') {
-					
+
 					lists.today.order.unshift(id);
 					lists.next.order.unshift(id);
 
@@ -575,7 +575,7 @@ var cli = {
 				// DeDupe today and next lists
 				cli.storage.lists.items.today.order = deDupe(cli.storage.lists.items.today.order);
 				cli.storage.lists.items.next.order = deDupe(cli.storage.lists.items.next.order)
-				
+
 				//Saves data
 				cli.storage.save();
 			}
@@ -583,7 +583,6 @@ var cli = {
 	},
 	logbook: function (id) {
 		// Toggles an item to/from the logbook
-
 		var task = cli.taskData(id).display(),
 			lists = cli.storage.lists.items;
 
@@ -632,44 +631,44 @@ var cli = {
 		return {
 			get: function () {
 				//Scheduled
-				if (typeof(id) != 'number' && id.substr(0,1) === 's' || typeof(id) != 'number' && id.substr(0,1) === 'r') {
+				if (typeof (id) != 'number' && id.substr(0, 1) === 's' || typeof (id) != 'number' && id.substr(0, 1) === 'r') {
 					var priority = cli.storage.lists.scheduled[id.toString().substr(1)].priority;
 				} else {
-					var priority = cli.storage.tasks[id].priority;	
+					var priority = cli.storage.tasks[id].priority;
 				}
 				return priority;
 			},
 			set: function () {
-				if (typeof(id) != 'number' && id.substr(0,1) === 's' || typeof(id) != 'number' && id.substr(0,1) === 'r') {
+				if (typeof (id) != 'number' && id.substr(0, 1) === 's' || typeof (id) != 'number' && id.substr(0, 1) === 'r') {
 					var priority = cli.storage.lists.scheduled[id.toString().substr(1)].priority;
 				} else {
-					var priority = cli.storage.tasks[id].priority;	
+					var priority = cli.storage.tasks[id].priority;
 				}
-				switch(priority) {
-					case "low":
-						priority = "medium";
-						break;
-					case "medium":
-						priority = "important";
-						break;
-					case "important":
-						priority = "none";
-						break;
-					case "none":
-						priority = "low";
-						break;
+				switch (priority) {
+				case "low":
+					priority = "medium";
+					break;
+				case "medium":
+					priority = "important";
+					break;
+				case "important":
+					priority = "none";
+					break;
+				case "none":
+					priority = "low";
+					break;
 				}
 
-				
 
-				if (typeof(id) != 'number' && id.substr(0,1) === 's' || typeof(id) != 'number' && id.substr(0,1) === 'r') {
+
+				if (typeof (id) != 'number' && id.substr(0, 1) === 's' || typeof (id) != 'number' && id.substr(0, 1) === 'r') {
 					cli.timestamp.update(id.toString().substr(1), 'priority').scheduled();
 					cli.storage.lists.scheduled[id.toString().substr(1)].priority = priority;
 				} else {
 					cli.timestamp.update(id, 'priority').task();
 					cli.storage.tasks[id].priority = priority;
 				}
-				
+
 				cli.storage.save();
 				return priority;
 			}
@@ -684,8 +683,7 @@ var cli = {
 			},
 			edit: function (obj) {
 				// Edit taskData
-				
-				for(var i in obj) {
+				for (var i in obj) {
 					var value = obj[i];
 					if (typeof value === "string") {
 						obj[i] = cli.escape(value);
@@ -697,7 +695,7 @@ var cli = {
 
 				cli.storage.tasks[id] = obj;
 				cli.storage.save();
-				
+
 			}
 		};
 	},
@@ -746,13 +744,17 @@ var cli = {
 			},
 			remove: function () {
 				//Deletes data in list
-				for (var i=0; i<cli.storage.lists.items[id].order.length; i++) {
+				for (var i = 0; i < cli.storage.lists.items[id].order.length; i++) {
 					cli.today(cli.storage.lists.items[id].order[i]).remove();
-					cli.storage.tasks[cli.storage.lists.items[id].order[i]] = {deleted: Date.now().getTime()};
+					cli.storage.tasks[cli.storage.lists.items[id].order[i]] = {
+						deleted: Date.now().getTime()
+					};
 				}
 
 				//Deletes actual list
-				cli.storage.lists.items[id] = {deleted: Date.now().getTime()};
+				cli.storage.lists.items[id] = {
+					deleted: Date.now().getTime()
+				};
 				cli.storage.lists.order.splice(jQuery.inArray(id, cli.storage.lists.order), 1);
 
 				// Update timestamp for list order
@@ -788,9 +790,9 @@ var cli = {
 			// DOES NOT REMOVE LIST FROM TASK
 			// List must be manually removed from task.list
 			// task.list = '';
-			
+
 			// Remove task from Today
-			for(var i = 0; i < lists[list].order.length; i++) {
+			for (var i = 0; i < lists[list].order.length; i++) {
 				if (lists[list].order[i] === id) {
 					lists[list].order.splice(i, 1);
 					console.log('Removed: ' + id + ' from ' + list);
@@ -850,9 +852,9 @@ var cli = {
 				date = new Date(date[2], date[0] - 1, date[1]);
 				//If it's the current year, don't add the year.
 				if (date.getFullYear() === new Date().getFullYear()) {
-					date = date.toDateString().substring(4).replace(" 0"," ").replace(" " + new Date().getFullYear(), '');
+					date = date.toDateString().substring(4).replace(" 0", " ").replace(" " + new Date().getFullYear(), '');
 				} else {
-					date = date.toDateString().substring(4).replace(" 0"," ");
+					date = date.toDateString().substring(4).replace(" 0", " ");
 				}
 				return date;
 			},
@@ -861,14 +863,14 @@ var cli = {
 				if (date === '') {
 					return ['', ''];
 				} else {
-					var	now = new Date(),
+					var now = new Date(),
 						date = date.split('/'),
 						difference = 0,
 						oneDay = 86400000; // 1000*60*60*24 - one day in milliseconds
 
 					// Convert to JS
 					date = new Date(date[2], date[0] - 1, date[1]);
-					
+
 					// Find difference between days
 					difference = Math.ceil((date.getTime() - now.getTime()) / oneDay);
 
@@ -902,12 +904,12 @@ var cli = {
 			}
 		},
 		todayQueue: {
-			
+
 			refresh: function () {
 
 				for (var key in cli.storage.queue) {
 					key = Number(key);
-					console.log(key +  " -> " + cli.storage.queue[key]);
+					console.log(key + " -> " + cli.storage.queue[key]);
 
 					var targetdate = new Date(cli.storage.queue[key]);
 					var todaydate = new Date();
@@ -919,7 +921,7 @@ var cli = {
 
 					//If today is the same date as the queue date or greater, put the task in today and next
 					if (todaydate >= targetdate) {
-						
+
 						cli.storage.tasks[key].today = 'yesAuto';
 
 						//Adds to today & next lists
@@ -943,7 +945,7 @@ var cli = {
 	},
 
 	scheduled: {
-		add: function(name, type) {
+		add: function (name, type) {
 			console.log("Added a new " + type + " task")
 			if (type === 'scheduled') {
 				cli.storage.lists.scheduled[cli.storage.lists.scheduled.length] = {
@@ -1002,11 +1004,11 @@ var cli = {
 			cli.storage.save();
 		},
 
-		edit: function(id, obj) {
+		edit: function (id, obj) {
 			//Returns data if nothing is passed to it
 			if (obj) {
-				
-				for(var i in obj) {
+
+				for (var i in obj) {
 					var value = obj[i];
 					if (typeof value === "string") {
 						obj[i] = cli.escape(value);
@@ -1019,13 +1021,13 @@ var cli = {
 				cli.storage.lists.scheduled[id] = obj;
 				cli.storage.save();
 			};
-			
+
 			return cli.storage.lists.scheduled[id];
 		},
 
-		update: function() {
+		update: function () {
 			//Loops through all da tasks
-			for (var i=0; i < cli.storage.lists.scheduled.length; i++) {
+			for (var i = 0; i < cli.storage.lists.scheduled.length; i++) {
 
 				//Checks if tasks exists
 				if (cli.storage.lists.scheduled[i]) {
@@ -1037,7 +1039,7 @@ var cli = {
 						if (new Date(task.next).getTime() <= new Date().getTime()) {
 
 							cli.addTask(task.content, task.list);
-							var data = cli.taskData(cli.storage.tasks.length -1).display();
+							var data = cli.taskData(cli.storage.tasks.length - 1).display();
 
 							//Sets Data
 							data.notes = task.notes;
@@ -1046,13 +1048,13 @@ var cli = {
 							//Task is scheduled
 							if (task.type == 'scheduled') {
 
-								cli.taskData(cli.storage.tasks.length -1).edit(data);
+								cli.taskData(cli.storage.tasks.length - 1).edit(data);
 
 								//Deletes from scheduled							
 								cli.deleteTask('s' + i);
 								console.log('Task: ' + i + ' has been scheduled');
 
-							//Task is recurring
+								//Task is recurring
 							} else if (task.type == 'recurring') {
 
 								//Checks Ends
@@ -1074,8 +1076,8 @@ var cli = {
 									data.date = cli.calc.dateConvert(tmpdate);
 
 									//Saves
-									cli.taskData(cli.storage.tasks.length -1).edit(data);
-									cli.calc.date(cli.storage.tasks.length -1);
+									cli.taskData(cli.storage.tasks.length - 1).edit(data);
+									cli.calc.date(cli.storage.tasks.length - 1);
 								}
 
 								//Change the Next Date
@@ -1107,13 +1109,19 @@ var cli = {
 										//Checks if date has been passed
 										if (new Date(task.recurInterval[key][3]).getTime() <= new Date().getTime()) {
 											if (task.recurInterval[key][2] == 'day') {
-												
-												if (Date.today().set({day: task.recurInterval[key][1]}).getTime() <= new Date().getTime()) {
+
+												if (Date.today().set({
+													day: task.recurInterval[key][1]
+												}).getTime() <= new Date().getTime()) {
 													//If it's been, set it for the next month
-													task.recurInterval[key][3] = cli.calc.dateConvert(Date.today().set({day: task.recurInterval[key][1]}).addMonths(1).getTime());
+													task.recurInterval[key][3] = cli.calc.dateConvert(Date.today().set({
+														day: task.recurInterval[key][1]
+													}).addMonths(1).getTime());
 												} else {
 													//If it hasn't, set it for this month
-													task.recurInterval[key][3] = cli.calc.dateConvert(Date.today().set({day: task.recurInterval[key][1]}).getTime());
+													task.recurInterval[key][3] = cli.calc.dateConvert(Date.today().set({
+														day: task.recurInterval[key][1]
+													}).getTime());
 												}
 											} else {
 												console.log('boop')
@@ -1143,7 +1151,7 @@ var cli = {
 								}
 
 								//Saves
-								cli.scheduled.edit(i, task);	
+								cli.scheduled.edit(i, task);
 
 								console.log('Task: ' + i + ' has been recurred')
 							}
@@ -1158,13 +1166,50 @@ var cli = {
 
 	storage: {
 		//Object where data is stored
-		tasks: $.jStorage.get('tasks', {length: 0}),
+		tasks: $.jStorage.get('tasks', {
+			length: 0
+		}),
 		queue: $.jStorage.get('queue', {}),
-		lists: $.jStorage.get('lists', {order: [], items:{today: {name: "Today", order:[], time: {name: 0, order: 0}}, next: {name: "Next", order:[], time: {name: 0, order: 0}}, 0: {order:[]}, length: 1}, time: 0}),
-		prefs: $.jStorage.get('prefs', {deleteWarnings: false, gpu: false, nextAmount: 'threeItems', over50: true, lang: 'english', bg: {color: '', size: 'tile'}, sync: {}}),
+		lists: $.jStorage.get('lists', {
+			order: [],
+			items: {
+				today: {
+					name: "Today",
+					order: [],
+					time: {
+						name: 0,
+						order: 0
+					}
+				},
+				next: {
+					name: "Next",
+					order: [],
+					time: {
+						name: 0,
+						order: 0
+					}
+				},
+				0: {
+					order: []
+				},
+				length: 1
+			},
+			time: 0
+		}),
+		prefs: $.jStorage.get('prefs', {
+			deleteWarnings: false,
+			gpu: false,
+			nextAmount: 'threeItems',
+			over50: true,
+			lang: 'english',
+			bg: {
+				color: '',
+				size: 'tile'
+			},
+			sync: {}
+		}),
 		// NB: Over 50 caps amount of tasks in List to 50 but causes drag and drop problems.
 		// I CBF fixing it.
-
 		save: function () {
 			//Saves to localStorage
 			$.jStorage.set('tasks', cli.storage.tasks);
@@ -1176,51 +1221,53 @@ var cli = {
 		sync: {
 
 			// Magical function that handles connect and emit
-			run: function(service, callback) {
-				
-				if(service) {
+			run: function (service, callback) {
+
+				if (service) {
 					cli.storage.prefs.sync.service = service;
-				} else if(!cli.storage.prefs.sync.hasOwnProperty('service')) {
+				} else if (!cli.storage.prefs.sync.hasOwnProperty('service')) {
 					console.log("Error: Don't know what service to use.");
-					if(typeof callback === "function") callback(false);
+					if (typeof callback === "function") callback(false);
 					else return;
 				}
-				
-				ui.sync.beforeunload('on');
-				
 
-				if(cli.storage.prefs.sync.hasOwnProperty('access')) {
-					
+				ui.sync.beforeunload('on');
+
+
+				if (cli.storage.prefs.sync.hasOwnProperty('access')) {
+
 					cli.storage.sync.emit();
-					
-					if(typeof callback === "function") callback(true);
-					
+
+					if (typeof callback === "function") callback(true);
+
 				} else {
 
-					cli.storage.sync.connect(function(result) {
+					cli.storage.sync.connect(function (result) {
 						cli.storage.sync.emit();
-						
-						if(typeof callback === "function") callback(result);
+
+						if (typeof callback === "function") callback(result);
 					});
-					
+
 				}
-				
-				
+
+
 
 			},
-			ajaxdata: {'data': {}},
+			ajaxdata: {
+				'data': {}
+			},
 			connect: function (callback) {
 
 				console.log("Connecting to Nitro Sync server");
 
-				if(cli.storage.prefs.sync.hasOwnProperty('access')) {
+				if (cli.storage.prefs.sync.hasOwnProperty('access')) {
 
 					var ajaxdata = cli.storage.sync.ajaxdata;
 
 					//Yes, this code is in the complete wrong order but we need python integration
-					ajaxdata.watch('data', function(id, oldval, newval) {
+					ajaxdata.watch('data', function (id, oldval, newval) {
 						console.log(newval);
-						if(newval == "success") {
+						if (newval == "success") {
 							console.log("Nitro Sync server is ready");
 							callback(true);
 						} else if (newval == "failed") {
@@ -1241,10 +1288,13 @@ var cli = {
 							type: "POST",
 							url: cli.storage.prefs.sync.url + '/auth/',
 							dataType: 'json',
-							data: {access: JSON.stringify(cli.storage.prefs.sync.access), service: cli.storage.prefs.sync.service},
+							data: {
+								access: JSON.stringify(cli.storage.prefs.sync.access),
+								service: cli.storage.prefs.sync.service
+							},
 							success: function (data) {
 
-								ajaxdata.data = data;	
+								ajaxdata.data = data;
 							}
 						});
 					}
@@ -1252,7 +1302,7 @@ var cli = {
 					var ajaxdata = cli.storage.sync.ajaxdata;
 
 					//Yes, this code is in the complete wrong order but we need python integration
-					ajaxdata.watch('data', function(id, oldval, newval) {
+					ajaxdata.watch('data', function (id, oldval, newval) {
 
 						console.log("Verifying Storagebackend");
 						cli.storage.prefs.sync.token = newval;
@@ -1261,21 +1311,21 @@ var cli = {
 						if (app == 'python') {
 							document.title = 'frame|' + newval.authorize_url;
 						} else {
-							var left = (screen.width/2)-(800/2),
-							top = (screen.height/2)-(600/2),
-							title = "Authorise Nitro",
-							targetWin = window.open (newval.authorize_url, title, 'toolbar=no, type=popup, status=no, width=800, height=600, top='+top+', left='+left);
+							var left = (screen.width / 2) - (800 / 2),
+								top = (screen.height / 2) - (600 / 2),
+								title = "Authorise Nitro",
+								targetWin = window.open(newval.authorize_url, title, 'toolbar=no, type=popup, status=no, width=800, height=600, top=' + top + ', left=' + left);
 
 							if (app == 'web') {
 								$('#login .container').html('<div class="loading">Loading... You may need to disable your popup blocker.</div>');
 							}
 						}
-						
+
 						//Unbind first AJAX thing
 						ajaxdata.unwatch();
 
 						//New Ajax Request
-						ajaxdata.watch('data', function(id, oldval, newval) {
+						ajaxdata.watch('data', function (id, oldval, newval) {
 							console.log("Nitro Sync server is ready");
 							cli.storage.prefs.sync.access = newval.access;
 							cli.storage.prefs.sync.email = newval.email;
@@ -1296,7 +1346,10 @@ var cli = {
 								type: "POST",
 								url: cli.storage.prefs.sync.url + '/auth/',
 								dataType: 'json',
-								data: {token: cli.storage.prefs.sync.token, service: cli.storage.prefs.sync.service},
+								data: {
+									token: cli.storage.prefs.sync.token,
+									service: cli.storage.prefs.sync.service
+								},
 								success: function (data) {
 									ajaxdata.data = data;
 								}
@@ -1315,7 +1368,10 @@ var cli = {
 							type: "POST",
 							url: cli.storage.prefs.sync.url + '/auth/',
 							dataType: 'json',
-							data: {reqURL: 'true', service: cli.storage.prefs.sync.service},
+							data: {
+								reqURL: 'true',
+								service: cli.storage.prefs.sync.service
+							},
 							success: function (data) {
 								ajaxdata.data = data;
 							}
@@ -1329,13 +1385,18 @@ var cli = {
 					tasks: cli.storage.tasks,
 					queue: cli.storage.queue,
 					lists: cli.storage.lists,
-					stats: {uid: cli.storage.prefs.sync.email, os: app, language: cli.storage.prefs.lang, version: version}
+					stats: {
+						uid: cli.storage.prefs.sync.email,
+						os: app,
+						language: cli.storage.prefs.lang,
+						version: version
+					}
 				};
 
 				var ajaxdata = cli.storage.sync.ajaxdata;
 
 				//Watches Ajax request
-				ajaxdata.watch('data', function(id, oldval, newval) {
+				ajaxdata.watch('data', function (id, oldval, newval) {
 					newval = decompress(newval);
 					console.log("Finished sync");
 					cli.storage.tasks = newval.tasks;
@@ -1348,21 +1409,26 @@ var cli = {
 				//^ Ajax Request we're watching for
 				if (app == 'python') {
 					document.title = 'null';
-					document.title = 'ajax|sync|' + JSON.stringify(compress(client)) + '|' +  JSON.stringify(cli.storage.prefs.sync.access) + '|' + cli.storage.prefs.sync.service;
+					document.title = 'ajax|sync|' + JSON.stringify(compress(client)) + '|' + JSON.stringify(cli.storage.prefs.sync.access) + '|' + cli.storage.prefs.sync.service;
 				} else {
 					$.ajax({
 						type: "POST",
 						url: cli.storage.prefs.sync.url + '/sync/',
 						dataType: 'json',
-						data: {data: JSON.stringify(compress(client)), access: cli.storage.prefs.sync.access, service: cli.storage.prefs.sync.service},
+						data: {
+							data: JSON.stringify(compress(client)),
+							access: cli.storage.prefs.sync.access,
+							service: cli.storage.prefs.sync.service
+						},
 						success: function (data) {
-							if(data != 'failed') {
+							if (data != 'failed') {
 								ajaxdata.data = data;
 								return true;
 							} else {
 								return false;
 							}
-						}, error: function () {
+						},
+						error: function () {
 							alert('An error occured. If it had nothing to do with your internet, it has been reported to the developers =)')
 						}
 					});
@@ -1374,9 +1440,9 @@ var cli = {
 
 function deDupe(arr) {
 	var r = [];
-	o:for(var i = 0, n = arr.length; i < n; i++) {
-		for(var x = 0, y = r.length; x < y; x++) {
-			if (r[x]===arr[i]) {
+	o: for (var i = 0, n = arr.length; i < n; i++) {
+		for (var x = 0, y = r.length; x < y; x++) {
+			if (r[x] === arr[i]) {
 				continue o;
 			}
 		}
@@ -1390,7 +1456,7 @@ function deDupe(arr) {
 // "word".toNum() -> "word"
 String.prototype.toNum = function () {
 	var x = parseInt(this, 10);
-	if(x > -100) {
+	if (x > -100) {
 		return x;
 	} else {
 		return this.toString();
@@ -1400,8 +1466,9 @@ String.prototype.toNum = function () {
 // "http://google.com" -> "<a href=http://google.com>http://google.com</a>"
 function convertStringToLink(text) {
 	var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-	return text.replace(exp,'<a href=$1>$1</a>');
+	return text.replace(exp, '<a href=$1>$1</a>');
 }
+
 function convertLinkToString(text) {
 	var exp = /<a\b[^>]*>(.*?)<\/a>/ig;
 	return text.replace(exp, '$1');
@@ -1409,29 +1476,29 @@ function convertLinkToString(text) {
 
 function compress(obj) {
 	var chart = {
-		name :       'a',
-		tasks:       'b',
-		content:     'c',
-		priority:    'd',
-		date:        'e',
-		today:       'f',
+		name: 'a',
+		tasks: 'b',
+		content: 'c',
+		priority: 'd',
+		date: 'e',
+		today: 'f',
 		showInToday: 'g',
-		list:        'h',
-		lists:       'i',
-		logged:      'j',
-		time:        'k',
-		sync:        'l',
-		synced:      'm',
-		order:       'n',
-		queue:       'o',
-		length:      'p',
-		notes:       'q',
-		items:       'r',
-		next:        's',
-		someday:     't',
-		deleted:     'u'
+		list: 'h',
+		lists: 'i',
+		logged: 'j',
+		time: 'k',
+		sync: 'l',
+		synced: 'm',
+		order: 'n',
+		queue: 'o',
+		length: 'p',
+		notes: 'q',
+		items: 'r',
+		next: 's',
+		someday: 't',
+		deleted: 'u'
 	},
-	out = {};
+		out = {};
 
 	for (var key in obj) {
 		if (chart.hasOwnProperty(key)) {
@@ -1473,7 +1540,7 @@ function decompress(obj) {
 		t: 'someday',
 		u: 'deleted'
 	},
-	out = {};
+		out = {};
 
 	for (var key in obj) {
 		if (chart.hasOwnProperty(key)) {
@@ -1491,16 +1558,16 @@ function decompress(obj) {
 	return out;
 }
 //Because I'm lazy.
-Array.max = function( array ){
-    return Math.max.apply( Math, array );
+Array.max = function (array) {
+	return Math.max.apply(Math, array);
 };
-Array.min = function( array ){
-    return Math.min.apply( Math, array );
+Array.min = function (array) {
+	return Math.min.apply(Math, array);
 };
 
 // Because typeof is useless here
 function isArray(obj) {
-    return obj.constructor == Array;
+	return obj.constructor == Array;
 }
 
 //Useful maybe?
@@ -1517,28 +1584,27 @@ function isArray(obj) {
 // object.watch
 if (!Object.prototype.watch) {
 	Object.defineProperty(Object.prototype, "watch", {
-		  enumerable: false
-		, configurable: true
-		, writable: false
-		, value: function (prop, handler) {
+		enumerable: false,
+		configurable: true,
+		writable: false,
+		value: function (prop, handler) {
 			var
-			  oldval = this[prop]
-			, newval = oldval
-			, getter = function () {
-				return newval;
-			}
-			, setter = function (val) {
-				oldval = newval;
-				return newval = handler.call(this, prop, oldval, val);
-			}
-			;
+			oldval = this[prop],
+				newval = oldval,
+				getter = function () {
+					return newval;
+				},
+				setter = function (val) {
+					oldval = newval;
+					return newval = handler.call(this, prop, oldval, val);
+				};
 
 			if (delete this[prop]) { // can't watch constants
 				Object.defineProperty(this, prop, {
-					  get: getter
-					, set: setter
-					, enumerable: true
-					, configurable: true
+					get: getter,
+					set: setter,
+					enumerable: true,
+					configurable: true
 				});
 			}
 		}
@@ -1548,10 +1614,10 @@ if (!Object.prototype.watch) {
 // object.unwatch
 if (!Object.prototype.unwatch) {
 	Object.defineProperty(Object.prototype, "unwatch", {
-		  enumerable: false
-		, configurable: true
-		, writable: false
-		, value: function (prop) {
+		enumerable: false,
+		configurable: true,
+		writable: false,
+		value: function (prop) {
 			var val = this[prop];
 			delete this[prop]; // remove accessors
 			this[prop] = val;
@@ -1559,14 +1625,11 @@ if (!Object.prototype.unwatch) {
 	});
 }
 
-function getParameterByName(name)
-{
-  name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-  var regexS = "[\\?&]" + name + "=([^&#]*)";
-  var regex = new RegExp(regexS);
-  var results = regex.exec(window.location.search);
-  if(results == null)
-    return "";
-  else
-    return decodeURIComponent(results[1].replace(/\+/g, " "));
+function getParameterByName(name) {
+	name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+	var regexS = "[\\?&]" + name + "=([^&#]*)";
+	var regex = new RegExp(regexS);
+	var results = regex.exec(window.location.search);
+	if (results == null) return "";
+	else return decodeURIComponent(results[1].replace(/\+/g, " "));
 }

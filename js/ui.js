@@ -12,13 +12,10 @@
  * Neither the name of Caffeinated Code nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 // Define system (python|js|web) in app.html
-
 /********************************************************************************
 	MAIN INIT
 ********************************************************************************/
-
 var $body, $addBTN, $editBTN, $deleteBTN, $logbookBTN, $settingsBTN, $syncBTN, $tasks, $sidebar, $userLists, $addListBTN, $warning;
 
 $(document).ready(function () {
@@ -31,25 +28,23 @@ $(document).ready(function () {
 
 	// Theme init
 	cli.storage.prefs.theme = cli.storage.prefs.theme || 'default';
-	$('link.theme')
-		.attr('href', 'css/themes/' + cli.storage.prefs.theme + '.css')
-		.ready(function () {
-			$(window).resize();
-		});
+	$('link.theme').attr('href', 'css/themes/' + cli.storage.prefs.theme + '.css').ready(function () {
+		$(window).resize();
+	});
 
 	// Cached selectors
-	$body        = $('body');
-	$addBTN      = $('#addBTN');
-	$editBTN     = $('#editBTN');
-	$deleteBTN   = $('#deleteBTN');
-	$logbookBTN  = $('#logbookBTN');
+	$body = $('body');
+	$addBTN = $('#addBTN');
+	$editBTN = $('#editBTN');
+	$deleteBTN = $('#deleteBTN');
+	$logbookBTN = $('#logbookBTN');
 	$settingsBTN = $('#settingsBTN');
-	$syncBTN     = $('#syncBTN');
-	$tasks       = $('#tasks');
-	$sidebar     = $('#sidebar');
-	$userLists   = $('#userLists');
-	$addListBTN  = $('#addListBTN');
-	$warning     = $('#warning');
+	$syncBTN = $('#syncBTN');
+	$tasks = $('#tasks');
+	$sidebar = $('#sidebar');
+	$userLists = $('#userLists');
+	$addListBTN = $('#addListBTN');
+	$warning = $('#warning');
 
 	// Make sure the database is up to date
 	cli.timestamp.upgrade();
@@ -68,7 +63,7 @@ $(document).ready(function () {
 		//Removes unwanted things
 		$('.pythonshit').remove();
 	};
-	
+
 	// Sets up keyboard shortcuts
 	ui.external.key();
 
@@ -88,10 +83,10 @@ $(window).resize(function () {
 });
 
 var toggleFx = function () {
-	"use strict";
-	deCSS3.init(document.querySelectorAll('.deCSS3-Style'));
-	$.fx.off = !$.fx.off;
-};
+		"use strict";
+		deCSS3.init(document.querySelectorAll('.deCSS3-Style'));
+		$.fx.off = !$.fx.off;
+	};
 
 /********************************************************************************
 	THE UI
@@ -110,10 +105,13 @@ var ui = {
 
 		//Loading Button
 		if (app == 'web') {
-			$('#loading button').click(function() {
+			$('#loading button').click(function () {
 				$(this).remove();
 				$('#loading').css('z-index', '0');
-				$('#everything').css({'opacity': '1', '-webkit-transform': 'scale(1)'});
+				$('#everything').css({
+					'opacity': '1',
+					'-webkit-transform': 'scale(1)'
+				});
 			})
 
 		} else {
@@ -146,7 +144,7 @@ var ui = {
 					$('#scheduledDialog').toggle(0);
 					ui.tasks.scheduled('add');
 				} else {
-					
+
 					// Adds a new task via the CLI
 					cli.addTask($.i18n._('newTask'), ui.lists.selected());
 
@@ -164,7 +162,7 @@ var ui = {
 					//Expands Task
 					ui.tasks.selected.expand($('#T' + (cli.storage.tasks.length - 1)));
 				};
-			};		
+			};
 		});
 
 		// EDIT TASK BUTTON
@@ -182,7 +180,7 @@ var ui = {
 
 					ui.tasks.selected.expand($('#tasks .selected'));
 
-				// Close expanded
+					// Close expanded
 				} else {
 					if ($('#tasks .expanded').length) {
 						ui.tasks.selected.collapse($('#tasks li.expanded'), "stay_selected");
@@ -212,31 +210,25 @@ var ui = {
 				} else if ($tasks.find('.selected').length) {
 					$deleteBTN.addClass('disabled');
 
-					$warning
-						.find('p').html($.i18n._('taskWarning')).parent()
-						.find('.yes').html($.i18n._('yesTask')).parent().fadeIn(75)
-						.find('.yes').off('click')
-						.on('click', function () {
-							$(this).parent().fadeOut(75);
-							cli.deleteTask(id);
-							$('#T' + id).remove();
-							ui.lists.updateCount();
+					$warning.find('p').html($.i18n._('taskWarning')).parent().find('.yes').html($.i18n._('yesTask')).parent().fadeIn(75).find('.yes').off('click').on('click', function () {
+						$(this).parent().fadeOut(75);
+						cli.deleteTask(id);
+						$('#T' + id).remove();
+						ui.lists.updateCount();
 
-							$deleteBTN.removeClass('disabled');
+						$deleteBTN.removeClass('disabled');
 
-							//Disable edit and delete button if there is no expanded or selected task
-							if (!$('#tasks .selected').length && !$('#tasks .expanded').length) {
-								$editBTN.addClass('disabled');
-								$deleteBTN.addClass('disabled');
-							}
-							$(document).off('click');
+						//Disable edit and delete button if there is no expanded or selected task
+						if (!$('#tasks .selected').length && !$('#tasks .expanded').length) {
+							$editBTN.addClass('disabled');
+							$deleteBTN.addClass('disabled');
+						}
+						$(document).off('click');
 
-						})
-						.parent().find('.no').off('click')
-						.on('click', function () {
-							$(this).parent().fadeOut(75);
-							$(document).off('click');
-						});
+					}).parent().find('.no').off('click').on('click', function () {
+						$(this).parent().fadeOut(75);
+						$(document).off('click');
+					});
 
 					//Closes when not clicked in square box
 					setTimeout(function () {
@@ -293,25 +285,18 @@ var ui = {
 
 			} else {
 				// Display warning modal
-				$('#warning')
-					.click(function (e) {
-						e.stopPropagation();
-						return false;
-					})
-					.find('p').html($.i18n._('listWarning')).parent()
-					.find('.yes').html($.i18n._('yesList')).parent().fadeIn(75)
-					.find('.yes').off('click')
-					.on('click', function () {
-						$(this).parent().fadeOut(75);
-						var id = ui.lists.selected();
-						ui.lists.remove(id);
-						$(document).off('click');
-					})
-					.parent().find('.no').off('click')
-					.on('click', function () {
-						$(document).off('click');
-						$(this).parent().fadeOut(75);
-					});
+				$('#warning').click(function (e) {
+					e.stopPropagation();
+					return false;
+				}).find('p').html($.i18n._('listWarning')).parent().find('.yes').html($.i18n._('yesList')).parent().fadeIn(75).find('.yes').off('click').on('click', function () {
+					$(this).parent().fadeOut(75);
+					var id = ui.lists.selected();
+					ui.lists.remove(id);
+					$(document).off('click');
+				}).parent().find('.no').off('click').on('click', function () {
+					$(document).off('click');
+					$(this).parent().fadeOut(75);
+				});
 
 				//Closes when not clicked in square box
 				setTimeout(function () {
@@ -416,11 +401,9 @@ var ui = {
 			var theme = $(this)[0].value;
 
 			// Set CSS file
-			$('link.theme')
-				.attr('href', 'css/themes/' + theme + '.css')
-				.ready(function () {
-					$(window).resize();
-				});
+			$('link.theme').attr('href', 'css/themes/' + theme + '.css').ready(function () {
+				$(window).resize();
+			});
 
 			//Saves Theme
 			cli.storage.prefs.theme = theme;
@@ -428,7 +411,7 @@ var ui = {
 		});
 
 		// SYNC
-		$('#setUpSync').click(function() {
+		$('#setUpSync').click(function () {
 			$('#prefsDialog').fadeOut(150);
 			$('#syncDialog').fadeIn(150);
 		})
@@ -437,11 +420,11 @@ var ui = {
 			SCHEDULED TASKS
 		**********************************/
 
-		$('#scheduledDialog .inner .create').click(function() {
+		$('#scheduledDialog .inner .create').click(function () {
 
 			var id = $(this).parent().parent().attr('data-type');
 
-			
+
 
 			//Calculates Date
 			var date = parseInt($('#reviewNo').val());
@@ -456,7 +439,6 @@ var ui = {
 			//tmpdate.setSeconds(0);
 			//tmpdate.setMinutes(0);
 			//tmpdate.setHours(0);
-
 
 			if (unit == 'days') {
 				today.setDate(today.getDate() + date);
@@ -474,7 +456,7 @@ var ui = {
 					cli.scheduled.add('New Task', 'scheduled');
 
 					//Edits Data inside of it
-					var task = cli.scheduled.edit(cli.storage.lists.scheduled.length -1);
+					var task = cli.scheduled.edit(cli.storage.lists.scheduled.length - 1);
 
 					//Calculates Difference
 					//task.date = (Math.round((today.getTime() - tmpdate.getTime()) / 1000 / 60 / 60 /24));
@@ -482,7 +464,7 @@ var ui = {
 					task.list = $('.schedule .reviewAction').val();
 
 					//Saves
-					cli.scheduled.edit(cli.storage.lists.scheduled.length -1, task);
+					cli.scheduled.edit(cli.storage.lists.scheduled.length - 1, task);
 
 				} else if ($('#scheduledDialog input[type=radio]:checked').val() === 'recurring') {
 
@@ -491,10 +473,10 @@ var ui = {
 						return;
 					}
 					//Creates a new Recurring Task
-					cli.scheduled.add('New Task', 'recurring');	
+					cli.scheduled.add('New Task', 'recurring');
 
 					//Edits Data inside of it
-					var task = cli.scheduled.edit(cli.storage.lists.scheduled.length -1);
+					var task = cli.scheduled.edit(cli.storage.lists.scheduled.length - 1);
 
 					task.next = $('#recurNext').val();
 					task.ends = $('#recurEnds').val();
@@ -506,7 +488,7 @@ var ui = {
 					} else if (task.recurType === 'weekly') {
 						var interval = [];
 
-						$('#recurSpecial div').map(function() { 
+						$('#recurSpecial div').map(function () {
 							interval.push([parseInt($(this).children('input').val()), $(this).children('select').val(), task.next]);
 						})
 
@@ -514,7 +496,7 @@ var ui = {
 					} else if (task.recurType == 'monthly') {
 						var interval = [];
 
-						$('#recurSpecial div').map(function() { 
+						$('#recurSpecial div').map(function () {
 							interval.push([1, parseInt($(this).children('.type').val()), 'day', task.next]);
 						})
 
@@ -522,19 +504,19 @@ var ui = {
 					}
 
 					//Saves
-					cli.scheduled.edit(cli.storage.lists.scheduled.length -1, task);
+					cli.scheduled.edit(cli.storage.lists.scheduled.length - 1, task);
 				}
 
 			} else {
 				var task = cli.scheduled.edit(id.substr(2));
 
-				if (id.substr(1,1) == 's') {
-					
+				if (id.substr(1, 1) == 's') {
+
 					//Edits Values
 					task.next = cli.calc.dateConvert(today);
 					task.list = $('#reviewAction').val();
 
-				} else if (id.substr(1,1) == 'r') {
+				} else if (id.substr(1, 1) == 'r') {
 					task.next = $('#recurNext').val();
 					task.ends = $('#recurEnds').val();
 					task.recurType = $('#recurType').val();
@@ -544,7 +526,7 @@ var ui = {
 					} else if (task.recurType === 'weekly') {
 						var interval = [];
 
-						$('#recurSpecial div').map(function() { 
+						$('#recurSpecial div').map(function () {
 							interval.push([parseInt($(this).children('input').val()), $(this).children('select').val(), task.next]);
 						})
 
@@ -552,7 +534,7 @@ var ui = {
 					} else if (task.recurType == 'monthly') {
 						var interval = [];
 
-						$('#recurSpecial div').map(function() { 
+						$('#recurSpecial div').map(function () {
 							interval.push([1, parseInt($(this).children('.type').val()), 'day', task.next]);
 						})
 
@@ -576,15 +558,15 @@ var ui = {
 			ui.lists.updateCount();
 
 		});
-			
-		$('#scheduledDialog .cancel').click(function() {
+
+		$('#scheduledDialog .cancel').click(function () {
 			$addBTN.click();
 		});
 
 		var weeks = '<input type="number"> weeks on <select><option value="1">Monday</option><option value="2">Tuesday</option><option value="3">Wednesday</option> <option value="4">Thursday</option> <option value="5">Friday</option> <option value="6">Saturday</option> <option value="0">Sunday</option></select>';
 		var months = 'on the <select class="type"><option value="1">1st</option> <option value="2">2nd</option> <option value="3">3rd</option> <option value="4">4th</option> <option value="5">5th</option> <option value="6">6th</option> <option value="7">7th</option> <option value="8">8th</option> <option value="9">9th</option> <option value="10">10th</option> <option value="11">11th</option> <option value="12">12th</option> <option value="13">13th</option> <option value="14">14th</option> <option value="15">15th</option> <option value="16">16th</option> <option value="17">17th</option> <option value="18">18th</option> <option value="19">19th</option> <option value="20">20th</option> <option value="21">21st</option> <option value="22">22nd</option> <option value="23">23rd</option> <option value="24">24th</option> <option value="25">25th</option> <option value="26">26th</option> <option value="27">27th</option> <option value="28">28th</option> <option value="29">29th</option> <option value="30">30th</option> <option value="31">31st</option></select> day';
 
-		$body.on('click', '.addRecur', function() {
+		$body.on('click', '.addRecur', function () {
 			var length = $('#recurType').val();
 
 			if (length === 'weekly') {
@@ -592,17 +574,17 @@ var ui = {
 			} else if (length === 'monthly') {
 				$('#recurSpecial').append('<div>And ' + months + '<span class="removeRecur">-</span></div>')
 			}
-			
+
 		});
 
-		$body.on('click', '.removeRecur', function() {
+		$body.on('click', '.removeRecur', function () {
 			$(this).parent().remove();
 		})
 
 		//Date Picker
 		$('#recurNext, #recurEnds').datepicker();
 
-		$('#scheduledDialog input[type=radio]').on('change', function() {
+		$('#scheduledDialog input[type=radio]').on('change', function () {
 			var toggle = $(this).val();
 
 			if (toggle === 'scheduled') {
@@ -617,7 +599,7 @@ var ui = {
 		//First time:
 		$('#recurSpecial').html('<table><tr><td>Every:</td><td><input type="number" min="1" value="7"> days</td></tr></table>');
 
-		$('#recurType').on('change', function() {
+		$('#recurType').on('change', function () {
 			var toggle = $(this).val();
 
 			if (toggle === 'daily') {
@@ -666,34 +648,34 @@ var ui = {
 
 		// Takes a file and sets it as the background
 		var setBG = function (f) {
-			var reader = new FileReader();
-			reader.onload = function (event) {
+				var reader = new FileReader();
+				reader.onload = function (event) {
 
-				if (app === 'js') {
-					localStorage.removeItem('background');
-					localStorage.setItem('background', event.target.result);
-				} else {
-					cli.storage.prefs.background = event.target.result;
-				}
+					if (app === 'js') {
+						localStorage.removeItem('background');
+						localStorage.setItem('background', event.target.result);
+					} else {
+						cli.storage.prefs.background = event.target.result;
+					}
 
-				$tasks[0].style.backgroundImage = 'url(' + event.target.result + ')';
+					$tasks[0].style.backgroundImage = 'url(' + event.target.result + ')';
+				};
+				reader.readAsDataURL(f);
 			};
-			reader.readAsDataURL(f);
-		};
 
 		// BACKGROUND SIZE
 		$('#backgroundSize').change(function () {
 			cli.storage.prefs.bg.size = this.value;
 			switch (this.value) {
-				case 'tile':
-					$tasks.removeClass('shrink zoom').addClass('tile');
-					break;
-				case 'shrink':
-					$tasks.removeClass('tile zoom').addClass('shrink');
-					break;
-				case 'zoom':
-					$tasks.removeClass('tile shrink').addClass('zoom');
-					break;
+			case 'tile':
+				$tasks.removeClass('shrink zoom').addClass('tile');
+				break;
+			case 'shrink':
+				$tasks.removeClass('tile zoom').addClass('shrink');
+				break;
+			case 'zoom':
+				$tasks.removeClass('tile shrink').addClass('zoom');
+				break;
 			}
 			cli.storage.save();
 		});
@@ -709,7 +691,7 @@ var ui = {
 		/**********************************
 			WEB UI LOGIN THING
 		**********************************/
-		$('#login a').click(function() {
+		$('#login a').click(function () {
 			var service = $(this).attr('class');
 
 			//$('#tabSync a.icon[data-service=' + service + ']').click();
@@ -719,7 +701,7 @@ var ui = {
 			} else {
 				//Syncs
 				cli.storage.sync.run(service, function (result) {
-					if(result) {
+					if (result) {
 						$('#login').html('<div class="loading">Success! Loading...</div>')
 					} else {
 						alert('Sync failed :(')
@@ -733,43 +715,43 @@ var ui = {
 				}
 
 				$('#tabSync').html('Not available on web version.');
-				$('#settingsBTN ul .logout').click(function() {
+				$('#settingsBTN ul .logout').click(function () {
 					delete localStorage.jStorage;
 					delete localStorage.background;
 					window.location.reload();
 				});
 			}
-			
+
 		})
 
 		/**********************************
 			SYNC
 		**********************************/
-		
-		if(cli.storage.prefs.sync.hasOwnProperty('access')) {
+
+		if (cli.storage.prefs.sync.hasOwnProperty('access')) {
 			if (app == 'web') {
 				$('#login a.' + cli.storage.prefs.sync.service).click();
 			}
 			var $tabSync = $('#tabSync');
-			
+
 			// Load settings
 			$tabSync.find('.email').html(cli.storage.prefs.sync.email);
 			$tabSync.find('.service').html(cli.storage.prefs.sync.service);
-			
+
 			// Show settings
 			$tabSync.find('.connect').hide();
 			$tabSync.find('.settings').show();
 		}
-		
-		$('#tabSync a.icon').click(function() {
-			
+
+		$('#tabSync a.icon').click(function () {
+
 			var $tabSync = $('#tabSync'),
 				service = $(this).data('service');
-				
-				
+
+
 			// Run sync
 			cli.storage.sync.run(service, function (result) {
-				if(result) {
+				if (result) {
 					$tabSync.find('.email').html(cli.storage.prefs.sync.email);
 					$tabSync.find('.service').html(service);
 					$tabSync.find('.waiting').hide(0);
@@ -777,35 +759,35 @@ var ui = {
 				} else {
 					alert('Sync failed :(')
 				}
-			});			
-			
+			});
+
 			var height = $tabSync.height();
-			
-			$tabSync.find('.connect').fadeOut(0, function() {
+
+			$tabSync.find('.connect').fadeOut(0, function () {
 				$tabSync.height(height)
 			});
 			$tabSync.find('.waiting').show(0);
 		});
-		
+
 		$('#tabSync button.cancel').click(function () {
 			$('#tabSync').find('.waiting').hide(0);
 			$('#tabSync').find('.connect').show(0);
 		});
-		
+
 		$('#tabSync .logout').click(function () {
 			var $tabSync = $('#tabSync');
-			
+
 			// Delete tokens from localstorage
 			delete cli.storage.prefs.sync.email;
 			delete cli.storage.prefs.sync.access;
 			delete cli.storage.prefs.sync.service;
 			cli.storage.save();
-			
+
 			// Go back to main page
 			$tabSync.find('.settings').hide();
-			$tabSync.find('.connect').show(); 
+			$tabSync.find('.connect').show();
 		});
-				
+
 		// SYNC TYPE
 		$('#syncInterval').change(function () {
 			var interval = this.value;
@@ -823,20 +805,20 @@ var ui = {
 			case 'timer':
 				cli.storage.prefs.sync.active = true;
 				var syncTimer = function () {
-					if(cli.storage.prefs.sync.active) {
-						cli.storage.sync.run();
-						ui.sync.running();
-						setTimeout(function() {
-							syncTimer();
-						}, cli.storage.prefs.sync.timer);
+						if (cli.storage.prefs.sync.active) {
+							cli.storage.sync.run();
+							ui.sync.running();
+							setTimeout(function () {
+								syncTimer();
+							}, cli.storage.prefs.sync.timer);
+						}
 					}
-				}
 				syncTimer();
 				break;
 			default:
 				cli.storage.prefs.sync.active = false;
 			}
-			
+
 			cli.storage.prefs.sync.interval = interval;
 			cli.storage.save();
 		});
@@ -919,7 +901,7 @@ var ui = {
 			var taskResults = '';
 
 			// Display results
-			for(var i = 0; i < results.length; i++) {
+			for (var i = 0; i < results.length; i++) {
 				taskResults += ui.tasks.draw(results[i]);
 			}
 
@@ -928,16 +910,16 @@ var ui = {
 				// Re-enable buttons
 				$addBTN.removeClass('disabled');
 			} else {
-				if(results.length) {
+				if (results.length) {
 					$tasks.html('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('searchResults') + query + '</h2><ul>' + taskResults + '</ul>')
 				} else {
 					$tasks.html('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('noResults') + '</h2><ul></ul>');
 				}
 			}
-			
-			
-			
-			
+
+
+
+
 		});
 
 
@@ -1008,7 +990,7 @@ var ui = {
 
 		// KEYBOARD SHORTCUTS
 		$body.on('keydown', '#tasks input', function (e) {
-			if(e.keyCode === 13) {
+			if (e.keyCode === 13) {
 				// $(this).parent().html($(this).val());
 				$editBTN.click();
 				return false;
@@ -1056,10 +1038,7 @@ var ui = {
 			cli.priority(id).set();
 
 			// Display priority (HTML and Class)
-			$(this)
-				.html($.i18n._(cli.priority(id).get()))
-				.removeClass()
-				.addClass(cli.priority(id).get() + ' priority');
+			$(this).html($.i18n._(cli.priority(id).get())).removeClass().addClass(cli.priority(id).get() + ' priority');
 
 			// Add new checkbox colour
 			$('#T' + id).addClass(cli.priority(id).get());
@@ -1133,7 +1112,7 @@ var ui = {
 				data.content = convertStringToLink(this.value);
 				cli.taskData(id).edit(data);
 			}
-			
+
 		});
 
 		// SHOW IN TODAY BUTTON
@@ -1160,7 +1139,7 @@ var ui = {
 
 				//Cli
 				cli.today(id).remove();
-				
+
 			} else {
 				//Adds to Today
 
@@ -1173,7 +1152,7 @@ var ui = {
 						$('#next').append('<li class="hidden" data-id="' + id + '"></li>');
 					}
 				}
-				
+
 				cli.today(id).add();
 			}
 
@@ -1261,18 +1240,18 @@ var ui = {
 				//Position of datepicker
 				var pos = $(this).offset();
 				var top;
-				if (pos.top - 100 < 15 ) {
+				if (pos.top - 100 < 15) {
 					top = 115;
 				} else {
 					top = $(this).offset().top;
 				}
 
 				$('#date').show();
-				
+
 				//Puts new data into date picker
 				var id = $(this).closest('li').attr('id').substr(1).toNum();
 				var date = cli.taskData(id).display().date;
-				
+
 				//Only populate date picker if it has a date
 				if (date === '') {
 					$('#datepicker').datepicker('setDate', new Date());
@@ -1282,8 +1261,11 @@ var ui = {
 
 				//Populate Show in today box
 				$('#showTime').val(cli.taskData(id).display().showInToday);
-					
-				$('#date').css({'left': pos.left - 275, 'top': top - 100});
+
+				$('#date').css({
+					'left': pos.left - 275,
+					'top': top - 100
+				});
 
 				$("#date").click(function (e) {
 					e.stopPropagation();
@@ -1323,15 +1305,11 @@ var ui = {
 
 			if (cli.taskData(id).display().today === 'yesAuto' || cli.taskData(id).display().today === 'manual') {
 
-				$('#tasks ul li.expanded .labels .today')
-					.addClass('inToday')
-					.html($.i18n._('removeFromToday'));
+				$('#tasks ul li.expanded .labels .today').addClass('inToday').html($.i18n._('removeFromToday'));
 
 			} else if (cli.taskData(id).display().today === 'noAuto' || cli.taskData(id).display().today === 'false') {
 
-				$('#tasks ul li.expanded .labels .today')
-					.removeClass('inToday')
-					.html($.i18n._('showInToday'));
+				$('#tasks ul li.expanded .labels .today').removeClass('inToday').html($.i18n._('showInToday'));
 
 			}
 		});
@@ -1369,46 +1347,46 @@ var ui = {
 
 		running: function (type) {
 			type = type || 'on';
-			switch(type) {
-				case 'on':
-					$syncBTN.addClass('running');
-					break;
-				case 'off':
-					$syncBTN.removeClass('running');
-					break;
+			switch (type) {
+			case 'on':
+				$syncBTN.addClass('running');
+				break;
+			case 'off':
+				$syncBTN.removeClass('running');
+				break;
 			}
 		},
 		active: function (type) {
 			type = type || 'on';
-			switch(type) {
-				case 'on':
-					if(cli.storage.prefs.sync.interval !== 'never' && cli.storage.prefs.sync.interval !== 'auto') {
-						$syncBTN.addClass('active');
-					}
-					break;
-				case 'off':
-					$syncBTN.removeClass('active');
-					break;
+			switch (type) {
+			case 'on':
+				if (cli.storage.prefs.sync.interval !== 'never' && cli.storage.prefs.sync.interval !== 'auto') {
+					$syncBTN.addClass('active');
+				}
+				break;
+			case 'off':
+				$syncBTN.removeClass('active');
+				break;
 			}
 		},
-		
-		
-		
+
+
+
 		/**********************************
 			SYNC BUTTON STYLES
 		**********************************/
 		beforeunload: function (type) {
 			type = type || 'on';
-			switch(type) {
-				case 'on':
-					window.onbeforeunload = function () {
-						return "Sync hasn't finished yet!"
-					};
-					break;
-				case 'off':
-					window.onbeforeunload = null;
-					break;
-			}	
+			switch (type) {
+			case 'on':
+				window.onbeforeunload = function () {
+					return "Sync hasn't finished yet!"
+				};
+				break;
+			case 'off':
+				window.onbeforeunload = null;
+				break;
+			}
 		},
 
 
@@ -1419,7 +1397,7 @@ var ui = {
 
 		reload: function () {
 			console.log("Reloading UI");
-			
+
 			// Ubind onbeforeunload
 			ui.sync.beforeunload('off');
 
@@ -1460,7 +1438,7 @@ var ui = {
 		**********************************/
 
 		selected: function () {
-			if($('#sidebar ul li.selected').length) {
+			if ($('#sidebar ul li.selected').length) {
 				return $('#sidebar ul li.selected').attr('id').substr(1).toNum();
 			} else {
 				return 'logbook';
@@ -1481,17 +1459,17 @@ var ui = {
 			$userLists.html('');
 
 			// Loop through lists and generate HTML for each list
-			for (var i=0; i<cli.storage.lists.order.length; i++) {
+			for (var i = 0; i < cli.storage.lists.order.length; i++) {
 				output += '\
 					<li id="L' + cli.storage.lists.order[i] + '">\
 						<div class="editIcon" title="' + $.i18n._('titleEditList') + '"></div>\
 						<div class="delete" title="' + $.i18n._('titleDeleteList') + '"></div>\
 						<div class="count"></div>\
 						<div class="view">\
-							<p>' + cli.storage.lists.items[cli.storage.lists.order[i]].name  + '</p>\
+							<p>' + cli.storage.lists.items[cli.storage.lists.order[i]].name + '</p>\
 						</div>\
 						<div class="edit">\
-							<input type="text" value="' +  cli.storage.lists.items[cli.storage.lists.order[i]].name + '">\
+							<input type="text" value="' + cli.storage.lists.items[cli.storage.lists.order[i]].name + '">\
 							<div class="save" title="' + $.i18n._('titleSaveList') + '"></div>\
 						</div>\
 					</li>';
@@ -1531,7 +1509,7 @@ var ui = {
 				$('#L' + ui.listEditMode + ' .view p').html(newName).parent().show(0);
 
 				ui.lists.updateCount();
-				
+
 				$('#tasks h2').html(newName);
 
 				// Renames list
@@ -1557,18 +1535,18 @@ var ui = {
 			var $listToDelete = $('#L' + id);
 
 			// Removes list from sidebar and then selects a new one
-			if($('#userLists li').length === 1) {
+			if ($('#userLists li').length === 1) {
 				// The last list left -> select next list
 				$listToDelete.remove();
 				$('#Lnext').click();
-			} else if($listToDelete.is(':last-child')) {
+			} else if ($listToDelete.is(':last-child')) {
 				// The list is at the bottom -> Select the one above it
 				$listToDelete.prev().click().next().remove();
 			} else {
 				// The list has one below it -> select it
 				$listToDelete.next().click().prev().remove();
 			}
-			
+
 			ui.lists.updateCount();
 		},
 
@@ -1631,7 +1609,7 @@ var ui = {
 		clicks: 0,
 		lastClicked: "",
 
-		scheduled: function(type) {
+		scheduled: function (type) {
 			if (type == 'edit') {
 				var id = $('#scheduledDialog .inner').attr('data-type');
 
@@ -1639,8 +1617,8 @@ var ui = {
 				var task = cli.scheduled.edit(id.substr(2));
 				var text = $.i18n._('edit');
 
-				if (id.substr(1,1) == 's') {
-					
+				if (id.substr(1, 1) == 's') {
+
 					//Zeros Days
 					var today = new Date();
 					today.setSeconds(0);
@@ -1648,16 +1626,16 @@ var ui = {
 					today.setHours(0);
 					var tmpdate = new Date(task.next)
 
-					var no = (Math.round((tmpdate.getTime() - today.getTime()) / 1000 / 60 / 60 /24)),
+					var no = (Math.round((tmpdate.getTime() - today.getTime()) / 1000 / 60 / 60 / 24)),
 						length = 'days',
 						action = task.list;
-					
+
 					//Hides Bits of UI
 					$('#scheduledDialog .inner .schedule').show(0);
 					$('#scheduledDialog .inner .recurring').hide(0);
-					
 
-				} else if (id.substr(1,1) == 'r') {
+
+				} else if (id.substr(1, 1) == 'r') {
 					//Hides Bits of UI
 					$('#scheduledDialog .inner .schedule').hide(0);
 					$('#scheduledDialog .inner .recurring').show(0);
@@ -1668,7 +1646,7 @@ var ui = {
 					if (task.recurType == 'daily') {
 						$('#recurSpecial input').val(task.recurInterval[0]);
 					} else if (task.recurType == 'weekly') {
-						for (var i=0; i<task.recurInterval.length; i++) {
+						for (var i = 0; i < task.recurInterval.length; i++) {
 							if (i != 0) {
 								$('.addRecur').click()
 							}
@@ -1677,7 +1655,7 @@ var ui = {
 							$($('#recurSpecial div')[i]).children('select').val(task.recurInterval[i][1]);
 						}
 					} else if (task.recurType == 'monthly') {
-						for (var i=0; i<task.recurInterval.length; i++) {
+						for (var i = 0; i < task.recurInterval.length; i++) {
 							if (i != 0) {
 								$('.addRecur').click()
 							}
@@ -1700,11 +1678,11 @@ var ui = {
 
 				$('.radioscheduled').show(0);
 				$('#scheduledDialog .inner .schedule').show(0);
-				$('#scheduledDialog .inner .recurring').hide(0);			
+				$('#scheduledDialog .inner .recurring').hide(0);
 			}
 
 			var output = '<option value="today">' + $.i18n._('today') + '</option><option value="next">' + $.i18n._('next') + '</option>';
-			for (var i=0; i<cli.storage.lists.order.length; i++) {
+			for (var i = 0; i < cli.storage.lists.order.length; i++) {
 				output += '<option value="' + cli.storage.lists.order[i] + '">' + cli.storage.lists.items[cli.storage.lists.order[i]].name + '</option>'
 			};
 
@@ -1728,7 +1706,6 @@ var ui = {
 			var items = cli.populate('list', id);
 
 			// LOGBOOK
-
 			if (id === 'logbook') {
 				$tasks.html('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('logbook') + '</h2><ul id="logbook"></ul>');
 
@@ -1750,9 +1727,8 @@ var ui = {
 
 			// Clears page
 			$tasks.html('');
-			
-			// NEXT - MULTIPLE LISTS
 
+			// NEXT - MULTIPLE LISTS
 			if (id === 'next' && cli.storage.prefs.nextAmount !== 'noLists') {
 
 				for (var i = 0; i < cli.storage.lists.order.length; i++) {
@@ -1786,32 +1762,32 @@ var ui = {
 				}
 			}
 
-			switch(ui.lists.selected()) {
-				case 'today':
-					$tasks.prepend('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('today') + '</h2><ul id="' + id + '"></ul>');
-					break;
-				case 'next':
-					$tasks.prepend('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('next') + '</h2><ul id="' + id + '"></ul>');
-					break;
-				case 'someday':
-					$tasks.prepend('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('someday') + '</h2><ul id="' + id + '"></ul>');
-					break;
-				case 'scheduled':
-					$tasks.prepend('<h2 class="' + cli.storage.prefs.bg.color + '">Scheduled</h2><ul id="' + id + '"></ul>');
-					break;
-				case 'all':
-					$addBTN.addClass('disabled');
-					$tasks.prepend('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('all') + '</h2><ul id="' + id + '"></ul>');
-					break;
-				default:
-					$tasks.prepend('<h2 class="' + cli.storage.prefs.bg.color + '">' + cli.storage.lists.items[id].name + '</h2><ul id="' + id + '"></ul>');
-					break;
+			switch (ui.lists.selected()) {
+			case 'today':
+				$tasks.prepend('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('today') + '</h2><ul id="' + id + '"></ul>');
+				break;
+			case 'next':
+				$tasks.prepend('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('next') + '</h2><ul id="' + id + '"></ul>');
+				break;
+			case 'someday':
+				$tasks.prepend('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('someday') + '</h2><ul id="' + id + '"></ul>');
+				break;
+			case 'scheduled':
+				$tasks.prepend('<h2 class="' + cli.storage.prefs.bg.color + '">Scheduled</h2><ul id="' + id + '"></ul>');
+				break;
+			case 'all':
+				$addBTN.addClass('disabled');
+				$tasks.prepend('<h2 class="' + cli.storage.prefs.bg.color + '">' + $.i18n._('all') + '</h2><ul id="' + id + '"></ul>');
+				break;
+			default:
+				$tasks.prepend('<h2 class="' + cli.storage.prefs.bg.color + '">' + cli.storage.lists.items[id].name + '</h2><ul id="' + id + '"></ul>');
+				break;
 			}
-			
+
 			taskshtml = '';
 
 			//Populates
-			for (var i=0; i < items.length; i++) {
+			for (var i = 0; i < items.length; i++) {
 				if ($('#T' + items[i]).length) {
 					// Task already exists
 					taskshtml += '<li class="hidden" data-id="' + items[i] + '"></li>';
@@ -1828,19 +1804,19 @@ var ui = {
 
 				var reason;
 
-				switch(ui.lists.selected()) {
-					case 'today':
-						reason = $.i18n._('todayText');
-						break;
-					case 'next':
-						reason = $.i18n._('nextText');
-						break;
-					case 'someday':
-						reason = $.i18n._('somedayText');
-						break;
-					default:
-						reason = $.i18n._('customText');
-						break;
+				switch (ui.lists.selected()) {
+				case 'today':
+					reason = $.i18n._('todayText');
+					break;
+				case 'next':
+					reason = $.i18n._('nextText');
+					break;
+				case 'someday':
+					reason = $.i18n._('somedayText');
+					break;
+				default:
+					reason = $.i18n._('customText');
+					break;
 				}
 
 				$tasks.append('<div class="explanation">' + reason + '</div>');
@@ -1854,11 +1830,11 @@ var ui = {
 			$('#tasks ul').sortable({
 				placeholder: "placeholder",
 				distance: 20,
-				appendTo:'body',
+				appendTo: 'body',
 				items: 'li',
 				cursorAt: {
-					top:15,
-					left:15
+					top: 15,
+					left: 15
 				},
 				scroll: false,
 				connectWith: $('#tasks ul'),
@@ -1883,7 +1859,7 @@ var ui = {
 					// If on the motherfucking three mode.
 					// Fuck fuck I've spent two fucking hours making this work
 					if (ui.lists.selected() === 'next') {
-						if(cli.storage.prefs.nextAmount === 'threeItems') {
+						if (cli.storage.prefs.nextAmount === 'threeItems') {
 							ui.tasks.populate('next');
 						}
 
@@ -1902,7 +1878,7 @@ var ui = {
 		**********************************/
 
 		sortStop: function (event, elem) {
-			
+
 			// Removes duplicates from next list (if any)
 			if (ui.lists.selected() === 'next') {
 
@@ -1912,7 +1888,7 @@ var ui = {
 					hiddenValues.push($(this).attr('data-id'));
 				});
 
-				for (var i=0; i<hiddenValues.length; i++) {
+				for (var i = 0; i < hiddenValues.length; i++) {
 
 					//If it is next & has a hidden item, remove the hidden item
 					if ($('#next #T' + hiddenValues[i]).length) {
@@ -1942,11 +1918,11 @@ var ui = {
 			if (ui.lists.selected() === 'next') {
 				//Special Next list
 				if (cli.storage.prefs.nextAmount !== 'noLists') {
-					for (var i=0; i<cli.storage.lists.order.length; i++) {
+					for (var i = 0; i < cli.storage.lists.order.length; i++) {
 						//Gotta love loopception 
 						var tmpOrder = [];
 						$('#tasks ul#' + cli.storage.lists.order[i]).children('li').map(function () {
-							
+
 							if ($(this).children('input[type=checkbox]').attr('checked')) {
 								//Log item
 							} else {
@@ -1959,7 +1935,7 @@ var ui = {
 						if (cli.storage.prefs.nextAmount === 'threeItems') {
 							//gets old array
 							var oldArr = cli.populate('list', cli.storage.lists.order[i]);
-							oldArr.splice(0,3);
+							oldArr.splice(0, 3);
 							var finalArr = tmpOrder.concat(oldArr);
 							cli.list(cli.storage.lists.order[i]).taskOrder(finalArr);
 
@@ -1976,7 +1952,8 @@ var ui = {
 			// Deletes empty lists
 			$('#tasks ul:not(#next)').map(function () {
 				if ($(this).children().length === 0) {
-					$('#tasks h2.' + $(this).attr('id')).remove(); $(this).remove();
+					$('#tasks h2.' + $(this).attr('id')).remove();
+					$(this).remove();
 				}
 			});
 		},
@@ -1989,7 +1966,7 @@ var ui = {
 
 		draw: function (id) {
 
-			if (id.toString().substr(0,1) === 's' || id.toString().substr(0,1) === 'r') {
+			if (id.toString().substr(0, 1) === 's' || id.toString().substr(0, 1) === 'r') {
 				var data = cli.storage.lists.scheduled[parseInt(id.toString().substr(1))];
 			} else {
 				var data = cli.taskData(id).display();
@@ -2007,7 +1984,7 @@ var ui = {
 					today = '<span class="todayLabel">' + $.i18n._('doToday') + '</span>';
 				}
 			}
-			
+
 
 			// DATE LABEL
 			var date = "";
@@ -2023,9 +2000,9 @@ var ui = {
 			}
 
 			var logged = '';
-			if (id.toString().substr(0,1) === 'r') {
+			if (id.toString().substr(0, 1) === 'r') {
 				var checkbox = '<img src="images/recur.png">';
-			} else if (id.toString().substr(0,1) === 's') {
+			} else if (id.toString().substr(0, 1) === 's') {
 				var checkbox = '<img src="images/scheduled.png">';
 			} else if (cli.storage.tasks[id] && cli.storage.tasks[id].logged == true || cli.storage.tasks[id] && cli.storage.tasks[id].logged == 'true') {
 				var checkbox = '<input type="checkbox" checked>';
@@ -2045,9 +2022,9 @@ var ui = {
 			**********************************/
 
 			getID: function () {
-				if($tasks.find('.selected').length) {
+				if ($tasks.find('.selected').length) {
 					return $tasks.find('.selected').attr('id').substr(1).toNum();
-				} else if($tasks.find('.expanded').length) {
+				} else if ($tasks.find('.expanded').length) {
 					return $tasks.find('.expanded').attr('id').substr(1).toNum();
 				} else {
 					return '';
@@ -2071,7 +2048,7 @@ var ui = {
 				} else {
 					var taskData = cli.taskData(id).display();
 				};
-				
+
 				//Draws the Today Label
 				var today = '';
 				if (ui.lists.selected() !== 'scheduled') {
@@ -2146,7 +2123,7 @@ var ui = {
 							date = '';
 						}
 					}
-					
+
 
 					//Turns edit mode off
 					id.children().children('.todotxt').html(convertStringToLink(id.find('input[type="text"]').val()));
@@ -2158,7 +2135,7 @@ var ui = {
 					setTimeout(function () {
 						$('#tasks ul li.deletion .hidden').remove();
 						$('#tasks ul li.deletion').removeClass('deletion expanded');
-						if(staySelected) {
+						if (staySelected) {
 							$(id).addClass('selected');
 						}
 					}, 150);
@@ -2175,37 +2152,85 @@ var ui = {
 		**********************************/
 
 		key: function () {
-			key('up, k', function () {ui.external.cmd('prevTask');});
-			key('down, j', function () {ui.external.cmd('nextTask');});
-			key('⌘+up, ⌘+k', function () {ui.external.cmd('moveTaskUp');});
-			key('⌘+down, ⌘+j', function () {ui.external.cmd('moveTaskDown');});
+			key('up, k', function () {
+				ui.external.cmd('prevTask');
+			});
+			key('down, j', function () {
+				ui.external.cmd('nextTask');
+			});
+			key('⌘+up, ⌘+k', function () {
+				ui.external.cmd('moveTaskUp');
+			});
+			key('⌘+down, ⌘+j', function () {
+				ui.external.cmd('moveTaskDown');
+			});
 
-			key('⇧+up, ⇧+k, i', function () {ui.external.cmd('prevList');});
-			key('⇧+down, ⇧+j, u', function () {ui.external.cmd('nextList');});
-			key('⇧+⌘+up, ⇧+⌘+k', function () {ui.external.cmd('moveListUp');});
-			key('⇧+⌘+down, ⇧+⌘+j', function () {ui.external.cmd('moveListDown');});
+			key('⇧+up, ⇧+k, i', function () {
+				ui.external.cmd('prevList');
+			});
+			key('⇧+down, ⇧+j, u', function () {
+				ui.external.cmd('nextList');
+			});
+			key('⇧+⌘+up, ⇧+⌘+k', function () {
+				ui.external.cmd('moveListUp');
+			});
+			key('⇧+⌘+down, ⇧+⌘+j', function () {
+				ui.external.cmd('moveListDown');
+			});
 
-			key('space', function () {ui.external.cmd('check');});
-			key('enter', function () {ui.external.cmd('editTask'); return false;});
-			key('⌘+enter', function () {ui.external.cmd('editList'); return false;});
+			key('space', function () {
+				ui.external.cmd('check');
+			});
+			key('enter', function () {
+				ui.external.cmd('editTask');
+				return false;
+			});
+			key('⌘+enter', function () {
+				ui.external.cmd('editList');
+				return false;
+			});
 
-			key('delete', function() {ui.external.cmd('delete');});
+			key('delete', function () {
+				ui.external.cmd('delete');
+			});
 
-			key('f', function () {ui.external.cmd('find'); return false;});
-			key('p', function () {ui.external.cmd('prefs');});
+			key('f', function () {
+				ui.external.cmd('find');
+				return false;
+			});
+			key('p', function () {
+				ui.external.cmd('prefs');
+			});
 			// key('a', function () {ui.external.cmd('about');});
 			// key('h', function () {ui.external.cmd('help');});
+			key('n, t', function () {
+				ui.external.cmd('newtask');
+				return false;
+			});
+			key('l', function () {
+				ui.external.cmd('newlist');
+				return false;
+			});
+			key('s', function () {
+				ui.external.cmd('sync');
+			});
 
-			key('n, t', function () {ui.external.cmd('newtask'); return false;});
-			key('l', function () {ui.external.cmd('newlist'); return false;});
-			key('s', function () {ui.external.cmd('sync');});
+			key('1', function () {
+				ui.external.cmd('today');
+			});
+			key('2', function () {
+				ui.external.cmd('next');
+			});
+			key('3', function () {
+				ui.external.cmd('someday');
+			});
+			key('4', function () {
+				ui.external.cmd('logbook');
+			});
 
-			key('1', function () {ui.external.cmd('today');});
-			key('2', function () {ui.external.cmd('next');});
-			key('3', function () {ui.external.cmd('someday');});
-			key('4', function () {ui.external.cmd('logbook');});
-
-			key('esc', function() {ui.external.cmd('escape');});
+			key('esc', function () {
+				ui.external.cmd('escape');
+			});
 		},
 
 
@@ -2216,237 +2241,236 @@ var ui = {
 
 		cmd: function (cmd) {
 			// Contains all the commands
-
-			switch(cmd) {
+			switch (cmd) {
 				// File Menu
-				case 'newtask':
-					$addBTN.click();
-					break;
-				case 'newlist':
-					$addListBTN.click();
-					break;
-				case 'sync':
-					$('#prefsDialog').fadeIn(100);
-					$('a[data-target=#tabSync]').tab('show');
-					$('#settingsOverlay').show(0);
-					break;
+			case 'newtask':
+				$addBTN.click();
+				break;
+			case 'newlist':
+				$addListBTN.click();
+				break;
+			case 'sync':
+				$('#prefsDialog').fadeIn(100);
+				$('a[data-target=#tabSync]').tab('show');
+				$('#settingsOverlay').show(0);
+				break;
 
 				// Edit Menu
-				case 'find':
-					$('#search').focus();
-					break;
-				case 'prefs':
-					$('#prefsDialog').fadeToggle(150);
-					$('a[data-target=#tabGeneral]').tab('show');
-					$('#settingsOverlay').toggle(0);
-					break;
+			case 'find':
+				$('#search').focus();
+				break;
+			case 'prefs':
+				$('#prefsDialog').fadeToggle(150);
+				$('a[data-target=#tabGeneral]').tab('show');
+				$('#settingsOverlay').toggle(0);
+				break;
 
 				// GoTo
-				case 'today':
-					$('#todayList').click();
-					break;
-				case 'next':
-					$('#nextList').click();
-					break;
-				case 'someday':
-					$('#somedayList').click();
-					break;
-				case 'logbook':
-					$logbookBTN.click();
-					break;
+			case 'today':
+				$('#todayList').click();
+				break;
+			case 'next':
+				$('#nextList').click();
+				break;
+			case 'someday':
+				$('#somedayList').click();
+				break;
+			case 'logbook':
+				$logbookBTN.click();
+				break;
 
 				// View menu
-				case 'language':
-					$('#prefsDialog').fadeToggle(150);
-					$('a[data-target=#tabLanguage]').tab('show');
-					$('#settingsOverlay').toggle(0);
-					break;
-				case 'theme':
-					$('#prefsDialog').fadeToggle(150);
-					$('a[data-target=#tabTheme]').tab('show');
-					$('#settingsOverlay').toggle(0);
-					break;
-				case 'syncSettings':
-					$('#prefsDialog').fadeToggle(150);
-					$('a[data-target=#tabSync]').tab('show');
-					$('#settingsOverlay').toggle(0);
-					break;
+			case 'language':
+				$('#prefsDialog').fadeToggle(150);
+				$('a[data-target=#tabLanguage]').tab('show');
+				$('#settingsOverlay').toggle(0);
+				break;
+			case 'theme':
+				$('#prefsDialog').fadeToggle(150);
+				$('a[data-target=#tabTheme]').tab('show');
+				$('#settingsOverlay').toggle(0);
+				break;
+			case 'syncSettings':
+				$('#prefsDialog').fadeToggle(150);
+				$('a[data-target=#tabSync]').tab('show');
+				$('#settingsOverlay').toggle(0);
+				break;
 
 				// Help Menu
-				case 'about':
-					$('#aboutDialog .version').html(version);
-					$('#aboutDialog').fadeToggle(150);
-					$('#settingsOverlay').toggle(0);
-					break;
-				case 'donors':
-					$('#donateDialog').fadeToggle(150);
-					$('#settingsOverlay').toggle(0);
-					break;
-				case 'donate':
-					window.location = 'http://nitrotasks.com/donate.html';
-					break;
-				case 'help':
-					window.location = 'http://nitrotasks.com/help';
-					break;
-				case 'bug':
-					window.location = 'https://github.com/stayradiated/Nitro/issues';
-					break;
+			case 'about':
+				$('#aboutDialog .version').html(version);
+				$('#aboutDialog').fadeToggle(150);
+				$('#settingsOverlay').toggle(0);
+				break;
+			case 'donors':
+				$('#donateDialog').fadeToggle(150);
+				$('#settingsOverlay').toggle(0);
+				break;
+			case 'donate':
+				window.location = 'http://nitrotasks.com/donate.html';
+				break;
+			case 'help':
+				window.location = 'http://nitrotasks.com/help';
+				break;
+			case 'bug':
+				window.location = 'https://github.com/stayradiated/Nitro/issues';
+				break;
 
 				// Extra stuff for keyboard shortcuts
-				case 'editTask':
-					$editBTN.click();
-					break;
-				case 'editList':
-					$('.selected .editIcon').click();
-					break;
-				case 'check':
-					$('.selected input[type=checkbox]').click();
-					break;
-				case 'delete':
-					if($warning.is(':visible')) $("#overlay").click();
-					else $deleteBTN.click();
-					break;
+			case 'editTask':
+				$editBTN.click();
+				break;
+			case 'editList':
+				$('.selected .editIcon').click();
+				break;
+			case 'check':
+				$('.selected input[type=checkbox]').click();
+				break;
+			case 'delete':
+				if ($warning.is(':visible')) $("#overlay").click();
+				else $deleteBTN.click();
+				break;
 
-				case 'prevTask':
-					if(!$('#tasks .selected').length) {
-						$('#tasks li').first().addClass('selected');
-					} else {
-						if(ui.lists.selected() === 'next') {
-							if($('#tasks .selected').is(':first-of-type')) {
-								$('#tasks .selected').parent().prev().prev().find('li').last().find('.todotxt').click();
-							} else {
-								$('#tasks .selected').prevAll('li:not(".hidden")').first().find('.todotxt').click();
-							}
+			case 'prevTask':
+				if (!$('#tasks .selected').length) {
+					$('#tasks li').first().addClass('selected');
+				} else {
+					if (ui.lists.selected() === 'next') {
+						if ($('#tasks .selected').is(':first-of-type')) {
+							$('#tasks .selected').parent().prev().prev().find('li').last().find('.todotxt').click();
 						} else {
-							$('#tasks .selected').prev('li').find('.todotxt').click();
-					}
-					}
-					
-					break;
-				case 'nextTask':
-					if(!$('#tasks .selected').length) {
-						$('#tasks li').first().addClass('selected');
+							$('#tasks .selected').prevAll('li:not(".hidden")').first().find('.todotxt').click();
+						}
 					} else {
-						if(ui.lists.selected() === 'next') {
-							if($('#tasks .selected').is(':last-of-type')) {
-								$('#tasks .selected').parent().next().next().find('li').first().find('.todotxt').click();
-							} else {
-								$('#tasks .selected').nextAll('li:not(".hidden")').first().find('.todotxt').click();
-							}
-						} else {
-							$('#tasks .selected').next('li').find('.todotxt').click();
-						}
+						$('#tasks .selected').prev('li').find('.todotxt').click();
 					}
-					break;
-				case 'prevList':
-					if(!$('#sidebar .selected').length) {
-						$('#sidebar li').first().click();
-					} else if ($('#sidebar .selected').is(':first-of-type')) {
-						$('#sidebar .selected').parent().prev('h2').prev('ul').find('li').last().click();
+				}
+
+				break;
+			case 'nextTask':
+				if (!$('#tasks .selected').length) {
+					$('#tasks li').first().addClass('selected');
+				} else {
+					if (ui.lists.selected() === 'next') {
+						if ($('#tasks .selected').is(':last-of-type')) {
+							$('#tasks .selected').parent().next().next().find('li').first().find('.todotxt').click();
+						} else {
+							$('#tasks .selected').nextAll('li:not(".hidden")').first().find('.todotxt').click();
+						}
 					} else {
-						$('#sidebar .selected').prev('li').click();
+						$('#tasks .selected').next('li').find('.todotxt').click();
 					}
-					break;
-				case 'nextList':
-					if(!$('#sidebar .selected').length) {
-						$('#sidebar li').first().click();
-					} else if ($('#sidebar .selected').is(':last-of-type')) {
-						$('#sidebar .selected').parent().next('h2').next('ul').find('li').first().click();
+				}
+				break;
+			case 'prevList':
+				if (!$('#sidebar .selected').length) {
+					$('#sidebar li').first().click();
+				} else if ($('#sidebar .selected').is(':first-of-type')) {
+					$('#sidebar .selected').parent().prev('h2').prev('ul').find('li').last().click();
+				} else {
+					$('#sidebar .selected').prev('li').click();
+				}
+				break;
+			case 'nextList':
+				if (!$('#sidebar .selected').length) {
+					$('#sidebar li').first().click();
+				} else if ($('#sidebar .selected').is(':last-of-type')) {
+					$('#sidebar .selected').parent().next('h2').next('ul').find('li').first().click();
+				} else {
+					$('#sidebar .selected').next('li').click();
+				}
+				break;
+
+			case 'moveTaskUp':
+				if ($('#tasks .selected').length) {
+					var id = ui.tasks.selected.getID(),
+						$parent = $('#T' + id).parent();
+
+					if (ui.lists.selected() === 'next') {
+						var l = cli.storage.lists.items[$parent.attr('id')].order,
+							i = l.indexOf(id);
 					} else {
-						$('#sidebar .selected').next('li').click();
+						var l = cli.storage.lists.items[ui.lists.selected()].order,
+							i = l.indexOf(id);
 					}
-					break;
 
-				case 'moveTaskUp':
-					if($('#tasks .selected').length) {
-						var id = ui.tasks.selected.getID(),
-							$parent = $('#T' + id).parent();
-
-						if(ui.lists.selected() === 'next') {
-							var l = cli.storage.lists.items[$parent.attr('id')].order,
-								i = l.indexOf(id);
-						} else {
-							var	l = cli.storage.lists.items[ui.lists.selected()].order,
-								i = l.indexOf(id);
-						}
-
-						if(i > 0) {
-							l.splice(i, 1);
-							l.splice(i - 1, 0, id);
-
-							if($parent.is('.wholeList')) {
-								$parent.find('li, p').remove();
-								for (var i in l) {
-									$parent.addClass('wholeList').append(ui.tasks.draw(l[i]));
-								}
-							} else {
-								ui.tasks.populate(ui.lists.selected());
-							}
-
-							$('#T' + id).addClass('selected');
-							cli.storage.save();
-						}
-					}
-					break;
-				case 'moveTaskDown':
-					if($('#tasks .selected').length) {
-						var id = ui.tasks.selected.getID(),
-							$parent = $('#T' + id).parent();
-
-						if(ui.lists.selected() === 'next') {
-							var l = cli.storage.lists.items[$parent.attr('id')].order,
-								i = l.indexOf(id);
-						} else {
-							var	l = cli.storage.lists.items[ui.lists.selected()].order,
-								i = l.indexOf(id);
-						}
-
-						if(i > -1 && !$('#T' + id).is(':last-of-type')) {
-							l.splice(i, 1);
-							l.splice(i + 1, 0, id);
-
-							if($parent.is('.wholeList')) {
-								$parent.find('li, p').remove();
-								for (var i in l) {
-									$parent.addClass('wholeList').append(ui.tasks.draw(l[i]));
-								}
-							} else {
-								ui.tasks.populate(ui.lists.selected());
-							}
-
-							$('#T' + id).addClass('selected');
-							cli.storage.save();
-						}
-					}
-					break;
-				case 'moveListUp':
-					var id = ui.lists.selected(),
-						l = cli.storage.lists.order,
-						i = l.indexOf(id);
-					if(i > 0) {
+					if (i > 0) {
 						l.splice(i, 1);
 						l.splice(i - 1, 0, id);
-						ui.lists.populate();
-						$('#L' + id).addClass('selected');
+
+						if ($parent.is('.wholeList')) {
+							$parent.find('li, p').remove();
+							for (var i in l) {
+								$parent.addClass('wholeList').append(ui.tasks.draw(l[i]));
+							}
+						} else {
+							ui.tasks.populate(ui.lists.selected());
+						}
+
+						$('#T' + id).addClass('selected');
 						cli.storage.save();
 					}
-					break;
-				case 'moveListDown':
-					var id = ui.lists.selected(),
-						l = cli.storage.lists.order,
-						i = l.indexOf(id);
-					if(i > -1) {
+				}
+				break;
+			case 'moveTaskDown':
+				if ($('#tasks .selected').length) {
+					var id = ui.tasks.selected.getID(),
+						$parent = $('#T' + id).parent();
+
+					if (ui.lists.selected() === 'next') {
+						var l = cli.storage.lists.items[$parent.attr('id')].order,
+							i = l.indexOf(id);
+					} else {
+						var l = cli.storage.lists.items[ui.lists.selected()].order,
+							i = l.indexOf(id);
+					}
+
+					if (i > -1 && !$('#T' + id).is(':last-of-type')) {
 						l.splice(i, 1);
 						l.splice(i + 1, 0, id);
-						ui.lists.populate();
-						$('#L' + id).addClass('selected');
+
+						if ($parent.is('.wholeList')) {
+							$parent.find('li, p').remove();
+							for (var i in l) {
+								$parent.addClass('wholeList').append(ui.tasks.draw(l[i]));
+							}
+						} else {
+							ui.tasks.populate(ui.lists.selected());
+						}
+
+						$('#T' + id).addClass('selected');
 						cli.storage.save();
 					}
-					break;
+				}
+				break;
+			case 'moveListUp':
+				var id = ui.lists.selected(),
+					l = cli.storage.lists.order,
+					i = l.indexOf(id);
+				if (i > 0) {
+					l.splice(i, 1);
+					l.splice(i - 1, 0, id);
+					ui.lists.populate();
+					$('#L' + id).addClass('selected');
+					cli.storage.save();
+				}
+				break;
+			case 'moveListDown':
+				var id = ui.lists.selected(),
+					l = cli.storage.lists.order,
+					i = l.indexOf(id);
+				if (i > -1) {
+					l.splice(i, 1);
+					l.splice(i + 1, 0, id);
+					ui.lists.populate();
+					$('#L' + id).addClass('selected');
+					cli.storage.save();
+				}
+				break;
 
-				case 'escape':
-					$('#overlay, #settingsOverlay').click();
-					break;
+			case 'escape':
+				$('#overlay, #settingsOverlay').click();
+				break;
 			}
 		}
 	},
@@ -2501,11 +2525,11 @@ var ui = {
 
 /* Konami Code */
 var kkeys = [],
-konami    = '38,38,40,40,37,39,37,39,66,65';
+	konami = '38,38,40,40,37,39,37,39,66,65';
 
-$(document).keydown(function(e) {
+$(document).keydown(function (e) {
 	kkeys.push(e.keyCode);
-	if (kkeys.toString().indexOf( konami ) >= 0) {
+	if (kkeys.toString().indexOf(konami) >= 0) {
 		$(document).unbind('keydown');
 		$body.append('<section id="song"><a onclick="play(\'george\')" href="#"><img src="images/george.png"></a><a onclick="play(\'jono\')" href="#"><img src="images/jono.png"></a></section>');
 		$('#song').fadeIn(300);
