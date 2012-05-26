@@ -2,24 +2,7 @@
 sessionStorage.setItem('selected', sessionStorage.getItem('selected') || 'today');
 
 //Templates
-var taskTemplate = $$({}, '<li data-bind="content"></li>');
-var listTemplate = $$({}, '<li data-bind="name"></li>', {
-	'click &': function() {
-		//Selected List
-		sessionStorage.setItem('selected', this.model.get('id'));
-		$('.selected').removeClass('selected');
-		$(this.view.$()).addClass('selected');
 
-		//Gets list id & populates
-		$('#tasks').html('<div><h2>' + this.model.get('name') + '</h2><ul></ul></div>')
-		var tasks = core.list(this.model.get('id')).populate();
-
-		//Loops and adds each task to the dom
-		for (var i=0; i<tasks.length; i++) {
-			ui.tasks.draw(tasks[i]);
-		} 
-	}
-});
 //Buttons
 var listAddBTN = $$({name: 'Add List'}, '<button data-bind="name"/>', {
 	'click &': function() {
@@ -45,7 +28,7 @@ var taskAddBTN = $$({name: 'Add Task'}, '<button data-bind="name"/>', {
 $(document).ready(function() {
 	ui.initLoad();
 	ui.reload();
-})
+});
 
 var ui = {
 	initLoad: function() {
@@ -59,6 +42,19 @@ var ui = {
 
 		//Splitter
 		$('#content').splitter({sizeLeft: true});
+		var height = $(window).height(),
+			width = $(window).width()
+
+		$(window).resize(function() {
+			//Causes lag without it?
+			if (height != $(window).height() || width != $(window).width()) {
+				//Redefines
+				height = $(window).height(),
+				width = $(window).width()
+
+				$('#content').trigger('resize');
+			}
+		});
 	},
 	reload: function() {
 		//Populates Template
@@ -73,7 +69,7 @@ var ui = {
 	tasks: {
 		//Draws a task to the DOM.
 		draw: function(taskId) {
-			var obj = $$(taskTemplate, {id: taskId, content: core.storage.tasks[taskId].content});
+			var obj = $$(ui.templates.taskTemplate, {id: taskId, content: core.storage.tasks[taskId].content});
 			$$.document.append(obj, $('#tasks ul'));
 		}
 	},
@@ -81,14 +77,34 @@ var ui = {
 		//Draws a list to the DOM
 		draw: function(listId) {
 			if (typeof(listId) == 'string') {
-				var obj = $$(listTemplate, {id: listId, name: listId});
+				var obj = $$(ui.templates.listTemplate, {id: listId, name: listId});
 				$$.document.append(obj, $('#smartlists ul'));
 			} else {
-				var obj = $$(listTemplate, {id: listId, name: core.storage.lists.items[listId].name});
+				var obj = $$(ui.templates.listTemplate, {id: listId, name: core.storage.lists.items[listId].name});
 				$$.document.append(obj, $('#lists ul'));
 			}
 						
 			$(obj.view.$()).attr('id', 'L' + obj.model.get('id'))
 		}
+	},
+	templates: {
+		taskTemplate: $$({}, '<li data-bind="content"></li>'),
+		listTemplate: $$({}, '<li data-bind="name"></li>', {
+			'click &': function() {
+				//Selected List
+				sessionStorage.setItem('selected', this.model.get('id'));
+				$('.selected').removeClass('selected');
+				$(this.view.$()).addClass('selected');
+
+				//Gets list id & populates
+				$('#tasks').html('<div><h2>' + this.model.get('name') + '</h2><ul></ul></div>')
+				var tasks = core.list(this.model.get('id')).populate();
+
+				//Loops and adds each task to the dom
+				for (var i=0; i<tasks.length; i++) {
+					ui.tasks.draw(tasks[i]);
+				} 
+			}
+		})
 	}
 }
