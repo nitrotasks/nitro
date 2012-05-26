@@ -4,15 +4,6 @@ html, body {
 		height: 100%;
 		width: 100%;
 }
-#panel {
-	position: fixed;
-	top: 0;
-	width: 100%;
-	left: 0;
-	height: 40px;
-	z-index: 5;
-	background: #444;
-}
 #content {
 	position: absolute;
 	top: 0;
@@ -26,23 +17,30 @@ html, body {
 	position: absolute;
 	z-index: 1;
 	box-sizing: border-box;
-	padding-top: 40px;
 	min-width: 150px;
 	width: 200px;
 	max-width: 350px;
 }
 #tasks {
-	padding-top: 40px;
 	position: absolute;
 	height: 100%;
 	z-index: 1;
 	box-sizing: border-box;		
 }
-#tasks div {
+#tasks .content {
 	height: 100%;
 	overflow-y: auto;
 }
+.panel {
+	height: 40px;
+	width: 100%;
+	background: #444;
+	z-index: 4;
+	position: relative;
+}
 .vsplitbar {
+	border-right: 4px solid transparent;
+	box-sizing: border-box;
 	z-index: 3;
 	position: absolute;
 	-webkit-user-select: none;
@@ -50,6 +48,8 @@ html, body {
 	-ms-user-select: none;
 	-webkit-user-select: none;
 	width: 5px;
+	border-left: 1px solid #444;
+	box-shadow: 0 -40px 0 #444;
+	margin-top: 40px;
 	height: 100%;
-	background: #000;
 }

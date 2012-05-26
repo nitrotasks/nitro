@@ -15,7 +15,7 @@ var ui = {
 		ui.lists.draw('next');
 		ui.lists.draw('all');
 
-		$$.document.append(ui.buttons.taskAddBTN, $('#panel'));
+		$$.document.append(ui.buttons.taskAddBTN, $('#tasks .panel'));
 
 		//Splitter
 		$('#content').splitter({sizeLeft: true});
@@ -74,7 +74,7 @@ var ui = {
 				$(this.view.$()).addClass('selected');
 
 				//Gets list id & populates
-				$('#tasks').html('<div><h2>' + this.model.get('name') + '</h2><ul></ul></div>')
+				$('#tasks .content').html('<h2>' + this.model.get('name') + '</h2><ul></ul>')
 				var tasks = core.list(this.model.get('id')).populate();
 
 				//Loops and adds each task to the dom
