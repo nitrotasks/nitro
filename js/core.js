@@ -100,10 +100,9 @@ var core = {
 				}
 
 				//Remove from List order
-				for (var i=0; i<core.storage.lists.order.length; i++) {
-					if (core.storage.lists.order[i] == id) {
-						core.storage.lists.order.splice(i, 1);
-					}
+				var index = cli.storage.lists.order.indexOf(id);
+				if(index > -1) {
+					core.storagelists.order.splice(index, 1);
 				}
 
 				//Deletes List
