@@ -1,5 +1,6 @@
 (function($) {
 
+	var app = app || 'js';
 	var json_encode = $.toJSON || Object.toJSON || (window.JSON && (JSON.encode || JSON.stringify)),
 
 	/* function to decode objects from JSON strings */

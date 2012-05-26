@@ -41,7 +41,7 @@ var core = {
 
 				//Pushes to array
 				core.storage.lists.items[list].order.unshift(taskId);
-				console.log(this)
+				core.storage.save();
 				console.log('Adding Task: ' + name + ' into list: ' + list);
 
 				return taskId;
@@ -67,6 +67,8 @@ var core = {
 					core.storage.tasks[id].list = list;
 					console.log('Moved: ' + id + ' to ' + list);
 				}
+				//Saves
+				core.storage.save();
 			}
 		}
 	},
@@ -91,6 +93,7 @@ var core = {
 
 				//Adds to order array
 				core.storage.lists.order.push(listId);
+				core.storage.save();
 				console.log("Created List: '" + name + "' with id: " + listId);
 
 				return listId;
@@ -109,6 +112,7 @@ var core = {
 
 				//Deletes List
 				delete core.storage.lists.items[id];
+				core.storage.save();
 			},
 			populate: function() {
 				if (id == 'all') {
@@ -138,10 +142,10 @@ var core = {
 		}
 	},
 	storage: {
-		tasks: {
+		tasks: $.polyStorage.get('tasks', {
 			length:0
-		},
-		lists: {
+		}),
+		lists: $.polyStorage.get('lists', {
 			order: [],
 			items: {
 				today: {
@@ -161,6 +165,10 @@ var core = {
 				length: 0
 			},
 			time: 0
+		}),
+		save: function() {
+			$.polyStorage.set('tasks', this.tasks);
+			$.polyStorage.set('lists', this.lists);
 		}
 	}
 }
