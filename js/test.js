@@ -11,7 +11,7 @@ var listTemplate = $$({}, '<li data-bind="name"></li>', {
 		$(this.view.$()).addClass('selected');
 
 		//Gets list id & populates
-		$('#tasks').html('<div>' + this.model.get('name') + '<ul></ul></div>')
+		$('#tasks').html('<div><h2>' + this.model.get('name') + '</h2><ul></ul></div>')
 		var tasks = core.list(this.model.get('id')).populate();
 
 		//Loops and adds each task to the dom
@@ -50,19 +50,20 @@ $(document).ready(function() {
 var ui = {
 	initLoad: function() {
 		//Buttons
+		$('#smartlists').html('<h2>Focus</h2><ul></ul>');
 		ui.lists.draw('today');
 		ui.lists.draw('next');
 		ui.lists.draw('all');
 
 		$$.document.append(taskAddBTN, $('#panel'));
-		$$.document.append(listAddBTN, $('#panel'));
 
 		//Splitter
 		$('#content').splitter({sizeLeft: true});
 	},
 	reload: function() {
 		//Populates Template
-		$('#lists').html('<ul></ul>');
+		$('#lists').html('<h2>Lists</h2><ul></ul>');
+		$$.document.append(listAddBTN, $('#lists h2'));
 		for (var i=0; i<core.storage.lists.order.length; i++) {
 			ui.lists.draw(core.storage.lists.order[i]);
 		}

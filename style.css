@@ -1,0 +1,45 @@
+html, body {
+		padding: 0;
+		margin: 0;
+		height: 100%;
+		width: 100%;
+}
+#panel {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	left: 0;
+	height: 40px;
+	z-index: 5;
+	background: #444;
+}
+#content {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+}
+#sidebar {
+	height: 100%;
+	box-sizing: border-box;
+	padding-top: 40px;
+	min-width: 150px;
+	width: 200px;
+	max-width: 350px;
+}
+#tasks {
+	padding-top: 40px;
+	height: 100%;
+	box-sizing: border-box;		
+}
+#tasks div {
+	height: 100%;
+	overflow-y: auto;
+}
+.vsplitbar {
+	width: 5px;
+	height: 100%;
+	background: #000;
+}
