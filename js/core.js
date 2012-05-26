@@ -43,6 +43,8 @@ var core = {
 				core.storage.lists.items[list].order.unshift(taskId);
 				console.log(this)
 				console.log('Adding Task: ' + name + ' into list: ' + list);
+
+				return taskId;
 			},
 
 			/* Move a task somewhere.
