@@ -1,10 +1,6 @@
 //Session Vars
 sessionStorage.setItem('selected', sessionStorage.getItem('selected') || 'today');
 
-//Templates
-
-
-
 //When everything is ready
 $(document).ready(function() {
 	ui.initLoad();
