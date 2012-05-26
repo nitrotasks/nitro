@@ -17,7 +17,7 @@
 var core = {
 	task: function(id) {
 		return {
-			add: function(name) {
+			add: function(name, list) {
 				//ID of task
 				var taskId = core.storage.tasks.length;
 				core.storage.tasks.length++;
@@ -40,9 +40,9 @@ var core = {
 				};
 
 				//Pushes to array
-				core.storage.lists.items[id].order.unshift(taskId);
+				core.storage.lists.items[list].order.unshift(taskId);
 				console.log(this)
-				console.log('Adding Task: ' + name + ' into list: ' + id);
+				console.log('Adding Task: ' + name + ' into list: ' + list);
 			},
 
 			/* Move a task somewhere.
@@ -52,13 +52,11 @@ var core = {
 
 			move: function(list) {
 				//Remove from list
-				for (var i=0; i<core.storage.lists.items[core.storage.tasks[id].list].order.length; i++) {
-					if (core.storage.lists.items[core.storage.tasks[id].list].order[i] == id) {
-						core.storage.lists.items[core.storage.tasks[id].list].order.splice(i, 1);
-					}
-				}
-
-				if (list == 'trash') {
+				var taskList = core.storage.lists.items[core.storage.tasks[id].list].order,
+					index = taskList.indexOf(list);
+				if (index > -1) taskList.splice(index, 1);
+				
+				if (list === 'trash') {
 					delete core.storage.tasks[id];
 					console.log('Deleted: ' + id);
 				} else {
