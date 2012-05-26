@@ -92,6 +92,8 @@ var core = {
 				//Adds to order array
 				core.storage.lists.order.push(listId);
 				console.log("Created List: '" + name + "' with id: " + listId);
+
+				return listId;
 			},
 			delete: function() {
 				//Deletes tasks in a list
