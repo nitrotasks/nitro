@@ -55,10 +55,10 @@
 					return json_decode(xcode);
 				}
 			} else {
-				if (localStorage[key] == undefined) {
+				if (localStorage[name] == undefined) {
 					return def;
 				} else {
-					return json_decode(localStorage[key]);	
+					return json_decode(localStorage[name]);	
 				}
 			}
 			
