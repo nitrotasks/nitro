@@ -18,19 +18,55 @@ var core = {
 	task: function(id) {
 		return {
 			add: function(name) {
+				//ID of task
+				var taskId = core.storage.tasks.length;
+				core.storage.tasks.length++;
+
+				//Saves
+				core.storage.tasks[taskId] = {
+					content: name,
+					priority: 'none',
+					date: '',
+					notes: '',
+					list: id,
+					time: {
+						content: 0,
+						priority: 0,
+						date: 0,
+						notes: 0,
+						list: 0,
+					},
+					synced: false
+				};
+
+				//Pushes to array
+				core.storage.lists.items[id].order.unshift(taskId);
+				console.log(this)
 				console.log('Adding Task: ' + name + ' into list: ' + id);
 			},
-			edit: function(obj) {
 
-			},
+			/* Move a task somewhere.
+			e.g: core.task(0).move('next');
+
+			To delete something, move to 'trash' */
+
 			move: function(list) {
+				//Remove from list
+				for (var i=0; i<core.storage.lists.items[core.storage.tasks[id].list].order.length; i++) {
+					if (core.storage.lists.items[core.storage.tasks[id].list].order[i] == id) {
+						core.storage.lists.items[core.storage.tasks[id].list].order.splice(i, 1);
+					}
+				}
 
-			},
-			delete: function() {
-
-			},
-			log: function() {
-
+				if (list == 'trash') {
+					delete core.storage.tasks[id];
+					console.log('Deleted: ' + id);
+				} else {
+					//Move to other list
+					core.storage.lists.items[list].order.unshift(id);
+					core.storage.tasks[id].list = list;
+					console.log('Moved: ' + id + ' to ' + list);
+				}
 			}
 		}
 	},
@@ -38,17 +74,92 @@ var core = {
 	list: function(id) {
 		return {
 			add: function(name) {
+				//New ID
+				var listId = core.storage.lists.items.length;
+				core.storage.lists.items.length++;
 
-			},
-			edit: function(obj) {
+				//Chucks data in object
+				core.storage.lists.items[listId] = {
+					name: name,
+					order: [],
+					time: {
+						name: 0,
+						order: 0
+					},
+					synced: false
+				};
 
+				//Adds to order array
+				core.storage.lists.order.push(listId);
+				console.log("Created List: '" + name + "' with id: " + listId);
 			},
 			delete: function() {
+				//Deletes tasks in a list
+				for (var i = 0; i < core.storage.lists.items[id].order.length; i++) {
+					core.task(cli.storage.lists.items[id].order[i]).move('trash');
+				}
 
+				//Remove from List order
+				for (var i=0; i<core.storage.lists.order.length; i++) {
+					if (core.storage.lists.order[i] == id) {
+						core.storage.lists.order.splice(i, 1);
+					}
+				}
+
+				//Deletes List
+				delete core.storage.lists.items[id];
 			},
 			populate: function() {
+				if (id == 'all') {
 
+					var results = [];
+
+					// Loop
+					for (var i=0; i<core.storage.tasks.length; i++) {
+
+						// If task exists
+						if (core.storage.tasks[i]) {
+							results.push(i);
+						}
+					}
+
+					return results;
+
+				} else {
+
+					if (id in core.storage.lists.items) {
+						return core.storage.lists.items[id].order;
+					} else {
+						return [];
+					}
+				}
 			}
+		}
+	},
+	storage: {
+		tasks: {
+			length:0
+		},
+		lists: {
+			order: [],
+			items: {
+				today: {
+					order: [],
+					time: {
+						name: 0,
+						order: 0
+					}
+				},
+				next: {
+					order: [],
+					time: {
+						name: 0,
+						order: 0
+					}
+				},
+				length: 0
+			},
+			time: 0
 		}
 	}
 }
