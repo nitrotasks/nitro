@@ -18,14 +18,13 @@ function escapeObj(obj) {
 		return obj.constructor == Array;
 	}
 
-	out = {};
+	var out = {};
 
 	for (var key in obj) {
-		out[key] = escapeStr(obj[key]);
 		if (typeof obj[key] === 'object' && isArray(obj[key]) == false) {
-			out[key] = escapeObj(out[key]);
+			out[key] = escapeObj(obj[key]);
 		} else {
-			out[key] = escapeStr(out[key]);
+			out[key] = escapeStr(obj[key]);
 		}
 	}
 	return out;
