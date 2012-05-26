@@ -10,7 +10,6 @@ var listTemplate = $$({}, '<li data-bind="name"></li>', {
 
 		//Loops and adds each task to the dom
 		for (var i=0; i<tasks.length; i++) {
-			console.log(tasks[i])
 			ui.tasks.draw(tasks[i]);
 		} 
 	}
@@ -20,11 +19,12 @@ var listAddBTN = $$({name: 'Add List'}, '<button data-bind="name"/>', {
 	'click &': function() {
 
 		//Adds a list with the core
-		var list = core.list().add('New List');
+		var listId = core.list().add('New List');
 
 		//Populates Template
-		var obj = $$(listTemplate, {id: list, name: core.storage.lists.items[list].name});
-		$$.document.append(obj, $('#lists ul'));
+		//var obj = $$(listTemplate, {id: list, name: core.storage.lists.items[list].name});
+		//$$.document.append(obj, $('#lists ul'));
+		ui.lists.draw(listId);
 	}
 });
 var taskAddBTN = $$({name: 'Add Task'}, '<button data-bind="name"/>', {
@@ -35,15 +35,34 @@ var taskAddBTN = $$({name: 'Add Task'}, '<button data-bind="name"/>', {
 		ui.tasks.draw(taskId);
 	}
 });
-$$.document.append(taskAddBTN);
-$$.document.append(listAddBTN, $('#lists'));
+
+//When everything is ready
+$(document).ready(function() {
+	$$.document.append(taskAddBTN);
+	$$.document.append(listAddBTN);
+
+	ui.reload();
+})
 
 var ui = {
+	reload: function() {
+		//Populates Template
+		$('#lists').html('<ul></ul>');
+		for (var i=0; i<core.storage.lists.order.length; i++) {
+			ui.lists.draw(core.storage.lists.order[i]);
+		}
+	},
 	tasks: {
 		//Draws a task to the DOM.
 		draw: function(taskId) {
 			var obj = $$(taskTemplate, {id: taskId, content: core.storage.tasks[taskId].content});
 			$$.document.append(obj, $('#tasks ul'));
+		}
+	},
+	lists: {
+		draw: function(listId) {
+			var obj = $$(listTemplate, {id: listId, name: core.storage.lists.items[listId].name});
+			$$.document.append(obj, $('#lists ul'));
 		}
 	}
 }
