@@ -102,7 +102,7 @@ var core = {
 				//Remove from List order
 				var index = cli.storage.lists.order.indexOf(id);
 				if(index > -1) {
-					core.storagelists.order.splice(index, 1);
+					core.storage.lists.order.splice(index, 1);
 				}
 
 				//Deletes List
