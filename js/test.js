@@ -49,12 +49,16 @@ $(document).ready(function() {
 
 var ui = {
 	initLoad: function() {
+		//Buttons
 		ui.lists.draw('today');
 		ui.lists.draw('next');
 		ui.lists.draw('all');
 
-		$$.document.append(taskAddBTN);
-		$$.document.append(listAddBTN);
+		$$.document.append(taskAddBTN, $('#panel'));
+		$$.document.append(listAddBTN, $('#panel'));
+
+		//Splitter
+		$('#content').splitter({sizeLeft: true});
 	},
 	reload: function() {
 		//Populates Template

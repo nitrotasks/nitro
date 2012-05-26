@@ -1,27 +1,61 @@
 <!DOCTYPE html>
 <html>
 	<meta charset=utf-8>
+	<style>
+	html, body {
+		padding: 0;
+		margin: 0;
+		height: 100%;
+		width: 100%;
+	}
+	#panel {
+		position: fixed;
+		top: 0;
+		width: 100%;
+		left: 0;
+		height: 40px;
+		z-index: 5;
+		background: #444;
+	}
+	#content {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		overflow: hidden;
+	}
+	#sidebar {
+		height: 100%;
+		box-sizing: border-box;
+		padding-top: 40px;
+		min-width: 150px;
+		width: 200px;
+		max-width: 350px;
+	}
+	#tasks {
+		padding-top: 40px;
+		overflow-y: auto;
+	}
+	.vsplitbar {
+		width: 5px;
+		height: 100%;
+		background: #000;
+	}
+	</style>
 <body>
-<!--<p>Nitro Dev. Command line only</p>
-
-New API thing:
-
-core object:
-ul>
-	<li>task().add(name)</li>
-	<li>task(id).move(list)</li>
-</ul>
-<ul>
-	<li>list().add(name)</li>
-	<li>list(id).delete()</li>
-	<li>list(id).populate()</li>
-</ul-->
-<div id="smartlists"><ul></ul></div>
-<div id="lists"></div>
-<div id="tasks"></div>
+<section id="panel"></section>
+<section id="content">
+	<div id="sidebar">
+		<div id="smartlists"><ul></ul></div>
+		<div id="lists"></div>
+	</div>
+	<div id="tasks"></div>
+</section>
 <script src=js/libs/jquery.js></script>
 <script src=js/libs/agility.js></script>
 <script src=js/libs/polyStorage.js></script>
+<script src=js/libs/splitter.js></script>
 <script src=js/core.js></script>
 <script src=js/test.js></script>
 </body>
