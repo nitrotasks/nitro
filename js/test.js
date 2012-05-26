@@ -11,7 +11,7 @@ var listTemplate = $$({}, '<li data-bind="name"></li>', {
 		$(this.view.$()).addClass('selected');
 
 		//Gets list id & populates
-		$('#tasks').html('List<ul></ul>')
+		$('#tasks').html('<div>' + this.model.get('name') + '<ul></ul></div>')
 		var tasks = core.list(this.model.get('id')).populate();
 
 		//Loops and adds each task to the dom
