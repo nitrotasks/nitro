@@ -23,30 +23,39 @@ var listTemplate = $$({}, '<li data-bind="name"></li>', {
 //Buttons
 var listAddBTN = $$({name: 'Add List'}, '<button data-bind="name"/>', {
 	'click &': function() {
-
 		//Adds a list with the core
 		var listId = core.list().add('New List');
 		ui.lists.draw(listId);
+
+		//Selects List
+		$('#L' + listId).click();
 	}
 });
 var taskAddBTN = $$({name: 'Add Task'}, '<button data-bind="name"/>', {
 	'click &': function() {
-
-		//Adds a task with the core
-		var taskId = core.task().add('New Task', sessionStorage.getItem('selected'));
-		ui.tasks.draw(taskId);
+		if (sessionStorage.getItem('selected') != 'all') {
+			//Adds a task with the core
+			var taskId = core.task().add('New Task', sessionStorage.getItem('selected'));
+			ui.tasks.draw(taskId);
+		}		
 	}
 });
 
 //When everything is ready
 $(document).ready(function() {
-	$$.document.append(taskAddBTN);
-	$$.document.append(listAddBTN);
-
+	ui.initLoad();
 	ui.reload();
 })
 
 var ui = {
+	initLoad: function() {
+		ui.lists.draw('today');
+		ui.lists.draw('next');
+		ui.lists.draw('all');
+
+		$$.document.append(taskAddBTN);
+		$$.document.append(listAddBTN);
+	},
 	reload: function() {
 		//Populates Template
 		$('#lists').html('<ul></ul>');
@@ -66,8 +75,14 @@ var ui = {
 	lists: {
 		//Draws a list to the DOM
 		draw: function(listId) {
-			var obj = $$(listTemplate, {id: listId, name: core.storage.lists.items[listId].name});
-			$$.document.append(obj, $('#lists ul'));
+			if (typeof(listId) == 'string') {
+				var obj = $$(listTemplate, {id: listId, name: listId});
+				$$.document.append(obj, $('#smartlists ul'));
+			} else {
+				var obj = $$(listTemplate, {id: listId, name: core.storage.lists.items[listId].name});
+				$$.document.append(obj, $('#lists ul'));
+			}
+						
 			$(obj.view.$()).attr('id', 'L' + obj.model.get('id'))
 		}
 	}
