@@ -23,6 +23,8 @@ html, body {
 }
 #sidebar {
 	height: 100%;
+	position: absolute;
+	z-index: 1;
 	box-sizing: border-box;
 	padding-top: 40px;
 	min-width: 150px;
@@ -31,7 +33,9 @@ html, body {
 }
 #tasks {
 	padding-top: 40px;
+	position: absolute;
 	height: 100%;
+	z-index: 1;
 	box-sizing: border-box;		
 }
 #tasks div {
@@ -39,6 +43,12 @@ html, body {
 	overflow-y: auto;
 }
 .vsplitbar {
+	z-index: 3;
+	position: absolute;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-webkit-user-select: none;
 	width: 5px;
 	height: 100%;
 	background: #000;
