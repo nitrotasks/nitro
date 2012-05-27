@@ -1,0 +1,135 @@
+@import "compass/css3/images";
+
+html, body {
+	padding: 0;
+	margin: 0;
+	height: 100%;
+	width: 100%;
+	
+	font: 14px/25px 'Helvetica Neue';
+}
+
+#content {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+}
+
+#sidebar {
+	height: 100%;
+	position: absolute;
+	z-index: 1;
+	box-sizing: border-box;
+	min-width: 150px;
+	width: 200px;
+	max-width: 350px;
+	
+	background: #f7f7f7;
+	
+	h2 {
+		margin: 0;
+		padding: 5px 0 5px 18px;
+		font-size: 16px;
+		background: #eff1f5;
+		@include background(linear-gradient(top, #f6f7f8 0%, #e7eaf2 100%));
+		border-bottom: 1px solid #d1d2d4;
+	}
+	
+	ul {
+		margin: 0;
+		padding: 0;
+		li {
+			display: block;
+			height: 33px;
+			line-height: 33px;
+			text-shadow: 0 1px 0 #fff;
+			font-weight: bold;
+			color: #444444;
+			padding-left: 18px;
+			border-bottom: 1px solid #e1e2e4;
+			background-image: #f6f6f7;
+			@include background(linear-gradient(top, #f8f8f8 0%, #f4f4f6 100%));
+			cursor: pointer;
+			
+			&:first-of-type {
+				border-top: 1px solid #fff;
+			}
+			
+			&:hover {
+				background-image: #fbfcfd;
+				@include background(linear-gradient(top, #ffffff 0%, #f7f8fa 100%));
+			}
+		}
+	}
+}
+
+#tasks {
+	position: absolute;
+	height: 100%;
+	z-index: 1;
+	box-sizing: border-box;
+		
+	.content {
+		height: 100%;
+		overflow-y: auto;
+		
+		
+		h2 {
+			text-align: center;
+		}
+		
+		ul {
+			padding-right: 40px;
+		
+			li {
+				display: block;
+				height: 30px;
+				margin: 4px 0;
+				padding-left: 15px;
+				cursor: pointer;
+				
+				background-image: #f3f3f3;
+				@include background(linear-gradient(top, #fcfcfc 0%, #f0f0f0 100%));
+				box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+				
+				border: 1px solid #ccc;
+				border-radius: 5px;
+						
+				font-size: 14px;
+				line-height: 30px;
+				color: #111;
+				
+				&:hover {
+					background-image: #f2f2f2;
+					@include background(linear-gradient(top, #f9f9f9 0%, #eaeaea 100%));
+				}
+			}
+		}
+	}
+}
+
+.panel {
+	height: 40px;
+	width: 100%;
+	background: #444;
+	z-index: 4;
+	position: relative;
+}
+.vsplitbar {
+	border-right: 4px solid transparent;
+	box-sizing: border-box;
+	z-index: 3;
+	position: absolute;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-webkit-user-select: none;
+	width: 5px;
+	border-left: 1px solid #b4b4b4;
+	box-shadow: 0 -40px 0 #444;
+	margin-top: 40px;
+	height: 100%;
+}
