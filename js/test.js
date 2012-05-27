@@ -71,8 +71,19 @@ var ui = {
 				$(this.view.$()).addClass('selected');
 			},
 			'dblclick &': function() {
-				$(this.view.$()).removeClass('selected');
-				alert('Clicked x2')
+				//Cache the selector
+				var view = $(this.view.$()); 
+
+				//Checks if it's expanded & if it isn't expand it.
+				if (!view.hasClass('expanded')) {
+					view.addClass('expanded').height(view.height() + view.removeClass('selected').html('New Task<br><div class="hidden">Something<br>Something Else<br>Bleh</div>').children('.hidden').show(0).height());
+				} else {
+					//Collapses
+					view.removeClass('expanded').css('height', '');
+					setTimeout(function() {
+						view.children('.hidden').remove()
+					}, 150);
+				}
 			}
 		}),
 		listTemplate: $$({}, '<li data-bind="name"></li>', {
