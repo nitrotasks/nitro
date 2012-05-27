@@ -83,7 +83,7 @@ var core = {
 				//Chucks data in object
 				core.storage.lists.items[listId] = {
 					name: name,
-					order: new Array,
+					order: [],
 					time: {
 						name: 0,
 						order: 0
@@ -117,7 +117,7 @@ var core = {
 			populate: function() {
 				if (id == 'all') {
 
-					var results = new Array;
+					var results = [];
 
 					// Loop
 					for (var i=0; i<core.storage.tasks.length; i++) {
@@ -135,7 +135,7 @@ var core = {
 					if (id in core.storage.lists.items) {
 						return core.storage.lists.items[id].order;
 					} else {
-						return new Array;
+						return [];
 					}
 				}
 			}
@@ -146,17 +146,17 @@ var core = {
 			length:0
 		}),
 		lists: $.polyStorage.get('lists', {
-			order: new Array,
+			order: [],
 			items: {
 				today: {
-					order: new Array,
+					order: [],
 					time: {
 						name: 0,
 						order: 0
 					}
 				},
 				next: {
-					order: new Array,
+					order: [],
 					time: {
 						name: 0,
 						order: 0
