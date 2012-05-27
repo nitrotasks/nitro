@@ -74,7 +74,7 @@ var ui = {
 		}
 	},
 	templates: {
-		taskTemplate: $$(new Object, '<li data-bind="content"></li>', {
+		taskTemplate: $$({}, '<li data-bind="content"></li>', {
 			'click &': function() {
 				$('#tasks .selected').removeClass('selected');
 				$(this.view.$()).addClass('selected');
@@ -95,7 +95,7 @@ var ui = {
 				}
 			}
 		}),
-		listTemplate: $$(new Object, '<li data-bind="name"></li>', {
+		listTemplate: $$({}, '<li data-bind="name"></li>', {
 			'click &': function() {
 				//Selected List
 				sessionStorage.setItem('selected', this.model.get('id'));
@@ -107,7 +107,7 @@ var ui = {
 				var tasks = core.list(this.model.get('id')).populate();
 
 				//Loops and adds each task to a tmp view
-				var tmpView = $$(new Object);
+				var tmpView = $$({});
 				for (var i=0; i<tasks.length; i++) {
 					tmpView.append($$(ui.templates.taskTemplate, {id: tasks[i], content: core.storage.tasks[tasks[i]].content}));
 				}
