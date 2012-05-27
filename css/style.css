@@ -115,7 +115,7 @@ html, body {
           background: -o-linear-gradient(top, #f9f9f9 0%, #eaeaea 100%);
           background: -ms-linear-gradient(top, #f9f9f9 0%, #eaeaea 100%);
           background: linear-gradient(top, #f9f9f9 0%, #eaeaea 100%); }
-        #tasks .content ul li .selected {
+        #tasks .content ul li.selected {
           background-image: #a2f4ff;
           background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #acfdff), color-stop(100%, #97ebff));
           background: -webkit-linear-gradient(top, #acfdff 0%, #97ebff 100%);

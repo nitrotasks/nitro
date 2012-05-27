@@ -115,7 +115,7 @@ html, body {
 					@include background(linear-gradient(top, #f9f9f9 0%, #eaeaea 100%));
 				}
 				
-				.selected {
+				&.selected {
 					background-image: #a2f4ff;
 					@include background(linear-gradient(top, #acfdff 0%, #97ebff 100%));
 				}
