@@ -1,8 +1,24 @@
+/* Nitro Core
+ *
+ * Copyright (C) 2012 Caffeinated Code <http://caffeinatedco.de>
+ * Copyright (C) 2012 Jono Cooper
+ * Copyright (C) 2012 George Czabania
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+ * Neither the name of Caffeinated Code nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 //Session Vars
 sessionStorage.setItem('selected', sessionStorage.getItem('selected') || 'today');
 
 //When everything is ready
 $(document).ready(function() {
+	//Cache Selectors
 	ui.initLoad();
 	ui.reload();
 });
@@ -43,13 +59,6 @@ var ui = {
 		//Simulates Click on selected list
 		$('#L' + sessionStorage.getItem('selected')).click();
 	},
-	tasks: {
-		//Returns a task model
-		draw: function(taskId) {
-			var obj = $$(ui.templates.taskTemplate, {id: taskId, content: core.storage.tasks[taskId].content});
-			return obj;
-		}
-	},
 	lists: {
 		//Draws a list to the DOM
 		draw: function(listId) {
@@ -65,7 +74,7 @@ var ui = {
 		}
 	},
 	templates: {
-		taskTemplate: $$({}, '<li data-bind="content"></li>', {
+		taskTemplate: $$(new Object, '<li data-bind="content"></li>', {
 			'click &': function() {
 				$('#tasks .selected').removeClass('selected');
 				$(this.view.$()).addClass('selected');
@@ -86,7 +95,7 @@ var ui = {
 				}
 			}
 		}),
-		listTemplate: $$({}, '<li data-bind="name"></li>', {
+		listTemplate: $$(new Object, '<li data-bind="name"></li>', {
 			'click &': function() {
 				//Selected List
 				sessionStorage.setItem('selected', this.model.get('id'));
@@ -98,9 +107,9 @@ var ui = {
 				var tasks = core.list(this.model.get('id')).populate();
 
 				//Loops and adds each task to a tmp view
-				var tmpView = $$({});
+				var tmpView = $$(new Object);
 				for (var i=0; i<tasks.length; i++) {
-					tmpView.append(ui.tasks.draw(tasks[i]));
+					tmpView.append($$(ui.templates.taskTemplate, {id: tasks[i], content: core.storage.tasks[tasks[i]].content}));
 				}
 				$$.document.append(tmpView, $('#tasks ul'));
 			}
@@ -123,7 +132,7 @@ var ui = {
 				if (sessionStorage.getItem('selected') != 'all') {
 					//Adds a task with the core
 					var taskId = core.task().add('New Task', sessionStorage.getItem('selected'));
-					$$.document.append(ui.tasks.draw(taskId), $('#tasks ul'));
+					$$.document.append($$(ui.templates.taskTemplate, {id: taskId, content: core.storage.tasks[taskId].content}), $('#tasks ul'));
 				}		
 			}
 		})
