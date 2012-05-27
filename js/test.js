@@ -44,10 +44,10 @@ var ui = {
 		$('#L' + sessionStorage.getItem('selected')).click();
 	},
 	tasks: {
-		//Draws a task to the DOM.
+		//Returns a task model
 		draw: function(taskId) {
 			var obj = $$(ui.templates.taskTemplate, {id: taskId, content: core.storage.tasks[taskId].content});
-			$$.document.append(obj, $('#tasks ul'));
+			return obj;
 		}
 	},
 	lists: {
@@ -97,10 +97,12 @@ var ui = {
 				$('#tasks .content').html('<h2>' + this.model.get('name') + '</h2><ul></ul>')
 				var tasks = core.list(this.model.get('id')).populate();
 
-				//Loops and adds each task to the dom
+				//Loops and adds each task to a tmp view
+				var tmpView = $$({});
 				for (var i=0; i<tasks.length; i++) {
-					ui.tasks.draw(tasks[i]);
-				} 
+					tmpView.append(ui.tasks.draw(tasks[i]));
+				}
+				$$.document.append(tmpView, $('#tasks ul'));
 			}
 		})
 	}, 
@@ -121,7 +123,7 @@ var ui = {
 				if (sessionStorage.getItem('selected') != 'all') {
 					//Adds a task with the core
 					var taskId = core.task().add('New Task', sessionStorage.getItem('selected'));
-					ui.tasks.draw(taskId);
+					$$.document.append(ui.tasks.draw(taskId), $('#tasks ul'));
 				}		
 			}
 		})
