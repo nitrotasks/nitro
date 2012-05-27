@@ -65,12 +65,21 @@ var ui = {
 		}
 	},
 	templates: {
-		taskTemplate: $$({}, '<li data-bind="content"></li>'),
+		taskTemplate: $$({}, '<li data-bind="content"></li>', {
+			'click &': function() {
+				$('#tasks .selected').removeClass('selected');
+				$(this.view.$()).addClass('selected');
+			},
+			'dblclick &': function() {
+				$(this.view.$()).removeClass('selected');
+				alert('Clicked x2')
+			}
+		}),
 		listTemplate: $$({}, '<li data-bind="name"></li>', {
 			'click &': function() {
 				//Selected List
 				sessionStorage.setItem('selected', this.model.get('id'));
-				$('.selected').removeClass('selected');
+				$('#sidebar .selected').removeClass('selected');
 				$(this.view.$()).addClass('selected');
 
 				//Gets list id & populates
