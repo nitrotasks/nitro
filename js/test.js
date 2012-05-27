@@ -74,7 +74,7 @@ var ui = {
 		}
 	},
 	templates: {
-		taskTemplate: $$({}, '<li data-bind="content"></li>', {
+		taskTemplate: $$({}, '<li><div data-bind="content" class="content"></div><textarea></textarea></li>', {
 			'click &': function() {
 				$('#tasks .selected').removeClass('selected');
 				$(this.view.$()).addClass('selected');
@@ -129,9 +129,10 @@ var ui = {
 		}),
 		taskAddBTN: $$({name: 'Add Task'}, '<button data-bind="name"/>', {
 			'click &': function() {
-				if (sessionStorage.getItem('selected') != 'all') {
+				var list = sessionStorage.getItem('selected');
+				if (list != 'all') {
 					//Adds a task with the core
-					var taskId = core.task().add('New Task', sessionStorage.getItem('selected'));
+					var taskId = core.task().add('New Task', list);
 					$$.document.append($$(ui.templates.taskTemplate, {id: taskId, content: core.storage.tasks[taskId].content}), $('#tasks ul'));
 				}		
 			}
