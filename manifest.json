@@ -1,7 +1,8 @@
 {
   "name": "Nitro",
   "description": "Get stuff done with Nitro.",
-  "version": "1.3",
+  "version": "1.3.1",
+  "offline_enabled": true,
   "app": {
     "launch": {
       "local_path": "index.html"
