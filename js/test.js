@@ -74,23 +74,52 @@ var ui = {
 		}
 	},
 	templates: {
-		taskTemplate: $$({}, '<li><div data-bind="content" class="content"></div><textarea></textarea></li>', {
+		expandedTemplate: $$({}, '<div><input data-bind="content" type="text"><div class="hidden"><textarea data-bind="notes"></textarea></div></div>', {
+			'change input': function() {
+				core.storage.tasks[this.model.get('id')].content = this.model.get('content');
+				core.storage.save();
+			},
+
+			'change textarea': function() {
+				console.log(this.model.get('notes'))
+				core.storage.tasks[this.model.get('id')].notes = this.model.get('notes');
+				core.storage.save();
+			}
+		}),
+
+
+		taskTemplate: $$({}, '<li><div data-bind="content" class="content"></div></li>', {
 			'click &': function() {
 				$('#tasks .selected').removeClass('selected');
 				$(this.view.$()).addClass('selected');
 			},
-			'dblclick &': function() {
+			'dblclick &': function(e) {
 				//Cache the selector
 				var view = $(this.view.$()); 
 
+				console.log(this.model.get('notes'))
+
+				//No event handler things in input or selected.
+				if (e.target.nodeName == 'INPUT' || e.target.nodeName == 'TEXTAREA') {
+					return;
+				}
+
 				//Checks if it's expanded & if it isn't expand it.
 				if (!view.hasClass('expanded')) {
-					view.addClass('expanded').height(view.height() + view.removeClass('selected').html('New Task<br><div class="hidden">Something<br>Something Else<br>Bleh</div>').children('.hidden').show(0).height());
+					//Clear out the Dom
+					view.html('');
+					$$.document.append($$(ui.templates.expandedTemplate, {id: this.model.get('id'), content: this.model.get('content'), notes: this.model.get('notes')}), view);
+					view.addClass('expanded').height(view.height() + view.removeClass('selected').children('div').children('.hidden').show(0).height());
+
 				} else {
 					//Collapses
 					view.removeClass('expanded').css('height', '');
+					var id = this.model.get('id');
+
+					this.model.set({content: core.storage.tasks[id].content, notes: core.storage.tasks[id].notes});
 					setTimeout(function() {
-						view.children('.hidden').remove()
+						view.empty();
+						view.html(core.storage.tasks[id].content);
 					}, 150);
 				}
 			}
@@ -103,13 +132,15 @@ var ui = {
 				$(this.view.$()).addClass('selected');
 
 				//Gets list id & populates
-				$('#tasks .content').html('<h2>' + this.model.get('name') + '</h2><ul></ul>')
+				$('#tasks .content').empty().html('<h2>' + this.model.get('name') + '</h2><ul></ul>')
 				var tasks = core.list(this.model.get('id')).populate();
 
 				//Loops and adds each task to a tmp view
 				var tmpView = $$({});
 				for (var i=0; i<tasks.length; i++) {
-					tmpView.append($$(ui.templates.taskTemplate, {id: tasks[i], content: core.storage.tasks[tasks[i]].content}));
+					//Makes it nice
+					var data = core.storage.tasks[tasks[i]];
+					tmpView.prepend($$(ui.templates.taskTemplate, {id: tasks[i], content: data.content, notes: data.notes}));
 				}
 				$$.document.append(tmpView, $('#tasks ul'));
 			}
