@@ -92,16 +92,19 @@ html, body {
 	min-width: 150px;
 	width: 200px;
 	max-width: 350px;
-	
-	background: #f7f7f7;
+	background: #f8f8f8;
+
+	#smartlists h2 {
+		border-top: 0;
+	}
 	
 	h2 {
 		margin: 0;
-		padding: 5px 0 5px 18px;
-		font-size: 16px;
-		background: #eff1f5;
-		@include background(linear-gradient(top, #f6f7f8 0%, #e7eaf2 100%));
-		border-bottom: 1px solid #d1d2d4;
+		padding: 5px 0 5px 15px;
+		font-size: 14px;
+		text-transform: uppercase;
+		letter-spacing: -1px;
+		border-top: 1px solid #ddd;
 	}
 	
 	ul {
@@ -109,32 +112,29 @@ html, body {
 		padding: 0;
 		li {
 			display: block;
-			height: 33px;
-			line-height: 33px;
-			text-shadow: 0 1px 0 #fff;
-			font-weight: bold;
+			height: 32px;
+			box-sizing: border-box;
+			line-height: 32px;
+			font-weight: normal;
+			font-size: 14px;
 			color: #444444;
-			padding-left: 18px;
-			border-bottom: 1px solid #e1e2e4;
-			background-image: #f6f6f7;
-			@include background(linear-gradient(top, #f8f8f8 0%, #f4f4f6 100%));
+			padding-left: 15px;
 			cursor: pointer;
 			
 			&:first-of-type {
-				border-top: 1px solid #fff;
-			}
-			
-			&:hover {
-				background-image: #fbfcfd;
-				@include background(linear-gradient(top, #ffffff 0%, #f7f8fa 100%));
+				border-top: 1px solid #ddd;
 			}
 			
 			&.selected {
-				background-image: #2597e2;
-				@include background(linear-gradient(top, #33a3ef 0%, #168ad4 100%));
+				background: #33a3ef;
 				color: #fff;
-				text-shadow: 0 1px 3px rgba(0,0,0,0.4);
-				border-bottom: 1px solid #297bbd;
+				border-top: 1px solid #168ad4;
+				border-bottom: 1px solid #168ad4;
+				box-shadow: 1px 0 0 #168ad4;
+
+				&:first-of-type {
+					border-top: 1px solid #168ad4;
+				}
 			}
 		}
 	}
@@ -197,25 +197,27 @@ html, body {
 	}
 }
 
+$panel_bg: #333;
+
 .panel {
 	height: 40px;
 	width: 100%;
-	background: #444;
+	background: $panel_bg;
 	z-index: 4;
 	position: relative;
+	border-bottom: 1px solid #000;
 }
 .vsplitbar {
 	border-right: 4px solid transparent;
 	box-sizing: border-box;
-	z-index: 3;
 	position: absolute;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	-webkit-user-select: none;
 	width: 5px;
-	border-left: 1px solid #b4b4b4;
-	box-shadow: 0 -40px 0 #444;
-	margin-top: 40px;
+	border-left: 1px solid #ccc;
+	box-shadow: 0 -1px 0 #111, 0 -41px 0 $panel_bg;
+	margin-top: 41px;
 	height: 100%;
 }

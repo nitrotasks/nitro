@@ -13,9 +13,6 @@
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-//Session Vars
-sessionStorage.setItem('selected', sessionStorage.getItem('selected') || 'today');
-
 //When everything is ready
 $(document).ready(function() {
 	//Cache Selectors
@@ -50,6 +47,9 @@ var ui = {
 			}
 		});
 	},
+	session: {
+		selected: 'today'
+	},
 	reload: function() {
 		//Populates Template
 		$('#lists').html('<h2>Lists</h2><ul></ul>');
@@ -58,7 +58,7 @@ var ui = {
 			ui.lists.draw(core.storage.lists.order[i]);
 		}
 		//Simulates Click on selected list
-		$('#L' + sessionStorage.getItem('selected')).click();
+		$('#L' + ui.session.selected).click();
 	},
 	lists: {
 		//Draws a list to the DOM
@@ -126,9 +126,9 @@ var ui = {
 		listTemplate: $$({}, '<li data-bind="name"></li>', {
 			'click &': function() {
 				//Selected List
-				sessionStorage.setItem('selected', this.model.get('id'));
 				$('#sidebar .selected').removeClass('selected');
 				$(this.view.$()).addClass('selected');
+				ui.session.selected = this.model.get('id');
 
 				//Gets list id & populates
 				$('#tasks .content').empty().html('<h2>' + this.model.get('name') + '</h2><ul></ul>')
@@ -159,7 +159,7 @@ var ui = {
 		}),
 		taskAddBTN: $$({name: 'Add'}, '<button data-bind="name"/>', {
 			'click &': function() {
-				var list = sessionStorage.getItem('selected');
+				var list = ui.session.selected;
 				if (list != 'all') {
 					//Adds a task with the core
 					var taskId = core.task().add('New Task', list);
