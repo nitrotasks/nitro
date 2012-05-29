@@ -191,6 +191,10 @@ html, body {
 
 				&.hidden {
 					display: none;
+					
+					textarea {
+						height:  200px;
+					}
 				}
 			}
 		}

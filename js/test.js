@@ -15,7 +15,7 @@
 
 //When everything is ready
 $(document).ready(function() {
-	//Cache Selectors
+	//Cache Selectors/Volumes/Files/George/Documents/Github/Nitro/css/style.css
 	ui.initLoad();
 	ui.reload();
 });
@@ -88,9 +88,13 @@ var ui = {
 
 
 		taskTemplate: $$({}, '<li data-bind="class=id"><div data-bind="content" class="content"></div></li>', {
-			'click &': function() {
-				$('#tasks .selected').removeClass('selected');
-				$(this.view.$()).addClass('selected');
+			'click &': function(e) {
+				if (e.metaKey) {
+					$(this.view.$()).toggleClass('selected');
+				} else {
+					$('#tasks .selected').removeClass('selected');
+					$(this.view.$()).addClass('selected');
+				}
 			},
 			'dblclick &': function(e) {
 				//Cache the selector
@@ -106,7 +110,7 @@ var ui = {
 				//Checks if it's expanded & if it isn't expand it.
 				if (!view.hasClass('expanded')) {
 					//Clear out the Dom
-					view.html('');
+					view.empty();
 					$$.document.append($$(ui.templates.expandedTemplate, {id: this.model.get('id'), content: this.model.get('content'), notes: this.model.get('notes')}), view);
 					view.addClass('expanded').height(view.height() + view.removeClass('selected').children('div').children('.hidden').show(0).height());
 
