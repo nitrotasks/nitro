@@ -32,6 +32,7 @@ var ui = {
 		ui.lists.draw('all');
 
 		$$.document.append(ui.buttons.taskAddBTN, $('#tasks .panel'));
+		$$.document.append(ui.buttons.taskDeleteBTN, $('#tasks .panel'));
 
 		//Splitter
 		$('#content').splitter({sizeLeft: true});
@@ -69,26 +70,24 @@ var ui = {
 				var obj = $$(ui.templates.listTemplate, {id: listId, name: core.storage.lists.items[listId].name});
 				$$.document.append(obj, $('#lists ul'));
 			}
-						
 			$(obj.view.$()).attr('id', 'L' + obj.model.get('id'))
 		}
 	},
 	templates: {
 		expandedTemplate: $$({}, '<div><input data-bind="content" type="text"><div class="hidden"><textarea data-bind="notes"></textarea></div></div>', {
-			'change input': function() {
+			'change input[data-bind=content]': function() {
 				core.storage.tasks[this.model.get('id')].content = this.model.get('content');
 				core.storage.save();
 			},
 
-			'change textarea': function() {
-				console.log(this.model.get('notes'))
+			'change textarea[data-bind=notes]': function() {
 				core.storage.tasks[this.model.get('id')].notes = this.model.get('notes');
 				core.storage.save();
 			}
 		}),
 
 
-		taskTemplate: $$({}, '<li><div data-bind="content" class="content"></div></li>', {
+		taskTemplate: $$({}, '<li data-bind="class=id"><div data-bind="content" class="content"></div></li>', {
 			'click &': function() {
 				$('#tasks .selected').removeClass('selected');
 				$(this.view.$()).addClass('selected');
@@ -158,14 +157,23 @@ var ui = {
 				$('#L' + listId).click();
 			}
 		}),
-		taskAddBTN: $$({name: 'Add Task'}, '<button data-bind="name"/>', {
+		taskAddBTN: $$({name: 'Add'}, '<button data-bind="name"/>', {
 			'click &': function() {
 				var list = sessionStorage.getItem('selected');
 				if (list != 'all') {
 					//Adds a task with the core
 					var taskId = core.task().add('New Task', list);
-					$$.document.append($$(ui.templates.taskTemplate, {id: taskId, content: core.storage.tasks[taskId].content}), $('#tasks ul'));
+					$$.document.append($$(ui.templates.taskTemplate, {id: taskId, content: core.storage.tasks[taskId].content, notes: core.storage.tasks[taskId].notes}), $('#tasks ul'));
 				}		
+			}
+		}),
+		taskDeleteBTN: $$({name: 'Delete'}, '<button data-bind="name"/>', {
+			'click &': function() {
+				var task = $('#tasks .selected');
+
+				//Deletes from CLI & then removes from DOM
+				core.task(parseInt(task.removeClass('selected').attr('class'))).move('trash');
+				task.remove();
 			}
 		})
 	}

@@ -28,7 +28,7 @@ var core = {
 					priority: 'none',
 					date: '',
 					notes: '',
-					list: id,
+					list: list,
 					time: {
 						content: 0,
 						priority: 0,
@@ -54,9 +54,7 @@ var core = {
 
 			move: function(list) {
 				//Remove from list
-				var taskList = core.storage.lists.items[core.storage.tasks[id].list].order,
-					index = taskList.indexOf(list);
-				if (index > -1) taskList.splice(index, 1);
+				core.storage.lists.items[core.storage.tasks[id].list].order.remove(id);
 				
 				if (list === 'trash') {
 					delete core.storage.tasks[id];
@@ -171,4 +169,14 @@ var core = {
 			$.polyStorage.set('lists', this.lists);
 		}
 	}
+}
+Array.prototype.remove= function(){
+    var what, a= arguments, L= a.length, ax;
+    while(L && this.length){
+        what= a[--L];
+        while((ax= this.indexOf(what))!= -1){
+            this.splice(ax, 1);
+        }
+    }
+    return this;
 }
