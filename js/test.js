@@ -74,10 +74,29 @@ var ui = {
 		}
 	},
 	templates: {
-		expandedTemplate: $$({}, '<div><input data-bind="content" type="text"><div class="hidden"><textarea data-bind="notes"></textarea></div></div>', {
+		expandedTemplate: $$({}, '<div><input data-bind="content" type="text"><button data-bind="priority"></button><input placeholder="Due Date" type="text" data-bind="date"><div class="hidden"><textarea data-bind="notes"></textarea></div></div>', {
 			'change input[data-bind=content]': function() {
 				core.storage.tasks[this.model.get('id')].content = this.model.get('content');
 				core.storage.save();
+			},
+
+			'change input[data-bind=date]': function() {
+				core.storage.tasks[this.model.get('id')].date = this.model.get('date');
+				core.storage.save();
+			},
+
+			'click button[data-bind=priority]': function() {
+				var p = this.model.get('priority');
+
+				if (p == 'none') {
+					this.model.set({priority: 'low'});
+				} else if (p == 'low') {
+					this.model.set({priority: 'medium'});
+				} else if (p == 'medium') {
+					this.model.set({priority: 'high'});
+				} else if (p == 'high') {
+					this.model.set({priority: 'none'});
+				}
 			},
 
 			'change textarea[data-bind=notes]': function() {
@@ -98,20 +117,20 @@ var ui = {
 			},
 			'dblclick &': function(e) {
 				//Cache the selector
-				var view = $(this.view.$()); 
-
-				console.log(this.model.get('notes'))
+				var view = $(this.view.$());
 
 				//No event handler things in input or selected.
-				if (e.target.nodeName == 'INPUT' || e.target.nodeName == 'TEXTAREA') {
+				if (e.target.nodeName == 'INPUT' || e.target.nodeName == 'TEXTAREA' || e.target.nodeName == 'BUTTON') {
 					return;
 				}
+
+				console.log(this.model.get('date'))
 
 				//Checks if it's expanded & if it isn't expand it.
 				if (!view.hasClass('expanded')) {
 					//Clear out the Dom
 					view.empty();
-					$$.document.append($$(ui.templates.expandedTemplate, {id: this.model.get('id'), content: this.model.get('content'), notes: this.model.get('notes')}), view);
+					$$.document.append($$(ui.templates.expandedTemplate, {id: this.model.get('id'), content: this.model.get('content'), notes: this.model.get('notes'), date: this.model.get('date'), priority: this.model.get('priority')}), view);
 					view.addClass('expanded').height(view.height() + view.removeClass('selected').children('div').children('.hidden').show(0).height());
 
 				} else {
@@ -119,7 +138,7 @@ var ui = {
 					view.removeClass('expanded').css('height', '');
 					var id = this.model.get('id');
 
-					this.model.set({content: core.storage.tasks[id].content, notes: core.storage.tasks[id].notes});
+					this.model.set({content: core.storage.tasks[id].content, notes: core.storage.tasks[id].notes, date: core.storage.tasks[id].date, priority: core.storage.tasks[id].priority});
 					setTimeout(function() {
 						view.empty();
 						view.html(core.storage.tasks[id].content);
@@ -143,7 +162,7 @@ var ui = {
 				for (var i=0; i<tasks.length; i++) {
 					//Makes it nice
 					var data = core.storage.tasks[tasks[i]];
-					tmpView.prepend($$(ui.templates.taskTemplate, {id: tasks[i], content: data.content, notes: data.notes}));
+					tmpView.prepend($$(ui.templates.taskTemplate, {id: tasks[i], content: data.content, notes: data.notes, date: data.date, priority: data.priority}));
 				}
 				$$.document.append(tmpView, $('#tasks ul'));
 			}
