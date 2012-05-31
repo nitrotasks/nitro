@@ -177,6 +177,10 @@ html, body {
 				color: #111;
 				-webkit-transform: translateZ(0);
 				-webkit-transition: 150ms height ease;
+
+				input[type=checkbox] {
+					float:left;
+				}
 				
 				&:hover {
 					background-image: #f2f2f2;

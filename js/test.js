@@ -74,39 +74,28 @@ var ui = {
 		}
 	},
 	templates: {
-		expandedTemplate: $$({}, '<div><input data-bind="content" type="text"><button data-bind="priority"></button><input placeholder="Due Date" type="text" data-bind="date"><div class="hidden"><textarea data-bind="notes"></textarea></div></div>', {
-			'change input[data-bind=content]': function() {
-				core.storage.tasks[this.model.get('id')].content = this.model.get('content');
-				core.storage.save();
-			},
+		listTemplate: $$({}, '<li data-bind="name"></li>', {
+			'click &': function() {
+				//Selected List
+				$('#sidebar .selected').removeClass('selected');
+				$(this.view.$()).addClass('selected');
+				ui.session.selected = this.model.get('id');
 
-			'change input[data-bind=date]': function() {
-				core.storage.tasks[this.model.get('id')].date = this.model.get('date');
-				core.storage.save();
-			},
+				//Gets list id & populates
+				$('#tasks .content').empty().html('<h2>' + this.model.get('name') + '</h2><ul></ul>')
+				var tasks = core.list(this.model.get('id')).populate();
 
-			'click button[data-bind=priority]': function() {
-				var p = this.model.get('priority');
-
-				if (p == 'none') {
-					this.model.set({priority: 'low'});
-				} else if (p == 'low') {
-					this.model.set({priority: 'medium'});
-				} else if (p == 'medium') {
-					this.model.set({priority: 'high'});
-				} else if (p == 'high') {
-					this.model.set({priority: 'none'});
+				//Loops and adds each task to a tmp view
+				var tmpView = $$({});
+				for (var i=0; i<tasks.length; i++) {
+					//Makes it nice
+					var data = core.storage.tasks[tasks[i]];
+					tmpView.prepend($$(ui.templates.taskTemplate, {id: tasks[i], content: data.content, notes: data.notes, date: data.date, priority: data.priority}));
 				}
-			},
-
-			'change textarea[data-bind=notes]': function() {
-				core.storage.tasks[this.model.get('id')].notes = this.model.get('notes');
-				core.storage.save();
+				$$.document.append(tmpView, $('#tasks ul'));
 			}
 		}),
-
-
-		taskTemplate: $$({}, '<li data-bind="class=id"><div data-bind="content" class="content"></div></li>', {
+		taskTemplate: $$({}, '<li data-bind="class=id"><input type="checkbox"><div data-bind="content" class="content"></div></li>', {
 			'click &': function(e) {
 				if (e.metaKey) {
 					$(this.view.$()).toggleClass('selected');
@@ -141,30 +130,40 @@ var ui = {
 					this.model.set({content: core.storage.tasks[id].content, notes: core.storage.tasks[id].notes, date: core.storage.tasks[id].date, priority: core.storage.tasks[id].priority});
 					setTimeout(function() {
 						view.empty();
-						view.html(core.storage.tasks[id].content);
+						view.html('<input type="checkbox">' + core.storage.tasks[id].content);
 					}, 150);
 				}
 			}
 		}),
-		listTemplate: $$({}, '<li data-bind="name"></li>', {
-			'click &': function() {
-				//Selected List
-				$('#sidebar .selected').removeClass('selected');
-				$(this.view.$()).addClass('selected');
-				ui.session.selected = this.model.get('id');
 
-				//Gets list id & populates
-				$('#tasks .content').empty().html('<h2>' + this.model.get('name') + '</h2><ul></ul>')
-				var tasks = core.list(this.model.get('id')).populate();
+		expandedTemplate: $$({}, '<div><input type="checkbox"><input data-bind="content" type="text"><button data-bind="priority"></button><input placeholder="Due Date" type="text" data-bind="date"><div class="hidden"><textarea data-bind="notes"></textarea></div></div>', {
+			'change input[data-bind=content]': function() {
+				core.storage.tasks[this.model.get('id')].content = this.model.get('content');
+				core.storage.save();
+			},
 
-				//Loops and adds each task to a tmp view
-				var tmpView = $$({});
-				for (var i=0; i<tasks.length; i++) {
-					//Makes it nice
-					var data = core.storage.tasks[tasks[i]];
-					tmpView.prepend($$(ui.templates.taskTemplate, {id: tasks[i], content: data.content, notes: data.notes, date: data.date, priority: data.priority}));
+			'change input[data-bind=date]': function() {
+				core.storage.tasks[this.model.get('id')].date = this.model.get('date');
+				core.storage.save();
+			},
+
+			'click button[data-bind=priority]': function() {
+				var p = this.model.get('priority');
+
+				if (p == 'none') {
+					this.model.set({priority: 'low'});
+				} else if (p == 'low') {
+					this.model.set({priority: 'medium'});
+				} else if (p == 'medium') {
+					this.model.set({priority: 'high'});
+				} else if (p == 'high') {
+					this.model.set({priority: 'none'});
 				}
-				$$.document.append(tmpView, $('#tasks ul'));
+			},
+
+			'change textarea[data-bind=notes]': function() {
+				core.storage.tasks[this.model.get('id')].notes = this.model.get('notes');
+				core.storage.save();
 			}
 		})
 	}, 
