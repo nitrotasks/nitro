@@ -91,25 +91,35 @@ var ui = {
 				for (var i=0; i<tasks.length; i++) {
 					//Makes it nice
 					var data = core.storage.tasks[tasks[i]];
-					tmpView.prepend($$(ui.templates.task.compressed, {id: tasks[i], content: data.content, notes: data.notes, date: data.date, priority: data.priority}));
+
+					//Checked Tasks
+					var logged = 'checkbox';
+					if (data.list == 'logbook') {
+						logged += ' checked';
+					}
+
+					tmpView.prepend(
+						$$(ui.templates.task.compressed, {
+							id: tasks[i],
+							content: data.content,
+							notes: data.notes,
+							date: data.date,
+							priority: data.priority,
+							logged: logged
+						})
+					);
 				}
 				$$.document.append(tmpView, $('#tasks ul'));
 			}
 		}),
 
 		task: {
-			compressed: $$({}, '<li data-bind="class=id"><input type="checkbox"><div data-bind="content" class="content"></div></li>', {
-
-				'create': function() {
-					if (this.model.get('id') != undefined && core.storage.tasks[this.model.get('id')].list == 'logbook') {
-						$(this.view.$()).children('input[type=checkbox]').attr('checked', 'true');
-					}
-				},
+			compressed: $$({}, '<li data-bind="class=id"><div data-bind="class=logged"></div><div data-bind="content" class="content"></div></li>', {
 
 				'click &': function(e) {
 
 					//No event handler things in input or selected.
-					if (e.target.nodeName == 'INPUT' || e.target.nodeName == 'TEXTAREA' || e.target.nodeName == 'BUTTON') {
+					if (e.target.nodeName == 'INPUT' || e.target.nodeName == 'TEXTAREA' || e.target.nodeName == 'BUTTON' || $(e.target).hasClass('checkbox')) {
 						return;
 					}
 
@@ -121,8 +131,12 @@ var ui = {
 					}
 				},
 
-				'click input[type=checkbox]': function(e) {
-					if($(e.currentTarget).prop('checked')) {
+				'click .checkbox': function(e) {
+					//Changes Appearance
+					$(e.currentTarget).toggleClass('checked')
+
+					//Moves it around for real.
+					if($(e.currentTarget).hasClass('checked')) {
 						core.task(this.model.get('id')).move('logbook');
 					} else {
 						core.task(this.model.get('id')).move(ui.session.selected);
@@ -134,7 +148,7 @@ var ui = {
 					var view = $(this.view.$());
 
 					//No event handler things in input or selected.
-					if (e.target.nodeName == 'INPUT' || e.target.nodeName == 'TEXTAREA' || e.target.nodeName == 'BUTTON') {
+					if (e.target.nodeName == 'INPUT' || e.target.nodeName == 'TEXTAREA' || e.target.nodeName == 'BUTTON' || $(e.target).hasClass('checkbox')) {
 						return;
 					}
 					
@@ -142,7 +156,22 @@ var ui = {
 					if (!view.hasClass('expanded')) {
 						//Clear out the Dom
 						view.empty();
-						$$.document.append($$(ui.templates.task.expand, {id: this.model.get('id'), content: this.model.get('content'), notes: this.model.get('notes'), date: this.model.get('date'), priority: this.model.get('priority')}), view);
+						//Checked Tasks
+						var logged = 'checkbox';
+						if (core.storage.tasks[this.model.get('id')].list == 'logbook') {
+							logged += ' checked';
+						}
+
+						$$.document.append(
+							$$(ui.templates.task.expand, 
+								{id: this.model.get('id'),
+								content: this.model.get('content'),
+								notes: this.model.get('notes'),
+								date: this.model.get('date'),
+								priority: this.model.get('priority'),
+								logged: logged
+							}), view);
+
 						view.addClass('expanded').height(view.height() + view.removeClass('selected').children('div').children('.hidden').show(0).height());
 
 					} else {
@@ -153,13 +182,28 @@ var ui = {
 						setTimeout(function() {
 							var orig = view.prev()
 							view.remove();
-							var data = $$(ui.templates.task.compressed, {id: id, content: core.storage.tasks[id].content, notes: core.storage.tasks[id].notes, date: core.storage.tasks[id].date, priority: core.storage.tasks[id].priority});
+							var data = core.storage.tasks[id];
+
+							//Checked Tasks
+							var logged = 'checkbox';
+							if (data.list == 'logbook') {
+								logged += ' checked';
+							}
+
+							var model = $$(ui.templates.task.compressed, {
+								id: id,
+								content: data.content,
+								notes: data.notes,
+								date: data.date,
+								priority: data.priority,
+								logged: logged
+							})
 
 							//If it's the first task in a list, .prev won't work
 							if (orig.length == 0) {
-								$$.document.prepend(data, $('#tasks ul'));
+								$$.document.prepend(model, $('#tasks ul'));
 							} else {
-								$$.document.after(data, orig);
+								$$.document.after(model, orig);
 							}
 							
 						}, 150);
@@ -167,13 +211,7 @@ var ui = {
 				}
 			}),
 
-			expand: $$({}, '<div><input type="checkbox"><input data-bind="content" type="text"><button data-bind="priority"></button><input placeholder="Due Date" type="text" data-bind="date"><div class="hidden"><textarea data-bind="notes"></textarea></div></div>', {
-
-				'create': function() {
-					if (this.model.get('id') != undefined && core.storage.tasks[this.model.get('id')].list == 'logbook') {
-						$(this.view.$()).children('input[type=checkbox]').attr('checked', 'true');
-					}
-				},
+			expand: $$({}, '<div><div data-bind="class=logged"></div><input data-bind="content" type="text"><button data-bind="priority"></button><input placeholder="Due Date" type="text" data-bind="date"><div class="hidden"><textarea data-bind="notes"></textarea></div></div>', {
 
 				'change input[data-bind=content]': function() {
 					core.storage.tasks[this.model.get('id')].content = this.model.get('content');
@@ -224,7 +262,24 @@ var ui = {
 				if (list != 'all') {
 					//Adds a task with the core
 					var taskId = core.task().add('New Task', list);
-					$$.document.append($$(ui.templates.task.compressed, {id: taskId, content: core.storage.tasks[taskId].content, notes: core.storage.tasks[taskId].notes, date: core.storage.tasks[taskId].date, priority: core.storage.tasks[taskId].priority}), $('#tasks ul'));
+					var data = core.storage.tasks[taskId];
+
+					//Checked Tasks
+					var logged = 'checkbox';
+					if (data.list == 'logbook') {
+						logged += ' checked';
+					}
+
+					$$.document.append(
+						$$(ui.templates.task.compressed, {
+							id: taskId,
+							content: data.content,
+							notes: data.notes,
+							date: data.date,
+							priority: data.priority,
+							logged: logged
+						}), $('#tasks ul')
+					);
 				}		
 			}
 		}),

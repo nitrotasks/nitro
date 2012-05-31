@@ -178,8 +178,15 @@ html, body {
 				-webkit-transform: translateZ(0);
 				-webkit-transition: 150ms height ease;
 
-				input[type=checkbox] {
-					float:left;
+				.checkbox {
+					float: left;
+					width: 16px;
+					height: 16px;
+					border: 1px solid #000;
+
+					&.checked {
+						background: #0f0;
+					}
 				}
 				
 				&:hover {
