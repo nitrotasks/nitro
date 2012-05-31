@@ -90,82 +90,93 @@ var ui = {
 				for (var i=0; i<tasks.length; i++) {
 					//Makes it nice
 					var data = core.storage.tasks[tasks[i]];
-					tmpView.prepend($$(ui.templates.taskTemplate, {id: tasks[i], content: data.content, notes: data.notes, date: data.date, priority: data.priority}));
+					tmpView.prepend($$(ui.templates.task.compressed, {id: tasks[i], content: data.content, notes: data.notes, date: data.date, priority: data.priority}));
 				}
 				$$.document.append(tmpView, $('#tasks ul'));
 			}
 		}),
-		taskTemplate: $$({}, '<li data-bind="class=id"><input type="checkbox"><div data-bind="content" class="content"></div></li>', {
-			'click &': function(e) {
-				if (e.metaKey) {
-					$(this.view.$()).toggleClass('selected');
-				} else {
-					$('#tasks .selected').removeClass('selected');
-					$(this.view.$()).addClass('selected');
-				}
-			},
-			'dblclick &': function(e) {
-				//Cache the selector
-				var view = $(this.view.$());
 
-				//No event handler things in input or selected.
-				if (e.target.nodeName == 'INPUT' || e.target.nodeName == 'TEXTAREA' || e.target.nodeName == 'BUTTON') {
-					return;
-				}
+		task: {
+			compressed: $$({}, '<li data-bind="class=id"><input type="checkbox"><div data-bind="content" class="content"></div></li>', {
+				'click &': function(e) {
+					if (e.metaKey) {
+						$(this.view.$()).toggleClass('selected');
+					} else {
+						$('#tasks .selected').removeClass('selected');
+						$(this.view.$()).addClass('selected');
+					}
+				},
+				'dblclick &': function(e) {
+					//Cache the selector
+					var view = $(this.view.$());
 
-				console.log(this.model.get('date'))
-
-				//Checks if it's expanded & if it isn't expand it.
-				if (!view.hasClass('expanded')) {
-					//Clear out the Dom
-					view.empty();
-					$$.document.append($$(ui.templates.expandedTemplate, {id: this.model.get('id'), content: this.model.get('content'), notes: this.model.get('notes'), date: this.model.get('date'), priority: this.model.get('priority')}), view);
-					view.addClass('expanded').height(view.height() + view.removeClass('selected').children('div').children('.hidden').show(0).height());
-
-				} else {
-					//Collapses
-					view.removeClass('expanded').css('height', '');
-					var id = this.model.get('id');
-
-					this.model.set({content: core.storage.tasks[id].content, notes: core.storage.tasks[id].notes, date: core.storage.tasks[id].date, priority: core.storage.tasks[id].priority});
-					setTimeout(function() {
+					//No event handler things in input or selected.
+					if (e.target.nodeName == 'INPUT' || e.target.nodeName == 'TEXTAREA' || e.target.nodeName == 'BUTTON') {
+						return;
+					}
+					
+					//Checks if it's expanded & if it isn't expand it.
+					if (!view.hasClass('expanded')) {
+						//Clear out the Dom
 						view.empty();
-						view.html('<input type="checkbox">' + core.storage.tasks[id].content);
-					}, 150);
+						$$.document.append($$(ui.templates.task.expand, {id: this.model.get('id'), content: this.model.get('content'), notes: this.model.get('notes'), date: this.model.get('date'), priority: this.model.get('priority')}), view);
+						view.addClass('expanded').height(view.height() + view.removeClass('selected').children('div').children('.hidden').show(0).height());
+
+					} else {
+						//Collapses
+						view.removeClass('expanded').css('height', '');
+						var id = this.model.get('id');
+
+						setTimeout(function() {
+							//Easiest Way is to remove from DOM & Reappend. Order patch coming later.
+							view.remove();
+							$$.document.append($$(ui.templates.task.compressed, {id: id, content: core.storage.tasks[id].content, notes: core.storage.tasks[id].notes, date: core.storage.tasks[id].date, priority: core.storage.tasks[id].priority}), $('#tasks ul'));
+						}, 150);
+					}
 				}
-			}
-		}),
+			}),
 
-		expandedTemplate: $$({}, '<div><input type="checkbox"><input data-bind="content" type="text"><button data-bind="priority"></button><input placeholder="Due Date" type="text" data-bind="date"><div class="hidden"><textarea data-bind="notes"></textarea></div></div>', {
-			'change input[data-bind=content]': function() {
-				core.storage.tasks[this.model.get('id')].content = this.model.get('content');
-				core.storage.save();
-			},
+			expand: $$({}, '<div><input class="boop" type="checkbox"><input data-bind="content" type="text"><button data-bind="priority"></button><input placeholder="Due Date" type="text" data-bind="date"><div class="hidden"><textarea data-bind="notes"></textarea></div></div>', {
 
-			'change input[data-bind=date]': function() {
-				core.storage.tasks[this.model.get('id')].date = this.model.get('date');
-				core.storage.save();
-			},
+				'click input[type=checkbox]': function(e) {
+					if($(e.currentTarget).prop('checked')) {
+						core.task(this.model.get('id')).move('logbook');
+					} else {
+						core.task(this.model.get('id')).move(ui.session.selected);
+					}
+					//core.task(this.model.get('id')).move('logbook');
+				},
 
-			'click button[data-bind=priority]': function() {
-				var p = this.model.get('priority');
+				'change input[data-bind=content]': function() {
+					core.storage.tasks[this.model.get('id')].content = this.model.get('content');
+					core.storage.save();
+				},
 
-				if (p == 'none') {
-					this.model.set({priority: 'low'});
-				} else if (p == 'low') {
-					this.model.set({priority: 'medium'});
-				} else if (p == 'medium') {
-					this.model.set({priority: 'high'});
-				} else if (p == 'high') {
-					this.model.set({priority: 'none'});
+				'change input[data-bind=date]': function() {
+					core.storage.tasks[this.model.get('id')].date = this.model.get('date');
+					core.storage.save();
+				},
+
+				'click button[data-bind=priority]': function() {
+					var p = this.model.get('priority');
+
+					if (p == 'none') {
+						this.model.set({priority: 'low'});
+					} else if (p == 'low') {
+						this.model.set({priority: 'medium'});
+					} else if (p == 'medium') {
+						this.model.set({priority: 'high'});
+					} else if (p == 'high') {
+						this.model.set({priority: 'none'});
+					}
+				},
+
+				'change textarea[data-bind=notes]': function() {
+					core.storage.tasks[this.model.get('id')].notes = this.model.get('notes');
+					core.storage.save();
 				}
-			},
-
-			'change textarea[data-bind=notes]': function() {
-				core.storage.tasks[this.model.get('id')].notes = this.model.get('notes');
-				core.storage.save();
-			}
-		})
+			})
+		}
 	}, 
 	buttons: {
 		//Buttons
@@ -185,7 +196,7 @@ var ui = {
 				if (list != 'all') {
 					//Adds a task with the core
 					var taskId = core.task().add('New Task', list);
-					$$.document.append($$(ui.templates.taskTemplate, {id: taskId, content: core.storage.tasks[taskId].content, notes: core.storage.tasks[taskId].notes}), $('#tasks ul'));
+					$$.document.append($$(ui.templates.task.compressed, {id: taskId, content: core.storage.tasks[taskId].content, notes: core.storage.tasks[taskId].notes, date: core.storage.tasks[taskId].date, priority: core.storage.tasks[taskId].priority}), $('#tasks ul'));
 				}		
 			}
 		}),

@@ -160,6 +160,13 @@ var core = {
 						order: 0
 					}
 				},
+				logbook: {
+					order: [],
+					time: {
+						name: 0,
+						order: 0
+					}
+				},
 				length: 0
 			},
 			time: 0
