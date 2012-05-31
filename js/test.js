@@ -26,6 +26,7 @@ var ui = {
 		$('#smartlists').html('<h2>Focus</h2><ul></ul>');
 		ui.lists.draw('today');
 		ui.lists.draw('next');
+		ui.lists.draw('logbook');
 		ui.lists.draw('all');
 
 		$$.document.append(ui.buttons.taskAddBTN, $('#tasks .panel'));
