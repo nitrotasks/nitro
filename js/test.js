@@ -91,20 +91,22 @@ var ui = {
 				for (var i=0; i<tasks.length; i++) {
 					//Makes it nice
 					var data = core.storage.tasks[tasks[i]];
-					tmpView.prepend($$(ui.templates.task.compressed, {id: tasks[i], content: data.content, notes: data.notes, date: data.date, priority: data.priority}));
+
+					//Logged Tasks
+					var logged = undefined;
+					if (data.list == 'logbook') {
+						logged = 'checked';
+					};
+
+					//Add to View
+					tmpView.prepend($$(ui.templates.task.compressed, {id: tasks[i], content: data.content, notes: data.notes, date: data.date, priority: data.priority, logged: logged}));
 				}
 				$$.document.append(tmpView, $('#tasks ul'));
 			}
 		}),
 
 		task: {
-			compressed: $$({}, '<li data-bind="class=id"><input type="checkbox"><div data-bind="content" class="content"></div></li>', {
-
-				'create': function() {
-					if (this.model.get('id') != undefined && core.storage.tasks[this.model.get('id')].list == 'logbook') {
-						$(this.view.$()).children('input[type=checkbox]').attr('checked', 'true');
-					}
-				},
+			compressed: $$({}, '<li data-bind="class=id"><input data-bind="checked=logged" type="checkbox"><div data-bind="content" class="content"></div></li>', {
 
 				'click &': function(e) {
 
@@ -153,7 +155,16 @@ var ui = {
 						setTimeout(function() {
 							var orig = view.prev()
 							view.remove();
-							var data = $$(ui.templates.task.compressed, {id: id, content: core.storage.tasks[id].content, notes: core.storage.tasks[id].notes, date: core.storage.tasks[id].date, priority: core.storage.tasks[id].priority});
+
+							var data = core.storage.tasks[id];
+
+							//Logged Tasks
+							var logged = undefined;
+							if (data.list == 'logbook') {
+								logged = 'checked';
+							};
+
+							var data = $$(ui.templates.task.compressed, {id: id, content: data.content, notes: data.notes, date: data.date, priority: data.priority, logged: logged});
 
 							//If it's the first task in a list, .prev won't work
 							if (orig.length == 0) {
@@ -167,13 +178,7 @@ var ui = {
 				}
 			}),
 
-			expand: $$({}, '<div><input type="checkbox"><input data-bind="content" type="text"><button data-bind="priority"></button><input placeholder="Due Date" type="text" data-bind="date"><div class="hidden"><textarea data-bind="notes"></textarea></div></div>', {
-
-				'create': function() {
-					if (this.model.get('id') != undefined && core.storage.tasks[this.model.get('id')].list == 'logbook') {
-						$(this.view.$()).children('input[type=checkbox]').attr('checked', 'true');
-					}
-				},
+			expand: $$({}, '<div><input type="checkbox"><input data-bind="content" type="text"><button data-bind="priority"></button><input placeholder="Due Date" type="text" data-bind="date"><div class="hidden"><textarea data-bind="notes"></textarea></div></div>', {	
 
 				'change input[data-bind=content]': function() {
 					core.storage.tasks[this.model.get('id')].content = this.model.get('content');
