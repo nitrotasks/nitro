@@ -98,7 +98,20 @@ var ui = {
 
 		task: {
 			compressed: $$({}, '<li data-bind="class=id"><input type="checkbox"><div data-bind="content" class="content"></div></li>', {
+
+				'create': function() {
+					if (this.model.get('id') != undefined && core.storage.tasks[this.model.get('id')].list == 'logbook') {
+						$(this.view.$()).children('input[type=checkbox]').attr('checked', 'true');
+					}
+				},
+
 				'click &': function(e) {
+
+					//No event handler things in input or selected.
+					if (e.target.nodeName == 'INPUT' || e.target.nodeName == 'TEXTAREA' || e.target.nodeName == 'BUTTON') {
+						return;
+					}
+
 					if (e.metaKey) {
 						$(this.view.$()).toggleClass('selected');
 					} else {
@@ -106,6 +119,15 @@ var ui = {
 						$(this.view.$()).addClass('selected');
 					}
 				},
+
+				'click input[type=checkbox]': function(e) {
+					if($(e.currentTarget).prop('checked')) {
+						core.task(this.model.get('id')).move('logbook');
+					} else {
+						core.task(this.model.get('id')).move(ui.session.selected);
+					}
+				},
+
 				'dblclick &': function(e) {
 					//Cache the selector
 					var view = $(this.view.$());
@@ -130,21 +152,26 @@ var ui = {
 						setTimeout(function() {
 							var orig = view.prev()
 							view.remove();
-							$$.document.after($$(ui.templates.task.compressed, {id: id, content: core.storage.tasks[id].content, notes: core.storage.tasks[id].notes, date: core.storage.tasks[id].date, priority: core.storage.tasks[id].priority}), orig);
+							var data = $$(ui.templates.task.compressed, {id: id, content: core.storage.tasks[id].content, notes: core.storage.tasks[id].notes, date: core.storage.tasks[id].date, priority: core.storage.tasks[id].priority});
+
+							//If it's the first task in a list, .prev won't work
+							if (orig.length == 0) {
+								$$.document.prepend(data, $('#tasks ul'));
+							} else {
+								$$.document.after(data, orig);
+							}
+							
 						}, 150);
 					}
 				}
 			}),
 
-			expand: $$({}, '<div><input class="boop" type="checkbox"><input data-bind="content" type="text"><button data-bind="priority"></button><input placeholder="Due Date" type="text" data-bind="date"><div class="hidden"><textarea data-bind="notes"></textarea></div></div>', {
+			expand: $$({}, '<div><input type="checkbox"><input data-bind="content" type="text"><button data-bind="priority"></button><input placeholder="Due Date" type="text" data-bind="date"><div class="hidden"><textarea data-bind="notes"></textarea></div></div>', {
 
-				'click input[type=checkbox]': function(e) {
-					if($(e.currentTarget).prop('checked')) {
-						core.task(this.model.get('id')).move('logbook');
-					} else {
-						core.task(this.model.get('id')).move(ui.session.selected);
+				'create': function() {
+					if (this.model.get('id') != undefined && core.storage.tasks[this.model.get('id')].list == 'logbook') {
+						$(this.view.$()).children('input[type=checkbox]').attr('checked', 'true');
 					}
-					//core.task(this.model.get('id')).move('logbook');
 				},
 
 				'change input[data-bind=content]': function() {
