@@ -239,3 +239,9 @@ var ui = {
 		})
 	}
 }
+//This is the best plugin system in the world.
+var plugin = {
+	add: function(fn) {
+		fn();
+	}
+}
