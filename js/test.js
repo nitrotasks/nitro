@@ -128,9 +128,9 @@ var ui = {
 						var id = this.model.get('id');
 
 						setTimeout(function() {
-							//Easiest Way is to remove from DOM & Reappend. Order patch coming later.
+							var orig = view.prev()
 							view.remove();
-							$$.document.append($$(ui.templates.task.compressed, {id: id, content: core.storage.tasks[id].content, notes: core.storage.tasks[id].notes, date: core.storage.tasks[id].date, priority: core.storage.tasks[id].priority}), $('#tasks ul'));
+							$$.document.after($$(ui.templates.task.compressed, {id: id, content: core.storage.tasks[id].content, notes: core.storage.tasks[id].notes, date: core.storage.tasks[id].date, priority: core.storage.tasks[id].priority}), orig);
 						}, 150);
 					}
 				}
