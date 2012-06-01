@@ -196,12 +196,19 @@ var ui = {
 				});
 			},
 			'dblclick .name': function() {
-				var name = prompt("New name", this.model.get('name'));
-				if(name) {
-					core.storage.lists.items[this.model.get('id')].name = name;
-					this.model.set({name: name});
-					core.storage.save();
-				}
+				var name = this.model.get('name')
+				this.view.$('.name').after('<input type="text" value="' + name + '" placeholder="Enter the list name">').next().focus().prev().remove();
+			},
+			'blur input': function() {
+				var $input = this.view.$('input'),
+					name = $input.val();
+				
+				$input.after('<span class="name" data-bind="name">' + name + '</span>').remove();
+				
+				core.storage.lists.items[this.model.get('id')].name = name;
+				
+				this.model.set({name: name});
+				core.storage.save();
 			},
 			'click .delete': function() {
 				var id = this.model.get('id');
