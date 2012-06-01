@@ -55,9 +55,32 @@ var ui = {
 		//Populates Template
 		$('#lists').html('<h2>Lists</h2><ul></ul>');
 		$$.document.append(ui.buttons.listAddBTN, $('#lists h2'));
+		
 		for (var i=0; i<core.storage.lists.order.length; i++) {
 			ui.lists.draw(core.storage.lists.order[i]);
 		}
+
+		//Sortable Lists 
+		$('#lists ul').sortable({
+			containment: 'parent',
+			axis: 'y',
+			distance: 20,
+			placeholder: 'listPlaceholder',
+			stop: function() {
+				//Saves Everything, including order
+				var listOrder = [];
+
+				//Loops through lists & adds the to an array
+				$('#lists ul').children().map(function () {
+					listOrder.push($(this).attr('id').substr(1).toNum());
+				});
+
+				//Saves
+				core.storage.lists.order = listOrder;
+				core.storage.save();
+			}
+		});
+
 		//Simulates Click on selected list
 		$('#L' + ui.session.selected).click();
 		$('#sidebar ul li').droppable(ui.lists.dropOptions);
@@ -109,6 +132,7 @@ var ui = {
 		},
 		dropOptions: {
 			hoverClass: "dragHover",
+			accept: "#tasks li",
 			drop: function (event, uix) {
 				var listId = $(this).attr('id').substr(1).toNum(),
 					taskId = $(uix.draggable).removeClass('expanded').attr('class').toNum();				

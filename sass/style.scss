@@ -103,6 +103,7 @@ html, body {
 		font-size: 14px;
 		text-transform: uppercase;
 		border-top: 1px solid #000;
+		border-bottom: 1px solid #000;
 
 		button {
 			background: transparent;
@@ -126,15 +127,12 @@ html, body {
 			line-height: 32px;
 			font-weight: normal;
 			font-size: 14px;
-			border-top: 1px solid transparent;
-			border-bottom: 1px solid transparent;
 			color: #444444;
 			padding: 0 15px;
 			cursor: pointer;
-			
-			&:first-of-type {
-				border-top: 1px solid #000;
-			}
+
+			//jQuery UI trys to override
+			width: 100% !important;
 
 			.count {
 				float: right;
@@ -142,13 +140,7 @@ html, body {
 			
 			&.selected {
 				background: #eee;
-				border-top: 1px solid #000;
-				border-bottom: 1px solid #000;
-				box-shadow: 1px 0 0 #000;
-
-				&:first-of-type {
-					border-top: 1px solid #000;
-				}
+				outline: 1px solid #000;
 			}
 			
 			&.dragHover {
@@ -291,6 +283,8 @@ html, body {
 	margin-top: 41px;
 	height: 100%;
 }
+
+//jQuery UI trys to override
 .ui-sortable-helper {
 	display: inline !important;
 	font-size: 13px;
