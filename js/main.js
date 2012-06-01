@@ -141,6 +141,9 @@ var ui = {
 					this.model.set({name: name});
 					core.storage.save();
 				}
+			},
+			'click .delete': function() {
+				$(this.view.$()).remove();
 			}
 		}),
 
