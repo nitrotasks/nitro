@@ -98,8 +98,8 @@ var core = {
 			},
 			delete: function() {
 				//Deletes tasks in a list
-				for (var i = 0; i < core.storage.lists.items[id].order.length; i++) {
-					core.task(cli.storage.lists.items[id].order[i]).move('trash');
+				for (var i = core.storage.lists.items[id].order.length - 1; i >= 0; i--) {
+					core.task(core.storage.lists.items[id].order[i]).move('trash');
 				}
 
 				//Remove from List order

@@ -84,13 +84,14 @@ var ui = {
 			$(obj.view.$()).attr('id', 'L' + obj.model.get('id'))
 		},
 		update: function(listId) {
-			var list = core.storage.lists.items[listId];
 			return {
 				count: function() {
-					
-					// Update specified list					
-					$('#L' + listId).find('.count').html(list.order.length);
-					
+					// Update specified list
+					if(listId) {
+						var list = core.storage.lists.items[listId];			
+						$('#L' + listId).find('.count').html(list.order.length);
+					}
+										
 					// Update the All Tasks list				
 					$('#Lall').find('.count').html(core.list('all').populate().length);
 				}
@@ -143,7 +144,16 @@ var ui = {
 				}
 			},
 			'click .delete': function() {
+				var id = this.model.get('id');
+				
+				// Delete list
+				core.list(id).delete();
+				
+				// Update DOM				
 				$(this.view.$()).remove();
+				
+				// Update List count
+				ui.lists.update().count();
 			}
 		}),
 
