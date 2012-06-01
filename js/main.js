@@ -98,6 +98,20 @@ var ui = {
 			}
 		}
 	},
+	sortStop: function() {
+		//Saves order of tasks in list
+		var taskOrder = []
+		$('#tasks li').map(function () {
+
+			//If not checked, add to list
+			if (!$(this).children('.checkbox').hasClass('checked')) {
+				taskOrder.push(parseInt($(this).removeClass('expanded').attr('class')));
+			}
+		});
+		//Saves to order
+		core.storage.lists.items[ui.session.selected].order = taskOrder;
+		core.storage.save();
+	},
 	templates: {
 		listTemplate: $$({}, '<li><span class="name" data-bind="name"></span><span class="count" data-bind="count"></span><button class="delete">Delete</button></li>', {
 			'click &': function() {
@@ -134,6 +148,18 @@ var ui = {
 					);
 				}
 				$$.document.append(tmpView, $('#tasks ul'));
+				$('#tasks ul').sortable({
+					placeholder: "placeholder",
+					distance: 20,
+					appendTo: 'body',
+					items: 'li',
+					scroll: false,
+					connectWith: $('#tasks ul'),
+					stop: function (event, elem) {
+
+						ui.sortStop(event, elem);
+					}
+				});
 			},
 			'dblclick .name': function() {
 				var name = prompt("New name", this.model.get('name'));
@@ -158,6 +184,7 @@ var ui = {
 		}),
 
 		task: {
+
 			compressed: $$({}, '<li data-bind="class=id"><div data-bind="class=logged"></div><div data-bind="content" class="content"></div></li>', {
 
 				'click &': function(e) {

@@ -169,10 +169,9 @@ html, body {
 				padding-left: 15px;
 				cursor: pointer;
 				overflow: hidden;
-				
-				background-image: #f3f3f3;
+
 				@include background(linear-gradient(top, #fcfcfc 0%, #f0f0f0 100%));
-				box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+				box-shadow: 0 1px 1px rgba(0,0,0,0.05);
 				
 				border: 1px solid #ccc;
 				border-radius: 5px;
@@ -182,6 +181,10 @@ html, body {
 				color: #111;
 				-webkit-transform: translateZ(0);
 				-webkit-transition: 150ms height ease;
+
+				&.placeholder {
+					background: rgba(0,0,0,0.1);
+				}
 
 				.checkbox {
 					float: left;
