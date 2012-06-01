@@ -98,7 +98,7 @@ var ui = {
 		}
 	},
 	templates: {
-		listTemplate: $$({}, '<li><span class="name" data-bind="name"></span><span class="count" data-bind="count"></span><button class="delete">X</button></li>', {
+		listTemplate: $$({}, '<li><span class="name" data-bind="name"></span><span class="count" data-bind="count"></span><button class="delete">Delete</button></li>', {
 			'click &': function() {
 				//Selected List
 				$('#sidebar .selected').removeClass('selected');
@@ -133,6 +133,14 @@ var ui = {
 					);
 				}
 				$$.document.append(tmpView, $('#tasks ul'));
+			},
+			'dblclick .name': function() {
+				var name = prompt("New name", this.model.get('name'));
+				if(name) {
+					core.storage.lists.items[this.model.get('id')].name = name;
+					this.model.set({name: name});
+					core.storage.save();
+				}
 			}
 		}),
 
