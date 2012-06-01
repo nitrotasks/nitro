@@ -198,14 +198,6 @@ html, body {
 					box-shadow: 0 0 0 #000;
 				}
 
-				&.ui-sortable-helper {
-					display: inline;
-					font-size: 13px;
-					font-weight: bold;
-					color: #fff;
-					background: #85B1F8 !important;
-				}
-
 				.checkbox {
 					float: left;
 					width: 16px;
@@ -262,4 +254,16 @@ $panel_bg: #333;
 	box-shadow: 0 -1px 0 #111, 0 -41px 0 $panel_bg;
 	margin-top: 41px;
 	height: 100%;
+}
+.ui-sortable-helper {
+	display: inline !important;
+	font-size: 13px;
+	font-weight: bold;
+	color: #fff;
+	background: #85B1F8 !important;
+	line-height: 30p !importantx;
+	height: auto !important;
+	min-height: 0 !important;
+	padding: 3px 10px;
+	cursor: default;
 }

@@ -190,18 +190,24 @@ var ui = {
 					scroll: false,
 					forceHelperSize: false,
 					connectWith: $('#tasks ul'),
-					// cursorAt: {
-					// 	top: 15,
-					// 	left: 15
-					// },
-					helper: function (el) {
-						var name = $(el.target).html(),
+					cursorAt: {
+						top: 8,
+						left: 30
+					},
+					helper: function (e, el) {
+						var name = $(el).html(),
 							$temp = $('body')
-								.append('<span class="temp-helper" style="display: none;">' + name + '</span>')
+								.append('<span class="temp-helper" style="display: none; font-size: 13px; font-weight: bold;">' + name + '</span>')
 								.find('.temp-helper'),
 							width = $temp.width();
 						$temp.remove();
-						return $('<span style="width: ' + width + '" class="ui-sortable-helper">' + $(el.target).html() + '</span>');
+
+						var $el = $(el).clone();
+						console.log($el)
+						$el.width(width);
+						return $el;
+						
+						// return $('<span style="width: ' + width + '" class="ui-sortable-helper">' + $(el.target).html() + '</span>');
 					},
 					stop: function (event, elem) {
 
