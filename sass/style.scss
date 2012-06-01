@@ -264,11 +264,13 @@ html, body {
 					}
 				}
 
-				&.hidden {
+				.hidden {
 					display: none;
 					
 					textarea {
-						height:  200px;
+						min-height:  100px;
+						max-height: 400px;
+						width: 100%;
 					}
 				}
 			}
