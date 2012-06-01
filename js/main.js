@@ -60,6 +60,8 @@ var ui = {
 		}
 		//Simulates Click on selected list
 		$('#L' + ui.session.selected).click();
+
+		$('#sidebar ul li').droppable(ui.lists.dropOptions);
 	},
 	lists: {
 		//Draws a list to the DOM
@@ -98,7 +100,37 @@ var ui = {
 					$('#Lall').find('.count').html(core.list('all').populate().length);
 				}
 			}
+		},
+		dropOptions: {
+			hoverClass: "dragHover",
+			drop: function (event, uix) {
+				alert('Dropped')
+				/*var listId = $(this).attr('id').substr(1).toNum(),
+					taskId = $(uix.draggable).attr('id').substr(1).toNum();
+
+				//Next list if task is dropped into same list
+				if (ui.lists.selected() === 'next') {
+					if (cli.taskData(taskId).display().list === $(event.target).attr('id').substr(1).toNum()) {
+						return;
+					}
+				}
+
+				//If item in Today is added to today
+				if ($(event.target).attr('id').substr(1).toNum() === 'today') {
+					cli.today(taskId).add();
+				} else {
+					//Moves Task
+					cli.moveTask(taskId, listId);
+				}
+
+				//Updates Tasks
+				ui.tasks.populate(ui.lists.selected());
+
+				//Update Counts
+				ui.lists.updateCount();*/
+			}
 		}
+
 	},
 	sortStop: function() {
 		//Saves order of tasks in list
