@@ -142,8 +142,14 @@ html, body {
 			
 			// Temporary
 			.delete {
+				display: none;
 				margin-top: 4px;
 				float: right;
+			}
+			&:hover {
+				.delete {
+					display: block;
+				}
 			}
 		}
 	}

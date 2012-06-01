@@ -188,6 +188,7 @@ var ui = {
 					appendTo: 'body',
 					items: 'li',
 					scroll: false,
+					forceHelperSize: false,
 					connectWith: $('#tasks ul'),
 					// cursorAt: {
 					// 	top: 15,
