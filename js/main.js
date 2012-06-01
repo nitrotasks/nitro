@@ -252,6 +252,9 @@ var ui = {
 						view.removeClass('expanded').css('height', '');
 						var id = this.model.get('id');
 
+						//So data gets saved.
+						view.children().children().blur();
+
 						setTimeout(function() {
 							var orig = view.prev()
 							view.remove();
@@ -289,6 +292,12 @@ var ui = {
 				'create': function() {
 					//Sets the localized date =D
 					this.view.$('.date').datepicker().datepicker('setDate', new Date(this.model.get('date')));
+
+					//Focus correct input
+					var input = $(this.view.$('input[data-bind=content]'));
+					setTimeout(function() {
+						input.focus();
+					}, 150);
 				},
 
 				'change input[data-bind=content]': function() {
