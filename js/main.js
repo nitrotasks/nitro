@@ -68,14 +68,23 @@ var ui = {
 				var obj = $$(ui.templates.listTemplate, {id: listId, name: listId});
 				$$.document.append(obj, $('#smartlists ul'));
 			} else {
-				var obj = $$(ui.templates.listTemplate, {id: listId, name: core.storage.lists.items[listId].name});
+				var list = core.storage.lists.items[listId];
+				var obj = $$(ui.templates.listTemplate, {id: listId, name: list.name, count: list.order.length});
 				$$.document.append(obj, $('#lists ul'));
 			}
 			$(obj.view.$()).attr('id', 'L' + obj.model.get('id'))
+		},
+		update: function(listId) {
+			var list = core.storage.lists.items[listId];
+			return {
+				count: function() {
+					$('#L' + listId).find('.count').html(list.order.length);
+				}
+			}
 		}
 	},
 	templates: {
-		listTemplate: $$({}, '<li data-bind="name"></li>', {
+		listTemplate: $$({}, '<li><span class="name" data-bind="name"></span><span class="count" data-bind="count"></span></li>', {
 			'click &': function() {
 				//Selected List
 				$('#sidebar .selected').removeClass('selected');
@@ -275,7 +284,8 @@ var ui = {
 					if (data.list == 'logbook') {
 						logged += ' checked';
 					}
-
+					
+					// Add to DOM
 					$$.document.append(
 						$$(ui.templates.task.compressed, {
 							id: taskId,
@@ -286,16 +296,33 @@ var ui = {
 							logged: logged
 						}), $('#tasks ul')
 					);
+					
+					// Update list count
+					ui.lists.update(list).count();
 				}		
 			}
 		}),
 		taskDeleteBTN: $$({name: 'Delete'}, '<button data-bind="name"/>', {
 			'click &': function() {
-				var task = $('#tasks .selected');
+				var selected = $('#tasks .selected'),
+					lists = {};
 
-				//Deletes from CLI & then removes from DOM
-				core.task(parseInt(task.removeClass('selected').attr('class'))).move('trash');
-				task.remove();
+				// Deletes from CLI
+				for(var i = 0; i < selected.length; i++) {
+					var taskId = Number($(selected[i]).removeClass('selected').attr('class'));
+					lists[core.storage.tasks[taskId].list] = true;
+					
+					// Remove task
+					core.task(taskId).move('trash');
+				}
+				
+				// Update list count
+				for(var key in lists) {
+					ui.lists.update(key).count();	
+				}
+				
+				// Remove from DOM			
+				selected.remove();
 			}
 		})
 	}
