@@ -29,8 +29,8 @@ var ui = {
 		ui.lists.draw('logbook');
 		ui.lists.draw('all');
 
-		$$.document.append(ui.buttons.taskAddBTN, $('#tasks .panel'));
-		$$.document.append(ui.buttons.taskDeleteBTN, $('#tasks .panel'));
+		$$.document.append(ui.buttons.taskAddBTN, $('#tasks .panel .left'));
+		$$.document.append(ui.buttons.taskDeleteBTN, $('#tasks .panel .left'));
 
 		//Splitter
 		$('#content').splitter({sizeLeft: true});
@@ -392,7 +392,7 @@ var ui = {
 	}, 
 	buttons: {
 		//Buttons
-		listAddBTN: $$({name: 'Add List'}, '<button data-bind="name"/>', {
+		listAddBTN: $$({name: '+'}, '<button data-bind="name"/>', {
 			'click &': function() {
 				//Adds a list with the core
 				var listId = core.list().add('New List');

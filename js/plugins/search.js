@@ -8,7 +8,7 @@ plugin.add(function() {
 
 	//Load plugin on document ready
 	$(document).ready(function() {
-		$$.document.append(input, $('#tasks .panel'));	
+		$$.document.append(input, $('#tasks .panel .right'));	
 	});
 
 	var input = $$({}, '<input type="search" placeholder="Search">', {
