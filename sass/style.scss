@@ -241,6 +241,13 @@ $panel_bg: #333;
 	position: relative;
 	border-bottom: 1px solid #000;
 }
+
+.dragbox {
+	width: 16px !important;
+	height: 16px !important;
+	background: #0f0;
+	position: absolute;
+}
 .vsplitbar {
 	border-right: 4px solid transparent;
 	box-sizing: border-box;

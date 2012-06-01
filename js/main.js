@@ -60,8 +60,10 @@ var ui = {
 		}
 		//Simulates Click on selected list
 		$('#L' + ui.session.selected).click();
-
 		$('#sidebar ul li').droppable(ui.lists.dropOptions);
+
+		//Update Counts
+		ui.lists.update().count();
 	},
 	lists: {
 		//Draws a list to the DOM
@@ -104,30 +106,20 @@ var ui = {
 		dropOptions: {
 			hoverClass: "dragHover",
 			drop: function (event, uix) {
-				alert('Dropped')
-				/*var listId = $(this).attr('id').substr(1).toNum(),
-					taskId = $(uix.draggable).attr('id').substr(1).toNum();
+				var listId = parseInt($(this).attr('id').substr(1)),
+					taskId = parseInt($(uix.draggable).removeClass('expanded').attr('class'));				
 
-				//Next list if task is dropped into same list
-				if (ui.lists.selected() === 'next') {
-					if (cli.taskData(taskId).display().list === $(event.target).attr('id').substr(1).toNum()) {
-						return;
-					}
-				}
+				//Moves Task
+				core.task(taskId).move(listId);
 
-				//If item in Today is added to today
-				if ($(event.target).attr('id').substr(1).toNum() === 'today') {
-					cli.today(taskId).add();
-				} else {
-					//Moves Task
-					cli.moveTask(taskId, listId);
-				}
+				//Removes and Saves
+				$(uix.draggable).remove();
+				ui.sortStop();
 
-				//Updates Tasks
-				ui.tasks.populate(ui.lists.selected());
-
-				//Update Counts
-				ui.lists.updateCount();*/
+				//Update Counts - why on a delay?
+				setTimeout(function() {
+					ui.lists.update().count();
+				}, 100);
 			}
 		}
 
@@ -195,19 +187,14 @@ var ui = {
 						left: 30
 					},
 					helper: function (e, el) {
-						var name = $(el).html(),
-							$temp = $('body')
-								.append('<span class="temp-helper" style="display: none; font-size: 13px; font-weight: bold;">' + name + '</span>')
-								.find('.temp-helper'),
-							width = $temp.width();
-						$temp.remove();
-
+					
 						var $el = $(el).clone();
 						console.log($el)
 						$el.width(width);
 						return $el;
 						
 						// return $('<span style="width: ' + width + '" class="ui-sortable-helper">' + $(el.target).html() + '</span>');
+						return $('<span style="width: ' + width + '" class="ui-sortable-helper">' + $(el.target).html() + '</span>');
 					},
 					stop: function (event, elem) {
 

@@ -53,6 +53,7 @@ var core = {
 			To delete something, move to 'trash' */
 
 			move: function(list) {
+				console.log(id, list)
 				//Remove from list
 				core.storage.lists.items[core.storage.tasks[id].list].order.remove(id);
 				
