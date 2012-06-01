@@ -415,7 +415,7 @@ var ui = {
 				ui.lists.draw(listId);
 
 				//Selects List
-				$('#L' + listId).click();
+				$('#L' + listId).click().droppable(ui.lists.dropOptions);
 			}
 		}),
 		taskAddBTN: $$({name: 'Add'}, '<button data-bind="name"/>', {
