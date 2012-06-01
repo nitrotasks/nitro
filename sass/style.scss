@@ -146,13 +146,16 @@ html, body {
 				margin-top: 4px;
 				float: right;
 			}
-			&.selected:hover {
+		}
+	}
+}
+
+#lists {
+	li.selected:hover {
 				.delete {
 					display: block;
 				}
 			}
-		}
-	}
 }
 
 #tasks {
