@@ -81,7 +81,7 @@ var ui = {
 				var obj = $$(ui.templates.listTemplate, {id: listId, name: list.name, count: list.order.length});
 				$$.document.append(obj, $('#lists ul'));
 			}
-			$(obj.view.$()).attr('id', 'L' + obj.model.get('id'))
+			obj.view.$().attr('id', 'L' + obj.model.get('id'))
 		},
 		update: function(listId) {
 			return {
@@ -117,7 +117,7 @@ var ui = {
 			'click &': function() {
 				//Selected List
 				$('#sidebar .selected').removeClass('selected');
-				$(this.view.$()).addClass('selected');
+				this.view.$().addClass('selected');
 				ui.session.selected = this.model.get('id');
 
 				//Gets list id & populates
@@ -176,7 +176,7 @@ var ui = {
 				core.list(id).delete();
 				
 				// Update DOM				
-				$(this.view.$()).remove();
+				this.view.$().remove();
 				
 				// Update List count
 				ui.lists.update().count();
@@ -195,10 +195,10 @@ var ui = {
 					}
 
 					if (e.metaKey) {
-						$(this.view.$()).toggleClass('selected');
+						this.view.$().toggleClass('selected');
 					} else {
 						$('#tasks .selected').removeClass('selected');
-						$(this.view.$()).addClass('selected');
+						this.view.$().addClass('selected');
 					}
 				},
 
@@ -216,7 +216,7 @@ var ui = {
 
 				'dblclick &': function(e) {
 					//Cache the selector
-					var view = $(this.view.$());
+					var view = this.view.$();
 
 					//No event handler things in input or selected.
 					if (e.target.nodeName == 'INPUT' || e.target.nodeName == 'TEXTAREA' || e.target.nodeName == 'BUTTON' || $(e.target).hasClass('checkbox')) {
@@ -286,7 +286,7 @@ var ui = {
 
 				'create': function() {
 					//Sets the localized date =D
-					$(this.view.$()).children('.date').datepicker().datepicker('setDate', new Date(this.model.get('date')));
+					this.view.$('.date').datepicker().datepicker('setDate', new Date(this.model.get('date')));
 				},
 
 				'change input[data-bind=content]': function() {
@@ -295,7 +295,7 @@ var ui = {
 				},
 
 				'change .date': function() {
-					var view = $(this.view.$());
+					var view = this.view.$();
 					core.storage.tasks[this.model.get('id')].date = view.children('.date').datepicker("getDate").getTime();
 					core.storage.save();
 				},
