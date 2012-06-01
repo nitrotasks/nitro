@@ -187,6 +187,13 @@ var ui = {
 						left: 30
 					},
 					helper: function (e, el) {
+
+						var name = $(el).html(),
+							$temp = $('body')
+								.append('<span class="temp-helper" style="display: none; font-size: 13px; font-weight: bold;">' + name + '</span>')
+								.find('.temp-helper'),
+							width = $temp.width();
+						$temp.remove();
 					
 						var $el = $(el).clone();
 						console.log($el)
