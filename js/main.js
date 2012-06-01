@@ -83,15 +83,17 @@ var ui = {
 			}
 			obj.view.$().attr('id', 'L' + obj.model.get('id'))
 		},
-		update: function(listId) {
+		update: function() {
 			return {
 				count: function() {
-					// Update specified list
-					if(listId) {
-						var list = core.storage.lists.items[listId];			
-						$('#L' + listId).find('.count').html(list.order.length);
+					// Update all list counts
+					for(var id in core.storage.lists.items) {
+						if(id != 'length') {
+							var list = core.storage.lists.items[id];			
+							$('#L' + id).find('.count').html(list.order.length);
+						}
 					}
-										
+							
 					// Update the All Tasks list				
 					$('#Lall').find('.count').html(core.list('all').populate().length);
 				}
