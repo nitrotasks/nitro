@@ -146,7 +146,7 @@ html, body {
 				margin-top: 4px;
 				float: right;
 			}
-			&:hover {
+			&.selected:hover {
 				.delete {
 					display: block;
 				}
