@@ -65,7 +65,16 @@ var ui = {
 		//Draws a list to the DOM
 		draw: function(listId) {
 			if (typeof(listId) == 'string') {
-				var obj = $$(ui.templates.listTemplate, {id: listId, name: listId});
+					
+				switch(listId) {
+					case 'all':
+						var obj = $$(ui.templates.listTemplate, {id: listId, name: listId, count: core.list('all').populate().length});
+						break;
+					default:
+						var obj = $$(ui.templates.listTemplate, {id: listId, name: listId});
+						break;
+				}
+				
 				$$.document.append(obj, $('#smartlists ul'));
 			} else {
 				var list = core.storage.lists.items[listId];
@@ -78,7 +87,12 @@ var ui = {
 			var list = core.storage.lists.items[listId];
 			return {
 				count: function() {
+					
+					// Update specified list					
 					$('#L' + listId).find('.count').html(list.order.length);
+					
+					// Update the All Tasks list				
+					$('#Lall').find('.count').html(core.list('all').populate().length);
 				}
 			}
 		}

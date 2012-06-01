@@ -67,7 +67,7 @@ var core = {
 				}
 				//Saves
 				core.storage.save();
-			}
+			}			
 		}
 	},
 
@@ -119,10 +119,12 @@ var core = {
 
 					// Loop
 					for (var i=0; i<core.storage.tasks.length; i++) {
-
-						// If task exists
+					
+						// If task exists (Until we add in delete timestamps)
 						if (core.storage.tasks[i]) {
-							results.push(i);
+							if(!core.storage.tasks[i].hasOwnProperty('deleted') && core.storage.tasks[i].list != 'logbook') {
+								results.push(i);
+							}
 						}
 					}
 
