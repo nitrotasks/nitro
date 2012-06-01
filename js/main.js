@@ -100,6 +100,10 @@ var ui = {
 							
 					// Update the All Tasks list				
 					$('#Lall').find('.count').html(core.list('all').populate().length);
+
+					// Set Title
+					var todayTotal = core.storage.lists.items['today'].order.length;
+					todayTotal > 0 ? document.title = todayTotal + " - Nitro" : document.title = "Nitro";
 				}
 			}
 		},
