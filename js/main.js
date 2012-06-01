@@ -220,14 +220,14 @@ var ui = {
 			},
 			'blur input': function() {
 				var $input = this.view.$('input'),
-					name = $input.val();
+					name = $input.val(),
+					id = this.model.get('id');
 				
 				$input.after('<span class="name" data-bind="name">' + name + '</span>').remove();
-				
-				core.storage.lists.items[this.model.get('id')].name = name;
-				
 				this.model.set({name: name});
-				core.storage.save();
+				core.storage.lists.items[id].name = name;
+				
+				core.storage.save([['lists', id, 'name']]);
 			},
 			'click .delete': function() {
 				var id = this.model.get('id');
@@ -358,34 +358,50 @@ var ui = {
 					}, 150);
 				},
 
+				// Content
 				'change input[data-bind=content]': function() {
-					core.storage.tasks[this.model.get('id')].content = this.model.get('content');
-					core.storage.save();
+					var id = this.model.get('id');
+					core.storage.tasks[id].content = this.model.get('content');
+					core.storage.save([['tasks', id, 'content']]);
 				},
 
+				// Date
 				'change .date': function() {
-					var view = this.view.$();
-					core.storage.tasks[this.model.get('id')].date = view.children('.date').datepicker("getDate").getTime();
-					core.storage.save();
+					var view = this.view.$(),
+						id = this.model.get('id');
+					core.storage.tasks[id].date = view.children('.date').datepicker("getDate").getTime();
+					core.storage.save([['tasks', id, 'date']]);
 				},
 
+				// Priority
 				'click button[data-bind=priority]': function() {
-					var p = this.model.get('priority');
-
-					if (p == 'none') {
-						this.model.set({priority: 'low'});
-					} else if (p == 'low') {
-						this.model.set({priority: 'medium'});
-					} else if (p == 'medium') {
-						this.model.set({priority: 'high'});
-					} else if (p == 'high') {
-						this.model.set({priority: 'none'});
+					var id = this.model.get('id'),
+						original = this.model.get('priority'),
+						next = original;
+					switch(original) {
+						case 'none':
+							next = "low";
+							break;
+						case 'low':
+							next = "medium";
+							break;
+						case 'medium':
+							next = "high";
+							break;
+						case 'high':
+							next = "none"
+							break;
 					}
+					this.model.set({priority: next});
+					core.storage.tasks[id].priority = next;
+					core.storage.save([['tasks', id, 'priority']]);
 				},
 
+				// Notes
 				'change textarea[data-bind=notes]': function() {
-					core.storage.tasks[this.model.get('id')].notes = this.model.get('notes');
-					core.storage.save();
+					var id = this.model.get('id');
+					core.storage.tasks[id].notes = this.model.get('notes');
+					core.storage.save([['tasks', id, 'notes']]);
 				}
 			})
 		}

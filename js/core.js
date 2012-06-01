@@ -53,21 +53,24 @@ var core = {
 			To delete something, move to 'trash' */
 
 			move: function(list) {
-				console.log(id, list)
 				//Remove from list
-				core.storage.lists.items[core.storage.tasks[id].list].order.remove(id);
+				var old = core.storage.tasks[id].list;
+				core.storage.lists.items[old].order.remove(id);
 				
 				if (list === 'trash') {
-					delete core.storage.tasks[id];
+					// delete core.storage.tasks[id];
+					core.storage.tasks[id] = {deleted: core.timestamp()};
 					console.log('Deleted: ' + id);
+					// Saves - but doesn't mess with timestamps
+					core.storage.save();
 				} else {
 					//Move to other list
 					core.storage.lists.items[list].order.unshift(id);
 					core.storage.tasks[id].list = list;
 					console.log('Moved: ' + id + ' to ' + list);
+					//Saves
+					core.storage.save([['tasks', id, 'list'],['lists', list, 'order'],['lists', old, 'order']]);
 				}
-				//Saves
-				core.storage.save();
 			}			
 		}
 	},
@@ -174,10 +177,32 @@ var core = {
 			},
 			time: 0
 		}),
-		save: function() {
+		save: function(arr) {
+
+			if(typeof arr == 'object') {
+				for(var i = 0; i < arr.length; i++) {
+					var type = arr[i][0],
+						id = arr[i][1],
+						key = arr[i][2];
+					switch(type) {
+						case 'tasks':
+							console.log('Updating timestamp for '+ key +' in task '+ id);
+							core.storage.tasks[id].time[key] = core.timestamp();
+							break;
+						case 'lists':
+							console.log('Updating timestamp for '+ key +' in list '+ id);
+							core.storage.lists.items[id].time[key] = core.timestamp();
+							break;
+					}
+				}
+			}
+			
 			$.polyStorage.set('tasks', this.tasks);
 			$.polyStorage.set('lists', this.lists);
 		}
+	},
+	timestamp: function() {
+		return Date.now() - 1333191600000;
 	}
 }
 Array.prototype.remove= function(){
