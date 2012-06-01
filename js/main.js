@@ -106,8 +106,8 @@ var ui = {
 		dropOptions: {
 			hoverClass: "dragHover",
 			drop: function (event, uix) {
-				var listId = parseInt($(this).attr('id').substr(1)),
-					taskId = parseInt($(uix.draggable).removeClass('expanded').attr('class'));				
+				var listId = $(this).attr('id').substr(1).toNum(),
+					taskId = $(uix.draggable).removeClass('expanded').attr('class').toNum();				
 
 				//Moves Task
 				core.task(taskId).move(listId);
@@ -131,7 +131,7 @@ var ui = {
 
 			//If not checked, add to list
 			if (!$(this).children('.checkbox').hasClass('checked')) {
-				taskOrder.push(parseInt($(this).removeClass('expanded').attr('class')));
+				taskOrder.push(Number($(this).removeClass('expanded').attr('class')));
 			}
 		});
 		//Saves to order
@@ -196,7 +196,6 @@ var ui = {
 						$temp.remove();
 					
 						var $el = $(el).clone();
-						console.log($el)
 						$el.width(width);
 						return $el;
 						
@@ -457,5 +456,17 @@ var ui = {
 var plugin = {
 	add: function(fn) {
 		fn();
+	}
+}
+
+// My super awesome function that converts a string to a number
+// "421".toNum()  -> 421
+// "word".toNum() -> "word"
+String.prototype.toNum = function () {
+	var x = parseInt(this, 10);
+	if (x > -100) {
+		return x;
+	} else {
+		return this.toString();
 	}
 }
