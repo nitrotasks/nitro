@@ -82,7 +82,7 @@ var ui = {
 				$$.document.append(obj, $('#smartlists ul'));
 			} else {
 				var list = core.storage.lists.items[listId];
-				var obj = $$(ui.templates.listTemplate, {id: listId, name: list.name, count: list.order.length});
+				var obj = $$(ui.templates.listTemplate, {id: listId, name: list.name, count: "0"});
 				$$.document.append(obj, $('#lists ul'));
 			}
 			obj.view.$().attr('id', 'L' + obj.model.get('id'))
