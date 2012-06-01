@@ -189,6 +189,19 @@ var ui = {
 					items: 'li',
 					scroll: false,
 					connectWith: $('#tasks ul'),
+					// cursorAt: {
+					// 	top: 15,
+					// 	left: 15
+					// },
+					helper: function (el) {
+						var name = $(el.target).html(),
+							$temp = $('body')
+								.append('<span class="temp-helper" style="display: none;">' + name + '</span>')
+								.find('.temp-helper'),
+							width = $temp.width();
+						$temp.remove();
+						return $('<span style="width: ' + width + '" class="ui-sortable-helper">' + $(el.target).html() + '</span>');
+					},
 					stop: function (event, elem) {
 
 						ui.sortStop(event, elem);
