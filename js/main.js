@@ -213,8 +213,10 @@ var ui = {
 				});
 			},
 			'dblclick .name': function() {
-				var name = this.model.get('name')
-				this.view.$('.name').after('<input type="text" value="' + name + '" placeholder="Enter the list name">').next().focus().prev().remove();
+				if(this.view.$().closest('div').attr('id') == 'lists') {
+					var name = this.model.get('name');
+					this.view.$('.name').after('<input type="text" value="' + name + '" placeholder="Enter the list name">').next().focus().prev().remove();
+				}
 			},
 			'blur input': function() {
 				var $input = this.view.$('input'),
