@@ -15,7 +15,7 @@
 
 //When everything is ready
 $(document).ready(function() {
-	//Cache Selectors/Volumes/Files/George/Documents/Github/Nitro/css/style.css
+	//Cache Selectors
 	ui.initLoad();
 	ui.reload();
 });
