@@ -211,15 +211,21 @@ var ui = {
 				}
 			}),
 
-			expand: $$({}, '<div><div data-bind="class=logged"></div><input data-bind="content" type="text"><button data-bind="priority"></button><input placeholder="Due Date" type="text" data-bind="date"><div class="hidden"><textarea data-bind="notes"></textarea></div></div>', {
+			expand: $$({}, '<div><div data-bind="class=logged"></div><input data-bind="content" type="text"><button data-bind="priority"></button><input placeholder="Due Date" type="text" class="date"><div class="hidden"><textarea data-bind="notes"></textarea></div></div>', {
+
+				'create': function() {
+					//Sets the localized date =D
+					$(this.view.$()).children('.date').datepicker().datepicker('setDate', new Date(this.model.get('date')));
+				},
 
 				'change input[data-bind=content]': function() {
 					core.storage.tasks[this.model.get('id')].content = this.model.get('content');
 					core.storage.save();
 				},
 
-				'change input[data-bind=date]': function() {
-					core.storage.tasks[this.model.get('id')].date = this.model.get('date');
+				'change .date': function() {
+					var view = $(this.view.$());
+					core.storage.tasks[this.model.get('id')].date = view.children('.date').datepicker("getDate").getTime();
 					core.storage.save();
 				},
 
