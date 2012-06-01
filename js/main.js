@@ -121,7 +121,7 @@ var ui = {
 						logged += ' checked';
 					}
 
-					tmpView.prepend(
+					tmpView.append(
 						$$(ui.templates.task.compressed, {
 							id: tasks[i],
 							content: data.content,
@@ -308,7 +308,7 @@ var ui = {
 					}
 					
 					// Add to DOM
-					$$.document.append(
+					$$.document.prepend(
 						$$(ui.templates.task.compressed, {
 							id: taskId,
 							content: data.content,
