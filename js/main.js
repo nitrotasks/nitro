@@ -98,7 +98,7 @@ var ui = {
 		}
 	},
 	templates: {
-		listTemplate: $$({}, '<li><span class="name" data-bind="name"></span><span class="count" data-bind="count"></span></li>', {
+		listTemplate: $$({}, '<li><span class="name" data-bind="name"></span><span class="count" data-bind="count"></span><button class="delete">X</button></li>', {
 			'click &': function() {
 				//Selected List
 				$('#sidebar .selected').removeClass('selected');
