@@ -95,6 +95,10 @@ body {
 			&.expanded {
 				margin: 15px 0;
 
+				&:first-child {
+					margin-top: 0;
+				}
+
 				&:hover {
 					@include background(linear-gradient(top, $task_color 0%, darken($task_color, 2%) 100%));
 				}

@@ -392,7 +392,7 @@ var ui = {
 
 							//If it's the first task in a list, .prev won't work
 							if (orig.length == 0) {
-								$$.document.prepend(model, $('#tasks ul'));
+								$$.document.prepend(model, $('#tasks ul > div'));
 							} else {
 								$$.document.after(model, orig);
 							}
@@ -501,7 +501,7 @@ var ui = {
 							date: data.date,
 							priority: data.priority,
 							logged: logged
-						}), $('#tasks ul')
+						}), $('#tasks ul > div')
 					);
 
 					//Expands Task
