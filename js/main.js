@@ -13,24 +13,29 @@
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-//When everything is ready
-$(document).ready(function() {
-	//Cache Selectors
-	ui.initLoad();
-	ui.reload();
-});
-
 var ui = {
+	language: function (data) {
+		//Loads Translation Pack in
+		$.i18n.setDictionary(data);
+
+		//Nice shorthand Method
+		$l = $.i18n;
+
+		$(document).ready(function() {
+			ui.initLoad();
+			ui.reload();
+		});
+	},
 	initLoad: function() {
 		//Buttons
-		$('#smartlists').html('<h2>Focus</h2><ul></ul>');
+		$('#smartlists').html('<h2>' + $l._('focus') + '</h2><ul></ul>');
 		ui.lists.draw('today');
 		ui.lists.draw('next');
 		ui.lists.draw('logbook');
 		ui.lists.draw('all');
 
-		$$.document.append(ui.buttons.taskAddBTN, $('#tasks .panel .left'));
-		$$.document.append(ui.buttons.taskDeleteBTN, $('#tasks .panel .left'));
+		$$.document.append($$(ui.buttons.taskAddBTN, {name: $l._('addbtn')}), $('#tasks .panel .left'));
+		$$.document.append($$(ui.buttons.taskDeleteBTN, {name: $l._('deletebtn')}), $('#tasks .panel .left'));
 
 		//Splitter
 		$('#content').splitter({sizeLeft: true});
@@ -53,7 +58,7 @@ var ui = {
 	},
 	reload: function() {
 		//Populates Template
-		$('#lists').html('<h2>Lists</h2><ul></ul>');
+		$('#lists').html('<h2>' + $l._('lists') + '</h2><ul></ul>');
 		$$.document.append(ui.buttons.listAddBTN, $('#lists h2'));
 		
 		for (var i=0; i<core.storage.lists.order.length; i++) {
@@ -82,8 +87,7 @@ var ui = {
 			}
 		});
 
-		//Simulates Click on selected list
-		$('#L' + ui.session.selected).click();
+		//Droppable
 		$('#sidebar ul li').droppable(ui.lists.dropOptions);
 
 		//Update Counts
@@ -96,10 +100,10 @@ var ui = {
 					
 				switch(listId) {
 					case 'all':
-						var obj = $$(ui.templates.listTemplate, {id: listId, name: listId, count: core.list('all').populate().length});
+						var obj = $$(ui.templates.listTemplate, {id: listId, name: $l._(listId), count: core.list('all').populate().length});
 						break;
 					default:
-						var obj = $$(ui.templates.listTemplate, {id: listId, name: listId});
+						var obj = $$(ui.templates.listTemplate, {id: listId, name: $l._(listId)});
 						break;
 				}
 				
@@ -453,19 +457,19 @@ var ui = {
 		listAddBTN: $$({name: '+'}, '<button data-bind="name"/>', {
 			'click &': function() {
 				//Adds a list with the core
-				var listId = core.list().add('New List');
+				var listId = core.list().add($l._('nlist'));
 				ui.lists.draw(listId);
 
 				//Selects List
 				$('#L' + listId).click().droppable(ui.lists.dropOptions);
 			}
 		}),
-		taskAddBTN: $$({name: 'Add'}, '<button data-bind="name"/>', {
+		taskAddBTN: $$({}, '<button data-bind="name"/>', {
 			'click &': function() {
 				var list = ui.session.selected;
 				if (list != 'all') {
 					//Adds a task with the core
-					var taskId = core.task().add('New Task', list);
+					var taskId = core.task().add($l._('ntask'), list);
 					var data = core.storage.tasks[taskId];
 
 					//Checked Tasks
@@ -491,7 +495,7 @@ var ui = {
 				}		
 			}
 		}),
-		taskDeleteBTN: $$({name: 'Delete'}, '<button data-bind="name"/>', {
+		taskDeleteBTN: $$({}, '<button data-bind="name"/>', {
 			'click &': function() {
 				var selected = $('#tasks .selected'),
 					lists = {};
