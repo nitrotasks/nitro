@@ -175,10 +175,7 @@ var ui = {
 				<button class="delete">X</button>\
 				<span class="count" data-bind="count"></span>\
 			</li>', {
-			'click &': function() {
-				// Blur edited list
-				// $('#lists input').blur();
-
+			'click .name, .count': function() {
 				//Selected List
 				$('#sidebar .selected').removeClass('selected');
 				this.view.$().addClass('selected');
@@ -248,15 +245,19 @@ var ui = {
 				return true;
 			},
 			'click .edit': function() {
-				if(this.view.$().closest('div').attr('id') == 'lists') {
-					var name = this.model.get('name');
-					this.view.$('.name').after('<input type="text" value="' + name + '" placeholder="Enter the list name">').next().focus().prev().remove();
+				var $edit = this.view.$('.edit');
+				if(!$edit.hasClass('open')) {
+					this.view.$('.name').dblclick();
+					$edit.addClass('open').html('#');
+				} else {
+					$edit.removeClass('open').html('E');
 				}
 			},
 			'dblclick .name': function() {
 				if(this.view.$().closest('div').attr('id') == 'lists') {
 					var name = this.model.get('name');
 					this.view.$('.name').after('<input type="text" value="' + name + '" placeholder="Enter the list name">').next().focus().prev().remove();
+					this.view.$('.edit').addClass('open');
 				}
 			},
 			'blur input': function() {
