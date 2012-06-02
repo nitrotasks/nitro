@@ -17,11 +17,11 @@ plugin.add(function() {
 			
 			if (view.val() == '') {
 				//If there's no input, just load list
-				$('#sidebar .selected').click();
+				$('#sidebar .selected .name').click();
 			} else {
 				//Puts the results into the UI
 				$('#tasks .content').empty().html('<h2>Search Results: ' + view.val() + '</h2><ul></ul>')
-				
+
 				//There is some input
 				// Set vars
 				var query = view.val().split(' '),

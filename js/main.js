@@ -37,6 +37,9 @@ var ui = {
 		$$.document.append($$(ui.buttons.taskAddBTN, {name: $l._('addbtn')}), $('#tasks .panel .left'));
 		$$.document.append($$(ui.buttons.taskDeleteBTN, {name: $l._('deletebtn')}), $('#tasks .panel .left'));
 
+		//Loads Selected List
+		$('#L' + ui.session.selected + ' .name').click();
+
 		//Splitter
 		$('#content').splitter({sizeLeft: true});
 		var height = $(window).height(),
@@ -461,7 +464,7 @@ var ui = {
 				ui.lists.draw(listId);
 
 				//Selects List
-				$('#L' + listId).click().droppable(ui.lists.dropOptions);
+				$('#L' + listId + ' .name').click().droppable(ui.lists.dropOptions);
 			}
 		}),
 		taskAddBTN: $$({}, '<button class="add" data-bind="name"/>', {
