@@ -400,6 +400,9 @@ var ui = {
 					//Sets the localized date =D
 					this.view.$('.date').datepicker().datepicker('setDate', new Date(this.model.get('date')));
 
+					//Sets the Placeholder - I'm lazy. TODO: Fix this
+					try{this.view.$('textarea').attr('placeholder', $l._('notes'))} catch(err) {};
+
 					//Focus correct input
 					var input = $(this.view.$('input[data-bind=content]'));
 					setTimeout(function() {

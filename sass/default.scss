@@ -9,6 +9,7 @@ $panel_border: #111;
 $panel_text: #fff;
 
 $task_color: #fff;
+$notes_bg: #FBFAF0;
 
 body {
 	background: url(img/bg.png);
@@ -106,12 +107,13 @@ body {
 			}
 
 			button[data-bind=priority], input.date {
-				border-left: 1px solid darken($task_color, 25%);
+				border-left: 1px solid darken($task_color, 15%);
 			}
 
 			.hidden textarea {
-				border-top: 1px solid  darken($task_color, 25%);
+				border-top: 1px solid  darken($task_color, 15%);
 				border-radius: 0 0 5px 5px;
+				background: url(img/notes.png) no-repeat 8px 7px, $notes_bg;
 			}
 		}
 	}

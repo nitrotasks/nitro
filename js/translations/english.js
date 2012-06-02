@@ -13,5 +13,9 @@ ui.language({
 
 	//Buttons
 	addbtn: "Add",
-	deletebtn: "Delete"
+	deletebtn: "Delete",
+
+	//Placeholder Text
+	search: "Search",
+	notes: "Notes"
 })

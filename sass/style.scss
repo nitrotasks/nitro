@@ -305,7 +305,7 @@ html, body {
 					&:focus {
 						box-shadow: none;
 						outline: 0;
-						height: 30px;
+						height: 32px;
 					}
 				}
 
@@ -328,7 +328,7 @@ html, body {
 					border: 0;
 					border-left: 1px solid #000;
 					background: transparent;
-					line-height: 31px;
+					line-height: 32px;
 					padding: 0 15px;
 				}
 
@@ -338,10 +338,6 @@ html, body {
 					vertical-align: top;
 					width: 80px;
 					text-align: center;
-				}	
-				
-				&:hover {
-					background: #fafafa;
 				}
 				
 				&.selected {
@@ -356,14 +352,13 @@ html, body {
 					display: none;
 					
 					textarea {
-						min-height:  100px;
-						max-height: 400px;
 						width: 100%;
 						border: 0;
 						border-top: 1px solid #000;
 						box-sizing: border-box;
-						padding: 15px;
+						padding: 8px 30px 8px 32px;
 						resize: none;
+						min-height: 70px;
 
 						&:focus {
 							box-shadow: none;
