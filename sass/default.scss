@@ -4,6 +4,7 @@ $sidebar_border: #ccc;
 
 $panel_color: #333;
 $panel_border: #111;
+$panel_text: #fff;
 
 #sidebar {
 	background: $sidebar_back;
@@ -16,6 +17,22 @@ $panel_border: #111;
 .panel {
 	background: $panel_color;
 	border-bottom: 0 1px solid $panel_border;
+	color: $panel_text;
+
+	button {
+		background: $panel_color;
+		color: $panel_text;
+		padding-right:22px;
+
+		&.add {
+			background: url(img/add.png) no-repeat;
+			padding-left: 30px;
+		}
+		&.delete {
+			background: url(img/delete.png) no-repeat;
+			padding-left: 28px;
+		}
+	}
 }
 #sidebar {
 	ul {

@@ -464,7 +464,7 @@ var ui = {
 				$('#L' + listId).click().droppable(ui.lists.dropOptions);
 			}
 		}),
-		taskAddBTN: $$({}, '<button data-bind="name"/>', {
+		taskAddBTN: $$({}, '<button class="add" data-bind="name"/>', {
 			'click &': function() {
 				var list = ui.session.selected;
 				if (list != 'all') {
@@ -495,7 +495,7 @@ var ui = {
 				}		
 			}
 		}),
-		taskDeleteBTN: $$({}, '<button data-bind="name"/>', {
+		taskDeleteBTN: $$({}, '<button class="delete" data-bind="name"/>', {
 			'click &': function() {
 				var selected = $('#tasks .selected'),
 					lists = {};
