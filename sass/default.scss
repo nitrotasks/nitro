@@ -1,24 +1,31 @@
 $sidebar_back: #f8f8f8;
+$selected_color: #33a3ef;
+$sidebar_border: #ccc;
+
+$panel_color: #333;
+$panel_border: #111;
 
 #sidebar {
 	background: $sidebar_back;
 
 	h2 {
-		border-top: 1px solid #ddd;
+		border-top: 1px solid $sidebar_border;
+		border-bottom: 1px solid $sidebar_border;
 	}
+}
+.panel {
+	background: $panel_color;
+	border-bottom: 0 1px solid $panel_border;
 }
 #sidebar {
 	ul {
 		li {
-			background: #33a3ef;
-			color: #fff;
-			border-top: 1px solid #168ad4;
-			border-bottom: 1px solid #168ad4;
-			box-shadow: 1px 0 0 #168ad4;
-
-			&:first-of-type {
-				border-top: 1px solid #168ad4;
+			&.selected {
+				background: $selected_color;
+				color: #fff;
+				outline: 1px solid darken($selected_color, 20%);
 			}
+			
 		}
 	}
 }
@@ -29,4 +36,8 @@ $sidebar_back: #f8f8f8;
 			border-radius: 5px;
 		}
 	}
+}
+.vsplitbar {
+	box-shadow: 0 -1px 0 $panel_border,0 -41px 0 $panel_color;
+	border-left: 1px solid $sidebar_border;
 }
