@@ -87,7 +87,7 @@ html, body {
 #sidebar {
 	height: 100%;
 	position: absolute;
-	z-index: 1;
+	z-index: 2;
 	box-sizing: border-box;
 	min-width: 115px;
 	width: 200px;
@@ -241,6 +241,15 @@ html, body {
 	background-image: #ffffff;
 	background-image: -webkit-radial-gradient(50% 50%, ellipse closest-side, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.0) 100%);
 		
+	.overlay {
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		z-index:1;
+	}
+
 	.content {
 		overflow-y: auto;
 		
@@ -262,6 +271,8 @@ html, body {
 				cursor: pointer;
 				overflow: hidden;
 				padding: 0;
+				position: relative;
+				z-index: 2;
 
 				background: #fff;				
 				border: 1px solid #000;
@@ -301,6 +312,7 @@ html, body {
 					line-height: 1;
 					box-shadow: none;
 					background: transparent;
+					box-sizing: border-box;
 
 					&:focus {
 						box-shadow: none;
@@ -317,7 +329,6 @@ html, body {
 				input[data-bind=content] {
 					padding: 0;
 					margin: 0;
-					box-sizing: border-box;
 					-webkit-box-flex: 1;
 					-moz-box-flex: 1;
 					box-flex: 1;
@@ -338,6 +349,11 @@ html, body {
 					vertical-align: top;
 					width: 80px;
 					text-align: center;
+
+					&:focus {
+						outline: 0;
+						height: 32px;
+					}
 				}
 				
 				&.selected {

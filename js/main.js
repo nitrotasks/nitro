@@ -25,6 +25,10 @@ var ui = {
 			ui.initLoad();
 			ui.reload();
 		});
+
+		$('#tasks .overlay').click(function() {
+			$('#tasks li.expanded').dblclick();
+		})
 	},
 	initLoad: function() {
 		//Buttons
@@ -54,6 +58,10 @@ var ui = {
 
 				$('#content').trigger('resize');
 			}
+		});
+
+		$('#tasks').click(function() {
+
 		});
 	},
 	session: {
@@ -495,6 +503,9 @@ var ui = {
 							logged: logged
 						}), $('#tasks ul')
 					);
+
+					//Expands Task
+					$('#tasks ul li.' + taskId).dblclick();
 					
 					// Update list count
 					ui.lists.update(list).count();
