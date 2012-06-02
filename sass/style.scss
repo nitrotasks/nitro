@@ -241,8 +241,8 @@ body {
 	height: 100%;
 	z-index: 1;
 	box-sizing: border-box;
-	background: url(img/blur.png);
-	background-size: cover;
+	background-image: #ffffff;
+	background-image: -webkit-radial-gradient(50% 50%, ellipse closest-side, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.0) 100%);
 		
 	.content {
 		overflow-y: auto;
