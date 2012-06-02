@@ -1,6 +1,6 @@
 @import "compass/css3/images";
 
-$sidebar_back: #f8f8f8;
+$sidebar_back: #fdfdfd;
 $selected_color: #33a3ef;
 $sidebar_border: #ccc;
 
@@ -17,6 +17,7 @@ $task_color: #fff;
 	h2 {
 		border-top: 1px solid $sidebar_border;
 		border-bottom: 1px solid $sidebar_border;
+		box-shadow: 0 0 1px rgba(0,0,0,0.2) inset;
 	}
 }
 .panel {
@@ -65,6 +66,8 @@ $task_color: #fff;
 				background: $selected_color;
 				color: #fff;
 				outline: 1px solid darken($selected_color, 20%);
+				font-weight: bold;
+				text-shadow: 0 1px 1px darken($selected_color, 15%);
 			}
 			
 		}
