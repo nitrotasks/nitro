@@ -68,7 +68,7 @@ $panel_text: #fff;
 }
 #tasks {
 	h2 {
-		color: rgba(50,50,50,0.8);
+		color: lighten($panel_color, 5%);
 		text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
 	}
 	ul {
