@@ -9,6 +9,7 @@ $panel_text: #fff;
 
 #sidebar {
 	background: $sidebar_back;
+	box-shadow: 1px 0 1px rgba(0, 0, 0, 0.3);
 
 	h2 {
 		border-top: 1px solid $sidebar_border;
@@ -41,7 +42,7 @@ $panel_text: #fff;
 		border: 0;
 		border-radius: 2px;
 		width: 120px;
-		padding-left: 21px;
+		padding-left: 23px;
 		background: url(img/search.png) no-repeat, #fff;
 
 		-webkit-transition: 150ms width ease;
@@ -80,5 +81,5 @@ $panel_text: #fff;
 }
 .vsplitbar {
 	box-shadow: 0 -1px 0 $panel_border,0 -41px 0 $panel_color;
-	border-left: 1px solid $vsplitbar;
+	border-left: 0;
 }
