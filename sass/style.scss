@@ -254,7 +254,7 @@ body {
 		}
 		
 		ul {
-			padding: 0 20px 0 16px;
+			padding: 0 20px 40px 16px;
 			margin: 0;
 		
 			li {
@@ -273,7 +273,9 @@ body {
 				line-height: 30px;
 				color: #111;
 				-webkit-transform: translateZ(0);
-				-webkit-transition: 150ms height ease;
+				-webkit-transition-property: margin, height;
+ 				-webkit-transition-duration: 150ms, 150ms;  
+ 				-webkit-transition-timing-function: ease, ease;
 
 				&.placeholder {
 					background: rgba(0,0,0,0.1);
@@ -343,10 +345,6 @@ body {
 				&:hover {
 					background: #fafafa;
 				}
-
-				&.expanded:hover {
-					background: inherit;
-				}
 				
 				&.selected {
 					background: #0f0;
@@ -367,6 +365,7 @@ body {
 						border-top: 1px solid #000;
 						box-sizing: border-box;
 						padding: 15px;
+						resize: none;
 
 						&:focus {
 							box-shadow: none;
