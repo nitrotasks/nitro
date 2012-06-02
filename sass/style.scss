@@ -167,6 +167,7 @@ html, body {
 .panel {
 	height: 41px;
 	width: 100%;
+	font-size: 14px;
 	background: #fff;
 	z-index: 4;
 	position: relative;
@@ -187,6 +188,13 @@ html, body {
 			margin: 8px 0;
 			vertical-align: top;
 		}
+	}
+
+	button {
+		background: #fff;
+		border: 0;
+		padding: 0 15px;
+		line-height: 40px;
 	}
 }
 
@@ -232,8 +240,13 @@ html, body {
 					box-shadow: 0 0 0 #000;
 				}
 
+				.boxhelp {
+					display: -webkit-box;
+					display: -moz-box;
+					display: box;
+				}
+
 				.checkbox {
-					float: left;
 					margin: 8px;
 					width: 13px;
 					height: 13px;
@@ -243,9 +256,56 @@ html, body {
 						background: #000;
 					}
 				}
+
+				input {
+					border: 0;
+					line-height: 1;
+					box-shadow: none;
+					background: transparent;
+
+					&:focus {
+						box-shadow: none;
+						outline: 0;
+					}
+				}
+
+				div[data-bind=content] {
+					padding-left: 1px;
+					padding-top: 1px;
+				}
+
+				input[data-bind=content] {
+					padding: 0;
+					margin: 0;
+					box-sizing: border-box;
+					-webkit-box-flex: 1;
+					-moz-box-flex: 1;
+					box-flex: 1;
+					display: block;
+				}
+
+				button[data-bind=priority] {
+					border: 0;
+					border-left: 1px solid #000;
+					background: transparent;
+					line-height: 31px;
+					padding: 0 15px;
+				}
+
+				input.date {
+					border-left: 1px solid #000;
+					padding: 8px 5px;
+					vertical-align: top;
+					width: 80px;
+					text-align: center;
+				}	
 				
 				&:hover {
 					background: #fafafa;
+				}
+
+				&.expanded:hover {
+					background: inherit;
 				}
 				
 				&.selected {
@@ -263,6 +323,15 @@ html, body {
 						min-height:  100px;
 						max-height: 400px;
 						width: 100%;
+						border: 0;
+						border-top: 1px solid #000;
+						box-sizing: border-box;
+						padding: 15px;
+
+						&:focus {
+							box-shadow: none;
+							outline: 0;
+						}
 					}
 				}
 			}

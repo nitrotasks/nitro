@@ -269,7 +269,7 @@ var ui = {
 
 		task: {
 
-			compressed: $$({}, '<li data-bind="class=id"><div data-bind="class=logged"></div><div data-bind="content" class="content"></div></li>', {
+			compressed: $$({}, '<li data-bind="class=id"><div class="boxhelp"><div data-bind="class=logged"></div><div data-bind="content" class="content"></div></div></li>', {
 
 				'click &': function(e) {
 
@@ -369,7 +369,7 @@ var ui = {
 				}
 			}),
 
-			expand: $$({}, '<div><div data-bind="class=logged"></div><input data-bind="content" type="text"><button data-bind="priority"></button><input placeholder="Due Date" type="text" class="date"><div class="hidden"><textarea data-bind="notes"></textarea></div></div>', {
+			expand: $$({}, '<div><div class="boxhelp"><div data-bind="class=logged"></div><input data-bind="content" type="text"><button data-bind="priority"></button><input placeholder="Due Date" type="text" class="date"></div><div class="hidden"><textarea data-bind="notes"></textarea></div></div>', {
 
 				'create': function() {
 					//Sets the localized date =D
@@ -393,7 +393,7 @@ var ui = {
 				'change .date': function() {
 					var view = this.view.$(),
 						id = this.model.get('id');
-					core.storage.tasks[id].date = view.children('.date').datepicker("getDate").getTime();
+					core.storage.tasks[id].date = this.view.$('.date').datepicker("getDate").getTime();
 					core.storage.save([['tasks', id, 'date']]);
 				},
 
