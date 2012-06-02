@@ -23,6 +23,7 @@ $panel_text: #fff;
 		background: $panel_color;
 		color: $panel_text;
 		padding-right:22px;
+		font-weight: bold;
 
 		&.add {
 			background: url(img/add.png) no-repeat;
@@ -31,6 +32,23 @@ $panel_text: #fff;
 		&.delete {
 			background: url(img/delete.png) no-repeat;
 			padding-left: 28px;
+		}
+	}
+
+	.right input {
+		border: 0;
+		border-radius: 2px;
+		width: 120px;
+		padding-left: 21px;
+		background: url(img/search.png) no-repeat, #fff;
+
+		-webkit-transition: 150ms width ease;
+
+		&:focus {
+			outline: 0;
+			box-shadow: none;
+			width: 220px;
+
 		}
 	}
 }

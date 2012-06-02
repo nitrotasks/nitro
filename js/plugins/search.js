@@ -19,6 +19,9 @@ plugin.add(function() {
 				//If there's no input, just load list
 				$('#sidebar .selected').click();
 			} else {
+				//Puts the results into the UI
+				$('#tasks .content').empty().html('<h2>Search Results: ' + view.val() + '</h2><ul></ul>')
+				
 				//There is some input
 				// Set vars
 				var query = view.val().split(' '),
@@ -48,9 +51,6 @@ plugin.add(function() {
 						}
 					}
 				}
-
-				//Puts the results into the UI
-				$('#tasks .content').empty().html('<h2>Search Results: ' + view.val() + '</h2><ul></ul>')
 
 				//Loops and adds each task to a tmp view
 				var tmpView = $$({});
