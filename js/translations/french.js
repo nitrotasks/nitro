@@ -112,4 +112,4 @@ ui.language({
 	"1day":					"1 jour avant",
 	"moreday":				"%s jours avant",
 	"never":				"Jamais"
-};
+});
