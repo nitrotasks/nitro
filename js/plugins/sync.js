@@ -1,6 +1,7 @@
 /* Nitro Sync Plugin
  * By Jono Cooper & George Czabania
  * Licensed under the BSD License
+ * Uses jQuery for AJAX calls
  */
 
 //Adds as a plugin
@@ -11,8 +12,8 @@ plugin.add(function() {
 		run: function (service, callback) {
 
 			if (service) {
-				cli.storage.prefs.sync.service = service;
-			} else if (!cli.storage.prefs.sync.hasOwnProperty('service')) {
+				core.storage.prefs.sync.service = service;
+			} else if (!core.storage.prefs.sync.hasOwnProperty('service')) {
 				console.log("Error: Don't know what service to use.");
 				if (typeof callback === "function") callback(false);
 				else return;
@@ -21,16 +22,16 @@ plugin.add(function() {
 			ui.sync.beforeunload('on');
 
 
-			if (cli.storage.prefs.sync.hasOwnProperty('access')) {
+			if (core.storage.prefs.sync.hasOwnProperty('access')) {
 
-				cli.storage.sync.emit();
+				core.storage.sync.emit();
 
 				if (typeof callback === "function") callback(true);
 
 			} else {
 
-				cli.storage.sync.connect(function (result) {
-					cli.storage.sync.emit();
+				core.storage.sync.connect(function (result) {
+					core.storage.sync.emit();
 
 					if (typeof callback === "function") callback(result);
 				});
@@ -47,9 +48,9 @@ plugin.add(function() {
 
 			console.log("Connecting to Nitro Sync server");
 
-			if (cli.storage.prefs.sync.hasOwnProperty('access')) {
+			if (core.storage.prefs.sync.hasOwnProperty('access')) {
 
-				var ajaxdata = cli.storage.sync.ajaxdata;
+				var ajaxdata = core.storage.sync.ajaxdata;
 
 				//Yes, this code is in the complete wrong order but we need python integration
 				ajaxdata.watch('data', function (id, oldval, newval) {
@@ -69,15 +70,15 @@ plugin.add(function() {
 
 				if (app == 'python') {
 					document.title = 'null';
-					document.title = 'ajax|access|' + cli.storage.prefs.sync.access + '|' + cli.storage.prefs.sync.service;
+					document.title = 'ajax|access|' + core.storage.prefs.sync.access + '|' + core.storage.prefs.sync.service;
 				} else {
 					$.ajax({
 						type: "POST",
-						url: cli.storage.prefs.sync.url + '/auth/',
+						url: core.storage.prefs.sync.url + '/auth/',
 						dataType: 'json',
 						data: {
-							access: JSON.stringify(cli.storage.prefs.sync.access),
-							service: cli.storage.prefs.sync.service
+							access: JSON.stringify(core.storage.prefs.sync.access),
+							service: core.storage.prefs.sync.service
 						},
 						success: function (data) {
 
@@ -86,13 +87,13 @@ plugin.add(function() {
 					});
 				}
 			} else {
-				var ajaxdata = cli.storage.sync.ajaxdata;
+				var ajaxdata = core.storage.sync.ajaxdata;
 
 				//Yes, this code is in the complete wrong order but we need python integration
 				ajaxdata.watch('data', function (id, oldval, newval) {
 
 					console.log("Verifying Storagebackend");
-					cli.storage.prefs.sync.token = newval;
+					core.storage.prefs.sync.token = newval;
 
 					// Display popup window
 					if (app == 'python') {
@@ -114,11 +115,11 @@ plugin.add(function() {
 					//New Ajax Request
 					ajaxdata.watch('data', function (id, oldval, newval) {
 						console.log("Nitro Sync server is ready");
-						cli.storage.prefs.sync.access = newval.access;
-						cli.storage.prefs.sync.email = newval.email;
-						delete cli.storage.prefs.sync.token;
+						core.storage.prefs.sync.access = newval.access;
+						core.storage.prefs.sync.email = newval.email;
+						delete core.storage.prefs.sync.token;
 						callback(true);
-						cli.storage.save();
+						core.storage.save();
 
 						//Unbind AJAX thing
 						ajaxdata.unwatch();
@@ -127,15 +128,15 @@ plugin.add(function() {
 					//^ Ajax Request we're watching for
 					if (app == 'python') {
 						document.title = 'null';
-						document.title = 'ajax|token|' + JSON.stringify(cli.storage.prefs.sync.token) + '|' + cli.storage.prefs.sync.service;
+						document.title = 'ajax|token|' + JSON.stringify(core.storage.prefs.sync.token) + '|' + core.storage.prefs.sync.service;
 					} else {
 						$.ajax({
 							type: "POST",
-							url: cli.storage.prefs.sync.url + '/auth/',
+							url: core.storage.prefs.sync.url + '/auth/',
 							dataType: 'json',
 							data: {
-								token: cli.storage.prefs.sync.token,
-								service: cli.storage.prefs.sync.service
+								token: core.storage.prefs.sync.token,
+								service: core.storage.prefs.sync.service
 							},
 							success: function (data) {
 								ajaxdata.data = data;
@@ -149,15 +150,15 @@ plugin.add(function() {
 				//^ Ajax Request we're watching for
 				if (app == 'python') {
 					document.title = 'null';
-					document.title = 'ajax|reqURL|' + cli.storage.prefs.sync.service;
+					document.title = 'ajax|reqURL|' + core.storage.prefs.sync.service;
 				} else {
 					$.ajax({
 						type: "POST",
-						url: cli.storage.prefs.sync.url + '/auth/',
+						url: core.storage.prefs.sync.url + '/auth/',
 						dataType: 'json',
 						data: {
 							reqURL: 'true',
-							service: cli.storage.prefs.sync.service
+							service: core.storage.prefs.sync.service
 						},
 						success: function (data) {
 							ajaxdata.data = data;
@@ -168,44 +169,42 @@ plugin.add(function() {
 		},
 
 		emit: function () {
-			var client = {
-				tasks: cli.storage.tasks,
-				queue: cli.storage.queue,
-				lists: cli.storage.lists,
+			var coreent = {
+				tasks: core.storage.tasks,
+				lists: core.storage.lists,
 				stats: {
-					uid: cli.storage.prefs.sync.email,
+					uid: core.storage.prefs.sync.email,
 					os: app,
-					language: cli.storage.prefs.lang,
+					language: core.storage.prefs.lang,
 					version: version
 				}
 			};
 
-			var ajaxdata = cli.storage.sync.ajaxdata;
+			var ajaxdata = core.storage.sync.ajaxdata;
 
 			//Watches Ajax request
 			ajaxdata.watch('data', function (id, oldval, newval) {
 				newval = decompress(newval);
 				console.log("Finished sync");
-				cli.storage.tasks = newval.tasks;
-				cli.storage.queue = newval.queue;
-				cli.storage.lists = newval.lists;
-				cli.storage.save();
+				core.storage.tasks = newval.tasks;
+				core.storage.lists = newval.lists;
+				core.storage.save();
 				ui.sync.reload();
 			});
 
 			//^ Ajax Request we're watching for
 			if (app == 'python') {
 				document.title = 'null';
-				document.title = 'ajax|sync|' + JSON.stringify(compress(client)) + '|' + JSON.stringify(cli.storage.prefs.sync.access) + '|' + cli.storage.prefs.sync.service;
+				document.title = 'ajax|sync|' + JSON.stringify(compress(coreent)) + '|' + JSON.stringify(core.storage.prefs.sync.access) + '|' + core.storage.prefs.sync.service;
 			} else {
 				$.ajax({
 					type: "POST",
-					url: cli.storage.prefs.sync.url + '/sync/',
+					url: core.storage.prefs.sync.url + '/sync/',
 					dataType: 'json',
 					data: {
-						data: JSON.stringify(compress(client)),
-						access: cli.storage.prefs.sync.access,
-						service: cli.storage.prefs.sync.service
+						data: JSON.stringify(compress(coreent)),
+						access: core.storage.prefs.sync.access,
+						service: core.storage.prefs.sync.service
 					},
 					success: function (data) {
 						if (data != 'failed') {
