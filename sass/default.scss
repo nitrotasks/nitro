@@ -31,10 +31,18 @@ body {
 	color: $panel_text;
 	box-shadow: 0 0 2px rgba(0,0,0,0.4);
 
+	.brand {
+		line-height: 40px;
+		font-size: 18px;
+		font-weight: bold;
+		padding-left: 20px;
+		background: url(img/logo.png) no-repeat;
+	}
+
 	button {
 		background: $panel_color;
 		color: $panel_text;
-		padding-right:22px;
+		padding-right: 24px;
 		font-weight: bold;
 
 		&.add {
