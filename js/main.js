@@ -66,6 +66,7 @@ var ui = {
 			axis: 'y',
 			distance: 20,
 			placeholder: 'listPlaceholder',
+			helper: 'clone',
 			stop: function() {
 				//Saves Everything, including order
 				var listOrder = [];
@@ -167,8 +168,17 @@ var ui = {
 		core.storage.save();
 	},
 	templates: {
-		listTemplate: $$({}, '<li><span class="name" data-bind="name"></span><span class="count" data-bind="count"></span><button class="delete">Delete</button></li>', {
+		listTemplate: $$({}, '\
+			<li>\
+				<span class="name" data-bind="name"></span>\
+				<button class="edit">E</button>\
+				<button class="delete">X</button>\
+				<span class="count" data-bind="count"></span>\
+			</li>', {
 			'click &': function() {
+				// Blur edited list
+				// $('#lists input').blur();
+
 				//Selected List
 				$('#sidebar .selected').removeClass('selected');
 				this.view.$().addClass('selected');
@@ -200,6 +210,7 @@ var ui = {
 							logged: logged
 						})
 					);
+
 				}
 				$$.document.append(tmpView, $('#tasks ul'));
 				$('#tasks ul').sortable({
@@ -225,16 +236,22 @@ var ui = {
 					
 						var $el = $(el).clone();
 						$el.width(width);
+						$el.addClass('tasks');
 						return $el;
-						
-						// return $('<span style="width: ' + width + '" class="ui-sortable-helper">' + $(el.target).html() + '</span>');
-						return $('<span style="width: ' + width + '" class="ui-sortable-helper">' + $(el.target).html() + '</span>');
 					},
 					stop: function (event, elem) {
 
 						ui.sortStop(event, elem);
 					}
 				});
+
+				return true;
+			},
+			'click .edit': function() {
+				if(this.view.$().closest('div').attr('id') == 'lists') {
+					var name = this.model.get('name');
+					this.view.$('.name').after('<input type="text" value="' + name + '" placeholder="Enter the list name">').next().focus().prev().remove();
+				}
 			},
 			'dblclick .name': function() {
 				if(this.view.$().closest('div').attr('id') == 'lists') {

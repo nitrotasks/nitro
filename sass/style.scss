@@ -121,21 +121,52 @@ html, body {
 		margin: 0;
 		padding: 0;
 		li {
-			display: block;
+			display: box;
+			display: -webkit-box;
+			display: -moz-box;
 			height: 32px;
 			box-sizing: border-box;
 			line-height: 32px;
 			font-weight: normal;
 			font-size: 14px;
 			color: #444444;
-			padding: 0 15px;
+			padding: 0 0 0 15px;
 			cursor: pointer;
+			position: relative;
 
-			//jQuery UI trys to override
+			// jQuery UI tries to override
 			width: 100% !important;
 
 			.count {
-				float: right;
+				display: inline-block;
+				width: 50px;
+				height: 32px;
+				text-align: center;
+			}
+
+			.name {
+				display: block;
+				height: 32px;
+				box-flex: 1;
+				-webkit-box-flex: 1;
+				-moz-box-flex: 1;
+			}
+
+			input {
+				display: block;
+				height: 32px;
+				background: #fff;
+				padding: 0;
+				margin: 0 0 0 -1px;
+				border: 0;
+				outline: 1px solid #000;
+				box-flex: 1;
+				-webkit-box-flex: 1;
+				-moz-box-flex: 1;
+			}
+			input:focus {
+				outline: 1px solid #000;
+				outline-offset: 0;
 			}
 			
 			&.selected {
@@ -148,10 +179,9 @@ html, body {
 			}
 			
 			// Temporary
-			.delete {
+			.delete,
+			.edit {
 				display: none;
-				margin-top: 4px;
-				float: right;
 			}
 		}
 	}
@@ -159,7 +189,8 @@ html, body {
 
 #lists {
 	li.selected:hover {
-				.delete {
+				.delete,
+				.edit {
 					display: block;
 				}
 			}
@@ -354,7 +385,7 @@ html, body {
 }
 
 //jQuery UI trys to override
-.ui-sortable-helper {
+.ui-sortable-helper.tasks {
 	display: inline !important;
 	font-size: 13px;
 	font-weight: bold;
