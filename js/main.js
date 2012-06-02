@@ -171,7 +171,10 @@ var ui = {
 	sortStop: function() {
 		//Saves order of tasks in list
 		var taskOrder = []
-		$('#tasks li').map(function () {
+		console.log()
+		$('#tasks ul').first().children('div').children('li').map(function () {
+
+			console.log(this)
 
 			//If not checked, add to list
 			if (!$(this).children('.checkbox').hasClass('checked')) {
@@ -200,9 +203,8 @@ var ui = {
 				$('#tasks .content').empty().html('<h2>' + this.model.get('name') + '</h2><ul></ul>')
 				var tasks = core.list(this.model.get('id')).populate();
 
-				//Loops and adds each task to a tmp view
-				var tmpView = $$({});
-				for (var i=0; i<tasks.length; i++) {
+				//Drams Task then appends it to a tmpview
+				function drawTask(i) {
 					//Makes it nice
 					var data = core.storage.tasks[tasks[i]];
 
@@ -222,9 +224,36 @@ var ui = {
 							logged: logged
 						})
 					);
+				}
 
+				//Loops and adds each task to a tmp view
+				var tmpView = $$({});
+				for (var i=0; i<tasks.length; i++) {
+					drawTask(i);
 				}
 				$$.document.append(tmpView, $('#tasks ul'));
+
+				if (ui.session.selected == 'next') {
+					for (var l=0; l<core.storage.lists.order.length; l++) {
+						//Defines Stuff for easier access
+						var list = core.storage.lists.order[l];
+						var tasks = core.list(list).populate();
+
+						//Makes sure there is something in the list
+						if (tasks.length != 0) {
+							//New DOM Node
+							$('#tasks .content').append('<h2>' + core.storage.lists.items[list].name + '</h2><ul class="' + list + '"></ul>');
+
+							//Loops and puts the tasks in
+							var tmpView = $$({});
+							for (var i=0; i<tasks.length; i++) {
+								drawTask(i);
+							}
+							$$.document.append(tmpView, $('#tasks ul.' + list));
+						}						
+					}
+				}
+
 				$('#tasks ul').sortable({
 					placeholder: "placeholder",
 					distance: 20,
@@ -392,7 +421,7 @@ var ui = {
 
 							//If it's the first task in a list, .prev won't work
 							if (orig.length == 0) {
-								$$.document.prepend(model, $('#tasks ul > div'));
+								$$.document.prepend(model, $('#tasks ul').first().children('div'));
 							} else {
 								$$.document.after(model, orig);
 							}
@@ -501,7 +530,7 @@ var ui = {
 							date: data.date,
 							priority: data.priority,
 							logged: logged
-						}), $('#tasks ul > div')
+						}), $('#tasks ul').first().children('div')
 					);
 
 					//Expands Task
