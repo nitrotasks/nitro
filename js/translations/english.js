@@ -17,5 +17,11 @@ ui.language({
 
 	//Placeholder Text
 	search: "Search",
-	notes: "Notes"
+	notes: "Notes",
+
+	//Priority
+	none: "None",
+	low: "Low",
+	medium: "Medium",
+	high: "High"
 })

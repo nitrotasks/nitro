@@ -11,6 +11,10 @@ $panel_text: #fff;
 $task_color: #fff;
 $notes_bg: #FBFAF0;
 
+$low_color: #f1f9ff;
+$medium_color: #fff3d9;
+$high_color: #fee;
+
 body {
 	background: url(img/bg.png);
 }
@@ -118,8 +122,17 @@ body {
 				background: $task_color;
 			}
 
-			button[data-bind=priority], input.date {
+			button.none, button.low, button.medium, button.high, input.date {
 				border-left: 1px solid darken($task_color, 15%);
+			}
+			button.low {
+				@include background(linear-gradient(top, lighten($low_color, 10%) 0%, $low_color 100%));
+			}
+			button.medium {
+				@include background(linear-gradient(top, lighten($medium_color, 10%) 0%, $medium_color 100%));
+			}
+			button.high {
+				@include background(linear-gradient(top, lighten($high_color, 10%) 0%, $high_color 100%));
 			}
 
 			.hidden textarea {

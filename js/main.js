@@ -447,7 +447,9 @@ var ui = {
 								content: this.model.get('content'),
 								notes: this.model.get('notes'),
 								date: this.model.get('date'),
+								//Because of Translated Version
 								priority: this.model.get('priority'),
+								i18n_priority: $l._(this.model.get('priority')),
 								logged: logged
 							}), view);
 
@@ -497,7 +499,7 @@ var ui = {
 				}
 			}),
 
-			expand: $$({}, '<div><div class="boxhelp"><div data-bind="class=logged"></div><input data-bind="content" type="text"><button data-bind="priority"></button><input placeholder="Due Date" type="text" class="date"></div><div class="hidden"><textarea data-bind="notes"></textarea></div></div>', {
+			expand: $$({}, '<div><div class="boxhelp"><div data-bind="class=logged"></div><input data-bind="content" type="text"><button data-bind="i18n_priority, class=priority"></button><input placeholder="Due Date" type="text" class="date"></div><div class="hidden"><textarea data-bind="notes"></textarea></div></div>', {
 
 				'create': function() {
 					//Sets the localized date =D
@@ -529,7 +531,7 @@ var ui = {
 				},
 
 				// Priority
-				'click button[data-bind=priority]': function() {
+				'click button[data-bind=i18n_priority, class=priority]': function() {
 					var id = this.model.get('id'),
 						original = this.model.get('priority'),
 						next = original;
@@ -547,7 +549,7 @@ var ui = {
 							next = "none"
 							break;
 					}
-					this.model.set({priority: next});
+					this.model.set({priority: next, i18n_priority: $l._(next)});
 					core.storage.tasks[id].priority = next;
 					core.storage.save([['tasks', id, 'priority']]);
 				},
