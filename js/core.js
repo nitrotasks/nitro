@@ -159,6 +159,11 @@ var core = {
 								results.push(i);
 							}
 						}
+						
+						results.sort(function(a, b) {
+							console.log(a, b)
+							return core.storage.tasks[a].logged > core.storage.tasks[b].logged;
+						});
 
 						return results;
 

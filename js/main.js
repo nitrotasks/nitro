@@ -35,7 +35,10 @@ var ui = {
 	},
 	initLoad: function() {
 		//Buttons
-		$('#smartlists').html('<h2>' + $l._('focus') + '</h2><ul></ul>');
+		$('#smartlists').html('\
+			<h2>' + $l._('focus') + '\
+			</h2>\
+			<ul></ul>');
 		ui.lists.draw('today');
 		ui.lists.draw('next');
 		ui.lists.draw('logbook');
@@ -78,6 +81,7 @@ var ui = {
 		//Populates Template
 		$('#lists').html('<h2>' + $l._('lists') + '</h2><ul></ul>');
 		$$.document.append(ui.buttons.listAddBTN, $('#lists h2'));
+		$$.document.append(ui.buttons.toggleFocus, $('#smartlists h2'));
 		
 		for (var i=0; i<core.storage.lists.order.length; i++) {
 			ui.lists.draw(core.storage.lists.order[i]);
@@ -640,6 +644,19 @@ var ui = {
 				
 				// Remove from DOM			
 				selected.remove();
+			}
+		}),
+
+		toggleFocus: $$({}, '<span id="focus-toggle">+</span>', {
+			'click &': function() {
+				if($('#smartlists h2').hasClass('collapsed')) {
+					$('#smartlists ul').slideDown(150, function() {
+						$('#smartlists h2').removeClass('collapsed');
+					});
+				} else {
+					$('#smartlists ul').slideUp(150);
+					$('#smartlists h2').addClass('collapsed');
+				}
 			}
 		})
 	}
