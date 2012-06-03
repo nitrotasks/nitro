@@ -151,14 +151,20 @@ var ui = {
 			accept: "#tasks li",
 			drop: function (event, uix) {
 				var listId = $(this).attr('id').substr(1).toNum(),
-					taskId = $(uix.draggable).removeClass('expanded').attr('class').toNum();				
+					taskId = $(uix.draggable).attr('data-id').toNum();	
 
 				//Moves Task
 				core.task(taskId).move(listId);
 
+				console.log(taskId)
+
 				//Removes and Saves
 				$(uix.draggable).remove();
-				ui.sortStop();
+
+				//If we're in the next list, we may as well reload (because I'm fucking lazy)
+				if (ui.session.selected == 'next') {
+					$('#Lnext .name').click();
+				}
 
 				//Update Counts - why on a delay?
 				setTimeout(function() {
@@ -173,16 +179,50 @@ var ui = {
 		var taskOrder = []
 		console.log()
 		$('#tasks ul').first().children('div').children('li').map(function () {
+			var id = Number($(this).attr('data-id'));
 
-			console.log(this)
+			console.log(id)
+
+			//If not in the correct list, move to the list.
+			if (core.storage.tasks[id].list != ui.session.selected) {
+				core.task(id).move(ui.session.selected);
+			}
 
 			//If not checked, add to list
 			if (!$(this).children('.checkbox').hasClass('checked')) {
-				taskOrder.push(Number($(this).removeClass('expanded').attr('class')));
+				taskOrder.push(id);
 			}
 		});
-		//Saves to order
+		//Saves
 		core.storage.lists.items[ui.session.selected].order = taskOrder;
+
+		//Only in the next list
+		if (ui.session.selected == 'next') {
+			//Loops through lists to save order
+			for (var i=0; i<core.storage.lists.order.length; i++) {
+				//New Array
+				NtaskOrder = [];
+				//This needs to be put into a function...
+				$('#tasks > .content > ul.' + core.storage.lists.order[i] + ' > div > li').map(function () {
+					var id = Number($(this).attr('data-id'));
+
+					//If not in the correct list, move to the list.
+					if (core.storage.tasks[id].list != core.storage.lists.order[i]) {
+						core.task(id).move(core.storage.lists.order[i]);
+					}
+
+					//If not checked, add to list
+					if (!$(this).children('.checkbox').hasClass('checked')) {
+						NtaskOrder.push(id);
+					}
+				});
+
+				//Saves to order
+				core.storage.lists.items[core.storage.lists.order[i]].order = NtaskOrder;
+			}
+		}
+
+		ui.lists.update().count();
 		core.storage.save();
 	},
 	templates: {
@@ -254,6 +294,11 @@ var ui = {
 					}
 				}
 
+				//All Can't be sorted
+				if (ui.session.selected == 'all') {
+					return true;
+				}
+				
 				$('#tasks ul').sortable({
 					placeholder: "placeholder",
 					distance: 20,
@@ -331,7 +376,7 @@ var ui = {
 
 		task: {
 
-			compressed: $$({}, '<li data-bind="class=id"><div class="boxhelp"><div data-bind="class=logged"></div><div data-bind="content" class="content"></div></div></li>', {
+			compressed: $$({}, '<li data-bind="data-id=id"><div class="boxhelp"><div data-bind="class=logged"></div><div data-bind="content" class="content"></div></div></li>', {
 
 				'click &': function(e) {
 
@@ -504,7 +549,7 @@ var ui = {
 				ui.lists.draw(listId);
 
 				//Selects List
-				$('#L' + listId + ' .name').click().droppable(ui.lists.dropOptions);
+				$('#L' + listId).droppable(ui.lists.dropOptions).children('.name').click();
 			}
 		}),
 		taskAddBTN: $$({}, '<button class="add" data-bind="name"/>', {
@@ -534,7 +579,7 @@ var ui = {
 					);
 
 					//Expands Task
-					$('#tasks ul li.' + taskId).dblclick();
+					$('#tasks ul li[data-id=' + taskId + ']').dblclick();
 					
 					// Update list count
 					ui.lists.update(list).count();
@@ -548,7 +593,7 @@ var ui = {
 
 				// Deletes from CLI
 				for(var i = 0; i < selected.length; i++) {
-					var taskId = Number($(selected[i]).removeClass('selected').attr('class'));
+					var taskId = Number($(selected[i]).attr('data-id'));
 					lists[core.storage.tasks[taskId].list] = true;
 					
 					// Remove task
