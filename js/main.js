@@ -26,8 +26,10 @@ var ui = {
 			ui.reload();
 		});
 
-		$('#tasks .overlay').click(function() {
-			$('#tasks li.expanded').dblclick();
+		$('#tasks > .tasksContent').click(function(e) { 
+			if(e.target.nodeName == 'UL' || e.target.nodeName == 'H2' || e.target.className == 'tasksContent') {
+				$('.expanded').dblclick();
+			}
 		})
 	},
 	initLoad: function() {
@@ -60,13 +62,13 @@ var ui = {
 				$('#content').trigger('resize');
 
 				//Content Height
-				$('.content').height(height - $('.panel').height())
+				$('.tasksContent').height(height - $('.panel').height())
 				$('#lists ul').height(height - $('#lists ul').position().top)
 			}
 		});
 
 		//I can't trigger it?
-		$('.content').height(height - $('.panel').height())
+		$('.tasksContent').height(height - $('.panel').height())
 	},
 	session: {
 		selected: 'today'
@@ -100,9 +102,7 @@ var ui = {
 				core.storage.lists.order = listOrder;
 				core.storage.save();
 			}
-		});
-
-		$('#lists ul').height($(window).height() - $('#lists ul').position().top);
+		}).height($(window).height() - $('#lists ul').position().top);
 
 		//Droppable
 		$('#sidebar ul li').droppable(ui.lists.dropOptions);
@@ -209,7 +209,7 @@ var ui = {
 				//New Array
 				NtaskOrder = [];
 				//This needs to be put into a function...
-				$('#tasks > .content > ul.' + core.storage.lists.order[i] + ' > li').map(function () {
+				$('#tasks > .tasksContent > ul.' + core.storage.lists.order[i] + ' > li').map(function () {
 					var id = Number($(this).attr('data-id'));
 
 					//If not in the correct list, move to the list.
@@ -246,7 +246,7 @@ var ui = {
 				ui.session.selected = this.model.get('id');
 
 				//Gets list id & populates
-				$('#tasks .content').empty().html('<h2>' + this.model.get('name') + '</h2>')
+				$('#tasks .tasksContent').empty().html('<h2>' + this.model.get('name') + '</h2>')
 				var tasks = core.list(this.model.get('id')).populate();
 
 				//Drams Task then appends it to a tmpview
@@ -277,7 +277,7 @@ var ui = {
 				for (var i=0; i<tasks.length; i++) {
 					drawTask(i);
 				}
-				$$.document.append(tmpView, $('#tasks .content'));
+				$$.document.append(tmpView, $('#tasks .tasksContent'));
 
 				if (ui.session.selected == 'next') {
 					for (var l=0; l<core.storage.lists.order.length; l++) {
@@ -288,14 +288,14 @@ var ui = {
 						//Makes sure there is something in the list
 						if (tasks.length != 0) {
 							//New DOM Node
-							$('#tasks .content').append('<h2>' + core.storage.lists.items[list].name + '</h2>');
+							$('#tasks .tasksContent').append('<h2>' + core.storage.lists.items[list].name + '</h2>');
 
 							//Loops and puts the tasks in
 							var tmpView = $$({list: list}, '<ul data-bind="class=list"></ul>');
 							for (var i=0; i<tasks.length; i++) {
 								drawTask(i);
 							}
-							$$.document.append(tmpView, $('#tasks .content'));
+							$$.document.append(tmpView, $('#tasks .tasksContent'));
 						}						
 					}
 				}
@@ -468,9 +468,7 @@ var ui = {
 								date: data.date,
 								priority: data.priority,
 								logged: logged
-							})
-
-							console.log(data.list)
+							});
 
 							//If it's the first task in a list, .prev won't work
 							if (orig.length == 0) {
@@ -629,7 +627,6 @@ var plugin = {
 		fn();
 	}
 }
-
 // My super awesome function that converts a string to a number
 // "421".toNum()  -> 421
 // "word".toNum() -> "word"
