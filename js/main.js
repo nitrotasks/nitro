@@ -401,7 +401,7 @@ var ui = {
 
 				'click .checkbox': function(e) {
 					//Changes Appearance
-					$(e.currentTarget).toggleClass('checked')
+					$(e.currentTarget).toggleClass('checked');
 
 					//Moves it around for real.
 					if($(e.currentTarget).hasClass('checked')) {
@@ -409,6 +409,9 @@ var ui = {
 					} else {
 						core.task(this.model.get('id')).move(ui.session.selected);
 					}
+
+					// Update count
+					ui.lists.update().count();
 				},
 
 				'dblclick &': function(e) {
