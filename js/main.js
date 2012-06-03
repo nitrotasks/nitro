@@ -178,7 +178,7 @@ var ui = {
 		//Saves order of tasks in list
 		var taskOrder = []
 		console.log()
-		$('#tasks ul').first().children('div').children('li').map(function () {
+		$('#tasks ul').first().children('li').map(function () {
 			var id = Number($(this).attr('data-id'));
 
 			console.log(id)
@@ -203,7 +203,7 @@ var ui = {
 				//New Array
 				NtaskOrder = [];
 				//This needs to be put into a function...
-				$('#tasks > .content > ul.' + core.storage.lists.order[i] + ' > div > li').map(function () {
+				$('#tasks > .content > ul.' + core.storage.lists.order[i] + ' > li').map(function () {
 					var id = Number($(this).attr('data-id'));
 
 					//If not in the correct list, move to the list.
@@ -240,7 +240,7 @@ var ui = {
 				ui.session.selected = this.model.get('id');
 
 				//Gets list id & populates
-				$('#tasks .content').empty().html('<h2>' + this.model.get('name') + '</h2><ul></ul>')
+				$('#tasks .content').empty().html('<h2>' + this.model.get('name') + '</h2>')
 				var tasks = core.list(this.model.get('id')).populate();
 
 				//Drams Task then appends it to a tmpview
@@ -267,11 +267,11 @@ var ui = {
 				}
 
 				//Loops and adds each task to a tmp view
-				var tmpView = $$({});
+				var tmpView = $$({}, '<ul></ul>');
 				for (var i=0; i<tasks.length; i++) {
 					drawTask(i);
 				}
-				$$.document.append(tmpView, $('#tasks ul'));
+				$$.document.append(tmpView, $('#tasks .content'));
 
 				if (ui.session.selected == 'next') {
 					for (var l=0; l<core.storage.lists.order.length; l++) {
@@ -282,14 +282,14 @@ var ui = {
 						//Makes sure there is something in the list
 						if (tasks.length != 0) {
 							//New DOM Node
-							$('#tasks .content').append('<h2>' + core.storage.lists.items[list].name + '</h2><ul class="' + list + '"></ul>');
+							$('#tasks .content').append('<h2>' + core.storage.lists.items[list].name + '</h2>');
 
 							//Loops and puts the tasks in
-							var tmpView = $$({});
+							var tmpView = $$({list: list}, '<ul data-bind="class=list"></ul>');
 							for (var i=0; i<tasks.length; i++) {
 								drawTask(i);
 							}
-							$$.document.append(tmpView, $('#tasks ul.' + list));
+							$$.document.append(tmpView, $('#tasks .content'));
 						}						
 					}
 				}
@@ -298,7 +298,7 @@ var ui = {
 				if (ui.session.selected == 'all') {
 					return true;
 				}
-				
+
 				$('#tasks ul').sortable({
 					placeholder: "placeholder",
 					distance: 20,
@@ -575,7 +575,7 @@ var ui = {
 							date: data.date,
 							priority: data.priority,
 							logged: logged
-						}), $('#tasks ul').first().children('div')
+						}), $('#tasks ul').first()
 					);
 
 					//Expands Task
