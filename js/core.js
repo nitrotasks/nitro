@@ -36,6 +36,7 @@ var core = {
 						date: 0,
 						notes: 0,
 						list: 0,
+						logged: 0
 					},
 					synced: false
 				};
@@ -60,7 +61,7 @@ var core = {
 
 				if(core.storage.tasks[id].logged && list != 'logbook') {
 					core.storage.tasks[id].logged = false;
-					core.storage.save('tasks', id, 'logged');
+					core.storage.save(['tasks', id, 'logged']);
 				}
 				
 				if (list === 'trash') {
@@ -73,7 +74,7 @@ var core = {
 					// Don't actually move the task
 					core.storage.tasks[id].logged = core.timestamp();
 					console.log('Logged ' + id);
-					core.storage.save('tasks', id, 'logged');
+					core.storage.save(['tasks', id, 'logged']);
 				} else {
 					//Move to other list
 					core.storage.lists.items[list].order.unshift(id);
