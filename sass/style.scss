@@ -154,6 +154,10 @@ html, body {
 				box-flex: 1;
 				-webkit-box-flex: 1;
 				-moz-box-flex: 1;
+
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
 			}
 
 			input {
