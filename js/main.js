@@ -29,6 +29,7 @@ var ui = {
 		$('#tasks > .tasksContent').click(function(e) { 
 			if(e.target.nodeName == 'UL' || e.target.nodeName == 'H2' || e.target.className == 'tasksContent') {
 				$('.expanded').dblclick();
+				$('#tasks .selected').removeClass('selected');
 			}
 		})
 	},
@@ -261,7 +262,7 @@ var ui = {
 					var data = core.storage.tasks[tasks[i]];
 
 					//Checked Tasks
-					var logged = 'checkbox';
+					var logged = 'checkbox ' + data.priority;
 					if (data.logged) {
 						logged += ' checked';
 					}
@@ -436,7 +437,7 @@ var ui = {
 						//Clear out the Dom
 						view.empty();
 						//Checked Tasks
-						var logged = 'checkbox';
+						var logged = 'checkbox ' + data.priority;
 						if (core.storage.tasks[this.model.get('id')].list == 'logbook') {
 							logged += ' checked';
 						}
@@ -469,7 +470,7 @@ var ui = {
 							var data = core.storage.tasks[id];
 
 							//Checked Tasks
-							var logged = 'checkbox';
+							var logged = 'checkbox ' + data.priority;
 							if (data.list == 'logbook') {
 								logged += ' checked';
 							}
@@ -549,7 +550,13 @@ var ui = {
 							next = "none"
 							break;
 					}
+					//Do this first, so the ui feels faster
 					this.model.set({priority: next, i18n_priority: $l._(next)});
+
+					//Change Colours of checkbox
+					this.view.$('.checkbox').removeClass(original).addClass(next);
+
+					//Saves
 					core.storage.tasks[id].priority = next;
 					core.storage.save([['tasks', id, 'priority']]);
 				},
@@ -584,7 +591,7 @@ var ui = {
 					var data = core.storage.tasks[taskId];
 
 					//Checked Tasks
-					var logged = 'checkbox';
+					var logged = 'checkbox ' + data.priority;
 					if (data.list == 'logbook') {
 						logged += ' checked';
 					}

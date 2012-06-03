@@ -11,9 +11,9 @@ $panel_text: #fff;
 $task_color: #fff;
 $notes_bg: #FBFAF0;
 
-$low_color: #f1f9ff;
-$medium_color: #fff3d9;
-$high_color: #fee;
+$low_color: #6CC0E5;
+$medium_color: #FBC93D;
+$high_color: #FB4F4F;
 
 body {
 	background: url(img/bg.png);
@@ -120,19 +120,32 @@ body {
 				border: 1px solid #D4D4D4;
 				border-radius: 3px;
 				background: $task_color;
+
+				&.low {
+					border-color: darken($low_color, 10%);
+					@include background(linear-gradient(top, lighten($low_color, 15%) 0%, lighten($low_color, 20%) 100%));
+				}
+				&.medium {
+					border-color: darken($medium_color, 17%);
+					@include background(linear-gradient(top, lighten($medium_color, 15%) 0%, lighten($medium_color, 24%) 100%));
+				}
+				&.high {
+					border-color: darken($high_color, 20%);
+					@include background(linear-gradient(top, lighten($high_color, 15%) 0%, lighten($high_color, 22%) 100%));
+				}
 			}
 
 			button.none, button.low, button.medium, button.high, input.date {
-				border-left: 1px solid darken($task_color, 15%);
+				border-left: 1px solid darken($task_color, 10%);
 			}
 			button.low {
-				@include background(linear-gradient(top, lighten($low_color, 10%) 0%, $low_color 100%));
+				@include background(linear-gradient(top, lighten($low_color, 35%) 0%, lighten($low_color, 25%) 100%));
 			}
 			button.medium {
-				@include background(linear-gradient(top, lighten($medium_color, 10%) 0%, $medium_color 100%));
+				@include background(linear-gradient(top, lighten($medium_color, 35%) 0%, lighten($medium_color, 25%) 100%));
 			}
 			button.high {
-				@include background(linear-gradient(top, lighten($high_color, 10%) 0%, $high_color 100%));
+				@include background(linear-gradient(top, lighten($high_color, 35%) 0%, lighten($high_color, 30%) 100%));
 			}
 
 			.hidden textarea {
