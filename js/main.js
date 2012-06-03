@@ -437,7 +437,7 @@ var ui = {
 						//Clear out the Dom
 						view.empty();
 						//Checked Tasks
-						var logged = 'checkbox ' + this.model.get('priority').priority;
+						var logged = 'checkbox ' + this.model.get('priority');
 						if (core.storage.tasks[this.model.get('id')].list == 'logbook') {
 							logged += ' checked';
 						}
