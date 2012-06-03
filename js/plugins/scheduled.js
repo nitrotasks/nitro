@@ -108,7 +108,7 @@ plugin.add(function() {
 							//Task is scheduled
 							if (task.type == 'scheduled') {
 
-								//Deletes from scheduled		\
+								//Deletes from scheduled
 								console.log(id)					
 								core.task(id).move('trash');
 								console.log('Task: ' + id + ' has been scheduled');
@@ -145,17 +145,27 @@ plugin.add(function() {
 
 									//Loop through everything and create new dates
 									for (var key in task.recurInterval) {
-										//BROKEN. FIXME.
-										/*
 										//Checks if date has been passed
 										if (new Date(task.recurInterval[key][2]).getTime() <= new Date().getTime()) {
 											//If it has, we'll work out the next date.
-											task.recurInterval[key][2] = cli.calc.dateConvert(Date.parse(task.recurInterval[key][2]).addWeeks(parseInt(task.recurInterval[key][0]) - 1).moveToDayOfWeek(parseInt(task.recurInterval[key][1])));
+
+											//Adds Weeks
+											task.recurInterval[key][2] = new Date(task.recurInterval[key][2]).setDate(new Date(task.recurInterval[key][2]).getDate() + (7 * parseInt(task.recurInterval[key][0])))
+
+
+											//Adds Days
+											var next = parseInt(task.recurInterval[key][1]),
+											day = new Date(task.recurInterval[key][2]).getDay(),
+											diff = (next - day) == 0 ? 7 : (next - day);
+
+											//Final Date
+											task.recurInterval[key][2] = new Date(task.recurInterval[key][2]).setDate(task.recurInterval[key][2] .getDate() + diff);
+
+											//task.recurInterval[key][2] = cli.calc.dateConvert(Date.parse(task.recurInterval[key][2]).addWeeks(parseInt(task.recurInterval[key][0]) - 1).moveToDayOfWeek(parseInt(task.recurInterval[key][1])));
 										}
 
 										//Even if it hasn't, we'll still push it to an array.
 										nextArr.push(new Date(task.recurInterval[key][2]).getTime());
-										*/
 									}
 									//Next date as the next one coming up
 									task.next = Array.min(nextArr).getTime();
@@ -169,19 +179,20 @@ plugin.add(function() {
 											if (task.recurInterval[key][2] == 'day') {
 												
 												//BROKEN. FIXME
-												/*
-												if (Date.today().set({day: task.recurInterval[key][1]}).getTime() <= new Date().getTime()) {
+												if (new Date.setDate(task.recurInterval[key][1]).getTime() <= new Date().getTime()) {
 													//If it's been, set it for the next month
-													task.recurInterval[key][3] = cli.calc.dateConvert(Date.today().set({day: task.recurInterval[key][1]}).addMonths(1).getTime());
+													task.recurInterval[key][3] = new Date().setDate(task.recurInterval[key][1]).setMonth(new Date().getMonth() + 1).getTime();
 												} else {
 													//If it hasn't, set it for this month
-													task.recurInterval[key][3] = cli.calc.dateConvert(Date.today().set({day: task.recurInterval[key][1]}).getTime());
-												}*/
+													task.recurInterval[key][3] = new Date().setDate(task.recurInterval[key][1]).getTime();
+												}
 											} else {
+												//BROKEN. FIXME
+												//This is a piece of crap that I don't plan to implement unless someone tells me to.
+												/*
 												var namearr = ['zero', 'set({day: 1})', 'second()', 'third()', 'fourth()', 'last()'];
 												var datearr = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-												//Fuckit. Using eval. Stupid date.js
-												//BROKEN. FIXME
+												//Fuckit. Using eval. Stupid date.j
 												/*var result = eval('Date.today().' + namearr[task.recurInterval[key][1]] + '.' + datearr[task.recurInterval[key][2]] + '()')
 
 												console.log(result)
