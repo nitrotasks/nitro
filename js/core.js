@@ -118,7 +118,7 @@ var core = {
 			},
 			populate: function() {
 				switch(id) {
-					case: 'all':
+					case 'all':
 
 						var results = [];
 
