@@ -585,7 +585,7 @@ var ui = {
 		taskAddBTN: $$({}, '<button class="add" data-bind="name"/>', {
 			'click &': function() {
 				var list = ui.session.selected;
-				if (list != 'all' && list != 'logbook') {
+				if (list != 'all' && list != 'logbook' && list != 'scheduled') {
 					//Adds a task with the core
 					var taskId = core.task().add($l._('ntask'), list);
 					var data = core.storage.tasks[taskId];
@@ -613,7 +613,10 @@ var ui = {
 					
 					// Update list count
 					ui.lists.update(list).count();
-				}		
+				} else if (list == 'scheduled') {
+					//No other way to do this?
+					plugin.scheduled.ui.add();
+				}
 			}
 		}),
 		taskDeleteBTN: $$({}, '<button class="delete" data-bind="name"/>', {
