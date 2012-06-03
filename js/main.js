@@ -56,13 +56,17 @@ var ui = {
 				height = $(window).height(),
 				width = $(window).width()
 
+				//Splitter
 				$('#content').trigger('resize');
+
+				//Content Height
+				$('.content').height(height - $('.panel').height())
+				$('#lists ul').height(height - $('#lists ul').position().top)
 			}
 		});
 
-		$('#tasks').click(function() {
-
-		});
+		//I can't trigger it?
+		$('.content').height(height - $('.panel').height())
 	},
 	session: {
 		selected: 'today'
@@ -97,6 +101,8 @@ var ui = {
 				core.storage.save();
 			}
 		});
+
+		$('#lists ul').height($(window).height() - $('#lists ul').position().top);
 
 		//Droppable
 		$('#sidebar ul li').droppable(ui.lists.dropOptions);
@@ -464,9 +470,15 @@ var ui = {
 								logged: logged
 							})
 
+							console.log(data.list)
+
 							//If it's the first task in a list, .prev won't work
 							if (orig.length == 0) {
-								$$.document.prepend(model, $('#tasks ul').first().children('div'));
+								if (data.list == ui.session.selected) {
+									$$.document.prepend(model, $('#tasks ul').first());
+								} else {
+									$$.document.prepend(model, $('#tasks ul.' + data.list));
+								}
 							} else {
 								$$.document.after(model, orig);
 							}

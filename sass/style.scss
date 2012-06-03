@@ -116,6 +116,10 @@ html, body {
 			font-weight: bold;
 		}
 	}
+
+	#lists ul {
+		overflow-y: auto;
+	}
 	
 	ul {
 		margin: 0;
