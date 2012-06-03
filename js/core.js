@@ -117,30 +117,32 @@ var core = {
 				core.storage.save();
 			},
 			populate: function() {
-				if (id == 'all') {
+				switch(id) {
+					case: 'all':
 
-					var results = [];
+						var results = [];
 
-					// Loop
-					for (var i=0; i<core.storage.tasks.length; i++) {
-					
-						// If task exists (Until we add in delete timestamps)
-						if (core.storage.tasks[i]) {
-							if(!core.storage.tasks[i].hasOwnProperty('deleted') && core.storage.tasks[i].list != 'logbook') {
-								results.push(i);
+						// Loop
+						for (var i=0; i<core.storage.tasks.length; i++) {
+						
+							// If task exists (Until we add in delete timestamps)
+							if (core.storage.tasks[i]) {
+								if(!core.storage.tasks[i].hasOwnProperty('deleted') && core.storage.tasks[i].list != 'logbook') {
+									results.push(i);
+								}
 							}
 						}
-					}
 
-					return results;
+						return results;
 
-				} else {
+					default: 
 
-					if (id in core.storage.lists.items) {
-						return core.storage.lists.items[id].order;
-					} else {
-						return [];
-					}
+						if (id in core.storage.lists.items) {
+							return core.storage.lists.items[id].order;
+						} else {
+							return [];
+						}
+						break;
 				}
 			}
 		}
@@ -204,6 +206,7 @@ var core = {
 			
 			$.polyStorage.set('tasks', this.tasks);
 			$.polyStorage.set('lists', this.lists);
+			$.polyStorage.set('prefs', this.prefs);
 		}
 	},
 	timestamp: function() {
