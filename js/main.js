@@ -119,6 +119,9 @@ var ui = {
 					case 'all':
 						var obj = $$(ui.templates.listTemplate, {id: listId, name: $l._(listId), count: core.list('all').populate().length});
 						break;
+					case 'logbook':
+						var obj = $$(ui.templates.listTemplate, {id: listId, name: $l._(listId), count: core.list('logbook').populate().length});
+						break;
 					default:
 						var obj = $$(ui.templates.listTemplate, {id: listId, name: $l._(listId)});
 						break;
@@ -142,6 +145,9 @@ var ui = {
 							$('#L' + id).find('.count').html(list.order.length);
 						}
 					}
+
+					// Update the Logbook
+					$('#Llogbook').find('.count').html(core.list('logbook').populate().length);
 							
 					// Update the All Tasks list				
 					$('#Lall').find('.count').html(core.list('all').populate().length);
@@ -256,7 +262,7 @@ var ui = {
 
 					//Checked Tasks
 					var logged = 'checkbox';
-					if (data.list == 'logbook') {
+					if (data.logged) {
 						logged += ' checked';
 					}
 
@@ -403,11 +409,13 @@ var ui = {
 					//Changes Appearance
 					$(e.currentTarget).toggleClass('checked');
 
+					var id = this.model.get('id');
+
 					//Moves it around for real.
 					if($(e.currentTarget).hasClass('checked')) {
-						core.task(this.model.get('id')).move('logbook');
+						core.task(id).move('logbook');
 					} else {
-						core.task(this.model.get('id')).move(ui.session.selected);
+						core.task(id).move(core.storage.tasks[id].list);
 					}
 
 					// Update count
@@ -568,7 +576,7 @@ var ui = {
 		taskAddBTN: $$({}, '<button class="add" data-bind="name"/>', {
 			'click &': function() {
 				var list = ui.session.selected;
-				if (list != 'all') {
+				if (list != 'all' && list != 'logbook') {
 					//Adds a task with the core
 					var taskId = core.task().add($l._('ntask'), list);
 					var data = core.storage.tasks[taskId];

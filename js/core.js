@@ -29,6 +29,7 @@ var core = {
 					date: '',
 					notes: '',
 					list: list,
+					logged: false,
 					time: {
 						content: 0,
 						priority: 0,
@@ -56,6 +57,11 @@ var core = {
 				//Remove from list
 				var old = core.storage.tasks[id].list;
 				core.storage.lists.items[old].order.remove(id);
+
+				if(core.storage.tasks[id].logged && list != 'logbook') {
+					core.storage.tasks[id].logged = false;
+					core.storage.save('tasks', id, 'logged');
+				}
 				
 				if (list === 'trash') {
 					// delete core.storage.tasks[id];
@@ -63,6 +69,11 @@ var core = {
 					console.log('Deleted: ' + id);
 					// Saves - but doesn't mess with timestamps
 					core.storage.save();
+				} else if (list === 'logbook') {
+					// Don't actually move the task
+					core.storage.tasks[id].logged = core.timestamp();
+					console.log('Logged ' + id);
+					core.storage.save('tasks', id, 'logged');
 				} else {
 					//Move to other list
 					core.storage.lists.items[list].order.unshift(id);
@@ -124,25 +135,33 @@ var core = {
 
 						// Loop
 						for (var i=0; i<core.storage.tasks.length; i++) {
-						
-							// If task exists (Until we add in delete timestamps)
-							if (core.storage.tasks[i]) {
-								if(!core.storage.tasks[i].hasOwnProperty('deleted') && core.storage.tasks[i].list != 'logbook') {
-									results.push(i);
-								}
+							if(!core.storage.tasks[i].hasOwnProperty('deleted') && !core.storage.tasks[i].logged) {
+								results.push(i);
 							}
 						}
 
 						return results;
 
-					default: 
+					case 'logbook': 
 
+						var results = [];
+
+						// Loop
+						for (var i=0; i<core.storage.tasks.length; i++) {
+							if(!core.storage.tasks[i].hasOwnProperty('deleted') && core.storage.tasks[i].logged) {
+								results.push(i);
+							}
+						}
+
+						return results;
+
+
+					default: 
 						if (id in core.storage.lists.items) {
 							return core.storage.lists.items[id].order;
 						} else {
 							return [];
 						}
-						break;
 				}
 			}
 		}
@@ -162,13 +181,6 @@ var core = {
 					}
 				},
 				next: {
-					order: [],
-					time: {
-						name: 0,
-						order: 0
-					}
-				},
-				logbook: {
 					order: [],
 					time: {
 						name: 0,
