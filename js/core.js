@@ -55,8 +55,14 @@ var core = {
 			To delete something, move to 'trash' */
 
 			move: function(list) {
+				//Fix for scheduled list
+				if (core.storage.tasks[id].type) {
+					var old = 'scheduled';
+				} else {
+					var old = core.storage.tasks[id].list;
+				}
+
 				//Remove from list
-				var old = core.storage.tasks[id].list;
 				core.storage.lists.items[old].order.remove(id);
 
 				if(core.storage.tasks[id].logged && list != 'logbook') {
