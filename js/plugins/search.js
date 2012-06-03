@@ -20,7 +20,7 @@ plugin.add(function() {
 				$('#sidebar .selected .name').click();
 			} else {
 				//Puts the results into the UI
-				$('#tasks .content').empty().html('<h2>Search Results: ' + view.val() + '</h2><ul></ul>')
+				$('#tasks > .tasksContent').empty().html('<h2>Search Results: ' + view.val() + '</h2><ul></ul>')
 
 				//There is some input
 				// Set vars

@@ -4,6 +4,7 @@ ui.language({
 	lists: "Lists",
 	today: "Today",
 	next: "Next",
+	scheduled: "Scheduled",
 	logbook: "Logbook",
 	all: "All Tasks",
 
