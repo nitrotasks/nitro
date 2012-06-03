@@ -7,6 +7,9 @@
 //Adds as a plugin
 plugin.add(function() {
 
+	var app = 'js',
+		version = '1.4';
+
 	sync = {
 		// Magical function that handles connect and emit
 		run: function (service, callback) {
@@ -19,26 +22,23 @@ plugin.add(function() {
 				else return;
 			}
 
-			ui.sync.beforeunload('on');
-
+			// ui.sync.beforeunload('on');
 
 			if (core.storage.prefs.sync.hasOwnProperty('access')) {
 
-				core.storage.sync.emit();
+				sync.emit();
 
 				if (typeof callback === "function") callback(true);
 
 			} else {
 
-				core.storage.sync.connect(function (result) {
-					core.storage.sync.emit();
+				sync.connect(function (result) {
+					sync.emit();
 
 					if (typeof callback === "function") callback(result);
 				});
 
 			}
-
-
 
 		},
 		ajaxdata: {
@@ -50,7 +50,7 @@ plugin.add(function() {
 
 			if (core.storage.prefs.sync.hasOwnProperty('access')) {
 
-				var ajaxdata = core.storage.sync.ajaxdata;
+				var ajaxdata = sync.ajaxdata;
 
 				//Yes, this code is in the complete wrong order but we need python integration
 				ajaxdata.watch('data', function (id, oldval, newval) {
@@ -87,7 +87,7 @@ plugin.add(function() {
 					});
 				}
 			} else {
-				var ajaxdata = core.storage.sync.ajaxdata;
+				var ajaxdata = sync.ajaxdata;
 
 				//Yes, this code is in the complete wrong order but we need python integration
 				ajaxdata.watch('data', function (id, oldval, newval) {
@@ -180,7 +180,7 @@ plugin.add(function() {
 				}
 			};
 
-			var ajaxdata = core.storage.sync.ajaxdata;
+			var ajaxdata = sync.ajaxdata;
 
 			//Watches Ajax request
 			ajaxdata.watch('data', function (id, oldval, newval) {
@@ -189,7 +189,7 @@ plugin.add(function() {
 				core.storage.tasks = newval.tasks;
 				core.storage.lists = newval.lists;
 				core.storage.save();
-				ui.sync.reload();
+				// ui.sync.reload();
 			});
 
 			//^ Ajax Request we're watching for
@@ -304,5 +304,54 @@ plugin.add(function() {
 			}
 		}
 		return out;
+	}
+
+	// Because typeof is useless here
+	function isArray(obj) {
+		return obj.constructor == Array;
+	}
+
+	// object.watch
+	if (!Object.prototype.watch) {
+		Object.defineProperty(Object.prototype, "watch", {
+			enumerable: false,
+			configurable: true,
+			writable: false,
+			value: function (prop, handler) {
+				var
+				oldval = this[prop],
+					newval = oldval,
+					getter = function () {
+						return newval;
+					},
+					setter = function (val) {
+						oldval = newval;
+						return newval = handler.call(this, prop, oldval, val);
+					};
+
+				if (delete this[prop]) { // can't watch constants
+					Object.defineProperty(this, prop, {
+						get: getter,
+						set: setter,
+						enumerable: true,
+						configurable: true
+					});
+				}
+			}
+		});
+	}
+
+	// object.unwatch
+	if (!Object.prototype.unwatch) {
+		Object.defineProperty(Object.prototype, "unwatch", {
+			enumerable: false,
+			configurable: true,
+			writable: false,
+			value: function (prop) {
+				var val = this[prop];
+				delete this[prop]; // remove accessors
+				this[prop] = val;
+			}
+		});
 	}
 });

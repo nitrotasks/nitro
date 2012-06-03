@@ -10,10 +10,7 @@
   },
   "permissions": [
     "unlimitedStorage",
-    "http://app.nitrotasks.com/"
-  ],
-  "icons": {
-    "16": "images/16.png",
-    "128": "images/128.png"
-  }
+    "http://app.nitrotasks.com/",
+    "http://localhost:3000/"
+  ]
 }

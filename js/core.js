@@ -177,6 +177,11 @@ var core = {
 			},
 			time: 0
 		}),
+		prefs: $.polyStorage.get('prefs', {
+			sync: {
+				url: "http://localhost:3000"
+			}
+		}),
 		save: function(arr) {
 
 			if(typeof arr == 'object') {
