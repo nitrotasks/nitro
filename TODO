@@ -1,10 +1,18 @@
 Todo for Nitro 1.4
 ==================
 
-- Sync (Windows SkyDrive)
 - Color Priority
-- Filters
 - Scheduled & Recurring Tasks
 - Add no task messages
 - Reimplement Themes
-- Settings Plugin
+
+- Plugins to write
+	- Filters
+	- Tags
+	- Settings
+	
+- Sync
+	- Logged tasks
+	- List/Task order
+	- Skydrive
+	- RemoteStorage
