@@ -222,6 +222,8 @@ var core = {
 			},
 			
 			getDate: function() {
+			
+			if(!timestamp) return "";
 				
 				var date = new Date(timestamp),
 					now = new Date(),
@@ -237,7 +239,7 @@ var core = {
 					return "Yesterday"
 				} else {
 					var month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-					return date.getDay() + " " + month[date.getMonth()];
+					return date.getDate() + " " + month[date.getMonth()];
 				}
 			}
 		}
@@ -299,7 +301,7 @@ var core = {
 		}
 	},
 	timestamp: function() {
-		return Date.now() - 1333191600000;
+		return Date.now();
 	}
 }
 Array.prototype.remove= function(){

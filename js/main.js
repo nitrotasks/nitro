@@ -278,7 +278,7 @@ var ui = {
 					// Extra details					
 					var extraDetails = "";					
 					if(ui.session.selected == 'logbook') {
-						extraDetails += core.date(data.date).getDate();
+						extraDetails += core.date(data.logged).getDate();
 					} else {
 						extraDetails += core.date(data.date).getDaysLeft()[0];
 					}
