@@ -1,17 +1,22 @@
 Todo for Nitro 1.4
 ==================
+	
+George
+------
+- Show list in All Tasks
+- Close / Open Lists
+- Filters
+- Tags
+- Skydrive
+- List Order
 
-- Scheduled & Recurring Tasks
+Jono
+----
+- Settings
+- Recurring Tasks
+- Scheduled Editing
+- Pretty Scheduled List
+- Theme List Edit Buttons
+- Colors for Date Difference
 - Add no task messages
 - Reimplement Themes
-
-- Plugins to write
-	- Filters
-	- Tags
-	- Settings
-	
-- Sync
-	- Logged tasks
-	- List/Task order
-	- Skydrive
-	- RemoteStorage
