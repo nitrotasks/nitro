@@ -81,6 +81,7 @@ var ui = {
 		//Populates Template
 		$('#lists').html('<h2>' + $l._('lists') + '</h2><ul></ul>');
 		$$.document.append(ui.buttons.listAddBTN, $('#lists h2'));
+		$$.document.append(ui.buttons.toggleFocus, $('#lists h2'));
 		$$.document.append(ui.buttons.toggleFocus, $('#smartlists h2'));
 		
 		for (var i=0; i<core.storage.lists.order.length; i++) {
@@ -709,15 +710,17 @@ var ui = {
 			}
 		}),
 
-		toggleFocus: $$({}, '<span id="focus-toggle">+</span>', {
+		toggleFocus: $$({}, '<span id="focus-toggle">O</span>', {
 			'click &': function() {
-				if($('#smartlists h2').hasClass('collapsed')) {
-					$('#smartlists ul').slideDown(150, function() {
-						$('#smartlists h2').removeClass('collapsed');
+				var $h2 = this.view.$().parent(),
+					$ul = $h2.next('ul');
+				if($h2.hasClass('collapsed')) {
+					$ul.slideDown(150, function() {
+						$h2.removeClass('collapsed');
 					});
 				} else {
-					$('#smartlists ul').slideUp(150);
-					$('#smartlists h2').addClass('collapsed');
+					$ul.slideUp(150);
+					$h2.addClass('collapsed');
 				}
 			}
 		})
