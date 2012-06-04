@@ -277,10 +277,15 @@ var ui = {
 					
 					// Extra details					
 					var extraDetails = "";					
-					if(ui.session.selected == 'logbook') {
-						extraDetails += core.date(data.logged).getDate();
-					} else {
-						extraDetails += core.date(data.date).getDaysLeft()[0];
+					switch(ui.session.selected) {
+						case 'logbook':
+							extraDetails += core.date(data.logged).getDate();
+							break;
+						case 'all':
+							extraDetails += core.storage.lists.items[data.list].name;
+							break;
+						default:
+							extraDetails += core.date(data.date).getDaysLeft()[0];
 					}
 					
 					tmpView.append(
@@ -507,13 +512,26 @@ var ui = {
 							if (data.list == 'logbook') {
 								logged += ' checked';
 							}
+							
+							// Extra details					
+							var extraDetails = "";					
+							switch(ui.session.selected) {
+								case 'logbook':
+									extraDetails += core.date(data.logged).getDate();
+									break;
+								case 'all':
+									extraDetails += core.storage.lists.items[data.list].name;
+									break;
+								default:
+									extraDetails += core.date(data.date).getDaysLeft()[0];
+							}
 
 							var model = $$(ui.templates.task.compressed, {
 								id: id,
 								content: data.content,
 								notes: data.notes,
 								date: data.date,
-								extra: core.date(data.date).getDaysLeft()[0],
+								extra: extraDetails,
 								priority: data.priority,
 								logged: logged
 							});
@@ -521,7 +539,7 @@ var ui = {
 							//If it's the first task in a list, .prev won't work
 							if (orig.length == 0) {
 								
-								if (ui.session.selected == 'all' || ui.session.selected == 'scheduled') {
+								if (ui.session.selected == 'all' || ui.session.selected == 'scheduled' || ui.session.selected == 'logbook') {
 									$$.document.prepend(model, $('#tasks ul'));
 								} else if (data.list == ui.session.selected) {
 									$$.document.prepend(model, $('#tasks ul').first());
