@@ -710,7 +710,7 @@ var ui = {
 			}
 		}),
 
-		toggleFocus: $$({}, '<span id="focus-toggle">O</span>', {
+		toggleFocus: $$({}, '<span class="list-toggle">O</span>', {
 			'click &': function() {
 				var $h2 = this.view.$().parent(),
 					$ul = $h2.next('ul');
