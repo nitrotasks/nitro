@@ -472,10 +472,10 @@ plugin.add(function() {
 		ui: {
 			add: function() {
 				alert('adding')
-				plugin.scheduled.ui.init('add');
 				$('#scheduledDialog .inner').fadeToggle(150).attr('data-type', 'add');
 				$('.radioscheduled input[value=scheduled]').attr('checked', 'true');
 				$('#scheduledDialog').toggle(0);
+				plugin.scheduled.ui.init('add');
 			},
 
 			init: function (type) {
