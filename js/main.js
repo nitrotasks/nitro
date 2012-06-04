@@ -717,13 +717,21 @@ var ui = {
 			'click &': function() {
 				var $h2 = this.view.$().parent(),
 					$ul = $h2.next('ul');
+					
+				// Hack
+				$('#lists ul').height('auto');
+				$('#lists ul').height($('#lists ul').height() + 2);
+					
 				if($h2.hasClass('collapsed')) {
+					$h2.removeClass('collapsed');
 					$ul.slideDown(150, function() {
-						$h2.removeClass('collapsed');
+						height = $(window).height();
+						$('#lists ul').height(height - $('#lists ul').position().top);
 					});
 				} else {
-					$ul.slideUp(150);
-					$h2.addClass('collapsed');
+					$ul.slideUp(150, function() {
+						$h2.addClass('collapsed');
+					});
 				}
 			}
 		})
