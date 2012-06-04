@@ -250,6 +250,7 @@ var ui = {
 				<button class="delete">X</button>\
 				<span class="count" data-bind="count"></span>\
 			</li>', {
+			
 			'click .name, .count': function() {
 				
 				var listId = this.model.get('id');
@@ -274,13 +275,21 @@ var ui = {
 						logged += ' checked';
 					}
 					
+					// Extra details					
+					var extraDetails = "";					
+					if(ui.session.selected == 'logbook') {
+						extraDetails += core.date(data.date).getDate();
+					} else {
+						extraDetails += core.date(data.date).getDaysLeft()[0];
+					}
+					
 					tmpView.append(
 						$$(ui.templates.task.compressed, {
 							id: tasks[i],
 							content: data.content,
 							notes: data.notes,
 							date: data.date,
-							dateDiff: core.date(data.date).getDaysLeft()[0],
+							extra: extraDetails,
 							priority: data.priority,
 							logged: logged
 						})
@@ -402,10 +411,11 @@ var ui = {
 					<div class="boxhelp">\
 						<div data-bind="class=logged"></div>\
 						<div data-bind="content" class="content"></div>\
-						<div data-bind="dateDiff" class="date"></div>\
+						<div data-bind="extra" class="extra"></div>\
 					</div>\
 				</li>', {
-
+				
+				
 				'click &': function(e) {
 
 					//No event handler things in input or selected.
@@ -467,7 +477,7 @@ var ui = {
 								content: this.model.get('content'),
 								notes: this.model.get('notes'),
 								date: this.model.get('date'),
-								dateDiff: core.date(this.model.get('date')).getDaysLeft()[0],
+								extra: core.date(this.model.get('date')).getDaysLeft()[0],
 								//Because of Translated Version
 								priority: this.model.get('priority'),
 								i18n_priority: $l._(this.model.get('priority')),
@@ -503,7 +513,7 @@ var ui = {
 								content: data.content,
 								notes: data.notes,
 								date: data.date,
-								dateDiff: core.date(data.date).getDaysLeft()[0],
+								extra: core.date(data.date).getDaysLeft()[0],
 								priority: data.priority,
 								logged: logged
 							});
@@ -533,8 +543,7 @@ var ui = {
 					<div class="boxhelp">\
 						<div data-bind="class=logged"></div>\
 						<input data-bind="content" type="text">\
-						<button data-bind="i18n_priority, class=priority"></button>\
-						<input placeholder="Due Date" type="text" class="date">\
+						<button data-bind="i18n_priority, class=priority"></button><input placeholder="Due Date" type="text" class="date">\
 					</div>\
 					<div class="hidden">\
 						<textarea data-bind="notes"></textarea>\

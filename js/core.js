@@ -161,7 +161,6 @@ var core = {
 						}
 						
 						results.sort(function(a, b) {
-							console.log(a, b)
 							return core.storage.tasks[a].logged > core.storage.tasks[b].logged;
 						});
 
@@ -182,6 +181,10 @@ var core = {
 	date:  function(timestamp) {
 		return {
 			getDaysLeft: function() {
+<<<<<<< HEAD
+=======
+ 
+>>>>>>> Added extra details section
 				if(!timestamp) return ["",""];
 				
 				// Create Date()
@@ -220,6 +223,26 @@ var core = {
 					//var month = $.i18n._('month');
 					return [month[date.getMonth()] + " " + date.getDate(), ''];
 				}				
+			},
+			
+			getDate: function() {
+				
+				var date = new Date(timestamp),
+					now = new Date(),
+					d = 0,
+					oneDay = 86400000;
+					
+				// Find difference between days
+				d = Math.ceil((date.getTime() - now.getTime()) / oneDay);
+				
+				if(d == 0) {
+					return "Today"
+				} else if (d == -1) {
+					return "Yesterday"
+				} else {
+					var month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+					return date.getDay() + " " + month[date.getMonth()];
+				}
 			}
 		}
 	},

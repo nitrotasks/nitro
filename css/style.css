@@ -139,7 +139,7 @@ html, body { height: 100%; width: 100%; }
 #tasks .tasksContent ul li .boxhelp { display: -webkit-box; display: -moz-box; display: box; }
 #tasks .tasksContent ul li .checkbox { margin: 8px; width: 13px; height: 13px; border: 1px solid #000; }
 #tasks .tasksContent ul li .checkbox.checked { background: #000; }
-#tasks .tasksContent ul li .date { margin-right: 20px; }
+#tasks .tasksContent ul li .extra { margin-right: 20px; }
 #tasks .tasksContent ul li input { border: 0; line-height: 1; box-shadow: none; background: transparent; box-sizing: border-box; }
 #tasks .tasksContent ul li input:focus { box-shadow: none; outline: 0; height: 32px; }
 #tasks .tasksContent ul li div[data-bind=content] { padding-left: 1px; padding-top: 1px; }
