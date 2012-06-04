@@ -82,9 +82,6 @@ plugin.add(function() {
 		$('#scheduledDialog .inner .create').click(function () {
 
 			var id = $(this).parent().parent().attr('data-type');
-
-
-
 			//Calculates Date
 			var date = parseInt($('#reviewNo').val());
 			var unit = $('#reviewLength').val();
@@ -135,8 +132,8 @@ plugin.add(function() {
 					//Edits Data inside of it
 					var task = core.storage.tasks[core.storage.lists.items.scheduled.order.length - 1];
 
-					task.next = $('#recurNext').val();
-					task.ends = $('#recurEnds').val();
+					task.next = new Date($('#recurNext').val()).getTime();
+					task.ends = new Date($('#recurEnds').val()).getTime();
 					task.list = $('.recurring .reviewAction').val();
 					task.recurType = $('#recurType').val();
 
