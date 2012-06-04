@@ -24,5 +24,17 @@ ui.language({
 	none: "None",
 	low: "Low",
 	medium: "Medium",
-	high: "High"
+	high: "High",
+
+	recurring: "Recurring",
+	reviewNo: "Review in:",
+	recurType: "Created:",
+	daily: "daily",
+	weekly: "weekly",
+	monthly: "monthly",
+	recurNext: "Next: ",
+	recurEnds: "Ends: ",
+	reviewAction: "and place in: ",
+	create: "Create",
+	cancel: "Cancel",
 })

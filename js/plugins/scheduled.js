@@ -72,6 +72,197 @@ plugin.add(function() {
 			</div>\
 		</div>\
 	</div>');
+		$('.translate').map(function () {
+			$(this).html($.i18n._($(this).attr('data-translate')));
+		});
+
+		$body = $('body');
+
+		//I'm bad at coding. Sue me.
+		$('#scheduledDialog .inner .create').click(function () {
+
+			var id = $(this).parent().parent().attr('data-type');
+
+
+
+			//Calculates Date
+			var date = parseInt($('#reviewNo').val());
+			var unit = $('#reviewLength').val();
+
+			//Zeros Days
+			var today = new Date();
+			today.setSeconds(0);
+			today.setMinutes(0);
+			today.setHours(0);
+			var tmpdate = new Date()
+			//tmpdate.setSeconds(0);
+			//tmpdate.setMinutes(0);
+			//tmpdate.setHours(0);
+
+			if (unit == 'days') {
+				today.setDate(today.getDate() + date);
+			} else if (unit == 'weeks') {
+				today.setDate(today.getDate() + (date * 7));
+			} else if (unit == 'months') {
+				today.setMonth(today.getMonth() + date);
+			} else if (unit == 'years') {
+				today.setYear(today.getFullYear() + date);
+			};
+
+			if (id == 'add') {
+				if ($('#scheduledDialog input[type=radio]:checked').val() === 'scheduled') {
+					//Creates a new Scheduled Task
+					plugin.scheduled.core.add('New Task', 'scheduled');
+
+					//Edits Data inside of it
+					var task = core.storage.tasks[core.storage.lists.items.scheduled.order.length - 1];
+
+					//Calculates Difference
+					//task.date = (Math.round((today.getTime() - tmpdate.getTime()) / 1000 / 60 / 60 /24));
+					task.list = $('.schedule .reviewAction').val();
+
+				} else if ($('#scheduledDialog input[type=radio]:checked').val() === 'recurring') {
+
+					var test = $('#recurNext').val();
+					if (test == '' || new Date(test) == 'Invalid Date') {
+						return;
+					}
+					//Creates a new Recurring Task
+					plugin.scheduled.core.add('New Task', 'recurring');
+
+					//Edits Data inside of it
+					var task = core.storage.tasks[core.storage.lists.items.scheduled.order.length - 1];
+
+					task.next = $('#recurNext').val();
+					task.ends = $('#recurEnds').val();
+					task.list = $('.recurring .reviewAction').val();
+					task.recurType = $('#recurType').val();
+
+					if (task.recurType === 'daily') {
+						task.recurInterval = [parseInt($('#recurSpecial input').val())];
+					} else if (task.recurType === 'weekly') {
+						var interval = [];
+
+						$('#recurSpecial div').map(function () {
+							interval.push([parseInt($(this).children('input').val()), $(this).children('select').val(), task.next]);
+						})
+
+						task.recurInterval = interval;
+					} else if (task.recurType == 'monthly') {
+						var interval = [];
+
+						$('#recurSpecial div').map(function () {
+							interval.push([1, parseInt($(this).children('.type').val()), 'day', task.next]);
+						})
+
+						task.recurInterval = interval;
+					}
+				}
+
+			} else {
+				//THIS DOESN't WORK. Don't use it. Don't even try. Don't even look at it.
+				var task = cli.scheduled.edit(id.substr(2));
+
+				if (id.substr(1, 1) == 's') {
+
+					//Edits Values
+					task.next = cli.calc.dateConvert(today);
+					task.list = $('#reviewAction').val();
+
+				} else if (id.substr(1, 1) == 'r') {
+					task.next = $('#recurNext').val();
+					task.ends = $('#recurEnds').val();
+					task.recurType = $('#recurType').val();
+
+					if (task.recurType === 'daily') {
+						task.recurInterval = [parseInt($('#recurSpecial input').val())];
+					} else if (task.recurType === 'weekly') {
+						var interval = [];
+
+						$('#recurSpecial div').map(function () {
+							interval.push([parseInt($(this).children('input').val()), $(this).children('select').val(), task.next]);
+						})
+
+						task.recurInterval = interval;
+					} else if (task.recurType == 'monthly') {
+						var interval = [];
+
+						$('#recurSpecial div').map(function () {
+							interval.push([1, parseInt($(this).children('.type').val()), 'day', task.next]);
+						})
+
+						task.recurInterval = interval;
+					}
+				}
+
+				//Saves
+				cli.scheduled.edit(id.substr(2), task);
+			}
+
+			//Closes
+			$('#scheduledDialog .inner').fadeOut(150);
+			$('#scheduledDialog').hide(0);
+
+			//Reschedule Schedule
+			plugin.scheduled.core.update();
+
+			//Reload UI
+			ui.tasks.populate('scheduled');
+			ui.lists.updateCount();
+
+		});
+
+		$('#scheduledDialog .cancel').click(function () {
+			$addBTN.click();
+		});
+
+		var weeks = '<input type="number"> weeks on <select><option value="1">Monday</option><option value="2">Tuesday</option><option value="3">Wednesday</option> <option value="4">Thursday</option> <option value="5">Friday</option> <option value="6">Saturday</option> <option value="0">Sunday</option></select>';
+		var months = 'on the <select class="type"><option value="1">1st</option> <option value="2">2nd</option> <option value="3">3rd</option> <option value="4">4th</option> <option value="5">5th</option> <option value="6">6th</option> <option value="7">7th</option> <option value="8">8th</option> <option value="9">9th</option> <option value="10">10th</option> <option value="11">11th</option> <option value="12">12th</option> <option value="13">13th</option> <option value="14">14th</option> <option value="15">15th</option> <option value="16">16th</option> <option value="17">17th</option> <option value="18">18th</option> <option value="19">19th</option> <option value="20">20th</option> <option value="21">21st</option> <option value="22">22nd</option> <option value="23">23rd</option> <option value="24">24th</option> <option value="25">25th</option> <option value="26">26th</option> <option value="27">27th</option> <option value="28">28th</option> <option value="29">29th</option> <option value="30">30th</option> <option value="31">31st</option></select> day';
+
+		$body.on('click', '.addRecur', function () {
+			var length = $('#recurType').val();
+
+			if (length === 'weekly') {
+				$('#recurSpecial').append('<div>And ' + weeks + '<span class="removeRecur">-</span></div>')
+			} else if (length === 'monthly') {
+				$('#recurSpecial').append('<div>And ' + months + '<span class="removeRecur">-</span></div>')
+			}
+
+		});
+
+		$body.on('click', '.removeRecur', function () {
+			$(this).parent().remove();
+		})
+
+		//Date Picker
+		$('#recurNext, #recurEnds').datepicker();
+
+		$('#scheduledDialog input[type=radio]').on('change', function () {
+			var toggle = $(this).val();
+
+			if (toggle === 'scheduled') {
+				$('#scheduledDialog .inner .schedule').show(0);
+				$('#scheduledDialog .inner .recurring').hide(0);
+			} else if (toggle === 'recurring') {
+				$('#scheduledDialog .inner .schedule').hide(0);
+				$('#scheduledDialog .inner .recurring').show(0);
+			}
+		});
+
+		//First time:
+		$('#recurSpecial').html('<table><tr><td>Every:</td><td><input type="number" min="1" value="7"> days</td></tr></table>');
+
+		$('#recurType').on('change', function () {
+			var toggle = $(this).val();
+
+			if (toggle === 'daily') {
+				$('#recurSpecial').html('<table><tr><td>Every:</td><td><input type="number" min="1" value="7"> days</td></tr></table>');
+			} else if (toggle === 'weekly') {
+				$('#recurSpecial').html('<div>Every ' + weeks + '<span class="addRecur">+</span></div>');
+			} else if (toggle === 'monthly') {
+				$('#recurSpecial').html('<div>Every month ' + months + '<span class="addRecur">+</span></div>');
+			}
+		});
 	});
 
 	plugin.scheduled = {
@@ -281,6 +472,97 @@ plugin.add(function() {
 		ui: {
 			add: function() {
 				alert('adding')
+				plugin.scheduled.ui.init('add');
+				$('#scheduledDialog .inner').fadeToggle(150).attr('data-type', 'add');
+				$('.radioscheduled input[value=scheduled]').attr('checked', 'true');
+				$('#scheduledDialog').toggle(0);
+			},
+
+			init: function (type) {
+				if (type == 'edit') {
+					var id = $('#scheduledDialog .inner').attr('data-type');
+
+					//Fills in Values
+					var task = cli.scheduled.edit(id.substr(2));
+					var text = $.i18n._('edit');
+
+					if (id.substr(1, 1) == 's') {
+
+						//Zeros Days
+						var today = new Date();
+						today.setSeconds(0);
+						today.setMinutes(0);
+						today.setHours(0);
+						var tmpdate = new Date(task.next)
+
+						var no = (Math.round((tmpdate.getTime() - today.getTime()) / 1000 / 60 / 60 / 24)),
+							length = 'days',
+							action = task.list;
+
+						//Hides Bits of UI
+						$('#scheduledDialog .inner .schedule').show(0);
+						$('#scheduledDialog .inner .recurring').hide(0);
+
+
+					} else if (id.substr(1, 1) == 'r') {
+						//Hides Bits of UI
+						$('#scheduledDialog .inner .schedule').hide(0);
+						$('#scheduledDialog .inner .recurring').show(0);
+
+						//Changes UI
+						$('#recurType').val(task.recurType).change();
+
+						if (task.recurType == 'daily') {
+							$('#recurSpecial input').val(task.recurInterval[0]);
+						} else if (task.recurType == 'weekly') {
+							for (var i = 0; i < task.recurInterval.length; i++) {
+								if (i != 0) {
+									$('.addRecur').click()
+								}
+								//Puts data in
+								$($('#recurSpecial div')[i]).children('input').val(task.recurInterval[i][0]);
+								$($('#recurSpecial div')[i]).children('select').val(task.recurInterval[i][1]);
+							}
+						} else if (task.recurType == 'monthly') {
+							for (var i = 0; i < task.recurInterval.length; i++) {
+								if (i != 0) {
+									$('.addRecur').click()
+								}
+								//Puts data in
+								$($('#recurSpecial div')[i]).children('.type').val(task.recurInterval[i][1]);
+							}
+						}
+
+						$('#recurNext').val(task.next);
+						$('#recurEnds').val(task.ends);
+					}
+
+					$('.radioscheduled').hide(0);
+
+				} else {
+					var no = 5,
+						length = 'days',
+						action = 'today',
+						text = $.i18n._('create');
+
+					$('.radioscheduled').show(0);
+					$('#scheduledDialog .inner .schedule').show(0);
+					$('#scheduledDialog .inner .recurring').hide(0);
+				}
+
+				var output = '<option value="today">' + $.i18n._('today') + '</option><option value="next">' + $.i18n._('next') + '</option>';
+				for (var i = 0; i < core.storage.lists.order.length; i++) {
+					output += '<option value="' + core.storage.lists.order[i] + '">' + core.storage.lists.items[core.storage.lists.order[i]].name + '</option>'
+				};
+
+				$('.reviewAction').html(output);
+
+				//Updates UI
+				$('#reviewNo').val(no);
+				$('#reviewLength').val(length);
+				$('.reviewAction').val(action);
+				$('#scheduledDialog .inner .create').html(text)
+
 			}
 		}
 	}
