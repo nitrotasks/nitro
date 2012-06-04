@@ -207,8 +207,10 @@ plugin.add(function() {
 			plugin.scheduled.core.update();
 
 			//Reload UI
-			ui.tasks.populate('scheduled');
-			ui.lists.updateCount();
+			$('#Lscheduled .name').click();
+			obj.view.$('.count').html(core.list('scheduled').populate().length);
+			obj.view.$().attr('id', 'L' + obj.model.get('id'));
+			ui.lists.update().count();
 
 		});
 
@@ -471,7 +473,6 @@ plugin.add(function() {
 
 		ui: {
 			add: function() {
-				alert('adding')
 				$('#scheduledDialog .inner').fadeToggle(150).attr('data-type', 'add');
 				$('.radioscheduled input[value=scheduled]').attr('checked', 'true');
 				$('#scheduledDialog').toggle(0);
@@ -567,6 +568,11 @@ plugin.add(function() {
 		}
 	}
 });
+//Because functions have to be defined before being run
+plugin.add(function() {
+	//Updates Scheduled and Recurring Tasks
+	plugin.scheduled.core.update();
+})
 
 //Because I'm lazy.
 Array.max = function( array ){
