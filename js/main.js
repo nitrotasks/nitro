@@ -251,17 +251,20 @@ var ui = {
 				<span class="count" data-bind="count"></span>\
 			</li>', {
 			'click .name, .count': function() {
+				
+				var listId = this.model.get('id');
+			
 				//Selected List
 				$('#sidebar .selected').removeClass('selected');
 				this.view.$().addClass('selected');
-				ui.session.selected = this.model.get('id');
+				ui.session.selected = listId;
 
 				//Gets list id & populates
 				$('#tasks .tasksContent').empty().html('<h2>' + this.model.get('name') + '</h2>')
-				var tasks = core.list(this.model.get('id')).populate();
+				var tasks = core.list(listId).populate();
 
 				//Drams Task then appends it to a tmpview
-				function drawTask(i) {
+				var drawTask = function(i) {
 					//Makes it nice
 					var data = core.storage.tasks[tasks[i]];
 
@@ -270,13 +273,14 @@ var ui = {
 					if (data.logged) {
 						logged += ' checked';
 					}
-
+					
 					tmpView.append(
 						$$(ui.templates.task.compressed, {
 							id: tasks[i],
 							content: data.content,
 							notes: data.notes,
 							date: data.date,
+							dateDiff: core.date(data.date).getDaysLeft()[0],
 							priority: data.priority,
 							logged: logged
 						})
@@ -393,7 +397,14 @@ var ui = {
 
 		task: {
 
-			compressed: $$({}, '<li data-bind="data-id=id"><div class="boxhelp"><div data-bind="class=logged"></div><div data-bind="content" class="content"></div></div></li>', {
+			compressed: $$({}, '\
+				<li data-bind="data-id=id">\
+					<div class="boxhelp">\
+						<div data-bind="class=logged"></div>\
+						<div data-bind="content" class="content"></div>\
+						<div data-bind="dateDiff" class="date"></div>\
+					</div>\
+				</li>', {
 
 				'click &': function(e) {
 
@@ -452,6 +463,7 @@ var ui = {
 								content: this.model.get('content'),
 								notes: this.model.get('notes'),
 								date: this.model.get('date'),
+								dateDiff: core.date(this.model.get('date')).getDaysLeft()[0],
 								//Because of Translated Version
 								priority: this.model.get('priority'),
 								i18n_priority: $l._(this.model.get('priority')),
@@ -484,6 +496,7 @@ var ui = {
 								content: data.content,
 								notes: data.notes,
 								date: data.date,
+								dateDiff: core.date(data.date).getDaysLeft()[0],
 								priority: data.priority,
 								logged: logged
 							});
@@ -504,7 +517,18 @@ var ui = {
 				}
 			}),
 
-			expand: $$({}, '<div><div class="boxhelp"><div data-bind="class=logged"></div><input data-bind="content" type="text"><button data-bind="i18n_priority, class=priority"></button><input placeholder="Due Date" type="text" class="date"></div><div class="hidden"><textarea data-bind="notes"></textarea></div></div>', {
+			expand: $$({}, '\
+				<div>\
+					<div class="boxhelp">\
+						<div data-bind="class=logged"></div>\
+						<input data-bind="content" type="text">\
+						<button data-bind="i18n_priority, class=priority"></button>\
+						<input placeholder="Due Date" type="text" class="date">\
+					</div>\
+					<div class="hidden">\
+						<textarea data-bind="notes"></textarea>\
+					</div>\
+				</div>', {
 
 				'create': function() {
 					//Sets the localized date =D

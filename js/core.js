@@ -178,6 +178,55 @@ var core = {
 			}
 		}
 	},
+	
+	date:  function(timestamp) {
+		return {
+			getDaysLeft: function() {
+			
+				console.log(timestamp);
+			
+				if(!timestamp) return ["",""];
+				
+				// Create Date()
+				var date = new Date(timestamp),
+					now = new Date(),
+					difference = 0,
+					oneDay = 86400000; // 1000*60*60*24 - one day in milliseconds
+
+				// Find difference between days
+				difference = Math.ceil((date.getTime() - now.getTime()) / oneDay);
+
+				// Show difference nicely
+				if (difference < -1) {
+					// Overdue
+					difference = Math.abs(difference);
+					if (difference !== 1) {
+						// return [$.i18n._('daysOverdue', [difference]), 'overdue'];
+						return [difference + " days overdue", 'overdue'];
+					}
+				} else if (difference === -1) {
+					// Yesterday
+					return ["due yesterday", 'due'];
+				} else if (difference === 0) {
+					// Due
+					return ["due today", 'due'];
+				} else if (difference === 1) {
+					// Due
+					return ["due tomorrow", ''];
+				} else if (difference < 15) {
+					// Due in the next 15 days
+					if (difference !== 1) {
+						return [difference + ' days left', ''];
+					}
+				} else {
+					// Due after 15 days
+					//var month = $.i18n._('month');
+					return [month[date.getMonth()] + " " + date.getDate(), ''];
+				}				
+			}
+		}
+	},
+	
 	storage: {
 		tasks: $.polyStorage.get('tasks', {
 			length:0
