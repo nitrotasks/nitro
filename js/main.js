@@ -75,16 +75,18 @@ var ui = {
 		$('.tasksContent').height(height - $('.panel').height())
 
 		//Collapse Lists
+		$('#lists').html('<h2>' + $l._('lists') + '</h2><ul></ul>');
 		$$.document.append($$(ui.buttons.toggleFocus), $('#smartlists h2'));
 		$$.document.append($$(ui.buttons.toggleFocus), $('#lists h2'));
+		$$.document.append(ui.buttons.listAddBTN, $('#lists h2'));
 	},
 	session: {
 		selected: 'today'
 	},
 	reload: function() {
 		//Populates Template
-		$('#lists').html('<h2>' + $l._('lists') + '</h2><ul></ul>');
-		$$.document.append(ui.buttons.listAddBTN, $('#lists h2'));
+		$('#lists ul').empty();
+		
 		
 		for (var i=0; i<core.storage.lists.order.length; i++) {
 			ui.lists.draw(core.storage.lists.order[i]);
