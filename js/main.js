@@ -73,6 +73,10 @@ var ui = {
 
 		//I can't trigger it?
 		$('.tasksContent').height(height - $('.panel').height())
+
+		//Collapse Lists
+		$$.document.append($$(ui.buttons.toggleFocus), $('#smartlists h2'));
+		$$.document.append($$(ui.buttons.toggleFocus), $('#lists h2'));
 	},
 	session: {
 		selected: 'today'
@@ -81,8 +85,6 @@ var ui = {
 		//Populates Template
 		$('#lists').html('<h2>' + $l._('lists') + '</h2><ul></ul>');
 		$$.document.append(ui.buttons.listAddBTN, $('#lists h2'));
-		$$.document.append(ui.buttons.toggleFocus, $('#lists h2'));
-		$$.document.append(ui.buttons.toggleFocus, $('#smartlists h2'));
 		
 		for (var i=0; i<core.storage.lists.order.length; i++) {
 			ui.lists.draw(core.storage.lists.order[i]);
@@ -709,7 +711,6 @@ var ui = {
 				selected.remove();
 			}
 		}),
-
 		toggleFocus: $$({}, '<span class="list-toggle">O</span>', {
 			'click &': function() {
 				var $h2 = this.view.$().parent(),
