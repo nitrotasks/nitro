@@ -181,10 +181,6 @@ var core = {
 	date:  function(timestamp) {
 		return {
 			getDaysLeft: function() {
-<<<<<<< HEAD
-=======
- 
->>>>>>> Added extra details section
 				if(!timestamp) return ["",""];
 				
 				// Create Date()
