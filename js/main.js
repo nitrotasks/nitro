@@ -449,8 +449,12 @@ var ui = {
 					
 					//Checks if it's expanded & if it isn't expand it.
 					if (!view.hasClass('expanded')) {
+					
+						/* EXPANDING */
+						
 						//Clear out the Dom
 						view.empty();
+						
 						//Checked Tasks
 						var logged = 'checkbox ' + this.model.get('priority');
 						if (core.storage.tasks[this.model.get('id')].list == 'logbook') {
@@ -473,15 +477,18 @@ var ui = {
 						view.addClass('expanded').height(view.height() + view.removeClass('selected').children('div').children('.hidden').show(0).height());
 
 					} else {
-						//Collapses
+					
+						/* COLLAPSING */
+						
 						view.removeClass('expanded').css('height', '');
 						var id = this.model.get('id');
 
 						//So data gets saved.
 						view.children().children().blur();
+						
+						var orig = view.prev();
 
 						setTimeout(function() {
-							var orig = view.prev()
 							view.remove();
 							var data = core.storage.tasks[id];
 
@@ -503,12 +510,16 @@ var ui = {
 
 							//If it's the first task in a list, .prev won't work
 							if (orig.length == 0) {
-								if (data.list == ui.session.selected) {
+								
+								if (ui.session.selected == 'all') {
+									$$.document.prepend(model, $('#tasks ul'));
+								} else if (data.list == ui.session.selected) {
 									$$.document.prepend(model, $('#tasks ul').first());
 								} else {
 									$$.document.prepend(model, $('#tasks ul.' + data.list));
 								}
 							} else {
+							
 								$$.document.after(model, orig);
 							}
 							
