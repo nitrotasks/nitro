@@ -119,7 +119,9 @@ plugin.add(function() {
 
 					//Calculates Difference
 					//task.date = (Math.round((today.getTime() - tmpdate.getTime()) / 1000 / 60 / 60 /24));
+					task.next = today.getTime();
 					task.list = $('.schedule .reviewAction').val();
+
 
 				} else if ($('#scheduledDialog input[type=radio]:checked').val() === 'recurring') {
 
@@ -198,6 +200,9 @@ plugin.add(function() {
 				//Saves
 				cli.scheduled.edit(id.substr(2), task);
 			}
+
+			//Saves
+			core.storage.save();
 
 			//Closes
 			$('#scheduledDialog .inner').fadeOut(150);
@@ -339,6 +344,8 @@ plugin.add(function() {
 					//Defines task for later
 					var id = core.storage.lists.items.scheduled.order[i];
 					var task = core.storage.tasks[id];
+
+					console.log(task)
 
 					if (task.next != '0') {
 

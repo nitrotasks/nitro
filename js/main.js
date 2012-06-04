@@ -511,7 +511,7 @@ var ui = {
 							//If it's the first task in a list, .prev won't work
 							if (orig.length == 0) {
 								
-								if (ui.session.selected == 'all') {
+								if (ui.session.selected == 'all' || ui.session.selected == 'scheduled') {
 									$$.document.prepend(model, $('#tasks ul'));
 								} else if (data.list == ui.session.selected) {
 									$$.document.prepend(model, $('#tasks ul').first());
