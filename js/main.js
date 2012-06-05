@@ -110,7 +110,7 @@ var ui = {
 
 				//Saves
 				core.storage.lists.order = listOrder;
-				core.storage.save();
+				core.storage.save([['list-order', null, null]]);
 			}
 		}).height($(window).height() - $('#lists ul').position().top);
 
@@ -149,8 +149,8 @@ var ui = {
 			return {
 				count: function() {
 					// Update all list counts
-					for(var id in core.storage.lists.items) {
-						if(id != 'length') {
+					for(var id = 0; id < core.storage.lists.items; id++) {
+						if(!core.storage.lists.items[id].hasOwnProperty('deleted')) {
 							var list = core.storage.lists.items[id];			
 							$('#L' + id).find('.count').html(list.order.length);
 						}
@@ -433,7 +433,7 @@ var ui = {
 						return;
 					}
 
-					if (e.metaKey) {
+					if (e.metaKey || e.ctrlKey) {
 						this.view.$().toggleClass('selected');
 					} else {
 						$('#tasks .selected').removeClass('selected');
