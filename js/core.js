@@ -216,7 +216,7 @@ var core = {
 					}
 				} else {
 					// Due after 15 days
-					//var month = $.i18n._('month');
+					var month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 					return [month[date.getMonth()] + " " + date.getDate(), ''];
 				}				
 			},
