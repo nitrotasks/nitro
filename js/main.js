@@ -149,7 +149,7 @@ var ui = {
 			return {
 				count: function() {
 					// Update all list counts
-					for(var id = 0; id < core.storage.lists.items; id++) {
+					for(var id = 0; id < core.storage.lists.items.length; id++) {
 						if(!core.storage.lists.items[id].hasOwnProperty('deleted')) {
 							var list = core.storage.lists.items[id];			
 							$('#L' + id).find('.count').html(list.order.length);
@@ -199,11 +199,8 @@ var ui = {
 	sortStop: function() {
 		//Saves order of tasks in list
 		var taskOrder = []
-		console.log()
 		$('#tasks ul').first().children('li').map(function () {
 			var id = Number($(this).attr('data-id'));
-
-			console.log(id)
 
 			//If not in the correct list, move to the list.
 			if (core.storage.tasks[id].list != ui.session.selected) {
@@ -245,7 +242,7 @@ var ui = {
 		}
 
 		ui.lists.update().count();
-		core.storage.save();
+		core.storage.save([['lists', ui.session.selected, 'order']]);
 	},
 	templates: {
 		listTemplate: $$({}, '\
