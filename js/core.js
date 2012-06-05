@@ -131,7 +131,7 @@ var core = {
 				}
 
 				//Deletes List
-				delete core.storage.lists.items[id];
+				core.storage.lists.items[id] = {deleted: core.timestamp()};
 				core.storage.save();
 			},
 			populate: function() {
@@ -290,6 +290,10 @@ var core = {
 						case 'lists':
 							console.log('Updating timestamp for '+ key +' in list '+ id);
 							core.storage.lists.items[id].time[key] = core.timestamp();
+							break;
+						case 'list-order':
+							console.log('Updating timestamp for List order');
+							core.storage.lists.time = core.timestamp();
 							break;
 					}
 				}
