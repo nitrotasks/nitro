@@ -92,9 +92,6 @@ plugin.add(function() {
 			today.setMinutes(0);
 			today.setHours(0);
 			var tmpdate = new Date()
-			//tmpdate.setSeconds(0);
-			//tmpdate.setMinutes(0);
-			//tmpdate.setHours(0);
 
 			if (unit == 'days') {
 				today.setDate(today.getDate() + date);
@@ -160,15 +157,16 @@ plugin.add(function() {
 
 			} else {
 				//THIS DOESN't WORK. Don't use it. Don't even try. Don't even look at it.
-				var task = cli.scheduled.edit(id.substr(2));
+				var id = (core.storage.tasks[id].type).substr(0,1) + id;
+				var task = core.storage.tasks[id.substr(1)];
 
-				if (id.substr(1, 1) == 's') {
+				if (id.substr(0, 1) == 's') {
 
 					//Edits Values
-					task.next = cli.calc.dateConvert(today);
-					task.list = $('#reviewAction').val();
+					task.next = new Date(today).getTime();
+					task.list = $('.schedule .reviewAction').val()
 
-				} else if (id.substr(1, 1) == 'r') {
+				} else if (id.substr(0, 1) == 'r') {
 					task.next = $('#recurNext').val();
 					task.ends = $('#recurEnds').val();
 					task.recurType = $('#recurType').val();
@@ -193,9 +191,6 @@ plugin.add(function() {
 						task.recurInterval = interval;
 					}
 				}
-
-				//Saves
-				cli.scheduled.edit(id.substr(2), task);
 			}
 
 			//Saves
@@ -342,8 +337,6 @@ plugin.add(function() {
 					var id = core.storage.lists.items.scheduled.order[i];
 					var task = core.storage.tasks[id];
 
-					console.log(task)
-
 					if (task.next != '0') {
 
 						//Add the task to the list if the date has been passed
@@ -486,12 +479,13 @@ plugin.add(function() {
 			init: function (type) {
 				if (type == 'edit') {
 					var id = $('#scheduledDialog .inner').attr('data-type');
+					var id = (core.storage.tasks[id].type).substr(0,1) + id;
 
 					//Fills in Values
-					var task = cli.scheduled.edit(id.substr(2));
+					var task = core.storage.tasks[id.substr(1)];
 					var text = $.i18n._('edit');
 
-					if (id.substr(1, 1) == 's') {
+					if (id.substr(0, 1) == 's') {
 
 						//Zeros Days
 						var today = new Date();
@@ -509,7 +503,7 @@ plugin.add(function() {
 						$('#scheduledDialog .inner .recurring').hide(0);
 
 
-					} else if (id.substr(1, 1) == 'r') {
+					} else if (id.substr(0, 1) == 'r') {
 						//Hides Bits of UI
 						$('#scheduledDialog .inner .schedule').hide(0);
 						$('#scheduledDialog .inner .recurring').show(0);

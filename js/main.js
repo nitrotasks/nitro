@@ -563,7 +563,7 @@ var ui = {
 					<div class="boxhelp">\
 						<div data-bind="class=logged"></div>\
 						<input data-bind="content" type="text">\
-						<button data-bind="i18n_priority, class=priority"></button><input placeholder="Due Date" type="text" class="date">\
+						<button data-bind="i18n_priority, class=priority"></button><input type="text" class="date">\
 					</div>\
 					<div class="hidden">\
 						<textarea data-bind="notes"></textarea>\
@@ -572,11 +572,26 @@ var ui = {
 
 				'create': function() {
 					//Sets the localized date =D
-					this.view.$('.date').datepicker().datepicker('setDate', new Date(this.model.get('date')));
+					if (ui) {
+						if (ui.session.selected != 'scheduled' && this.model.get('date')) {
+							this.view.$('.date').attr('placeholder', $l._('dueDate')).datepicker().datepicker('setDate', new Date(this.model.get('date')));	
+						} else if (ui.session.selected != 'scheduled') {
+							this.view.$('.date').attr('placeholder', $l._('dueDate')).datepicker()
+						} else {
+							//OH SHIT! A CLICK HANDLER! Well I don't give a fuck.
+							var id = this.model.get('id');
+							this.view.$('.date').replaceWith('<button class="date">' + $l._('schedule') + '</button>');
+							this.view.$('.date').click(function() {
+								$('#scheduledDialog .inner').fadeToggle(150).attr('data-type', id);
+								$('#scheduledDialog').toggle(0);
+								plugin.scheduled.ui.init('edit');
+							});
+						}
 
-					//Sets the Placeholder - I'm lazy. TODO: Fix this
-					try{this.view.$('textarea').attr('placeholder', $l._('notes'))} catch(err) {};
+						//Sets the Placeholder - I'm lazy. TODO: Fix this
+						this.view.$('textarea').attr('placeholder', $l._('notes'));
 
+					}
 					//Focus correct input
 					var input = $(this.view.$('input[data-bind=content]'));
 					setTimeout(function() {
