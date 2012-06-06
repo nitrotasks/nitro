@@ -62,26 +62,25 @@ var core = {
 					var old = core.storage.tasks[id].list;
 				}
 
-				//Remove from list
-				core.storage.lists.items[old].order.remove(id);
-
-				if(core.storage.tasks[id].logged && list != 'logbook') {
+				if(core.storage.tasks[id].list == list && core.storage.tasks[id].logged && list != 'logbook') {
 					core.storage.tasks[id].logged = false;
 					core.storage.save(['tasks', id, 'logged']);
-				}
-				
-				if (list === 'trash') {
+				} else if (list === 'trash') {
+					//Remove from list
+					core.storage.lists.items[old].order.remove(id);
 					// delete core.storage.tasks[id];
 					core.storage.tasks[id] = {deleted: core.timestamp()};
 					console.log('Deleted: ' + id);
 					// Saves - but doesn't mess with timestamps
 					core.storage.save();
-				} else if (list === 'logbook') {
+				} else if (list === 'completed') {
 					// Don't actually move the task
 					core.storage.tasks[id].logged = core.timestamp();
 					console.log('Logged ' + id);
 					core.storage.save(['tasks', id, 'logged']);
 				} else {
+					//Remove from list
+					core.storage.lists.items[old].order.remove(id);
 					//Move to other list
 					core.storage.lists.items[list].order.unshift(id);
 					core.storage.tasks[id].list = list;
@@ -148,24 +147,6 @@ var core = {
 						}
 
 						return results;
-
-					case 'logbook': 
-
-						var results = [];
-
-						// Loop
-						for (var i=0; i<core.storage.tasks.length; i++) {
-							if(!core.storage.tasks[i].hasOwnProperty('deleted') && core.storage.tasks[i].logged) {
-								results.push(i);
-							}
-						}
-						
-						results.sort(function(a, b) {
-							return core.storage.tasks[a].logged > core.storage.tasks[b].logged;
-						});
-
-						return results;
-
 
 					default: 
 						if (id in core.storage.lists.items) {
@@ -255,14 +236,18 @@ var core = {
 				today: {
 					order: [],
 					time: {
-						name: 0,
 						order: 0
 					}
 				},
 				next: {
 					order: [],
 					time: {
-						name: 0,
+						order: 0
+					}
+				},
+				logbook: {
+					order: [],
+					time: {
 						order: 0
 					}
 				},

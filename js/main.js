@@ -46,6 +46,9 @@ var ui = {
 		$$.document.append($$(ui.buttons.taskAddBTN, {name: $l._('addbtn')}), $('#tasks .panel .left'));
 		$$.document.append($$(ui.buttons.taskDeleteBTN, {name: $l._('deletebtn')}), $('#tasks .panel .left'));
 
+		// Update logbook
+		ui.lists.update().logbook();
+
 		//Loads Selected List
 		$('#L' + ui.session.selected + ' .name').click();
 
@@ -133,9 +136,6 @@ var ui = {
 					case 'all':
 						var obj = $$(ui.templates.listTemplate, {id: listId, name: $l._(listId), count: core.list('all').populate().length});
 						break;
-					case 'logbook':
-						var obj = $$(ui.templates.listTemplate, {id: listId, name: $l._(listId), count: core.list('logbook').populate().length});
-						break;
 					default:
 						var obj = $$(ui.templates.listTemplate, {id: listId, name: $l._(listId)});
 						break;
@@ -152,6 +152,7 @@ var ui = {
 		update: function() {
 			return {
 				count: function() {
+
 					// Update all list counts
 					for(var id = 0; id < core.storage.lists.items.length; id++) {
 						if(!core.storage.lists.items[id].hasOwnProperty('deleted')) {
@@ -160,16 +161,32 @@ var ui = {
 						}
 					}
 
-					// Update Various Lists (replace with loop)
-					$('#Ltoday').find('.count').html(core.list('today').populate().length);
-					$('#Lnext').find('.count').html(core.list('next').populate().length);
-					$('#Lscheduled').find('.count').html(core.list('scheduled').populate().length);
-					$('#Llogbook').find('.count').html(core.list('logbook').populate().length);
-					$('#Lall').find('.count').html(core.list('all').populate().length);
+					var focusLists = ['today', 'next', 'scheduled', 'logbook', 'all'];
+					for (var id = 0; id < focusLists.length; id++) {
+						$('#L' + focusLists[id]).find('.count').html(core.list(focusLists[id]).populate().length);
+					}
 
 					// Set Title
 					var todayTotal = core.storage.lists.items['today'].order.length;
 					todayTotal > 0 ? document.title = todayTotal + " - Nitro" : document.title = "Nitro";
+				},
+				logbook: function() {
+
+					// Loop through all tasks
+					for(var id = 0; id < core.storage.tasks.length; id++) {
+
+						// If task is not deleted
+						if(!core.storage.tasks[id].hasOwnProperty('deleted')) {
+
+							// If task is logged but not in logbook
+							if(core.storage.tasks[id].logged && core.storage.tasks[id].list != 'logbook') {
+
+								// Add to logbook
+								core.task(id).move('logbook');
+
+							}
+						}
+					}
 				}
 			}
 		},
@@ -449,20 +466,27 @@ var ui = {
 				},
 
 				'click .checkbox': function(e) {
-					//Changes Appearance
-					$(e.currentTarget).toggleClass('checked');
 
-					var id = this.model.get('id');
+					// Doesn't work in Logbook
+					if(ui.session.selected != 'logbook') {
 
-					//Moves it around for real.
-					if($(e.currentTarget).hasClass('checked')) {
-						core.task(id).move('logbook');
-					} else {
-						core.task(id).move(core.storage.tasks[id].list);
+						//Changes Appearance
+						$(e.currentTarget).toggleClass('checked');
+
+						var id = this.model.get('id');
+
+						//Moves it around for real.
+						if($(e.currentTarget).hasClass('checked')) {
+							core.task(id).move('completed');
+						} else {
+							core.task(id).move(core.storage.tasks[id].list);
+						}
+
+						// Update count
+						ui.lists.update().count();
+
 					}
 
-					// Update count
-					ui.lists.update().count();
 				},
 
 				'dblclick &': function(e) {

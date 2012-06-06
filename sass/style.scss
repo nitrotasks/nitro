@@ -302,7 +302,16 @@ html, body {
 					border: 1px solid #000;
 
 					&.checked {
-						background: #000;
+						position: relative;
+						border-color: transparent !important;
+						background: none !important;
+					}
+					&.checked:after {
+						display: block;
+						position: absolute;
+						content: url(img/logged.png);
+						top: -6px;
+						left: -1px;
 					}
 				}
 				
@@ -367,7 +376,7 @@ html, body {
 				}
 				
 				&.selected {
-					background: #0f0;
+					// background: #0f0;
 
 					&.expanded {
 						background: #fff;

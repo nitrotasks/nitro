@@ -138,7 +138,8 @@ html, body { height: 100%; width: 100%; }
 #tasks .tasksContent ul li.placeholder { background: rgba(0, 0, 0, 0.1); box-shadow: 0 0 0 #000; }
 #tasks .tasksContent ul li .boxhelp { display: -webkit-box; display: -moz-box; display: box; }
 #tasks .tasksContent ul li .checkbox { margin: 8px; width: 13px; height: 13px; border: 1px solid #000; }
-#tasks .tasksContent ul li .checkbox.checked { background: #000; }
+#tasks .tasksContent ul li .checkbox.checked { position: relative; border-color: transparent !important; background: none !important; }
+#tasks .tasksContent ul li .checkbox.checked:after { display: block; position: absolute; content: url(img/logged.png); top: -6px; left: -1px; }
 #tasks .tasksContent ul li .extra { margin-right: 20px; }
 #tasks .tasksContent ul li input { border: 0; line-height: 1; box-shadow: none; background: transparent; box-sizing: border-box; }
 #tasks .tasksContent ul li input:focus { box-shadow: none; outline: 0; height: 32px; }
@@ -148,7 +149,6 @@ html, body { height: 100%; width: 100%; }
 #tasks .tasksContent ul li button.none, #tasks .tasksContent ul li button.low, #tasks .tasksContent ul li button.medium, #tasks .tasksContent ul li button.high, #tasks .tasksContent ul li button.date { border: 0; border-left: 1px solid #000; background: transparent; line-height: 32px; padding: 0 15px; }
 #tasks .tasksContent ul li input.date { border-left: 1px solid #000; padding: 8px 5px; vertical-align: top; width: 80px; text-align: center; }
 #tasks .tasksContent ul li input.date:focus { outline: 0; height: 32px; }
-#tasks .tasksContent ul li.selected { background: #0f0; }
 #tasks .tasksContent ul li.selected.expanded { background: #fff; }
 #tasks .tasksContent ul li .hidden { display: none; }
 #tasks .tasksContent ul li .hidden textarea { width: 100%; border: 0; border-top: 1px solid #000; box-sizing: border-box; padding: 8px 30px 8px 32px; resize: none; min-height: 70px; }
