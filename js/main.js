@@ -285,7 +285,12 @@ var ui = {
 							extraDetails += core.date(data.logged).getDate();
 							break;
 						case 'all':
-							extraDetails += core.storage.lists.items[data.list].name;
+							//Translated Name or Custom Name
+							if (typeof(data.list) == 'number') {
+								extraDetails += core.storage.lists.items[data.list].name;	
+							} else {
+								extraDetails += $l._(data.list);
+							}
 							break;
 						default:
 							extraDetails += core.date(data.date).getDaysLeft()[0];
@@ -523,7 +528,12 @@ var ui = {
 									extraDetails += core.date(data.logged).getDate();
 									break;
 								case 'all':
-									extraDetails += core.storage.lists.items[data.list].name;
+									//Translated Name or Custom Name
+									if (typeof(data.list) == 'number') {
+										extraDetails += core.storage.lists.items[data.list].name;	
+									} else {
+										extraDetails += $l._(data.list);
+									}
 									break;
 								default:
 									extraDetails += core.date(data.date).getDaysLeft()[0];
