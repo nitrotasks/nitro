@@ -532,8 +532,12 @@ plugin.add(function() {
 							}
 						}
 
-						$('#recurNext').val(task.next);
-						$('#recurEnds').val(task.ends);
+						$('#recurNext').datepicker('setDate', new Date(task.next));
+						if ($('#recurEnds').val() != '') {
+							$('#recurEnds').datepicker('setDate', new Date(task.ends));	
+						} else {
+							$('#recurEnds').val('');
+						}
 					}
 
 					$('.radioscheduled').hide(0);
