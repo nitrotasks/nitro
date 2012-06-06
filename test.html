@@ -1,0 +1,40 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Test</title>
+	<script src=js/libs/jquery.js></script>
+	<script src=js/libs/agility.js></script>
+	
+</head>
+<body>
+	
+	<script type="text/javascript" charset="utf-8">
+		
+		// Original model		
+		var message = $$({txt:'Hello World'}, '<div data-bind="txt"/>');
+		
+		// Cloning a model and assingning more events at the same time
+		var obj = $$(message, {txt: "Clone of Hello World"},{}, {
+			'click &': function() {
+				alert("Cloning doesn't get the bindings");
+			}
+		});
+		
+		// Appending model
+		$$.document.append(message);
+		$$.document.append(obj);
+		
+		// Binding an event
+		message.bind('click &', function() {
+			alert("Event binding worked!");
+		});
+		
+		// Binding the same event after to a diff function
+		obj.bind('click &', function() {
+			alert("You can only bind to the direct object that is being appended");
+		});
+		
+	</script>
+	
+</body>
+</html>
