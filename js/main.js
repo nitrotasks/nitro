@@ -12,6 +12,11 @@
  * Neither the name of Caffeinated Code nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+$(document).ready(function() {
+	//Language Init
+	core.storage.prefs.lang = core.storage.prefs.lang || 'english';
+	$('#languagescript').attr('src', 'js/translations/' + core.storage.prefs.lang + '.js');
+})
 
 var ui = {
 	language: function (data) {
@@ -23,6 +28,9 @@ var ui = {
 
 		$(document).ready(function() {
 			ui.initLoad();
+
+			// Loads Plugins!
+			plugin.load();
 		});
 
 		$('#tasks > .tasksContent').click(function(e) { 
@@ -86,6 +94,9 @@ var ui = {
 		$$.document.append($$(ui.buttons.toggleFocus), $('#smartlists h2'));
 		$$.document.append($$(ui.buttons.toggleFocus), $('#lists h2'));
 		$$.document.append(ui.buttons.listAddBTN, $('#lists h2'));
+
+		//Good idea to save? If theme or lang needs to be saved?
+		core.storage.save();
 	},
 	session: {
 		selected: 'today'
@@ -792,6 +803,14 @@ var ui = {
 var plugin = {
 	add: function(fn) {
 		fn();
+	},
+	load: function() {
+		//Define Plugins in here
+		$('body').append('\
+<script src=js/plugins/search.js></script>\
+<script src=js/plugins/sync.js></script>\
+<script src=js/plugins/scheduled.js></script>\
+<script src=js/plugins/settings.js></script>')
 	}
 }
 // My super awesome function that converts a string to a number

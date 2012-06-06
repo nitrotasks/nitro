@@ -36,7 +36,10 @@ $(document).ready(function() {
 							<tr>\
 								<td class="language"><a href="#" data-value="english">English</a></td>\
 								<td class="author">Caffeinated Code</td>\
-								<td class="language"><a href="#" data-value="hungarian">Magyar</a></td>\
+								<td class="language"><a href="#" data-value="bad">Bad English</a></td>\
+								<td class="author"><a href="mailto:jono@joncoooper.com">Jono Cooper</a>\
+							</tr>\
+								<!--td class="language"><a href="#" data-value="hungarian">Magyar</a></td>\
 								<td class="author"><a href="mailto:sjozsef0227@gmail.com">József Samu</a>\
 							</td>\
 							<tr>\
@@ -80,7 +83,7 @@ $(document).ready(function() {
 								<td class="author">Marcin Tydelski,<br>Kajetan Szczepaniak</td>\
 								<td class="language"><a href="#" data-value="turkish">Türkçe</a></td>\
 								<td class="author"><a href="mailto:selimssevgi@gmail.com">Selim Sırrı Sevgi</a></td>\
-							</tr>\
+							</tr-->\
 						</tbody>\
 					</table>  \
 				</div>\
@@ -153,15 +156,6 @@ $(document).ready(function() {
 		SETTINGS
 	**********************************/
 
-	// DROP DOWN MENU
-	/*$settingsBTN.find('img').click(function () {
-		$settingsBTN.find('ul').slideToggle(150);
-	});
-	$settingsBTN.find('li').click(function () {
-		$settingsBTN.find('ul').fadeOut(100);
-		ui.external.cmd($(this).attr('class'));
-	});*/
-
 	// CHECK BOXES [DELETE WARNINGS & LOW GRAPHICS MODE]
 	$('#tabGeneral form input').change(function () {
 
@@ -195,6 +189,30 @@ $(document).ready(function() {
 		//Saves Theme
 		core.storage.prefs.theme = theme;
 		core.storage.save();
+	});
+
+	/**********************************
+			LOADING PREFERENCES
+	**********************************/
+	//$('#deleteWarnings').prop('checked', cli.storage.prefs.deleteWarnings);
+	//$('#nextAmount').val(cli.storage.prefs.nextAmount);
+	$('#theme').val(core.storage.prefs.theme);
+
+	// LANGUAGE
+	$('#tabLanguage a.current').removeClass('current');
+	$('#tabLanguage .language a').each(function () {
+		if ($(this).data('value') === core.storage.prefs.lang) {
+			$(this).addClass('current');
+		}
+	});
+	$('#tabLanguage').bind('click', function (e) {
+		if ($(e.srcElement).is('.language a')) {
+			core.storage.prefs.lang = $(e.srcElement).data('value');
+			core.storage.save();
+
+			window.location.reload();
+			return false;
+		}
 	});
 });
 

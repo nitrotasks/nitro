@@ -7,7 +7,7 @@ plugin.add(function() {
 	if(!core.storage.lists.items.scheduled) { 
 		core.storage.lists.items.scheduled = {order: [], time: {name: 0, order: 0}};
 	}
-
+	
 	//Creates a list item
 	var obj = $$(ui.templates.listTemplate, {id: 'scheduled', name: $l._('scheduled')});
 	$(document).ready(function() {
