@@ -23,7 +23,6 @@ var ui = {
 
 		$(document).ready(function() {
 			ui.initLoad();
-			ui.reload();
 		});
 
 		$('#tasks > .tasksContent').click(function(e) { 
@@ -71,8 +70,13 @@ var ui = {
 			}
 		});
 
-		//I can't trigger it?
-		$('.tasksContent').height(height - $('.panel').height())
+		// Theme init
+		core.storage.prefs.theme = core.storage.prefs.theme || 'default';
+		$('link.theme').attr('href', 'css/' + core.storage.prefs.theme + '.css').ready(function () {
+			//I can't trigger it?
+			$('.tasksContent').height(height - $('.panel').height())
+			ui.reload();
+		});
 
 		//Collapse Lists
 		$('#lists').html('<h2>' + $l._('lists') + '</h2><ul></ul>');

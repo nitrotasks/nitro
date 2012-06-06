@@ -72,7 +72,7 @@ plugin.add(function() {
 			</div>\
 		</div>\
 	</div>');
-		$('.translate').map(function () {
+		$('#scheduledDialog .translate').map(function () {
 			$(this).html($.i18n._($(this).attr('data-translate')));
 		});
 
