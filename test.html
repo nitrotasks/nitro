@@ -11,7 +11,11 @@
 	<script type="text/javascript" charset="utf-8">
 		
 		// Original model		
-		var message = $$({txt:'Hello World'}, '<div data-bind="txt"/>');
+		var message = $$({txt:'Hello World'}, '<div data-bind="txt"/>', {
+			'create': function() {
+				alert("Created")
+			}
+		});
 		
 		// Cloning a model and assingning more events at the same time
 		var obj = $$(message, {txt: "Clone of Hello World"},{}, {

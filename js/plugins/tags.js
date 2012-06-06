@@ -5,12 +5,17 @@
 
 //Adds as a plugin
 plugin.add(function() {
+	
+	$('#tasks .taskContent li .content').on('create', function() {
+		var text = $(this).text();
+		console.log("hello")
+	});
 
-	tags = function(q) {
+	textToTag = function(q) {
 
 		var hashTag = new RegExp("\\s#([^ ]*)", "ig");
 
-		console.log(q.replace(hashTag, ' <span class="tag">#$1</span>'));
+		return q.replace(hashTag, ' <span class="tag">#$1</span>');
 
 	};
 

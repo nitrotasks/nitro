@@ -459,7 +459,15 @@ var ui = {
 						<div data-bind="extra" class="extra"></div>\
 					</div>\
 				</li>', {
-				
+					
+				'create': function() {
+					
+					// Convert tags
+					var $content = this.view.$('.content'),
+						text = $content.text();
+					$content.html(hashTag(text))
+						
+				},				
 				
 				'click &': function(e) {
 
@@ -824,4 +832,10 @@ String.prototype.toNum = function () {
 	} else {
 		return this.toString();
 	}
+}
+
+// PLUGINS
+function hashTag(q) {
+	var hashTag = new RegExp("\\s#([^ ]*)", "ig");
+	return q.replace(hashTag, ' <span class="tag">#$1</span>');
 }
