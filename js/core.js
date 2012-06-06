@@ -62,6 +62,13 @@ var core = {
 					var old = core.storage.tasks[id].list;
 				}
 
+				// Dropping a task onto the Logbook completes it
+				if(list == 'logbook' && !core.storage.tasks[id].logged) {
+					core.storage.tasks[id].logged = core.timestamp();
+					console.log('Logged ' + id);
+					core.storage.save(['tasks', id, 'logged']);
+				}
+
 				if(core.storage.tasks[id].list == list && core.storage.tasks[id].logged && list != 'logbook') {
 					core.storage.tasks[id].logged = false;
 					core.storage.save(['tasks', id, 'logged']);
