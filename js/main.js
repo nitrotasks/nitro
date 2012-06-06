@@ -377,14 +377,14 @@ var ui = {
 					},
 					helper: function (e, el) {
 
-						var name = $(el).html(),
+						var name = $(el).find('.content').html(),
 							$temp = $('body')
 								.append('<span class="temp-helper" style="display: none; font-size: 13px; font-weight: bold;">' + name + '</span>')
 								.find('.temp-helper'),
 							width = $temp.width();
 						$temp.remove();
 					
-						var $el = $(el).clone();
+						var $el = $(el).find('.content').clone();
 						$el.width(width);
 						$el.addClass('tasks');
 						return $el;
