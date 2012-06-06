@@ -810,7 +810,8 @@ var plugin = {
 <script src=js/plugins/search.js></script>\
 <script src=js/plugins/sync.js></script>\
 <script src=js/plugins/scheduled.js></script>\
-<script src=js/plugins/settings.js></script>')
+<script src=js/plugins/settings.js></script>\
+<script src=js/plugins/tags.js></script>')
 	}
 }
 // My super awesome function that converts a string to a number
