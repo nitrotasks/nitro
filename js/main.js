@@ -505,7 +505,17 @@ var ui = {
 						ui.lists.update().count();
 
 					}
-
+				},
+				
+				'click .tag': function(e) {
+					
+					// Get tag name
+					var tag = $(e.target).text();
+					// Go to All Tasks list
+					$('#Lall .name').trigger('click');
+					// Run search - We should give the searchbox an ID
+					$('#tasks .panel input[type=search]').val(tag).trigger('keyup');
+					
 				},
 
 				'dblclick &': function(e) {
