@@ -135,7 +135,7 @@ body {
 				}
 			}
 
-			button.none, button.low, button.medium, button.high, input.date {
+			button.none, button.low, button.medium, button.high, input.date, button.date {
 				border-left: 1px solid darken($task_color, 10%);
 			}
 			button.low {

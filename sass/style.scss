@@ -345,7 +345,7 @@ html, body {
 				}
 
 				//Because you can't use: button[data-bind=i18n_priority, class=priority];
-				button.none, button.low, button.medium, button.high {
+				button.none, button.low, button.medium, button.high, button.date {
 					border: 0;
 					border-left: 1px solid #000;
 					background: transparent;

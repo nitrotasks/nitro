@@ -26,6 +26,10 @@ ui.language({
 	medium: "Medium",
 	high: "High",
 
+	//Date Labels
+	dueDate: "Due Date",
+	schedule: "Schedule",
+
 	recurring: "Recurring",
 	reviewNo: "Review in:",
 	recurType: "Created:",

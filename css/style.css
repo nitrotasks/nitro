@@ -145,7 +145,7 @@ html, body { height: 100%; width: 100%; }
 #tasks .tasksContent ul li div[data-bind=content] { padding-left: 1px; padding-top: 1px; }
 #tasks .tasksContent ul li [data-bind=content] { -webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1; }
 #tasks .tasksContent ul li input[data-bind=content] { padding: 0; margin: 0; -webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1; display: block; }
-#tasks .tasksContent ul li button.none, #tasks .tasksContent ul li button.low, #tasks .tasksContent ul li button.medium, #tasks .tasksContent ul li button.high { border: 0; border-left: 1px solid #000; background: transparent; line-height: 32px; padding: 0 15px; }
+#tasks .tasksContent ul li button.none, #tasks .tasksContent ul li button.low, #tasks .tasksContent ul li button.medium, #tasks .tasksContent ul li button.high, #tasks .tasksContent ul li button.date { border: 0; border-left: 1px solid #000; background: transparent; line-height: 32px; padding: 0 15px; }
 #tasks .tasksContent ul li input.date { border-left: 1px solid #000; padding: 8px 5px; vertical-align: top; width: 80px; text-align: center; }
 #tasks .tasksContent ul li input.date:focus { outline: 0; height: 32px; }
 #tasks .tasksContent ul li.selected { background: #0f0; }
