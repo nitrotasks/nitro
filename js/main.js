@@ -156,10 +156,11 @@ var ui = {
 						}
 					}
 
-					// Update the Logbook
+					// Update Various Lists (replace with loop)
+					$('#Ltoday').find('.count').html(core.list('today').populate().length);
+					$('#Lnext').find('.count').html(core.list('next').populate().length);
+					$('#Lscheduled').find('.count').html(core.list('scheduled').populate().length);
 					$('#Llogbook').find('.count').html(core.list('logbook').populate().length);
-							
-					// Update the All Tasks list				
 					$('#Lall').find('.count').html(core.list('all').populate().length);
 
 					// Set Title
