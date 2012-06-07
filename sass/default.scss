@@ -103,6 +103,9 @@ body {
 			border-radius: 4px;
 			@include background(linear-gradient(top, $task_color 0%, darken($task_color, 2%) 100%));
 			
+			.tag {
+				color: darken($low_color, 30%);
+			}
 			
 			&.selected {
 				@include background(linear-gradient(top, $task_selected 0%, darken($task_selected, 2%) 100%));
