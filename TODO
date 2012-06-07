@@ -5,7 +5,6 @@ George
 ------
 - Filters
 - Sorting
-- Tags
 - Skydrive
 
 Jono
@@ -14,6 +13,12 @@ Jono
 - Theme List Edit Buttons
 - Colors for Date Difference
 - Add no task messages
-
 - Reimplement Themes
 - Make Settings Work
+
+Anyone
+------
+- Confirm message boxes for deleting tasks and lists
+- Icons for list editing
+- Hover state for panel buttons
+- A better way to close the settings menu
