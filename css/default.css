@@ -2,6 +2,8 @@ body { background: url(img/bg.png); }
 
 #sidebar { background: #fdfdfd; box-shadow: 1px 0 1px rgba(0, 0, 0, 0.3); }
 #sidebar h2 { border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc; box-shadow: 0 0 1px rgba(0, 0, 0, 0.2) inset; }
+#sidebar .listAddBTN { background: #333333; color: white; }
+#sidebar .listAddBTN:hover { background: #3b3b3b; }
 
 .panel { background: #333333; border-bottom: 0 1px solid #111111; color: white; box-shadow: 0 0 2px rgba(0, 0, 0, 0.4); }
 .panel .brand { line-height: 40px; font-size: 18px; font-weight: bold; padding-left: 20px; background: url(img/logo.png) no-repeat; }

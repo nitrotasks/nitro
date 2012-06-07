@@ -232,8 +232,13 @@ html, body {
 		}
 	}
 	
-	.addListBTN {
+	.listAddBTN {
 		text-align: center;
+		cursor: pointer;
+		border-top: 1px solid #000;
+		font-size: 13px;
+		font-weight: bold;
+		line-height: 30px;
 	}
 }
 

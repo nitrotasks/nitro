@@ -7,7 +7,6 @@ $sidebar_border: #ccc;
 $panel_color: #333;
 $panel_border: #111;
 $panel_text: #fff;
-
 $task_color: #fff;
 $task_selected: #C8FDFF;
 $notes_bg: #FBFAF0;
@@ -28,6 +27,15 @@ body {
 		border-top: 1px solid $sidebar_border;
 		border-bottom: 1px solid $sidebar_border;
 		box-shadow: 0 0 1px rgba(0,0,0,0.2) inset;
+	}
+	
+	.listAddBTN {
+		background: $panel_color;
+		color: $panel_text;
+		
+		&:hover {
+			background: lighten($panel_color, 3%);
+		}
 	}
 }
 .panel {

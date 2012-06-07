@@ -125,7 +125,7 @@ html, body { height: 100%; width: 100%; }
 #sidebar ul li.selected { background: #eee; outline: 1px solid #000; }
 #sidebar ul li.dragHover { background: #ccc; }
 #sidebar ul li .delete, #sidebar ul li .edit { display: none; }
-#sidebar .addListBTN { text-align: center; }
+#sidebar .listAddBTN { text-align: center; cursor: pointer; border-top: 1px solid #000; font-size: 13px; font-weight: bold; line-height: 30px; }
 
 #lists li.selected:hover .delete, #lists li.selected:hover .edit { display: block; }
 
