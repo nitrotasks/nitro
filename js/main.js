@@ -559,16 +559,14 @@ var ui = {
 						view.addClass('expanded').height(view.height() + view.removeClass('selected').children('div').children('.hidden').show(0).height());
 
 					} else {
-					
 						/* COLLAPSING */
-						
 						view.removeClass('expanded').css('height', '');
 						var id = this.model.get('id');
 
 						//So data gets saved.
 						view.children().children().blur();
 						
-						var orig = view.prev();
+						var orig = view.prev().attr('data-id');
 
 						setTimeout(function() {
 							view.remove();
@@ -609,7 +607,7 @@ var ui = {
 							});
 
 							//If it's the first task in a list, .prev won't work
-							if (orig.length == 0) {
+							if (orig == undefined) {
 								
 								if (ui.session.selected == 'all' || ui.session.selected == 'scheduled' || ui.session.selected == 'logbook') {
 									$$.document.prepend(model, $('#tasks ul'));
@@ -620,7 +618,7 @@ var ui = {
 								}
 							} else {
 							
-								$$.document.after(model, orig);
+								$$.document.after(model, $('#tasks ul li[data-id=' + orig + ']'));
 							}
 							
 						}, 150);
