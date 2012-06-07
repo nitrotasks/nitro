@@ -89,15 +89,26 @@ html, body {
 	position: absolute;
 	z-index: 2;
 	box-sizing: border-box;
+	
+	// Resizable sidebar settings
 	min-width: 115px;
 	width: 200px;
 	max-width: 500px;
+	
+	// Use flex box
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	
+	// Vertically align elements
+	-webkit-box-orient: vertical;
 
 	h2 {
 		margin: 0;
 		padding: 0 0 0 15px;
 		font-size: 13px;
 		line-height: 30px;
+		height: 30px;
 		text-transform: uppercase;
 		border-top: 1px solid #000;
 		border-bottom: 1px solid #000;
@@ -145,21 +156,14 @@ html, body {
 	}
 
 	#lists {
-	
-		display: -webkit-box;
-		display: -moz-box;
-		display: box;	
-		
-		ul {
-			overflow-y: auto;
-			-webkit-box-flex: 1;
-		}
+		-webkit-box-flex: 1;
+		overflow-y: auto;
 	}
 	
 	ul {
-		
 		margin: 0;
 		padding: 0;
+		
 		li {
 			display: box;
 			display: -webkit-box;
@@ -226,6 +230,10 @@ html, body {
 				display: none;
 			}
 		}
+	}
+	
+	.addListBTN {
+		text-align: center;
 	}
 }
 

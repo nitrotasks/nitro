@@ -42,10 +42,7 @@ var ui = {
 	},
 	initLoad: function() {
 		//Buttons
-		$('#smartlists').html('\
-			<h2>' + $l._('focus') + '\
-			</h2>\
-			<ul></ul>');
+		$('#sidebar h2.smartlists').html($l._('focus'));
 		ui.lists.draw('today');
 		ui.lists.draw('next');
 		ui.lists.draw('logbook');
@@ -90,10 +87,9 @@ var ui = {
 		});
 
 		//Collapse Lists
-		$('#lists').html('<h2>' + $l._('lists') + '</h2><ul></ul>');
-		$$.document.append($$(ui.buttons.toggleFocus), $('#smartlists h2'));
-		$$.document.append($$(ui.buttons.toggleFocus), $('#lists h2'));
-		$$.document.append(ui.buttons.listAddBTN, $('#lists'));
+		$('#sidebar h2.lists').html($l._('lists'));
+		$$.document.append($$(ui.buttons.toggleFocus), $('#sidebar h2.smartlists'));
+		$$.document.append(ui.buttons.listAddBTN, $('#sidebar'));
 
 		//Good idea to save? If theme or lang needs to be saved?
 		core.storage.save();
@@ -103,7 +99,7 @@ var ui = {
 	},
 	reload: function() {
 		//Populates Template
-		$('#lists ul').empty();
+		$('#lists').empty();
 		
 		
 		for (var i=0; i<core.storage.lists.order.length; i++) {
@@ -111,7 +107,7 @@ var ui = {
 		}
 
 		//Sortable Lists 
-		$('#lists ul').sortable({
+		$('#lists').sortable({
 			containment: 'parent',
 			axis: 'y',
 			distance: 20,
@@ -122,7 +118,7 @@ var ui = {
 				var listOrder = [];
 
 				//Loops through lists & adds the to an array
-				$('#lists ul').children().map(function () {
+				$('#lists').children().map(function () {
 					listOrder.push($(this).attr('id').substr(1).toNum());
 				});
 
@@ -153,11 +149,11 @@ var ui = {
 						break;
 				}
 				
-				$$.document.append(obj, $('#smartlists ul'));
+				$$.document.append(obj, $('#smartlists'));
 			} else {
 				var list = core.storage.lists.items[listId];
 				var obj = $$(ui.templates.listTemplate, {id: listId, name: list.name, count: "0"});
-				$$.document.append(obj, $('#lists ul'));
+				$$.document.append(obj, $('#lists'));
 			}
 			obj.view.$().attr('id', 'L' + obj.model.get('id'))
 		},
@@ -211,8 +207,6 @@ var ui = {
 
 				//Moves Task
 				core.task(taskId).move(listId);
-
-				console.log(taskId)
 
 				//Removes and Saves
 				$(uix.draggable).remove();
@@ -418,7 +412,7 @@ var ui = {
 				}
 			},
 			'dblclick .name': function() {
-				if(this.view.$().closest('div').attr('id') == 'lists') {
+				if(this.view.$().closest('ul').attr('id') == 'lists') {
 					var name = this.model.get('name');
 					this.view.$('.name').after('<input type="text" value="' + name + '" placeholder="Enter the list name">').next().focus().prev().remove();
 					this.view.$('.edit').addClass('open').html('#');
@@ -452,7 +446,7 @@ var ui = {
 				
 				// If there are no lists left, hide the hide button
 				if(!$('#lists li').length) {
-					$('#lists .list-toggle').fadeOut(150);
+					$('#sidebar h2.lists .list-toggle').fadeOut(150);
 				}
 			}
 		}),
@@ -736,7 +730,7 @@ var ui = {
 				ui.lists.draw(listId);
 				
 				 // Show the hide lists button
-				 $('#lists .list-toggle').fadeIn(150);
+				 $('#sidebar h2.lists .list-toggle').fadeIn(150);
 
 				//Selects List
 				$('#L' + listId).droppable(ui.lists.dropOptions).children('.name').click().trigger('dblclick');
