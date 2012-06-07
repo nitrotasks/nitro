@@ -110,7 +110,7 @@ html, body { height: 100%; width: 100%; }
 #sidebar { height: 100%; position: absolute; z-index: 2; box-sizing: border-box; min-width: 115px; width: 200px; max-width: 500px; }
 #sidebar h2 { margin: 0; padding: 5px 15px 5px 15px; font-size: 13px; text-transform: uppercase; border-top: 1px solid #000; border-bottom: 1px solid #000; }
 #sidebar h2 button { background: transparent; float: right; border-top: 1px solid transparent; border-bottom: 1px solid transparent; border-left: 0; border-right: 0; padding: 0; font-weight: bold; }
-#sidebar h2 .toggle-close { display: block; width: 25px; height: 25px; background: green; border-radius: 50%; }
+#sidebar h2 .list-toggle { display: inline-block; width: 15px; height: 15px; background: green; border-radius: 50%; }
 #sidebar h2.collapsed { border-bottom: none; }
 #sidebar #lists ul { overflow-y: auto; }
 #sidebar ul { margin: 0; padding: 0; }
