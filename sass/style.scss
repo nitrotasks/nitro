@@ -1,4 +1,4 @@
-@import "compass/css3/images";
+@import "compass/css3";
 @import "compass/support";
 //Less CSS = Better
 $legacy-support-for-ie: false;
@@ -127,7 +127,7 @@ html, body {
 				border-bottom: 8px solid #ccc;
 				border-left: 5px solid transparent;
 				border-right: 5px solid transparent;
-				-webkit-transition: all 0.15s;
+				@include transition(all 0.15s);
 			}
 			
 			&:hover .icon {
@@ -135,7 +135,7 @@ html, body {
 			}
 			
 			&.collapsed .icon {
-				-webkit-transform: rotate(180deg);
+				@include transform(rotate(180deg));
 			}
 		}
 
@@ -144,11 +144,20 @@ html, body {
 		}
 	}
 
-	#lists ul {
-		overflow-y: auto;
+	#lists {
+	
+		display: -webkit-box;
+		display: -moz-box;
+		display: box;	
+		
+		ul {
+			overflow-y: auto;
+			-webkit-box-flex: 1;
+		}
 	}
 	
 	ul {
+		
 		margin: 0;
 		padding: 0;
 		li {

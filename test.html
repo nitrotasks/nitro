@@ -2,43 +2,49 @@
 <head>
 	<meta charset="utf-8">
 	<title>Test</title>
-	<script src=js/libs/jquery.js></script>
-	<script src=js/libs/agility.js></script>
+	
+	<style>
+	
+		.outer {
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+		}
+		
+		.top {
+			height: 50px;
+			background: lightblue;
+		}
+		
+		.middle {
+			display: block;
+			height: 100%;
+			-webkit-box-flex: 1;
+			background: #f0f0f0;
+		}
+		
+		.bottom {
+			height: 50px;
+			background: lightblue;
+		}
+	
+	</style>
 	
 </head>
 <body>
 	
-	<script type="text/javascript" charset="utf-8">
+	<div class="outer">
 		
-		// Original model		
-		var message = $$({txt:'Hello World'}, '<div data-bind="txt"/>', {
-			'create': function() {
-				alert("Created")
-			}
-		});
+		<div class="top">
+			This is the top
+		</div>
+		<div class="middle">
+			This is the middle
+		</div>
+		<div class="bottom">
+			This is the bottom
+		</div>
 		
-		// Cloning a model and assingning more events at the same time
-		var obj = $$(message, {txt: "Clone of Hello World"},{}, {
-			'click &': function() {
-				alert("Cloning doesn't get the bindings");
-			}
-		});
-		
-		// Appending model
-		$$.document.append(message);
-		$$.document.append(obj);
-		
-		// Binding an event
-		message.bind('click &', function() {
-			alert("Event binding worked!");
-		});
-		
-		// Binding the same event after to a diff function
-		obj.bind('click &', function() {
-			alert("You can only bind to the direct object that is being appended");
-		});
-		
-	</script>
+	</div>
 	
 </body>
 </html>

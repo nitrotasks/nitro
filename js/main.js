@@ -77,7 +77,7 @@ var ui = {
 
 				//Content Height
 				$('.tasksContent').height(height - $('.panel').height())
-				$('#lists ul').height(height - $('#lists ul').position().top)
+				// $('#lists ul').height(height - $('#lists ul').position().top)
 			}
 		});
 
@@ -93,7 +93,7 @@ var ui = {
 		$('#lists').html('<h2>' + $l._('lists') + '</h2><ul></ul>');
 		$$.document.append($$(ui.buttons.toggleFocus), $('#smartlists h2'));
 		$$.document.append($$(ui.buttons.toggleFocus), $('#lists h2'));
-		$$.document.append(ui.buttons.listAddBTN, $('#lists h2'));
+		$$.document.append(ui.buttons.listAddBTN, $('#lists'));
 
 		//Good idea to save? If theme or lang needs to be saved?
 		core.storage.save();
@@ -130,7 +130,8 @@ var ui = {
 				core.storage.lists.order = listOrder;
 				core.storage.save([['list-order', null, null]]);
 			}
-		}).height($(window).height() - $('#lists ul').position().top);
+		})
+		//.height($(window).height() - $('#lists ul').position().top);
 
 		//Droppable
 		$('#sidebar ul li').droppable(ui.lists.dropOptions);
@@ -448,6 +449,11 @@ var ui = {
 				
 				// Update List count
 				ui.lists.update().count();
+				
+				// If there are no lists left, hide the hide button
+				if(!$('#lists li').length) {
+					$('#lists .list-toggle').fadeOut(150);
+				}
 			}
 		}),
 
@@ -723,11 +729,14 @@ var ui = {
 	}, 
 	buttons: {
 		//Buttons
-		listAddBTN: $$({name: '+'}, '<button data-bind="name"/>', {
+		listAddBTN: $$({name: 'New List'}, '<div data-bind="name" class="listAddBTN"></div>', {
 			'click &': function() {
 				//Adds a list with the core
 				var listId = core.list().add($l._('nlist'));
 				ui.lists.draw(listId);
+				
+				 // Show the hide lists button
+				 $('#lists .list-toggle').fadeIn(150);
 
 				//Selects List
 				$('#L' + listId).droppable(ui.lists.dropOptions).children('.name').click().trigger('dblclick');
@@ -800,15 +809,15 @@ var ui = {
 					$toggle = this.view.$();
 					
 				// Hack
-				$('#lists ul').height('auto');
-				$('#lists ul').height($('#lists ul').height() + 2);
+				//$('#lists ul').height('auto');
+				//$('#lists ul').height($('#lists ul').height() + 2);
 					
 				if($h2.hasClass('collapsed')) {
 					$h2.removeClass('collapsed');
 					$toggle.removeClass('collapsed');
 					$ul.slideDown(150, function() {
 						height = $(window).height();
-						$('#lists ul').height(height - $('#lists ul').position().top);
+						// $('#lists ul').height(height - $('#lists ul').position().top);
 					});
 				} else {
 					$toggle.addClass('collapsed');
