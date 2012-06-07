@@ -95,8 +95,9 @@ html, body {
 
 	h2 {
 		margin: 0;
-		padding: 5px 15px 5px 15px;
+		padding: 0 0 0 15px;
 		font-size: 13px;
+		line-height: 30px;
 		text-transform: uppercase;
 		border-top: 1px solid #000;
 		border-bottom: 1px solid #000;
@@ -114,10 +115,28 @@ html, body {
 
 		.list-toggle {
 			display: inline-block;
-			width: 15px;
-			height: 15px;
-			background: green;
-			border-radius: 50%;
+			cursor: pointer;
+			float: right;
+			height: 30px;
+			width: 40px;
+			
+			.icon {
+				margin: 11px 0 0 11px;
+				width: 0;
+				height: 0;
+				border-bottom: 8px solid #ccc;
+				border-left: 5px solid transparent;
+				border-right: 5px solid transparent;
+				-webkit-transition: all 0.15s;
+			}
+			
+			&:hover .icon {
+				border-bottom-color: #5b5b5b;
+			}
+			
+			&.collapsed .icon {
+				-webkit-transform: rotate(180deg);
+			}
 		}
 
 		&.collapsed {

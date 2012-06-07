@@ -793,10 +793,11 @@ var ui = {
 				selected.remove();
 			}
 		}),
-		toggleFocus: $$({}, '<span class="list-toggle"></span>', {
+		toggleFocus: $$({}, '<div class="list-toggle"><div class="icon"></div></div>', {
 			'click &': function() {
 				var $h2 = this.view.$().parent(),
-					$ul = $h2.next('ul');
+					$ul = $h2.next('ul'),
+					$toggle = this.view.$();
 					
 				// Hack
 				$('#lists ul').height('auto');
@@ -804,11 +805,13 @@ var ui = {
 					
 				if($h2.hasClass('collapsed')) {
 					$h2.removeClass('collapsed');
+					$toggle.removeClass('collapsed');
 					$ul.slideDown(150, function() {
 						height = $(window).height();
 						$('#lists ul').height(height - $('#lists ul').position().top);
 					});
 				} else {
+					$toggle.addClass('collapsed');
 					$ul.slideUp(150, function() {
 						$h2.addClass('collapsed');
 					});
