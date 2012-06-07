@@ -157,6 +157,56 @@ var ui = {
 			}
 			obj.view.$().attr('id', 'L' + obj.model.get('id'))
 		},
+		drawTasks: function(tasks, tmpView) {
+			//Drams Task then appends it to a tmpview
+			var drawTask = function(i) {
+				//Makes it nice
+				var data = core.storage.tasks[tasks[i]];
+
+				//Checked Tasks
+				var logged = 'checkbox ' + data.priority;
+				if (data.logged) {
+					logged += ' checked';
+				}
+				
+				// Extra details					
+				var extraDetails = "";					
+				switch(ui.session.selected) {
+					case 'logbook':
+						extraDetails += core.date(data.logged).getDate();
+						break;
+					case 'all':
+						//Translated Name or Custom Name
+						if (typeof(data.list) == 'number') {
+							extraDetails += core.storage.lists.items[data.list].name;	
+						} else {
+							extraDetails += $l._(data.list);
+						}
+						break;
+					default:
+						extraDetails += core.date(data.date).getDaysLeft()[0];
+				}
+				
+				tmpView.append(
+					$$(ui.templates.task.compressed, {
+						id: tasks[i],
+						content: data.content,
+						notes: data.notes,
+						date: data.date,
+						extra: extraDetails,
+						priority: data.priority,
+						logged: logged
+					})
+				);
+			}
+
+			//Loops and adds each task to a tmp view
+			for (var i=0; i<tasks.length; i++) {
+				drawTask(i);
+			}
+
+			return tmpView;
+		},
 		update: function() {
 			return {
 				count: function() {
@@ -293,55 +343,7 @@ var ui = {
 				//Gets list id & populates
 				$('#tasks .tasksContent').empty().html('<h2>' + this.model.get('name') + '</h2>')
 				var tasks = core.list(listId).populate();
-
-				//Drams Task then appends it to a tmpview
-				var drawTask = function(i) {
-					//Makes it nice
-					var data = core.storage.tasks[tasks[i]];
-
-					//Checked Tasks
-					var logged = 'checkbox ' + data.priority;
-					if (data.logged) {
-						logged += ' checked';
-					}
-					
-					// Extra details					
-					var extraDetails = "";					
-					switch(ui.session.selected) {
-						case 'logbook':
-							extraDetails += core.date(data.logged).getDate();
-							break;
-						case 'all':
-							//Translated Name or Custom Name
-							if (typeof(data.list) == 'number') {
-								extraDetails += core.storage.lists.items[data.list].name;	
-							} else {
-								extraDetails += $l._(data.list);
-							}
-							break;
-						default:
-							extraDetails += core.date(data.date).getDaysLeft()[0];
-					}
-					
-					tmpView.append(
-						$$(ui.templates.task.compressed, {
-							id: tasks[i],
-							content: data.content,
-							notes: data.notes,
-							date: data.date,
-							extra: extraDetails,
-							priority: data.priority,
-							logged: logged
-						})
-					);
-				}
-
-				//Loops and adds each task to a tmp view
-				var tmpView = $$({}, '<ul></ul>');
-				for (var i=0; i<tasks.length; i++) {
-					drawTask(i);
-				}
-				$$.document.append(tmpView, $('#tasks .tasksContent'));
+				$$.document.append(ui.lists.drawTasks(tasks, $$({}, '<ul></ul>')), $('#tasks .tasksContent'));
 
 				if (ui.session.selected == 'next') {
 					for (var l=0; l<core.storage.lists.order.length; l++) {
@@ -353,13 +355,7 @@ var ui = {
 						if (tasks.length != 0) {
 							//New DOM Node
 							$('#tasks .tasksContent').append('<h2>' + core.storage.lists.items[list].name + '</h2>');
-
-							//Loops and puts the tasks in
-							var tmpView = $$({list: list}, '<ul data-bind="class=list"></ul>');
-							for (var i=0; i<tasks.length; i++) {
-								drawTask(i);
-							}
-							$$.document.append(tmpView, $('#tasks .tasksContent'));
+							$$.document.append(ui.lists.drawTasks(tasks, $$({list: list}, '<ul data-bind="class=list"></ul>')), $('#tasks .tasksContent'));
 						}						
 					}
 				}

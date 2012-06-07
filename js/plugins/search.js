@@ -51,22 +51,8 @@ plugin.add(function() {
 						}
 					}
 				}
-
-				//Loops and adds each task to a tmp view
-				var tmpView = $$({});
-				for (var i=0; i<results.length; i++) {
-					//Makes it nice
-					var data = core.storage.tasks[results[i]];
-					tmpView.prepend($$(ui.templates.task.compressed, {
-						id: results[i],
-						content: data.content,
-						notes: data.notes,
-						date: data.date,
-						priority: data.priority,
-						logged: 'checkbox'
-					}));
-				}
-				$$.document.append(tmpView, $('#tasks ul'));
+				// Draws
+				$$.document.append(ui.lists.drawTasks(results, $$({})), $('#tasks ul'));
 			}
 
 			function searcher(key) {
