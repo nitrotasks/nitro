@@ -88,7 +88,7 @@ var ui = {
 
 		//Collapse Lists
 		$('#sidebar h2.lists').html($l._('lists'));
-		$$.document.append($$(ui.buttons.toggleFocus), $('#sidebar h2.smartlists'));
+		$$.document.append(ui.buttons.toggleFocus, $('#sidebar h2.smartlists'));
 		$$.document.append(ui.buttons.listAddBTN, $('#sidebar'));
 
 		//Good idea to save? If theme or lang needs to be saved?
