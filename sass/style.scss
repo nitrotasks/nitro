@@ -112,6 +112,14 @@ html, body {
 			font-weight: bold;
 		}
 
+		.toggle-close {
+			display: block;
+			width: 25px;
+			height: 25px;
+			background: green;
+			border-radius: 50%;
+		}
+
 		&.collapsed {
 			border-bottom: none;
 		}
@@ -162,19 +170,17 @@ html, body {
 
 			input {
 				display: block;
-				height: 32px;
+				height: 24px;
 				background: #fff;
 				padding: 0;
-				margin: 0 0 0 -1px;
+				margin: 3px 0 0 -1px;
 				border: 0;
-				outline: 1px solid #000;
 				box-flex: 1;
 				-webkit-box-flex: 1;
 				-moz-box-flex: 1;
 			}
 			input:focus {
-				outline: 1px solid #000;
-				outline-offset: 0;
+				outline: none;
 			}
 			
 			&.selected {

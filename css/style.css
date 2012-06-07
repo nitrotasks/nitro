@@ -110,14 +110,15 @@ html, body { height: 100%; width: 100%; }
 #sidebar { height: 100%; position: absolute; z-index: 2; box-sizing: border-box; min-width: 115px; width: 200px; max-width: 500px; }
 #sidebar h2 { margin: 0; padding: 5px 15px 5px 15px; font-size: 13px; text-transform: uppercase; border-top: 1px solid #000; border-bottom: 1px solid #000; }
 #sidebar h2 button { background: transparent; float: right; border-top: 1px solid transparent; border-bottom: 1px solid transparent; border-left: 0; border-right: 0; padding: 0; font-weight: bold; }
+#sidebar h2 .toggle-close { display: block; width: 25px; height: 25px; background: green; border-radius: 50%; }
 #sidebar h2.collapsed { border-bottom: none; }
 #sidebar #lists ul { overflow-y: auto; }
 #sidebar ul { margin: 0; padding: 0; }
 #sidebar ul li { display: box; display: -webkit-box; display: -moz-box; height: 30px; box-sizing: border-box; line-height: 30px; font-weight: normal; font-size: 13px; color: #444444; padding: 0 0 0 15px; cursor: pointer; position: relative; width: 100% !important; }
 #sidebar ul li .count { display: inline-block; width: 50px; height: 32px; text-align: center; }
 #sidebar ul li .name { display: block; height: 32px; box-flex: 1; -webkit-box-flex: 1; -moz-box-flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-#sidebar ul li input { display: block; height: 32px; background: #fff; padding: 0; margin: 0 0 0 -1px; border: 0; outline: 1px solid #000; box-flex: 1; -webkit-box-flex: 1; -moz-box-flex: 1; }
-#sidebar ul li input:focus { outline: 1px solid #000; outline-offset: 0; }
+#sidebar ul li input { display: block; height: 24px; background: #fff; padding: 0; margin: 3px 0 0 -1px; border: 0; box-flex: 1; -webkit-box-flex: 1; -moz-box-flex: 1; }
+#sidebar ul li input:focus { outline: none; }
 #sidebar ul li.selected { background: #eee; outline: 1px solid #000; }
 #sidebar ul li.dragHover { background: #ccc; }
 #sidebar ul li .delete, #sidebar ul li .edit { display: none; }

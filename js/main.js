@@ -412,7 +412,6 @@ var ui = {
 				var $edit = this.view.$('.edit');
 				if(!$edit.hasClass('open')) {
 					this.view.$('.name').dblclick();
-					$edit.addClass('open').html('#');
 				} else {
 					$edit.removeClass('open').html('E');
 				}
@@ -421,19 +420,22 @@ var ui = {
 				if(this.view.$().closest('div').attr('id') == 'lists') {
 					var name = this.model.get('name');
 					this.view.$('.name').after('<input type="text" value="' + name + '" placeholder="Enter the list name">').next().focus().prev().remove();
-					this.view.$('.edit').addClass('open');
+					this.view.$('.edit').addClass('open').html('#');
 				}
 			},
 			'blur input': function() {
+
 				var $input = this.view.$('input'),
 					name = $input.val(),
 					id = this.model.get('id');
 				
 				$input.after('<span class="name" data-bind="name">' + name + '</span>').remove();
+				// this.view.$('.edit').removeClass('open').html('E');
 				this.model.set({name: name});
 				core.storage.lists.items[id].name = name;
 				
 				core.storage.save([['lists', id, 'name']]);
+
 			},
 			'click .delete': function() {
 				var id = this.model.get('id');
@@ -730,7 +732,7 @@ var ui = {
 				ui.lists.draw(listId);
 
 				//Selects List
-				$('#L' + listId).droppable(ui.lists.dropOptions).children('.name').click();
+				$('#L' + listId).droppable(ui.lists.dropOptions).children('.name').click().trigger('dblclick');
 			}
 		}),
 		taskAddBTN: $$({}, '<button class="add" data-bind="name"/>', {
@@ -793,7 +795,7 @@ var ui = {
 				selected.remove();
 			}
 		}),
-		toggleFocus: $$({}, '<span class="list-toggle">O</span>', {
+		toggleFocus: $$({}, '<span class="list-toggle"></span>', {
 			'click &': function() {
 				var $h2 = this.view.$().parent(),
 					$ul = $h2.next('ul');
