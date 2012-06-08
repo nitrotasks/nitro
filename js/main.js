@@ -73,8 +73,7 @@ var ui = {
 				$('#content').trigger('resize');
 
 				//Content Height
-				$('.tasksContent').height(height - $('.panel').height())
-				// $('#lists ul').height(height - $('#lists ul').position().top)
+				$('.tasksContent').height(height - $('.panel').height());
 			}
 		});
 
@@ -126,8 +125,7 @@ var ui = {
 				core.storage.lists.order = listOrder;
 				core.storage.save([['list-order', null, null]]);
 			}
-		})
-		//.height($(window).height() - $('#lists ul').position().top);
+		});
 
 		//Droppable
 		$('#sidebar ul li').droppable(ui.lists.dropOptions);
@@ -466,6 +464,11 @@ var ui = {
 					var $content = this.view.$('.content'),
 						text = $content.text();
 					$content.html(hashTag(text))
+
+					// Special Checkboxes for Scheduled
+					if (ui && ui.session.selected == 'scheduled') {
+						this.view.$('.checkbox').addClass(core.storage.tasks[this.model.get('id')].type);
+					}
 						
 				},				
 				
@@ -487,7 +490,7 @@ var ui = {
 				'click .checkbox': function(e) {
 
 					// Doesn't work in Logbook
-					if(ui.session.selected != 'logbook') {
+					if(ui.session.selected != 'logbook' || ui.session.selected != 'scheduled') {
 
 						//Changes Appearance
 						$(e.currentTarget).toggleClass('checked');

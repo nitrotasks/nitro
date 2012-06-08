@@ -9,7 +9,6 @@ George
 
 Jono
 ----
-- Pretty Scheduled List
 - Add no task messages
 - Reimplement Themes
 - Make Settings Work
@@ -20,3 +19,7 @@ Anyone
 - Icons for list editing
 - Hover state for panel buttons
 - A better way to close the settings menu
+
+Weird Bugs
+----------
+- Object Constructor after using recurring

@@ -145,6 +145,13 @@ body {
 				border-radius: 3px;
 				background: $task_color;
 
+				&.scheduled {
+					background: url(glyphicons-halflings.png) 277px 13px;
+				}
+				&.recurring {
+					background: url(glyphicons-halflings.png) 601px 13px;
+				}
+
 				&.low {
 					border-color: darken($low_color, 10%);
 					@include background(linear-gradient(top, lighten($low_color, 15%) 0%, lighten($low_color, 20%) 100%));

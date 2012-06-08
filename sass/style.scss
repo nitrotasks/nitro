@@ -348,6 +348,10 @@ html, body {
 					height: 13px;
 					border: 1px solid #000;
 
+					&.recurring, &.scheduled {
+						border-color: transparent;
+					}
+
 					&.checked {
 						position: relative;
 						border-color: transparent !important;
