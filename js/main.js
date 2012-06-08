@@ -169,22 +169,23 @@ var ui = {
 					logged += ' checked';
 				}
 				
-				// Extra details					
-				var extraDetails = "";					
+				// Extra details
+				var extraDetails = [];					
 				switch(ui.session.selected) {
 					case 'logbook':
-						extraDetails += core.date(data.logged).getDate();
+						extraDetails[0] = core.date(data.logged).getDate();
 						break;
 					case 'all':
 						//Translated Name or Custom Name
 						if (typeof(data.list) == 'number') {
-							extraDetails += core.storage.lists.items[data.list].name;	
+							extraDetails[0] = core.storage.lists.items[data.list].name;	
 						} else {
-							extraDetails += $l._(data.list);
+							extraDetails[0] = $l._(data.list);
 						}
 						break;
 					default:
-						extraDetails += core.date(data.date).getDaysLeft()[0];
+						extraDetails[0] = core.date(data.date).getDaysLeft()[0];
+						extraDetails[1] = core.date(data.date).getDaysLeft()[1];
 				}
 				
 				tmpView.append(
@@ -193,7 +194,8 @@ var ui = {
 						content: data.content,
 						notes: data.notes,
 						date: data.date,
-						extra: extraDetails,
+						extra: extraDetails[0],
+						extraClass: extraDetails[1],
 						priority: data.priority,
 						logged: logged
 					})
@@ -454,7 +456,7 @@ var ui = {
 					<div class="boxhelp">\
 						<div data-bind="class=logged"></div>\
 						<div data-bind="content" class="content"></div>\
-						<div data-bind="extra" class="extra"></div>\
+						<div data-bind="extra, class=extraClass" data-class="extra"></div>\
 					</div>\
 				</li>', {
 					
@@ -574,22 +576,23 @@ var ui = {
 								logged += ' checked';
 							}
 							
-							// Extra details					
-							var extraDetails = "";					
+							// Extra details
+							var extraDetails = [];					
 							switch(ui.session.selected) {
 								case 'logbook':
-									extraDetails += core.date(data.logged).getDate();
+									extraDetails[0] = core.date(data.logged).getDate();
 									break;
 								case 'all':
 									//Translated Name or Custom Name
 									if (typeof(data.list) == 'number') {
-										extraDetails += core.storage.lists.items[data.list].name;	
+										extraDetails[0] = core.storage.lists.items[data.list].name;	
 									} else {
-										extraDetails += $l._(data.list);
+										extraDetails[0] = $l._(data.list);
 									}
 									break;
 								default:
-									extraDetails += core.date(data.date).getDaysLeft()[0];
+									extraDetails[0] = core.date(data.date).getDaysLeft()[0];
+									extraDetails[1] = core.date(data.date).getDaysLeft()[1];
 							}
 
 							var model = $$(ui.templates.task.compressed, {
@@ -597,7 +600,8 @@ var ui = {
 								content: data.content,
 								notes: data.notes,
 								date: data.date,
-								extra: extraDetails,
+								extra: extraDetails[0],
+								extraClass: extraDetails[1],
 								priority: data.priority,
 								logged: logged
 							});

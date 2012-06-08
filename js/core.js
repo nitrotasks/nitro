@@ -169,7 +169,7 @@ var core = {
 	date:  function(timestamp) {
 		return {
 			getDaysLeft: function() {
-				if(!timestamp) return ["",""];
+				if(!timestamp) return ["","null"];
 				
 				// Create Date()
 				var date = new Date(timestamp),

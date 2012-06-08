@@ -114,6 +114,15 @@ body {
 			.tag {
 				color: darken($low_color, 30%);
 			}
+
+			[data-class=extra] {
+				border-left: 1px solid darken($task_color, 25%);
+				border-radius: 0 4px 4px 0;
+
+				&.overdue, &.due {
+					@include background(linear-gradient(top, lighten($high_color, 35%) 0%, lighten($high_color, 30%) 100%));
+				}
+			}
 			
 			&.selected {
 				@include background(linear-gradient(top, $task_selected 0%, darken($task_selected, 2%) 100%));

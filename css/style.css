@@ -145,7 +145,8 @@ html, body { height: 100%; width: 100%; }
 #tasks .tasksContent ul li .checkbox { margin: 8px; width: 13px; height: 13px; border: 1px solid #000; }
 #tasks .tasksContent ul li .checkbox.checked { position: relative; border-color: transparent !important; background: none !important; }
 #tasks .tasksContent ul li .checkbox.checked:after { display: block; position: absolute; content: url(img/logged.png); top: -6px; left: -1px; }
-#tasks .tasksContent ul li .extra { margin-right: 20px; }
+#tasks .tasksContent ul li [data-class=extra] { border-left: 1px solid #000; padding: 0 10px; }
+#tasks .tasksContent ul li [data-class=extra].null { border-left: 0; }
 #tasks .tasksContent ul li .tag { color: #0000ff; }
 #tasks .tasksContent ul li .tag:hover { text-decoration: underline; }
 #tasks .tasksContent ul li input { border: 0; line-height: 1; box-shadow: none; background: transparent; box-sizing: border-box; }

@@ -362,8 +362,14 @@ html, body {
 					}
 				}
 				
-				.extra {
-					margin-right: 20px;
+				[data-class=extra] {
+					border-left: 1px solid #000;
+
+					//Can't use .not()?
+					&.null {
+						border-left: 0;
+					}
+					padding: 0 10px;
 				}
 				
 				.tag {
