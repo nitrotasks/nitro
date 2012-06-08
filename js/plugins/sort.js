@@ -10,9 +10,6 @@ plugin.add(function() {
 	
 	sort = function(list, method) {
 		
-		// Clone list
-		list = list.splice(0);
-		
 		// Convert task IDs to obects
 		for(var i = 0; i < list.length; i++) {
 			var id = list[i];
@@ -47,7 +44,6 @@ plugin.add(function() {
 		
 		// Unconvert task IDs to obects
 		for(var i = 0; i < list.length; i++) {
-			console.log(list[i])
 			list[i] = list[i].arrayID;
 		}
 		
