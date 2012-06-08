@@ -133,6 +133,6 @@ plugin.add(function() {
 		
 		return results;
 		
-	}
+	};
 	
 });
