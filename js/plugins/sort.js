@@ -30,14 +30,24 @@ plugin.add(function() {
 				
 				list.sort(function(a,b) {
 					var worth = { none: 0, low: 1, medium: 2, high: 3 };
-					if(worth[a.priority] > worth[b.priority]) return true;
-					else if(worth[a.priority] < worth[b.priority]) return false;
+					if(worth[a.priority] < worth[b.priority]) return true;
+					else if(worth[a.priority] > worth[b.priority]) return false;
 					else return null
 				});
 				
 				break;
 				
 			case "date":
+				list.sort(function(a,b) {
+					// Handle tasks without dates
+					if(a.date=="" && b.date !== "") return true;
+					else if(b.date=="" && a.date !== "") return false;
+					else if (a.date == "" && b.date == "") return null;
+					// Sort timestamps
+					if(a.date >  b.date) return true;
+					else if(a.date <  b.date) return false;
+					else return null
+				});
 				break;
 			
 		}
