@@ -765,6 +765,9 @@ var ui = {
 						}), $('#tasks ul').first()
 					);
 
+					//Collapses Task
+					$('.expanded').dblclick();
+
 					//Expands Task
 					$('#tasks ul li[data-id=' + taskId + ']').dblclick();
 					
