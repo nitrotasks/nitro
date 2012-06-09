@@ -378,7 +378,7 @@ var ui = {
 						forceHelperSize: false,
 						connectWith: $('#tasks ul'),
 						cursorAt: {
-							top: 8,
+							top: 15,
 							left: 30
 						},
 						helper: function (e, el) {
