@@ -25,7 +25,7 @@ var ui = {
 
 		//Nice shorthand Method
 		$l = $.i18n;
-		
+
 		// Loads Plugins!
 		ui.initLoad();
 		plugin.load();
@@ -362,44 +362,48 @@ var ui = {
 					}
 				}
 
-				//All Can't be sorted
-				if (ui.session.selected == 'all') {
-					return true;
-				}
+				setTimeout(function() {
 
-				$('#tasks ul').sortable({
-					placeholder: "placeholder",
-					distance: 20,
-					appendTo: 'body',
-					items: 'li',
-					scroll: false,
-					forceHelperSize: false,
-					connectWith: $('#tasks ul'),
-					cursorAt: {
-						top: 8,
-						left: 30
-					},
-					helper: function (e, el) {
-
-						var name = $(el).find('.content').html(),
-							$temp = $('body')
-								.append('<span class="temp-helper" style="display: none; font-size: 13px; font-weight: bold;">' + name + '</span>')
-								.find('.temp-helper'),
-							width = $temp.width();
-						$temp.remove();
-					
-						var $el = $(el).find('.content').clone();
-						$el.width(width);
-						$el.addClass('tasks');
-						return $el;
-					},
-					stop: function (event, elem) {
-
-						ui.sortStop(event, elem);
+					//All Can't be sorted
+					if (ui.session.selected == 'all') {
+						return true;
 					}
-				});
 
-				return true;
+					$('#tasks ul').sortable({
+						placeholder: "placeholder",
+						distance: 20,
+						appendTo: 'body',
+						items: 'li',
+						scroll: false,
+						forceHelperSize: false,
+						connectWith: $('#tasks ul'),
+						cursorAt: {
+							top: 8,
+							left: 30
+						},
+						helper: function (e, el) {
+
+							var name = $(el).find('.content').html(),
+								$temp = $('body')
+									.append('<span class="temp-helper" style="display: none; font-size: 13px; font-weight: bold;">' + name + '</span>')
+									.find('.temp-helper'),
+								width = $temp.width();
+							$temp.remove();
+						
+							var $el = $(el).find('.content').clone();
+							$el.width(width);
+							$el.addClass('tasks');
+							return $el;
+						},
+						stop: function (event, elem) {
+
+							ui.sortStop(event, elem);
+						}
+					});
+
+					return true;
+
+				}, 1);
 			},
 			'click .edit': function() {
 				var $edit = this.view.$('.edit');
