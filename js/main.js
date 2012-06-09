@@ -323,8 +323,8 @@ var ui = {
 		listTemplate: $$({}, '\
 			<li>\
 				<span class="name" data-bind="name"></span>\
-				<button class="edit">E</button>\
-				<button class="delete">X</button>\
+				<button class="edit"></button>\
+				<button class="delete"></button>\
 				<span class="count" data-bind="count"></span>\
 			</li>', {
 			

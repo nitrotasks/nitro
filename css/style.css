@@ -118,6 +118,8 @@ html, body { height: 100%; width: 100%; }
 #sidebar #lists { -webkit-box-flex: 1; overflow-y: auto; }
 #sidebar ul { margin: 0; padding: 0; }
 #sidebar ul li { display: box; display: -webkit-box; display: -moz-box; height: 30px; box-sizing: border-box; line-height: 30px; font-weight: normal; font-size: 13px; color: #444444; padding: 0 0 0 15px; cursor: pointer; position: relative; width: 100% !important; }
+#sidebar ul li .edit { background: url("glyphicons-halflings.png") -1px 196px; border: 0; padding: 0 7px; }
+#sidebar ul li .delete { background: url("glyphicons-halflings.png") 157px 2px; border: 0; padding: 0 7px; }
 #sidebar ul li .count { display: inline-block; width: 50px; height: 32px; text-align: center; }
 #sidebar ul li .name { display: block; height: 32px; box-flex: 1; -webkit-box-flex: 1; -moz-box-flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 #sidebar ul li input { display: block; height: 24px; background: #fff; padding: 0; margin: 3px 0 0 -1px; border: 0; box-flex: 1; -webkit-box-flex: 1; -moz-box-flex: 1; }
@@ -127,7 +129,7 @@ html, body { height: 100%; width: 100%; }
 #sidebar ul li .delete, #sidebar ul li .edit { display: none; }
 #sidebar .listAddBTN { text-align: center; cursor: pointer; border-top: 1px solid #000; font-size: 13px; font-weight: bold; line-height: 30px; }
 
-#lists li.selected:hover .delete, #lists li.selected:hover .edit { display: block; }
+#lists li.selected:hover .delete, #lists li.selected:hover .edit { display: inline-block; }
 
 .panel { height: 41px; width: 100%; font-size: 13px; background: #fff; z-index: 4; position: relative; border-bottom: 1px solid #000; padding: 0 20px 0 16px; box-sizing: border-box; }
 .panel .left { float: left; margin-left: -16px; }
