@@ -4,11 +4,11 @@
  */
 
 //Adds as a plugin
-//plugin.add(function() {
+plugin.add(function() {
 	
 	console.log("Loaded sort.js");
 
-	getDateWorth = function(timestamp) {
+	var getDateWorth = function(timestamp) {
 
 		if(timestamp == "") {
 			return 0;
@@ -37,7 +37,7 @@
 
 	}
 	
-	sort = function(list, method) {
+	plugin.sort = function(list, method) {
 		
 		// Convert task IDs to obects
 		for(var i = 0; i < list.length; i++) {
@@ -61,8 +61,6 @@
 
 					rating.a += worth[a.priority]
 					rating.b += worth[b.priority]
-
-					console.log(rating)
 
 					if(rating.a < rating.b) return true
 					else if (rating.c > rating.b) return false
@@ -108,4 +106,4 @@
 		
 	};
 	
-//});
+});
