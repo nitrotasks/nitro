@@ -111,8 +111,8 @@ html, body { height: 100%; width: 100%; }
 #sidebar h2 { margin: 0; padding: 0 0 0 15px; font-size: 13px; line-height: 30px; height: 30px; text-transform: uppercase; border-top: 1px solid #000; border-bottom: 1px solid #000; }
 #sidebar h2 button { background: transparent; float: right; border-top: 1px solid transparent; border-bottom: 1px solid transparent; border-left: 0; border-right: 0; padding: 0; font-weight: bold; }
 #sidebar h2 .list-toggle { display: inline-block; cursor: pointer; float: right; height: 30px; width: 40px; }
-#sidebar h2 .list-toggle .icon { margin: 11px 0 0 11px; width: 0; height: 0; border-bottom: 8px solid #ccc; border-left: 5px solid transparent; border-right: 5px solid transparent; -webkit-transition: all 0.15s; -moz-transition: all 0.15s; -ms-transition: all 0.15s; -o-transition: all 0.15s; transition: all 0.15s; }
-#sidebar h2 .list-toggle:hover .icon { border-bottom-color: #5b5b5b; }
+#sidebar h2 .list-toggle .icon { margin: 11px 0 0 11px; width: 0; height: 0; border-right: 8px solid #ccc; border-top: 5px solid transparent; border-bottom: 5px solid transparent; -webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg); -ms-transform: rotate(-90deg); -o-transform: rotate(-90deg); transform: rotate(-90deg); }
+#sidebar h2 .list-toggle:hover .icon { border-right-color: #5b5b5b; }
 #sidebar h2 .list-toggle.collapsed .icon { -webkit-transform: rotate(180deg); -moz-transform: rotate(180deg); -ms-transform: rotate(180deg); -o-transform: rotate(180deg); transform: rotate(180deg); }
 #sidebar h2.collapsed { border-bottom: none; }
 #sidebar #lists { -webkit-box-flex: 1; overflow-y: auto; }

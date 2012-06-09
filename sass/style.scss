@@ -135,14 +135,14 @@ html, body {
 				margin: 11px 0 0 11px;
 				width: 0;
 				height: 0;
-				border-bottom: 8px solid #ccc;
-				border-left: 5px solid transparent;
-				border-right: 5px solid transparent;
-				@include transition(all 0.15s);
+				border-right: 8px solid #ccc;
+				border-top: 5px solid transparent;
+				border-bottom: 5px solid transparent;
+				@include transform(rotate(-90deg));
 			}
 			
 			&:hover .icon {
-				border-bottom-color: #5b5b5b;
+				border-right-color: #5b5b5b;
 			}
 			
 			&.collapsed .icon {
