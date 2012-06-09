@@ -55,16 +55,19 @@ body {
 	button {
 		background: $panel_color;
 		color: $panel_text;
-		padding-right: 24px;
 		font-weight: bold;
 
 		&.add {
-			background: url(img/add.png) no-repeat;
-			padding-left: 30px;
+			background: url(img/add.png) no-repeat 18px 0;
+			padding-left: 50px;
 		}
 		&.delete {
-			background: url(img/delete.png) no-repeat;
-			padding-left: 28px;
+			background: url(img/delete.png) no-repeat 18px 0;
+			padding-left: 50px;
+		}
+
+		&:hover {
+			background-color: rgba(0,0,0,0.2);
 		}
 	}
 

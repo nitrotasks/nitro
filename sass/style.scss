@@ -263,6 +263,7 @@ html, body {
 
 	.left {
 		float: left;
+		margin-left: -16px;
 	}
 	.right {
 		float: right;
@@ -279,7 +280,7 @@ html, body {
 	button {
 		background: #fff;
 		border: 0;
-		padding: 0 15px;
+		padding: 0 18px;
 		line-height: 40px;
 	}
 }

@@ -130,10 +130,10 @@ html, body { height: 100%; width: 100%; }
 #lists li.selected:hover .delete, #lists li.selected:hover .edit { display: block; }
 
 .panel { height: 41px; width: 100%; font-size: 13px; background: #fff; z-index: 4; position: relative; border-bottom: 1px solid #000; padding: 0 20px 0 16px; box-sizing: border-box; }
-.panel .left { float: left; }
+.panel .left { float: left; margin-left: -16px; }
 .panel .right { float: right; }
 .panel .right input { border: 1px solid #000; font-size: 13px; padding: 5px 5px; margin: 7px 0; vertical-align: top; }
-.panel button { background: #fff; border: 0; padding: 0 15px; line-height: 40px; }
+.panel button { background: #fff; border: 0; padding: 0 18px; line-height: 40px; }
 
 #tasks { position: absolute; top: 0; bottom: 0; right: 0; left: 0; height: 100%; z-index: 1; box-sizing: border-box; background-image: #ffffff; background-image: -webkit-radial-gradient(50% 50%, ellipse closest-side, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%); }
 #tasks .tasksContent { overflow-y: auto; }
