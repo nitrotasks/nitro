@@ -4,9 +4,38 @@
  */
 
 //Adds as a plugin
-plugin.add(function() {
+//plugin.add(function() {
 	
 	console.log("Loaded sort.js");
+
+	getDateWorth = function(timestamp) {
+
+		if(timestamp == "") {
+			return 0;
+		}
+
+		var due = new Date(timestamp),
+			today = new Date();
+
+		// Copy date parts of the timestamps, discarding the time parts.
+		var one = new Date(due.getFullYear(), due.getMonth(), due.getDate());
+		var two = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+		
+		// Do the math.
+		var millisecondsPerDay = 1000 * 60 * 60 * 24;
+		var millisBetween = one.getTime() - two.getTime();
+		var days = millisBetween / millisecondsPerDay;
+		
+		// Round down.
+		var diff = Math.floor(days);
+
+		if(diff > 14) {
+			diff = 14
+		}
+
+		return 14 - diff + 1;
+
+	}
 	
 	sort = function(list, method) {
 		
@@ -21,7 +50,26 @@ plugin.add(function() {
 		switch(method) {
 			
 			case "magic":
-				break;
+				list.sort(function(a, b) {
+
+					var rating = {
+						a: getDateWorth(a.date),
+						b: getDateWorth(b.date)
+					}
+
+					var worth = { none: 0, low: 1, medium: 2, high: 3 }
+
+					rating.a += worth[a.priority]
+					rating.b += worth[b.priority]
+
+					console.log(rating)
+
+					if(rating.a < rating.b) return true
+					else if (rating.c > rating.b) return false
+					else return null
+	
+				})
+				break
 				
 			case "manual":
 				break;
@@ -34,7 +82,6 @@ plugin.add(function() {
 					else if(worth[a.priority] > worth[b.priority]) return false;
 					else return null
 				});
-				
 				break;
 				
 			case "date":
@@ -61,4 +108,4 @@ plugin.add(function() {
 		
 	};
 	
-});
+//});
