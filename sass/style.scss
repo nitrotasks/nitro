@@ -178,6 +178,17 @@ html, body {
 			cursor: pointer;
 			position: relative;
 
+			.edit {
+				background: url("glyphicons-halflings.png") -1px 196px;
+				border: 0;
+				padding: 0 7px;
+			}
+			.delete {
+				background: url("glyphicons-halflings.png") 157px 2px;
+				border: 0;
+				padding: 0 7px;
+			}
+
 			// jQuery UI tries to override
 			width: 100% !important;
 
@@ -246,7 +257,7 @@ html, body {
 	li.selected:hover {
 				.delete,
 				.edit {
-					display: block;
+					display: inline-block;
 				}
 			}
 }

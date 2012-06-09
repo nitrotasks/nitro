@@ -323,8 +323,8 @@ var ui = {
 		listTemplate: $$({}, '\
 			<li>\
 				<span class="name" data-bind="name"></span>\
-				<button class="edit">E</button>\
-				<button class="delete">X</button>\
+				<button class="edit"></button>\
+				<button class="delete"></button>\
 				<span class="count" data-bind="count"></span>\
 			</li>', {
 			
@@ -340,10 +340,7 @@ var ui = {
 				//Gets list id & populates
 				$('#tasks .tasksContent').empty().html('<h2>' + this.model.get('name') + '</h2>')
 				var tasks = core.list(listId).populate();
-
-				setTimeout(function() {
-					$$.document.append(ui.lists.drawTasks(tasks, $$({}, '<ul></ul>')), $('#tasks .tasksContent'));	
-				}, 1);				
+				$$.document.append(ui.lists.drawTasks(tasks, $$({}, '<ul></ul>')), $('#tasks .tasksContent'));			
 
 				if (ui.session.selected == 'next') {
 					for (var l=0; l<core.storage.lists.order.length; l++) {
@@ -354,15 +351,11 @@ var ui = {
 						//Makes sure there is something in the list
 						if (tasks.length != 0) {
 							//New DOM Nodes
-							setTimeout(function(){
-								$('#tasks .tasksContent').append('<h2>' + core.storage.lists.items[list].name + '</h2>');
-								$$.document.append(ui.lists.drawTasks(tasks, $$({list: list}, '<ul data-bind="class=list"></ul>')), $('#tasks .tasksContent'));
-							}, 1);
+							$('#tasks .tasksContent').append('<h2>' + core.storage.lists.items[list].name + '</h2>');
+							$$.document.append(ui.lists.drawTasks(tasks, $$({list: list}, '<ul data-bind="class=list"></ul>')), $('#tasks .tasksContent'));
 						}						
 					}
 				}
-
-				setTimeout(function() {
 
 					//All Can't be sorted
 					if (ui.session.selected == 'all') {
@@ -402,8 +395,6 @@ var ui = {
 					});
 
 					return true;
-
-				}, 1);
 			},
 			'click .edit': function() {
 				var $edit = this.view.$('.edit');
