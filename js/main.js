@@ -25,13 +25,10 @@ var ui = {
 
 		//Nice shorthand Method
 		$l = $.i18n;
-
-		$(document).ready(function() {
-			ui.initLoad();
-
-			// Loads Plugins!
-			plugin.load();
-		});
+		
+		// Loads Plugins!
+		ui.initLoad();
+		plugin.load();
 
 		$('#tasks > .tasksContent').click(function(e) { 
 			if(e.target.nodeName == 'UL' || e.target.nodeName == 'H2' || e.target.className == 'tasksContent') {
@@ -343,7 +340,10 @@ var ui = {
 				//Gets list id & populates
 				$('#tasks .tasksContent').empty().html('<h2>' + this.model.get('name') + '</h2>')
 				var tasks = core.list(listId).populate();
-				$$.document.append(ui.lists.drawTasks(tasks, $$({}, '<ul></ul>')), $('#tasks .tasksContent'));
+
+				setTimeout(function() {
+					$$.document.append(ui.lists.drawTasks(tasks, $$({}, '<ul></ul>')), $('#tasks .tasksContent'));	
+				}, 1);				
 
 				if (ui.session.selected == 'next') {
 					for (var l=0; l<core.storage.lists.order.length; l++) {
@@ -353,9 +353,11 @@ var ui = {
 
 						//Makes sure there is something in the list
 						if (tasks.length != 0) {
-							//New DOM Node
-							$('#tasks .tasksContent').append('<h2>' + core.storage.lists.items[list].name + '</h2>');
-							$$.document.append(ui.lists.drawTasks(tasks, $$({list: list}, '<ul data-bind="class=list"></ul>')), $('#tasks .tasksContent'));
+							//New DOM Nodes
+							setTimeout(function(){
+								$('#tasks .tasksContent').append('<h2>' + core.storage.lists.items[list].name + '</h2>');
+								$$.document.append(ui.lists.drawTasks(tasks, $$({list: list}, '<ul data-bind="class=list"></ul>')), $('#tasks .tasksContent'));
+							}, 1);
 						}						
 					}
 				}
