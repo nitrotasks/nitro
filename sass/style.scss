@@ -423,18 +423,18 @@ html, body {
 					}
 				}
 
-				div[data-bind=content] {
+				.content {
 					padding-left: 1px;
 					padding-top: 1px;
 				}
 				
-				[data-bind=content] {
+				.content {
 					-webkit-box-flex: 1;
 					-moz-box-flex: 1;
 					box-flex: 1;
 				}
 
-				input[data-bind=content] {
+				input.content {
 					padding: 0;
 					margin: 0;
 					-webkit-box-flex: 1;

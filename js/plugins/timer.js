@@ -27,6 +27,34 @@ timer = {
 		}
 		console.timeEnd("n")
 
+	},
+
+	mustache: function(list) {
+
+		$('body').empty();
+
+		var tasks = ""
+
+		console.time("n")
+
+		for(var i = 0; i < list.length; i++) {
+
+			var data = core.storage.tasks[list[i]];
+
+			tasks += Mustache.to_html(templates.task.collapsed, {
+				id: i,
+				content: data.content,
+				notes: data.notes,
+				date: data.date,
+				priority: data.priority
+			})
+
+		}
+
+		$('body').html(tasks)
+
+		console.timeEnd("n")
+
 	}
 
 }
