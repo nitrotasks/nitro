@@ -743,7 +743,7 @@ $sidebar.on('click', '.listAddBTN', function() {
 	var listId = core.list().add($l._('nlist'))
 	ui.lists.draw(listId)
 	//Selects List
-	$('#L' + listId).droppable(ui.lists.dropOptions).find('.name').trigger('dblclick')
+	$('#L' + listId).droppable(ui.lists.dropOptions).find('.name').click().dblclick()
 })
 
 
