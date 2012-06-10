@@ -472,19 +472,19 @@ $sidebar.on('click', '.delete', function() {
 // TASKS
 // -----
 
-/*'create': function() {
+$tasks.on('create', 'li', function() {
 					
 	// Convert tags
-	var $content = this.view.$('.content'),
-		text = $content.text();
+	var $content = $(this).find('.content'),
+		text = $content.text()
 	$content.html(hashTag(text))
 
 	// Special Checkboxes for Scheduled
 	if (ui && ui.session.selected == 'scheduled') {
-		this.view.$('.checkbox').addClass(core.storage.tasks[this.model.get('id')].type);
+		$(this).find('.checkbox').addClass(core.storage.tasks[this.model.get('id')].type);
 	}
 		
-},*/				
+})			
 
 // Selecting a task
 $tasks.on('click', 'li', function(e) {
@@ -648,18 +648,21 @@ $tasks.on('dblclick', 'li', function(e) {
 	}
 })
 
-/*'create': function() {
+$tasks.on('create', 'li', function() {
+
+	var $this = $(this),
+		id = $this.attr('data-id').toNum(),
+		model = core.storage.tasks[id]
+
 	//Sets the localized date =D
 	if (ui) {
 		if (ui.session.selected != 'scheduled' && this.model.get('date')) {
-			this.view.$('.date').attr('placeholder', $l._('dueDate')).datepicker().datepicker('setDate', new Date(this.model.get('date')));	
+			$this.find('.date').attr('placeholder', $l._('dueDate')).datepicker().datepicker('setDate', new Date(model.date))
 		} else if (ui.session.selected != 'scheduled') {
-			this.view.$('.date').attr('placeholder', $l._('dueDate')).datepicker()
+			$this.find('.date').attr('placeholder', $l._('dueDate')).datepicker()
 		} else {
-			//OH SHIT! A CLICK HANDLER! Well I don't give a fuck.
-			var id = this.model.get('id');
-			this.view.$('.date').replaceWith('<button class="date">' + $l._('schedule') + '</button>');
-			this.view.$('.date').click(function() {
+			$this.find('.date').replaceWith('<button class="date">' + $l._('schedule') + '</button>');
+			$this.find('.date').click(function() {
 				$('#scheduledDialog .inner').fadeToggle(150).attr('data-type', id);
 				$('#scheduledDialog').toggle(0);
 				plugin.scheduled.ui.init('edit');
@@ -667,15 +670,15 @@ $tasks.on('dblclick', 'li', function(e) {
 		}
 
 		//Sets the Placeholder - I'm lazy. TODO: Fix this
-		this.view.$('textarea').attr('placeholder', $l._('notes'));
+		$this.find('textarea').attr('placeholder', $l._('notes'));
 
 	}
 	//Focus correct input
-	var input = $(this.view.$('input[data-bind=content]'));
+	var $input = $this.find('input[data-bind=content]')
 	setTimeout(function() {
-		input.focus();
+		$input.focus()
 	}, 150);
-}*/
+})
 
 // Content
 $tasks.on('change', 'li input.name', function() {
