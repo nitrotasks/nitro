@@ -330,15 +330,17 @@ var ui = {
 			
 			'click .name, .count': function() {
 				
-				var listId = this.model.get('id');
+				// Cache ID of list
+				var listId = this.model.get('id'),
+					$view = this.view.$();
 			
 				//Selected List
 				$('#sidebar .selected').removeClass('selected');
-				this.view.$().addClass('selected');
+				$view.addClass('selected');
 				ui.session.selected = listId;
 
 				//Gets list id & populates
-				$('#tasks .tasksContent').empty().html('<h2>' + this.model.get('name') + '</h2>')
+				$('#tasks .tasksContent').html('<h2>' + this.model.get('name') + '</h2>')
 				var tasks = core.list(listId).populate();
 				$$.document.append(ui.lists.drawTasks(tasks, $$({}, '<ul></ul>')), $('#tasks .tasksContent'));			
 
@@ -346,7 +348,7 @@ var ui = {
 					for (var l=0; l<core.storage.lists.order.length; l++) {
 						//Defines Stuff for easier access
 						var list = core.storage.lists.order[l];
-						var tasks = core.list(list).populate();
+						tasks = core.list(list).populate();
 
 						//Makes sure there is something in the list
 						if (tasks.length != 0) {
@@ -357,44 +359,44 @@ var ui = {
 					}
 				}
 
-					//All Can't be sorted
-					if (ui.session.selected == 'all') {
-						return true;
-					}
-
-					$('#tasks ul').sortable({
-						placeholder: "placeholder",
-						distance: 20,
-						appendTo: 'body',
-						items: 'li',
-						scroll: false,
-						forceHelperSize: false,
-						connectWith: $('#tasks ul'),
-						cursorAt: {
-							top: 15,
-							left: 30
-						},
-						helper: function (e, el) {
-
-							var name = $(el).find('.content').html(),
-								$temp = $('body')
-									.append('<span class="temp-helper" style="display: none; font-size: 13px; font-weight: bold;">' + name + '</span>')
-									.find('.temp-helper'),
-								width = $temp.width();
-							$temp.remove();
-						
-							var $el = $(el).find('.content').clone();
-							$el.width(width);
-							$el.addClass('tasks');
-							return $el;
-						},
-						stop: function (event, elem) {
-
-							ui.sortStop(event, elem);
-						}
-					});
-
+				//All Can't be sorted
+				if (ui.session.selected == 'all') {
 					return true;
+				}
+
+				$('#tasks ul').sortable({
+					placeholder: "placeholder",
+					distance: 20,
+					appendTo: 'body',
+					items: 'li',
+					scroll: false,
+					forceHelperSize: false,
+					connectWith: $('#tasks ul'),
+					cursorAt: {
+						top: 15,
+						left: 30
+					},
+					helper: function (e, el) {
+
+						var name = $(el).find('.content').html(),
+							$temp = $('body')
+								.append('<span class="temp-helper" style="display: none; font-size: 13px; font-weight: bold;">' + name + '</span>')
+								.find('.temp-helper'),
+							width = $temp.width();
+						$temp.remove();
+					
+						var $el = $(el).find('.content').clone();
+						$el.width(width);
+						$el.addClass('tasks');
+						return $el;
+					},
+					stop: function (event, elem) {
+
+						ui.sortStop(event, elem);
+					}
+				});
+
+				return true;
 			},
 			'click .edit': function() {
 				var $edit = this.view.$('.edit');
@@ -833,13 +835,7 @@ var plugin = {
 	},
 	load: function() {
 		//Define Plugins in here
-		$('body').append('\
-<script src=js/plugins/search.js></script>\
-<script src=js/plugins/sync.js></script>\
-<script src=js/plugins/scheduled.js></script>\
-<script src=js/plugins/settings.js></script>\
-<script src=js/plugins/filter.js></script>\
-<script src=js/plugins/sort.js></script>')
+		// $('body').append('<script src=js/plugins.js></script>')
 	}
 }
 // My super awesome function that converts a string to a number
