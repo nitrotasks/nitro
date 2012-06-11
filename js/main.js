@@ -21,6 +21,8 @@ $(document).ready(function() {
 var $body = $('body'),
 	$tasks = $('#tasks .tasksContent'),
 	$sidebar = $('#sidebar'),
+	$smartlists = $('#smartlists'),
+	$lists = $('#lists')
 	$panel = {
 		right: $('#tasks .panel .right'),
 		left: $('#tasks .panel .left')
@@ -47,12 +49,13 @@ var ui = {
 	},
 	initLoad: function() {
 		//Buttons
-		$('#sidebar h2.smartlists').html($l._('focus'));
-		ui.lists.draw('today');
-		ui.lists.draw('next');
-		ui.lists.draw('logbook');
-		ui.lists.draw('all');
+		$sidebar.find('h2.smartlists').html($l._('focus'));
 
+		// Append  smartlists
+		var markup = "", smartlists = [['today', 'Today'], ['next', 'Next'], ['logbook', 'Logbook'], ['all', 'All Tasks']]
+		for(var i = 0; i < smartlists.length; i++) { markup += ui.lists.draw(smartlists[i]) }
+		$smartlists.append(markup)
+		
 		$panel.left.append(Mustache.to_html(templates.button.addTask, {name: $l._('addbtn') }))
 		$panel.left.append(Mustache.to_html(templates.button.deleteTask, {name: $l._('deletebtn') }))
 
@@ -60,7 +63,9 @@ var ui = {
 		ui.lists.update().logbook();
 
 		//Loads Selected List
-		$('#L' + ui.session.selected + ' .name').click();
+		// if(sessionStorage.getItem('selected') !== null) {
+		// 	ui.session.storage = sessionStorage.getItem('selected')
+		// }
 
 		//Splitter
 		$('#content').splitter({sizeLeft: true});
@@ -102,15 +107,14 @@ var ui = {
 	},
 	reload: function() {
 		//Populates Template
-		$('#lists').empty();
-		
-		
-		for (var i=0; i<core.storage.lists.order.length; i++) {
-			ui.lists.draw(core.storage.lists.order[i]);
-		}
+		var markup = ""
+		for (var i=0; i<core.storage.lists.order.length; i++) { markup += ui.lists.draw(core.storage.lists.order[i]) }
+		$lists.html(markup)
+		console.log($('#L' + ui.session.selected + ' .name'))
+		$('#L' + ui.session.selected + ' .name').click();
 
 		//Sortable Lists 
-		$('#lists').sortable({
+		$lists.sortable({
 			containment: 'parent',
 			axis: 'y',
 			distance: 20,
@@ -118,55 +122,44 @@ var ui = {
 			helper: 'clone',
 			stop: function() {
 				//Saves Everything, including order
-				var listOrder = [];
+				var listOrder = []
 
 				//Loops through lists & adds the to an array
-				$('#lists').children().map(function () {
-					listOrder.push($(this).attr('id').substr(1).toNum());
+				$lists.children().map(function () {
+					listOrder.push($(this).attr('id').substr(1).toNum())
 				});
 
 				//Saves
 				core.storage.lists.order = listOrder;
-				core.storage.save([['list-order', null, null]]);
+				core.storage.save([['list-order', null, null]])
 			}
 		});
 
 		//Droppable
-		$('#sidebar ul li').droppable(ui.lists.dropOptions);
+		$sidebar.find('ul li').droppable(ui.lists.dropOptions)
 
 		//Update Counts
-		ui.lists.update().count();
+		ui.lists.update().count()
 	},
 	lists: {
 		//Draws a list to the DOM
-		draw: function(listId) {
-			if (typeof(listId) == 'string') {
-				switch(listId) {
-					case 'all':
-						var obj = Mustache.to_html(templates.list, {
-							id: listId,
-							name: $l._(listId),
-							count: 0
-						})
-						break
-					default:
-						var obj = Mustache.to_html(templates.list, {
-							id: listId,
-							name: $l._(listId),
-							count: 0
-						})
-						break
-				}
-				$('#smartlists').append(obj)
+		draw: function(listID) {
+			if(typeof listID != 'object') {
+				var list = core.storage.lists.items[listID],
+				obj = Mustache.to_html(templates.list, {
+						id: listID,
+						name: list.name,
+						count: 0
+					})
 			} else {
-				var list = core.storage.lists.items[listId];
-				var obj = Mustache.to_html(templates.list, {
-							id: listId,
-							name: list.name,
-							count: 0
-						})
-				$('#lists').append(obj)
+				obj = Mustache.to_html(templates.list, {
+						id: listID[0],
+						name: listID[1],
+						count: 0
+					})
 			}
+			
+			return obj
 		},
 		drawTasks: function(tasks) {
 
@@ -360,6 +353,7 @@ $sidebar.on('click', '.name, .count', function() {
 	$('#sidebar .selected').removeClass('selected');
 	$this.addClass('selected')
 	ui.session.selected = model.id
+	sessionStorage.setItem('selected', ui.session.selected)
 
 	//Gets list id & populates
 	$tasks.html('<h2>' + model.name + '</h2>')
@@ -755,7 +749,7 @@ $tasks.on('change', 'textarea', function() {
 // Adding a list
 $sidebar.on('click', '.listAddBTN', function() {
 	var listId = core.list().add($l._('nlist'))
-	ui.lists.draw(listId)
+	$lists.append(ui.lists.draw(listId))
 	//Selects List
 	$('#L' + listId).droppable(ui.lists.dropOptions).find('.name').click().dblclick()
 })

@@ -6,7 +6,24 @@
 //Adds as a plugin
 plugin.add(function() {
 	
-	console.log("Loaded sort.js");
+	console.log("Loaded sort.js")
+
+	$(document).ready(function() {
+		$panel.left.prepend('\
+			<select id="sortType">\
+				<option value="magic">Magic</option>\
+				<option value="manual">Manual</option>\
+				<option value="priority">Priority</option>\
+				<option value="date">Date</option>\
+			</select>')
+		var $sortType = $('#sortType')
+		$sortType.on('change', function() {
+			var val = $sortType.val(),
+				list = core.storage.lists.items[ui.session.selected].order
+			plugin.sort(list, val)
+			$('#L' + ui.session.selected + ' .name').click()
+		})
+	})
 
 	var getDateWorth = function(timestamp) {
 
@@ -38,7 +55,7 @@ plugin.add(function() {
 	}
 	
 	plugin.sort = function(list, method) {
-		
+
 		// Convert task IDs to obects
 		for(var i = 0; i < list.length; i++) {
 			var id = list[i];
