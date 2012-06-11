@@ -63,9 +63,10 @@ var ui = {
 		ui.lists.update().logbook();
 
 		//Loads Selected List
-		// if(sessionStorage.getItem('selected') !== null) {
-		// 	ui.session.storage = sessionStorage.getItem('selected')
-		// }
+		if(localStorage.getItem('selected') !== null) {
+			ui.session.storage = localStorage.getItem('selected')
+			console.log(ui.session.selected)
+		}
 
 		//Splitter
 		$('#content').splitter({sizeLeft: true});
@@ -353,12 +354,14 @@ $sidebar.on('click', '.name, .count', function() {
 	$('#sidebar .selected').removeClass('selected');
 	$this.addClass('selected')
 	ui.session.selected = model.id
-	sessionStorage.setItem('selected', ui.session.selected)
+	localStorage.setItem('selected', ui.session.selected)
 
 	//Gets list id & populates
 	$tasks.html('<h2>' + model.name + '</h2>')
 	var tasks = core.list(model.id).populate()
-	$tasks.append('<ul>' + ui.lists.drawTasks(tasks) + '</ul>')		
+	$tasks.append('<ul>' + ui.lists.drawTasks(tasks) + '</ul>')
+
+	$sortType.val(core.storage.prefs.listSort[model.id])
 
 	if (ui.session.selected == 'next') {
 
@@ -558,7 +561,7 @@ $tasks.on('dblclick', 'li', function(e) {
 
 	//Checked Tasks
 	var logged = 'checkbox ' + model.priority
-	if (core.storage.tasks[id].list == 'logbook') {
+	if (core.storage.tasks[id].logged) {
 		logged += ' checked'
 	}
 	

@@ -153,11 +153,16 @@ var core = {
 							}
 						}
 
-						return results;
+						return plugin.sort(results, core.storage.prefs.listSort['all'])
 
 					default: 
-						if (id in core.storage.lists.items) {
-							return core.storage.lists.items[id].order;
+						if (core.storage.lists.items.hasOwnProperty(id)) {
+							var order = core.storage.lists.items[id].order
+							if(!core.storage.prefs.listSort.hasOwnProperty(id)) {
+								core.storage.prefs.listSort[id] = 'manual'
+							}
+							return plugin.sort(order, core.storage.prefs.listSort[id])
+							//return order
 						} else {
 							return [];
 						}
@@ -263,6 +268,7 @@ var core = {
 			time: 0
 		}),
 		prefs: $.polyStorage.get('prefs', {
+			listSort: {},
 			sync: {
 				url: "http://localhost:3000"
 			}

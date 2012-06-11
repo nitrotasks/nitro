@@ -1,7 +1,11 @@
 /* Sorting Plugin for Nitro
+ * Requried by main.js - so don't remove it
  * By Jono Cooper & George Czabania
  * Licensed under the BSD License
  */
+
+// Globals
+var $sortType
 
 //Adds as a plugin
 plugin.add(function() {
@@ -16,12 +20,12 @@ plugin.add(function() {
 				<option value="priority">Priority</option>\
 				<option value="date">Date</option>\
 			</select>')
-		var $sortType = $('#sortType')
+		$sortType = $('#sortType')
 		$sortType.on('change', function() {
-			var val = $sortType.val(),
-				list = core.storage.lists.items[ui.session.selected].order
-			plugin.sort(list, val)
+			var val = $sortType.val(), list
+			core.storage.prefs.listSort[ui.session.selected] = val
 			$('#L' + ui.session.selected + ' .name').click()
+			core.storage.save()
 		})
 	})
 
@@ -74,12 +78,16 @@ plugin.add(function() {
 						b: getDateWorth(b.date)
 					}
 
-					var worth = { none: 0, low: 1, medium: 2, high: 3 }
+					var worth = { none: 0, low: 3, medium: 6, high: 9 }
 
 					rating.a += worth[a.priority]
 					rating.b += worth[b.priority]
 
-					if(rating.a < rating.b) return true
+					if(a.logged && !b.logged) return true
+					else if(!a.logged && b.logged) return false
+					else if(a.logged && b.logged) return null
+
+					else if(rating.a < rating.b) return true
 					else if (rating.c > rating.b) return false
 					else return null
 	
@@ -93,7 +101,10 @@ plugin.add(function() {
 				
 				list.sort(function(a,b) {
 					var worth = { none: 0, low: 1, medium: 2, high: 3 };
-					if(worth[a.priority] < worth[b.priority]) return true;
+					if(a.logged && !b.logged) return true
+					else if(!a.logged && b.logged) return false
+					else if(a.logged && b.logged) return null
+					else if(worth[a.priority] < worth[b.priority]) return true;
 					else if(worth[a.priority] > worth[b.priority]) return false;
 					else return null
 				});
@@ -101,12 +112,15 @@ plugin.add(function() {
 				
 			case "date":
 				list.sort(function(a,b) {
+					if(a.logged && !b.logged) return true
+					else if(!a.logged && b.logged) return false
+					else if(a.logged && b.logged) return null
 					// Handle tasks without dates
 					if(a.date=="" && b.date !== "") return true;
 					else if(b.date=="" && a.date !== "") return false;
 					else if (a.date == "" && b.date == "") return null;
 					// Sort timestamps
-					if(a.date >  b.date) return true;
+					else if(a.date >  b.date) return true;
 					else if(a.date <  b.date) return false;
 					else return null
 				});
