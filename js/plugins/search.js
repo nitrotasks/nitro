@@ -8,88 +8,89 @@ plugin.add(function() {
 
 	//Load plugin on document ready
 	$(document).ready(function() {
-		$$.document.append(input, $('#tasks .panel .right'));	
+		$panel.right.append('<input id="search" type="search" placeholder="Search">')
+		$search = $("#search")
 	});
 
-	var input = $$({}, '<input type="search" placeholder="Search">', {
-		'keyup &': function() {
-			var view = $(this.view.$());
-			
-			if (view.val() == '') {
-				//If there's no input, just load list
-				$('#sidebar .selected .name').click();
-			} else {
-				//Puts the results into the UI
-				$('#tasks > .tasksContent').empty().html('<h2>Search Results: ' + view.val() + '</h2><ul></ul>')
+	$panel.right.on('keyup', '#search', function() {
 
-				//There is some input
-				// Set vars
-				var query = view.val().split(' '),
-					results = [],
-					search;
+		var $this = $(this),
+			input = $this.val()
 
-				if (ui.session.selected == 'all') {
-					// Search loop
-					for (var t = 0; t < core.storage.tasks.length; t++) {
+		var searcher = function(key) {
+			var pass1 = [],
+				pass2 = true;
 
-						// If task exists
-						if (core.storage.tasks[t]) {
+			// Loop through each word in the query
+			for (var q = 0; q < query.length; q++) {
 
-							//Seaches Task
-							var str = searcher(t);
-							if (str != undefined) {
-								results.push(str);
-							}
-						}
-					}
+				// Create new search
+				search = new RegExp(query[q], 'i');
 
+				if(typeof(key) == 'function') {
+					//Nope. Not a good idea
+					return;
+				}
+
+				// Search
+				if (search.test(core.storage.tasks[key].content + core.storage.tasks[key].notes)) {
+					pass1.push(true);
 				} else {
-					for (var key in core.storage.lists.items[ui.session.selected].order) {
-						var str = parseInt(searcher(core.storage.lists.items[ui.session.selected].order[key]))
-						if (!isNaN(str)) {
+					pass1.push(false);
+				}
+			}
+
+			// This makes sure that the task has matched each word in the query
+			for (var p = 0; p < pass1.length; p++) {
+				if (pass1[p] === false) {
+					pass2 = false;
+				}
+			}
+
+			// If all terms match then add task to the results array
+			if (pass2) {
+				return (key)
+			}
+		}
+		
+		if (input == '') {
+			//If there's no input, just load list
+			$sidebar.find('.selected .name').click();
+		} else {
+			//Puts the results into the UI
+			$tasks.html('<h2>Search Results: ' + $this.val() + '</h2><ul></ul>')
+
+			//There is some input
+			// Set vars
+			var query = input.split(' '),
+				results = [],
+				search;
+
+			if (ui.session.selected == 'all') {
+				// Search loop
+				for (var t = 0; t < core.storage.tasks.length; t++) {
+
+					// If task exists
+					if (core.storage.tasks[t]) {
+
+						//Seaches Task
+						var str = searcher(t);
+						if (str != undefined) {
 							results.push(str);
 						}
 					}
 				}
-				// Draws
-				$$.document.append(ui.lists.drawTasks(results, $$({})), $('#tasks ul'));
-			}
 
-			function searcher(key) {
-				var pass1 = [],
-					pass2 = true;
-
-				// Loop through each word in the query
-				for (var q = 0; q < query.length; q++) {
-
-					// Create new search
-					search = new RegExp(query[q], 'i');
-
-					if(typeof(key) == 'function') {
-						//Nope. Not a good idea
-						return;
+			} else {
+				for (var key in core.storage.lists.items[ui.session.selected].order) {
+					var str = parseInt(searcher(core.storage.lists.items[ui.session.selected].order[key]))
+					if (!isNaN(str)) {
+						results.push(str);
 					}
-
-					// Search
-					if (search.test(core.storage.tasks[key].content + core.storage.tasks[key].notes)) {
-						pass1.push(true);
-					} else {
-						pass1.push(false);
-					}
-				}
-
-				// This makes sure that the task has matched each word in the query
-				for (var p = 0; p < pass1.length; p++) {
-					if (pass1[p] === false) {
-						pass2 = false;
-					}
-				}
-
-				// If all terms match then add task to the results array
-				if (pass2) {
-					return (key)
 				}
 			}
+			// Draws
+			$tasks.find('ul').append(ui.lists.drawTasks(results))
 		}
-	});
+	})
 })

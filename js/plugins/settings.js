@@ -1,11 +1,10 @@
 $(document).ready(function() {
-	settingsbtn = $$({}, '<button>Settings</button>', {
-		'click &': function() {
-			$('#prefsDialog').fadeToggle(150);
-		}
-	});
 	//Adds button to panel
-	$$.document.prepend(settingsbtn, $('.panel .right'));
+	$panel.right.prepend('<button id="settingsbtn">Settings</button>')
+	var $settingsbtn = $('#settingsbtn')
+	$settingsbtn.on('click', function() {
+		$('#prefsDialog').fadeToggle(150)
+	})
 	$('body').append('\
 		<div id="prefsDialog">\
 			<ul class="nav nav-tabs"><li class="active"><a href="#" data-target="#tabGeneral" data-toggle="tab" class="translate" data-translate="general">g</a></li><li><a href="#" data-target="#tabLanguage" data-toggle="tab" class="translate" data-translate="language">g</a></li><li><a href="#" data-target="#tabTheme" data-toggle="tab" class="translate" data-translate="theme">g</a></li><li><a href="#" data-target="#tabSync" data-toggle="tab" class="translate" data-translate="sync">g</a></li></ul>\

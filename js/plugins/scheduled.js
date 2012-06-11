@@ -9,77 +9,80 @@ plugin.add(function() {
 	}
 	
 	//Creates a list item
-	var obj = $$(ui.templates.listTemplate, {id: 'scheduled', name: $l._('scheduled')});
+	var markup = Mustache.to_html(templates.list, {
+		id: 'scheduled',
+		name: $l._('scheduled')
+	})
 
 	//Nice shorthand Method
 	$l = $.i18n;
 
 	//Adds to Sidebar
-	$$.document.after(obj, $('#Lnext'));
-	obj.view.$().attr('id', 'L' + obj.model.get('id'))
+	$('#Lnext').after(markup)
+	var $this = $('#Lscheduled')
 
 	//Updates Count
-	obj.view.$('.count').html(core.list('scheduled').populate().length);
+	$this.find('.count').html(core.list('scheduled').populate().length)
 
-	$('body').append('<div id="scheduledDialog">\
-	<div class="inner">\
-		<table>\
-			<tr class="radioscheduled">\
-				<td><input type="radio" name="scheduledtype" id="scheduledRadio" value="scheduled" checked></td>\
-				<td><label for="scheduledRadio" class="translate" data-translate="scheduled"></label></td>\
-			</tr>\
-			<tr class="radioscheduled bottom">\
-				<td><input type="radio" name="scheduledtype" value="recurring" id="recurringRadio"></td>\
-				<td><label for="recurringRadio" class="translate" data-translate="recurring"></label><br></td>\
-			</tr>\
-			<tr class="schedule">\
-				<td>\
-					<label for="reviewNo" class="translate" data-translate="reviewNo"></label>\
-				</td>\
-				<td>\
-					<input id="reviewNo" min="1" type="number">\
-					<select id="reviewLength">\
-						<option value="days" class="translate" data-translate="days"></option>\
-						<option value="weeks" class="translate" data-translate="weeks"></option>\
-						<option value="months" class="translate" data-translate="months"></option>\
-						<option value="years" class="translate" data-translate="years"></option>\
-					</select>\
-				</td>\
-			</tr>\
-			<tr class="schedule">\
-				<td>\
-					<label for="reviewAction" class="translate" data-translate="reviewAction"></label>\
-				</td>\
-				<td>\
-					<select class="reviewAction"></select><br>\
-				</td>\
-			</tr> <tr class="recurring"> <td><label for="recurType" class="translate" data-translate="recurType"></label></td> <td><select id="recurType"> <option value="daily" class="translate" data-translate="daily"></option>\
-						<option value="weekly" class="translate" data-translate="weekly"></option>\
-						<option value="monthly"class="translate" data-translate="monthly"></option>\
-					</select></td>\
-			</tr>\
-		</table>\
-			<div class="recurring" id="recurSpecial"></div>\
-		<table>\
-			<tr class="recurring"> <td><label for="recurNext" class="translate" data-translate="recurNext"></label></td> <td><input type="text" id="recurNext" placeholder="Next Occurance"></td> </tr> <tr class="recurring"> <td><label for="recurEnds" class="translate" data-translate="recurEnds"></label></td> <td><input type="text" id="recurEnds" placeholder="Last Occurance"></td> </tr> <tr class="recurring"> <td>\
-					<label for="reviewAction" class="translate" data-tranlsate="reviewAction"></label>\
-				</td>\
-				<td>\
-					<select class="reviewAction"></select><br>\
-				</td>\
-			</tr>\
-		</table>\
-		<div id="buttonbox">\
-			<button class="cancel translate" data-translate="cancel"></button>\
-			<button class="create"></button>\
-		</div>\
-	</div>\
-</div>');
+	$('body').append('\
+		<div id="scheduledDialog">\
+			<div class="inner">\
+				<table>\
+					<tr class="radioscheduled">\
+						<td><input type="radio" name="scheduledtype" id="scheduledRadio" value="scheduled" checked></td>\
+						<td><label for="scheduledRadio" class="translate" data-translate="scheduled"></label></td>\
+					</tr>\
+					<tr class="radioscheduled bottom">\
+						<td><input type="radio" name="scheduledtype" value="recurring" id="recurringRadio"></td>\
+						<td><label for="recurringRadio" class="translate" data-translate="recurring"></label><br></td>\
+					</tr>\
+					<tr class="schedule">\
+						<td>\
+							<label for="reviewNo" class="translate" data-translate="reviewNo"></label>\
+						</td>\
+						<td>\
+							<input id="reviewNo" min="1" type="number">\
+							<select id="reviewLength">\
+								<option value="days" class="translate" data-translate="days"></option>\
+								<option value="weeks" class="translate" data-translate="weeks"></option>\
+								<option value="months" class="translate" data-translate="months"></option>\
+								<option value="years" class="translate" data-translate="years"></option>\
+							</select>\
+						</td>\
+					</tr>\
+					<tr class="schedule">\
+						<td>\
+							<label for="reviewAction" class="translate" data-translate="reviewAction"></label>\
+						</td>\
+						<td>\
+							<select class="reviewAction"></select><br>\
+						</td>\
+					</tr> <tr class="recurring"> <td><label for="recurType" class="translate" data-translate="recurType"></label></td> <td><select id="recurType"> <option value="daily" class="translate" data-translate="daily"></option>\
+								<option value="weekly" class="translate" data-translate="weekly"></option>\
+								<option value="monthly"class="translate" data-translate="monthly"></option>\
+							</select></td>\
+					</tr>\
+				</table>\
+					<div class="recurring" id="recurSpecial"></div>\
+				<table>\
+					<tr class="recurring"> <td><label for="recurNext" class="translate" data-translate="recurNext"></label></td> <td><input type="text" id="recurNext" placeholder="Next Occurance"></td> </tr> <tr class="recurring"> <td><label for="recurEnds" class="translate" data-translate="recurEnds"></label></td> <td><input type="text" id="recurEnds" placeholder="Last Occurance"></td> </tr> <tr class="recurring"> <td>\
+							<label for="reviewAction" class="translate" data-translate="reviewAction"></label>\
+						</td>\
+						<td>\
+							<select class="reviewAction"></select><br>\
+						</td>\
+					</tr>\
+				</table>\
+				<div id="buttonbox">\
+					<button class="cancel translate" data-translate="cancel"></button>\
+					<button class="create"></button>\
+				</div>\
+			</div>\
+		</div>')
+
 	$('#scheduledDialog .translate').map(function () {
 		$(this).html($.i18n._($(this).attr('data-translate')));
-	});
-
-	$body = $('body');
+	})
 
 	//I'm bad at coding. Sue me.
 	$('#scheduledDialog .inner .create').click(function () {

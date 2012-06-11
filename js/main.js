@@ -21,8 +21,10 @@ $(document).ready(function() {
 var $body = $('body'),
 	$tasks = $('#tasks .tasksContent'),
 	$sidebar = $('#sidebar'),
-	$search = $('#tasks .panel input[type=search]'),
-	$panel = $('#tasks .panel .left')
+	$panel = {
+		right: $('#tasks .panel .right'),
+		left: $('#tasks .panel .left')
+	}
 
 var ui = {
 	language: function (data) {
@@ -51,8 +53,8 @@ var ui = {
 		ui.lists.draw('logbook');
 		ui.lists.draw('all');
 
-		$panel.append(Mustache.to_html(templates.button.addTask, {name: $l._('addbtn') }))
-		$panel.append(Mustache.to_html(templates.button.deleteTask, {name: $l._('deletebtn') }))
+		$panel.left.append(Mustache.to_html(templates.button.addTask, {name: $l._('addbtn') }))
+		$panel.left.append(Mustache.to_html(templates.button.deleteTask, {name: $l._('deletebtn') }))
 
 		// Update logbook
 		ui.lists.update().logbook();
@@ -199,7 +201,7 @@ var ui = {
 						extraDetails = core.date(model.date).getDaysLeft()
 				}
 				
-				markup += Mustache.to_html(templates.task.collapsed, {
+				var temp = Mustache.to_html(templates.task.collapsed, {
 					id: tasks[i],
 					content: model.content,
 					notes: model.notes,
@@ -209,6 +211,10 @@ var ui = {
 					priority: model.priority,
 					logged: logged
 				})
+
+				temp = $(temp).find('.content').html(hashTag(model.content)).closest('li').clone().wrap('<p>').parent().html()
+
+				markup += temp
 			}
 
 			//Loops and adds each task to a tmp view
@@ -472,7 +478,9 @@ $sidebar.on('click', '.delete', function() {
 // TASKS
 // -----
 
-$tasks.on('create', 'li', function() {
+$tasks.on('collapse', 'li', function() {
+
+	console.log('collapsed')
 					
 	// Convert tags
 	var $content = $(this).find('.content'),
@@ -581,6 +589,7 @@ $tasks.on('dblclick', 'li', function(e) {
 			.html(markup)
 			.addClass('expanded')
 			.height($this.height() + $this.removeClass('selected').children('div').children('.hidden').show(0).height())
+			.trigger('expand')
 
 	} else {
 
@@ -643,12 +652,14 @@ $tasks.on('dblclick', 'li', function(e) {
 			} else {
 				$tasks.find('ul li[data-id="' + orig + '"]').after(markup)
 			}
+
+			$tasks.find('ul li[data-id="' + id + '"]').trigger('collapse')
 			
 		}, 150)
 	}
 })
 
-$tasks.on('create', 'li', function() {
+$tasks.on('expand', 'li', function() {
 
 	var $this = $(this),
 		id = $this.attr('data-id').toNum(),
@@ -656,7 +667,7 @@ $tasks.on('create', 'li', function() {
 
 	//Sets the localized date =D
 	if (ui) {
-		if (ui.session.selected != 'scheduled' && this.model.get('date')) {
+		if (ui.session.selected != 'scheduled' && model.date) {
 			$this.find('.date').attr('placeholder', $l._('dueDate')).datepicker().datepicker('setDate', new Date(model.date))
 		} else if (ui.session.selected != 'scheduled') {
 			$this.find('.date').attr('placeholder', $l._('dueDate')).datepicker()
@@ -681,7 +692,7 @@ $tasks.on('create', 'li', function() {
 })
 
 // Content
-$tasks.on('change', 'li input.name', function() {
+$tasks.on('change', 'li input.content', function() {
 	var id = $(this).closest('li').attr('data-id').toNum()
 	core.storage.tasks[id].content = $(this).val()
 	core.storage.save([['tasks', id, 'content']])
@@ -751,7 +762,7 @@ $sidebar.on('click', '.listAddBTN', function() {
 
 
 // Adding a task
-$panel.on('click', 'button.add', function() {
+$panel.left.on('click', 'button.add', function() {
 	var list = ui.session.selected
 	if (list != 'all' && list != 'logbook' && list != 'scheduled') {
 		//Adds a task with the core
@@ -785,7 +796,7 @@ $panel.on('click', 'button.add', function() {
 
 
 // Deleting a task
-$panel.on('click', 'button.delete', function() {
+$panel.left.on('click', 'button.delete', function() {
 	var $selected = $tasks.find('.selected'),
 		lists = {}
 

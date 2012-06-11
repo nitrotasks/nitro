@@ -1,7 +1,14 @@
 templates = {
 	list: '<li id="L{{id}}"><span class="name">{{name}}</span><button class="edit"></button><button class="delete"></button><span class="count">{{count}}</span></li>',
 	task: {
-		collapsed: '<li data-id="{{id}}"><div class="boxhelp"><div class="{{logged}}"></div><div class="content">{{content}}</div><div class="{{extraClass}}" data-class="extra">{{extra}}</div></div></li>',
+		collapsed: '\
+			<li data-id="{{id}}">\
+				<div class="boxhelp">\
+					<div class="{{logged}}"></div>\
+					<div class="content">{{content}}</div>\
+					<div class="{{extraClass}}" data-class="extra">{{extra}}</div>\
+				</div>\
+			</li>',
 		expanded: '<div>\
 			<div class="boxhelp">\
 				<div class="{{logged}}"></div>\
