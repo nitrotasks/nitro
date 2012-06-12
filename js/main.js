@@ -176,32 +176,38 @@ var ui = {
 				if (model.logged) {
 					logged += ' checked'
 				}
-				
+
 				// Extra details
-				var extraDetails = []			
+				var date = false, list = false
 				switch(ui.session.selected) {
+
 					case 'logbook':
-						extraDetails[0] = core.date(model.logged).getDate()
+						// Show date the task was completed
+						date = {
+							words: core.date(model.logged).getDate(),
+							className: 'logged'
+						}
 						break
+
 					case 'all':
 						//Translated Name or Custom Name
 						if (typeof(model.list) == 'number') {
-							extraDetails[0] = core.storage.lists.items[model.list].name
+							list = core.storage.lists.items[model.list].name
 						} else {
-							extraDetails[0] = $l._(model.list)
+							list = $l._(model.list)
 						}
-						break;
+
 					default:
-						extraDetails = core.date(model.date).getDaysLeft()
+						// Show task due date
+						date = core.date(model.date).getDaysLeft()
 				}
-				
+
 				var temp = Mustache.to_html(templates.task.collapsed, {
 					id: tasks[i],
 					content: model.content,
 					notes: model.notes,
-					date: model.date,
-					extra: extraDetails[0],
-					extraClass: extraDetails[1],
+					date: date,
+					list: list,
 					priority: model.priority,
 					logged: logged
 				})
@@ -603,39 +609,7 @@ $tasks.on('dblclick', 'li', function(e) {
 
 			$this.remove()
 			
-			// Extra details
-			var extraDetails = []				
-			switch(ui.session.selected) {
-
-				case 'logbook':
-					// Show date the task was completed
-					extraDetails[0] = core.date(model.logged).getDate()
-					break
-
-				case 'all':
-					//Translated Name or Custom Name
-					if (typeof(model.list) == 'number') {
-						extraDetails[0] = core.storage.lists.items[model.list].name
-					} else {
-						extraDetails[0] = $l._(model.list)
-					}
-					break
-
-				default:
-					// Show task due date
-					extraDetails = core.date(model.date).getDaysLeft()
-			}
-
-			var markup = Mustache.to_html(templates.task.collapsed, {
-				id: id,
-				content: model.content,
-				notes: model.notes,
-				date: model.date,
-				extra: extraDetails[0],
-				extraClass: extraDetails[1],
-				priority: model.priority,
-				logged: logged
-			})
+			var markup = ui.lists.drawTasks([id])
 
 			//If it's the first task in a list, .prev won't work
 			if (orig == undefined) {

@@ -6,7 +6,9 @@ templates = {
 				<div class="boxhelp">\
 					<div class="{{logged}}"></div>\
 					<div class="content">{{content}}</div>\
-					<div class="{{extraClass}}" data-class="extra">{{extra}}</div>\
+					{{#notes}}<div class="notes"></div>{{/notes}}\
+					{{#date}}<div class="{{date.className}} label">{{date.words}}</div>{{/date}}\
+					{{#list}}<div class="list label">{{list}}</div>{{/list}}\
 				</div>\
 			</li>',
 		expanded: '<div>\

@@ -174,7 +174,7 @@ var core = {
 	date:  function(timestamp) {
 		return {
 			getDaysLeft: function() {
-				if(!timestamp) return ["","null"];
+				if(!timestamp) return false
 				
 				// Create Date()
 				var date = new Date(timestamp),
@@ -183,7 +183,9 @@ var core = {
 					oneDay = 86400000; // 1000*60*60*24 - one day in milliseconds
 
 				// Find difference between days
-				difference = Math.ceil((date.getTime() - now.getTime()) / oneDay);
+				difference = Math.ceil((date.getTime() - now.getTime()) / oneDay)
+
+				var words, className = ''
 
 				// Show difference nicely
 				if (difference < -1) {
@@ -191,32 +193,39 @@ var core = {
 					difference = Math.abs(difference);
 					if (difference !== 1) {
 						// return [$.i18n._('daysOverdue', [difference]), 'overdue'];
-						return [difference + " days overdue", 'overdue'];
+						words = difference + ' days overdue'
+						className = 'overdue'
 					}
 				} else if (difference === -1) {
 					// Yesterday
-					return ["due yesterday", 'due'];
+					words = 'due yesterday'
+					className = 'overdue'
 				} else if (difference === 0) {
-					// Due
-					return ["due today", 'due'];
+					// Due;
+					words = 'due today'
+					className = 'due'
 				} else if (difference === 1) {
 					// Due
-					return ["due tomorrow", ''];
+					words = 'due tomorrow'
+					className = 'soon'
 				} else if (difference < 15) {
 					// Due in the next 15 days
-					if (difference !== 1) {
-						return [difference + ' days left', ''];
-					}
+					words = difference + ' days left'
 				} else {
 					// Due after 15 days
 					var month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-					return [month[date.getMonth()] + " " + date.getDate(), ''];
-				}				
+					words = month[date.getMonth()] + " " + date.getDate()
+				}
+
+				return {
+					words: words,
+					className: className
+				}		
 			},
 			
 			getDate: function() {
 			
-			if(!timestamp) return "";
+			if(!timestamp) return false;
 				
 				var date = new Date(timestamp),
 					now = new Date(),
