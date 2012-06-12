@@ -71,12 +71,6 @@ var ui = {
 		// Update logbook
 		ui.lists.update().logbook();
 
-		//Loads Selected List
-		if(localStorage.getItem('selected') !== null) {
-			ui.session.storage = localStorage.getItem('selected')
-			console.log(ui.session.selected)
-		}
-
 		//Splitter
 		$('#content').splitter({sizeLeft: true});
 		var height = $(window).height(),
@@ -171,67 +165,68 @@ var ui = {
 			
 			return obj
 		},
+
+		// Easy way to use drawSingleTask to render a list
 		drawTasks: function(tasks) {
 
-			var markup = ""
-
-			//Drams Task then appends it to a tmpview
-			var drawTask = function(i) {
-				//Makes it nice
-				var model = core.storage.tasks[tasks[i]]
-
-				//Checked Tasks
-				var logged = 'checkbox ' + model.priority
-				if (model.logged) {
-					logged += ' checked'
-				}
-
-				// Extra details
-				var date = false, list = false
-				switch(ui.session.selected) {
-
-					case 'logbook':
-						// Show date the task was completed
-						date = {
-							words: core.date(model.logged).getDate(),
-							className: 'logged'
-						}
-						break
-
-					case 'all':
-						//Translated Name or Custom Name
-						if (typeof(model.list) == 'number') {
-							list = core.storage.lists.items[model.list].name
-						} else {
-							list = $l._(model.list)
-						}
-
-					default:
-						// Show task due date
-						date = core.date(model.date).getDaysLeft()
-				}
-
-				var temp = Mustache.to_html(templates.task.collapsed, {
-					id: tasks[i],
-					content: model.content,
-					notes: model.notes,
-					date: date,
-					list: list,
-					priority: model.priority,
-					logged: logged
-				})
-
-				temp = $(temp).find('.content').html(hashTag(model.content)).closest('li').clone().wrap('<p>').parent().html()
-
-				markup += temp
-			}
+			var markup = ""			
 
 			//Loops and adds each task to a tmp view
 			for (var i=0; i<tasks.length; i++) {
-				drawTask(i)
+				markup += ui.lists.drawSingleTask(tasks[i])
 			}
 
 			return markup
+		},
+
+		// Draws Task then appends it to a tmpview
+		drawSingleTask: function(id) {
+			
+			var model = core.storage.tasks[id]
+
+			//Checked Tasks
+			var logged = 'checkbox ' + model.priority
+			if (model.logged) logged += ' checked'
+
+			// Extra details
+			var date = false, list = false
+			switch(ui.session.selected) {
+
+				case 'logbook':
+					// Show date the task was completed
+					date = {
+						words: core.date(model.logged).getDate(),
+						className: 'logged'
+					}
+					break
+
+				case 'all':
+					//Translated Name or Custom Name
+					if (typeof(model.list) == 'number') {
+						list = core.storage.lists.items[model.list].name
+					} else {
+						list = $l._(model.list)
+					}
+
+				default:
+					// Show task due date
+					date = core.date(model.date).getDaysLeft()
+			}
+
+			var temp = Mustache.to_html(templates.task.collapsed, {
+				id: id,
+				content: model.content,
+				notes: model.notes,
+				date: date,
+				list: list,
+				priority: model.priority,
+				logged: logged
+			})
+
+			// Render #hashtags - VERY SLOW TAKES 30ms
+			// temp = $(temp).find('.content').html(hashTag(model.content)).closest('li').clone().wrap('<p>').parent().html()
+
+			return temp
 		},
 		update: function() {
 			return {
@@ -366,16 +361,15 @@ $sidebar.on('click', '.name, .count', function() {
 		}
 
 	//Selected List
-	$('#sidebar .selected').removeClass('selected');
+	$('#sidebar .selected').removeClass('selected')
 	$this.addClass('selected')
 	ui.session.selected = model.id
-	localStorage.setItem('selected', ui.session.selected)
 
 	//Gets list id & populates
-	$tasks.html('<h2>' + model.name + '</h2>')
 	var tasks = core.list(model.id).populate()
-	$tasks.append('<ul>' + ui.lists.drawTasks(tasks) + '</ul>')
+	$tasks.html('<h2>' + model.name + '</h2><ul>' + ui.lists.drawTasks(tasks) + '</ul>')
 
+	// Set sort type
 	$sortType.val(core.storage.prefs.listSort[model.id])
 
 	if (ui.session.selected == 'next') {
@@ -398,39 +392,44 @@ $sidebar.on('click', '.name, .count', function() {
 	}
 
 	//All Can't be sorted
-	if (ui.session.selected == 'all') {
+	else if (ui.session.selected == 'all') {
 		return true
 	}
 
-	$tasks.find('ul').sortable({
-		placeholder: "placeholder",
-		distance: 20,
-		appendTo: 'body',
-		items: 'li',
-		scroll: false,
-		forceHelperSize: false,
-		connectWith: $tasks.find('ul'),
-		cursorAt: {
-			top: 15,
-			left: 30
-		},
-		helper: function (e, el) {
-			var name = $(el).find('.content').html(),
-				$temp = $('body')
-					.append('<span class="temp-helper" style="display: none; font-size: 13px; font-weight: bold;">' + name + '</span>')
-					.find('.temp-helper'),
-				width = $temp.width()
-			$temp.remove()
-		
-			var $el = $(el).find('.content').clone()
-			$el.width(width)
-			$el.addClass('tasks')
-			return $el
-		},
-		stop: function (event, elem) {
-			ui.sortStop(event, elem)
-		}
-	});
+	setTimeout(function() {
+
+		$tasks.find('ul').sortable({
+			placeholder: "placeholder",
+			distance: 20,
+			appendTo: 'body',
+			items: 'li',
+			scroll: false,
+			forceHelperSize: false,
+			connectWith: $tasks.find('ul'),
+			cursorAt: {
+				top: 15,
+				left: 30
+			},
+			helper: function (e, el) {
+				var name = $(el).find('.content').html(),
+					$temp = $('body')
+						.append('<span class="temp-helper" style="display: none; font-size: 13px; font-weight: bold;">' + name + '</span>')
+						.find('.temp-helper'),
+					width = $temp.width()
+				$temp.remove()
+			
+				var $el = $(el).find('.content').clone()
+				$el.width(width)
+				$el.addClass('tasks')
+				return $el
+			},
+			stop: function (event, elem) {
+				ui.sortStop(event, elem)
+			}
+		});
+
+
+	}, 100)
 
 	return true
 })
@@ -491,8 +490,6 @@ $sidebar.on('click', '.delete', function() {
 // -----
 
 $tasks.on('collapse', 'li', function() {
-
-	console.log('collapsed')
 					
 	// Convert tags
 	var $content = $(this).find('.content'),
@@ -747,15 +744,7 @@ $panel.left.on('click', 'button.add', function() {
 	if (list != 'all' && list != 'logbook' && list != 'scheduled') {
 		//Adds a task with the core
 		var taskId = core.task().add($l._('ntask'), list),
-			model = core.storage.tasks[taskId],
-			markup = Mustache.to_html(templates.task.collapsed, {
-				id: taskId,
-				content: model.content,
-				notes: model.notes,
-				date: model.date,
-				priority: model.priority,
-				logged: 'checkbox none'
-			})
+			markup = ui.lists.drawSingleTask(taskId)
 
 		$tasks.find('ul').first().prepend(markup)
 
