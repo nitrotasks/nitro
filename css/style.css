@@ -119,7 +119,7 @@ html, body { height: 100%; width: 100%; }
 #sidebar h2 .list-toggle:hover .icon { border-right-color: #5b5b5b; }
 #sidebar h2 .list-toggle.collapsed .icon { -webkit-transform: rotate(180deg); -moz-transform: rotate(180deg); -ms-transform: rotate(180deg); -o-transform: rotate(180deg); transform: rotate(180deg); }
 #sidebar h2.collapsed { border-bottom: none; }
-#sidebar #lists { -webkit-box-flex: 1; overflow-y: auto; }
+#sidebar #lists { -webkit-box-flex: 1; -moz-box-flex: 1; overflow-y: auto; }
 #sidebar ul { margin: 0; padding: 0; }
 #sidebar ul li { display: box; display: -webkit-box; display: -moz-box; height: 30px; box-sizing: border-box; line-height: 30px; font-weight: normal; font-size: 13px; color: #444444; padding: 0 0 0 15px; cursor: pointer; position: relative; width: 100% !important; }
 #sidebar ul li .edit { background: url("glyphicons-halflings.png") -1px 196px; border: 0; padding: 0 7px; }
@@ -146,13 +146,15 @@ html, body { height: 100%; width: 100%; }
 #tasks .tasksContent { overflow-y: auto; }
 #tasks .tasksContent h2 { text-align: center; font-size: 20px; }
 #tasks .tasksContent ul { padding: 0 20px 40px 16px; margin: 0; }
-#tasks .tasksContent ul li { display: block; min-height: 30px; height: 30px; cursor: pointer; overflow: hidden; padding: 0; position: relative; z-index: 2; margin-bottom: -1px; background: #fff; border: 1px solid #000; font-size: 13px; line-height: 30px; color: #111; -webkit-transform: translateZ(0); -webkit-transition-property: margin, height; -webkit-transition-duration: 150ms, 150ms; -webkit-transition-timing-function: ease, ease; }
+#tasks .tasksContent ul li { display: block; min-height: 30px; height: 30px; cursor: pointer; overflow: hidden; padding: 0; position: relative; z-index: 2; margin-bottom: -1px; background: #fff; border: 1px solid #000; font-size: 13px; line-height: 30px; color: #111; -webkit-transform: translateZ(0); -webkit-transition-property: margin, height, opacity; -webkit-transition-duration: 150ms, 150ms, 150ms; -webkit-transition-timing-function: ease, ease, ease; }
 #tasks .tasksContent ul li.placeholder { background: rgba(0, 0, 0, 0.1); box-shadow: 0 0 0 #000; }
 #tasks .tasksContent ul li .boxhelp { display: -webkit-box; display: -moz-box; display: box; }
 #tasks .tasksContent ul li .checkbox { margin: 8px; width: 13px; height: 13px; border: 1px solid #000; }
 #tasks .tasksContent ul li .checkbox.recurring, #tasks .tasksContent ul li .checkbox.scheduled { border-color: transparent; }
-#tasks .tasksContent ul li .checkbox.checked { position: relative; border-color: transparent !important; background: none !important; }
-#tasks .tasksContent ul li .checkbox.checked:after { display: block; position: absolute; content: url(img/logged.png); top: -6px; left: -1px; }
+#tasks .tasksContent ul li.checked { opacity: 0.5; }
+#tasks .tasksContent ul li.checked .checkbox { position: relative; border-color: transparent !important; background: none !important; }
+#tasks .tasksContent ul li.checked .checkbox:after { display: block; position: absolute; content: url(img/logged.png); top: -6px; left: -1px; }
+#tasks .tasksContent ul li.checked.logbook { opacity: 1; }
 #tasks .tasksContent ul li .label { border-left: 1px solid #000; padding: 0 10px; }
 #tasks .tasksContent ul li .label.null { border-left: 0; }
 #tasks .tasksContent ul li .tag { color: #0000ff; }

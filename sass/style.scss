@@ -164,6 +164,7 @@ html, body {
 
 	#lists {
 		-webkit-box-flex: 1;
+		-moz-box-flex: 1;
 		overflow-y: auto;
 	}
 	
@@ -360,9 +361,9 @@ html, body {
 				line-height: 30px;
 				color: #111;
 				-webkit-transform: translateZ(0);
-				-webkit-transition-property: margin, height;
- 				-webkit-transition-duration: 150ms, 150ms;  
- 				-webkit-transition-timing-function: ease, ease;
+				-webkit-transition-property: margin, height, opacity;
+ 				-webkit-transition-duration: 150ms, 150ms, 150ms;  
+ 				-webkit-transition-timing-function: ease, ease, ease;
 
 				&.placeholder {
 					background: rgba(0,0,0,0.1);
@@ -384,19 +385,25 @@ html, body {
 					&.recurring, &.scheduled {
 						border-color: transparent;
 					}
+				}
 
-					&.checked {
+				&.checked {
+					opacity: 0.5;
+					.checkbox {
 						position: relative;
 						border-color: transparent !important;
 						background: none !important;
 					}
-					&.checked:after {
+					.checkbox:after {
 						display: block;
 						position: absolute;
 						content: url(img/logged.png);
 						top: -6px;
 						left: -1px;
 					}
+				}
+				&.checked.logbook {
+					opacity: 1;
 				}
 				
 				.label {

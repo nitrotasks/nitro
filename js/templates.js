@@ -2,7 +2,7 @@ templates = {
 	list: '<li id="L{{id}}"><span class="name">{{name}}</span><button class="edit"></button><button class="delete"></button><span class="count">{{count}}</span></li>',
 	task: {
 		collapsed: '\
-			<li data-id="{{id}}">\
+			<li data-id="{{id}}" class="{{checked}}">\
 				<div class="boxhelp">\
 					<div class="{{logged}}"></div>\
 					<div class="content">{{content}}</div>\

@@ -185,8 +185,8 @@ var ui = {
 			var model = core.storage.tasks[id]
 
 			//Checked Tasks
-			var logged = 'checkbox ' + model.priority
-			if (model.logged) logged += ' checked'
+			var logged = 'checkbox ' + model.priority, checked = null
+			if (model.logged) checked = 'checked'
 
 			// Extra details
 			var date = false, list = false
@@ -198,6 +198,8 @@ var ui = {
 						words: core.date(model.logged).getDate(),
 						className: 'logged'
 					}
+					// Don't show opacity in logbook
+					checked = 'checked logbook'
 					break
 
 				case 'all':
@@ -215,6 +217,7 @@ var ui = {
 
 			var temp = Mustache.to_html(templates.task.collapsed, {
 				id: id,
+				checked: checked,
 				content: model.content,
 				notes: model.notes,
 				date: date,
@@ -523,7 +526,6 @@ $tasks.on('click', 'li', function(e) {
 $tasks.on('click', '.checkbox', function() {
 
 	var $this = $(this).closest('li'),
-		$checkbox = $(this),
 		model = {
 			id: $this.attr('data-id').toNum()
 		}
@@ -532,10 +534,10 @@ $tasks.on('click', '.checkbox', function() {
 	if(ui.session.selected != 'logbook' && ui.session.selected != 'scheduled') {
 
 		//Changes Appearance
-		$checkbox.toggleClass('checked')
+		$this.toggleClass('checked')
 
 		//Moves it around for real.
-		if($checkbox.hasClass('checked')) {
+		if($this.hasClass('checked')) {
 			core.task(model.id).move('completed')
 		} else {
 			core.task(model.id).move(core.storage.tasks[model.id].list)
@@ -572,10 +574,8 @@ $tasks.on('dblclick', 'li', function(e) {
 	}
 
 	//Checked Tasks
-	var logged = 'checkbox ' + model.priority
-	if (core.storage.tasks[id].logged) {
-		logged += ' checked'
-	}
+	var logged = 'checkbox ' + model.priority, checked = null
+	if (core.storage.tasks[id].logged) checked = 'checked'
 	
 	//Checks if it's expanded & if it isn't expand it.
 	if (!$this.hasClass('expanded')) {
@@ -584,6 +584,7 @@ $tasks.on('dblclick', 'li', function(e) {
 
 		var markup = Mustache.to_html(templates.task.expanded, {
 			id: id,
+			checked: checked,
 			content: model.content,
 			notes: model.notes,
 			date: model.date,
