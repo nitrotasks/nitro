@@ -1,6 +1,7 @@
 @import "compass/css3/images";
 
-$sidebar_back: #fdfdfd;
+$sidebar_back: #fbfbfb;
+$sidebar_hover: #fff;
 $selected_color: #33a3ef;
 $sidebar_border: #ccc;
 
@@ -29,8 +30,17 @@ body {
 		box-shadow: 0 0 1px rgba(0,0,0,0.2) inset;
 	}
 
-	ul li input {
-		border: 1px solid darken($selected_color, 15%);
+	ul li {
+
+		&:hover {
+			background: $sidebar_hover;
+		}
+
+		input {
+			border-radius: 4px;
+			box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
+			border: none;
+		}
 	}
 	
 	.listAddBTN {
@@ -98,7 +108,9 @@ body {
 			&.selected {
 				background: $selected_color;
 				color: #fff;
-				outline: 1px solid darken($selected_color, 20%);
+				border: 1px solid darken($selected_color, 20%);
+				border-left: none;
+				border-right: none;
 				font-weight: bold;
 				text-shadow: 0 1px 1px darken($selected_color, 15%);
 			}

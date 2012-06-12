@@ -481,8 +481,19 @@ $sidebar.on('click', '.delete', function() {
 		}
 	// Delete list
 	core.list(model.id).delete()
-	// Update DOM		
-	$this.remove()
+	// Update DOM
+	// Last list -> Go to Today
+	if($lists.children().length == 1) {
+		$this.remove()
+		$('#Ltoday .name').click()
+	// List is bottom -> Prev list
+	} else if($this.is(':last-child')) {
+		$this.prev().find('.name').click().parent().next().remove()
+	// There is a list after this -> Go to it
+	} else {
+		$this.next().find('.name').click().parent().prev().remove()
+	}
+	
 	// Update List count
 	ui.lists.update().count()
 })
@@ -735,8 +746,8 @@ $tasks.on('change', 'textarea', function() {
 $sidebar.on('click', '.listAddBTN', function() {
 	var listId = core.list().add($l._('nlist'))
 	$lists.append(ui.lists.draw(listId))
-	//Selects List
-	$('#L' + listId).droppable(ui.lists.dropOptions).find('.name').click().dblclick()
+	// Edit List Name
+	$('#L' + listId).droppable(ui.lists.dropOptions).find('.name').dblclick()
 })
 
 
