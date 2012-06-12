@@ -3,26 +3,34 @@
  * Licensed under the BSD License
  */
 plugin.add(function() {
+
+	var $this,
+	//Nice shorthand Method
+		$l = $.i18n;
+
 	//Creates Scheduled List if it doesn't already exist
 	if(!core.storage.lists.items.scheduled) { 
 		core.storage.lists.items.scheduled = {order: [], time: {name: 0, order: 0}};
 	}
-	
-	//Creates a list item
-	var markup = Mustache.to_html(templates.list, {
-		id: 'scheduled',
-		name: $l._('scheduled')
+
+	$smartlists.on('ready', function() {
+
+		console.log("Loading scheduled.js")
+
+		//Creates a list item
+		var markup = Mustache.to_html(templates.list, {
+			id: 'scheduled',
+			name: $l._('scheduled')
+		})
+
+		//Adds to Sidebar
+		$('#Lnext').after(markup)
+		$this = $('#Lscheduled')
+
+		//Updates Count
+		$this.find('.count').html(core.list('scheduled').populate().length)
+
 	})
-
-	//Nice shorthand Method
-	$l = $.i18n;
-
-	//Adds to Sidebar
-	$('#Lnext').after(markup)
-	var $this = $('#Lscheduled')
-
-	//Updates Count
-	$this.find('.count').html(core.list('scheduled').populate().length)
 
 	$('body').append('\
 		<div id="scheduledDialog">\

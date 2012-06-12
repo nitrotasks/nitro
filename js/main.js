@@ -26,7 +26,9 @@ var $body = $('body'),
 	$panel = {
 		right: $('#tasks .panel .right'),
 		left: $('#tasks .panel .left')
-	}
+	},
+	$addBTN = $(),
+	$delBTN = $()
 
 var ui = {
 	language: function (data) {
@@ -49,15 +51,22 @@ var ui = {
 	},
 	initLoad: function() {
 		//Buttons
-		$sidebar.find('h2.smartlists').html($l._('focus'));
+		$sidebar.find('h2.smartlists')
+			.html($l._('focus'))
+			.append(Mustache.to_html(templates.button.listToggle,{
+				title: "Hide lists"
+			}))
 
 		// Append  smartlists
 		var markup = "", smartlists = [['today', 'Today'], ['next', 'Next'], ['logbook', 'Logbook'], ['all', 'All Tasks']]
 		for(var i = 0; i < smartlists.length; i++) { markup += ui.lists.draw(smartlists[i]) }
-		$smartlists.append(markup)
+		$smartlists.append(markup).trigger('ready')
 		
 		$panel.left.append(Mustache.to_html(templates.button.addTask, {name: $l._('addbtn') }))
 		$panel.left.append(Mustache.to_html(templates.button.deleteTask, {name: $l._('deletebtn') }))
+
+		$addBTN = $panel.left.find('button.add')
+		$delBTN = $panel.left.find('button.delete')
 
 		// Update logbook
 		ui.lists.update().logbook();
