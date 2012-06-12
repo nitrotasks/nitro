@@ -4,6 +4,13 @@
 $legacy-support-for-ie: false;
 $support-for-original-webkit-gradients: false;
 
+* {
+	-webkit-user-select: none;
+}
+input, textarea {
+	-webkit-user-select: text;
+}
+
 /* HTML5 Boilerplate  */
 
 article, aside, details, figcaption, figure, footer, header, hgroup, nav, section { display: block; }
@@ -339,12 +346,12 @@ html, body {
 				display: block;
 				min-height: 30px;
 				height: 30px;
-				margin-top: -1px;
 				cursor: pointer;
 				overflow: hidden;
 				padding: 0;
 				position: relative;
 				z-index: 2;
+				margin-bottom: -1px;
 
 				background: #fff;				
 				border: 1px solid #000;
@@ -448,7 +455,7 @@ html, body {
 					border: 0;
 					border-left: 1px solid #000;
 					background: transparent;
-					line-height: 32px;
+					line-height: 31px;
 					padding: 0 15px;
 				}
 
