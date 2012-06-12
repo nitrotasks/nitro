@@ -62,8 +62,8 @@ var ui = {
 		for(var i = 0; i < smartlists.length; i++) { markup += ui.lists.draw(smartlists[i]) }
 		$smartlists.append(markup).trigger('ready')
 		
-		$panel.left.append(Mustache.to_html(templates.button.addTask, {name: $l._('addbtn') }))
-		$panel.left.append(Mustache.to_html(templates.button.deleteTask, {name: $l._('deletebtn') }))
+		$panel.left.prepend(Mustache.to_html(templates.button.deleteTask, {name: $l._('deletebtn') }))
+		$panel.left.prepend(Mustache.to_html(templates.button.addTask, {name: $l._('addbtn') }))
 
 		$addBTN = $panel.left.find('button.add')
 		$delBTN = $panel.left.find('button.delete')

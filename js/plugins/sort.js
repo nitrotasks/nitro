@@ -13,7 +13,7 @@ plugin.add(function() {
 	console.log("Loaded sort.js")
 
 	$(document).ready(function() {
-		$panel.left.prepend('\
+		$panel.left.append('\
 			<select id="sortType">\
 				<option value="magic">Magic</option>\
 				<option value="manual">Manual</option>\
