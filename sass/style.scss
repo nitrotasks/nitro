@@ -489,6 +489,10 @@ html, body {
 						height: 32px;
 					}
 				}
+
+				&.expanded {
+					opacity: 1;
+				}
 				
 				&.selected {
 					// background: #0f0;
