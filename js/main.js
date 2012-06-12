@@ -523,7 +523,7 @@ $tasks.on('click', '.checkbox', function() {
 		}
 
 	// Doesn't work in Logbook
-	if(ui.session.selected != 'logbook' || ui.session.selected != 'scheduled') {
+	if(ui.session.selected != 'logbook' && ui.session.selected != 'scheduled') {
 
 		//Changes Appearance
 		$checkbox.toggleClass('checked')
