@@ -599,6 +599,7 @@ $tasks.on('dblclick', 'li', function(e) {
 			.addClass('expanded')
 			.height($this.height() + $this.removeClass('selected').children('div').children('.hidden').show(0).height())
 			.trigger('expand')
+			.find('input.content').focus()
 
 	} else {
 
