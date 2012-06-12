@@ -128,7 +128,7 @@ html, body { height: 100%; width: 100%; }
 #sidebar ul li .name { display: block; height: 32px; box-flex: 1; -webkit-box-flex: 1; -moz-box-flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 #sidebar ul li.selected { background: #eee; outline: 1px solid #000; }
 #sidebar ul li.selected .count { background: rgba(0, 0, 0, 0.4); border-color: #444; box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.02), 0 1px 0 rgba(255, 255, 255, 0.4); }
-#sidebar ul li input { display: block; height: 24px; background: #fff; padding: 0; margin: 3px 0 0 -1px; border: 0; box-flex: 1; -webkit-box-flex: 1; -moz-box-flex: 1; }
+#sidebar ul li input { display: block; height: 22px; background: #fff; padding: 0; margin: 3px 5px 0 -1px; border: 1px solid #000; box-flex: 1; -webkit-box-flex: 1; -moz-box-flex: 1; }
 #sidebar ul li input:focus { outline: none; }
 #sidebar ul li.dragHover { background: #ccc; }
 #sidebar ul li .delete, #sidebar ul li .edit { display: none; }

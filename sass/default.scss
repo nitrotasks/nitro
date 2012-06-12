@@ -28,6 +28,10 @@ body {
 		border-bottom: 1px solid $sidebar_border;
 		box-shadow: 0 0 1px rgba(0,0,0,0.2) inset;
 	}
+
+	ul li input {
+		border: 1px solid darken($selected_color, 15%);
+	}
 	
 	.listAddBTN {
 		background: $panel_color;
