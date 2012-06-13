@@ -17,23 +17,17 @@ plugin.add(function() {
 			<span>\
 			<button data-toggle="dropdown" class="sort">Sort</button>\
 			<ul class="dropdown-menu">\
-			  <li>Magic</li>\
-			  <li>Manual</li>\
-			  <li>Priority</li>\
-			  <li>Date</li>\
+			  <li data-value="magic">Magic</li>\
+			  <li data-value="manual">Manual</li>\
+			  <li data-value="priority">Priority</li>\
+			  <li data-value="date">Date</li>\
 			</ul>\
-			</span>\
-			<!--button data-toggle="dropdown" class="sort">Sort</button>\
-			<select id="sortType">\
-				<option value="magic">Magic</option>\
-				<option value="manual">Manual</option>\
-				<option value="priority">Priority</option>\
-				<option value="date">Date</option>\
-			</select-->')
+			</span>')
 
-		$sortType = $('.panel .sort')
-		$sortType.on('change', function() {
-			var val = $sortType.val(), list
+		$sortType = $('.panel .left span ul li')
+		$sortType.on('click', function() {
+			console.log($(this))
+			var val = $(this).attr('data-value')
 			core.storage.prefs.listSort[ui.session.selected] = val
 			$('#L' + ui.session.selected + ' .name').click()
 			core.storage.save()
