@@ -954,6 +954,15 @@ plugin.add(function() {
 			}
 			
 		}
+
+		// Get all tasks that are logged, but not in the logbook
+		if(filters === 'logged') {
+			for (var i=0; i<core.storage.tasks.length; i++) {
+				if(!core.storage.tasks[i].hasOwnProperty('deleted') && core.storage.tasks[i].logged && core.storage.tasks[i].list !== 'logbook') {
+					results.push(i);
+				}
+			}
+		}
 		
 		return results;
 		

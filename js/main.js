@@ -68,9 +68,6 @@ var ui = {
 		$addBTN = $panel.left.find('button.add')
 		$delBTN = $panel.left.find('button.delete')
 
-		// Update logbook
-		ui.lists.update().logbook();
-
 		//Splitter
 		$('#content').splitter({sizeLeft: true});
 		var height = $(window).height(),
@@ -269,6 +266,8 @@ var ui = {
 							}
 						}
 					}
+
+					ui.lists.update().count()
 				}
 			}
 		},
@@ -397,7 +396,14 @@ $sidebar.on('click', '.name, .count', function() {
 	//All Can't be sorted
 	else if (ui.session.selected == 'all') {
 		return true
-	}
+
+	// Show Add tasks to logbook
+	} else if (ui.session.selected == 'logbook') {
+		var loggedTasks = filter([], 'logged').length
+		if(loggedTasks > 0) {
+			$tasks.find('h2').after('<button id="updateLogbook" class="button">Move '+ filter([], 'logged').length +' completed tasks to the Logbook</button>')
+		}
+	}	
 
 	setTimeout(function() {
 
@@ -497,7 +503,6 @@ $sidebar.on('click', '.delete', function() {
 	// Update List count
 	ui.lists.update().count()
 })
-
 
 
 // TASKS
@@ -740,6 +745,68 @@ $tasks.on('change', 'textarea', function() {
 
 // BUTTONS
 // -------
+
+// Updates the logbook with an awesome animation
+$tasks.on('click', '#updateLogbook', function() {
+
+	// Get current tasks in logbook
+	var orig = core.list('logbook').populate().slice(0),
+		$this = $(this)
+
+	// Update logbook
+	ui.lists.update().logbook()
+
+	// Get the tasks that are in the logbook after the update
+	var tasks = core.list('logbook').populate().slice(0),
+
+		// Get the newly logged tasks
+		diff = tasks.filter(function(i) {return !(orig.indexOf(i) > -1);})
+
+	// Get the markup for the newly logged tasks
+	tasks = ui.lists.drawTasks(diff)
+
+	// Prepends and fades in the new tasks
+	var loadNew = function() {
+
+		// Prepend the new tasks, then select them
+		var $newTasks = $tasks.find('ul').prepend(tasks).find('li').slice(0, diff.length)
+
+		// Set opacity to 0
+		$newTasks.css({
+			opacity: 0
+		})
+
+		// Use CSS transitions and allow DOM to update
+		setTimeout(function() {
+			$newTasks.css({opacity: 1})
+		}, 5)
+
+		// Updated button text
+		$this.html("All completed tasks moved to logbook")
+	}
+
+	// If there are already tasks in the logbook...
+	if(orig.length > 0) {
+
+		// Get the height of a task -> Not perfect, but works
+		var height = diff.length * $tasks.find('ul li .label').height(),
+
+			// Create a temp div that moves the tasks down
+			$temp = $tasks.find('ul').prepend('<div id="tempDiv"></div>').find('#tempDiv')
+
+		// Expand the temp div to the right height
+		$temp.animate({height: height}, 300, function() {
+
+			// When it is finished, replace it with the new tasks
+			$temp.remove()
+			loadNew()
+		})
+
+	// Else just load the new tasks
+	} else {
+		loadNew()
+	}	
+})
 
 
 // Adding a list
