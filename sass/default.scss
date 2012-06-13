@@ -88,9 +88,9 @@ body {
 			background: url(img/sort.png) no-repeat 12px 0;
 			padding-left: 46px;
 		}
-		&#settingsbtn {
-			margin: 0 3px;
-			background: url(img/settings.png) no-repeat 0 0;
+		&.settingsbtn {
+			margin: 0 5px;
+			background: url(img/settings.png) no-repeat 5px 0;
 		}
 
 		&:hover {

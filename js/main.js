@@ -137,7 +137,7 @@ var ui = {
 		});
 
 		//Droppable
-		$sidebar.find('ul li').droppable(ui.lists.dropOptions)
+		$sidebar.find('ul li:not("#Lall")').droppable(ui.lists.dropOptions)
 
 		//Update Counts
 		ui.lists.update().count()
@@ -281,21 +281,19 @@ var ui = {
 
 				if(core.storage.tasks[taskId].list !== listId) {
 
-					//Moves Task
-					core.task(taskId).move(listId);
+					// Moves Task
+					core.task(taskId).move(listId)
 
-					//Removes and Saves
-					$(uix.draggable).remove();
+					// Removes and Saves
+					$(uix.draggable).remove()
 
 					// If we're in the next list, we may as well reload
 					if (ui.session.selected == 'next') {
-						$('#Lnext .name').click();
+						$('#Lnext .name').click()
 					}
 
-					//Update Counts - why on a delay?
-					setTimeout(function() {
-						ui.lists.update().count();
-					}, 100);
+					// Update Counts
+					ui.lists.update().count()
 
 				}
 			}
@@ -367,7 +365,7 @@ $sidebar.on('click', '.name, .count', function() {
 		}
 
 	//Selected List
-	$('#sidebar .selected').removeClass('selected')
+	$sidebar.find('.selected').removeClass('selected')
 	$this.addClass('selected')
 	ui.session.selected = model.id
 
