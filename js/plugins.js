@@ -1095,10 +1095,10 @@ plugin.add(function() {
 			<span>\
 			<button data-toggle="dropdown" class="sort">Sort</button>\
 			<ul class="dropdown-menu">\
-			  <li data-value="magic">by Magic</li>\
-			  <li data-value="manual">by Hand</li>\
-			  <li data-value="priority">by Priority</li>\
-			  <li data-value="date">by Date</li>\
+			  <li data-value="magic"><span class="icon magic"></span>Magic</li>\
+			  <li data-value="manual"><span class="icon hand"></span>Hand</li>\
+			  <li data-value="priority"><span class="icon priority"></span>Priority</li>\
+			  <li data-value="date"><span class="icon date"></span>Date</li>\
 			</ul>\
 			</span>')
 
@@ -1164,7 +1164,7 @@ plugin.add(function() {
 						b: getDateWorth(b.date)
 					}
 
-					var worth = { none: 0, low: 3, medium: 6, high: 9 }
+					var worth = { none: 0, low: 2, medium: 6, high: 10 }
 
 					rating.a += worth[a.priority]
 					rating.b += worth[b.priority]

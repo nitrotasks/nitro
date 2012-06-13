@@ -309,12 +309,40 @@ html, body {
 
 				li {
 					list-style-type: none;
-					padding: 4px 10px;
+					padding: 0 10px;
 					width: 69px;
 					cursor: pointer;
+					font-size: 13px;
+					line-height: 25px;
 
 					&:hover {
 						background: rgba(0,0,0,0.2);
+					}
+
+					.icon{
+						display: inline-block;
+						background: url('img/sort_menu.png');
+						margin-right: 5px;
+						&.date {
+							background-position: 0 0;
+							width: 11px;
+							height: 12px;
+						}
+						&.hand {
+							background-position: 0 -12px;
+							width: 12px;
+							height: 11px;	
+						}
+						&.magic {
+							background-position: -12px 0;
+							width: 13px;
+							height: 12px;
+						}
+						&.priority {
+							background-position: -12px -12px;
+							width: 13px;
+							height: 11px;
+						}
 					}
 				}
 			}
