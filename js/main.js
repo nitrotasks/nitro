@@ -274,6 +274,7 @@ var ui = {
 		dropOptions: {
 			hoverClass: "dragHover",
 			accept: "#tasks li",
+			tolerance: 'pointer',
 			drop: function (event, uix) {
 				var listId = $(this).attr('id').substr(1).toNum(),
 					taskId = $(uix.draggable).attr('data-id').toNum()
@@ -416,14 +417,13 @@ $sidebar.on('click', '.name, .count', function() {
 			appendTo: 'body',
 			items: 'li',
 			scroll: false,
-			forceHelperSize: false,
 			connectWith: $tasks.find('ul'),
 			cursorAt: {
 				top: 15,
 				left: 30
 			},
 			helper: function (e, el) {
-				var name = $(el).find('.content').html(),
+				var name = $(el).find('.content').text(),
 					$temp = $('body')
 						.append('<span class="temp-helper" style="display: none; font-size: 13px; font-weight: bold;">' + name + '</span>')
 						.find('.temp-helper'),

@@ -18,7 +18,7 @@ plugin.add(function() {
 			<button data-toggle="dropdown" class="sort">Sort</button>\
 			<ul class="dropdown-menu">\
 			  <li data-value="magic"><span class="icon magic"></span>Magic</li>\
-			  <li data-value="manual"><span class="icon hand"></span>Hand</li>\
+			  <li data-value="manual"><span class="icon hand"></span>by Hand</li>\
 			  <li data-value="priority"><span class="icon priority"></span>Priority</li>\
 			  <li data-value="date"><span class="icon date"></span>Date</li>\
 			</ul>\
