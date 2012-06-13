@@ -303,7 +303,7 @@ var ui = {
 	sortStop: function() {
 		// Saves order of tasks in list
 		var taskOrder = []
-		$('#tasks ul').first().children('li').map(function () {
+		$tasks.find('li').map(function () {
 			var id = $(this).attr('data-id').toNum()
 
 			//If not in the correct list, move to the list.
