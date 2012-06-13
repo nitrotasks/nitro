@@ -1092,13 +1092,23 @@ plugin.add(function() {
 
 	$(document).ready(function() {
 		$panel.left.append('\
-			<button class="sort">Sort</button>\
-			<!--select id="sortType">\
+			<span>\
+			<button data-toggle="dropdown" class="sort">Sort</button>\
+			<ul class="dropdown-menu">\
+			  <li>Magic</li>\
+			  <li>Manual</li>\
+			  <li>Priority</li>\
+			  <li>Date</li>\
+			</ul>\
+			</span>\
+			<!--button data-toggle="dropdown" class="sort">Sort</button>\
+			<select id="sortType">\
 				<option value="magic">Magic</option>\
 				<option value="manual">Manual</option>\
 				<option value="priority">Priority</option>\
 				<option value="date">Date</option>\
 			</select-->')
+
 		$sortType = $('.panel .sort')
 		$sortType.on('change', function() {
 			var val = $sortType.val(), list

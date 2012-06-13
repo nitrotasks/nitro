@@ -295,6 +295,26 @@ html, body {
 	.left {
 		float: left;
 		margin-left: -16px;
+
+		span {
+			position: relative;
+			color: #000;
+			
+			ul {
+				display: none;
+				position: absolute;
+				margin: 1px 0;
+				padding: 0;
+				background: #fff;
+
+				li {
+					list-style-type: none;	
+				}
+			}
+			&.open ul {
+				display: block;
+			}
+		}
 	}
 	.right {
 		float: right;
