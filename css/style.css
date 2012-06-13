@@ -127,10 +127,9 @@ html, body { height: 100%; width: 100%; }
 #sidebar ul li .delete { background: url("glyphicons-halflings.png") 157px 1px; border: 0; padding: 0 7px; margin-right: 5px; }
 #sidebar ul li .edit, #sidebar ul li .delete { opacity: 0.5; -webkit-transition: opacity 0.15s; -moz-transition: opacity 0.15s; -ms-transition: opacity 0.15s; -o-transition: opacity 0.15s; transition: opacity 0.15s; }
 #sidebar ul li .edit:hover, #sidebar ul li .delete:hover { opacity: 1; }
-#sidebar ul li .count { display: inline-block; text-align: center; padding: 1px 6px; line-height: 1; margin: 0 10px 0 0; min-width: 13px; background: rgba(0, 0, 0, 0.02); border-radius: 2px; box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.1), 0 1px 0 white; border: 1px solid #DDD; font-weight: bold; }
+#sidebar ul li .count { display: inline-block; text-align: center; padding: 1px 9px; line-height: 1; margin: 0 10px 0 0; min-width: 13px; }
 #sidebar ul li .name { display: block; height: 32px; box-flex: 1; -webkit-box-flex: 1; -moz-box-flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 #sidebar ul li.selected { background: #eee; border: 1px solid #000; border-left: none; border-right: none; }
-#sidebar ul li.selected .count { background: rgba(0, 0, 0, 0.4); border-color: #444; box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.02), 0 1px 0 rgba(255, 255, 255, 0.4); }
 #sidebar ul li input { display: block; height: 22px; background: #fff; padding: 0 0 0 5px; margin: 3px 5px 0 -6px; box-flex: 1; -webkit-box-flex: 1; -moz-box-flex: 1; }
 #sidebar ul li input:focus { outline: none; }
 #sidebar ul li.dragHover { background: #ccc; }
