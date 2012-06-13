@@ -542,17 +542,23 @@ html, body {
 					padding: 0 15px;
 				}
 
-				input.date {
-					cursor: pointer;
+				input.date,
+				input.tags {
 					border-left: 1px solid #000;
 					padding: 8px 5px;
 					vertical-align: top;
 					width: 80px;
-					text-align: center;
 
 					&:focus {
 						outline: 0;
-						height: 32px;
+						height: 31px;
+					}
+				}
+
+				input.tags {
+					@include transition(width 0.15s);
+					&:focus {
+						width: 250px;
 					}
 				}
 

@@ -15,7 +15,7 @@ templates = {
 			<div class="boxhelp">\
 				<div class="{{logged}}"></div>\
 				<input class="content" value="{{content}}" type="text">\
-				<button class="priority {{priority}}">{{i18n_priority}}</button><input type="text" class="date">\
+				<input class="tags" placeholder="Tags..."><button class="priority {{priority}}">{{i18n_priority}}</button><input type="text" class="date">\
 			</div>\
 			<div class="hidden">\
 				<textarea>{{notes}}</textarea>\
