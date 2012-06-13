@@ -504,7 +504,7 @@ plugin.add(function() {
 
 $(document).ready(function() {
 	//Adds button to panel
-	$panel.right.prepend('<button id="settingsbtn">Settings</button>')
+	$panel.right.prepend('<button id="settingsbtn"></button>')
 	var $settingsbtn = $('#settingsbtn')
 	$settingsbtn.on('click', function() {
 		$('#prefsDialog').fadeToggle(150)

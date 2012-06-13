@@ -83,7 +83,8 @@ body {
 			background: url(img/sort.png) no-repeat 12px 0;
 			padding-left: 46px;
 		}
-		&.settingsbtn {
+		&#settingsbtn {
+			margin: 0 3px;
 			background: url(img/settings.png) no-repeat 0 0;
 		}
 

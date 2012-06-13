@@ -13,7 +13,7 @@ body { background: url(img/bg.png); }
 .panel button.add { background: url(img/add.png) no-repeat 18px 0; padding-left: 50px; }
 .panel button.delete { background: url(img/delete.png) no-repeat 18px 0; padding-left: 50px; }
 .panel button.sort { background: url(img/sort.png) no-repeat 12px 0; padding-left: 46px; }
-.panel button.settingsbtn { background: url(img/settings.png) no-repeat 0 0; }
+.panel button#settingsbtn { margin: 0 3px; background: url(img/settings.png) no-repeat 0 0; }
 .panel button:hover { background-color: rgba(0, 0, 0, 0.2); }
 .panel .right input { border: 0; border-radius: 2px; width: 120px; padding-left: 23px; background: url(img/search.png) no-repeat, white; -webkit-transition: 150ms width ease; }
 .panel .right input:focus { outline: 0; box-shadow: none; width: 220px; }
