@@ -276,32 +276,35 @@ var ui = {
 			accept: "#tasks li",
 			drop: function (event, uix) {
 				var listId = $(this).attr('id').substr(1).toNum(),
-					taskId = $(uix.draggable).attr('data-id').toNum();	
+					taskId = $(uix.draggable).attr('data-id').toNum()
 
-				//Moves Task
-				core.task(taskId).move(listId);
+				if(core.storage.tasks[taskId].list !== listId) {
 
-				//Removes and Saves
-				$(uix.draggable).remove();
+					//Moves Task
+					core.task(taskId).move(listId);
 
-				//If we're in the next list, we may as well reload (because I'm fucking lazy)
-				if (ui.session.selected == 'next') {
-					$('#Lnext .name').click();
+					//Removes and Saves
+					$(uix.draggable).remove();
+
+					// If we're in the next list, we may as well reload
+					if (ui.session.selected == 'next') {
+						$('#Lnext .name').click();
+					}
+
+					//Update Counts - why on a delay?
+					setTimeout(function() {
+						ui.lists.update().count();
+					}, 100);
+
 				}
-
-				//Update Counts - why on a delay?
-				setTimeout(function() {
-					ui.lists.update().count();
-				}, 100);
 			}
 		}
-
 	},
 	sortStop: function() {
-		//Saves order of tasks in list
+		// Saves order of tasks in list
 		var taskOrder = []
 		$('#tasks ul').first().children('li').map(function () {
-			var id = Number($(this).attr('data-id'));
+			var id = $(this).attr('data-id').toNum()
 
 			//If not in the correct list, move to the list.
 			if (core.storage.tasks[id].list != ui.session.selected) {
@@ -324,7 +327,7 @@ var ui = {
 				NtaskOrder = [];
 				//This needs to be put into a function...
 				$('#tasks > .tasksContent > ul.' + core.storage.lists.order[i] + ' > li').map(function () {
-					var id = Number($(this).attr('data-id'));
+					var id = $(this).attr('data-id').toNum()
 
 					//If not in the correct list, move to the list.
 					if (core.storage.tasks[id].list != core.storage.lists.order[i]) {

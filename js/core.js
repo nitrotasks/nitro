@@ -71,6 +71,7 @@ var core = {
 
 				// Taking a task out of the logbook
 				if(core.storage.tasks[id].list == list && core.storage.tasks[id].logged && list != 'logbook') {
+					console.log("Unlogging task")
 					core.storage.tasks[id].logged = false;
 					core.storage.save(['tasks', id, 'logged']);
 				} else if (list === 'trash') {

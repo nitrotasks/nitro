@@ -12,6 +12,7 @@ $task_color: #fff;
 $task_selected: #C8FDFF;
 $notes_bg: #FBFAF0;
 
+$none_text: #ACACAC;
 $low_color: #6CC0E5;
 $medium_color: #FBC93D;
 $high_color: #FB4F4F;
@@ -200,6 +201,9 @@ body {
 
 			button.none, button.low, button.medium, button.high, input.date, button.date {
 				border-left: 1px solid darken($task_color, 10%);
+			}
+			button.none {
+				color: $none_text;
 			}
 			button.low {
 				@include background(linear-gradient(top, lighten($low_color, 35%) 0%, lighten($low_color, 25%) 100%));
