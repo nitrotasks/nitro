@@ -140,7 +140,8 @@ html, body { height: 100%; width: 100%; }
 .panel .left { float: left; margin-left: -16px; }
 .panel .left span { position: relative; color: #000; }
 .panel .left span ul { display: none; position: absolute; margin: 1px 0; padding: 0; background: #fff; }
-.panel .left span ul li { list-style-type: none; }
+.panel .left span ul li { list-style-type: none; padding: 4px 10px; width: 69px; cursor: pointer; }
+.panel .left span ul li:hover { background: rgba(0, 0, 0, 0.2); }
 .panel .left span.open ul { display: block; }
 .panel .right { float: right; }
 .panel .right input { border: 1px solid #000; font-size: 13px; padding: 5px 5px; margin: 7px 0; vertical-align: top; }

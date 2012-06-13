@@ -1095,10 +1095,10 @@ plugin.add(function() {
 			<span>\
 			<button data-toggle="dropdown" class="sort">Sort</button>\
 			<ul class="dropdown-menu">\
-			  <li data-value="magic">Magic</li>\
-			  <li data-value="manual">Manual</li>\
-			  <li data-value="priority">Priority</li>\
-			  <li data-value="date">Date</li>\
+			  <li data-value="magic">by Magic</li>\
+			  <li data-value="manual">by Hand</li>\
+			  <li data-value="priority">by Priority</li>\
+			  <li data-value="date">by Date</li>\
 			</ul>\
 			</span>')
 

@@ -308,7 +308,14 @@ html, body {
 				background: #fff;
 
 				li {
-					list-style-type: none;	
+					list-style-type: none;
+					padding: 4px 10px;
+					width: 69px;
+					cursor: pointer;
+
+					&:hover {
+						background: rgba(0,0,0,0.2);
+					}
 				}
 			}
 			&.open ul {

@@ -94,6 +94,22 @@ body {
 		}
 	}
 
+	.left {
+		span {
+			ul {
+				background: $panel_color;
+				border: 1px solid black;
+				border-top: none;
+				box-shadow: 0 1px 1px rgba(0,0,0,0.4);
+				margin: 0;
+				li {
+					color: white;
+					font-weight: bold;
+				}
+			}
+		}
+	}
+
 	.right input {
 		border: 0;
 		border-radius: 2px;
