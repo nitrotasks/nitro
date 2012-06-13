@@ -166,6 +166,13 @@ html, body {
 		-webkit-box-flex: 1;
 		-moz-box-flex: 1;
 		overflow-y: auto;
+
+		li:hover {
+			.edit,
+			.delete {
+				display: inline-block;
+			}
+		}
 	}
 	
 	ul {
@@ -285,14 +292,6 @@ html, body {
 	}
 }
 
-#lists {
-	li:hover {
-		.delete,
-		.edit {
-			display: inline-block;
-		}
-	}
-}
 .panel {
 	height: 41px;
 	width: 100%;
@@ -342,16 +341,34 @@ html, body {
 
 	.tasksContent {
 		overflow-y: auto;
+		text-align: center;
 		
 		
 		h2 {
 			text-align: center;
 			font-size: 20px;
 		}
+
+		.button {
+			cursor: pointer;
+			margin: 0 0 15px;
+			padding: 6px 15px;
+			border-radius: 4px;
+			background: rgba(255,255,255,0.7);
+			border: 1px solid #bbb;
+			font-size: 14px;
+			font-weight: bold;
+			color: #444;
+			// box-shadow: inset 0 0 4px rgba(0,0,0,0.2);
+			&:hover {
+				background: rgba(255,255,255,0.6);
+			}
+		}
 		
 		ul {
 			padding: 0 20px 40px 16px;
 			margin: 0;
+			text-align: left;
 		
 			li {
 				display: block;
@@ -372,7 +389,7 @@ html, body {
 				color: #111;
 				-webkit-transform: translateZ(0);
 				-webkit-transition-property: margin, height, opacity;
- 				-webkit-transition-duration: 150ms, 150ms, 150ms;  
+ 				-webkit-transition-duration: 150ms, 150ms, 300ms;  
  				-webkit-transition-timing-function: ease, ease, ease;
 
 				&.placeholder {

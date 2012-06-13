@@ -120,6 +120,7 @@ html, body { height: 100%; width: 100%; }
 #sidebar h2 .list-toggle.collapsed .icon { -webkit-transform: rotate(180deg); -moz-transform: rotate(180deg); -ms-transform: rotate(180deg); -o-transform: rotate(180deg); transform: rotate(180deg); }
 #sidebar h2.collapsed { border-bottom: none; }
 #sidebar #lists { -webkit-box-flex: 1; -moz-box-flex: 1; overflow-y: auto; }
+#sidebar #lists li:hover .edit, #sidebar #lists li:hover .delete { display: inline-block; }
 #sidebar ul { margin: 0; padding: 0; }
 #sidebar ul li { display: box; display: -webkit-box; display: -moz-box; height: 30px; box-sizing: border-box; line-height: 30px; font-weight: normal; font-size: 13px; color: #444444; padding: 0 0 0 15px; cursor: pointer; position: relative; width: 100% !important; }
 #sidebar ul li .edit { background: url("glyphicons-halflings.png") -1px 195px; border: 0; padding: 0 7px; margin-right: 5px; }
@@ -136,8 +137,6 @@ html, body { height: 100%; width: 100%; }
 #sidebar ul li .delete, #sidebar ul li .edit { display: none; }
 #sidebar .listAddBTN { text-align: center; cursor: pointer; border-top: 1px solid #000; font-size: 13px; font-weight: bold; line-height: 30px; }
 
-#lists li:hover .delete, #lists li:hover .edit { display: inline-block; }
-
 .panel { height: 41px; width: 100%; font-size: 13px; background: #fff; z-index: 4; position: relative; border-bottom: 1px solid #000; padding: 0 20px 0 16px; box-sizing: border-box; }
 .panel .left { float: left; margin-left: -16px; }
 .panel .right { float: right; }
@@ -145,10 +144,12 @@ html, body { height: 100%; width: 100%; }
 .panel button { background: #fff; border: 0; padding: 0 18px; line-height: 40px; }
 
 #tasks { position: absolute; top: 0; bottom: 0; right: 0; left: 0; height: 100%; z-index: 1; box-sizing: border-box; background-image: #ffffff; background-image: -webkit-radial-gradient(50% 50%, ellipse closest-side, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%); }
-#tasks .tasksContent { overflow-y: auto; }
+#tasks .tasksContent { overflow-y: auto; text-align: center; }
 #tasks .tasksContent h2 { text-align: center; font-size: 20px; }
-#tasks .tasksContent ul { padding: 0 20px 40px 16px; margin: 0; }
-#tasks .tasksContent ul li { display: block; min-height: 30px; height: 30px; cursor: pointer; overflow: hidden; padding: 0; position: relative; z-index: 2; margin-bottom: -1px; background: #fff; border: 1px solid #000; font-size: 13px; line-height: 30px; color: #111; -webkit-transform: translateZ(0); -webkit-transition-property: margin, height, opacity; -webkit-transition-duration: 150ms, 150ms, 150ms; -webkit-transition-timing-function: ease, ease, ease; }
+#tasks .tasksContent .button { cursor: pointer; margin: 0 0 15px; padding: 6px 15px; border-radius: 4px; background: rgba(255, 255, 255, 0.7); border: 1px solid #bbb; font-size: 14px; font-weight: bold; color: #444; }
+#tasks .tasksContent .button:hover { background: rgba(255, 255, 255, 0.6); }
+#tasks .tasksContent ul { padding: 0 20px 40px 16px; margin: 0; text-align: left; }
+#tasks .tasksContent ul li { display: block; min-height: 30px; height: 30px; cursor: pointer; overflow: hidden; padding: 0; position: relative; z-index: 2; margin-bottom: -1px; background: #fff; border: 1px solid #000; font-size: 13px; line-height: 30px; color: #111; -webkit-transform: translateZ(0); -webkit-transition-property: margin, height, opacity; -webkit-transition-duration: 150ms, 150ms, 300ms; -webkit-transition-timing-function: ease, ease, ease; }
 #tasks .tasksContent ul li.placeholder { background: rgba(0, 0, 0, 0.1); box-shadow: 0 0 0 #000; }
 #tasks .tasksContent ul li .boxhelp { display: -webkit-box; display: -moz-box; display: box; }
 #tasks .tasksContent ul li .checkbox { margin: 8px; width: 13px; height: 13px; border: 1px solid #000; }

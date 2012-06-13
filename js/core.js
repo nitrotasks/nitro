@@ -69,6 +69,7 @@ var core = {
 					core.storage.save(['tasks', id, 'logged']);
 				}
 
+				// Taking a task out of the logbook
 				if(core.storage.tasks[id].list == list && core.storage.tasks[id].logged && list != 'logbook') {
 					core.storage.tasks[id].logged = false;
 					core.storage.save(['tasks', id, 'logged']);
@@ -142,6 +143,7 @@ var core = {
 			},
 			populate: function() {
 				switch(id) {
+
 					case 'all':
 
 						var results = [];
