@@ -375,12 +375,13 @@ plugin.add(function() {
 
 	$(document).ready(function() {
 		$panel.left.append('\
-			<select id="sortType">\
+			<button class="sort">Sort</button>\
+			<!--select id="sortType">\
 				<option value="magic">Magic</option>\
 				<option value="manual">Manual</option>\
 				<option value="priority">Priority</option>\
 				<option value="date">Date</option>\
-			</select>')
+			</select-->')
 		$sortType = $('#sortType')
 		$sortType.on('change', function() {
 			var val = $sortType.val(), list

@@ -79,6 +79,10 @@ body {
 			background: url(img/delete.png) no-repeat 18px 0;
 			padding-left: 50px;
 		}
+		&.sort {
+			background: url(img/sort.png) no-repeat 12px 0;
+			padding-left: 46px;
+		}
 
 		&:hover {
 			background-color: rgba(0,0,0,0.2);
