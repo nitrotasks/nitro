@@ -612,6 +612,9 @@ $tasks.on('dblclick', 'li', function(e) {
 			logged: logged
 		})
 
+		//Collapses Task
+		if(!e.metaKey && !e.ctrlKey) $('.expanded').dblclick()
+
 		$this
 			.html(markup)
 			.addClass('expanded')
