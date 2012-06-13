@@ -1095,7 +1095,7 @@ plugin.add(function() {
 			<span>\
 			<button data-toggle="dropdown" class="sort">Sort</button>\
 			<ul class="dropdown-menu">\
-			  <li data-value="magic"><span class="icon magic"></span>Magic</li>\
+			  <li class="current" data-value="magic"><span class="icon magic"></span>Magic</li>\
 			  <li data-value="manual"><span class="icon hand"></span>by Hand</li>\
 			  <li data-value="priority"><span class="icon priority"></span>Priority</li>\
 			  <li data-value="date"><span class="icon date"></span>Date</li>\
@@ -1104,7 +1104,8 @@ plugin.add(function() {
 
 		$sortType = $('.panel .left span ul li')
 		$sortType.on('click', function() {
-			console.log($(this))
+			$sortType.removeClass('current')
+			$(this).addClass('current')
 			var val = $(this).attr('data-value')
 			core.storage.prefs.listSort[ui.session.selected] = val
 			$('#L' + ui.session.selected + ' .name').click()
