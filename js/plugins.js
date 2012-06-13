@@ -1643,7 +1643,7 @@ timer = {
 
 plugin.add(function() {
 
-	var plugin.upgrade = function() {
+	plugin.upgrade = function() {
 
 		var storage = $.polystorage.get('jstorage', 'empty')
 		if(storage === 'empty') return
