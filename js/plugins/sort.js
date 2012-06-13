@@ -21,7 +21,7 @@ plugin.add(function() {
 				<option value="priority">Priority</option>\
 				<option value="date">Date</option>\
 			</select-->')
-		$sortType = $('#sortType')
+		$sortType = $('.panel .sort')
 		$sortType.on('change', function() {
 			var val = $sortType.val(), list
 			core.storage.prefs.listSort[ui.session.selected] = val

@@ -83,6 +83,9 @@ body {
 			background: url(img/sort.png) no-repeat 12px 0;
 			padding-left: 46px;
 		}
+		&.settingsbtn {
+			background: url(img/settings.png) no-repeat 0 0;
+		}
 
 		&:hover {
 			background-color: rgba(0,0,0,0.2);
