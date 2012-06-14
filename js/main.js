@@ -244,13 +244,16 @@ var ui = {
 						}
 					}
 
-					var focusLists = ['today', 'next', 'scheduled', 'logbook', 'all'];
+					var focusLists = ['next', 'scheduled', 'logbook', 'all'];
 					for (var id = 0; id < focusLists.length; id++) {
 						$('#L' + focusLists[id]).find('.count').html(core.list(focusLists[id]).populate().length);
 					}
 
+					// Today
+					var todayTotal = core.list('today').populate().length
+					$('#Ltoday .count').html(todayTotal)
+
 					// Set Title
-					var todayTotal = core.storage.lists.items['today'].order.length;
 					todayTotal > 0 ? document.title = todayTotal + " - Nitro" : document.title = "Nitro";
 				},
 				logbook: function() {
@@ -650,6 +653,8 @@ $tasks.on('dblclick', 'li', function(e) {
 		
 		var orig = $this.prev().attr('data-id')
 
+		console.log(orig)
+
 		setTimeout(function() {
 
 			$this.remove()
@@ -657,8 +662,8 @@ $tasks.on('dblclick', 'li', function(e) {
 			var markup = ui.lists.drawTasks([id])
 
 			//If it's the first task in a list, .prev won't work
-			if (orig == undefined) {
-				if (ui.session.selected == 'all' || ui.session.selected == 'scheduled' || ui.session.selected == 'logbook') {
+			if (orig === undefined) {
+				if (ui.session.selected == 'all' || ui.session.selected == 'scheduled' || ui.session.selected == 'logbook' || ui.session.selected == 'today') {
 					$tasks.find('ul').prepend(markup)
 				} else if (model.list == ui.session.selected) {
 					$tasks.find('ul').first().prepend(markup)
@@ -719,6 +724,7 @@ $tasks.on('change', '.date', function() {
 	var $this = $(this).closest('li'),
 		id = $this.attr('data-id').toNum()
 	core.storage.tasks[id].date = $(this).datepicker("getDate").getTime()
+	ui.lists.update().count()
 	core.storage.save([['tasks', id, 'date']])
 })
 
