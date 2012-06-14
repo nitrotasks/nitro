@@ -647,7 +647,11 @@ $tasks.on('dblclick', 'li', function(e) {
 			checked: checked,
 			content: model.content,
 			notes: model.notes,
-			date: model.date,
+			date: {
+				placeholder: $l._('dueDate'),
+				date: "20-06-2012"
+			},
+			// tags: tags,
 			extra: core.date(model.date).getDaysLeft()[0],
 			priority: model.priority,
 			// Because of Translated Version
@@ -709,25 +713,33 @@ $tasks.on('expand', 'li', function() {
 		id = $this.attr('data-id').toNum(),
 		model = core.storage.tasks[id]
 
-	//Sets the localized date =D
-	if (ui) {
-		if (ui.session.selected != 'scheduled' && model.date) {
-			$this.find('.date').attr('placeholder', $l._('dueDate')).datepicker().datepicker('setDate', new Date(model.date))
-		} else if (ui.session.selected != 'scheduled') {
-			$this.find('.date').attr('placeholder', $l._('dueDate')).datepicker()
-		} else {
-			$this.find('.date').replaceWith('<button class="date">' + $l._('schedule') + '</button>');
-			$this.find('.date').click(function() {
-				$('#scheduledDialog .inner').fadeToggle(150).attr('data-type', id);
-				$('#scheduledDialog').toggle(0);
-				plugin.scheduled.ui.init('edit');
-			});
-		}
+	$this.find('.date')
+		.datepicker()
+		.on('changeDate', function(ev) {
+			core.storage.tasks[id].date = ev.date.valueOf()
+			ui.lists.update().count()
+			core.storage.save([['tasks', id, 'date']])
+		})
 
-		//Sets the Placeholder - I'm lazy. TODO: Fix this
-		$this.find('textarea').attr('placeholder', $l._('notes'));
+	// //Sets the localized date =D
+	// if (ui) {
+	// 	if (ui.session.selected != 'scheduled' && model.date) {
+	// 		$this.find('.date').attr('placeholder', $l._('dueDate')).datepicker().datepicker('setDate', new Date(model.date))
+	// 	} else if (ui.session.selected != 'scheduled') {
+	// 		$this.find('.date').attr('placeholder', $l._('dueDate')).datepicker()
+	// 	} else {
+	// 		$this.find('.date').replaceWith('<button class="date">' + $l._('schedule') + '</button>');
+	// 		$this.find('.date').click(function() {
+	// 			$('#scheduledDialog .inner').fadeToggle(150).attr('data-type', id);
+	// 			$('#scheduledDialog').toggle(0);
+	// 			plugin.scheduled.ui.init('edit');
+	// 		});
+	// 	}
 
-	}
+	// 	//Sets the Placeholder - I'm lazy. TODO: Fix this
+	// 	$this.find('textarea').attr('placeholder', $l._('notes'));
+
+	// }
 	//Focus correct input
 	var $input = $this.find('input[data-bind=content]')
 	setTimeout(function() {
@@ -740,15 +752,6 @@ $tasks.on('change', 'li input.content', function() {
 	var id = $(this).closest('li').attr('data-id').toNum()
 	core.storage.tasks[id].content = $(this).val()
 	core.storage.save([['tasks', id, 'content']])
-})
-
-// Date
-$tasks.on('change', '.date', function() {
-	var $this = $(this).closest('li'),
-		id = $this.attr('data-id').toNum()
-	core.storage.tasks[id].date = $(this).datepicker("getDate").getTime()
-	ui.lists.update().count()
-	core.storage.save([['tasks', id, 'date']])
 })
 
 // Priority

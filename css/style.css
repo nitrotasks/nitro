@@ -1,3 +1,4 @@
+@import url(datepicker.css);
 * { -webkit-user-select: none; }
 
 input, textarea { -webkit-user-select: text; }
