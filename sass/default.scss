@@ -247,6 +247,17 @@ body {
 	box-shadow: 0 -1px 0 $panel_border,0 -41px 0 $panel_color;
 	border-left: 0;
 }
+
+// Modal Dialog
+.modal {
+	border-radius: 5px;
+	border-color: #ccc;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+	h3 {
+		border-bottom-color: #ccc;
+	}
+}
+
 //jQuery UI trys to override
 .ui-sortable-helper.tasks {
 	@include background(linear-gradient(top, $task_color 0%, darken($task_color, 2%) 100%));

@@ -189,6 +189,10 @@ var ui = {
 			var date = false, list = false
 			switch(ui.session.selected) {
 
+				case 'today':
+					list = core.storage.lists.items[model.list].name
+					break
+
 				case 'logbook':
 					// Show date the task was completed
 					date = {
@@ -542,23 +546,36 @@ $tasks.on('click', 'li', function(e) {
 // Completing a task
 $tasks.on('click', '.checkbox', function() {
 
-	var $this = $(this).closest('li'),
-		model = {
-			id: $this.attr('data-id').toNum()
-		}
+	var $selected,
+		$parent = $(this).closest('li')
+
+	if($parent.hasClass('selected')) {
+		$selected = $tasks.find('.selected')
+	} else {
+		$selected = $parent
+	}
 
 	// Doesn't work in Logbook
 	if(ui.session.selected != 'logbook' && ui.session.selected != 'scheduled') {
 
-		//Changes Appearance
-		$this.toggleClass('checked')
+		$selected.map(function() {
 
-		//Moves it around for real.
-		if($this.hasClass('checked')) {
-			core.task(model.id).move('completed')
-		} else {
-			core.task(model.id).move(core.storage.tasks[model.id].list)
-		}
+			var $this = $(this),
+				model = {
+					id: $this.attr('data-id').toNum()
+				}
+
+			//Changes Appearance
+			$this.toggleClass('checked')
+
+			//Moves it around for real.
+			if($this.hasClass('checked')) {
+				core.task(model.id).move('completed')
+			} else {
+				core.task(model.id).move(core.storage.tasks[model.id].list)
+			}
+
+		})
 
 		// Update count
 		ui.lists.update().count()
@@ -832,9 +849,6 @@ $panel.left.on('click', 'button.add', function() {
 
 		$tasks.find('ul').first().prepend(markup)
 
-		//Collapses Task
-		$('.expanded').dblclick()
-
 		//Expands Task
 		$('#tasks ul li[data-id=' + taskId + ']').dblclick()
 		
@@ -850,20 +864,59 @@ $panel.left.on('click', 'button.add', function() {
 
 // Deleting a task
 $panel.left.on('click', 'button.delete', function() {
-	var $selected = $tasks.find('.selected'),
-		lists = {}
 
-	// Deletes from CLI
-	$selected.each(function() {
-		var taskId = $(this).attr('data-id').toNum()
-		core.task(taskId).move('trash')
-	})
-	
-	// Update list count
-	ui.lists.update().count()
-	
-	// Remove from DOM			
-	$selected.remove()
+	$selected = $tasks.find('.selected')
+
+	if($selected.length) {
+
+		var message, yes, no
+		if($selected.length > 1) {
+			message = "Do you really want to delete these " + $selected.length + " tasks?"
+			yes = "Yes, Delete them"
+			no = "No, Keep them"
+		} else {
+			message = "Do you really want to delete this task?"
+			yes = "Yes, Delete it"
+			no = "No, Keep it"
+		}
+
+		var markup = Mustache.to_html(templates.dialog.modal, {
+			id: "deleteTaskModal",
+			title: "Warning!",
+			message: message,
+			button: {yes: yes, no: no}
+		})
+		$body.append(markup)
+		$modal = $('#deleteTaskModal')
+
+		$modal.find('button').on('click', function(e) {
+
+			var answer = $(e.target).attr('class')
+
+			if(answer == "no") {
+				$modal.remove()
+				return
+			}
+
+			var lists = {}
+
+			// Deletes from CLI
+			$selected.each(function() {
+				var taskId = $(this).attr('data-id').toNum()
+				core.task(taskId).move('trash')
+			})
+			
+			// Update list count
+			ui.lists.update().count()
+			
+			// Remove from DOM			
+			$selected.remove()
+			$modal.remove()
+
+		})
+
+	}
+
 })
 
 

@@ -27,5 +27,18 @@ templates = {
 		deleteTask: '<button class="delete">{{name}}</button>',
 		addList: '<div class="listAddBTN">{{name}}</div>',
 		listToggle: '<div class="list-toggle" title="{{title}}"><div class="icon"></div></div>'
+	},
+	dialog: {
+		modal: '\
+			<div class="modal" id="{{id}}">\
+				<h3>{{title}}</h3>\
+				<p class="message">{{message}}</p>\
+				{{#button}}\
+					<div class="button-container">\
+						<button class="yes">{{button.yes}}</button>\
+						<button class="no">{{button.no}}</button>\
+					</div>\
+				{{/button}}\
+			</div>'
 	}
 }
