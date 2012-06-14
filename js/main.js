@@ -495,18 +495,19 @@ $sidebar.on('click', '.delete', function() {
 		id: "deleteListModal",
 		title: "Warning!",
 		message: "Are you sure you want to delete that list?",
-		button: {yes: "Yes, delete it", no: "No, keep it"}
+		button: {yes: "Yes, delete it", no: "No, keep it"},
+		overlay: true
 	})
 	$body.append(markup)
 	var $modal = $('#deleteListModal'),
-		$this = $(this).parent()
+		$this = $(this).parent(),
+		$overlay = $('.overlay')
 
-	$modal.find('button').on('click', function(e) {
+	$modal.find('button').bind('click', function(e) {
 
-		var answer = $(e.target).attr('class')
-
-		if(answer == "no") {
+		if($(e.target).hasClass('no')) {
 			$modal.remove()
+			$overlay.remove()
 			return
 		}
 
@@ -518,7 +519,8 @@ $sidebar.on('click', '.delete', function() {
 		core.list(model.id).delete()
 
 		$modal.remove()
-			
+		$overlay.remove()
+
 		// Update DOM
 		// Last list -> Go to Today
 		if($lists.children().length == 1) {
@@ -916,17 +918,18 @@ $panel.left.on('click', 'button.delete', function() {
 			id: "deleteTaskModal",
 			title: "Warning!",
 			message: message,
-			button: {yes: yes, no: no}
+			button: {yes: yes, no: no},
+			overlay: true
 		})
 		$body.append(markup)
-		var $modal = $('#deleteTaskModal')
+		var $modal = $('#deleteTaskModal'),
+			$overlay = $('.overlay')
 
-		$modal.find('button').on('click', function(e) {
+		$modal.find('button').bind('click', function(e) {
 
-			var answer = $(e.target).attr('class')
-
-			if(answer == "no") {
+			if($(e.target).hasClass('no')) {
 				$modal.remove()
+				$overlay.remove()
 				return
 			}
 
@@ -944,6 +947,7 @@ $panel.left.on('click', 'button.delete', function() {
 			// Remove from DOM			
 			$selected.remove()
 			$modal.remove()
+			$overlay.remove()
 
 		})
 
