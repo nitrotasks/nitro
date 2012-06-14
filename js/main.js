@@ -191,6 +191,7 @@ var ui = {
 
 				case 'today':
 					list = core.storage.lists.items[model.list].name
+					date = core.date(model.date).getDaysLeft()
 					break
 
 				case 'logbook':
@@ -487,29 +488,54 @@ $sidebar.on('blur', 'input', function() {
 
 })
 
-// Deleting a task
+// Deleting a List
 $sidebar.on('click', '.delete', function() {
-	var $this = $(this).parent(),
-		model = {
-			id: $this.attr('id').substr(1).toNum()
+
+	var markup = Mustache.to_html(templates.dialog.modal, {
+		id: "deleteListModal",
+		title: "Warning!",
+		message: "Are you sure you want to delete that list?",
+		button: {yes: "Yes, delete it", no: "No, keep it"}
+	})
+	$body.append(markup)
+	var $modal = $('#deleteListModal'),
+		$this = $(this).parent()
+
+	$modal.find('button').on('click', function(e) {
+
+		var answer = $(e.target).attr('class')
+
+		if(answer == "no") {
+			$modal.remove()
+			return
 		}
-	// Delete list
-	core.list(model.id).delete()
-	// Update DOM
-	// Last list -> Go to Today
-	if($lists.children().length == 1) {
-		$this.remove()
-		$('#Ltoday .name').click()
-	// List is bottom -> Prev list
-	} else if($this.is(':last-child')) {
-		$this.prev().find('.name').click().parent().next().remove()
-	// There is a list after this -> Go to it
-	} else {
-		$this.next().find('.name').click().parent().prev().remove()
-	}
-	
-	// Update List count
-	ui.lists.update().count()
+
+		var model = {
+				id: $this.attr('id').substr(1).toNum()
+			}
+
+		// Delete list
+		core.list(model.id).delete()
+
+		$modal.remove()
+			
+		// Update DOM
+		// Last list -> Go to Today
+		if($lists.children().length == 1) {
+			$this.remove()
+			$('#Ltoday .name').click()
+		// List is bottom -> Prev list
+		} else if($this.is(':last-child')) {
+			$this.prev().find('.name').click().parent().next().remove()
+		// There is a list after this -> Go to it
+		} else {
+			$this.next().find('.name').click().parent().prev().remove()
+		}
+		
+		// Update List count
+		ui.lists.update().count()
+
+	})
 })
 
 
@@ -893,7 +919,7 @@ $panel.left.on('click', 'button.delete', function() {
 			button: {yes: yes, no: no}
 		})
 		$body.append(markup)
-		$modal = $('#deleteTaskModal')
+		var $modal = $('#deleteTaskModal')
 
 		$modal.find('button').on('click', function(e) {
 
