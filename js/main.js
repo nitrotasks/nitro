@@ -880,6 +880,9 @@ $panel.left.on('click', 'button.add', function() {
 
 		//Expands Task
 		$('#tasks ul li[data-id=' + taskId + ']').dblclick()
+
+		//Remove Notice
+		$('.noTasks').remove();
 		
 		// Update list count
 		ui.lists.update().count()

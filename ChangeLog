@@ -2,21 +2,23 @@ Changelog
 =========
 
 ### 1.4 (Not Released)
-- Major rewrite
+- Major rewrite (Mustache, Bootstrap)
 - Speed improvements
 - Stability Improvements
 - Sidebar is now resizable
-- Added #hashtags to tasks
+- Sort Tasks
+- Polystorage
+- Added #tags to tasks
 - Default theme is more "metro" - a lot less gradients and shadows
 - Made themes easier to create, edit and maintain
-- Multiple tasks can now be selected and deleted (Ctrl + Click)
+- Multiple tasks can now be selected, deleted and expanded (Ctrl + Click)
 - Fixed Checkboxes in Firefox
 - Moved logbook to the sidebar
 - Changed the way tasks are sent to the logbook
 - Tasks in logbook are sorted by the date they were completed
 - Focus List section can now be hidden
 - Removed Edit button from panel 
-- Removal of Smart Lists
+- Today is a smart list but next isn't
 - Removed "Show in Today" button
 
 ### 1.3.1 (2012-05-24)
