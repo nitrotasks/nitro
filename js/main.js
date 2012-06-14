@@ -497,14 +497,14 @@ $sidebar.on('click', '.delete', function() {
 	})
 	$body.append(markup)
 	var $modal = $('#deleteListModal'),
-		$this = $(this).parent(),
-		$overlay = $('.overlay')
+		$this = $(this).parent()
+
+	$modal.modal()
 
 	$modal.find('button').bind('click', function(e) {
 
 		if($(e.target).hasClass('no')) {
-			$modal.remove()
-			$overlay.remove()
+			$modal.modal('hide')
 			return
 		}
 
@@ -898,14 +898,13 @@ $panel.left.on('click', 'button.delete', function() {
 			overlay: true
 		})
 		$body.append(markup)
-		var $modal = $('#deleteTaskModal'),
-			$overlay = $('.overlay')
+		$modal = $('#deleteTaskModal')
+		$modal.modal()
 
 		$modal.find('button').bind('click', function(e) {
 
 			if($(e.target).hasClass('no')) {
-				$modal.remove()
-				$overlay.remove()
+				$modal.modal('hide')
 				return
 			}
 

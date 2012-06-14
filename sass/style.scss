@@ -626,7 +626,8 @@ html, body {
 .modal {
 	width: 360px;
 	position: absolute;
-	z-index: 10;
+	display: none;
+	z-index: 100;
 	top: 50%;
 	left: 50%;
 	margin-left: -180px;
@@ -680,17 +681,6 @@ html, body {
 		}
 	}
 
-}
-
-// Overlay
-.overlay {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	background: rgba(0,0,0,0.6);
-	z-index: 9;
 }
 
 //jQuery UI trys to override

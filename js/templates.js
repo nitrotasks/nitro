@@ -32,7 +32,7 @@ templates = {
 	dialog: {
 		modal: '\
 			<div class="modal" id="{{id}}">\
-				<h3>{{title}}<button class="no exit"></button></h3>\
+				<h3>{{title}}</h3>\
 				<p class="message">{{message}}</p>\
 				{{#button}}\
 					<div class="button-container">\
@@ -40,7 +40,6 @@ templates = {
 						<button class="no">{{button.no}}</button>\
 					</div>\
 				{{/button}}\
-			</div>\
-			{{#overlay}}<div class="overlay"></div>{{/overlay}}'
+			</div>'
 	}
 }

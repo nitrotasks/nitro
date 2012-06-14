@@ -191,15 +191,13 @@ html, body { height: 100%; width: 100%; }
 
 .vsplitbar { border-right: 4px solid transparent; box-sizing: border-box; position: absolute; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; -webkit-user-select: none; width: 5px; border-left: 1px solid #000; box-shadow: 0 -1px 0 #111111, 0 -41px 0 white; margin-top: 41px; height: 100%; z-index: 2; }
 
-.modal { width: 360px; position: absolute; z-index: 10; top: 50%; left: 50%; margin-left: -180px; margin-top: -100px; background: #fff; border: 1px solid #000; }
+.modal { width: 360px; position: absolute; display: none; z-index: 100; top: 50%; left: 50%; margin-left: -180px; margin-top: -100px; background: #fff; border: 1px solid #000; }
 .modal h3 { height: 40px; line-height: 40px; margin: 0; padding: 0; text-align: center; font-size: 16px; border-bottom: 1px solid #000; position: relative; }
 .modal h3 .exit { width: 17px; height: 17px; border: 1px solid #ccc; border-radius: 3px; background: #eee; position: absolute; top: 12px; right: 12px; }
 .modal h3 .exit:hover { background: #ddd; }
 .modal p { width: 320px; margin: 10px 20px; text-align: center; font-size: 14px; }
 .modal .button-container { text-align: center; margin: 0 0 10px; }
 .modal .button-container button { font-size: 14px; width: 120px; height: 25px; line-height: 25px; padding: 0; margin: 0; }
-
-.overlay { position: absolute; top: 0; bottom: 0; left: 0; right: 0; background: rgba(0, 0, 0, 0.6); z-index: 9; }
 
 .ui-sortable-helper.tasks { display: inline !important; font-size: 13px; font-weight: bold; color: #fff; background: #85B1F8; line-height: 30px; height: auto !important; min-height: 0; padding: 3px 10px; cursor: pointer; }
 
