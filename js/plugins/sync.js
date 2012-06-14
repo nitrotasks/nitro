@@ -18,8 +18,7 @@ plugin.add(function() {
 				core.storage.prefs.sync.service = service;
 			} else if (!core.storage.prefs.sync.hasOwnProperty('service')) {
 				console.log("Error: Don't know what service to use.");
-				if (typeof callback === "function") callback(false);
-				else return;
+				return;
 			}
 
 			// ui.sync.beforeunload('on');

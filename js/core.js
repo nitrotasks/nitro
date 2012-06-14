@@ -82,11 +82,6 @@ var core = {
 					console.log('Deleted: ' + id);
 					// Saves - but doesn't mess with timestamps
 					core.storage.save();
-				} else if (list === 'completed') {
-					// Don't actually move the task
-					core.storage.tasks[id].logged = core.timestamp();
-					console.log('Logged ' + id);
-					core.storage.save(['tasks', id, 'logged']);
 				} else {
 					//Remove from list
 					core.storage.lists.items[old].order.remove(id);
@@ -97,6 +92,15 @@ var core = {
 					//Saves
 					core.storage.save([['tasks', id, 'list'],['lists', list, 'order'],['lists', old, 'order']]);
 				}
+			},
+			toggle: function() {
+				var task = core.storage.tasks[id]
+				if(task.logged) {
+					task.logged = false
+				} else {
+					task.logged = core.timestamp()
+				}
+				core.storage.save([['tasks', id, 'logged']])
 			}			
 		}
 	},

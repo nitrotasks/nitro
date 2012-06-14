@@ -111,7 +111,6 @@ var ui = {
 		var markup = ""
 		for (var i=0; i<core.storage.lists.order.length; i++) { markup += ui.lists.draw(core.storage.lists.order[i]) }
 		$lists.html(markup)
-		console.log($('#L' + ui.session.selected + ' .name'))
 		$('#L' + ui.session.selected + ' .name').click();
 
 		//Sortable Lists 
@@ -600,11 +599,7 @@ $tasks.on('click', '.checkbox', function() {
 			$this.toggleClass('checked')
 
 			//Moves it around for real.
-			if($this.hasClass('checked')) {
-				core.task(model.id).move('completed')
-			} else {
-				core.task(model.id).move(core.storage.tasks[model.id].list)
-			}
+			core.task(model.id).toggle()
 
 		})
 
