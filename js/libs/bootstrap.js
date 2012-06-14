@@ -1,5 +1,5 @@
 /* Copyright 2012 Twitter, Inc.
- * Licensed under the Apache License, Version 2.0
+ * Licensed under the Apache License, Version 2.0.4
  */
 
 /* bootstrap-modal.js v2.0.4 */
@@ -14,7 +14,7 @@ function(a){var c=b(this),d,e=b(c.attr("data-target")||(d=c.attr("href"))&&d.rep
 !function(c){function f(){c(g).parent().removeClass("open")}var g='[data-toggle="dropdown"]',d=function(b){var a=c(b).on("click.dropdown.data-api",this.toggle);c("html").on("click.dropdown.data-api",function(){a.parent().removeClass("open")})};d.prototype={constructor:d,toggle:function(){var b=c(this),a;if(!b.is(".disabled, :disabled"))return a=b.attr("data-target"),a||(a=(a=b.attr("href"))&&a.replace(/.*(?=#[^\s]*$)/,"")),a=c(a),a.length||(a=b.parent()),b=a.hasClass("open"),f(),b||a.toggleClass("open"),
 !1}};c.fn.dropdown=function(b){return this.each(function(){var a=c(this),e=a.data("dropdown");e||a.data("dropdown",e=new d(this));"string"==typeof b&&e[b].call(a)})};c.fn.dropdown.Constructor=d;c(function(){c("html").on("click.dropdown.data-api",f);c("body").on("click.dropdown",".dropdown form",function(b){b.stopPropagation()}).on("click.dropdown.data-api",g,d.prototype.toggle)})}(window.jQuery);
 
-/* bootstrap-tab.js v2.0.2 */
+/* bootstrap-tab.js v2.0.4 */
 !function(c){var e=function(a){this.element=c(a)};e.prototype={constructor:e,show:function(){var a=this.element,f=a.closest("ul:not(.dropdown-menu)"),b=a.attr("data-target"),g,d;b||(b=(b=a.attr("href"))&&b.replace(/.*(?=#[^\s]*$)/,""));a.parent("li").hasClass("active")||(g=f.find(".active a").last()[0],d=c.Event("show",{relatedTarget:g}),a.trigger(d),d.isDefaultPrevented()||(b=c(b),this.activate(a.parent("li"),f),this.activate(b,b.parent(),function(){a.trigger({type:"shown",relatedTarget:g})})))},
 activate:function(a,f,b){function g(){d.removeClass("active").find("> .dropdown-menu > .active").removeClass("active");a.addClass("active");e?(a[0].offsetWidth,a.addClass("in")):a.removeClass("fade");a.parent(".dropdown-menu")&&a.closest("li.dropdown").addClass("active");b&&b()}var d=f.find("> .active"),e=b&&c.support.transition&&d.hasClass("fade");e?d.one(c.support.transition.end,g):g();d.removeClass("in")}};c.fn.tab=function(a){return this.each(function(){var f=c(this),b=f.data("tab");b||f.data("tab",
 b=new e(this));if("string"==typeof a)b[a]()})};c.fn.tab.Constructor=e;c(function(){c("body").on("click.tab.data-api",'[data-toggle="tab"], [data-toggle="pill"]',function(a){a.preventDefault();c(this).tab("show")})})}(window.jQuery);
