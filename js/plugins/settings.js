@@ -3,7 +3,7 @@ $(document).ready(function() {
 	$panel.right.prepend('<button class="settingsbtn"></button>')
 	var $settingsbtn = $('.settingsbtn')
 	$settingsbtn.on('click', function() {
-		$('#prefsDialog').fadeToggle(150)
+		$('#prefsDialog').modal();
 	})
 	$('body').append('\
 		<div id="prefsDialog">\

@@ -203,6 +203,8 @@ html, body { height: 100%; width: 100%; }
 
 .ui-sortable-helper.tasks { display: inline !important; font-size: 13px; font-weight: bold; color: #fff; background: #85B1F8; line-height: 30px; height: auto !important; min-height: 0; padding: 3px 10px; cursor: pointer; }
 
+.modal-backdrop { width: 100%; height: 100%; position: fixed; background: rgba(0, 0, 0, 0.7); top: 0; left: 0; z-index: 50; }
+
 #prefsDialog { display: none; position: fixed; width: 520px; left: 50%; margin-left: -250px; top: 100px; background: #fff; box-shadow: 0 2px 15px rgba(0, 0, 0, 0.7); z-index: 100; border-radius: 5px; }
 #prefsDialog ul { height: 30px; margin: 0; padding: 0; border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom: 1px solid rgba(0, 0, 0, 0.5); background: -webkit-linear-gradient(bottom, #d9d9d9 0%, #f2f2f2 100%); background: -moz-linear-gradient(bottom, #d9d9d9 0%, #f2f2f2 100%); background: -o-linear-gradient(bottom, #d9d9d9 0%, #f2f2f2 100%); background: -ms-linear-gradient(bottom, #d9d9d9 0%, #f2f2f2 100%); background: linear-gradient(bottom, #d9d9d9 0%, #f2f2f2 100%); }
 #prefsDialog ul li { display: inline-block; margin: 0; width: 25%; box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; text-align: center; line-height: 30px; height: 30px; }
