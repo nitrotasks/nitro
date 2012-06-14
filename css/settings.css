@@ -1,72 +1,54 @@
-/*
-Syntax error: Undefined mixin 'background'.
-        on line 21 of /home/jono/Apps/Nitro/sass/settings.scss, in `background'
-        from line 21 of /home/jono/Apps/Nitro/sass/settings.scss
+#prefsDialog { display: none; position: fixed; width: 520px; left: 50%; margin-left: -250px; top: 100px; background: #fff; box-shadow: 0 2px 15px rgba(0, 0, 0, 0.7); z-index: 100; border-radius: 2px; }
+#prefsDialog ul { height: 30px; margin: 0; padding: 0; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom: 1px solid rgba(0, 0, 0, 0.2); background: #ddd; }
+#prefsDialog ul li { display: inline-block; margin: 0; width: 25%; box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; text-align: center; line-height: 30px; height: 30px; }
+#prefsDialog ul li.active { background: #f0f0f0; }
+#prefsDialog ul li.active a { color: #222; }
+#prefsDialog ul li:first-child { border-top-left-radius: 5px; }
+#prefsDialog ul li:last-child { border-top-right-radius: 5px; }
+#prefsDialog ul li:not(:last-child) { border-right: 1px solid rgba(0, 0, 0, 0.2); }
+#prefsDialog ul li a { text-decoration: none; color: #444; font-weight: bold; font-size: 13px; display: block; }
+#prefsDialog .tab-content .tab-pane { display: none; padding: 15px; border-bottom-radius: 5px; color: #3b3b3b; font-size: 13px; line-height: 18px; }
+#prefsDialog .tab-content .tab-pane input[type=checkbox] { margin-left: 40px; margin-right: 10px; }
+#prefsDialog .tab-content .tab-pane label:not(.description) { font-weight: bold; }
+#prefsDialog .tab-content .tab-pane label.left { display: inline-block; margin-left: 60px; margin-right: 10px; text-align: right; }
+#prefsDialog .tab-content .tab-pane label.right { display: inline-block; margin-right: 10px; width: 120px; text-align: right; }
+#prefsDialog .tab-content .tab-pane .description { margin-left: 60px; display: block; font-size: 12px; line-height: 16px; width: 400px; }
+#prefsDialog .tab-content .tab-pane button { margin: 5px 0; font-size: 13px; }
+#prefsDialog .tab-content .tab-pane button:last-child { margin-bottom: 0; }
+#prefsDialog .tab-content .tab-pane select, #prefsDialog .tab-content .tab-pane input[type=file] { font-size: 13px; line-height: 22px; margin: 5px 0; }
+#prefsDialog .tab-content .tab-pane select:last-child, #prefsDialog .tab-content .tab-pane input[type=file]:last-child { margin-bottom: 0; }
+#prefsDialog .tab-content .tab-pane input[type=text], #prefsDialog .tab-content .tab-pane input[type=password] { margin: 5px 0; width: 200px; font-size: 13px; line-height: 18px; height: 18px; }
+#prefsDialog .tab-content .tab-pane blockquote { width: 400px; color: #3b3b3b; border: 3px solid #0a6fea; background: #0a6fea; border-radius: 5px; }
+#prefsDialog .tab-content .tab-pane blockquote h1 { text-align: center; font-size: 15px; margin: 0; padding: 5px; color: #fff; }
+#prefsDialog .tab-content .tab-pane blockquote span { display: block; padding: 10px; background: #fff; border-radius: 3px; }
+#prefsDialog .tab-content .tab-pane blockquote a { color: #0080ff; text-decoration: none; }
+#prefsDialog .tab-content .tab-pane blockquote a:hover { text-decoration: underline; }
+#prefsDialog .tab-content .tab-pane blockquote.disabled { color: #3b3b3b; background: #fff; border-color: #fff; width: 490px; padding: 0; margin: 0; }
+#prefsDialog .tab-content .tab-pane blockquote.disabled img { margin: 0 13px; cursor: pointer; }
+#prefsDialog .tab-content .tab-pane blockquote .icon { float: left; margin: 0 10px 0 0; }
+#prefsDialog .tab-content .tab-pane.active { display: block; }
+#prefsDialog .tab-content .tab-pane a.icon { display: inline-block; width: 150px; height: 122px; margin: 12.5px; border-radius: 5px; box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2), 0 1px 0 white; background: rgba(0, 0, 0, 0.05); }
+#prefsDialog .tab-content .tab-pane a.icon:hover { background: -webkit-linear-gradient(#fcfcfc, #e5e5e5); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }
+#prefsDialog .tab-content .tab-pane a.icon:active { background: -webkit-linear-gradient(#e5e5e5, #fcfcfc); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }
+#prefsDialog .tab-content .tab-pane a.icon img { margin-top: 8.5px; }
+#prefsDialog .tab-content .tab-pane#tabSync { position: relative; }
+#prefsDialog .tab-content .tab-pane#tabSync .icons { text-align: center; }
+#prefsDialog .tab-content .tab-pane#tabSync blockquote { text-align: left; }
+#prefsDialog .tab-content .tab-pane#tabSync .waiting, #prefsDialog .tab-content .tab-pane#tabSync .settings { display: none; }
+#prefsDialog .tab-content .tab-pane#tabSync .waiting { text-align: center; }
+#prefsDialog .tab-content .tab-pane#tabSync .settings .service { text-transform: capitalize; }
+#prefsDialog .tab-content .tab-pane#tabSync .settings .logout { display: block; float: right; margin-right: 20px; }
+#prefsDialog .tab-content .tab-pane#tabSync .spinner { position: absolute; left: 50%; top: 50%; margin: -32px 0 0 -32px; }
 
-Backtrace:
-/home/jono/Apps/Nitro/sass/settings.scss:21:in `background'
-/home/jono/Apps/Nitro/sass/settings.scss:21
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/perform.rb:168:in `visit_mixin'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/base.rb:37:in `visit'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/perform.rb:18:in `visit'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/base.rb:53:in `block in visit_children'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/base.rb:53:in `map'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/base.rb:53:in `visit_children'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/perform.rb:27:in `block in visit_children'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/perform.rb:39:in `with_environment'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/perform.rb:26:in `visit_children'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/base.rb:37:in `block in visit'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/perform.rb:234:in `visit_rule'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/base.rb:37:in `visit'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/perform.rb:18:in `visit'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/base.rb:53:in `block in visit_children'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/base.rb:53:in `map'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/base.rb:53:in `visit_children'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/perform.rb:27:in `block in visit_children'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/perform.rb:39:in `with_environment'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/perform.rb:26:in `visit_children'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/base.rb:37:in `block in visit'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/perform.rb:234:in `visit_rule'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/base.rb:37:in `visit'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/perform.rb:18:in `visit'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/base.rb:53:in `block in visit_children'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/base.rb:53:in `map'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/base.rb:53:in `visit_children'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/perform.rb:27:in `block in visit_children'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/perform.rb:39:in `with_environment'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/perform.rb:26:in `visit_children'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/base.rb:37:in `block in visit'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/perform.rb:47:in `visit_root'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/base.rb:37:in `visit'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/perform.rb:18:in `visit'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/visitors/perform.rb:7:in `visit'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/tree/root_node.rb:20:in `render'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/engine.rb:300:in `_render'
-/usr/lib/ruby/gems/1.9.1/gems/sass-3.1.11/lib/sass/engine.rb:247:in `render'
-/usr/lib/ruby/gems/1.9.1/gems/compass-0.12.1/lib/compass/compiler.rb:140:in `block (2 levels) in compile'
-/usr/lib/ruby/gems/1.9.1/gems/compass-0.12.1/lib/compass/compiler.rb:126:in `timed'
-/usr/lib/ruby/gems/1.9.1/gems/compass-0.12.1/lib/compass/compiler.rb:139:in `block in compile'
-/usr/lib/ruby/gems/1.9.1/gems/compass-0.12.1/lib/compass/logger.rb:45:in `red'
-/usr/lib/ruby/gems/1.9.1/gems/compass-0.12.1/lib/compass/compiler.rb:138:in `compile'
-/usr/lib/ruby/gems/1.9.1/gems/compass-0.12.1/lib/compass/compiler.rb:118:in `compile_if_required'
-/usr/lib/ruby/gems/1.9.1/gems/compass-0.12.1/lib/compass/compiler.rb:103:in `block (2 levels) in run'
-/usr/lib/ruby/gems/1.9.1/gems/compass-0.12.1/lib/compass/compiler.rb:101:in `each'
-/usr/lib/ruby/gems/1.9.1/gems/compass-0.12.1/lib/compass/compiler.rb:101:in `block in run'
-/usr/lib/ruby/gems/1.9.1/gems/compass-0.12.1/lib/compass/compiler.rb:126:in `timed'
-/usr/lib/ruby/gems/1.9.1/gems/compass-0.12.1/lib/compass/compiler.rb:100:in `run'
-/usr/lib/ruby/gems/1.9.1/gems/compass-0.12.1/lib/compass/commands/watch_project.rb:147:in `recompile'
-/usr/lib/ruby/gems/1.9.1/gems/compass-0.12.1/lib/compass/commands/watch_project.rb:68:in `perform'
-/usr/lib/ruby/gems/1.9.1/gems/compass-0.12.1/lib/compass/commands/base.rb:18:in `execute'
-/usr/lib/ruby/gems/1.9.1/gems/compass-0.12.1/lib/compass/commands/project_base.rb:19:in `execute'
-/usr/lib/ruby/gems/1.9.1/gems/compass-0.12.1/lib/compass/exec/sub_command_ui.rb:43:in `perform!'
-/usr/lib/ruby/gems/1.9.1/gems/compass-0.12.1/lib/compass/exec/sub_command_ui.rb:15:in `run!'
-/usr/lib/ruby/gems/1.9.1/gems/compass-0.12.1/bin/compass:29:in `block in <top (required)>'
-/usr/lib/ruby/gems/1.9.1/gems/compass-0.12.1/bin/compass:43:in `call'
-/usr/lib/ruby/gems/1.9.1/gems/compass-0.12.1/bin/compass:43:in `<top (required)>'
-/usr/bin/compass:19:in `load'
-/usr/bin/compass:19:in `<main>'
-*/
-body:before {
-  white-space: pre;
-  font-family: monospace;
-  content: "Syntax error: Undefined mixin 'background'.\A         on line 21 of /home/jono/Apps/Nitro/sass/settings.scss, in `background'\A         from line 21 of /home/jono/Apps/Nitro/sass/settings.scss"; }
+#tabLanguage table { font-size: 13px; line-height: 20px; color: #444; width: 100%; }
+#tabLanguage table th { text-align: left; font-size: 14px; border-bottom: 1px solid #aaa; }
+#tabLanguage table tr { border-bottom: 1px solid #ccc; }
+#tabLanguage table tr:last-of-type { border-bottom: none; }
+#tabLanguage table tr td, #tabLanguage table tr th { padding: 5px 0; }
+#tabLanguage table tr td:first-of-type, #tabLanguage table tr td:nth-of-type(3), #tabLanguage table tr th:first-of-type, #tabLanguage table tr th:nth-of-type(3) { width: 20%; }
+#tabLanguage table tr td:nth-of-type(4), #tabLanguage table tr td:nth-of-type(2), #tabLanguage table tr th:nth-of-type(4), #tabLanguage table tr th:nth-of-type(2) { width: 30%; }
+#tabLanguage table tr a { color: #0ba1d0; text-decoration: none; }
+#tabLanguage table tr a:hover { cursor: pointer; text-decoration: underline; }
+#tabLanguage table tr a.current { font-weight: bold; color: #444; }
+#tabLanguage table tr td.author { font-style: italic; color: #888; }
+#tabLanguage table tr td.author a { color: #555; }

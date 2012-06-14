@@ -8,17 +8,16 @@
 	background: #fff;
 	box-shadow: 0 2px 15px rgba(0,0,0,0.7);
 	z-index: 100;
-	border-radius: 5px;
+	border-radius: 2px;
 
 	ul {
 		height: 30px;
 		margin: 0;
 		padding: 0;
-		border-top-left-radius: 5px;
-		border-top-right-radius: 5px;
-		border-bottom:  1px solid rgba(0,0,0,0.5);
-		// @include background(linear-gradient(top, #ffffff 0%, #e9e9e8 100%));
-		@include background(linear-gradient(bottom, #d9d9d9 0%, #f2f2f2 100%));
+		border-top-left-radius: 2px;
+		border-top-right-radius: 2px;
+		border-bottom:  1px solid rgba(0,0,0,0.2);
+		background: #ddd;
 
 		li {
 			display: inline-block;
@@ -32,9 +31,7 @@
 			height: 30px;
 
 			&.active {
-				@include background(linear-gradient(top, #ffffff 0%, #f0f0f0 100%));
-				// @include background(linear-gradient(bottom, #bfbfbf 0%, #d9d9d9 100%));
-				// box-shadow: 0 1px 0 #fff;
+				background: #f0f0f0;
 
 				a {
 					color: #222;

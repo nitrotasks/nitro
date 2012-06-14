@@ -14,7 +14,7 @@ body { background: url(img/bg.png); }
 .panel button.add { background: url(img/add.png) no-repeat 18px 0; padding-left: 50px; }
 .panel button.delete { background: url(img/delete.png) no-repeat 18px 0; padding-left: 50px; }
 .panel button.sort { background: url(img/sort.png) no-repeat 12px 0; padding-left: 46px; }
-.panel button.settingsbtn { margin: 0 5px; background: url(img/settings.png) no-repeat 5px 0; }
+.panel button.settingsbtn { margin: 0 7px; background: url(img/settings.png) no-repeat 8px 0; padding: 0 20px; }
 .panel button:hover { background-color: rgba(0, 0, 0, 0.2); }
 .panel .left span ul { background: #333333; border: 1px solid black; border-top: none; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4); margin: 0; }
 .panel .left span ul li { color: white; font-weight: bold; }
