@@ -1048,7 +1048,7 @@ $(document).ready(function() {
 	/**********************************
 			LOADING PREFERENCES
 	**********************************/
-	//$('#deleteWarnings').prop('checked', cli.storage.prefs.deleteWarnings);
+	$('#deleteWarnings').prop('checked', core.storage.prefs.deleteWarnings);
 	//$('#nextAmount').val(cli.storage.prefs.nextAmount);
 	$('#theme').val(core.storage.prefs.theme);
 

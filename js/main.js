@@ -510,8 +510,7 @@ $sidebar.on('click', '.delete', function() {
 		id: "deleteListModal",
 		title: "Warning!",
 		message: "Are you sure you want to delete that list?",
-		button: {yes: "Yes, delete it", no: "No, keep it"},
-		overlay: true
+		button: {yes: "Yes, delete it", no: "No, keep it"}
 	})
 	$body.append(markup)
 	var $modal = $('#deleteListModal'),
@@ -535,7 +534,6 @@ $sidebar.on('click', '.delete', function() {
 
 		$modal.modal('hide')
 		$modal.remove()
-		$overlay.remove()
 
 		// Update DOM
 		// Last list -> Go to Today
@@ -554,6 +552,11 @@ $sidebar.on('click', '.delete', function() {
 		ui.lists.update().count()
 
 	})
+
+	//If the user has disabled the warnings
+	if (core.storage.prefs.deleteWarnings) {
+		$modal.find('button.yes').trigger('click')
+	}
 })
 
 
@@ -919,8 +922,7 @@ $panel.left.on('click', 'button.delete', function() {
 			id: "deleteTaskModal",
 			title: "Warning!",
 			message: message,
-			button: {yes: yes, no: no},
-			overlay: true
+			button: {yes: yes, no: no}
 		})
 		$body.append(markup)
 		$modal = $('#deleteTaskModal')
@@ -949,6 +951,11 @@ $panel.left.on('click', 'button.delete', function() {
 			$selected.remove()
 			$modal.remove()
 		})
+
+		//If the user has disabled the warnings
+		if (core.storage.prefs.deleteWarnings) {
+			$modal.find('button.yes').trigger('click')
+		}
 	}
 })
 
