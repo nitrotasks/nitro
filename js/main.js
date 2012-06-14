@@ -222,13 +222,11 @@ var ui = {
 				content: model.content,
 				notes: model.notes,
 				date: date,
+				tags: model.tags,
 				list: list,
 				priority: model.priority,
 				logged: logged
 			})
-
-			// Render #hashtags - VERY SLOW TAKES 30ms
-			// temp = $(temp).find('.content').html(hashTag(model.content)).closest('li').clone().wrap('<p>').parent().html()
 
 			return temp
 		},
@@ -544,11 +542,6 @@ $sidebar.on('click', '.delete', function() {
 // -----
 
 $tasks.on('collapse', 'li', function() {
-					
-	// Convert tags
-	var $content = $(this).find('.content'),
-		text = $content.text()
-	$content.html(hashTag(text))
 
 	// Special Checkboxes for Scheduled
 	if (ui && ui.session.selected == 'scheduled') {
@@ -607,18 +600,6 @@ $tasks.on('click', '.checkbox', function() {
 		ui.lists.update().count()
 
 	}
-})
-
-// Clicking a tag
-$tasks.on('click', '.tag', function() {
-
-	// Get tag name
-	var tag = $(this).text();
-	// Go to All Tasks list
-	$('#Lall .name').trigger('click')
-	// Run search - We should give the searchbox an ID
-	$search.val(tag).trigger('keyup')
-	
 })
 
 // Expanding a task
@@ -980,12 +961,6 @@ var plugin = {
 		//Define Plugins in here
 		// $('body').append('<script src=js/plugins.js></script>')
 	}
-}
-
-// PLUGINS
-function hashTag(q) {
-	var hashTag = new RegExp("\\s#([^ ]*)", "ig");
-	return q.replace(hashTag, ' <span class="tag">#$1</span>');
 }
 
 String.prototype.toNum = function () {

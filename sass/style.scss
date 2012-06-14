@@ -557,6 +557,10 @@ html, body {
 
 				input.tags {
 					@include transition(width 0.15s);
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					width: 59px;
 					&:focus {
 						width: 250px;
 					}
