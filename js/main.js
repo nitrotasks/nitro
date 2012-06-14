@@ -165,11 +165,31 @@ var ui = {
 		// Easy way to use drawSingleTask to render a list
 		drawTasks: function(tasks) {
 
-			var markup = ""			
+			var markup = ""
 
-			//Loops and adds each task to a tmp view
-			for (var i=0; i<tasks.length; i++) {
-				markup += ui.lists.drawSingleTask(tasks[i])
+			if (tasks.length == 0) {
+				//Display a messsage
+				markup = '<div class="noTasks">'
+				if (ui.session.selected == 'today') {
+					markup += 'No Tasks in Today'
+				} else if (ui.session.selected == 'next') {
+					markup += 'No Tasks in Next'
+				} else if (ui.session.selected == 'scheduled') {
+					markup += 'No Tasks in Scheduled '
+				} else if (ui.session.selected == 'logbook') {
+					markup += 'No Tasks in Logbook'
+				} else if (ui.session.selected == 'all') {
+					markup += 'No Tasks in All'
+				} else {
+					markup += 'No Tasks in List'
+				}
+				markup += '</div>'
+					
+			} else {
+				//Loops and adds each task to a tmp view
+				for (var i=0; i<tasks.length; i++) {
+					markup += ui.lists.drawSingleTask(tasks[i])
+				}
 			}
 
 			return markup
@@ -378,7 +398,7 @@ $sidebar.on('click', '.name, .count', function() {
 	var tasks = core.list(model.id).populate()
 	$tasks.html('<h2>' + model.name + '</h2><ul>' + ui.lists.drawTasks(tasks) + '</ul>')
 
-	// Set sort type
+//<<<<<<<<<<<< Set sort type FIXME!
 	$sortType.val(core.storage.prefs.listSort[model.id])
 
 	if (ui.session.selected == 'next') {
@@ -442,8 +462,6 @@ $sidebar.on('click', '.name, .count', function() {
 				ui.sortStop(event, elem)
 			}
 		});
-
-
 	}, 100)
 
 	return true
@@ -515,6 +533,7 @@ $sidebar.on('click', '.delete', function() {
 		// Delete list
 		core.list(model.id).delete()
 
+		$modal.modal('hide')
 		$modal.remove()
 		$overlay.remove()
 
@@ -920,14 +939,11 @@ $panel.left.on('click', 'button.delete', function() {
 			ui.lists.update().count()
 			
 			// Remove from DOM			
+			$modal.modal('hide')
 			$selected.remove()
 			$modal.remove()
-			$overlay.remove()
-
 		})
-
 	}
-
 })
 
 
@@ -950,6 +966,7 @@ $sidebar.on('click', '.list-toggle', function() {
 		})
 	}
 })
+
 
 //This is the best plugin system in the world.
 var plugin = {
