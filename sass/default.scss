@@ -220,7 +220,7 @@ body {
 				}
 			}
 
-			button.none, button.low, button.medium, button.high, input.date, input.tags, button.date {
+			button.none, button.low, button.medium, button.high, input.date, input.tags, button.date, div.tag {
 				border-left: 1px solid darken($task_color, 10%);
 			}
 			button.none {

@@ -89,7 +89,9 @@ plugin.add(function() {
 					var diff = Math.floor(days);
 					
 					// Get tasks due today
-					if (property == 'today') {
+					if (property == 'overdue') {
+						if (diff < 0) return true
+					} else if (property == 'today') {
 						if (diff === 0) return true;
 					} else if(property == 'tomorrow') {
 						if (diff <= 1) return true;
@@ -789,8 +791,10 @@ plugin.add(function() {
 					return;
 				}
 
+				var task = core.storage.tasks[key]
+
 				// Search
-				if (search.test(core.storage.tasks[key].content + core.storage.tasks[key].notes)) {
+				if (search.test(task.content + task.notes + '#' + task.tags.toString().replace(/,/g,' #'))) {
 					pass1.push(true);
 				} else {
 					pass1.push(false);
@@ -1600,19 +1604,16 @@ plugin.add(function() {
 			},
 			task = core.storage.tasks[model.id]
 
-		var tags = val.split(/\s*,\s*/),
-			obj = []
+		var tags = val.split(/\s*,\s*/)
 
 		// Because regex is hard
 		for(var i = 0; i < tags.length; i++) {
 			if(tags[i].length == 0) {
 				tags.splice(i, 1)
-				break
 			}
-			obj.push({tag: tags[i]})
 		}
 
-		task.tags = obj
+		task.tags = tags
 		core.storage.save('tasks', model.id, 'tags')
 
 	})
@@ -1621,7 +1622,7 @@ plugin.add(function() {
 	$tasks.on('click', '.tag', function() {
 
 		// Get tag name
-		var tag = $(this).text();
+		var tag = '#' + $(this).text();
 		// Go to All Tasks list
 		$('#Lall .name').trigger('click')
 		// Run search - We should give the searchbox an ID

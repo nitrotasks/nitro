@@ -11,19 +11,16 @@ plugin.add(function() {
 			},
 			task = core.storage.tasks[model.id]
 
-		var tags = val.split(/\s*,\s*/),
-			obj = []
+		var tags = val.split(/\s*,\s*/)
 
 		// Because regex is hard
 		for(var i = 0; i < tags.length; i++) {
 			if(tags[i].length == 0) {
 				tags.splice(i, 1)
-				break
 			}
-			obj.push({tag: tags[i]})
 		}
 
-		task.tags = obj
+		task.tags = tags
 		core.storage.save('tasks', model.id, 'tags')
 
 	})
@@ -32,7 +29,7 @@ plugin.add(function() {
 	$tasks.on('click', '.tag', function() {
 
 		// Get tag name
-		var tag = $(this).text();
+		var tag = '#' + $(this).text();
 		// Go to All Tasks list
 		$('#Lall .name').trigger('click')
 		// Run search - We should give the searchbox an ID

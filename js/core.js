@@ -30,6 +30,7 @@ var core = {
 					notes: '',
 					list: list,
 					logged: false,
+					tags: [],
 					time: {
 						content: 0,
 						priority: 0,
@@ -153,7 +154,7 @@ var core = {
 
 						// Get current tasks in today list and also get tasks that are due today
 						var current = core.storage.lists.items.today.order,
-							today = filter(core.list('all').populate(), {date: 'today'}),
+							today = filter(core.list('all').populate(), {date: ['overdue', 'today']}),
 							smartTasks = []
 
 						// Loop through each task currently in today and check to see if it is actually

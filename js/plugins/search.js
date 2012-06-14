@@ -32,8 +32,10 @@ plugin.add(function() {
 					return;
 				}
 
+				var task = core.storage.tasks[key]
+
 				// Search
-				if (search.test(core.storage.tasks[key].content + core.storage.tasks[key].notes)) {
+				if (search.test(task.content + task.notes + '#' + task.tags.toString().replace(/,/g,' #'))) {
 					pass1.push(true);
 				} else {
 					pass1.push(false);

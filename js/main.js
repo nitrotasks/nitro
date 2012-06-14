@@ -205,7 +205,7 @@ var ui = {
 			if (model.logged) checked = 'checked'
 
 			// Extra details
-			var date = false, list = false
+			var date = false, list = false, tags = false
 			switch(ui.session.selected) {
 
 				case 'today':
@@ -236,13 +236,22 @@ var ui = {
 					date = core.date(model.date).getDaysLeft()
 			}
 
+			if(model.tags) {
+				tags = []
+				for(var i = 0; i < model.tags.length; i++) {
+					tags.push({
+						tag: model.tags[i]
+					})
+				}
+			}
+
 			var temp = Mustache.to_html(templates.task.collapsed, {
 				id: id,
 				checked: checked,
 				content: model.content,
 				notes: model.notes,
 				date: date,
-				tags: model.tags,
+				tags: tags,
 				list: list,
 				priority: model.priority,
 				logged: logged
@@ -654,7 +663,7 @@ $tasks.on('dblclick', 'li', function(e) {
 				placeholder: $l._('dueDate'),
 				date: "20-06-2012"
 			},
-			// tags: tags,
+			tags: model.tags.toString().replace(/,/g,', '),
 			extra: core.date(model.date).getDaysLeft()[0],
 			priority: model.priority,
 			// Because of Translated Version
@@ -682,8 +691,6 @@ $tasks.on('dblclick', 'li', function(e) {
 		$this.find('input, textarea').blur()
 		
 		var orig = $this.prev().attr('data-id')
-
-		console.log(orig)
 
 		setTimeout(function() {
 

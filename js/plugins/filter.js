@@ -87,7 +87,9 @@ plugin.add(function() {
 					var diff = Math.floor(days);
 					
 					// Get tasks due today
-					if (property == 'today') {
+					if (property == 'overdue') {
+						if (diff < 0) return true
+					} else if (property == 'today') {
 						if (diff === 0) return true;
 					} else if(property == 'tomorrow') {
 						if (diff <= 1) return true;

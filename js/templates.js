@@ -16,7 +16,7 @@ templates = {
 			<div class="boxhelp">\
 				<div class="{{logged}}"></div>\
 				<input class="content" value="{{content}}" type="text">\
-				<input class="tags{{#tags}} empty{{/tags}}" value="{{tags}}" placeholder="Tags, seperated by a comma"><button class="priority {{priority}}">{{i18n_priority}}</button><input type="text" class="date" placeholder="{{date.placeholder}}">\
+				<input class="tags{{#tags}} hasContent{{/tags}}" value="{{tags}}" placeholder="Tags, seperated by a comma"><button class="priority {{priority}}">{{i18n_priority}}</button><input type="text" class="date" placeholder="{{date.placeholder}}">\
 			</div>\
 			<div class="hidden">\
 				<textarea>{{notes}}</textarea>\

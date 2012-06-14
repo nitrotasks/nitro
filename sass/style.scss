@@ -494,11 +494,11 @@ html, body {
 				
 				.tag {
 					color: #0000ff;
-					margin-right: 10px;
-					
-					&::before {
-						content: "#";
-					}
+					padding: 0 10px;
+					text-transform: capitalize;					
+					// &::before {
+					// 	content: "#";
+					// }
 
 					&:hover {
 						text-decoration: underline;
@@ -567,7 +567,8 @@ html, body {
 					text-overflow: ellipsis;
 					white-space: nowrap;
 					width: 59px;
-					&:focus {
+					&:focus,
+					&.hasContent {
 						width: 250px;
 					}
 				}
