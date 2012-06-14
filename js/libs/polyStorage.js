@@ -86,7 +86,7 @@
 				document.title = 'null';
 				document.title = 'set|' + key + '|' + value.replace(/\\n/g, '\\\\n');
 			} else {
-				localStorage[key] = json_encode(escapeObj(value));
+				localStorage[key] = json_encode(value);
 			}
 		}
 	}
