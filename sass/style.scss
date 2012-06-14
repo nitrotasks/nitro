@@ -494,11 +494,17 @@ html, body {
 				
 				.tag {
 					color: #0000ff;
-				}
-				.tag:hover {
-					text-decoration: underline;
-				}
+					margin-right: 10px;
+					
+					&::before {
+						content: "#";
+					}
 
+					&:hover {
+						text-decoration: underline;
+					}
+				}
+			
 				input {
 					border: 0;
 					line-height: 1;
