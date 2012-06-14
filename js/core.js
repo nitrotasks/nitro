@@ -145,6 +145,35 @@ var core = {
 			populate: function() {
 				switch(id) {
 
+					case 'today':
+
+						// Get current tasks in today list and also get tasks that are due today
+						var current = core.storage.lists.items.today.order,
+							today = filter(core.list('all').populate(), {date: 'today'}),
+							smartTasks = []
+
+						// Loop through each task currently in today and check to see if it is actually
+						// in the today list or if it was added there by this function
+						for(var i = 0; i < current.length; i++) {
+							if(core.storage.tasks[current[i]].list !== 'today') {
+								smartTasks.push(current[i])
+							}
+						}
+
+						// Make sure the task is still in today
+						var remove = smartTasks.filter(function(i) {return !(today.indexOf(i) > -1);})
+
+						// Remove each task that was in today but not anymore
+						for(var i = 0; i < remove.length; i++) {
+							current.splice(current.indexOf(remove[i]), 1)
+						}
+
+						// Add in any new tasks
+						var add = today.filter(function(i) {return !(current.indexOf(i) > -1);})
+						current = current.concat(add)
+
+						return current
+
 					case 'all':
 
 						var results = [];
@@ -162,7 +191,7 @@ var core = {
 						if (core.storage.lists.items.hasOwnProperty(id)) {
 							var order = core.storage.lists.items[id].order
 							if(!core.storage.prefs.listSort.hasOwnProperty(id)) {
-								core.storage.prefs.listSort[id] = 'manual'
+								core.storage.prefs.listSort[id] = 'magic'
 							}
 							return plugin.sort(order, core.storage.prefs.listSort[id])
 							//return order
