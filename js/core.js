@@ -177,7 +177,7 @@ var core = {
 						var add = today.filter(function(i) {return !(current.indexOf(i) > -1);})
 						current = current.concat(add)
 
-						return current
+						return plugin.sort(current, core.storage.prefs.listSort['today'])
 
 					case 'all':
 
