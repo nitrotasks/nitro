@@ -336,7 +336,7 @@ var ui = {
 	sortStop: function() {
 		// Saves order of tasks in list
 		var taskOrder = []
-		$tasks.find('li').map(function () {
+		$tasks.find('ul').first().find('li').map(function () {
 			var id = $(this).attr('data-id').toNum()
 
 			//If not in the correct list, move to the list.
@@ -373,6 +373,8 @@ var ui = {
 					}
 				});
 
+				console.log(core.storage.lists.order[i], NtaskOrder)
+
 				//Saves to order
 				core.storage.lists.items[core.storage.lists.order[i]].order = NtaskOrder;
 			}
@@ -407,8 +409,9 @@ $sidebar.on('click', '.name, .count', function() {
 	var tasks = core.list(model.id).populate()
 	$tasks.html('<h2>' + model.name + '</h2><ul>' + ui.lists.drawTasks(tasks) + '</ul>')
 
-//<<<<<<<<<<<< Set sort type FIXME!
-	$sortType.val(core.storage.prefs.listSort[model.id])
+	//Set sort type
+	$sortType.removeClass('current');
+	$('.panel .dropdown-menu li[data-value=' + core.storage.prefs.listSort[model.id] + ']').addClass('current');
 
 	if (ui.session.selected == 'next') {
 
@@ -423,7 +426,7 @@ $sidebar.on('click', '.name, .count', function() {
 			//Makes sure there is something in the list
 			if (tasks.length != 0) {
 				//New DOM Nodes
-				markup += '<h2>' + listName + '</h2>' + '<ul class="' + listName + '">' + ui.lists.drawTasks(tasks) + '</ul>'
+				markup += '<h2>' + listName + '</h2>' + '<ul class="' + listID + '">' + ui.lists.drawTasks(tasks) + '</ul>'
 			}						
 		}
 		$tasks.append(markup)
