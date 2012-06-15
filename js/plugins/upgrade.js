@@ -65,6 +65,9 @@
 				lists.items.logbook.order.push(key)
 			}
 
+			// Add tags
+			_this.tags = []
+
 			// Update date property
 			if(_this.date !== "" && _this.hasOwnProperty('date')) {
 				var date = new Date(_this.date)
