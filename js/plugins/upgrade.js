@@ -50,28 +50,34 @@
 
 		for(var key in tasks) {
 
-			var _this = tasks[key]
+			if(key != 'length') {
 
-			// Remove old properties
-			delete _this.showInToday
-			delete _this.today
-			// delete _this.time.today
-			// delete _this.time.showInToday
+				var _this = tasks[key]
 
-			// Updated logged propety
-			if(_this.logged === "true" || _this.logged === true) {
-				_this.logged === core.timestamp()
-				_this.list = 'logbook'
-				lists.items.logbook.order.push(key)
-			}
+				// Remove old properties
+				delete _this.showInToday
+				delete _this.today
+				if(_this.hasOwnProperty('time')) {
+					delete _this.time.showInToday
+					delete _this.time.today
+				}
 
-			// Add tags
-			_this.tags = []
+				// Updated logged propety
+				if(_this.logged === "true" || _this.logged === true) {
+					_this.logged === core.timestamp()
+					_this.list = 'logbook'
+					lists.items.logbook.order.push(key)
+				}
 
-			// Update date property
-			if(_this.date !== "" && _this.hasOwnProperty('date')) {
-				var date = new Date(_this.date)
-				_this.date = date.getTime()
+				// Add tags
+				_this.tags = []
+
+				// Update date property
+				if(_this.date !== "" && _this.hasOwnProperty('date')) {
+					var date = new Date(_this.date)
+					_this.date = date.getTime()
+				}
+
 			}
 
 		}
