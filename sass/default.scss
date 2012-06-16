@@ -153,6 +153,15 @@ body {
 		color: lighten($panel_color, 5%);
 		text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
 	}
+	.noTasks {
+		width: 250px;
+		margin: 0 auto;
+		text-align: center;
+		background: rgba(255, 255, 255, 0.4);
+		padding: 15px;
+		font-size: 14px;
+		border-radius: 2px;
+	}
 	ul {
 		li {
 			border: 1px solid darken($task_color, 25%);

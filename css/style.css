@@ -1,4 +1,3 @@
-@import url(datepicker.css);
 * { -webkit-user-select: none; }
 
 input, textarea { -webkit-user-select: text; }
@@ -270,3 +269,5 @@ html, body { height: 100%; width: 100%; }
 #scheduledDialog .inner #buttonbox button { text-align: right; margin: 15px 0 0; }
 #scheduledDialog .inner input[type=number] { width: 50px; }
 #scheduledDialog .inner input[type=text] { width: 100px; }
+
+@import url(datepicker.css);
