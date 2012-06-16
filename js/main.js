@@ -657,15 +657,16 @@ $tasks.on('dblclick', 'li', function(e) {
 	
 		/* EXPANDING */
 
+		var modelDate = new Date(model.date);
+		var dateStr = ('0' + (modelDate.getUTCMonth() + 1)).substring(('0' + (modelDate.getUTCMonth() + 1)).toString().length - 2) + '/' + ('0' + modelDate.getDate()).substring(('0' + modelDate.getDate()).toString().length - 2) + '/' + modelDate.getFullYear()
+
 		var markup = Mustache.to_html(templates.task.expanded, {
 			id: id,
 			checked: checked,
 			content: model.content,
 			notes: model.notes,
-			date: {
-				placeholder: $l._('dueDate'),
-				date: "20-06-2012"
-			},
+			datePlacehoder: $l._('dueDate'),
+			date: dateStr,
 			tags: model.tags.toString().replace(/,/g,', '),
 			extra: core.date(model.date).getDaysLeft()[0],
 			priority: model.priority,
