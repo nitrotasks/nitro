@@ -19,7 +19,7 @@ templates = {
 				<input class="tags{{#tags}} hasContent{{/tags}}" value="{{tags}}" placeholder="Tags, seperated by a comma"><button class="priority {{priority}}">{{i18n_priority}}</button><input value="{{date}}" type="text" class="date" placeholder="{{datePlaceholder}}">\
 			</div>\
 			<div class="hidden">\
-				<textarea>{{notes}}</textarea>\
+				<textarea placeholder="{{notesPlaceholder}}">{{notes}}</textarea>\
 			</div>\
 		</div>'
 	},

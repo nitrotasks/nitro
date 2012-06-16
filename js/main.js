@@ -665,6 +665,7 @@ $tasks.on('dblclick', 'li', function(e) {
 			checked: checked,
 			content: model.content,
 			notes: model.notes,
+			notesPlaceholder : $l._('notes'),
 			datePlacehoder: $l._('dueDate'),
 			date: dateStr,
 			tags: model.tags.toString().replace(/,/g,', '),
