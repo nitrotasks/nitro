@@ -353,7 +353,7 @@ var ui = {
 		core.storage.lists.items[ui.session.selected].order = taskOrder;
 
 		//Only in the next list
-		if (ui.session.selected == 'next') {
+		if (ui.session.selected == 'next' && core.storage.prefs.nextAmount == 'everything') {
 			//Loops through lists to save order
 			for (var i=0; i<core.storage.lists.order.length; i++) {
 				//New Array
@@ -413,7 +413,7 @@ $sidebar.on('click', '.name, .count', function() {
 	$sortType.removeClass('current');
 	$('.panel .dropdown-menu li[data-value=' + core.storage.prefs.listSort[model.id] + ']').addClass('current');
 
-	if (ui.session.selected == 'next') {
+	if (ui.session.selected == 'next' && core.storage.prefs.nextAmount == 'everything') {
 
 		var markup = "", listID, listName
 

@@ -875,8 +875,7 @@ $(document).ready(function() {
 					<hr>\
 					<label class="left translate" data-translate="nextDescription"> </label><select id="nextAmount">\
 						<option value="noLists" class="translate" data-translate="nextNoLists"></option>\
-						<option value="threeItems" class="translate" data-translate="nextThreeLists"></option>\
-						<option value="everything" class="translate" data-translate="nextEntireLists"></option>\
+						<option value="everything" class="translate" data-translate="nextEverything"></option>\
 					</select>\
 				</form>\
 				</div>  \
@@ -1029,7 +1028,7 @@ $(document).ready(function() {
 		core.storage.save();
 
 		//Reloads next if it is selected
-		if (ui.lists.selected() === 'next') {
+		if (ui.session.selected === 'next') {
 			$('#Lnext .name').click();
 		}
 	});
@@ -1053,7 +1052,7 @@ $(document).ready(function() {
 			LOADING PREFERENCES
 	**********************************/
 	$('#deleteWarnings').prop('checked', core.storage.prefs.deleteWarnings);
-	//$('#nextAmount').val(cli.storage.prefs.nextAmount);
+	$('#nextAmount').val(core.storage.prefs.nextAmount);
 	$('#theme').val(core.storage.prefs.theme);
 
 	// LANGUAGE
