@@ -582,7 +582,8 @@ $tasks.on('collapse', 'li', function() {
 
 	// Special Checkboxes for Scheduled
 	if (ui && ui.session.selected == 'scheduled') {
-		$(this).find('.checkbox').addClass(core.storage.tasks[this.model.get('id')].type);
+		var id = $(this).attr('data-id').toNum()
+		$(this).find('.checkbox').addClass(core.storage.tasks[id].type);
 	}
 		
 })			
