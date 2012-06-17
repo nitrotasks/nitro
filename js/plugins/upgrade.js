@@ -90,7 +90,7 @@
 		// Add in listSort
 		prefs.listSort = {}
 
-
+		localStorage.removeItem('jstorage')
 		core.storage.tasks = tasks
 		core.storage.lists = lists
 		core.storage.prefs = prefs

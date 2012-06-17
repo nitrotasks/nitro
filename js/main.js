@@ -50,6 +50,9 @@ var ui = {
 		})
 	},
 	initLoad: function() {
+		// Run Upgrade function
+		upgrade()
+
 		//Buttons
 		$sidebar.find('h2.smartlists')
 			.html($l._('focus'))
