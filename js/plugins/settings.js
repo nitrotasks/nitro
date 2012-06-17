@@ -104,8 +104,8 @@ $(document).ready(function() {
 						<hr>\
 						<label class="left translate" data-translate="headingColor"></label>\
 						<select id="headingColor">\
-							<option value="light" class="translate" data-translate="light"></option>\
-							<option value="dark" class="translate" data-translate="dark"></option>\
+							<!--option value="light" class="translate" data-translate="light"></option>\
+							<option value="dark" class="translate" data-translate="dark"></option-->\
 							<option value="" class="translate" data-translate="default"></option>\
 						</select>\
 						<label class="description translate" data-translate="headingDescription"></label>\
@@ -190,6 +190,79 @@ $(document).ready(function() {
 	});
 
 	/**********************************
+		CUSTOM BACKGROUNDS
+	**********************************/
+
+	// REMOVE CUSTOM BACKGROUND
+	$('#removeBG').click(function () {
+		localStorage.removeItem('background');
+		$tasks[0].style.backgroundImage = 'none';
+	});
+
+	// DRAG AND DROP
+	$body.bind({
+		dragover: function () {
+			// Stop the window from opening the file
+			return false;
+		},
+		drop: function (e) {
+			// Get the files from the event
+			e = e || window.event;
+			e.preventDefault();
+			e = e.originalEvent || e;
+			if (e.hasOwnProperty('files') || e.hasOwnProperty('dataTransfer')) {
+				var files = (e.files || e.dataTransfer.files);
+				setBG(files[0]);
+				return false;
+			}
+		}
+	});
+
+	// BUTTON UPLOAD
+	$('#chooseBG').change(function (e) {
+		var files = $(this)[0].files;
+		setBG(files[0]);
+	});
+
+	// Takes a file and sets it as the background
+	var setBG = function (f) {
+			var reader = new FileReader();
+			reader.onload = function (event) {
+
+				localStorage.removeItem('background');
+				localStorage.setItem('background', event.target.result);
+
+				$tasks[0].style.backgroundImage = 'url(' + event.target.result + ')';
+			};
+			reader.readAsDataURL(f);
+		};
+
+	// BACKGROUND SIZE
+	$('#backgroundSize').change(function () {
+		core.storage.prefs.bg.size = this.value;
+		switch (this.value) {
+		case 'tile':
+			$tasks.removeClass('shrink zoom').addClass('tile');
+			break;
+		case 'shrink':
+			$tasks.removeClass('tile zoom').addClass('shrink');
+			break;
+		case 'zoom':
+			$tasks.removeClass('tile shrink').addClass('zoom');
+			break;
+		}
+		core.storage.save();
+	});
+
+	// HEADING COLOR
+	$('#headingColor').change(function () {
+		core.storage.prefs.bg.color = this.value;
+		core.storage.save();
+
+		$('#tasks h2, #tasks p').removeClass('light dark').addClass($(this)[0].value);
+	});
+
+	/**********************************
 			LOADING PREFERENCES
 	**********************************/
 	$('#deleteWarnings').prop('checked', core.storage.prefs.deleteWarnings);
@@ -213,7 +286,3 @@ $(document).ready(function() {
 		}
 	});
 });
-
-
-
-

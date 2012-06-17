@@ -660,8 +660,12 @@ $tasks.on('dblclick', 'li', function(e) {
 	
 		/* EXPANDING */
 
-		var modelDate = new Date(model.date);
-		var dateStr = ('0' + (modelDate.getUTCMonth() + 1)).substring(('0' + (modelDate.getUTCMonth() + 1)).toString().length - 2) + '/' + ('0' + modelDate.getDate()).substring(('0' + modelDate.getDate()).toString().length - 2) + '/' + modelDate.getFullYear()
+		var dateStr = ''
+		if (model.date != '') {
+			var modelDate = new Date(model.date);
+			dateStr = ('0' + (modelDate.getUTCMonth() + 1)).substring(('0' + (modelDate.getUTCMonth() + 1)).toString().length - 2) + '/' + ('0' + modelDate.getDate()).substring(('0' + modelDate.getDate()).toString().length - 2) + '/' + modelDate.getFullYear()		
+		}
+		
 
 		var markup = Mustache.to_html(templates.task.expanded, {
 			id: id,
@@ -669,7 +673,7 @@ $tasks.on('dblclick', 'li', function(e) {
 			content: model.content,
 			notes: model.notes,
 			notesPlaceholder : $l._('notes'),
-			datePlacehoder: $l._('dueDate'),
+			datePlaceholder: $l._('dueDate'),
 			date: dateStr,
 			tags: model.tags.toString().replace(/,/g,', '),
 			extra: core.date(model.date).getDaysLeft()[0],
@@ -738,26 +742,6 @@ $tasks.on('expand', 'li', function() {
 			ui.lists.update().count()
 			core.storage.save([['tasks', id, 'date']])
 		})
-
-	// //Sets the localized date =D
-	// if (ui) {
-	// 	if (ui.session.selected != 'scheduled' && model.date) {
-	// 		$this.find('.date').attr('placeholder', $l._('dueDate')).datepicker().datepicker('setDate', new Date(model.date))
-	// 	} else if (ui.session.selected != 'scheduled') {
-	// 		$this.find('.date').attr('placeholder', $l._('dueDate')).datepicker()
-	// 	} else {
-	// 		$this.find('.date').replaceWith('<button class="date">' + $l._('schedule') + '</button>');
-	// 		$this.find('.date').click(function() {
-	// 			$('#scheduledDialog .inner').fadeToggle(150).attr('data-type', id);
-	// 			$('#scheduledDialog').toggle(0);
-	// 			plugin.scheduled.ui.init('edit');
-	// 		});
-	// 	}
-
-	// 	//Sets the Placeholder - I'm lazy. TODO: Fix this
-	// 	$this.find('textarea').attr('placeholder', $l._('notes'));
-
-	// }
 	//Focus correct input
 	var $input = $this.find('input[data-bind=content]')
 	setTimeout(function() {
