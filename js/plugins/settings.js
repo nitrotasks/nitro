@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(function() {
 	//Adds button to panel
 	$panel.right.prepend('<button class="settingsbtn"></button>')
 	var $settingsbtn = $('.settingsbtn')
@@ -141,14 +141,17 @@ $(document).ready(function() {
 							<option value="auto" class="translate" data-translate="syncAuto"></option>\
 						</select><br>\
 						<label class="description translate" data-translate="syncDescription"></label>\
-					</div>			\
+					</div>\
 				</div>\
 			</div>\
 		</div>\
 	');
-	$('#prefsDialog .translate').map(function () {
+	//Because it needs time to load
+	setTimeout(function() {
+		$('#prefsDialog .translate').map(function () {
 			$(this).html($.i18n._($(this).attr('data-translate')));
-	});
+		})
+	}, 2000)
 
 	/**********************************
 		SETTINGS
@@ -157,10 +160,10 @@ $(document).ready(function() {
 	// CHECK BOXES [DELETE WARNINGS & LOW GRAPHICS MODE]
 	$('#tabGeneral form input').change(function () {
 
-		core.storage.prefs.deleteWarnings = $('#deleteWarnings').prop('checked');
-		core.storage.save();
+		core.storage.prefs.deleteWarnings = $('#deleteWarnings').prop('checked')
+		core.storage.save()
 
-	});
+	})
 
 	// NEXT AMOUNT
 	$('#nextAmount').change(function () {
