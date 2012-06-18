@@ -104,9 +104,9 @@ $(document).ready(function() {
 						<hr>\
 						<label class="left translate" data-translate="headingColor"></label>\
 						<select id="headingColor">\
-							<!--option value="light" class="translate" data-translate="light"></option>\
-							<option value="dark" class="translate" data-translate="dark"></option-->\
 							<option value="" class="translate" data-translate="default"></option>\
+							<option value="light" class="translate" data-translate="light"></option>\
+							<option value="dark" class="translate" data-translate="dark"></option>\
 						</select>\
 						<label class="description translate" data-translate="headingDescription"></label>\
 					</div>\
@@ -226,20 +226,22 @@ $(document).ready(function() {
 
 	// Takes a file and sets it as the background
 	var setBG = function (f) {
-			var reader = new FileReader();
-			reader.onload = function (event) {
+		core.storage.prefs.bgSize = this.value;
+		var reader = new FileReader();
+		reader.onload = function (event) {
 
-				localStorage.removeItem('background');
-				localStorage.setItem('background', event.target.result);
+			localStorage.removeItem('background');
+			localStorage.setItem('background', event.target.result);
 
-				$tasks[0].style.backgroundImage = 'url(' + event.target.result + ')';
-			};
-			reader.readAsDataURL(f);
+			$tasks[0].style.backgroundImage = 'url(' + event.target.result + ')';
 		};
+		reader.readAsDataURL(f);
+		core.storage.save()
+	};
 
 	// BACKGROUND SIZE
 	$('#backgroundSize').change(function () {
-		core.storage.prefs.bg.size = this.value;
+		core.storage.prefs.bgSize = this.value;
 		switch (this.value) {
 		case 'tile':
 			$tasks.removeClass('shrink zoom').addClass('tile');
@@ -256,10 +258,10 @@ $(document).ready(function() {
 
 	// HEADING COLOR
 	$('#headingColor').change(function () {
-		core.storage.prefs.bg.color = this.value;
+		core.storage.prefs.bgColor = this.value;
 		core.storage.save();
 
-		$('#tasks h2, #tasks p').removeClass('light dark').addClass($(this)[0].value);
+		$tasks.find('h2').removeClass('light dark').addClass(core.storage.prefs.bgColor);
 	});
 
 	/**********************************
@@ -268,6 +270,17 @@ $(document).ready(function() {
 	$('#deleteWarnings').prop('checked', core.storage.prefs.deleteWarnings);
 	$('#nextAmount').val(core.storage.prefs.nextAmount);
 	$('#theme').val(core.storage.prefs.theme);
+	$('#backgroundSize').val(core.storage.prefs.bgSize);
+	$('#headingColor').val(core.storage.prefs.bgColor);
+
+	// CUSTOM BACKGROUND
+	if (localStorage.hasOwnProperty('background')) {
+		$tasks[0].style.backgroundImage = 'url(' + localStorage.getItem('background') + ')';
+	} else if (core.storage.prefs.hasOwnProperty('background')) {
+		$tasks[0].style.backgroundImage = 'url(' + core.storage.prefs.background + ')';
+	}
+
+	$tasks.addClass(core.storage.prefs.bgSize);
 
 	// LANGUAGE
 	$('#tabLanguage a.current').removeClass('current');
