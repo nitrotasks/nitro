@@ -860,6 +860,7 @@ $tasks.on('click', '#updateLogbook', function() {
 
 	// Else just load the new tasks
 	} else {
+		$tasks.find('.noTasks').remove()
 		loadNew()
 	}	
 })
