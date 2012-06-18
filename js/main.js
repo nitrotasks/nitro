@@ -445,7 +445,10 @@ $sidebar.on('click', '.name, .count', function() {
 		if(loggedTasks > 0) {
 			$tasks.find('h2').after('<button id="updateLogbook" class="button">Move '+ filter([], 'logged').length +' completed tasks to the Logbook</button>')
 		}
-	}	
+	}
+
+	//Adds Color
+	$tasks.find('h2').addClass(core.storage.prefs.bgColor)
 
 	setTimeout(function() {
 

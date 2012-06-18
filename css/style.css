@@ -156,7 +156,9 @@ html, body { height: 100%; width: 100%; }
 .panel button#runSync { background-image: url("img/sync_static.gif"); background-repeat: no-repeat; background-position: 5px 7px; }
 .panel button#runSync.running { background-image: url("img/sync.gif"); }
 
-#tasks { position: absolute; top: 0; bottom: 0; right: 0; left: 0; height: 100%; z-index: 1; box-sizing: border-box; background-image: #ffffff; background-image: -webkit-radial-gradient(50% 50%, ellipse closest-side, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%); }
+#tasks { position: absolute; top: 0; bottom: 0; right: 0; left: 0; height: 100%; z-index: 1; box-sizing: border-box; background-image: #ffffff; background-image: -webkit-radial-gradient(50% 50%, ellipse closest-side, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%); background-position: center center; background-repeat: repeat; background-size: cover; }
+#tasks .tile { background-size: auto; }
+#tasks .shrink { background-size: contain; }
 #tasks .tasksContent { overflow-y: auto; text-align: center; }
 #tasks .tasksContent h2 { text-align: center; font-size: 20px; }
 #tasks .tasksContent .button { cursor: pointer; margin: 0 0 15px; padding: 6px 15px; border-radius: 4px; background: rgba(255, 255, 255, 0.7); border: 1px solid #bbb; font-size: 14px; font-weight: bold; color: #444; }

@@ -149,10 +149,15 @@ body {
 	}
 }
 #tasks .tasksContent {
-	h2 {
+	h2, h2.dark {
 		color: lighten($panel_color, 5%);
 		text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
 	}
+	h2.light {
+		color: #fff;
+		text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+	}
+
 	.noTasks {
 		width: 250px;
 		margin: 0 auto;
