@@ -88,9 +88,12 @@ plugin.add(function() {
 			</div>\
 		</div>')
 
-	$('#scheduledDialog .translate').map(function () {
-		$(this).html($.i18n._($(this).attr('data-translate')));
-	})
+	//We need a timeout
+	setTimeout(function(){
+		$('#scheduledDialog .translate').map(function () {
+			$(this).html($.i18n._($(this).attr('data-translate')));
+		})
+	}, 2000)
 
 	//I'm bad at coding. Sue me.
 	$('#scheduledDialog .inner .create').click(function () {

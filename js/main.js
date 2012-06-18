@@ -697,6 +697,22 @@ $tasks.on('dblclick', 'li', function(e) {
 			.trigger('expand')
 			.find('input.content').focus()
 
+		if (ui.session.selected == 'scheduled') {
+			$('.tags').remove()
+
+			$this.find('.date').replaceWith('<button class="date">' + $l._('schedule') + '</button>');
+			$this.find('.date').click(function() {
+				$('#scheduledDialog .inner').fadeToggle(150).attr('data-type', id);
+				$('#scheduledDialog').toggle(0);
+
+				plugin.scheduled.ui.init('edit');
+			});
+
+			// Special Checkboxes for Scheduled
+			var id = $this.attr('data-id').toNum()
+			$this.find('.checkbox').addClass(core.storage.tasks[id].type);
+		}
+
 	} else {
 
 		/* COLLAPSING */
