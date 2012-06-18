@@ -42,6 +42,8 @@
 				if (!_this.hasOwnProperty('synced')) {
 					_this.synced = false
 				}
+				// Make sure list is a number
+				if(typeof _this.list === 'string') _this.list = _this.list.toNum()
 			}
 		}
 		// Check lists for timestamps
