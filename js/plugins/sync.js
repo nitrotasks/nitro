@@ -10,6 +10,15 @@ plugin.add(function() {
 	var app = 'js',
 		version = '1.4';
 
+	$(document).ready(function() {
+		$panel.right.prepend('<button id="runSync"></button>')
+	})
+
+	$panel.right.on('click', '#runSync', function() {
+		$this = $(this)
+		$this.toggleClass('running')
+	})
+
 	sync = {
 		// Magical function that handles connect and emit
 		run: function (service, callback) {

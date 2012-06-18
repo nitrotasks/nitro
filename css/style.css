@@ -138,7 +138,7 @@ html, body { height: 100%; width: 100%; }
 #sidebar .listAddBTN { text-align: center; cursor: pointer; border-top: 1px solid #000; font-size: 13px; font-weight: bold; line-height: 30px; }
 
 .panel { height: 41px; width: 100%; font-size: 13px; background: #fff; z-index: 4; position: relative; border-bottom: 1px solid #000; padding: 0 20px 0 16px; box-sizing: border-box; }
-.panel .left { float: left; margin-left: -16px; }
+.panel .left { float: left; margin-left: -16px; font-size: 0; }
 .panel .left span { position: relative; color: #000; }
 .panel .left span ul { display: none; position: absolute; margin: 1px 0; padding: 0; background: #fff; }
 .panel .left span ul li { list-style-type: none; padding: 0 10px; width: 69px; cursor: pointer; font-size: 13px; line-height: 25px; }
@@ -152,7 +152,9 @@ html, body { height: 100%; width: 100%; }
 .panel .left span.open ul { display: block; }
 .panel .right { float: right; }
 .panel .right input { border: 1px solid #000; font-size: 13px; padding: 5px 5px; margin: 7px 0; vertical-align: top; }
-.panel button { background: #fff; border: 0; padding: 0 18px; line-height: 40px; }
+.panel button { background: #fff; border: 0; padding: 0 18px; line-height: 40px; font-size: 13px; }
+.panel button#runSync { background-image: url("img/sync_static.gif"); background-repeat: no-repeat; background-position: 5px 7px; }
+.panel button#runSync.running { background-image: url("img/sync.gif"); }
 
 #tasks { position: absolute; top: 0; bottom: 0; right: 0; left: 0; height: 100%; z-index: 1; box-sizing: border-box; background-image: #ffffff; background-image: -webkit-radial-gradient(50% 50%, ellipse closest-side, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%); }
 #tasks .tasksContent { overflow-y: auto; text-align: center; }

@@ -295,6 +295,7 @@ html, body {
 	.left {
 		float: left;
 		margin-left: -16px;
+		font-size: 0;
 
 		span {
 			position: relative;
@@ -373,6 +374,15 @@ html, body {
 		border: 0;
 		padding: 0 18px;
 		line-height: 40px;
+		font-size: 13px;
+		&#runSync {
+			&.running {
+				background-image: url('img/sync.gif')
+			}
+			background-image: url('img/sync_static.gif');
+			background-repeat: no-repeat;
+			background-position: 5px 7px;
+		}
 	}
 }
 
