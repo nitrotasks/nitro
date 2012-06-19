@@ -6,8 +6,8 @@ templates = {
 				<div class="boxhelp">\
 					<div class="{{logged}}"></div>\
 					<div class="content">{{content}}</div>\
-					{{#tags}}<div class="tag">{{tag}}</div>{{/tags}}\
 					{{#notes}}<div class="notes"></div>{{/notes}}\
+					{{#tags}}<div class="tag">{{tag}}</div>{{/tags}}\
 					{{#date}}<div class="{{date.className}} label">{{date.words}}</div>{{/date}}\
 					{{#list}}<div class="list label">{{list}}</div>{{/list}}\
 				</div>\
