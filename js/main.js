@@ -1023,6 +1023,7 @@ String.prototype.toNum = function () {
 
 function colorize(color) {
 	//Changes Color
+	var lighter = tinycolor.lighten(tinycolor.lighten(tinycolor.lighten(color))).toHexString()
 	var darkish = tinycolor.darken(tinycolor.darken(color)).toHexString()
 	var darkest = tinycolor.darken(darkish).toHexString()
 	$('body').append('<style>\
@@ -1033,5 +1034,7 @@ function colorize(color) {
 			border-right: none;\
 			text-shadow: 0 1px 1px ' + darkest + ';\
 		}\
+		#tasks .tasksContent ul li.selected {\
+			background: ' + lighter + '\
 	</style>')
 }
