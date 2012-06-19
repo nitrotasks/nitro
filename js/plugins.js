@@ -1,3 +1,246 @@
+/* ./plugins/cmd.js */
+
+// CMD
+// Easily do something in a single line
+
+cmd = function (cmd) {
+	// Contains all the commands
+
+	switch(cmd) {
+		// File Menu
+		case 'newtask':
+			$addBTN.click()
+			break
+		case 'newlist':
+			$sidebar.find('#listAddBTN').click()
+			break
+		case 'sync':
+			$settingsbtn.click()
+			$('a[data-target=#tabSync]').tab('show')
+			break
+
+		// Edit Menu
+		case 'find':
+			$search.focus()
+			break
+		case 'prefs':
+			$settingsbtn.click()
+			$('a[data-target=#tabGeneral]').tab('show')
+			break
+
+		// GoTo
+		case 'today':
+			$('#Ltoday').click()
+			break
+		case 'next':
+			$('#Lnext').click()
+			break
+		case 'scheduled':
+			$('#Lscheduled').click()
+			break
+		case 'logbook':
+			$('#Llogbook').click()
+			break
+		case 'allTasks':
+			$('#Lall').click()
+			break
+
+		// View menu
+		case 'language':
+			$settingsbtn.click()
+			$('a[data-target=#tabLanguage]').tab('show')
+			break
+		case 'theme':
+			$settingsbtn.click()
+			$('a[data-target=#tabTheme]').tab('show')
+			break
+		case 'syncSettings':
+			$settingsbtn.click()
+			$('a[data-target=#tabSync]').tab('show')
+			break
+
+		// Help Menu
+		case 'about':
+			$('#aboutDialog .version').html(version)
+			$('#aboutDialog').fadeToggle(150)
+			$('#settingsOverlay').toggle(0)
+			break
+		case 'donors':
+			$('#donateDialog').fadeToggle(150)
+			$('#settingsOverlay').toggle(0)
+			break
+		case 'donate':
+			window.location = 'http://nitrotasks.com/donate.html'
+			break
+		case 'help':
+			window.location = 'http://nitrotasks.com/help'
+			break
+		case 'bug':
+			window.location = 'https://github.com/stayradiated/Nitro/issues'
+			break
+
+		// Extra stuff for keyboard shortcuts
+		case 'editTask':
+			// $editBTN.click()
+			$tasks.find('.selected').map(function() {
+				$(this).trigger(jQuery.Event('dblclick', {metaKey: true}))
+			})
+			break
+		case 'editList':
+			$sidebar.find('.selected .name').dblclick()
+			break
+		case 'check':
+			$tasks.find('.selected .checkbox').click()
+			break
+		case 'delete':
+			if($warning.is(':visible')) $("#overlay").click()
+			else $deleteBTN.click()
+			break
+
+		case 'prevTask':
+			if(!$tasks.find('.selected').length) {
+				$tasks.find('li').first().addClass('selected')
+			} else {
+				if(ui.session.selected === 'next') {
+					if($tasks.find('.selected').is(':first-of-type')) {
+						$tasks.find('.selected').parent().prev().prev().find('li').last().find('.content').click()
+					} else {
+						$tasks.find('.selected').prevAll('li:not(".hidden")').first().find('.content').click()
+					}
+				} else {
+					$tasks.find('.selected').prev('li').find('.content').click()
+				}
+			}
+			
+			break
+		case 'nextTask':
+			if(!$tasks.find('.selected').length) {
+				$tasks.find('li').first().addClass('selected')
+			} else {
+				if(ui.session.selected === 'next') {
+					if($tasks.find('.selected').is(':last-of-type')) {
+						$tasks.find('.selected').parent().next().next().find('li').first().find('.content').click()
+					} else {
+						$tasks.find('.selected').nextAll('li:not(".hidden")').first().find('.content').click()
+					}
+				} else {
+					$tasks.find('.selected').next('li').find('.content').click()
+				}
+			}
+			break
+		case 'prevList':
+			if(!$sidebar.find('.selected').length) {
+				$sidebar.find('li').first().find('.name').click()
+			} else if ($sidebar.find('.selected').is(':first-of-type')) {
+				$sidebar.find('.selected').parent().prev('h2').prev('ul').find('li').last().find('.name').click()
+			} else {
+				$sidebar.find('.selected').prev('li').find('.name').click()
+			}
+			break
+		case 'nextList':
+			if(!$sidebar.find('.selected').length) {
+				$sidebar.find('li').first().find('.name').click()
+			} else if ($sidebar.find('.selected').is(':last-of-type')) {
+				$sidebar.find('.selected').parent().next('h2').next('ul').find('li').first().find('.name').click()
+			} else {
+				$sidebar.find('.selected').next('li').find('.name').click()
+			}
+			break
+
+		case 'moveTaskUp':
+			if($tasks.find('.selected').length) {
+				var $this = $tasks.find('.selected').first(),
+					id = $this.attr('data-id').toNum(),
+					$parent = $this.parent()
+
+				if(ui.session.selected === 'next') {
+					var l = core.storage.lists.items[$parent.attr('id')].order,
+						i = l.indexOf(id)
+				} else {
+					var	l = core.storage.lists.items[ui.session.selected].order,
+						i = l.indexOf(id)
+				}
+
+				if(i > 0) {
+					l.splice(i, 1)
+					l.splice(i - 1, 0, id)
+
+					if($parent.is('.wholeList')) {
+						$parent.find('li, p').remove()
+						for (var i in l) {
+							$parent.addClass('wholeList').append(ui.tasks.draw(l[i]))
+						}
+					} else {
+						$sidebar.find('.selected .name').click()
+					}
+
+					$tasks.find('[data-id='+id+']').addClass('selected')
+					core.storage.save()
+				}
+			}
+			break
+		case 'moveTaskDown':
+			if($tasks.find('.selected').length) {
+				var $this = $tasks.find('.selected').first(),
+					id = $this.attr('data-id').toNum(),
+					$parent = $this.parent()
+
+				if(ui.session.selected === 'next') {
+					var l = core.storage.lists.items[$parent.attr('id')].order,
+						i = l.indexOf(id)
+				} else {
+					var	l = core.storage.lists.items[ui.session.selected].order,
+						i = l.indexOf(id)
+				}
+
+				if(i > -1 && !$this.is(':last-of-type')) {
+					l.splice(i, 1)
+					l.splice(i + 1, 0, id)
+
+					if($parent.is('.wholeList')) {
+						$parent.find('li, p').remove()
+						for (var i in l) {
+							$parent.addClass('wholeList').append(ui.tasks.draw(l[i]))
+						}
+					} else {
+						$sidebar.find('.selected .name').click()
+					}
+
+					$tasks.find('[data-id='+id+']').addClass('selected')
+					core.storage.save()
+				}
+			}
+			break
+		case 'moveListUp':
+			var id = ui.session.selected,
+				l = core.storage.lists.order,
+				i = l.indexOf(id)
+			if(i > 0) {
+				l.splice(i, 1)
+				l.splice(i - 1, 0, id)
+				ui.reload()
+				$('#L' + id + ' .name').click()
+				core.storage.save()
+			}
+			break
+		case 'moveListDown':
+			var id = ui.session.selected,
+				l = core.storage.lists.order,
+				i = l.indexOf(id)
+			if(i > -1) {
+				l.splice(i, 1)
+				l.splice(i + 1, 0, id)
+				ui.reload()
+				$('#L' + id + ' .name').click()
+				core.storage.save()
+			}
+			break
+
+		case 'escape':
+			$('#overlay, #settingsOverlay').click()
+			break
+	}
+}
 /* ./plugins/filter.js */
 
 /* Filters Plugin for Nitro
@@ -149,6 +392,68 @@ plugin.add(function() {
 	};
 	
 });
+/* ./plugins/keys.js */
+
+// Keyboard Shortcuts!
+
+key('up, k', function() {cmd('prevTask')})
+key('down, j', function() {cmd('nextTask')})
+key('⌘+up, ⌘+k', function() {cmd('moveTaskUp')})
+key('⌘+down, ⌘+j', function() {cmd('moveTaskDown')})
+
+key('⇧+up, ⇧+k, i', function() {cmd('prevList')})
+key('⇧+down, ⇧+j, u', function() {cmd('nextList')})
+key('⇧+⌘+up, ⇧+⌘+k', function() {cmd('moveListUp')})
+key('⇧+⌘+down, ⇧+⌘+j', function() {cmd('moveListDown')})
+
+key('space', function() {cmd('check')})
+key('enter', function() {cmd('editTask'); return false})
+key('⌘+enter', function() {cmd('editList'); return false})
+
+key('delete', function() {cmd('delete')})
+
+key('f', function() {cmd('find'); return false})
+key('p', function() {cmd('prefs')})
+// key('a', function() {cmd('about')})
+// key('h', function() {cmd('help')})
+
+key('n, t', function() {cmd('newtask'); return false})
+key('l', function() {cmd('newlist'); return false})
+key('s', function() {cmd('sync')})
+
+key('1', function() {cmd('today')})
+key('2', function() {cmd('next')})
+key('3', function() {cmd('scheduled')})
+key('4', function() {cmd('logbook')})
+key('5', function() {cmd('allTasks')})
+
+key('esc', function() {cmd('escape')})
+
+// Tasks
+$tasks.on('keydown', 'input.content', function(e) {
+	if(e.keyCode === 13) {
+		console.log("Hello World")
+	}
+})
+
+// Lists
+$lists.on('keydown', 'input', function(e) {
+	if(e.keyCode === 13) {
+		ui.toggleListEdit($(this).parent(), 'close')
+	}
+})
+
+// Tasks
+$tasks.on('keydown', 'input', function(e) {
+	if(e.keyCode === 13) {
+		var $this = $(this).closest('li'),
+			id = $this.attr('data-id').toNum()
+		ui.toggleTaskEdit($this, {}, function() {
+			$tasks.find('[data-id='+id+']').click()
+		})
+	}
+})
+
 /* ./plugins/scheduled.js */
 
 /* Nitro Scheduled & Recurring Plugin

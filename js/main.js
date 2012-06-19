@@ -44,8 +44,8 @@ var ui = {
 
 		$('#tasks > .tasksContent').click(function(e) { 
 			if(e.target.nodeName == 'UL' || e.target.nodeName == 'H2' || e.target.className == 'tasksContent') {
-				$('.expanded').dblclick();
-				$('#tasks .selected').removeClass('selected');
+				$tasks.find('.expanded').dblclick()
+				$tasks.find('.selected').removeClass('selected')
 			}
 		})
 	},
@@ -385,6 +385,135 @@ var ui = {
 
 		ui.lists.update().count();
 		core.storage.save([['lists', ui.session.selected, 'order']]);
+	},
+	toggleListEdit: function($list, forceClose) {
+		if($list.find('input').length || forceClose !== undefined) {
+			var $input = $list.find('input'),
+				model = {
+					name: $input.val(),
+					id: $list.attr('id').substr(1).toNum()
+				}
+
+			// Sometimes it triggers blur more than once...
+			try {
+				$input.replaceWith('<span class="name">' + model.name + '</span>')
+				core.storage.lists.items[model.id].name = model.name
+				core.storage.save([['lists', model.id, 'name']])
+				$list.find('.edit').removeClass('open')
+				$list.find('.name').click()
+			} catch(e) {}
+		} else {
+			var $name = $list.find('.name')
+			console.log($name)
+			if($list.closest('ul').attr('id') == 'lists') {
+				var name = $name.text()
+				$name.replaceWith('<input type="text" value="' + name + '" placeholder="Enter the list name">')
+				$list.find('input').focus()
+				$list.find('.edit').addClass('open')
+			}
+		}
+	},
+	toggleTaskEdit: function($this, e, cb) {
+
+		var id = $this.attr('data-id').toNum()
+			model = core.storage.tasks[id]
+
+		//Checked Tasks
+		var logged = 'checkbox ' + model.priority, checked = null
+		if (core.storage.tasks[id].logged) checked = 'checked'
+		
+		//Checks if it's expanded & if it isn't expand it.
+		if (!$this.hasClass('expanded')) {
+		
+			/* EXPANDING */
+
+			var dateStr = ''
+			if (model.date != '') {
+				var modelDate = new Date(model.date);
+				dateStr = ('0' + (modelDate.getUTCMonth() + 1)).substring(('0' + (modelDate.getUTCMonth() + 1)).toString().length - 2) + '/' + ('0' + modelDate.getDate()).substring(('0' + modelDate.getDate()).toString().length - 2) + '/' + modelDate.getFullYear()		
+			}
+			
+
+			var markup = Mustache.to_html(templates.task.expanded, {
+				id: id,
+				checked: checked,
+				content: model.content,
+				notes: model.notes,
+				notesPlaceholder : $l._('notes'),
+				datePlaceholder: $l._('dueDate'),
+				date: dateStr,
+				tags: model.tags.toString().replace(/,/g,', '),
+				extra: core.date(model.date).getDaysLeft()[0],
+				priority: model.priority,
+				// Because of Translated Version
+				i18n_priority: $l._(model.priority),
+				logged: logged
+			})
+
+			//Collapses Task
+			if(!e.metaKey && !e.ctrlKey) $tasks.find('.expanded').dblclick()
+
+			$this
+				.html(markup)
+				.addClass('expanded')
+				.height($this.height() + $this.removeClass('selected').children('div').children('.hidden').show(0).height())
+				.trigger('expand')
+				.find('input.content').focus()
+
+			if (ui.session.selected == 'scheduled') {
+				$('.tags').remove()
+
+				$this.find('.date').replaceWith('<button class="date">' + $l._('schedule') + '</button>');
+				$this.find('.date').click(function() {
+					$('#scheduledDialog .inner').fadeToggle(150).attr('data-type', id);
+					$('#scheduledDialog').toggle(0);
+
+					plugin.scheduled.ui.init('edit');
+				});
+
+				// Special Checkboxes for Scheduled
+				var id = $this.attr('data-id').toNum()
+				$this.find('.checkbox').addClass(core.storage.tasks[id].type);
+			}
+
+			if(typeof cb === 'function') cb()
+
+		} else {
+
+			/* COLLAPSING */
+
+			$this.removeClass('expanded').css('height', '')
+
+			//So data gets saved.
+			$this.find('input, textarea').blur()
+			
+			var orig = $this.prev().attr('data-id')
+
+			setTimeout(function() {
+
+				$this.remove()
+				
+				var markup = ui.lists.drawTasks([id])
+
+				//If it's the first task in a list, .prev won't work
+				if (orig === undefined) {
+					if (ui.session.selected == 'all' || ui.session.selected == 'scheduled' || ui.session.selected == 'logbook' || ui.session.selected == 'today') {
+						$tasks.find('ul').prepend(markup)
+					} else if (model.list == ui.session.selected) {
+						$tasks.find('ul').first().prepend(markup)
+					} else {
+						$tasks.find('ul.' + model.list).prepend(markup)
+					}
+				} else {
+					$tasks.find('ul li[data-id="' + orig + '"]').after(markup)
+				}
+
+				$tasks.find('ul li[data-id="' + id + '"]').trigger('collapse')
+
+				if(typeof cb === 'function') cb()
+				
+			}, 150)
+		}
 	}
 }
 
@@ -487,38 +616,17 @@ $sidebar.on('click', '.name, .count', function() {
 
 // List edit button
 $sidebar.on('click', '.edit', function() {
-	var $this = $(this)
-	if(!$this.hasClass('open')) {
-		$this.parent().find('.name').dblclick()
-	} else {
-		$this.removeClass('open')
-	}
+	ui.toggleListEdit($(this).parent())
 })
 
 // Doubleclick list name to edit
 $sidebar.on('dblclick', '.name', function() {
-	var $this = $(this).parent()
-	if($this.closest('ul').attr('id') == 'lists') {
-		var name = $(this).text()
-		$(this).after('<input type="text" value="' + name + '" placeholder="Enter the list name">').next().focus().prev().remove()
-		$this.find('.edit').addClass('open')
-	}
+	ui.toggleListEdit($(this).parent())
 })
 
 // Turn off edit mode if input loses focus
 $sidebar.on('blur', 'input', function() {
-
-	var $input = $(this),
-		$this = $(this).parent(),
-		model = {
-			name: $input.val(),
-			id: $this.attr('id').substr(1).toNum()
-		}
-
-	$input.after('<span class="name">' + model.name + '</span>').remove()
-	core.storage.lists.items[model.id].name = model.name
-	core.storage.save([['lists', model.id, 'name']])
-
+	ui.toggleListEdit($(this).parent(), 'close')
 })
 
 // Deleting a List
@@ -589,7 +697,7 @@ $tasks.on('collapse', 'li', function() {
 		$(this).find('.checkbox').addClass(core.storage.tasks[id].type);
 	}
 		
-})			
+}) 
 
 // Selecting a task
 $tasks.on('click', 'li', function(e) {
@@ -646,107 +754,14 @@ $tasks.on('click', '.checkbox', function() {
 // Expanding a task
 $tasks.on('dblclick', 'li', function(e) {
 
-	var $this = $(this),
-		id = $this.attr('data-id').toNum()
-		model = core.storage.tasks[id]
+	var $this = $(this)
 
 	//No event handler things in input or selected.
 	if (e.target.nodeName == 'INPUT' || e.target.nodeName == 'TEXTAREA' || e.target.nodeName == 'BUTTON' || $(e.target).hasClass('checkbox')) {
 		return
 	}
 
-	//Checked Tasks
-	var logged = 'checkbox ' + model.priority, checked = null
-	if (core.storage.tasks[id].logged) checked = 'checked'
-	
-	//Checks if it's expanded & if it isn't expand it.
-	if (!$this.hasClass('expanded')) {
-	
-		/* EXPANDING */
-
-		var dateStr = ''
-		if (model.date != '') {
-			var modelDate = new Date(model.date);
-			dateStr = ('0' + (modelDate.getUTCMonth() + 1)).substring(('0' + (modelDate.getUTCMonth() + 1)).toString().length - 2) + '/' + ('0' + modelDate.getDate()).substring(('0' + modelDate.getDate()).toString().length - 2) + '/' + modelDate.getFullYear()		
-		}
-		
-
-		var markup = Mustache.to_html(templates.task.expanded, {
-			id: id,
-			checked: checked,
-			content: model.content,
-			notes: model.notes,
-			notesPlaceholder : $l._('notes'),
-			datePlaceholder: $l._('dueDate'),
-			date: dateStr,
-			tags: model.tags.toString().replace(/,/g,', '),
-			extra: core.date(model.date).getDaysLeft()[0],
-			priority: model.priority,
-			// Because of Translated Version
-			i18n_priority: $l._(model.priority),
-			logged: logged
-		})
-
-		//Collapses Task
-		if(!e.metaKey && !e.ctrlKey) $('.expanded').dblclick()
-
-		$this
-			.html(markup)
-			.addClass('expanded')
-			.height($this.height() + $this.removeClass('selected').children('div').children('.hidden').show(0).height())
-			.trigger('expand')
-			.find('input.content').focus()
-
-		if (ui.session.selected == 'scheduled') {
-			$('.tags').remove()
-
-			$this.find('.date').replaceWith('<button class="date">' + $l._('schedule') + '</button>');
-			$this.find('.date').click(function() {
-				$('#scheduledDialog .inner').fadeToggle(150).attr('data-type', id);
-				$('#scheduledDialog').toggle(0);
-
-				plugin.scheduled.ui.init('edit');
-			});
-
-			// Special Checkboxes for Scheduled
-			var id = $this.attr('data-id').toNum()
-			$this.find('.checkbox').addClass(core.storage.tasks[id].type);
-		}
-
-	} else {
-
-		/* COLLAPSING */
-
-		$this.removeClass('expanded').css('height', '')
-
-		//So data gets saved.
-		$this.find('input, textarea').blur()
-		
-		var orig = $this.prev().attr('data-id')
-
-		setTimeout(function() {
-
-			$this.remove()
-			
-			var markup = ui.lists.drawTasks([id])
-
-			//If it's the first task in a list, .prev won't work
-			if (orig === undefined) {
-				if (ui.session.selected == 'all' || ui.session.selected == 'scheduled' || ui.session.selected == 'logbook' || ui.session.selected == 'today') {
-					$tasks.find('ul').prepend(markup)
-				} else if (model.list == ui.session.selected) {
-					$tasks.find('ul').first().prepend(markup)
-				} else {
-					$tasks.find('ul.' + model.list).prepend(markup)
-				}
-			} else {
-				$tasks.find('ul li[data-id="' + orig + '"]').after(markup)
-			}
-
-			$tasks.find('ul li[data-id="' + id + '"]').trigger('collapse')
-			
-		}, 150)
-	}
+	ui.toggleTaskEdit($this, e)
 })
 
 $tasks.on('expand', 'li', function() {
