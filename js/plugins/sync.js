@@ -12,16 +12,36 @@ plugin.add(function() {
 
 	$(document).ready(function() {
 		$panel.right.prepend('<button id="runSync"></button>')
+		$runSync = $('#runSync')
 	})
 
 	$panel.right.on('click', '#runSync', function() {
 		$this = $(this)
-		$this.toggleClass('running')
+
+		if($this.hasClass('running')) {
+			// Do nothing...
+		} else if(core.storage.prefs.sync.hasOwnProperty('access') && core.storage.prefs.sync !== 'never') {
+			$this.addClass('running')
+			sync.run('dropbox', function(success, time) {
+				if(success) {
+					console.log("Everything worked - took " + time/1000 + "s")
+				} else {
+					// Display notification that sync failed
+					sync.notify("Could not sync with server...")
+				}
+				$this.removeClass('running')
+			})
+		} else {
+			$settingsbtn.trigger('click')
+			$('a[data-target=#tabSync]').tab('show');
+		}
 	})
 
 	sync = {
 		// Magical function that handles connect and emit
 		run: function (service, callback) {
+
+			var time = core.timestamp()
 
 			if (service) {
 				core.storage.prefs.sync.service = service;
@@ -30,22 +50,25 @@ plugin.add(function() {
 				return;
 			}
 
-			// ui.sync.beforeunload('on');
-
 			if (core.storage.prefs.sync.hasOwnProperty('access')) {
 
-				sync.emit();
-
-				if (typeof callback === "function") callback(true);
+				sync.emit(function(success) {
+					time = core.timestamp() - time
+					if (typeof callback === "function") callback(success, time);
+				});
 
 			} else {
 
 				sync.connect(function (result) {
-					sync.emit();
-
-					if (typeof callback === "function") callback(result);
-				});
-
+					if(result) {
+						sync.emit(function(success) {
+							time = core.timestamp() - time
+							if (typeof callback === "function") callback(success, time)
+						})
+					} else {
+						if (typeof callback === "function") callback(result, 0)
+					}
+				})
 			}
 
 		},
@@ -54,31 +77,32 @@ plugin.add(function() {
 		},
 		connect: function (callback) {
 
-			console.log("Connecting to Nitro Sync server");
+			console.log("Connecting to Nitro Sync server")
 
+			// Already has access token
 			if (core.storage.prefs.sync.hasOwnProperty('access')) {
 
-				var ajaxdata = sync.ajaxdata;
+				var ajaxdata = sync.ajaxdata
 
-				//Yes, this code is in the complete wrong order but we need python integration
+				// Watch ajax data for changes
 				ajaxdata.watch('data', function (id, oldval, newval) {
-					console.log(newval);
+
 					if (newval == "success") {
-						console.log("Nitro Sync server is ready");
-						callback(true);
+						console.log("Nitro Sync server is ready")
+						if(typeof callback === 'function') callback(true)
 					} else if (newval == "failed") {
-						console.log("Could not connect to Dropbox");
-						callback(false);
+						console.log("Could not connect to Dropbox")
+						if(typeof callback === 'function') callback(false)
 					}
 
-					//Unbind AJAX thing
+					// Unwatch AJAX
 					ajaxdata.unwatch();
 
-				});
+				})
 
 				if (app == 'python') {
-					document.title = 'null';
-					document.title = 'ajax|access|' + core.storage.prefs.sync.access + '|' + core.storage.prefs.sync.service;
+					document.title = 'null'
+					document.title = 'ajax|access|' + core.storage.prefs.sync.access + '|' + core.storage.prefs.sync.service
 				} else {
 					$.ajax({
 						type: "POST",
@@ -89,51 +113,55 @@ plugin.add(function() {
 							service: core.storage.prefs.sync.service
 						},
 						success: function (data) {
-
 							ajaxdata.data = data;
 						}
-					});
+					})
 				}
+
+			// Needs access token
 			} else {
 				var ajaxdata = sync.ajaxdata;
-
-				//Yes, this code is in the complete wrong order but we need python integration
 				ajaxdata.watch('data', function (id, oldval, newval) {
 
-					console.log("Verifying Storagebackend");
+					console.log("Verifying token");
 					core.storage.prefs.sync.token = newval;
 
 					// Display popup window
 					if (app == 'python') {
 						document.title = 'frame|' + newval.authorize_url;
 					} else {
-						var left = (screen.width / 2) - (800 / 2),
-							top = (screen.height / 2) - (600 / 2),
-							title = "Authorise Nitro",
-							targetWin = window.open(newval.authorize_url, title, 'toolbar=no, type=popup, status=no, width=800, height=600, top=' + top + ', left=' + left);
-
+						var width = 960,
+							height = 600
+							left = (screen.width / 2) - (width / 2),
+							top = (screen.height / 2) - (height / 2)
+						window.open(newval.authorize_url, Math.random(), 'toolbar=no, type=popup, status=no, width='+width+', height='+height+', top='+top+', left='+left);
 						if (app == 'web') {
 							$('#login .container').html('<div class="loading">Loading... You may need to disable your popup blocker.</div>');
 						}
 					}
 
-					//Unbind first AJAX thing
+					// Unbind first AJAX thing
 					ajaxdata.unwatch();
 
-					//New Ajax Request
+					// New Ajax Request
 					ajaxdata.watch('data', function (id, oldval, newval) {
-						console.log("Nitro Sync server is ready");
-						core.storage.prefs.sync.access = newval.access;
-						core.storage.prefs.sync.email = newval.email;
-						delete core.storage.prefs.sync.token;
-						callback(true);
-						core.storage.save();
+						if(newval != 'failed') {
+							console.log("Nitro Sync server is ready")
+							core.storage.prefs.sync.access = newval.access
+							core.storage.prefs.sync.email = newval.email
+							delete core.storage.prefs.sync.token
+							callback(true)
+							core.storage.save()
+						} else {
+							console.log("Connection failed. Server probably timed out.")
+							callback(false)
+						}
 
-						//Unbind AJAX thing
+						// Unbind AJAX
 						ajaxdata.unwatch();
 					});
 
-					//^ Ajax Request we're watching for
+					// Ajax Request we're watching for
 					if (app == 'python') {
 						document.title = 'null';
 						document.title = 'ajax|token|' + JSON.stringify(core.storage.prefs.sync.token) + '|' + core.storage.prefs.sync.service;
@@ -176,19 +204,18 @@ plugin.add(function() {
 			}
 		},
 
-		emit: function () {
-			var coreent = {
-				tasks: core.storage.tasks,
-				lists: core.storage.lists,
-				stats: {
-					uid: core.storage.prefs.sync.email,
-					os: app,
-					language: core.storage.prefs.lang,
-					version: version
-				}
-			};
-
-			var ajaxdata = sync.ajaxdata;
+		emit: function (callback) {
+			var client = {
+					tasks: core.storage.tasks,
+					lists: core.storage.lists,
+					stats: {
+						uid: core.storage.prefs.sync.email,
+						os: app,
+						language: core.storage.prefs.lang,
+						version: version
+					}
+				},
+				ajaxdata = sync.ajaxdata
 
 			//Watches Ajax request
 			ajaxdata.watch('data', function (id, oldval, newval) {
@@ -197,36 +224,49 @@ plugin.add(function() {
 				core.storage.tasks = newval.tasks;
 				core.storage.lists = newval.lists;
 				core.storage.save();
-				// ui.sync.reload();
+				ui.reload();
 			});
 
 			//^ Ajax Request we're watching for
 			if (app == 'python') {
 				document.title = 'null';
-				document.title = 'ajax|sync|' + JSON.stringify(compress(coreent)) + '|' + JSON.stringify(core.storage.prefs.sync.access) + '|' + core.storage.prefs.sync.service;
+				document.title = 'ajax|sync|' + JSON.stringify(compress(client)) + '|' + JSON.stringify(core.storage.prefs.sync.access) + '|' + core.storage.prefs.sync.service;
 			} else {
 				$.ajax({
 					type: "POST",
 					url: core.storage.prefs.sync.url + '/sync/',
 					dataType: 'json',
 					data: {
-						data: JSON.stringify(compress(coreent)),
+						data: JSON.stringify(compress(client)),
 						access: core.storage.prefs.sync.access,
 						service: core.storage.prefs.sync.service
 					},
 					success: function (data) {
 						if (data != 'failed') {
 							ajaxdata.data = data;
+							if(typeof callback === 'function') callback(true)
 							return true;
 						} else {
+							if(typeof callback === 'function') callback(false)
 							return false;
 						}
 					},
 					error: function () {
-						alert('An error occured. If it had nothing to do with your internet, it has been reported to the developers =)')
+						if(typeof callback === 'function') callback(false)
+						return false;
 					}
 				});
 			}
+		},
+		notify:function (msg) {
+			$runSync.before('<div class="message">'+msg+'</div>')
+			var $msg = $panel.right.find('.message')
+			$msg.hide().fadeIn(300)
+			setTimeout(function() {
+				$msg.fadeOut(500, function() {
+					$(this).remove()
+				})
+			}, 4000)
 		}
 	}
 
@@ -237,8 +277,8 @@ plugin.add(function() {
 			content: 'c',
 			priority: 'd',
 			date: 'e',
-			today: 'f',
-			showInToday: 'g',
+			today: 'f',  		// Deprecated
+			showInToday: 'g', 	// Deprecated
 			list: 'h',
 			lists: 'i',
 			logged: 'j',
@@ -252,7 +292,10 @@ plugin.add(function() {
 			items: 'r',
 			next: 's',
 			someday: 't',
-			deleted: 'u'
+			deleted: 'u',
+			logbook: 'v',
+			scheduled: 'w',
+			version: 'x'
 		},
 			out = {};
 
@@ -294,7 +337,10 @@ plugin.add(function() {
 			r: 'items',
 			s: 'next',
 			t: 'someday',
-			u: 'deleted'
+			u: 'deleted',
+			v: 'logbook',
+			w: 'scheduled',
+			x: 'version'
 		},
 			out = {};
 

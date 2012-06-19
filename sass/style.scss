@@ -375,15 +375,26 @@ html, body {
 		padding: 0 18px;
 		line-height: 40px;
 		font-size: 13px;
-		&#runSync {
-			&.running {
-				background-image: url('img/sync.gif')
-			}
-			background-image: url('img/sync_static.gif');
-			background-repeat: no-repeat;
-			background-position: 5px 7px;
-		}
 	}
+
+	.message {
+		position: absolute;
+		color: #fff;
+		background: #333;
+		top: 40px;
+		margin-left: -60px;
+		padding: 5px 20px;
+		border: 1px solid #000;
+	}
+}
+
+#runSync {
+	&.running {
+		background-image: url('img/sync.gif')
+	}
+	background-image: url('img/sync_static.gif');
+	background-repeat: no-repeat;
+	background-position: 5px 7px;
 }
 
 #tasks {

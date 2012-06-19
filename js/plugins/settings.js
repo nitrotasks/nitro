@@ -1,7 +1,7 @@
 $(function() {
 	//Adds button to panel
 	$panel.right.prepend('<button class="settingsbtn"></button>')
-	var $settingsbtn = $('.settingsbtn')
+	$settingsbtn = $('.settingsbtn')
 	$settingsbtn.on('click', function() {
 		$('#prefsDialog').modal();
 	})
@@ -113,16 +113,15 @@ $(function() {
 				</div>\
 				<div class="tab-pane" id="tabSync">\
 					<div class="connect">\
-						<blockquote><h1>Nitro Sync Beta</h1><span class="translate" data-translate="donateText"></span></blockquote>\
-						<hr>\
+						<h2>Choose a service to setup Nitro Sync</h2>\
 						<div class="icons">\
-							<a class="icon" href="#" data-service="dropbox"><img src="images/dropbox.png"></a>\
-							<a class="icon" href="#" data-service="ubuntu"><img src="images/ubuntu.png"></a>\
+							<a class="icon" href="#" data-service="dropbox"><img src="css/img/dropbox.png"></a>\
+							<a class="icon" href="#" data-service="ubuntu"><img src="css/img/ubuntu.png"></a>\
 						</div>\
 					</div>\
 					<div class="waiting">\
 						<p class="translate" data-translate="syncAuthenticate"></p>\
-						<img class="spinner" src="images/spinner.gif">\
+						<img class="spinner" src="css/img/spinner.gif">\
 						<button class="cancel translate" data-translate="cancel"></button>\
 					</div>\
 					<div class="settings">\
@@ -151,7 +150,9 @@ $(function() {
 		$('#prefsDialog .translate').map(function () {
 			$(this).html($.i18n._($(this).attr('data-translate')));
 		})
-	}, 2000)
+	}, 300)
+
+	var $tabSync = $('#tabSync')
 
 	/**********************************
 		SETTINGS
@@ -301,4 +302,54 @@ $(function() {
 			return false;
 		}
 	});
+
+	// SYNC
+	if(core.storage.prefs.sync.hasOwnProperty('access')) {		
+		// Load settings
+		$tabSync.find('.email').html(core.storage.prefs.sync.email)
+		$tabSync.find('.service').html(core.storage.prefs.sync.service)
+		
+		// Show settings
+		$tabSync.find('.connect').hide()
+		$tabSync.find('.settings').show()
+	}
+
+
+	/**********************************
+				SYNC
+	**********************************/
+
+	$tabSync.find('a.icon').click(function() {
+			
+		var service = $(this).data('service');
+			
+			
+		// Run sync
+		// sync.run(service, function (result) {
+		// 	if(result) {
+		// 		$tabSync.find('.email').html(core.storage.prefs.sync.email);
+		// 		$tabSync.find('.service').html(service);
+		// 		$tabSync.find('.waiting').hide();
+		// 		$tabSync.find('.settings').show();
+		// 	} else {
+		// 		$tabSync.find('.connect').show()
+		// 		$tabSync.find('.waiting').hide();
+		// 	}
+		// });			
+		
+		$tabSync.find('.connect').hide()
+		$tabSync.find('.waiting').show()
+	});
+
+	$tabSync.find('.logout').click(function () {
+		// Delete tokens from localStorage
+		delete core.storage.prefs.sync.email
+		delete core.storage.prefs.sync.access
+		delete core.storage.prefs.sync.service
+		core.storage.save()
+		// Go back to main page
+		$tabSync.find('.settings').hide()
+		$tabSync.find('.connect').show()
+	})
+
 });

@@ -153,8 +153,10 @@ html, body { height: 100%; width: 100%; }
 .panel .right { float: right; }
 .panel .right input { border: 1px solid #000; font-size: 13px; padding: 5px 5px; margin: 7px 0; vertical-align: top; }
 .panel button { background: #fff; border: 0; padding: 0 18px; line-height: 40px; font-size: 13px; }
-.panel button#runSync { background-image: url("img/sync_static.gif"); background-repeat: no-repeat; background-position: 5px 7px; }
-.panel button#runSync.running { background-image: url("img/sync.gif"); }
+.panel .message { position: absolute; color: #fff; background: #333; top: 40px; margin-left: -60px; padding: 5px 20px; border: 1px solid #000; }
+
+#runSync { background-image: url("img/sync_static.gif"); background-repeat: no-repeat; background-position: 5px 7px; }
+#runSync.running { background-image: url("img/sync.gif"); }
 
 #tasks { position: absolute; top: 0; bottom: 0; right: 0; left: 0; height: 100%; z-index: 1; box-sizing: border-box; background-image: #ffffff; background-image: -webkit-radial-gradient(50% 50%, ellipse closest-side, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%); background-position: center center; background-repeat: repeat; background-size: cover; }
 #tasks .tile { background-size: auto; }
@@ -228,6 +230,7 @@ html, body { height: 100%; width: 100%; }
 #prefsDialog .tab-content .tab-pane select, #prefsDialog .tab-content .tab-pane input[type=file] { font-size: 13px; line-height: 22px; margin: 5px 0; }
 #prefsDialog .tab-content .tab-pane select:last-child, #prefsDialog .tab-content .tab-pane input[type=file]:last-child { margin-bottom: 0; }
 #prefsDialog .tab-content .tab-pane input[type=text], #prefsDialog .tab-content .tab-pane input[type=password] { margin: 5px 0; width: 200px; font-size: 13px; line-height: 18px; height: 18px; }
+#prefsDialog .tab-content .tab-pane h2 { text-align: center; }
 #prefsDialog .tab-content .tab-pane blockquote { width: 400px; color: #3b3b3b; border: 3px solid #0a6fea; background: #0a6fea; border-radius: 5px; }
 #prefsDialog .tab-content .tab-pane blockquote h1 { text-align: center; font-size: 15px; margin: 0; padding: 5px; color: #fff; }
 #prefsDialog .tab-content .tab-pane blockquote span { display: block; padding: 10px; background: #fff; border-radius: 3px; }
