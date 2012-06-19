@@ -120,9 +120,8 @@ $(function() {
 						</div>\
 					</div>\
 					<div class="waiting">\
-						<p class="translate" data-translate="syncAuthenticate"></p>\
+						<p><span class="translate" data-translate="syncAuthenticate"> </span><a class="cancel">Cancel</a></p>\
 						<img class="spinner" src="css/img/spinner.gif">\
-						<button class="cancel translate" data-translate="cancel"></button>\
 					</div>\
 					<div class="settings">\
 						<a class="left logout translate" data-translate="syncLogout" href="#"></a>\
@@ -304,11 +303,11 @@ $(function() {
 	});
 
 	// SYNC
+	$('#syncInterval').val(core.storage.prefs.sync.interval)
 	if(core.storage.prefs.sync.hasOwnProperty('access')) {		
 		// Load settings
 		$tabSync.find('.email').html(core.storage.prefs.sync.email)
 		$tabSync.find('.service').html(core.storage.prefs.sync.service)
-		
 		// Show settings
 		$tabSync.find('.connect').hide()
 		$tabSync.find('.settings').show()
@@ -319,27 +318,45 @@ $(function() {
 				SYNC
 	**********************************/
 
+	var animateTab = function(tab, from, to) {
+		var oldHeight = tab.height()
+		tab.height('auto')
+		from.hide()
+		to.show()
+		var newHeight = tab.height()
+		to.hide()
+		from.show().fadeOut(150, function() {
+			tab.height(oldHeight)
+			to.fadeIn(150)
+			tab.animate({
+				height: newHeight
+			}, 300)
+		})
+	}
+
 	$tabSync.find('a.icon').click(function() {
 			
 		var service = $(this).data('service');
 			
-			
 		// Run sync
-		// sync.run(service, function (result) {
-		// 	if(result) {
-		// 		$tabSync.find('.email').html(core.storage.prefs.sync.email);
-		// 		$tabSync.find('.service').html(service);
-		// 		$tabSync.find('.waiting').hide();
-		// 		$tabSync.find('.settings').show();
-		// 	} else {
-		// 		$tabSync.find('.connect').show()
-		// 		$tabSync.find('.waiting').hide();
-		// 	}
-		// });			
+		sync.run(service, function (result) {
+			if(result) {
+				$tabSync.find('.email').html(core.storage.prefs.sync.email);
+				$tabSync.find('.service').html(service);
+				animateTab($tabSync, $tabSync.find('.waiting'), $tabSync.find('.settings'))
+			} else {
+				animateTab($tabSync, $tabSync.find('.waiting'), $tabSync.find('.connect'))
+			}
+		})
 		
-		$tabSync.find('.connect').hide()
-		$tabSync.find('.waiting').show()
-	});
+		animateTab($tabSync, $tabSync.find('.connect'), $tabSync.find('.waiting'))
+	})
+
+	$tabSync.find('a.cancel').click(function() {
+
+		animateTab($tabSync, $tabSync.find('.waiting'), $tabSync.find('.connect'))
+
+	})
 
 	$tabSync.find('.logout').click(function () {
 		// Delete tokens from localStorage
@@ -348,8 +365,14 @@ $(function() {
 		delete core.storage.prefs.sync.service
 		core.storage.save()
 		// Go back to main page
-		$tabSync.find('.settings').hide()
-		$tabSync.find('.connect').show()
+		animateTab($tabSync, $tabSync.find('.settings'), $tabSync.find('.connect'))
+	})
+
+	// SYNC TYPE
+	$('#syncInterval').change(function () {
+		var interval = this.value
+		core.storage.prefs.sync.interval = interval
+		core.storage.save()
 	})
 
 });

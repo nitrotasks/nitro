@@ -6,9 +6,14 @@ $support-for-original-webkit-gradients: false;
 
 * {
 	-webkit-user-select: none;
+	cursor: default;
 }
 input, textarea {
 	-webkit-user-select: text;
+	cursor: text;
+}
+a {
+	cursor: pointer;
 }
 
 /* HTML5 Boilerplate  */
@@ -139,6 +144,7 @@ html, body {
 			width: 40px;
 			
 			.icon {
+				cursor: pointer;
 				margin: 11px 0 0 11px;
 				width: 0;
 				height: 0;
@@ -178,6 +184,10 @@ html, body {
 	ul {
 		margin: 0;
 		padding: 0;
+
+		& * {
+			cursor: pointer;
+		}
 		
 		li {
 			display: box;
@@ -190,7 +200,6 @@ html, body {
 			font-size: 13px;
 			color: #444444;
 			padding: 0 0 0 15px;
-			cursor: pointer;
 			position: relative;
 
 			.edit {
@@ -478,6 +487,7 @@ html, body {
 				}
 
 				.checkbox {
+					cursor: pointer;
 					margin: 8px;
 					width: 13px;
 					height: 13px;

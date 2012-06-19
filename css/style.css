@@ -1,7 +1,9 @@
 @import url(datepicker.css);
-* { -webkit-user-select: none; }
+* { -webkit-user-select: none; cursor: default; }
 
-input, textarea { -webkit-user-select: text; }
+input, textarea { -webkit-user-select: text; cursor: text; }
+
+a { cursor: pointer; }
 
 /* HTML5 Boilerplate  */
 article, aside, details, figcaption, figure, footer, header, hgroup, nav, section { display: block; }
@@ -116,14 +118,15 @@ html, body { height: 100%; width: 100%; }
 #sidebar h2 { margin: 0; padding: 0 0 0 15px; font-size: 13px; line-height: 30px; height: 30px; text-transform: uppercase; border-top: 1px solid #000; border-bottom: 1px solid #000; }
 #sidebar h2 button { background: transparent; float: right; border-top: 1px solid transparent; border-bottom: 1px solid transparent; border-left: 0; border-right: 0; padding: 0; font-weight: bold; }
 #sidebar h2 .list-toggle { display: inline-block; cursor: pointer; float: right; height: 30px; width: 40px; }
-#sidebar h2 .list-toggle .icon { margin: 11px 0 0 11px; width: 0; height: 0; border-right: 8px solid #ccc; border-top: 5px solid transparent; border-bottom: 5px solid transparent; -webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg); -ms-transform: rotate(-90deg); -o-transform: rotate(-90deg); transform: rotate(-90deg); }
+#sidebar h2 .list-toggle .icon { cursor: pointer; margin: 11px 0 0 11px; width: 0; height: 0; border-right: 8px solid #ccc; border-top: 5px solid transparent; border-bottom: 5px solid transparent; -webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg); -ms-transform: rotate(-90deg); -o-transform: rotate(-90deg); transform: rotate(-90deg); }
 #sidebar h2 .list-toggle:hover .icon { border-right-color: #5b5b5b; }
 #sidebar h2 .list-toggle.collapsed .icon { -webkit-transform: rotate(180deg); -moz-transform: rotate(180deg); -ms-transform: rotate(180deg); -o-transform: rotate(180deg); transform: rotate(180deg); }
 #sidebar h2.collapsed { border-bottom: none; }
 #sidebar #lists { -webkit-box-flex: 1; -moz-box-flex: 1; overflow-y: auto; }
 #sidebar #lists li:hover .edit, #sidebar #lists li:hover .delete { display: inline-block; }
 #sidebar ul { margin: 0; padding: 0; }
-#sidebar ul li { display: box; display: -webkit-box; display: -moz-box; height: 30px; box-sizing: border-box; line-height: 30px; font-weight: normal; font-size: 13px; color: #444444; padding: 0 0 0 15px; cursor: pointer; position: relative; width: 100% !important; }
+#sidebar ul * { cursor: pointer; }
+#sidebar ul li { display: box; display: -webkit-box; display: -moz-box; height: 30px; box-sizing: border-box; line-height: 30px; font-weight: normal; font-size: 13px; color: #444444; padding: 0 0 0 15px; position: relative; width: 100% !important; }
 #sidebar ul li .edit { background: url("glyphicons-halflings.png") -1px 195px; border: 0; padding: 0 7px; margin-right: 5px; }
 #sidebar ul li .delete { background: url("glyphicons-halflings.png") 157px 1px; border: 0; padding: 0 7px; margin-right: 5px; }
 #sidebar ul li .edit, #sidebar ul li .delete { opacity: 0.5; -webkit-transition: opacity 0.15s; -moz-transition: opacity 0.15s; -ms-transition: opacity 0.15s; -o-transition: opacity 0.15s; transition: opacity 0.15s; }
@@ -169,7 +172,7 @@ html, body { height: 100%; width: 100%; }
 #tasks .tasksContent ul li { display: block; min-height: 30px; height: 30px; cursor: pointer; overflow: hidden; padding: 0; position: relative; z-index: 2; margin-bottom: -1px; background: #fff; border: 1px solid #000; font-size: 13px; line-height: 30px; color: #111; -webkit-transform: translateZ(0); -webkit-transition-property: margin, height, opacity; -webkit-transition-duration: 150ms, 150ms, 300ms; -webkit-transition-timing-function: ease, ease, ease; }
 #tasks .tasksContent ul li.placeholder { background: rgba(0, 0, 0, 0.1); box-shadow: 0 0 0 #000; }
 #tasks .tasksContent ul li .boxhelp { display: -webkit-box; display: -moz-box; display: box; }
-#tasks .tasksContent ul li .checkbox { margin: 8px; width: 13px; height: 13px; border: 1px solid #000; }
+#tasks .tasksContent ul li .checkbox { cursor: pointer; margin: 8px; width: 13px; height: 13px; border: 1px solid #000; }
 #tasks .tasksContent ul li .checkbox.recurring, #tasks .tasksContent ul li .checkbox.scheduled { border-color: transparent; }
 #tasks .tasksContent ul li.checked { opacity: 0.5; }
 #tasks .tasksContent ul li.checked .checkbox { position: relative; border-color: transparent !important; background: none !important; }
@@ -249,9 +252,12 @@ html, body { height: 100%; width: 100%; }
 #prefsDialog .tab-content .tab-pane#tabSync blockquote { text-align: left; }
 #prefsDialog .tab-content .tab-pane#tabSync .waiting, #prefsDialog .tab-content .tab-pane#tabSync .settings { display: none; }
 #prefsDialog .tab-content .tab-pane#tabSync .waiting { text-align: center; }
+#prefsDialog .tab-content .tab-pane#tabSync .waiting p { color: #666; }
+#prefsDialog .tab-content .tab-pane#tabSync .waiting img { margin-bottom: 15px; }
+#prefsDialog .tab-content .tab-pane#tabSync .waiting a.cancel { cursor: pointer; color: #33A3EF; }
+#prefsDialog .tab-content .tab-pane#tabSync .waiting a.cancel:hover { text-decoration: underline; }
 #prefsDialog .tab-content .tab-pane#tabSync .settings .service { text-transform: capitalize; }
 #prefsDialog .tab-content .tab-pane#tabSync .settings .logout { display: block; float: right; margin-right: 20px; }
-#prefsDialog .tab-content .tab-pane#tabSync .spinner { position: absolute; left: 50%; top: 50%; margin: -32px 0 0 -32px; }
 
 #tabLanguage table { font-size: 13px; line-height: 20px; color: #444; width: 100%; }
 #tabLanguage table th { text-align: left; font-size: 14px; border-bottom: 1px solid #aaa; }

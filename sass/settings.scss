@@ -228,6 +228,22 @@
 
 				.waiting {
 					text-align: center;
+
+					p {
+						color: #666;
+					}
+
+					img {
+						margin-bottom: 15px;
+					}
+
+					a.cancel {
+						cursor: pointer;
+						color: #33A3EF;
+						&:hover {
+							text-decoration: underline;
+						}
+					}
 				}
 
 				.settings {
@@ -239,13 +255,6 @@
 						float: right;
 						margin-right: 20px;
 					}
-				}
-
-				.spinner {
-					position: absolute;
-					left: 50%;
-					top: 50%;
-					margin: -32px 0 0 -32px;
 				}
 			}
 		}

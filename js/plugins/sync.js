@@ -7,9 +7,6 @@
 //Adds as a plugin
 plugin.add(function() {
 
-	var app = 'js',
-		version = '1.4';
-
 	$(document).ready(function() {
 		$panel.right.prepend('<button id="runSync"></button>')
 		$runSync = $('#runSync')
