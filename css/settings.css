@@ -18,6 +18,7 @@
 #prefsDialog .tab-content .tab-pane select, #prefsDialog .tab-content .tab-pane input[type=file] { font-size: 13px; line-height: 22px; margin: 5px 0; }
 #prefsDialog .tab-content .tab-pane select:last-child, #prefsDialog .tab-content .tab-pane input[type=file]:last-child { margin-bottom: 0; }
 #prefsDialog .tab-content .tab-pane input[type=text], #prefsDialog .tab-content .tab-pane input[type=password] { margin: 5px 0; width: 200px; font-size: 13px; line-height: 18px; height: 18px; }
+#prefsDialog .tab-content .tab-pane h2 { text-align: center; }
 #prefsDialog .tab-content .tab-pane blockquote { width: 400px; color: #3b3b3b; border: 3px solid #0a6fea; background: #0a6fea; border-radius: 5px; }
 #prefsDialog .tab-content .tab-pane blockquote h1 { text-align: center; font-size: 15px; margin: 0; padding: 5px; color: #fff; }
 #prefsDialog .tab-content .tab-pane blockquote span { display: block; padding: 10px; background: #fff; border-radius: 3px; }
@@ -36,9 +37,12 @@
 #prefsDialog .tab-content .tab-pane#tabSync blockquote { text-align: left; }
 #prefsDialog .tab-content .tab-pane#tabSync .waiting, #prefsDialog .tab-content .tab-pane#tabSync .settings { display: none; }
 #prefsDialog .tab-content .tab-pane#tabSync .waiting { text-align: center; }
+#prefsDialog .tab-content .tab-pane#tabSync .waiting p { color: #666; }
+#prefsDialog .tab-content .tab-pane#tabSync .waiting img { margin-bottom: 15px; }
+#prefsDialog .tab-content .tab-pane#tabSync .waiting a.cancel { cursor: pointer; color: #33A3EF; }
+#prefsDialog .tab-content .tab-pane#tabSync .waiting a.cancel:hover { text-decoration: underline; }
 #prefsDialog .tab-content .tab-pane#tabSync .settings .service { text-transform: capitalize; }
 #prefsDialog .tab-content .tab-pane#tabSync .settings .logout { display: block; float: right; margin-right: 20px; }
-#prefsDialog .tab-content .tab-pane#tabSync .spinner { position: absolute; left: 50%; top: 50%; margin: -32px 0 0 -32px; }
 
 #tabLanguage table { font-size: 13px; line-height: 20px; color: #444; width: 100%; }
 #tabLanguage table th { text-align: left; font-size: 14px; border-bottom: 1px solid #aaa; }

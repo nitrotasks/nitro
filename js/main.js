@@ -1020,3 +1020,18 @@ String.prototype.toNum = function () {
 		return this.toString();
 	}
 }
+
+function colorize(color) {
+	//Changes Color
+	var darkish = tinycolor.darken(tinycolor.darken(color)).toHexString()
+	var darkest = tinycolor.darken(darkish).toHexString()
+	$('body').append('<style>\
+		#sidebar ul li.selected {\
+			background: ' + color + ';\
+			border: 1px solid ' + darkish + ';\
+			border-left: none;\
+			border-right: none;\
+			text-shadow: 0 1px 1px ' + darkest + ';\
+		}\
+	</style>')
+}

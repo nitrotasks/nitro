@@ -88,6 +88,7 @@ $(function() {
 				<div class="tab-pane" id="tabTheme">  \
 					<label class="left translate" data-translate="pickTheme"></label><select id="theme">\
 						<option value="default">Default</option>\
+						<option value="linux">Linux</option>\
 						<option value="none">None</option>\
 					</select><br>\
 					<label class="description translate" data-translate="themeDescription"></label>\
