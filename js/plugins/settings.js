@@ -345,7 +345,10 @@ $(function() {
 				$tabSync.find('.service').html(service);
 				animateTab($tabSync, $tabSync.find('.waiting'), $tabSync.find('.settings'))
 			} else {
-				animateTab($tabSync, $tabSync.find('.waiting'), $tabSync.find('.connect'))
+				$tabSync.find('.waiting p').html("Could not sync with server...")
+				setTimeout(function() {
+					animateTab($tabSync, $tabSync.find('.waiting'), $tabSync.find('.connect'))
+				}, 5000)
 			}
 		})
 		

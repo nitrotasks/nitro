@@ -1209,7 +1209,10 @@ $(function() {
 				$tabSync.find('.service').html(service);
 				animateTab($tabSync, $tabSync.find('.waiting'), $tabSync.find('.settings'))
 			} else {
-				animateTab($tabSync, $tabSync.find('.waiting'), $tabSync.find('.connect'))
+				$tabSync.find('.waiting p').html("Could not sync with server...")
+				setTimeout(function() {
+					animateTab($tabSync, $tabSync.find('.waiting'), $tabSync.find('.connect'))
+				}, 5000)
 			}
 		})
 		
@@ -1486,7 +1489,7 @@ plugin.add(function() {
 						console.log("Nitro Sync server is ready")
 						if(typeof callback === 'function') callback(true)
 					} else if (newval == "failed") {
-						console.log("Could not connect to Dropbox")
+						console.log("Could not connect to Server")
 						if(typeof callback === 'function') callback(false)
 					}
 
@@ -1509,6 +1512,10 @@ plugin.add(function() {
 						},
 						success: function (data) {
 							ajaxdata.data = data;
+						},
+						error: function(data) {
+							console.log("Could not connect to Server")
+							if(typeof callback === 'function') callback(false)
 						}
 					})
 				}
@@ -1571,6 +1578,10 @@ plugin.add(function() {
 							},
 							success: function (data) {
 								ajaxdata.data = data;
+							},
+							error: function(data) {
+								console.log("Could not connect to Server")
+								if(typeof callback === 'function') callback(false)
 							}
 						});
 					}
@@ -1593,6 +1604,10 @@ plugin.add(function() {
 						},
 						success: function (data) {
 							ajaxdata.data = data;
+						},
+						error: function(data) {
+							console.log("Could not connect to Server")
+							if(typeof callback === 'function') callback(false)
 						}
 					});
 				}
@@ -1647,6 +1662,7 @@ plugin.add(function() {
 						}
 					},
 					error: function () {
+						console.log("Hello")
 						if(typeof callback === 'function') callback(false)
 						return false;
 					}
