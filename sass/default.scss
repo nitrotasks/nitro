@@ -213,6 +213,11 @@ body {
 				border-radius: 3px;
 				background: $task_color;
 
+				&:hover {
+					border-color: #C6C6C6;
+					box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1);
+				}
+
 				&.scheduled {
 					background: url(glyphicons-halflings.png) 277px 13px;
 				}
@@ -283,4 +288,54 @@ body {
 	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
 	font-weight: normal;
 	opacity: 0.8;
+}
+
+.modal {
+	display: none;
+	position: absolute;
+	top: 30%;
+	left: 50%;
+	z-index: 10;
+	background: #fff;
+	border-radius: 5px;
+	box-shadow: 0 1px 6px rgba(0,0,0,0.75);
+
+	&#languageDialog {
+		margin: 0 0 0 -137px;
+	}
+	&#warning {
+		margin: 0 0 0 -30px;
+	}
+
+	h3 {
+		border-radius:5px 5px 0 0;
+		text-align: center;
+		height: 40px;
+		line-height: 40px;
+		margin: 0;
+		background-image: #f4f4f4;
+		@include background(linear-gradient(top, #ffffff 0%, #e9e9e8 100%));
+		border-bottom: 1px solid #eee;
+		font-size: 15px;
+		text-shadow: 0 1px 0 #fff;
+		box-shadow: 0 1px 0 #ccc;
+		color: #3b3b3b;
+	}
+	p {
+		margin: 0;
+		padding: 15px 15px 13px;
+		display: block;
+		width: 310px;
+		font-size: 13px;
+		text-align: center;
+		color: #545454;
+		line-height: 20px;
+	}
+	/*Center Buttons*/
+	button:first-of-type {
+		margin-left: 58px;
+	}
+	button {
+		margin-bottom: 15px;
+	}
 }

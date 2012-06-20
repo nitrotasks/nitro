@@ -162,10 +162,9 @@ input { font-family: "Helvetica", "Arial", "Ubuntu", sans-serif; }
 .panel .right { float: right; }
 .panel .right input { border: 1px solid #000; font-size: 13px; padding: 5px 5px; margin: 7px 0; vertical-align: top; }
 .panel button { background: #fff; border: 0; padding: 0 18px; line-height: 40px; font-size: 13px; }
+.panel .runSync { background: url("img/sync_static.gif"); background-repeat: no-repeat; background-position: 5px 7px; }
+.panel .runSync.running { background-image: url("img/sync.gif"); }
 .panel .message { position: absolute; color: #fff; background: #333; top: 40px; margin-left: -60px; padding: 5px 20px; border: 1px solid #000; }
-
-#runSync { background-image: url("img/sync_static.gif"); background-repeat: no-repeat; background-position: 5px 7px; }
-#runSync.running { background-image: url("img/sync.gif"); }
 
 #tasks { position: absolute; top: 0; bottom: 0; right: 0; left: 0; height: 100%; z-index: 1; box-sizing: border-box; background-image: #ffffff; background-image: -webkit-radial-gradient(50% 50%, ellipse closest-side, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%); background-position: center center; background-repeat: repeat; background-size: cover; }
 #tasks .tile { background-size: auto; }
@@ -181,7 +180,7 @@ input { font-family: "Helvetica", "Arial", "Ubuntu", sans-serif; }
 #tasks .tasksContent ul li .checkbox { cursor: pointer; margin: 8px; width: 13px; height: 13px; border: 1px solid #000; }
 #tasks .tasksContent ul li .checkbox.recurring, #tasks .tasksContent ul li .checkbox.scheduled { border-color: transparent; }
 #tasks .tasksContent ul li.checked { opacity: 0.5; }
-#tasks .tasksContent ul li.checked .checkbox { position: relative; border-color: transparent !important; background: none !important; }
+#tasks .tasksContent ul li.checked .checkbox { position: relative; border-color: transparent !important; background: none !important; box-shadow: none !important; }
 #tasks .tasksContent ul li.checked .checkbox:after { display: block; position: absolute; content: url(img/logged.png); top: -6px; left: -1px; }
 #tasks .tasksContent ul li.checked.logbook { opacity: 1; }
 #tasks .tasksContent ul li .label { border-left: 1px solid #000; padding: 0 10px; }

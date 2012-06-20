@@ -915,6 +915,7 @@ $tasks.on('click', '#updateLogbook', function() {
 
 // Adding a list
 $sidebar.on('click', '.listAddBTN', function() {
+	ui.toggleListEdit($sidebar.find('.selected'), 'close')
 	var listId = core.list().add($l._('nlist'))
 	$lists.append(ui.lists.draw(listId))
 	// Edit List Name

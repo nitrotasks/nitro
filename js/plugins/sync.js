@@ -8,11 +8,11 @@
 plugin.add(function() {
 
 	$(document).ready(function() {
-		$panel.right.prepend('<button id="runSync"></button>')
-		$runSync = $('#runSync')
+		$panel.right.prepend('<button class="runSync"></button>')
+		$runSync = $('.runSync')
 	})
 
-	$panel.right.on('click', '#runSync', function() {
+	$panel.right.on('click', '.runSync', function() {
 		$this = $(this)
 
 		if($this.hasClass('running')) {

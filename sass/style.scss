@@ -405,6 +405,15 @@ input {
 		font-size: 13px;
 	}
 
+	.runSync {
+		&.running {
+			background-image: url('img/sync.gif')
+		}
+		background: url('img/sync_static.gif');
+		background-repeat: no-repeat;
+		background-position: 5px 7px;
+	}
+
 	.message {
 		position: absolute;
 		color: #fff;
@@ -414,15 +423,6 @@ input {
 		padding: 5px 20px;
 		border: 1px solid #000;
 	}
-}
-
-#runSync {
-	&.running {
-		background-image: url('img/sync.gif')
-	}
-	background-image: url('img/sync_static.gif');
-	background-repeat: no-repeat;
-	background-position: 5px 7px;
 }
 
 #tasks {
@@ -523,6 +523,7 @@ input {
 						position: relative;
 						border-color: transparent !important;
 						background: none !important;
+						box-shadow: none !important;
 					}
 					.checkbox:after {
 						display: block;

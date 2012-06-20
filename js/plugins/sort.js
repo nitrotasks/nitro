@@ -92,13 +92,11 @@ plugin.add(function() {
 					rating.a += worth[a.priority]
 					rating.b += worth[b.priority]
 
-					if(a.logged && !b.logged) return true
-					else if(!a.logged && b.logged) return false
-					else if(a.logged && b.logged) return null
+					if(a.logged && !b.logged) return 1
+					else if(!a.logged && b.logged) return -1
+					else if(a.logged && b.logged) return 0
 
-					else if(rating.a < rating.b) return true
-					else if (rating.c > rating.b) return false
-					else return null
+					return rating.b - rating.a
 	
 				})
 				break
@@ -110,28 +108,24 @@ plugin.add(function() {
 				
 				list.sort(function(a,b) {
 					var worth = { none: 0, low: 1, medium: 2, high: 3 };
-					if(a.logged && !b.logged) return true
-					else if(!a.logged && b.logged) return false
-					else if(a.logged && b.logged) return null
-					else if(worth[a.priority] < worth[b.priority]) return true;
-					else if(worth[a.priority] > worth[b.priority]) return false;
-					else return null
+					if(a.logged && !b.logged) return 1
+					else if(!a.logged && b.logged) return -1
+					else if(a.logged && b.logged) return 0
+					return worth[b.priority] - worth[a.priority]
 				});
 				break;
 				
 			case "date":
 				list.sort(function(a,b) {
-					if(a.logged && !b.logged) return true
-					else if(!a.logged && b.logged) return false
-					else if(a.logged && b.logged) return null
+					if(a.logged && !b.logged) return 1
+					else if(!a.logged && b.logged) return -1
+					else if(a.logged && b.logged) return 0
 					// Handle tasks without dates
-					if(a.date=="" && b.date !== "") return true;
-					else if(b.date=="" && a.date !== "") return false;
-					else if (a.date == "" && b.date == "") return null;
+					if(a.date=="" && b.date !== "") return 1;
+					else if(b.date=="" && a.date !== "") return -1;
+					else if (a.date == "" && b.date == "") return 0;
 					// Sort timestamps
-					else if(a.date >  b.date) return true;
-					else if(a.date <  b.date) return false;
-					else return null
+					return a.date -  b.date
 				});
 				break;
 			

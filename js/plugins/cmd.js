@@ -13,8 +13,7 @@ cmd = function (cmd) {
 			$sidebar.find('.listAddBTN').click()
 			break
 		case 'sync':
-			$settingsbtn.click()
-			$('a[data-target=#tabSync]').tab('show')
+			$runSync.click()
 			break
 
 		// Edit Menu
