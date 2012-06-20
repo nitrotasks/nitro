@@ -183,7 +183,7 @@ body {
 				border-radius: 0 4px 4px 0;
 
 				&.overdue, &.due {
-					@include background(linear-gradient(top, lighten($high_color, 35%) 0%, lighten($high_color, 30%) 100%));
+					@include background(linear-gradient(top, lighten($high_color, 25%) 0%, lighten($high_color, 20%) 100%));
 				}
 			}
 
