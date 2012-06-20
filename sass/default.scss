@@ -295,17 +295,9 @@ body {
 	position: absolute;
 	top: 30%;
 	left: 50%;
-	z-index: 10;
 	background: #fff;
 	border-radius: 5px;
 	box-shadow: 0 1px 6px rgba(0,0,0,0.75);
-
-	&#languageDialog {
-		margin: 0 0 0 -137px;
-	}
-	&#warning {
-		margin: 0 0 0 -30px;
-	}
 
 	h3 {
 		border-radius:5px 5px 0 0;
@@ -331,11 +323,36 @@ body {
 		color: #545454;
 		line-height: 20px;
 	}
-	/*Center Buttons*/
-	button:first-of-type {
-		margin-left: 58px;
-	}
-	button {
-		margin-bottom: 15px;
+	.button-container {
+		button {
+			height: 35px;
+			border-radius: 4px;
+			color: #fff;
+			font: bold 13px arial;
+			text-shadow: 0 1px 0 rgba(0,0,0,0.5);
+			box-shadow: 0 1px 2px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.5), inset 0 -1px 0 rgba(0,0,0,0.15);
+			&.yes {
+				border: 1px solid #5e8c22;
+				background-image: #89c03e;
+				@include background(linear-gradient(top, #a8d34e 0%, #6aad2d 100%));
+				&:hover {
+					@include background(linear-gradient(top, lighten(#a8d34e, 5%) 0%, lighten(#6aad2d, 5%) 100%));
+				}
+				&:active {
+					@include background(linear-gradient(top, darken(#a8d34e, 5%) 0%, darken(#6aad2d, 5%) 100%));
+				}
+			}
+			&.no {
+				border: 1px solid #b63540;
+				background-image: #ed596a;
+				@include background(linear-gradient(top, #f77087 0%, #e3414d 100%));
+				&:hover {
+					@include background(linear-gradient(top, lighten(#f77087, 5%) 0%, lighten(#e3414d, 5%) 100%));
+				}
+				&:active {
+					@include background(linear-gradient(top, darken(#f77087, 5%) 0%, darken(#e3414d, 5%) 100%));
+				}
+			}
+		}
 	}
 }

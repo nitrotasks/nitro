@@ -1760,8 +1760,6 @@ plugin.add(function() {
 	
 	plugin.sort = function(array, method) {
 
-		console.log(array)
-
 		// Clone list
 		list = array.slice(0)
 
@@ -1833,8 +1831,6 @@ plugin.add(function() {
 			delete list[i].arrayID
 			list[i] = id
 		}
-
-		console.log(list)
 		
 		return list;
 		
