@@ -56,8 +56,7 @@ var ui = {
 	},
 	initLoad: function() {
 		// Move sidebar to the right
-		$sidebar.insertAfter('#tasks')
-		$('#content').splitter({sizeRight: true})
+		ui.reloadSidebar()
 
 		// Run Upgrade function
 		upgrade()
@@ -156,6 +155,18 @@ var ui = {
 
 		//Update Counts
 		ui.lists.update().count()
+	},
+	reloadSidebar: function() {
+		$('.vsplitbar').remove()
+		if(core.storage.prefs.theme === 'wunderlist') {
+			$sidebar.insertAfter('#tasks')
+			$search.insertAfter($sidebar.find('.brand'))
+			$('#content').splitter({sizeRight: true})
+		} else {
+			$sidebar.insertBefore('#tasks')
+			$search.insertAfter($panel.right.find('.settingsbtn'))
+			$('#content').splitter({sizeLeft: true})
+		}
 	},
 	lists: {
 		//Draws a list to the DOM

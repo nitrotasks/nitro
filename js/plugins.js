@@ -1095,7 +1095,6 @@ plugin.add(function() {
 	$(document).ready(function() {
 		$panel.right.append('<input id="search" type="search" placeholder="Search">')
 		$search = $("#search")
-		$search.insertAfter($sidebar.find('.brand'))
 	
 		$search.on('keyup', function() {
 
@@ -1276,6 +1275,7 @@ $(function() {
 						<option value="default">Default</option>\
 						<option value="linux">Linux</option>\
 						<option value="coffee">Blue Coffee</option>\
+						<option value="wunderlist">Wunderlist</option>\
 						<option value="bieber">Justin Bieber</option>\
 						<option value="none">None</option>\
 					</select><br>\
@@ -1492,6 +1492,9 @@ $(function() {
 		//Saves Theme
 		core.storage.prefs.theme = theme;
 		core.storage.save();
+
+		// Reload sidebar
+		ui.reloadSidebar()
 
 		//Tells Python
 		if (app == 'python') {

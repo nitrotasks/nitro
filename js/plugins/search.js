@@ -10,7 +10,6 @@ plugin.add(function() {
 	$(document).ready(function() {
 		$panel.right.append('<input id="search" type="search" placeholder="Search">')
 		$search = $("#search")
-		$search.insertAfter($sidebar.find('.brand'))
 	
 		$search.on('keyup', function() {
 
