@@ -127,13 +127,15 @@ html, body { height: 100%; width: 100%; }
 #sidebar ul { margin: 0; padding: 0; }
 #sidebar ul * { cursor: pointer; }
 #sidebar ul li { display: box; display: -webkit-box; display: -moz-box; height: 30px; box-sizing: border-box; line-height: 30px; font-weight: normal; font-size: 13px; color: #444444; padding: 0 0 0 15px; position: relative; width: 100% !important; }
-#sidebar ul li .edit { background: url("glyphicons-halflings.png") -1px 195px; border: 0; padding: 0 7px; margin-right: 5px; }
-#sidebar ul li .delete { background: url("glyphicons-halflings.png") 157px 1px; border: 0; padding: 0 7px; margin-right: 5px; }
+#sidebar ul li .edit { background: url("img/list_edit.png") 0 -104px; border: 0; padding: 0 7px; margin-right: 5px; }
+#sidebar ul li .delete { background: url("img/list_edit.png") 1px -83px; border: 0; padding: 0 7px; margin-right: 5px; }
 #sidebar ul li .edit, #sidebar ul li .delete { opacity: 0.5; -webkit-transition: opacity 0.15s; -moz-transition: opacity 0.15s; -ms-transition: opacity 0.15s; -o-transition: opacity 0.15s; transition: opacity 0.15s; }
 #sidebar ul li .edit:hover, #sidebar ul li .delete:hover { opacity: 1; }
 #sidebar ul li .count { display: inline-block; text-align: center; padding: 1px 9px; line-height: 1; margin: 0 10px 0 0; min-width: 13px; }
 #sidebar ul li .name { display: block; height: 32px; box-flex: 1; -webkit-box-flex: 1; -moz-box-flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 #sidebar ul li.selected { background: #eee; border: 1px solid #000; border-left: none; border-right: none; }
+#sidebar ul li.selected .edit { opacity: 0.9; background-position: 0 -41px; }
+#sidebar ul li.selected .delete { opacity: 0.9; background-position: 1px -19px; }
 #sidebar ul li input { display: block; height: 22px; background: #fff; padding: 0 0 0 5px; margin: 3px 5px 0 -6px; box-flex: 1; -webkit-box-flex: 1; -moz-box-flex: 1; }
 #sidebar ul li input:focus { outline: none; }
 #sidebar ul li.dragHover { background: #ccc; }

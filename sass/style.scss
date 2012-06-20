@@ -203,13 +203,13 @@ html, body {
 			position: relative;
 
 			.edit {
-				background: url("glyphicons-halflings.png") -1px 195px;
+				background: url("img/list_edit.png") 0 -104px;;
 				border: 0;
 				padding: 0 7px;
 				margin-right: 5px;
 			}
 			.delete {
-				background: url("glyphicons-halflings.png") 157px 1px;
+				background: url("img/list_edit.png") 1px -83px;
 				border: 0;
 				padding: 0 7px;
 				margin-right: 5px;
@@ -251,6 +251,14 @@ html, body {
 				border: 1px solid #000;
 				border-left: none;
 				border-right: none;
+				.edit {
+					opacity: 0.9;
+					background-position: 0 -41px;
+				}
+				.delete {
+					opacity: 0.9;
+					background-position: 1px -19px;
+				}
 			}
 
 			input {

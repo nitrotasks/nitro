@@ -387,29 +387,32 @@ var ui = {
 		core.storage.save([['lists', ui.session.selected, 'order']]);
 	},
 	toggleListEdit: function($list, forceClose) {
-		if($list.find('input').length || forceClose !== undefined) {
-			var $input = $list.find('input'),
-				model = {
-					name: $input.val(),
-					id: $list.attr('id').substr(1).toNum()
-				}
+		if($list.length) {
+			console.log($list)
+			if($list.find('input').length || forceClose !== undefined) {
+				var $input = $list.find('input'),
+					model = {
+						name: $input.val(),
+						id: $list.attr('id').substr(1).toNum()
+					}
 
-			// Sometimes it triggers blur more than once...
-			try {
-				$input.replaceWith('<span class="name">' + model.name + '</span>')
-				core.storage.lists.items[model.id].name = model.name
-				core.storage.save([['lists', model.id, 'name']])
-				$list.find('.edit').removeClass('open')
-				$list.find('.name').click()
-			} catch(e) {}
-		} else {
-			var $name = $list.find('.name')
-			console.log($name)
-			if($list.closest('ul').attr('id') == 'lists') {
-				var name = $name.text()
-				$name.replaceWith('<input type="text" value="' + name + '" placeholder="Enter the list name">')
-				$list.find('input').focus()
-				$list.find('.edit').addClass('open')
+				// Sometimes it triggers blur more than once...
+				try {
+					$input.replaceWith('<span class="name">' + model.name + '</span>')
+					core.storage.lists.items[model.id].name = model.name
+					core.storage.save([['lists', model.id, 'name']])
+					$list.find('.edit').removeClass('open')
+					$list.find('.name').click()
+				} catch(e) {}
+			} else {
+				var $name = $list.find('.name')
+				console.log($name)
+				if($list.closest('ul').attr('id') == 'lists') {
+					var name = $name.text()
+					$name.replaceWith('<input type="text" value="' + name + '" placeholder="Enter the list name">')
+					$list.find('input').focus()
+					$list.find('.edit').addClass('open')
+				}
 			}
 		}
 	},
@@ -533,6 +536,8 @@ $sidebar.on('click', '.name, .count', function() {
 		}
 
 	//Selected List
+	console.log($sidebar.find('input').parent())
+	ui.toggleListEdit($sidebar.find('input').parent(), 'close')
 	$sidebar.find('.selected').removeClass('selected')
 	$this.addClass('selected')
 	ui.session.selected = model.id
@@ -615,18 +620,13 @@ $sidebar.on('click', '.name, .count', function() {
 })
 
 // List edit button
-$sidebar.on('click', '.edit', function() {
+$sidebar.on('click', '.edit', function(e) {
 	ui.toggleListEdit($(this).parent())
 })
 
 // Doubleclick list name to edit
 $sidebar.on('dblclick', '.name', function() {
 	ui.toggleListEdit($(this).parent())
-})
-
-// Turn off edit mode if input loses focus
-$sidebar.on('blur', 'input', function() {
-	ui.toggleListEdit($(this).parent(), 'close')
 })
 
 // Deleting a List
