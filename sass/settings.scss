@@ -10,7 +10,7 @@
 	z-index: 100;
 	border-radius: 2px;
 
-	ul {
+	& > ul {
 		height: 30px;
 		margin: 0;
 		padding: 0;
@@ -19,10 +19,10 @@
 		border-bottom:  1px solid rgba(0,0,0,0.2);
 		background: #ddd;
 
-		li {
+		& > li {
 			display: inline-block;
 			margin: 0;
-			width: 25%;
+			width: 20%;
 			box-sizing: border-box;
 			-webkit-box-sizing: border-box;
 			-moz-box-sizing: border-box;
@@ -65,7 +65,8 @@
 			display: none;
 			padding: 15px;
 			border-bottom-radius: 5px;
-
+			max-height: 400px;
+			overflow-y: auto;
 			color: #3b3b3b;
 			font-size: 13px;
 			line-height: 18px;
@@ -182,8 +183,33 @@
 				}
 			}
 
+			table {
+				width: 100%;
+				tr {
+					border-bottom: 1px solid #eee;
+					&.break {
+						background: #eee;
+					}
+					td {
+						&:first-child {
+							font-weight: bold;
+							width: 50%;
+						}
+						padding: 5px;
+					}
+				}
+			}
+
 			&.active {
 				display: block;
+			}
+
+			img.center {
+				display: table;
+				margin: 0 auto;
+			}
+			p.center {
+				text-align: center;
 			}
 
 

@@ -1199,7 +1199,7 @@ $(function() {
 	})
 	$('body').append('\
 		<div id="prefsDialog">\
-			<ul class="nav nav-tabs"><li class="active"><a href="#" data-target="#tabGeneral" data-toggle="tab" class="translate" data-translate="general">g</a></li><li><a href="#" data-target="#tabLanguage" data-toggle="tab" class="translate" data-translate="language">g</a></li><li><a href="#" data-target="#tabTheme" data-toggle="tab" class="translate" data-translate="theme">g</a></li><li><a href="#" data-target="#tabSync" data-toggle="tab" class="translate" data-translate="sync">g</a></li></ul>\
+			<ul class="nav nav-tabs"><li class="active"><a href="#" data-target="#tabGeneral" data-toggle="tab" class="translate" data-translate="general">g</a></li><li><a href="#" data-target="#tabLanguage" data-toggle="tab" class="translate" data-translate="language">g</a></li><li><a href="#" data-target="#tabTheme" data-toggle="tab" class="translate" data-translate="theme">g</a></li><li><a href="#" data-target="#tabSync" data-toggle="tab" class="translate" data-translate="sync">g</a></li><li><a href="#" data-target="#tabAbout" data-toggle="tab" class="translate" data-translate="about">g</a></li></ul>\
 			<div class="tab-content">  \
 				<div class="tab-pane active" id="tabGeneral">\
 				<form>\
@@ -1333,6 +1333,119 @@ $(function() {
 						</select><br>\
 						<label class="description translate" data-translate="syncDescription"></label>\
 					</div>\
+				</div>\
+				<div class="tab-pane" id="tabAbout">\
+					<img src="css/img/nitro_128.png" class="center">\
+					<h2>Nitro 1.3.1</h2>\
+					<p class="center">By George Czabania & Jono Cooper<br>\
+					Copyright © 2012 Caffeinated Cod<br>\
+					Licensed under the BSD license</p>\
+					<hr>\
+					<h3>Donors</h3>\
+					<p>A huge thanks to everyone that donated! To make a donation, visit our <a href="http://nitrotasks.com/#donate">website</a>.</p>\
+					<ul>\
+						<li>Gabriel Favaro</li>\
+						<li>James Thomas</li>\
+					</ul>\
+					<ul>\
+						<li>Sergio Rubi</li>\
+						<li>James Mendenhall</li>\
+						<li>Nekhelesh Ramananthan</li>\
+						<li>Valentin Vago</li>\
+						<li>Sebastian Alvarez</li>\
+						<li>Pierre Quillery</li>\
+					</ul>\
+					<ul>\
+						<li>Icon designed by Николай Гармаш (Nicholay Garmash)</li>\
+					</ul>\
+					<hr>\
+					<h3>Keyboard Shortcuts</h3>\
+					<table>\
+						<tr class="break"><td colspan="2">Standard</td></tr>\
+						<tr>\
+							<td>N</td>\
+							<td>Add task</td>\
+						</tr>\
+						<tr>\
+							<td>L</td>\
+							<td>Add list</td>\
+						</tr>\
+						<tr>\
+							<td>F</td>\
+							<td>Search</td>\
+						</tr>\
+						<tr>\
+							<td>P</td>\
+							<td>Settings</td>\
+						</tr>\
+						<tr class="break"><td colspan="2">Selecting and Moving Tasks</td></tr>\
+						<tr>\
+							<td>Up, J</td>\
+							<td>Selects the task above</td>\
+						</tr>\
+						<tr>\
+							<td>Down, K</td>\
+							<td>Selects the task below</td>\
+						</tr>\
+						<tr>\
+							<td>Cmd/Ctrl Up, Cmd/Ctrl J</td>\
+							<td>Move task up one</td>\
+						</tr>\
+						<tr>\
+							<td>Cmd/Ctrl Down, Cmd/Ctrl k</td>\
+							<td>Move task down one</td>\
+						</tr>\
+						<tr class="break"><td colspan="2">Selecting and Moving Lists</td></tr>\
+						<tr>\
+							<td>Shift Up</td>\
+							<td>Select the list above</td>\
+						</tr>\
+						<tr>\
+							<td>Shift Down</td>\
+							<td>Select the list below</td>\
+						</tr>\
+						<tr>\
+							<td>Cmd/Ctrl Shift Up</td>\
+							<td>Move the list up one</td>\
+						</tr>\
+						<tr>\
+							<td>Cmd/Ctrl Shift Down</td>\
+							<td>Move the list down one</td>\
+						</tr>\
+						<tr class="break"><td colspan="2">Editing Tasks and Lists</td></tr>\
+						<tr>\
+							<td>Spacebar</td>\
+							<td>Check off task</td>\
+						</tr>\
+						<tr>\
+							<td>Enter</td>\
+							<td>Edit task</td>\
+						</tr>\
+						<tr>\
+							<td>Shift Enter</td>\
+							<td>Edit list</td>\
+						</tr>\
+						<tr class="break"><td colspan="2">Smart lists</td></tr>\
+						<tr>\
+							<td>1</td>\
+							<td>Today</td>\
+						</tr>\
+						<tr>\
+							<td>2</td>\
+							<td>Next</td>\
+						</tr>		\
+						<tr>\
+							<td>3</td>\
+							<td>Scheduled</td>\
+						</tr>	\
+						<tr>\
+							<td>4</td>\
+							<td>Logbook</td>\
+						</tr>	\
+						<tr>\
+							<td>5</td>\
+							<td>All Tasks</td>\
+						</tr>\
 				</div>\
 			</div>\
 		</div>\
