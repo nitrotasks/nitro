@@ -90,6 +90,7 @@ $(function() {
 						<option value="default">Default</option>\
 						<option value="linux">Linux</option>\
 						<option value="coffee">Blue Coffee</option>\
+						<option value="bieber">Justin Bieber</option>\
 						<option value="none">None</option>\
 					</select><br>\
 					<label class="description translate" data-translate="themeDescription"></label>\
