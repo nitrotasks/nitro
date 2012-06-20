@@ -1332,10 +1332,10 @@ $(function() {
 				</div>\
 				<div class="tab-pane" id="tabAbout">\
 					<img src="css/img/nitro_128.png" class="center">\
-					<h2>Nitro 1.3.1</h2>\
+					<h2>Nitro <span></span></h2>\
 					<p class="center">By George Czabania & Jono Cooper<br>\
-					Copyright © 2012 Caffeinated Cod<br>\
-					Licensed under the BSD license</p>\
+					Copyright © 2012 Caffeinated Code<br>\
+					Licensed under the BSD licence</p>\
 					<hr>\
 					<h3>Donors</h3>\
 					<p>A huge thanks to everyone that donated! To make a donation, visit our <a href="http://nitrotasks.com/#donate">website</a>.</p>\
@@ -1451,6 +1451,7 @@ $(function() {
 		$('#prefsDialog .translate').map(function () {
 			$(this).html($.i18n._($(this).attr('data-translate')));
 		})
+		$('#tabAbout h2 span').html(version)
 	}, 300)
 
 	var $tabSync = $('#tabSync')
