@@ -660,7 +660,7 @@ $sidebar.on('click', '.delete', function() {
 	$modal.find('button').bind('click', function(e) {
 
 		if($(e.target).hasClass('no')) {
-			$modal.modal('hide')
+			$modal.modal('hide').remove()
 			return
 		}
 
@@ -671,8 +671,7 @@ $sidebar.on('click', '.delete', function() {
 		// Delete list
 		core.list(model.id).delete()
 
-		$modal.modal('hide')
-		$modal.remove()
+		$modal.modal('hide').remove()
 
 		// Update DOM
 		// Last list -> Go to Today
@@ -952,7 +951,7 @@ $panel.left.on('click', 'button.add', function() {
 // Deleting a task
 $panel.left.on('click', 'button.delete', function() {
 
-	$selected = $tasks.find('.selected')
+	var $selected = $tasks.find('.selected')
 
 	if($selected.length) {
 
@@ -980,7 +979,7 @@ $panel.left.on('click', 'button.delete', function() {
 		$modal.find('button').bind('click', function(e) {
 
 			if($(e.target).hasClass('no')) {
-				$modal.modal('hide')
+				$modal.modal('hide').remove()
 				return
 			}
 
@@ -996,9 +995,8 @@ $panel.left.on('click', 'button.delete', function() {
 			ui.lists.update().count()
 			
 			// Remove from DOM			
-			$modal.modal('hide')
 			$selected.remove()
-			$modal.remove()
+			$modal.modal('hide').remove()
 		})
 
 		//If the user has disabled the warnings
