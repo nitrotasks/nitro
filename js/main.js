@@ -55,6 +55,10 @@ var ui = {
 		})
 	},
 	initLoad: function() {
+		// Move sidebar to the right
+		$sidebar.insertAfter('#tasks')
+		$('#content').splitter({sizeRight: true})
+
 		// Run Upgrade function
 		upgrade()
 
@@ -77,7 +81,6 @@ var ui = {
 		$delBTN = $panel.left.find('button.delete')
 
 		//Splitter
-		$('#content').splitter({sizeLeft: true});
 		var height = $(window).height(),
 			width = $(window).width()
 
@@ -550,7 +553,7 @@ $sidebar.on('click', '.name, .count', function() {
 		}
 
 	//Selected List
-	ui.toggleListEdit($sidebar.find('input').parent(), 'close')
+	ui.toggleListEdit($lists.find('input').parent(), 'close')
 	$sidebar.find('.selected').removeClass('selected')
 	$this.addClass('selected')
 	ui.session.selected = model.id
