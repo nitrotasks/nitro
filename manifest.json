@@ -13,5 +13,9 @@
     "http://app.nitrotasks.com/",
     "http://localhost:3000/",
     "http://nitro-beta.herokuapp.com/"
-  ]
+  ],
+  "icons": {
+    "16": "css/img/nitro_16.png",
+    "128": "css/img/nitro_128.png"
+  }
 }
