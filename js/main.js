@@ -91,13 +91,20 @@ var ui = {
 			}
 		});
 
+		app = 'python'
+
 		// Theme init
 		core.storage.prefs.theme = core.storage.prefs.theme || 'default';
 		$('link.theme').attr('href', 'css/' + core.storage.prefs.theme + '.css').ready(function () {
 			//I can't trigger it?
 			$('.tasksContent').height(height - $('.panel').height())
-			ui.reload();
+			ui.reload()
 		});
+
+		//Tells Python
+		if (app == 'python') {
+			document.title = 'theme|' + core.storage.prefs.theme
+		}
 
 		//Collapse Lists
 		$sidebar.find('h2.lists').html($l._('lists'))
@@ -284,7 +291,12 @@ var ui = {
 					$('#Ltoday .count').html(todayTotal)
 
 					// Set Title
-					todayTotal > 0 ? document.title = todayTotal + " - Nitro" : document.title = "Nitro";
+					if (app == 'python') {
+						//Tells Python
+						document.title = 'count|' + todayTotal
+					} else {
+						todayTotal > 0 ? document.title = todayTotal + " - Nitro" : document.title = "Nitro";
+					}
 				},
 				logbook: function() {
 
@@ -536,7 +548,6 @@ $sidebar.on('click', '.name, .count', function() {
 		}
 
 	//Selected List
-	console.log($sidebar.find('input').parent())
 	ui.toggleListEdit($sidebar.find('input').parent(), 'close')
 	$sidebar.find('.selected').removeClass('selected')
 	$this.addClass('selected')

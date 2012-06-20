@@ -19,7 +19,11 @@ $high_color: #FB4F4F;
 
 body {
 	background: url(img/linuxbg.png);
-	box-shadow: 1px 0 2px rgba(0, 0, 0, 0.2) inset; 
+	box-shadow: 1px 0 2px rgba(0, 0, 0, 0.2) inset;
+	font-family: "Ubuntu", "Helvetica", "Arial", sans-serif;
+}
+input {
+	font-family: "Ubuntu", "Helvetica", "Arial", sans-serif;
 }
 
 #sidebar {

@@ -191,6 +191,11 @@ $(function() {
 		//Saves Theme
 		core.storage.prefs.theme = theme;
 		core.storage.save();
+
+		//Tells Python
+		if (app == 'python') {
+			document.title = 'theme|' + core.storage.prefs.theme
+		}
 	});
 
 	/**********************************
