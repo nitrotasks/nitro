@@ -33,13 +33,6 @@ key('5', function() {cmd('allTasks')})
 
 key('esc', function() {cmd('escape')})
 
-// Tasks
-$tasks.on('keydown', 'input.content', function(e) {
-	if(e.keyCode === 13) {
-		console.log("Hello World")
-	}
-})
-
 // Lists
 $lists.on('keydown', 'input', function(e) {
 	if(e.keyCode === 13) {
@@ -59,6 +52,7 @@ $tasks.on('keydown', 'input.content', function(e) {
 })
 
 $tasks.on('keydown', 'input, textarea', function(e) {
+	console.log(e.keyCode)
 	if(e.keyCode === 27) {
 		var $this = $(this).closest('li'),
 			id = $this.attr('data-id').toNum()
