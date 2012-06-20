@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-
+# This is a fucking awesome script to compile scripts. Remeber to run from the js dir.
 #File Listing
 filelist = Dir["./plugins/*.js"]
 compiledscript = ""

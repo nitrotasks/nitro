@@ -13,7 +13,7 @@
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// app = 'python'
+// Set your os. 'python'
 app = 'js'
 version = '1.4'
  
@@ -104,7 +104,7 @@ var ui = {
 			ui.reload()
 		});
 
-		//Tells Python
+		//Tells Python to hide / show the fucking panel
 		if (app == 'python') {
 			document.title = 'theme|' + core.storage.prefs.theme
 		}
@@ -411,7 +411,7 @@ var ui = {
 						id: $list.attr('id').substr(1).toNum()
 					}
 
-				// Sometimes it triggers blur more than once...
+				// Sometimes it triggers fucking blur more than once...
 				try {
 					$input.replaceWith('<span class="name">' + model.name + '</span>')
 					core.storage.lists.items[model.id].name = model.name
@@ -444,7 +444,6 @@ var ui = {
 		if (!$this.hasClass('expanded')) {
 		
 			/* EXPANDING */
-
 			var dateStr = ''
 			if (model.date != '') {
 				var modelDate = new Date(model.date);
@@ -850,7 +849,7 @@ $tasks.on('change', 'textarea', function() {
 // BUTTONS
 // -------
 
-// Updates the logbook with an awesome animation
+// Updates the logbook with an bloody awesome animation
 $tasks.on('click', '#updateLogbook', function() {
 
 	// Get current tasks in logbook
@@ -1030,7 +1029,7 @@ $sidebar.on('click', '.list-toggle', function() {
 })
 
 
-//This is the best plugin system in the world.
+//This is the best plugin system in the world. Sue me.
 var plugin = {
 	add: function(fn) {
 		fn();
