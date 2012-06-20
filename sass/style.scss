@@ -207,10 +207,14 @@ input {
 			position: relative;
 
 			.edit {
-				background: url("img/list_edit.png") 0 -104px;;
+				background: url("img/list_edit.png") 0 -105px;;
 				border: 0;
 				padding: 0 7px;
 				margin-right: 5px;
+				&.open {
+					padding: 0 7px 0 6px;
+					background-position: 0 177px;
+				}
 			}
 			.delete {
 				background: url("img/list_edit.png") 1px -83px;
@@ -258,6 +262,9 @@ input {
 				.edit {
 					opacity: 0.9;
 					background-position: 0 -41px;
+					&.open {
+						background-position: 0 1px;
+					}
 				}
 				.delete {
 					opacity: 0.9;
