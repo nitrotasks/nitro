@@ -89,6 +89,7 @@ $(function() {
 					<label class="left translate" data-translate="pickTheme"></label><select id="theme">\
 						<option value="default">Default</option>\
 						<option value="linux">Linux</option>\
+						<option value="coffee">Blue Coffee</option>\
 						<option value="none">None</option>\
 					</select><br>\
 					<label class="description translate" data-translate="themeDescription"></label>\
