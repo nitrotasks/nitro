@@ -40,7 +40,8 @@ var core = {
 						date: 0,
 						notes: 0,
 						list: 0,
-						logged: 0
+						logged: 0,
+						tags: 0
 					},
 					synced: false
 				};

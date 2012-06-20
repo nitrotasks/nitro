@@ -26,21 +26,35 @@ cmd = function (cmd) {
 			$('a[data-target=#tabGeneral]').tab('show')
 			break
 
+		// Sort
+		case 'sort-magic':
+			$sortType.find('.magic').parent().click()
+			break
+		case 'sort-default':
+			$sortType.find('.default').parent().click()
+			break
+		case 'sort-priority':
+			$sortType.find('.priority').parent().click()
+			break
+		case 'sort-date':
+			$sortType.find('.date').parent().click()
+			break
+
 		// GoTo
 		case 'today':
-			$('#Ltoday').click()
+			$('#Ltoday .name').click()
 			break
 		case 'next':
-			$('#Lnext').click()
+			$('#Lnext .name').click()
 			break
 		case 'scheduled':
-			$('#Lscheduled').click()
+			$('#Lscheduled .name').click()
 			break
 		case 'logbook':
-			$('#Llogbook').click()
+			$('#Llogbook .name').click()
 			break
 		case 'allTasks':
-			$('#Lall').click()
+			$('#Lall .name').click()
 			break
 
 		// View menu
@@ -91,8 +105,8 @@ cmd = function (cmd) {
 			$tasks.find('.selected .checkbox').click()
 			break
 		case 'delete':
-			if($warning.is(':visible')) $("#overlay").click()
-			else $deleteBTN.click()
+			// if($warning.is(':visible')) $("#overlay").click()
+			$delBTN.click()
 			break
 
 		case 'prevTask':
