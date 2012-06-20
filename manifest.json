@@ -11,6 +11,7 @@
   "permissions": [
     "unlimitedStorage",
     "http://app.nitrotasks.com/",
-    "http://localhost:3000/"
+    "http://localhost:3000/",
+    "http://nitro-beta.herokuapp.com/"
   ]
 }

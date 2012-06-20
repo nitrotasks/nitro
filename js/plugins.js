@@ -12,7 +12,7 @@ cmd = function (cmd) {
 			$addBTN.click()
 			break
 		case 'newlist':
-			$sidebar.find('#listAddBTN').click()
+			$sidebar.find('.listAddBTN').click()
 			break
 		case 'sync':
 			$settingsbtn.click()
