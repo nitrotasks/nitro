@@ -1307,7 +1307,7 @@ $(function() {
 						</div>\
 					</div>\
 					<div class="waiting">\
-						<p><span class="translate" data-translate="syncAuthenticate"> </span><a class="cancel">Cancel</a></p>\
+						<p><span class="translate" data-translate="syncAuthenticate"> </span><a class="cancel translate" data-translate="cancel"></a></p>\
 						<img class="spinner" src="css/img/spinner.gif">\
 					</div>\
 					<div class="settings">\
@@ -1627,7 +1627,7 @@ $(function() {
 				SYNC
 	**********************************/
 
-	var animateTab = function(tab, from, to) {
+	var animateTab = function(tab, from, to, cb) {
 		var oldHeight = tab.height()
 		tab.height('auto')
 		from.hide()
@@ -1639,7 +1639,9 @@ $(function() {
 			to.fadeIn(150)
 			tab.animate({
 				height: newHeight
-			}, 300)
+			}, 300, function() {
+				if(typeof cb === 'function') cb()
+			})
 		})
 	}
 
@@ -1654,9 +1656,11 @@ $(function() {
 				$tabSync.find('.service').html(service);
 				animateTab($tabSync, $tabSync.find('.waiting'), $tabSync.find('.settings'))
 			} else {
-				$tabSync.find('.waiting p').html("Could not sync with server...")
+				$tabSync.find('.waiting p').html($.i18n._('syncError'))
 				setTimeout(function() {
-					animateTab($tabSync, $tabSync.find('.waiting'), $tabSync.find('.connect'))
+					animateTab($tabSync, $tabSync.find('.waiting'), $tabSync.find('.connect'), function() {
+						$tabSync.find('.waiting p').html($.i18n._('syncAuthenticate'))
+					})
 				}, 5000)
 			}
 		})
@@ -2535,7 +2539,8 @@ timer = {
 				_this.tags = []
 				if(_this.priority === 'important') _this.priority = 'high'
 				if(_this.next) _this.next = convertDate(_this.next)
-				if(_this.ends) _this.ends = convertDate(_this.ends)
+				if(_this.ends !== "") _this.ends = convertDate(_this.ends)
+				else _this.ends = ""
 
 				lists.items.scheduled.order.push(id)
 				tasks.length++

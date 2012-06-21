@@ -154,7 +154,8 @@
 				_this.tags = []
 				if(_this.priority === 'important') _this.priority = 'high'
 				if(_this.next) _this.next = convertDate(_this.next)
-				if(_this.ends) _this.ends = convertDate(_this.ends)
+				if(_this.ends !== "") _this.ends = convertDate(_this.ends)
+				else _this.ends = ""
 
 				lists.items.scheduled.order.push(id)
 				tasks.length++
