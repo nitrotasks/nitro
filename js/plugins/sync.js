@@ -76,141 +76,125 @@ plugin.add(function() {
 
 			console.log("Connecting to Nitro Sync server")
 
-			// Already has access token
-			if (core.storage.prefs.sync.hasOwnProperty('access')) {
+			var requestURL = function(service, cb) {
+
+				console.log("Requesting URL")
 
 				var ajaxdata = sync.ajaxdata
-
-				// Watch ajax data for changes
 				ajaxdata.watch('data', function (id, oldval, newval) {
-
-					if (newval == "success") {
-						console.log("Nitro Sync server is ready")
-						if(typeof callback === 'function') callback(true)
-					} else if (newval == "failed") {
-						console.log("Could not connect to Server")
-						if(typeof callback === 'function') callback(false)
-					}
-
-					// Unwatch AJAX
-					ajaxdata.unwatch();
-
+					ajaxdata.unwatch()
+					cb(newval)
 				})
 
-				if (app == 'python') {
-					document.title = 'null'
-					document.title = 'ajax|access|' + core.storage.prefs.sync.access + '|' + core.storage.prefs.sync.service
-				} else {
-					$.ajax({
-						type: "POST",
-						url: core.storage.prefs.sync.url + '/auth/',
-						dataType: 'json',
-						data: {
-							access: JSON.stringify(core.storage.prefs.sync.access),
-							service: core.storage.prefs.sync.service
-						},
-						success: function (data) {
-							ajaxdata.data = data;
-						},
-						error: function(data) {
-							console.log("Could not connect to Server")
-							if(typeof callback === 'function') callback(false)
-						}
-					})
+				switch(app) {
+					case 'python':
+						document.title = 'null'
+						document.title = 'ajax|reqURL|' + service
+						break
+					case 'js':
+						$.ajax({
+							type: "POST",
+							url: core.storage.prefs.sync.url + '/request_url',
+							dataType: 'json',
+							data: {
+								service: service
+							},
+							success: function (data) {
+								ajaxdata.data = data
+							},
+							error: function(data) {
+								ajaxdata = 'error'
+							}
+						})
+						break
 				}
+			}
 
-			// Needs access token
-			} else {
-				var ajaxdata = sync.ajaxdata;
-				ajaxdata.watch('data', function (id, oldval, newval) {
-
-					console.log("Verifying token");
-					core.storage.prefs.sync.token = newval;
-
-					// Display popup window
-					if (app == 'python') {
-						document.title = 'frame|' + newval.authorize_url;
-					} else {
+			var showPopup = function(url) {
+				switch(app) {
+					case 'python':
+						document.title = 'frame|' + url
+						break
+					case 'web':
+						$('#login .container').html('<div class="loading">Loading... You may need to disable your popup blocker.</div>')
+					case 'js':
 						var width = 960,
 							height = 600
 							left = (screen.width / 2) - (width / 2),
 							top = (screen.height / 2) - (height / 2)
-						window.open(newval.authorize_url, Math.random(), 'toolbar=no, type=popup, status=no, width='+width+', height='+height+', top='+top+', left='+left);
-						if (app == 'web') {
-							$('#login .container').html('<div class="loading">Loading... You may need to disable your popup blocker.</div>');
-						}
-					}
-
-					// Unbind first AJAX thing
-					ajaxdata.unwatch();
-
-					// New Ajax Request
-					ajaxdata.watch('data', function (id, oldval, newval) {
-						if(newval != 'failed') {
-							console.log("Nitro Sync server is ready")
-							core.storage.prefs.sync.access = newval.access
-							core.storage.prefs.sync.email = newval.email
-							delete core.storage.prefs.sync.token
-							callback(true)
-							core.storage.save()
-						} else {
-							console.log("Connection failed. Server probably timed out.")
-							callback(false)
-						}
-
-						// Unbind AJAX
-						ajaxdata.unwatch();
-					});
-
-					// Ajax Request we're watching for
-					if (app == 'python') {
-						document.title = 'null';
-						document.title = 'ajax|token|' + JSON.stringify(core.storage.prefs.sync.token) + '|' + core.storage.prefs.sync.service;
-					} else {
-						$.ajax({
-							type: "POST",
-							url: core.storage.prefs.sync.url + '/auth/',
-							dataType: 'json',
-							data: {
-								token: core.storage.prefs.sync.token,
-								service: core.storage.prefs.sync.service
-							},
-							success: function (data) {
-								ajaxdata.data = data;
-							},
-							error: function(data) {
-								console.log("Could not connect to Server")
-								if(typeof callback === 'function') callback(false)
-							}
-						});
-					}
-
-					return newval;
-				})
-
-				//^ Ajax Request we're watching for
-				if (app == 'python') {
-					document.title = 'null';
-					document.title = 'ajax|reqURL|' + core.storage.prefs.sync.service;
-				} else {
-					$.ajax({
-						type: "POST",
-						url: core.storage.prefs.sync.url + '/auth/',
-						dataType: 'json',
-						data: {
-							reqURL: 'true',
-							service: core.storage.prefs.sync.service
-						},
-						success: function (data) {
-							ajaxdata.data = data;
-						},
-						error: function(data) {
-							console.log("Could not connect to Server")
-							if(typeof callback === 'function') callback(false)
-						}
-					});
+						window.open(url, Math.random(), 'toolbar=no, type=popup, status=no, width='+width+', height='+height+', top='+top+', left='+left)
+						break
 				}
 			}
+
+			var authorizeToken = function (token, service, cb) {
+
+				console.log("Getting access token")
+
+				var ajaxdata = sync.ajaxdata
+				ajaxdata.watch('data', function (id, oldval, newval) {
+					ajaxdata.unwatch()
+					console.log(newval)
+
+					if(newval == 'not_verified') {
+						console.log("Try again")
+						setTimeout(function() {
+							authorizeToken(token, service, cb)	
+						}, 1000)
+
+					} else if(newval == 'error' || newval == 'failed') {
+						console.log("Connection failed. Server probably timed out.")
+						cb(false)
+
+					} else {
+						console.log("Got access token")
+						core.storage.prefs.sync.access = newval.access
+						core.storage.prefs.sync.email = newval.email
+						delete core.storage.prefs.sync.token
+						core.storage.save()
+						cb(true)
+					}
+				})
+
+				switch(app) {
+					case 'python':
+						document.title = 'null'
+						document.title = 'ajax|token|' + JSON.stringify(token) + '|' + service
+						break
+					case 'js':
+						$.ajax({
+							type: "POST",
+							url: core.storage.prefs.sync.url + '/auth',
+							dataType: 'json',
+							data: {
+								token: token,
+								service: service
+							},
+							success: function (data) {
+								ajaxdata.data = data
+							},
+							error: function(data) {
+								ajaxdata.data = 'error'
+							}
+						})
+						break
+				}
+			}
+
+			// Connect
+
+			var service = core.storage.prefs.sync.service
+			requestURL(service, function(result) {
+				if(result == 'error') {
+					callback(false)
+				} else {
+					core.storage.prefs.sync.token = result
+					showPopup(result.authorize_url)
+					authorizeToken(result, service, function(result) {
+						callback(result)
+					})
+				}
+			})
 		},
 
 		emit: function (callback) {
