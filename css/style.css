@@ -110,9 +110,9 @@ td { vertical-align: top; }
 
 .chromeframe { margin: 0.2em 0; background: #ccc; color: black; padding: 0.2em 0; }
 
-html, body { height: 100%; width: 100%; font-family: "Helvetica", "Arial", "Ubuntu", sans-serif; }
+html, body { height: 100%; width: 100%; }
 
-input { font-family: "Helvetica", "Arial", "Ubuntu", sans-serif; }
+html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubuntu", sans-serif; }
 
 #content { position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; }
 
