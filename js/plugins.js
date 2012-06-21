@@ -2075,6 +2075,7 @@ plugin.add(function() {
 				core.storage.tasks = newval.tasks;
 				core.storage.lists = newval.lists;
 				core.storage.save();
+				if(typeof callback === 'function') callback(true)
 				ui.reload();
 			});
 
@@ -2095,7 +2096,6 @@ plugin.add(function() {
 					success: function (data) {
 						if (data != 'failed') {
 							ajaxdata.data = data;
-							if(typeof callback === 'function') callback(true)
 							return true;
 						} else {
 							if(typeof callback === 'function') callback(false)
