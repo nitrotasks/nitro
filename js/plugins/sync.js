@@ -19,7 +19,7 @@ plugin.add(function() {
 			// Do nothing...
 		} else if(core.storage.prefs.sync.hasOwnProperty('access') && core.storage.prefs.sync !== 'never') {
 			$this.addClass('running')
-			sync.run('dropbox', function(success, time) {
+			sync.run(core.storage.prefs.sync.service, function(success, time) {
 				if(success) {
 					console.log("Everything worked - took " + time/1000 + "s")
 				} else {
@@ -305,7 +305,8 @@ plugin.add(function() {
 			deleted: 'u',
 			logbook: 'v',
 			scheduled: 'w',
-			version: 'x'
+			version: 'x',
+			tags: 'y'
 		},
 			out = {};
 
@@ -350,7 +351,8 @@ plugin.add(function() {
 			u: 'deleted',
 			v: 'logbook',
 			w: 'scheduled',
-			x: 'version'
+			x: 'version',
+			y: 'tags'
 		},
 			out = {};
 

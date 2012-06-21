@@ -228,8 +228,6 @@ plugin.add(function() {
 
 		//Reload UI
 		$('#Lscheduled .name').click();
-		obj.view.$('.count').html(core.list('scheduled').populate().length);
-		obj.view.$().attr('id', 'L' + obj.model.get('id'));
 		ui.lists.update().count();
 
 	});
