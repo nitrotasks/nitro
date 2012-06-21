@@ -1,5 +1,4 @@
-/* Nitro Core
- *
+ /*
  * Copyright (C) 2012 Caffeinated Code <http://caffeinatedco.de>
  * Copyright (C) 2012 Jono Cooper
  * Copyright (C) 2012 George Czabania
@@ -59,7 +58,31 @@ var ui = {
 		ui.reloadSidebar()
 
 		// Run Upgrade function
-		upgrade()
+		if (app == 'python') {
+			var get = function(name, def) {
+
+				// Get data from Python
+				document.title = 'null';
+				document.title = 'get|' + name;
+
+				// If key doesn't have any data assigned to it return the default value (if assigned)
+				if(xcode == "(null)" && typeof def != undefined) { 
+					return def;
+				} else {
+					return json_decode(xcode);
+				}
+			}
+			var tmpdata = {}
+			tmpdata.tasks = get('tasks', 'empty')
+			tmpdata.lists = get('lists', 'empty')
+			tmpdata.prefs = get('prefs', 'empty')
+
+			if (tmpdata.tasks != 'empty' && tmpdata.lists != 'empty' && tmpdata.prefs != 'empty') {
+				upgrade(tmpdata)
+			}
+		} else {
+			upgrade($.polyStorage.get('jstorage', 'empty'))
+		}
 
 		//Buttons
 		$sidebar.find('h2.smartlists')

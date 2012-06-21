@@ -2,9 +2,8 @@
 
 // plugin.add(function() {
 
-	upgrade = function() {
+	upgrade = function(storage) {
 
-		var storage = $.polyStorage.get('jstorage', 'empty')
 		if(storage === 'empty') return
 		console.log("Running database upgrade")
 
