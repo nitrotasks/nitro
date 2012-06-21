@@ -234,7 +234,7 @@ plugin.add(function() {
 				core.storage.lists = newval.lists;
 				core.storage.save();
 				if(typeof callback === 'function') callback(true)
-				ui.reload()
+				ui.reload();
 			});
 
 			//^ Ajax Request we're watching for
