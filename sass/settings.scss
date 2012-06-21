@@ -183,23 +183,6 @@
 				}
 			}
 
-			table {
-				width: 100%;
-				tr {
-					border-bottom: 1px solid #eee;
-					&.break {
-						background: #eee;
-					}
-					td {
-						&:first-child {
-							font-weight: bold;
-							width: 50%;
-						}
-						padding: 5px;
-					}
-				}
-			}
-
 			&.active {
 				display: block;
 			}
@@ -331,6 +314,25 @@
 				a {
 					color: #555;
 				}
+			}
+		}
+	}
+}
+
+#tabAbout {
+	table {
+		width: 100%;
+		tr {
+			border-bottom: 1px solid #eee;
+			&.break {
+				background: #eee;
+			}
+			td {
+				&:first-child {
+					font-weight: bold;
+					width: 50%;
+				}
+				padding: 5px;
 			}
 		}
 	}
