@@ -30,6 +30,14 @@ ui.language({
 	dueDate: "Due Date",
 	schedule: "Schedule",
 
+	// Delete Modals
+	deleteMore: "Do you really want to delete these %s tasks?",
+	deleteMoreYes: "Yes, Delete them",
+	deleteMoreNo: "No, Keep them",
+	deleteOne: "Do you really want to delete this task?",
+	deleteOneYes: "Yes, Delete it",
+	deleteOneNo: "No, Keep it",
+
 	recurring: "Recurring",
 	reviewNo: "Review in:",
 	recurType: "Created:",

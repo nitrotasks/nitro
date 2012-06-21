@@ -998,13 +998,13 @@ $panel.left.on('click', 'button.delete', function() {
 
 		var message, yes, no
 		if($selected.length > 1) {
-			message = "Do you really want to delete these " + $selected.length + " tasks?"
-			yes = "Yes, Delete them"
-			no = "No, Keep them"
+			message = $l._('deleteMore', [$selected.length])
+			yes = $l._('deleteMoreYes')
+			no = $l._('deleteMoreNo')
 		} else {
-			message = "Do you really want to delete this task?"
-			yes = "Yes, Delete it"
-			no = "No, Keep it"
+			message = $l._('deleteOne')
+			yes = $l._('deleteOneYes')
+			no = $l._('deleteOneNo')
 		}
 
 		var markup = Mustache.to_html(templates.dialog.modal, {
