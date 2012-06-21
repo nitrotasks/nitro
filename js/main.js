@@ -42,9 +42,8 @@ var ui = {
 		//Nice shorthand Method
 		$l = $.i18n;
 
-		// Loads Plugins!
+		// Loads
 		ui.initLoad();
-		plugin.load();
 
 		$('#tasks > .tasksContent').click(function(e) { 
 			if(e.target.nodeName == 'UL' || e.target.nodeName == 'H2' || e.target.className == 'tasksContent') {
@@ -612,18 +611,18 @@ $sidebar.on('click', '.name, .count', function() {
 
 	if (ui.session.selected == 'next' && core.storage.prefs.nextAmount == 'everything') {
 
-		var markup = "", listID, listName
+		var markup = "", listID, listName, listOrder
 
 		for (var l=0; l<core.storage.lists.order.length; l++) {
 			//Defines Stuff for easier access
 			listID = core.storage.lists.order[l]
 			listName = core.storage.lists.items[listID].name
-			tasks = core.list(listID).populate()
+			listOrder = plugin.sort(core.list(listID).populate(), 'magic')
 
 			//Makes sure there is something in the list
-			if (tasks.length != 0) {
+			if (listOrder.length != 0) {
 				//New DOM Nodes
-				markup += '<h2>' + listName + '</h2>' + '<ul class="' + listID + '">' + ui.lists.drawTasks(tasks) + '</ul>'
+				markup += '<h2>' + listName + '</h2>' + '<ul class="' + listID + '">' + ui.lists.drawTasks(listOrder) + '</ul>'
 			}						
 		}
 		$tasks.append(markup)
@@ -693,10 +692,10 @@ $sidebar.on('dblclick', '.name', function() {
 $sidebar.on('click', '.delete', function() {
 
 	var markup = Mustache.to_html(templates.dialog.modal, {
-		id: "deleteListModal",
-		title: "Warning!",
-		message: "Are you sure you want to delete that list?",
-		button: {yes: "Yes, delete it", no: "No, keep it"}
+		id: 'deleteListModal',
+		title: $l._('warning'),
+		message: $l._('deleteList'),
+		button: {yes: $l._('deleteOneYes'), no: $l._('deleteOneNo')}
 	})
 	$body.append(markup)
 	var $modal = $('#deleteListModal'),
@@ -1015,7 +1014,7 @@ $panel.left.on('click', 'button.delete', function() {
 
 		var markup = Mustache.to_html(templates.dialog.modal, {
 			id: "deleteTaskModal",
-			title: "Warning!",
+			title: $l._("warning"),
 			message: message,
 			button: {yes: yes, no: no}
 		})
@@ -1079,10 +1078,6 @@ $sidebar.on('click', '.list-toggle', function() {
 var plugin = {
 	add: function(fn) {
 		fn();
-	},
-	load: function() {
-		//Define Plugins in here
-		// $('body').append('<script src=js/plugins.js></script>')
 	}
 }
 

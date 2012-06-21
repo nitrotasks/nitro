@@ -15,6 +15,13 @@ ui.language({
 	//Buttons
 	addbtn: "Add",
 	deletebtn: "Delete",
+	sortbtn: "Sort",
+
+	// Sort
+	sortMagic: "Magic",
+	sortDefault: "by Hand",
+	sortPriority: "Priority",
+	sortDate: "Date",
 
 	//Placeholder Text
 	search: "Search",
@@ -37,6 +44,8 @@ ui.language({
 	deleteOne: "Do you really want to delete this task?",
 	deleteOneYes: "Yes, Delete it",
 	deleteOneNo: "No, Keep it",
+	deleteList: "Are you sure you want to delete that list?",
+	warning: "Warning!",
 
 	recurring: "Recurring",
 	reviewNo: "Review in:",
