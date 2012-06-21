@@ -1,6 +1,6 @@
-body { background: url(img/linuxbg.png); box-shadow: 1px 0 2px rgba(0, 0, 0, 0.2) inset; font-family: "Ubuntu", "Helvetica", "Arial", sans-serif; }
+body { background: url(img/linuxbg.png); box-shadow: 1px 0 2px rgba(0, 0, 0, 0.2) inset; }
 
-input { font-family: "Ubuntu", "Helvetica", "Arial", sans-serif; }
+html, button, input, select, textarea { font-family: "Ubuntu", "Helvetica", "Arial", sans-serif; }
 
 #sidebar { background: #fbfbfb; box-shadow: 1px 0 1px rgba(0, 0, 0, 0.3); }
 #sidebar h2 { border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc; box-shadow: 0 0 1px rgba(0, 0, 0, 0.2) inset; }
