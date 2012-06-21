@@ -5,7 +5,6 @@
 plugin.add(function() {
 
 	var $this,
-	//Nice shorthand Method
 		$l = $.i18n;
 
 	//Creates Scheduled List if it doesn't already exist
@@ -88,153 +87,166 @@ plugin.add(function() {
 			</div>\
 		</div>')
 
-	//We need a timeout
-	setTimeout(function(){
-		$('#scheduledDialog .translate').map(function () {
+	var $scheduledDialog = $('#scheduledDialog')
+
+	$(document).on('loaded',function() {
+		$scheduledDialog.find('.translate').map(function () {
 			$(this).html($.i18n._($(this).attr('data-translate')));
 		})
-	}, 2000)
+	})
 
-	//I'm bad at coding. Sue me.
-	$('#scheduledDialog .inner .create').click(function () {
+	$scheduledDialog.find('.inner .create').click(function () {
 
-		var id = $(this).parent().parent().attr('data-type');
-		//Calculates Date
-		var date = parseInt($('#reviewNo').val());
-		var unit = $('#reviewLength').val();
+		var input = {
+			type: $(this).closest('.inner').attr('data-type'),
+			date: parseInt($('#reviewNo').val()),
+			unit: $('#reviewLength').val()
+		}
 
-		//Zeros Days
-		var today = new Date();
-		today.setSeconds(0);
-		today.setMinutes(0);
-		today.setHours(0);
+		// Zeros Days
+		var today = new Date()
+		today.setSeconds(0)
+		today.setMinutes(0)
+		today.setHours(0)
 		var tmpdate = new Date()
 
-		if (unit == 'days') {
-			today.setDate(today.getDate() + date);
-		} else if (unit == 'weeks') {
-			today.setDate(today.getDate() + (date * 7));
-		} else if (unit == 'months') {
-			today.setMonth(today.getMonth() + date);
-		} else if (unit == 'years') {
-			today.setYear(today.getFullYear() + date);
-		};
+		switch(input.unit) {
+			case 'days':
+				today.setDate(today.getDate() + input.date)
+				break
+			case 'weeks':
+				today.setDate(today.getDate() + (input.date * 7))
+				break
+			case 'months':
+				today.setMonth(today.getMonth() + input.date)
+				break
+			case 'years':
+				today.setYear(today.getFullYear() + input.date)
+				break
+		}
 
-		if (id == 'add') {
-			if ($('#scheduledDialog input[type=radio]:checked').val() === 'scheduled') {
+
+		// 
+		// Adding a new task
+		// 
+
+		if (input.type == 'add') {
+
+			// 
+			// Scheduled
+			// 
+
+			if ($scheduledDialog.find('input[type=radio]:checked').val() === 'scheduled') {
 				//Creates a new Scheduled Task
-				plugin.scheduled.core.add('New Task', 'scheduled');
+				var id = plugin.scheduled.core.add('New Task', 'scheduled'),
+					task = core.storage.tasks[id]
 
-				//Edits Data inside of it
-				var task = core.storage.tasks[core.storage.lists.items.scheduled.order.length - 1];
+				task.next = today.getTime()
+				task.list = $scheduledDialog.find('.schedule .reviewAction').val()
 
-				//Calculates Difference
-				//task.date = (Math.round((today.getTime() - tmpdate.getTime()) / 1000 / 60 / 60 /24));
-				task.next = today.getTime();
-				task.list = $('.schedule .reviewAction').val();
+				core.storage.save([['tasks', id, 'next'],['tasks',id,'type']])
 
 
-			} else if ($('#scheduledDialog input[type=radio]:checked').val() === 'recurring') {
 
-				var test = $('#recurNext').val();
-				if (test == '' || new Date(test) == 'Invalid Date') {
-					return;
-				}
+			// 
+			// Recurring
+			// 
+
+			} else if ($scheduledDialog.find('input[type=radio]:checked').val() === 'recurring') {
+
+				var recurNext = $('#recurNext').val()
+				if (recurNext == '' || isNaN(new Date(recurNext).getTime())) return
+		
 				//Creates a new Recurring Task
-				plugin.scheduled.core.add('New Task', 'recurring');
+				plugin.scheduled.core.add('New Task', 'recurring')
 
 				//Edits Data inside of it
-				var task = core.storage.tasks[core.storage.lists.items.scheduled.order.length - 1];
-				task.next = new Date($('#recurNext').val()).getTime();
+				var task = core.storage.tasks[core.storage.lists.items.scheduled.order.length - 1]
+				task.next = new Date(recurNext).getTime();
 
-				//Makes sure that it doesn't break polyStorage. I dunno.
-				if ($('#recurEnds').val() == '') {
-					task.ends = '';
-				} else {
-					task.ends = new Date($('#recurEnds').val()).getTime();	
-				}
+				var recurEnds = $('#recurEnds').val()
+				if (recurEnds == '' || isNaN(new Date(recurEnds).getTime())) task.ends = ''
+				else task.ends = new Date(recurEnds).getTime()	
 
-				task.list = $('.recurring .reviewAction').val();
-				task.recurType = $('#recurType').val();
+				task.list = $('.recurring .reviewAction').val()
+				task.recurType = $('#recurType').val()
 
-				if (task.recurType === 'daily') {
-					task.recurInterval = [parseInt($('#recurSpecial input').val())];
-				} else if (task.recurType === 'weekly') {
-					var interval = [];
-
-					$('#recurSpecial div').map(function () {
-						interval.push([parseInt($(this).children('input').val()), $(this).children('select').val(), task.next]);
-					})
-
-					task.recurInterval = interval;
-				} else if (task.recurType == 'monthly') {
-					var interval = [];
-
-					$('#recurSpecial div').map(function () {
-						interval.push([1, parseInt($(this).children('.type').val()), 'day', task.next]);
-					})
-
-					task.recurInterval = interval;
+				switch(task.recurType) {
+					case 'daily':
+						task.recurInterval = [Number($('#recurSpecial input').val())]
+						break
+					case 'weekly':
+						task.recurInterval = []
+						$('#recurSpecial div').map(function () {
+							task.recurInterval.push([parseInt($(this).children('input').val()), $(this).children('select').val(), task.next])
+						})
+						break
+					case 'monthly':
+						task.recurInterval = [];
+						$('#recurSpecial div').map(function () {
+							task.recurInterval.push([1, parseInt($(this).children('.type').val()), 'day', task.next]);
+						})
+						break
 				}
 			}
 
 		} else {
-			//THIS DOESN't WORK. Don't use it. Don't even try. Don't even look at it.
-			var id = (core.storage.tasks[id].type).substr(0,1) + id;
-			var task = core.storage.tasks[id.substr(1)];
 
-			if (id.substr(0, 1) == 's') {
+			var id = input.type,
+				task = core.storage.tasks[id]
+
+			if (task.type == 'scheduled') {
 
 				//Edits Values
-				task.next = new Date(today).getTime();
+				task.next = today.getTime()
 				task.list = $('.schedule .reviewAction').val()
 
-			} else if (id.substr(0, 1) == 'r') {
-				task.next = $('#recurNext').val();
-				task.ends = $('#recurEnds').val();
-				task.recurType = $('#recurType').val();
+			} else if (task.type == 'recurring') {
+				task.next = $('#recurNext').val()
+				task.ends = $('#recurEnds').val()
+				task.recurType = $('#recurType').val()
 
-				if (task.recurType === 'daily') {
-					task.recurInterval = [parseInt($('#recurSpecial input').val())];
-				} else if (task.recurType === 'weekly') {
-					var interval = [];
 
-					$('#recurSpecial div').map(function () {
-						interval.push([parseInt($(this).children('input').val()), $(this).children('select').val(), task.next]);
-					})
-
-					task.recurInterval = interval;
-				} else if (task.recurType == 'monthly') {
-					var interval = [];
-
-					$('#recurSpecial div').map(function () {
-						interval.push([1, parseInt($(this).children('.type').val()), 'day', task.next]);
-					})
-
-					task.recurInterval = interval;
+				switch(task.recurType) {
+					case 'daily':
+						task.recurInterval = [Number($('#recurSpecial input').val())]
+						break
+					case 'weekly':
+						task.recurInterval = []
+						$('#recurSpecial div').map(function () {
+							task.recurInterval.push([parseInt($(this).children('input').val()), $(this).children('select').val(), task.next])
+						})
+						break
+					case 'monthly':
+						task.recurInterval = [];
+						$('#recurSpecial div').map(function () {
+							task.recurInterval.push([1, parseInt($(this).children('.type').val()), 'day', task.next]);
+						})
+						break
 				}
 			}
+
+			//Saves
+			core.storage.save([['tasks', id, 'next'], ['tasks', id, 'ends'], ['tasks', id, 'type'], ['tasks', id, 'recurInterval'],['tasks', id, 'recurType']]);
 		}
 
-		//Saves
-		core.storage.save();
 
 		//Closes
-		$('#scheduledDialog .inner').fadeOut(150);
-		$('#scheduledDialog').hide(0);
+		$('#scheduledDialog .inner').fadeOut(150)
+		$('#scheduledDialog').hide()
 
 		//Reschedule Schedule
-		plugin.scheduled.core.update();
+		plugin.scheduled.core.update()
 
 		//Reload UI
-		$('#Lscheduled .name').click();
-		ui.lists.update().count();
+		$('#Lscheduled .name').click()
+		ui.lists.update().count()
 
-	});
+	})
 
 	$('#scheduledDialog .cancel').click(function () {
-		$addBTN.click();
-	});
+		$addBTN.click()
+	})
 
 	var weeks = '<input type="number"> weeks on <select><option value="1">Monday</option><option value="2">Tuesday</option><option value="3">Wednesday</option> <option value="4">Thursday</option> <option value="5">Friday</option> <option value="6">Saturday</option> <option value="0">Sunday</option></select>';
 	var months = 'on the <select class="type"><option value="1">1st</option> <option value="2">2nd</option> <option value="3">3rd</option> <option value="4">4th</option> <option value="5">5th</option> <option value="6">6th</option> <option value="7">7th</option> <option value="8">8th</option> <option value="9">9th</option> <option value="10">10th</option> <option value="11">11th</option> <option value="12">12th</option> <option value="13">13th</option> <option value="14">14th</option> <option value="15">15th</option> <option value="16">16th</option> <option value="17">17th</option> <option value="18">18th</option> <option value="19">19th</option> <option value="20">20th</option> <option value="21">21st</option> <option value="22">22nd</option> <option value="23">23rd</option> <option value="24">24th</option> <option value="25">25th</option> <option value="26">26th</option> <option value="27">27th</option> <option value="28">28th</option> <option value="29">29th</option> <option value="30">30th</option> <option value="31">31st</option></select> day';
@@ -311,7 +323,8 @@ plugin.add(function() {
 							list: 0,
 							type: 0,
 							next: 0,
-							date: 0
+							date: 0,
+							tags: 0
 						}
 					}
 
@@ -341,14 +354,16 @@ plugin.add(function() {
 							date: 0,
 							recurType: 0,
 							recurInterval: 0,
-							ends: 0
+							ends: 0,
+							tags: 0
 						}
 					}
 				}
 				//Pushes to order
 				core.storage.lists.items.scheduled.order.unshift(taskId);
-				core.storage.save();
+				core.storage.save([['lists', 'scheduled', 'order']]);
 				console.log("Added a new " + type + " task")
+				return taskId
 			},
 
 			update: function() {

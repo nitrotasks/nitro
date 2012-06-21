@@ -180,7 +180,7 @@ var ui = {
 		});
 
 		//Droppable
-		$sidebar.find('ul li:not("#Lall")').droppable(ui.lists.dropOptions)
+		$sidebar.find('ul li:not("#Lall,#Lscheduled")').droppable(ui.lists.dropOptions)
 
 		//Update Counts
 		ui.lists.update().count()
