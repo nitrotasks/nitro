@@ -70,6 +70,7 @@ ui.language({
 	language:			"Language",
 	authortext: 			"Author",
 
+	about: "About",
 	theme:			"Theme",
 	pickTheme:			"Pick a theme: ",
 	themeDescription: 		"Themes allow you to change the look of Nitro. You can even use CSS to create your own!",
