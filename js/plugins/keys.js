@@ -52,7 +52,6 @@ $tasks.on('keydown', 'input.content', function(e) {
 })
 
 $tasks.on('keydown', 'input, textarea', function(e) {
-	console.log(e.keyCode)
 	if(e.keyCode === 27) {
 		var $this = $(this).closest('li'),
 			id = $this.attr('data-id').toNum()

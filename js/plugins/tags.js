@@ -2,7 +2,7 @@
 
 plugin.add(function() {
 
-	$tasks.on('blur', 'input.tags', function() {
+	$tasks.on('change', 'input.tags', function() {
 
 		var $this = $(this).closest('li'),
 			val = $(this).val(),
@@ -21,7 +21,7 @@ plugin.add(function() {
 		}
 
 		task.tags = tags
-		core.storage.save('tasks', model.id, 'tags')
+		core.storage.save([['tasks', model.id, 'tags']])
 
 	})
 

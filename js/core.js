@@ -68,14 +68,14 @@ var core = {
 				if(list == 'logbook' && !core.storage.tasks[id].logged) {
 					core.storage.tasks[id].logged = core.timestamp();
 					console.log('Logged ' + id);
-					core.storage.save(['tasks', id, 'logged']);
+					core.storage.save([['tasks', id, 'logged']]);
 				}
 
 				// Taking a task out of the logbook
 				if(core.storage.tasks[id].list == list && core.storage.tasks[id].logged && list != 'logbook') {
 					console.log("Unlogging task")
 					core.storage.tasks[id].logged = false;
-					core.storage.save(['tasks', id, 'logged']);
+					core.storage.save([['tasks', id, 'logged']]);
 				} else if (list === 'trash') {
 					//Remove from list
 					core.storage.lists.items[old].order.remove(id);
@@ -344,7 +344,7 @@ var core = {
 							break;
 					}
 				}
-			}
+			} else if(arr !== undefined) console.log("Error: timestamp could not be updated - data needs to be in an array")
 			
 			$.polyStorage.set('tasks', this.tasks);
 			$.polyStorage.set('lists', this.lists);

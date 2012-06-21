@@ -461,7 +461,6 @@ $tasks.on('keydown', 'input.content', function(e) {
 })
 
 $tasks.on('keydown', 'input, textarea', function(e) {
-	console.log(e.keyCode)
 	if(e.keyCode === 27) {
 		var $this = $(this).closest('li'),
 			id = $this.attr('data-id').toNum()
@@ -1710,27 +1709,27 @@ plugin.add(function() {
 	console.log("Loaded sort.js")
 
 	$(document).ready(function() {
-		// $panel.left.append('\
-		// 	<span>\
-		// 	<button data-toggle="dropdown" class="sort">'+$l._("sortbtn")+'</button>\
-		// 	<ul class="dropdown-menu">\
-		// 	  <li class="current" data-value="magic"><span class="icon magic"></span>'+$l._("sortMagic")+'</li>\
-		// 	  <li data-value="manual"><span class="icon hand"></span>'+$l._("sortDefault")+'</li>\
-		// 	  <li data-value="priority"><span class="icon priority"></span>'+$l._("sortPriority")+'</li>\
-		// 	  <li data-value="date"><span class="icon date"></span>'+$l._("sortDate")+'</li>\
-		// 	</ul>\
-		// 	</span>')
-
 		$panel.left.append('\
 			<span>\
-			<button data-toggle="dropdown" class="sort">Sort</button>\
+			<button data-toggle="dropdown" class="sort">'+$.i18n._("sortbtn")+'</button>\
 			<ul class="dropdown-menu">\
-			  <li class="current" data-value="magic"><span class="icon magic"></span>Magic</li>\
-			  <li data-value="manual"><span class="icon hand"></span>by Hand</li>\
-			  <li data-value="priority"><span class="icon priority"></span>Priority</li>\
-			  <li data-value="date"><span class="icon date"></span>Date</li>\
+			  <li class="current" data-value="magic"><span class="icon magic"></span>'+$.i18n._("sortMagic")+'</li>\
+			  <li data-value="manual"><span class="icon hand"></span>'+$.i18n._("sortDefault")+'</li>\
+			  <li data-value="priority"><span class="icon priority"></span>'+$.i18n._("sortPriority")+'</li>\
+			  <li data-value="date"><span class="icon date"></span>'+$.i18n._("sortDate")+'</li>\
 			</ul>\
 			</span>')
+
+		// $panel.left.append('\
+		// 	<span>\
+		// 	<button data-toggle="dropdown" class="sort">Sort</button>\
+		// 	<ul class="dropdown-menu">\
+		// 	  <li class="current" data-value="magic"><span class="icon magic"></span>Magic</li>\
+		// 	  <li data-value="manual"><span class="icon hand"></span>by Hand</li>\
+		// 	  <li data-value="priority"><span class="icon priority"></span>Priority</li>\
+		// 	  <li data-value="date"><span class="icon date"></span>Date</li>\
+		// 	</ul>\
+		// 	</span>')
 
 
 		$sortType = $('.panel .left span ul li')
@@ -2283,7 +2282,7 @@ plugin.add(function() {
 
 plugin.add(function() {
 
-	$tasks.on('blur', 'input.tags', function() {
+	$tasks.on('change', 'input.tags', function() {
 
 		var $this = $(this).closest('li'),
 			val = $(this).val(),
@@ -2302,7 +2301,7 @@ plugin.add(function() {
 		}
 
 		task.tags = tags
-		core.storage.save('tasks', model.id, 'tags')
+		core.storage.save([['tasks', model.id, 'tags']])
 
 	})
 
