@@ -319,7 +319,8 @@ var core = {
 			sync: {
 				url: "http://localhost:3000",
 				interval: 'manual'
-			}
+			},
+			version: "1.4"
 		}),
 		save: function(arr) {
 

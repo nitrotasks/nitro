@@ -2581,6 +2581,7 @@ timer = {
 
 		// Add in listSort
 		prefs.listSort = {}
+		prefs.version = "1.4"
 
 		localStorage.removeItem('jstorage')
 		core.storage.tasks = tasks

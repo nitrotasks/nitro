@@ -1,4 +1,5 @@
- /*
+/* Nitro Core
+ *
  * Copyright (C) 2012 Caffeinated Code <http://caffeinatedco.de>
  * Copyright (C) 2012 Jono Cooper
  * Copyright (C) 2012 George Czabania
@@ -249,6 +250,10 @@ var ui = {
 					checked = 'checked logbook'
 					break
 
+				case 'scheduled':
+					checked = model.type
+					break
+
 				case 'all':
 					//Translated Name or Custom Name
 					if (typeof(model.list) == 'number') {
@@ -451,10 +456,7 @@ var ui = {
 
 		//Checked Tasks
 		var logged = 'checkbox ' + model.priority, checked = null
-		if (model.logged) checked = 'checked'
-		if (model.hasOwnProperty('type')) {
-			checked += model.type
-		}
+		if (core.storage.tasks[id].logged) checked = 'checked'
 		
 		//Checks if it's expanded & if it isn't expand it.
 		if (!$this.hasClass('expanded')) {
@@ -494,7 +496,7 @@ var ui = {
 				.find('input.content').focus()
 
 			if (ui.session.selected == 'scheduled') {
-				$this.find('.tags').remove()
+				$('.tags').remove()
 
 				$this.find('.date').replaceWith('<button class="date">' + $l._('schedule') + '</button>');
 				$this.find('.date').click(function() {
@@ -503,6 +505,10 @@ var ui = {
 
 					plugin.scheduled.ui.init('edit');
 				});
+
+				// Special Checkboxes for Scheduled
+				var id = $this.attr('data-id').toNum()
+				$this.find('.checkbox').addClass(core.storage.tasks[id].type);
 			}
 
 			if(typeof cb === 'function') cb()

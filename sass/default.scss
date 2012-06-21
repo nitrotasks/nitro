@@ -218,13 +218,6 @@ body {
 					box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1);
 				}
 
-				&.scheduled {
-					background: url(glyphicons-halflings.png) 277px 13px;
-				}
-				&.recurring {
-					background: url(glyphicons-halflings.png) 601px 13px;
-				}
-
 				&.low {
 					border-color: darken($low_color, 10%);
 					@include background(linear-gradient(top, lighten($low_color, 15%) 0%, lighten($low_color, 20%) 100%));

@@ -505,16 +505,21 @@ input {
 					display: box;
 				}
 
+				&.recurring .checkbox {
+					border-color: transparent;
+					background: url(glyphicons-halflings.png) 601px 13px;
+				}
+				&.scheduled .checkbox {
+					border-color: transparent;
+					background: url(glyphicons-halflings.png) 277px 13px;
+				}
+
 				.checkbox {
 					cursor: pointer;
 					margin: 8px;
 					width: 13px;
 					height: 13px;
 					border: 1px solid #000;
-
-					&.recurring, &.scheduled {
-						border-color: transparent;
-					}
 				}
 
 				&.checked {

@@ -177,8 +177,9 @@ input { font-family: "Helvetica", "Arial", "Ubuntu", sans-serif; }
 #tasks .tasksContent ul li { display: block; min-height: 30px; height: 30px; cursor: pointer; overflow: hidden; padding: 0; position: relative; z-index: 2; margin-bottom: -1px; background: #fff; border: 1px solid #000; font-size: 13px; line-height: 30px; color: #111; -webkit-transform: translateZ(0); -webkit-transition-property: margin, height, opacity; -webkit-transition-duration: 150ms, 150ms, 300ms; -webkit-transition-timing-function: ease, ease, ease; }
 #tasks .tasksContent ul li.placeholder { background: rgba(0, 0, 0, 0.1); box-shadow: 0 0 0 #000; }
 #tasks .tasksContent ul li .boxhelp { display: -webkit-box; display: -moz-box; display: box; }
+#tasks .tasksContent ul li.recurring .checkbox { border-color: transparent; background: url(glyphicons-halflings.png) 601px 13px; }
+#tasks .tasksContent ul li.scheduled .checkbox { border-color: transparent; background: url(glyphicons-halflings.png) 277px 13px; }
 #tasks .tasksContent ul li .checkbox { cursor: pointer; margin: 8px; width: 13px; height: 13px; border: 1px solid #000; }
-#tasks .tasksContent ul li .checkbox.recurring, #tasks .tasksContent ul li .checkbox.scheduled { border-color: transparent; }
 #tasks .tasksContent ul li.checked { opacity: 0.5; }
 #tasks .tasksContent ul li.checked .checkbox { position: relative; border-color: transparent !important; background: none !important; box-shadow: none !important; }
 #tasks .tasksContent ul li.checked .checkbox:after { display: block; position: absolute; content: url(img/logged.png); top: -6px; left: -1px; }
