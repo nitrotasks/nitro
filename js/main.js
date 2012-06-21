@@ -61,6 +61,10 @@ var ui = {
 		if (app == 'python') {
 			var get = function(name, def) {
 
+				var json_decode = $.evalJSON || (window.JSON && (JSON.decode || JSON.parse)) || function(str){
+					return String(str).evalJSON();
+				}
+
 				// Get data from Python
 				document.title = 'null';
 				document.title = 'get|' + name;
@@ -79,6 +83,8 @@ var ui = {
 
 			if (tmpdata.tasks != 'empty' && tmpdata.lists != 'empty' && tmpdata.prefs != 'empty') {
 				upgrade(tmpdata)
+				//Delete old DB
+				document.title = 'deleteOld| '
 			}
 		} else {
 			upgrade($.polyStorage.get('jstorage', 'empty'))
