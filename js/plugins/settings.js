@@ -262,12 +262,12 @@ $(function() {
 		</div>\
 	');
 	//Because it needs time to load
-	setTimeout(function() {
+	$(document).on('loaded', function() {
 		$('#prefsDialog .translate').map(function () {
 			$(this).html($.i18n._($(this).attr('data-translate')));
 		})
 		$('#tabAbout h2 span').html(version)
-	}, 300)
+	})
 
 	var $tabSync = $('#tabSync')
 

@@ -12,7 +12,7 @@ plugin.add(function() {
 	
 	console.log("Loaded sort.js")
 
-	$(document).ready(function() {
+	$(document).on('loaded', function() {
 		$panel.left.append('\
 			<span>\
 			<button data-toggle="dropdown" class="sort">'+$.i18n._("sortbtn")+'</button>\
@@ -23,18 +23,6 @@ plugin.add(function() {
 			  <li data-value="date"><span class="icon date"></span>'+$.i18n._("sortDate")+'</li>\
 			</ul>\
 			</span>')
-
-		// $panel.left.append('\
-		// 	<span>\
-		// 	<button data-toggle="dropdown" class="sort">Sort</button>\
-		// 	<ul class="dropdown-menu">\
-		// 	  <li class="current" data-value="magic"><span class="icon magic"></span>Magic</li>\
-		// 	  <li data-value="manual"><span class="icon hand"></span>by Hand</li>\
-		// 	  <li data-value="priority"><span class="icon priority"></span>Priority</li>\
-		// 	  <li data-value="date"><span class="icon date"></span>Date</li>\
-		// 	</ul>\
-		// 	</span>')
-
 
 		$sortType = $('.panel .left span ul li')
 		$sortType.on('click', function() {

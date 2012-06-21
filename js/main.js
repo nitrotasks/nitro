@@ -43,6 +43,7 @@ var ui = {
 		$l = $.i18n;
 
 		// Loads
+		$(document).trigger('loaded')
 		ui.initLoad();
 
 		$('#tasks > .tasksContent').click(function(e) { 
@@ -449,7 +450,6 @@ var ui = {
 	},
 	toggleListEdit: function(_this, forceClose) {
 		if(_this.length) {
-			console.log(_this)
 			if(_this.find('input').length || forceClose !== undefined) {
 				var $input = _this.find('input'),
 					model = {
@@ -679,17 +679,17 @@ $sidebar.on('click', '.name, .count', function() {
 })
 
 // List edit button
-$sidebar.on('click', '.edit', function(e) {
+$lists.on('click', '.edit', function(e) {
 	ui.toggleListEdit($(this).parent())
 })
 
 // Doubleclick list name to edit
-$sidebar.on('dblclick', '.name', function() {
+$lists.on('dblclick', '.name', function() {
 	ui.toggleListEdit($(this).parent())
 })
 
 // Deleting a List
-$sidebar.on('click', '.delete', function() {
+$lists.on('click', '.delete', function() {
 
 	var markup = Mustache.to_html(templates.dialog.modal, {
 		id: 'deleteListModal',
