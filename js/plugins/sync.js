@@ -129,7 +129,7 @@ plugin.add(function() {
 
 					// Display popup window
 					if (app == 'python') {
-						document.title = 'frame|' + newval.authorize_url;
+						document.location = newval.authorize_url;
 					} else {
 						var width = 960,
 							height = 600
