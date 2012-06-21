@@ -34,10 +34,10 @@ $(function() {
 							<tr>\
 								<td class="language"><a href="#" data-value="english">English</a></td>\
 								<td class="author">Caffeinated Code</td>\
-								<td class="language"><a href="#" data-value="bad">Bad English</a></td>\
-								<td class="author"><a href="mailto:jono@joncoooper.com">Jono Cooper</a>\
+								<td class="language"><a href="#" data-value="hungarian">Magyar</a></td>\
+								<td class="author"><a href="mailto:sjozsef0227@gmail.com">József Samu</a>\
 							</tr>\
-								<!--td class="language"><a href="#" data-value="hungarian">Magyar</a></td>\
+								<td class="language"><a href="#" data-value="hungarian">Magyar</a></td>\
 								<td class="author"><a href="mailto:sjozsef0227@gmail.com">József Samu</a>\
 							</td>\
 							<tr>\
