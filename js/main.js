@@ -419,14 +419,14 @@ var ui = {
 		ui.lists.update().count();
 		core.storage.save([['lists', ui.session.selected, 'order']]);
 	},
-	toggleListEdit: function($list, forceClose) {
-		if($list.length) {
-			console.log($list)
-			if($list.find('input').length || forceClose !== undefined) {
-				var $input = $list.find('input'),
+	toggleListEdit: function(_this, forceClose) {
+		if(_this.length) {
+			console.log(_this)
+			if(_this.find('input').length || forceClose !== undefined) {
+				var $input = _this.find('input'),
 					model = {
 						name: $input.val(),
-						id: $list.attr('id').substr(1).toNum()
+						id: _this.attr('id').substr(1).toNum()
 					}
 
 				// Sometimes it triggers fucking blur more than once...
@@ -434,17 +434,17 @@ var ui = {
 					$input.replaceWith('<span class="name">' + model.name + '</span>')
 					core.storage.lists.items[model.id].name = model.name
 					core.storage.save([['lists', model.id, 'name']])
-					$list.find('.edit').removeClass('open')
-					$list.find('.name').click()
+					_this.find('.edit').removeClass('open')
+					_this.find('.name').click()
 				} catch(e) {}
 			} else {
-				var $name = $list.find('.name')
+				var $name = _this.find('.name')
 				console.log($name)
-				if($list.closest('ul').attr('id') == 'lists') {
+				if(_this.closest('ul').attr('id') == 'lists') {
 					var name = $name.text()
 					$name.replaceWith('<input type="text" value="' + name + '" placeholder="Enter the list name">')
-					$list.find('input').focus()
-					$list.find('.edit').addClass('open')
+					_this.find('input').focus()
+					_this.find('.edit').addClass('open')
 				}
 			}
 		}
@@ -932,7 +932,7 @@ $tasks.on('click', '#updateLogbook', function() {
 
 // Adding a list
 $sidebar.on('click', '.listAddBTN', function() {
-	ui.toggleListEdit($sidebar.find('.selected'), 'close')
+	ui.toggleListEdit($lists.find('input').parent(), 'close')
 	var listId = core.list().add($l._('nlist'))
 	$lists.append(ui.lists.draw(listId))
 	// Edit List Name
