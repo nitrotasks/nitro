@@ -1,6 +1,16 @@
 ## Nitro
 
-We're doing a rewrite of [Nitro](http://nitrotasks.com). Want the stable released version? Switch to the stable branch.
+There is a bug in Nitro 1.4 for Chrome where it will not automatically load your data from 1.3.1
+
+For now the manual fix is to follow these instructions:
+
+`upgrade($.polyStorage.get('jStorage', 'empty'))`
+
+![image](http://i.imgur.com/caxji.png)
+
+**Important: This will delete any tasks you made AFTER updating to 1.4**
+
+---
 
 Licensed under the BSD License.
 
