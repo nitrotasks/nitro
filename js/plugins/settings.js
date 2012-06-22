@@ -119,8 +119,10 @@ $(function() {
 					<div class="connect">\
 						<h2>Choose a service to setup Nitro Sync</h2>\
 						<div class="icons">\
-							<a class="icon" href="#" data-service="dropbox"><img src="css/img/dropbox.png"></a>\
-							<a class="icon" href="#" data-service="ubuntu"><img src="css/img/ubuntu.png"></a>\
+							<a class="button dropbox" href="#" data-service="dropbox"><img src="css/img/dropbox.png">Dropbox</a>\
+							<a class="button ubuntu" href="#" data-service="ubuntu"><img src="css/img/ubuntu.png">Ubuntu</a>\
+							<a class="button signup" href="http://db.tt/quaCEy3D" target="_blank">Create Account</a>\
+							<a class="button signup" href="https://login.ubuntu.com/+new_account" target="_blank">Create Account</a>\
 						</div>\
 					</div>\
 					<div class="waiting">\
@@ -267,6 +269,8 @@ $(function() {
 			$(this).html($.i18n._($(this).attr('data-translate')));
 		})
 		$('#tabAbout h2 span').html(version)
+		// Only show linux theme in Python version
+		if(app != 'python') $('#theme').find('[value=linux]').remove()
 	})
 
 	var $tabSync = $('#tabSync')
@@ -462,7 +466,7 @@ $(function() {
 		})
 	}
 
-	$tabSync.find('a.icon').click(function() {
+	$tabSync.find('a.button:not(".signup")').click(function() {
 			
 		var service = $(this).data('service');
 			
@@ -487,6 +491,7 @@ $(function() {
 
 	$tabSync.find('a.cancel').click(function() {
 
+		core.storage.prefs.sync.active = false
 		animateTab($tabSync, $tabSync.find('.waiting'), $tabSync.find('.connect'))
 
 	})

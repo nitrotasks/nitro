@@ -23,7 +23,8 @@ body { background: url(img/justin.jpeg) no-repeat left center fixed; }
 
 #sidebar ul li.selected { background: #c84afa; color: #fff; border: 1px solid #9c06d8; border-left: none; border-right: none; font-weight: bold; text-shadow: 0 1px 1px #ae07f1; }
 
-#tasks { background-image: none; }
+#tasks { background-image: none; z-index: 4; }
+#tasks:before { content: ''; display: block; position: absolute; left: -5px; top: 0; height: 41px; width: 5px; background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, rgba(173, 127, 168, 0.85)), color-stop(100%, rgba(128, 0, 128, 0.85))); background: -webkit-linear-gradient(top, rgba(173, 127, 168, 0.85) 0%, rgba(128, 0, 128, 0.85) 100%); background: -moz-linear-gradient(top, rgba(173, 127, 168, 0.85) 0%, rgba(128, 0, 128, 0.85) 100%); background: -o-linear-gradient(top, rgba(173, 127, 168, 0.85) 0%, rgba(128, 0, 128, 0.85) 100%); background: -ms-linear-gradient(top, rgba(173, 127, 168, 0.85) 0%, rgba(128, 0, 128, 0.85) 100%); background: linear-gradient(top, rgba(173, 127, 168, 0.85) 0%, rgba(128, 0, 128, 0.85) 100%); }
 
 #tasks .tasksContent h2.dark { color: #404040; text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7); }
 #tasks .tasksContent h2, #tasks .tasksContent h2.light { color: #fff; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); }
@@ -51,7 +52,7 @@ body { background: url(img/justin.jpeg) no-repeat left center fixed; }
 #tasks .tasksContent ul li button.high { background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fffefe), color-stop(100%, #fee5e5)); background: -webkit-linear-gradient(top, #fffefe 0%, #fee5e5 100%); background: -moz-linear-gradient(top, #fffefe 0%, #fee5e5 100%); background: -o-linear-gradient(top, #fffefe 0%, #fee5e5 100%); background: -ms-linear-gradient(top, #fffefe 0%, #fee5e5 100%); background: linear-gradient(top, #fffefe 0%, #fee5e5 100%); }
 #tasks .tasksContent ul li .hidden textarea { border-top: 1px solid #d9d9d9; border-radius: 0 0 5px 5px; background: url(img/notes.png) no-repeat 8px 7px, #f8faf0; }
 
-.vsplitbar { box-shadow: 0 -1px 0 #111111, 0 -41px 0 #333333; border-left: 0; }
+.vsplitbar { border-left: 0; }
 
 .modal { border-radius: 5px; border-color: #ccc; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); }
 .modal h3 { border-bottom-color: #ccc; }

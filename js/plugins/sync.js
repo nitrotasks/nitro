@@ -47,6 +47,8 @@ plugin.add(function() {
 				return;
 			}
 
+			core.storage.prefs.sync.active = true
+
 			if (core.storage.prefs.sync.hasOwnProperty('access')) {
 
 				sync.emit(function(success) {
@@ -138,9 +140,11 @@ plugin.add(function() {
 
 					if(newval == 'not_verified') {
 						console.log("Try again")
-						setTimeout(function() {
-							authorizeToken(token, service, cb)	
-						}, 1000)
+						if(core.storage.prefs.sync.active) {
+							setTimeout(function() {
+								authorizeToken(token, service, cb)	
+							}, 1500)
+						}
 
 					} else if(newval == 'error' || newval == 'failed') {
 						console.log("Connection failed. Server probably timed out.")
