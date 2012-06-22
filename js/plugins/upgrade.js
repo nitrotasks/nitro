@@ -6,6 +6,9 @@
 
 		if(storage === 'empty') return
 		console.log("Running database upgrade")
+		
+		// Back up original data
+		$.polyStorage.set('old_data', storage)
 
 		var tasks = storage.tasks,
 			lists = storage.lists,
@@ -235,6 +238,66 @@
 
 		// Set version
 		prefs.version = "1.4"
+		
+		
+		
+	
+		// --------------------------
+		// 			MERGE
+		// --------------------------
+		
+		for(var i = 0; i < core.storage.lists.items.length; i++) {
+			
+			var _this = core.storage.lists.items[i]
+			
+			// Don't merge deleted tasks
+			if(!_this.hasOwnProperty('deleted')) {
+				
+				var newID = lists.items.length
+				lists.items[newID] = $.extend(true, {}, _this)
+				lists.items.length++
+				
+				// Fix up task.list
+				for(var j = 0; j < _this.order.length; j++) {
+					core.storage.tasks[_this.order[j]].list = newID
+				}
+				
+				// Fix up list order
+				lists.order.push(newID)
+				
+			}
+		}
+
+		for(var i = 0; i < core.storage.tasks.length; i++) {
+			
+			var _this = core.storage.tasks[i]
+			
+			// Don't merge deleted tasks
+			if(!_this.hasOwnProperty('deleted')) {
+				
+				var newID = tasks.length
+				tasks[newID] = $.extend(true, {}, _this)
+				tasks.length++
+				
+				// Smartlists
+				if(_this.list == 'today' || _this.list == 'next' || _this.list == 'logbook') {
+					lists.items[_this.list].order.push(newID)
+					
+				// Custom lists
+				} else {
+					var index = lists.items[_this.list].order.indexOf(i)
+					if(index > -1) lists.items[_this.list].order.splice(index, 1, newID)	
+				}	
+			}
+		}
+		
+		
+		
+		
+		
+		// --------------------------
+		// 			SAVE
+		// --------------------------
 
 		localStorage.removeItem('jStorage')
 		core.storage.tasks = tasks
