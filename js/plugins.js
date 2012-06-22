@@ -635,7 +635,9 @@ plugin.add(function() {
 
 				//Edits Data inside of it
 				var task = core.storage.tasks[core.storage.lists.items.scheduled.order.length - 1]
-				task.next = new Date(recurNext).getTime();
+				task.next = new Date(recurNext).getTime()
+
+				console.log(task.next)
 
 				var recurEnds = $('#recurEnds').val()
 				if (recurEnds == '' || isNaN(new Date(recurEnds).getTime())) task.ends = ''
@@ -988,20 +990,19 @@ plugin.add(function() {
 
 			init: function (type) {
 				if (type == 'edit') {
-					var id = $('#scheduledDialog .inner').attr('data-type');
-					var id = (core.storage.tasks[id].type).substr(0,1) + id;
+					var id = $('#scheduledDialog .inner').attr('data-type'),
 
 					//Fills in Values
-					var task = core.storage.tasks[id.substr(1)];
-					var text = $.i18n._('edit');
+						task = core.storage.tasks[id],
+						text = $.i18n._('edit')
 
-					if (id.substr(0, 1) == 's') {
+					if (task.type == 'scheduled') {
 
 						//Zeros Days
-						var today = new Date();
-						today.setSeconds(0);
-						today.setMinutes(0);
-						today.setHours(0);
+						var today = new Date()
+						today.setSeconds(0)
+						today.setMinutes(0)
+						today.setHours(0)
 						var tmpdate = new Date(task.next)
 
 						var no = (Math.round((tmpdate.getTime() - today.getTime()) / 1000 / 60 / 60 / 24)),
@@ -1009,17 +1010,17 @@ plugin.add(function() {
 							action = task.list;
 
 						//Hides Bits of UI
-						$('#scheduledDialog .inner .schedule').show(0);
-						$('#scheduledDialog .inner .recurring').hide(0);
+						$('#scheduledDialog .inner .schedule').show()
+						$('#scheduledDialog .inner .recurring').hide()
 
 
-					} else if (id.substr(0, 1) == 'r') {
+					} else if (task.type == 'recurring') {
 						//Hides Bits of UI
-						$('#scheduledDialog .inner .schedule').hide(0);
-						$('#scheduledDialog .inner .recurring').show(0);
+						$('#scheduledDialog .inner .schedule').hide()
+						$('#scheduledDialog .inner .recurring').show()
 
 						//Changes UI
-						$('#recurType').val(task.recurType).change();
+						$('#recurType').val(task.recurType).change()
 
 						if (task.recurType == 'daily') {
 							$('#recurSpecial input').val(task.recurInterval[0]);
@@ -1042,11 +1043,15 @@ plugin.add(function() {
 							}
 						}
 
-						$('#recurNext').datepicker('setDate', new Date(task.next));
-						if ($('#recurEnds').val() != '') {
-							$('#recurEnds').datepicker('setDate', new Date(task.ends));	
-						} else {
-							$('#recurEnds').val('');
+						var getDateString = function(date) {
+							console.log(date)
+							var d = new Date(date)
+							return d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear().toString().slice(-2)
+						}
+
+						$('#recurNext').val(getDateString(task.next))
+						if (task.ends != '') {
+							$('#recurEnds').val(getDateString(task.ends))
 						}
 					}
 
@@ -2005,7 +2010,7 @@ plugin.add(function() {
 						if(core.storage.prefs.sync.active) {
 							setTimeout(function() {
 								authorizeToken(token, service, cb)	
-							}, 1000)
+							}, 1500)
 						}
 
 					} else if(newval == 'error' || newval == 'failed') {
