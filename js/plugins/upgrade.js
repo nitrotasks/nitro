@@ -236,7 +236,7 @@
 		// Set version
 		prefs.version = "1.4"
 
-		localStorage.removeItem('jstorage')
+		localStorage.removeItem('jStorage')
 		core.storage.tasks = tasks
 		core.storage.lists = lists
 		core.storage.prefs = prefs

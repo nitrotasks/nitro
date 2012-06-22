@@ -317,7 +317,7 @@ var core = {
 		prefs: $.polyStorage.get('prefs', {
 			listSort: {},
 			sync: {
-				url: "http://localhost:3000",
+				url: "http://app.nitrotasks.com",
 				interval: 'manual'
 			},
 			version: "1.4"

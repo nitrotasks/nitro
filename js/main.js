@@ -87,7 +87,7 @@ var ui = {
 				document.title = 'deleteOld| '
 			}
 		} else {
-			upgrade($.polyStorage.get('jstorage', 'empty'))
+			upgrade($.polyStorage.get('jStorage', 'empty'))
 		}
 
 		//Buttons
