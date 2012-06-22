@@ -1821,7 +1821,7 @@ plugin.add(function() {
 		}
 
 		lists.items[lists.items.length] = {
-			name: 'scheduled',
+			name: 'Scheduled',
 			order: [],
 			time: {
 				order: 0
@@ -1913,6 +1913,19 @@ plugin.add(function() {
 
 		// Add in listSort
 		prefs.listSort = {}
+
+		// Reset
+		prefs.theme = "default"
+		prefs.lang = "english"
+
+		// Transfer
+		prefs.bgColor = prefs.bg.color
+		if(prefs.nextAmount == "threeItems") prefs.nextAmount = "everything"
+		delete prefs.bg
+		delete prefs.gpu
+		delete prefs.over50
+
+		// Set version
 		prefs.version = "1.4"
 
 		localStorage.removeItem('jstorage')

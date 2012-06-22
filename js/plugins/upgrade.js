@@ -220,6 +220,19 @@
 
 		// Add in listSort
 		prefs.listSort = {}
+
+		// Reset
+		prefs.theme = "default"
+		prefs.lang = "english"
+
+		// Transfer
+		prefs.bgColor = prefs.bg.color
+		if(prefs.nextAmount == "threeItems") prefs.nextAmount = "everything"
+		delete prefs.bg
+		delete prefs.gpu
+		delete prefs.over50
+
+		// Set version
 		prefs.version = "1.4"
 
 		localStorage.removeItem('jstorage')
