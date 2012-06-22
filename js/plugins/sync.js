@@ -115,7 +115,7 @@ plugin.add(function() {
 			var showPopup = function(url) {
 				switch(app) {
 					case 'python':
-						document.title = 'frame|' + url
+						document.location = url
 						break
 					case 'web':
 						$('#login .container').html('<div class="loading">Loading... You may need to disable your popup blocker.</div>')
