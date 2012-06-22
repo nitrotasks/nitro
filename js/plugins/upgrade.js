@@ -127,12 +127,17 @@
 			}
 		}
 
-		lists.items.scheduled = {
+		lists.items[lists.items.length] = {
+			name: 'Scheduled',
 			order: [],
 			time: {
 				order: 0
 			}
 		}
+
+		var scheduledID = lists.items.length
+		lists.order.push(scheduledID)
+		lists.items.length++
 
 		// Fix Next list
 		for (var i = lists.items.next.order.length - 1; i >= 0; i--) {
@@ -151,13 +156,16 @@
 				console.log(_this, id)
 				tasks[id] = $.extend(true, {}, _this)
 				_this = tasks[id]
+				_this.list = scheduledID
 				_this.tags = []
 				if(_this.priority === 'important') _this.priority = 'high'
-				if(_this.next) _this.next = convertDate(_this.next)
-				if(_this.ends !== "") _this.ends = convertDate(_this.ends)
-				else _this.ends = ""
+				delete _this.next
+				delete _this.ends
+				delete _this.type
+				delete _this.recurType
+				delete _this.recurInterval
 
-				lists.items.scheduled.order.push(id)
+				lists.items[scheduledID].order.push(id)
 				tasks.length++
 			}
 		}

@@ -180,7 +180,7 @@ var ui = {
 		});
 
 		//Droppable
-		$sidebar.find('ul li:not("#Lall,#Lscheduled")').droppable(ui.lists.dropOptions)
+		$sidebar.find('ul li:not("#Lall")').droppable(ui.lists.dropOptions)
 
 		//Update Counts
 		ui.lists.update().count()
@@ -230,8 +230,6 @@ var ui = {
 					markup += 'No Tasks in Today'
 				} else if (ui.session.selected == 'next') {
 					markup += 'No Tasks in Next'
-				} else if (ui.session.selected == 'scheduled') {
-					markup += 'No Tasks in Scheduled '
 				} else if (ui.session.selected == 'logbook') {
 					markup += 'No Tasks in Logbook'
 				} else if (ui.session.selected == 'all') {
@@ -277,10 +275,6 @@ var ui = {
 					}
 					// Don't show opacity in logbook
 					checked = 'checked logbook'
-					break
-
-				case 'scheduled':
-					checked = model.type
 					break
 
 				case 'all':
@@ -331,7 +325,7 @@ var ui = {
 						}
 					}
 
-					var focusLists = ['next', 'scheduled', 'logbook', 'all'];
+					var focusLists = ['next', 'logbook', 'all'];
 					for (var id = 0; id < focusLists.length; id++) {
 						$('#L' + focusLists[id]).find('.count').html(core.list(focusLists[id]).populate().length);
 					}
@@ -523,22 +517,6 @@ var ui = {
 				.trigger('expand')
 				.find('input.content').focus()
 
-			if (ui.session.selected == 'scheduled') {
-				$('.tags').remove()
-
-				$this.find('.date').replaceWith('<button class="date">' + $l._('schedule') + '</button>');
-				$this.find('.date').click(function() {
-					$('#scheduledDialog .inner').fadeToggle(150).attr('data-type', id);
-					$('#scheduledDialog').toggle(0);
-
-					plugin.scheduled.ui.init('edit');
-				});
-
-				// Special Checkboxes for Scheduled
-				var id = $this.attr('data-id').toNum()
-				$this.find('.checkbox').addClass(core.storage.tasks[id].type);
-			}
-
 			if(typeof cb === 'function') cb()
 
 		} else {
@@ -560,7 +538,7 @@ var ui = {
 
 				//If it's the first task in a list, .prev won't work
 				if (orig === undefined) {
-					if (ui.session.selected == 'all' || ui.session.selected == 'scheduled' || ui.session.selected == 'logbook' || ui.session.selected == 'today') {
+					if (ui.session.selected == 'all' || ui.session.selected == 'logbook' || ui.session.selected == 'today') {
 						$tasks.find('ul').prepend(markup)
 					} else if (model.list == ui.session.selected) {
 						$tasks.find('ul').first().prepend(markup)
@@ -747,16 +725,6 @@ $lists.on('click', '.delete', function() {
 // TASKS
 // -----
 
-$tasks.on('collapse', 'li', function() {
-
-	// Special Checkboxes for Scheduled
-	if (ui && ui.session.selected == 'scheduled') {
-		var id = $(this).attr('data-id').toNum()
-		$(this).find('.checkbox').addClass(core.storage.tasks[id].type);
-	}
-		
-}) 
-
 // Selecting a task
 $tasks.on('click', 'li', function(e) {
 	var $this = $(this)
@@ -786,7 +754,7 @@ $tasks.on('click', '.checkbox', function() {
 	}
 
 	// Doesn't work in Logbook
-	if(ui.session.selected != 'logbook' && ui.session.selected != 'scheduled') {
+	if(ui.session.selected != 'logbook') {
 
 		$selected.map(function() {
 
@@ -970,7 +938,7 @@ $sidebar.on('click', '.listAddBTN', function() {
 // Adding a task
 $panel.left.on('click', 'button.add', function() {
 	var list = ui.session.selected
-	if (list != 'all' && list != 'logbook' && list != 'scheduled') {
+	if (list != 'all' && list != 'logbook') {
 		//Adds a task with the core
 		var taskId = core.task().add($l._('ntask'), list),
 			markup = ui.lists.drawSingleTask(taskId)
@@ -986,9 +954,6 @@ $panel.left.on('click', 'button.add', function() {
 		// Update list count
 		ui.lists.update().count()
 
-	} else if (list == 'scheduled') {
-		//No other way to do this?
-		plugin.scheduled.ui.add()
 	}
 })
 
