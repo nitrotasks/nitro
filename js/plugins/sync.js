@@ -17,7 +17,7 @@ plugin.add(function() {
 
 		if($this.hasClass('running')) {
 			// Do nothing...
-		} else if(core.storage.prefs.sync.hasOwnProperty('access') && core.storage.prefs.sync !== 'never') {
+		} else if(core.storage.prefs.sync.hasOwnProperty('access') && core.storage.prefs.sync.interval !== 'never') {
 			$this.addClass('running')
 			sync.run(core.storage.prefs.sync.service, function(success, time) {
 				if(success) {
@@ -35,6 +35,23 @@ plugin.add(function() {
 	})
 
 	sync = {
+
+		// Timer
+		timer: function() {
+			$runSync.addClass('running')
+			sync.run(core.storage.prefs.sync.service, function(success) {
+				if(success && core.storage.prefs.sync.interval == 'timer') {
+					console.log("Everything worked - running again in 2 minutes")
+					setTimeout(function() {
+						if(core.storage.prefs.sync.interval == 'timer') sync.timer()
+					}, 30000)
+				} else {
+					sync.notify("Could not sync with server...")
+				}
+				$runSync.removeClass('running')
+			})
+		},
+
 		// Magical function that handles connect and emit
 		run: function (service, callback) {
 

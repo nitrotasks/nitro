@@ -714,7 +714,6 @@ $(function() {
 							<option value="never" class="translate" data-translate="syncNever"></option>\
 							<option value="manual" class="translate" data-translate="syncManual"></option>\
 							<option value="timer" class="translate" data-translate="syncTimer"></option>\
-							<option value="auto" class="translate" data-translate="syncAuto"></option>\
 						</select><br>\
 						<label class="description translate" data-translate="syncDescription"></label>\
 					</div>\
@@ -1081,6 +1080,11 @@ $(function() {
 	// SYNC TYPE
 	$('#syncInterval').change(function () {
 		var interval = this.value
+		switch(interval) {
+			case 'timer':
+				sync.timer()
+				break
+		}
 		core.storage.prefs.sync.interval = interval
 		core.storage.save()
 	})
@@ -1255,7 +1259,7 @@ plugin.add(function() {
 
 		if($this.hasClass('running')) {
 			// Do nothing...
-		} else if(core.storage.prefs.sync.hasOwnProperty('access') && core.storage.prefs.sync !== 'never') {
+		} else if(core.storage.prefs.sync.hasOwnProperty('access') && core.storage.prefs.sync.interval !== 'never') {
 			$this.addClass('running')
 			sync.run(core.storage.prefs.sync.service, function(success, time) {
 				if(success) {
@@ -1273,6 +1277,23 @@ plugin.add(function() {
 	})
 
 	sync = {
+
+		// Timer
+		timer: function() {
+			$runSync.addClass('running')
+			sync.run(core.storage.prefs.sync.service, function(success) {
+				if(success && core.storage.prefs.sync.interval == 'timer') {
+					console.log("Everything worked - running again in 2 minutes")
+					setTimeout(function() {
+						if(core.storage.prefs.sync.interval == 'timer') sync.timer()
+					}, 30000)
+				} else {
+					sync.notify("Could not sync with server...")
+				}
+				$runSync.removeClass('running')
+			})
+		},
+
 		// Magical function that handles connect and emit
 		run: function (service, callback) {
 
@@ -1924,6 +1945,7 @@ plugin.add(function() {
 		delete prefs.bg
 		delete prefs.gpu
 		delete prefs.over50
+		prefs.sync.interval = 'manual'
 
 		// Set version
 		prefs.version = "1.4"

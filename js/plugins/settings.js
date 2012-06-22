@@ -142,7 +142,6 @@ $(function() {
 							<option value="never" class="translate" data-translate="syncNever"></option>\
 							<option value="manual" class="translate" data-translate="syncManual"></option>\
 							<option value="timer" class="translate" data-translate="syncTimer"></option>\
-							<option value="auto" class="translate" data-translate="syncAuto"></option>\
 						</select><br>\
 						<label class="description translate" data-translate="syncDescription"></label>\
 					</div>\
@@ -509,6 +508,11 @@ $(function() {
 	// SYNC TYPE
 	$('#syncInterval').change(function () {
 		var interval = this.value
+		switch(interval) {
+			case 'timer':
+				sync.timer()
+				break
+		}
 		core.storage.prefs.sync.interval = interval
 		core.storage.save()
 	})

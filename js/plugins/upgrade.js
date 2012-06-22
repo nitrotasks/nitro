@@ -231,6 +231,7 @@
 		delete prefs.bg
 		delete prefs.gpu
 		delete prefs.over50
+		prefs.sync.interval = 'manual'
 
 		// Set version
 		prefs.version = "1.4"

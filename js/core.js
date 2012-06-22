@@ -45,7 +45,7 @@ var core = {
 
 				//Pushes to array
 				core.storage.lists.items[list].order.unshift(taskId);
-				core.storage.save();
+				core.storage.save([['lists', list, 'order']]);
 				console.log('Adding Task: ' + name + ' into list: ' + list);
 
 				return taskId;
@@ -82,8 +82,8 @@ var core = {
 					// delete core.storage.tasks[id];
 					core.storage.tasks[id] = {deleted: core.timestamp()};
 					console.log('Deleted: ' + id);
-					// Saves - but doesn't mess with timestamps
-					core.storage.save();
+					// Saves
+					core.storage.save([['lists', old, 'order']]);
 				} else {
 					//Remove from list
 					core.storage.lists.items[old].order.remove(id);
