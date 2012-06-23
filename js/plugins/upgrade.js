@@ -237,7 +237,7 @@
 		prefs.sync.interval = 'manual'
 
 		// Set version
-		prefs.version = "1.4"
+		prefs.version = version
 		
 		
 		

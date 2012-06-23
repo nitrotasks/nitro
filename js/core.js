@@ -127,7 +127,7 @@ var core = {
 
 				//Adds to order array
 				core.storage.lists.order.push(listId);
-				core.storage.save();
+				core.storage.save([['list-order', null, null]]);
 				console.log("Created List: '" + name + "' with id: " + listId);
 
 				return listId;
@@ -146,7 +146,7 @@ var core = {
 
 				//Deletes List
 				core.storage.lists.items[id] = {deleted: core.timestamp()};
-				core.storage.save();
+				core.storage.save([['list-order', null, null]]);
 			},
 			populate: function() {
 				switch(id) {
@@ -320,7 +320,7 @@ var core = {
 				url: "http://app.nitrotasks.com",
 				interval: 'manual'
 			},
-			version: "1.4"
+			version: "1.4,2"
 		}),
 		save: function(arr) {
 

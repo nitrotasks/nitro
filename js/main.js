@@ -14,7 +14,7 @@
 
 // Set your os. 'python'
 app = 'js'
-version = '1.4'
+version = '1.4.2'
  
 $(document).ready(function() {
 	//Language Init
