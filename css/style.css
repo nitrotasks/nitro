@@ -174,7 +174,8 @@ html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubun
 #tasks .tasksContent .button { cursor: pointer; margin: 0 0 15px; padding: 6px 15px; border-radius: 4px; background: rgba(255, 255, 255, 0.7); border: 1px solid #bbb; font-size: 14px; font-weight: bold; color: #444; }
 #tasks .tasksContent .button:hover { background: rgba(255, 255, 255, 0.6); }
 #tasks .tasksContent ul { padding: 0 20px 40px 16px; margin: 0; text-align: left; }
-#tasks .tasksContent ul li { display: block; min-height: 30px; height: 30px; cursor: pointer; overflow: hidden; padding: 0; position: relative; z-index: 2; margin-bottom: -1px; background: #fff; border: 1px solid #000; font-size: 13px; line-height: 30px; color: #111; -webkit-transform: translateZ(0); -webkit-transition-property: margin, height, opacity; -webkit-transition-duration: 150ms, 150ms, 300ms; -webkit-transition-timing-function: ease, ease, ease; }
+#tasks .tasksContent ul li { display: block; min-height: 30px; height: 30px; cursor: pointer; overflow: hidden; padding: 0; position: relative; z-index: 2; margin-bottom: -1px; background: #fff; border: 1px solid #000; font-size: 13px; line-height: 30px; color: #111; -webkit-transform: translateZ(0); -webkit-transition-property: margin, opacity; -webkit-transition-duration: 150ms, 300ms; -webkit-transition-timing-function: ease, ease; }
+#tasks .tasksContent ul li.animate.height { -webkit-transition-property: margin, opacity, height; -webkit-transition-duration: 150ms, 300ms, 150ms; -webkit-transition-timing-function: ease, ease, ease; }
 #tasks .tasksContent ul li.placeholder { background: rgba(0, 0, 0, 0.1); box-shadow: 0 0 0 #000; }
 #tasks .tasksContent ul li .boxhelp { display: -webkit-box; display: -moz-box; display: box; }
 #tasks .tasksContent ul li.recurring .checkbox { border-color: transparent; background: url(glyphicons-halflings.png) 601px 13px; }
@@ -202,7 +203,7 @@ html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubun
 #tasks .tasksContent ul li.expanded { opacity: 1; }
 #tasks .tasksContent ul li.selected.expanded { background: #fff; }
 #tasks .tasksContent ul li .hidden { display: none; }
-#tasks .tasksContent ul li .hidden textarea { width: 100%; border: 0; border-top: 1px solid #000; box-sizing: border-box; padding: 8px 30px 8px 32px; resize: none; min-height: 70px; }
+#tasks .tasksContent ul li .hidden textarea { width: 100%; border: 0; border-top: 1px solid #000; box-sizing: border-box; padding: 8px 30px 8px 32px; resize: none; min-height: 20px; overflow: hidden; }
 #tasks .tasksContent ul li .hidden textarea:focus { box-shadow: none; outline: 0; }
 
 .vsplitbar { border-right: 4px solid transparent; box-sizing: border-box; position: absolute; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; -webkit-user-select: none; width: 5px; border-left: 1px solid #000; box-shadow: 0 -1px 0 #111111, 0 -41px 0 white; margin-top: 41px; height: 100%; z-index: 2; }

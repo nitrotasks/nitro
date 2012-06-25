@@ -489,9 +489,15 @@ html, button, input, select, textarea {
 				line-height: 30px;
 				color: #111;
 				-webkit-transform: translateZ(0);
-				-webkit-transition-property: margin, height, opacity;
- 				-webkit-transition-duration: 150ms, 150ms, 300ms;  
- 				-webkit-transition-timing-function: ease, ease, ease;
+				-webkit-transition-property: margin, opacity;
+ 				-webkit-transition-duration: 150ms, 300ms;  
+ 				-webkit-transition-timing-function: ease, ease;
+ 				
+ 				&.animate.height {
+ 					-webkit-transition-property: margin, opacity, height;
+	 				-webkit-transition-duration: 150ms, 300ms, 150ms;  
+	 				-webkit-transition-timing-function: ease, ease, ease;	
+ 				}
 
 				&.placeholder {
 					background: rgba(0,0,0,0.1);
@@ -658,7 +664,8 @@ html, button, input, select, textarea {
 						box-sizing: border-box;
 						padding: 8px 30px 8px 32px;
 						resize: none;
-						min-height: 70px;
+						min-height: 20px;
+						overflow: hidden;
 
 						&:focus {
 							box-shadow: none;

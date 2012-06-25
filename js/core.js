@@ -78,21 +78,31 @@ var core = {
 					core.storage.save([['tasks', id, 'logged']]);
 				} else if (list === 'trash') {
 					//Remove from list
-					core.storage.lists.items[old].order.remove(id);
+					if(core.storage.lists.items.hasOwnProperty(old)) {
+						if(!core.storage.lists.items[old].hasOwnProperty('deleted')) {
+							core.storage.lists.items[old].order.remove(id)
+							core.storage.save([['lists', old, 'order']])
+						}
+					}
 					// delete core.storage.tasks[id];
 					core.storage.tasks[id] = {deleted: core.timestamp()};
 					console.log('Deleted: ' + id);
 					// Saves
-					core.storage.save([['lists', old, 'order']]);
+					core.storage.save();
 				} else {
 					//Remove from list
-					core.storage.lists.items[old].order.remove(id);
+					if(core.storage.lists.items.hasOwnProperty(old)) {
+						if(!core.storage.lists.items[old].hasOwnProperty('deleted')) {
+							core.storage.lists.items[old].order.remove(id)
+							core.storage.save([['lists', old, 'order']])
+						}
+					}
 					//Move to other list
 					core.storage.lists.items[list].order.unshift(id);
 					core.storage.tasks[id].list = list;
 					console.log('Moved: ' + id + ' to ' + list);
 					//Saves
-					core.storage.save([['tasks', id, 'list'],['lists', list, 'order'],['lists', old, 'order']]);
+					core.storage.save([['tasks', id, 'list'],['lists', list, 'order']]);
 				}
 			},
 			toggle: function() {

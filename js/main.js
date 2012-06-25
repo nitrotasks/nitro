@@ -372,17 +372,17 @@ var ui = {
 				var listId = $(this).attr('id').substr(1).toNum(),
 					taskId = $(uix.draggable).attr('data-id').toNum()
 
-				if(core.storage.tasks[taskId].list !== listId) {
+				if(core.storage.tasks[taskId].list !== listId || ui.session.selected == 'all') {
 
 					// Moves Task
 					core.task(taskId).move(listId)
 
 					// Removes and Saves
-					$(uix.draggable).remove()
+					if(ui.session.selected != 'all') $(uix.draggable).remove()
 
 					// If we're in the next list, we may as well reload
-					if (ui.session.selected == 'next') {
-						$('#Lnext .name').click()
+					if (ui.session.selected == 'next' || ui.session.selected == 'all') {
+						$sidebar.find('.selected').click()
 					}
 
 					// Update Counts
@@ -393,54 +393,60 @@ var ui = {
 		}
 	},
 	sortStop: function() {
-		// Saves order of tasks in list
-		var taskOrder = []
-		$tasks.find('ul').first().find('li').map(function () {
-			var id = $(this).attr('data-id').toNum()
+		
+		if(ui.session.selected != 'all') {
+		
+			// Saves order of tasks in list
+			var taskOrder = []
+			$tasks.find('ul').first().find('li').map(function () {
+				var id = $(this).attr('data-id').toNum()
+	
+				//If not in the correct list, move to the list.
+				if (core.storage.tasks[id].list != ui.session.selected) {
+					core.task(id).move(ui.session.selected);
+				}
+	
+				//If not checked, add to list
+				if (!$(this).children('.checkbox').hasClass('checked')) {
+					taskOrder.push(id);
+				}
+			});
+			//Saves
+			core.storage.lists.items[ui.session.selected].order = taskOrder;
 
-			//If not in the correct list, move to the list.
-			if (core.storage.tasks[id].list != ui.session.selected) {
-				core.task(id).move(ui.session.selected);
+			//Only in the next list
+			if (ui.session.selected == 'next' && core.storage.prefs.nextAmount == 'everything') {
+				//Loops through lists to save order
+				for (var i=0; i<core.storage.lists.order.length; i++) {
+					//New Array
+					NtaskOrder = [];
+					//This needs to be put into a function...
+					$('#tasks > .tasksContent > ul.' + core.storage.lists.order[i] + ' > li').map(function () {
+						var id = $(this).attr('data-id').toNum()
+	
+						//If not in the correct list, move to the list.
+						if (core.storage.tasks[id].list != core.storage.lists.order[i]) {
+							core.task(id).move(core.storage.lists.order[i]);
+						}
+	
+						//If not checked, add to list
+						if (!$(this).children('.checkbox').hasClass('checked')) {
+							NtaskOrder.push(id);
+						}
+					});
+	
+					console.log(core.storage.lists.order[i], NtaskOrder)
+	
+					//Saves to order
+					core.storage.lists.items[core.storage.lists.order[i]].order = NtaskOrder;
+				}
 			}
-
-			//If not checked, add to list
-			if (!$(this).children('.checkbox').hasClass('checked')) {
-				taskOrder.push(id);
-			}
-		});
-		//Saves
-		core.storage.lists.items[ui.session.selected].order = taskOrder;
-
-		//Only in the next list
-		if (ui.session.selected == 'next' && core.storage.prefs.nextAmount == 'everything') {
-			//Loops through lists to save order
-			for (var i=0; i<core.storage.lists.order.length; i++) {
-				//New Array
-				NtaskOrder = [];
-				//This needs to be put into a function...
-				$('#tasks > .tasksContent > ul.' + core.storage.lists.order[i] + ' > li').map(function () {
-					var id = $(this).attr('data-id').toNum()
-
-					//If not in the correct list, move to the list.
-					if (core.storage.tasks[id].list != core.storage.lists.order[i]) {
-						core.task(id).move(core.storage.lists.order[i]);
-					}
-
-					//If not checked, add to list
-					if (!$(this).children('.checkbox').hasClass('checked')) {
-						NtaskOrder.push(id);
-					}
-				});
-
-				console.log(core.storage.lists.order[i], NtaskOrder)
-
-				//Saves to order
-				core.storage.lists.items[core.storage.lists.order[i]].order = NtaskOrder;
-			}
+	
+			core.storage.save([['lists', ui.session.selected, 'order']]);
 		}
-
+		
 		ui.lists.update().count();
-		core.storage.save([['lists', ui.session.selected, 'order']]);
+		
 	},
 	toggleListEdit: function(_this, forceClose) {
 		if(_this.length) {
@@ -494,7 +500,7 @@ var ui = {
 			var markup = Mustache.to_html(templates.task.expanded, {
 				id: id,
 				checked: checked,
-				content: model.content,
+				content: plugin.url(model.content).toText(),
 				notes: model.notes,
 				notesPlaceholder : $l._('notes'),
 				datePlaceholder: $l._('dueDate'),
@@ -507,15 +513,20 @@ var ui = {
 				logged: logged
 			})
 
-			//Collapses Task
+			// Collapses other tasks
 			if(!e.metaKey && !e.ctrlKey) $tasks.find('.expanded').dblclick()
 
 			$this
 				.html(markup)
 				.addClass('expanded')
-				.height($this.height() + $this.removeClass('selected').children('div').children('.hidden').show(0).height())
+				.height($this.height() + $this.removeClass('selected').find('.hidden').show().height())
+				.find('textarea').autosize().closest('li')
 				.trigger('expand')
 				.find('input.content').focus()
+				
+			setTimeout(function() {
+				$this.removeClass('animate height')
+			}, 150)
 
 			if(typeof cb === 'function') cb()
 
@@ -523,7 +534,7 @@ var ui = {
 
 			/* COLLAPSING */
 
-			$this.removeClass('expanded').css('height', '')
+			$this.removeClass('expanded').addClass('animate height').css('height', $this.find('.boxhelp').height())
 
 			//So data gets saved.
 			$this.find('input, textarea').blur()
@@ -582,6 +593,9 @@ $sidebar.on('click', '.name, .count', function() {
 	//Gets list id & populates
 	var tasks = core.list(model.id).populate()
 	$tasks.html('<h2>' + model.name + '</h2><ul>' + ui.lists.drawTasks(tasks) + '</ul>')
+	
+	//Adds Color
+	$tasks.find('h2').addClass(core.storage.prefs.bgColor)
 
 	//Set sort type
 	$sortType.removeClass('current');
@@ -607,19 +621,16 @@ $sidebar.on('click', '.name, .count', function() {
 	}
 
 	//All Can't be sorted
-	else if (ui.session.selected == 'all') {
-		return true
+	// else if (ui.session.selected == 'all') {
+	// 	return true
 
 	// Show Add tasks to logbook
-	} else if (ui.session.selected == 'logbook') {
+	else if (ui.session.selected == 'logbook') {
 		var loggedTasks = filter([], 'logged').length
 		if(loggedTasks > 0) {
 			$tasks.find('h2').after('<button id="updateLogbook" class="button">Move '+ filter([], 'logged').length +' completed tasks to the Logbook</button>')
 		}
 	}
-
-	//Adds Color
-	$tasks.find('h2').addClass(core.storage.prefs.bgColor)
 
 	setTimeout(function() {
 
@@ -813,7 +824,7 @@ $tasks.on('expand', 'li', function() {
 // Content
 $tasks.on('change', 'li input.content', function() {
 	var id = $(this).closest('li').attr('data-id').toNum()
-	core.storage.tasks[id].content = $(this).val()
+	core.storage.tasks[id].content = plugin.url($(this).val()).toHTML()
 	core.storage.save([['tasks', id, 'content']])
 })
 

@@ -92,7 +92,6 @@ $(function() {
 						<option value="coffee">Blue Coffee</option>\
 						<option value="wunderlist">Wunderlist</option>\
 						<option value="bieber">Justin Bieber</option>\
-						<option value="none">None</option>\
 					</select><br>\
 					<label class="description translate" data-translate="themeDescription"></label>\
 					<div class="pythonshit">\

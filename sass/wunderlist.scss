@@ -248,7 +248,9 @@ body {
 
 			.label {
 				border-left: 1px solid darken($task_color, 25%);
-				border-radius: 0 4px 4px 0;
+				&:last-child {
+					border-radius: 0 5px 5px 0;
+				}
 
 				&.overdue, &.due {
 					@include background(linear-gradient(top, lighten($high_color, 25%) 0%, lighten($high_color, 20%) 100%));

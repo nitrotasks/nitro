@@ -180,7 +180,9 @@ body {
 
 			.label {
 				border-left: 1px solid darken($task_color, 25%);
-				border-radius: 0 4px 4px 0;
+				&:last-child {
+					border-radius: 0 4px 4px 0;
+				}
 
 				&.overdue, &.due {
 					@include background(linear-gradient(top, lighten($high_color, 25%) 0%, lighten($high_color, 20%) 100%));
@@ -247,11 +249,13 @@ body {
 			button.high {
 				@include background(linear-gradient(top, lighten($high_color, 35%) 0%, lighten($high_color, 30%) 100%));
 			}
-
-			.hidden textarea {
-				border-top: 1px solid  darken($task_color, 15%);
-				border-radius: 0 0 5px 5px;
-				background: url(img/notes.png) no-repeat 8px 7px, $notes_bg;
+		
+			.hidden {
+				textarea {
+					border-top: 1px solid  darken($task_color, 15%);
+					border-radius: 0 0 5px 5px;
+					background: url(img/notes.png) no-repeat 8px 7px, $notes_bg;
+				}
 			}
 		}
 	}

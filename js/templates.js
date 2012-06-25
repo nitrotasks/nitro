@@ -2,10 +2,10 @@ templates = {
 	list: '<li id="L{{id}}"><span class="name">{{name}}</span><button class="edit"></button><button class="delete"></button><span class="count">{{count}}</span></li>',
 	task: {
 		collapsed: '\
-			<li data-id="{{id}}" class="{{checked}}">\
+			<li data-id="{{id}}" class="{{checked}} animate height">\
 				<div class="boxhelp">\
 					<div class="{{logged}}"></div>\
-					<div class="content">{{content}}</div>\
+					<div class="content">{{{content}}}</div>\
 					{{#notes}}<div class="notes"></div>{{/notes}}\
 					{{#tags}}<div class="tag">{{tag}}</div>{{/tags}}\
 					{{#date}}<div class="{{date.className}} label">{{date.words}}</div>{{/date}}\
