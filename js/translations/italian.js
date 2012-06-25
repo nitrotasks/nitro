@@ -72,6 +72,7 @@ ui.language({
 	"lists": "Liste",
 	"today": "Oggi",
 	"next": "Prossimo",
+	"scheduled": "Schedulati",
 	"someday": "Tra qualche giorno",
 
 	"newList": "Nuovo elenco",
