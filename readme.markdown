@@ -1,6 +1,5 @@
-## Nitro
+## Nitro 1.4.2
 
-This is [Nitro](http://nitrotasks.com).
 Licensed under the BSD License.
 
 The easiest way to run the app is:

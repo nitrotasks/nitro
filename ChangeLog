@@ -1,7 +1,27 @@
 Changelog
 =========
 
-### 1.3.1 Not released.
+### 1.4 (Not Released)
+- Major rewrite
+- Speed improvements
+- Stability improvements
+- Now using Mustache to render tasks
+- Polystorage
+- Sidebar is now resizable
+- Lists can now be sorted
+- Tags can now be given tags
+- Multiple tasks can now be selected, deleted and expanded (Cmd/Ctrl + Click)
+- Default theme is more "metro" - a lot less gradients and shadows
+- Made themes easier to create, edit and maintain
+- Fixed Checkboxes in Firefox
+- Moved logbook to the sidebar
+- Changed the way tasks are sent to the logbook
+- Tasks in logbook are sorted by the date they were completed
+- Focus List section can now be hidden
+- Removed Edit button from panel 
+- Removed "Show in Today" button
+
+### 1.3.1 (2012-05-24)
 - Updated Finnish
 - Async Linux Sync
 - Offline Mode for Chrome

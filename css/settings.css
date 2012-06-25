@@ -1,0 +1,65 @@
+#prefsDialog { display: none; position: fixed; width: 520px; left: 50%; margin-left: -250px; top: 100px; background: #fff; box-shadow: 0 2px 15px rgba(0, 0, 0, 0.7); z-index: 100; border-radius: 2px; }
+#prefsDialog > ul { height: 30px; margin: 0; padding: 0; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom: 1px solid rgba(0, 0, 0, 0.2); background: #ddd; }
+#prefsDialog > ul > li { display: inline-block; margin: 0; width: 20%; box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; text-align: center; line-height: 30px; height: 30px; }
+#prefsDialog > ul > li.active { background: #f0f0f0; }
+#prefsDialog > ul > li.active a { color: #222; }
+#prefsDialog > ul > li:first-child { border-top-left-radius: 5px; }
+#prefsDialog > ul > li:last-child { border-top-right-radius: 5px; }
+#prefsDialog > ul > li:not(:last-child) { border-right: 1px solid rgba(0, 0, 0, 0.2); }
+#prefsDialog > ul > li a { text-decoration: none; color: #444; font-weight: bold; font-size: 13px; display: block; }
+#prefsDialog .tab-content .tab-pane { display: none; padding: 15px; border-bottom-radius: 5px; max-height: 400px; overflow-y: auto; color: #3b3b3b; font-size: 13px; line-height: 18px; }
+#prefsDialog .tab-content .tab-pane input[type=checkbox] { margin-left: 40px; margin-right: 10px; }
+#prefsDialog .tab-content .tab-pane label:not(.description) { font-weight: bold; }
+#prefsDialog .tab-content .tab-pane label.left { display: inline-block; margin-left: 60px; margin-right: 10px; text-align: right; }
+#prefsDialog .tab-content .tab-pane label.right { display: inline-block; margin-right: 10px; width: 120px; text-align: right; }
+#prefsDialog .tab-content .tab-pane .description { margin-left: 60px; display: block; font-size: 12px; line-height: 16px; width: 400px; }
+#prefsDialog .tab-content .tab-pane button { margin: 5px 0; font-size: 13px; }
+#prefsDialog .tab-content .tab-pane button:last-child { margin-bottom: 0; }
+#prefsDialog .tab-content .tab-pane select, #prefsDialog .tab-content .tab-pane input[type=file] { font-size: 13px; line-height: 22px; margin: 5px 0; }
+#prefsDialog .tab-content .tab-pane select:last-child, #prefsDialog .tab-content .tab-pane input[type=file]:last-child { margin-bottom: 0; }
+#prefsDialog .tab-content .tab-pane input[type=text], #prefsDialog .tab-content .tab-pane input[type=password] { margin: 5px 0; width: 200px; font-size: 13px; line-height: 18px; height: 18px; }
+#prefsDialog .tab-content .tab-pane h2 { text-align: center; }
+#prefsDialog .tab-content .tab-pane blockquote { width: 400px; color: #3b3b3b; border: 3px solid #0a6fea; background: #0a6fea; border-radius: 5px; }
+#prefsDialog .tab-content .tab-pane blockquote h1 { text-align: center; font-size: 15px; margin: 0; padding: 5px; color: #fff; }
+#prefsDialog .tab-content .tab-pane blockquote span { display: block; padding: 10px; background: #fff; border-radius: 3px; }
+#prefsDialog .tab-content .tab-pane blockquote a { color: #0080ff; text-decoration: none; }
+#prefsDialog .tab-content .tab-pane blockquote a:hover { text-decoration: underline; }
+#prefsDialog .tab-content .tab-pane blockquote.disabled { color: #3b3b3b; background: #fff; border-color: #fff; width: 490px; padding: 0; margin: 0; }
+#prefsDialog .tab-content .tab-pane blockquote.disabled img { margin: 0 13px; cursor: pointer; }
+#prefsDialog .tab-content .tab-pane blockquote .icon { float: left; margin: 0 10px 0 0; }
+#prefsDialog .tab-content .tab-pane table { width: 100%; }
+#prefsDialog .tab-content .tab-pane table tr { border-bottom: 1px solid #eee; }
+#prefsDialog .tab-content .tab-pane table tr.break { background: #eee; }
+#prefsDialog .tab-content .tab-pane table tr td { padding: 5px; }
+#prefsDialog .tab-content .tab-pane table tr td:first-child { font-weight: bold; width: 50%; }
+#prefsDialog .tab-content .tab-pane.active { display: block; }
+#prefsDialog .tab-content .tab-pane img.center { display: table; margin: 0 auto; }
+#prefsDialog .tab-content .tab-pane p.center { text-align: center; }
+#prefsDialog .tab-content .tab-pane a.icon { display: inline-block; width: 150px; height: 122px; margin: 12.5px; border-radius: 5px; box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2), 0 1px 0 white; background: rgba(0, 0, 0, 0.05); }
+#prefsDialog .tab-content .tab-pane a.icon:hover { background: -webkit-linear-gradient(#fcfcfc, #e5e5e5); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }
+#prefsDialog .tab-content .tab-pane a.icon:active { background: -webkit-linear-gradient(#e5e5e5, #fcfcfc); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }
+#prefsDialog .tab-content .tab-pane a.icon img { margin-top: 8.5px; }
+#prefsDialog .tab-content .tab-pane#tabSync { position: relative; }
+#prefsDialog .tab-content .tab-pane#tabSync .icons { text-align: center; }
+#prefsDialog .tab-content .tab-pane#tabSync blockquote { text-align: left; }
+#prefsDialog .tab-content .tab-pane#tabSync .waiting, #prefsDialog .tab-content .tab-pane#tabSync .settings { display: none; }
+#prefsDialog .tab-content .tab-pane#tabSync .waiting { text-align: center; }
+#prefsDialog .tab-content .tab-pane#tabSync .waiting p { color: #666; }
+#prefsDialog .tab-content .tab-pane#tabSync .waiting img { margin-bottom: 15px; }
+#prefsDialog .tab-content .tab-pane#tabSync .waiting a.cancel { cursor: pointer; color: #33A3EF; }
+#prefsDialog .tab-content .tab-pane#tabSync .waiting a.cancel:hover { text-decoration: underline; }
+#prefsDialog .tab-content .tab-pane#tabSync .settings .service { text-transform: capitalize; }
+#prefsDialog .tab-content .tab-pane#tabSync .settings .logout { display: block; float: right; margin-right: 20px; }
+
+#tabLanguage table { font-size: 13px; line-height: 20px; color: #444; width: 100%; }
+#tabLanguage table th { text-align: left; font-size: 14px; border-bottom: 1px solid #aaa; }
+#tabLanguage table tr { border-bottom: 1px solid #ccc; }
+#tabLanguage table tr:last-of-type { border-bottom: none; }
+#tabLanguage table tr td, #tabLanguage table tr th { padding: 5px 0; }
+#tabLanguage table tr td:first-of-type, #tabLanguage table tr td:nth-of-type(3), #tabLanguage table tr th:first-of-type, #tabLanguage table tr th:nth-of-type(3) { width: 20%; }
+#tabLanguage table tr td:nth-of-type(4), #tabLanguage table tr td:nth-of-type(2), #tabLanguage table tr th:nth-of-type(4), #tabLanguage table tr th:nth-of-type(2) { width: 30%; }
+#tabLanguage table tr a { color: #0ba1d0; text-decoration: none; }
+#tabLanguage table tr a:hover { cursor: pointer; text-decoration: underline; }
+#tabLanguage table tr a.current { font-weight: bold; color: #444; }
+#tabLanguage table tr td.author { font-style: italic; color: #888; }
+#tabLanguage table tr td.author a { color: #555; }
