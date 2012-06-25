@@ -1,7 +1,7 @@
 {
   "name": "Nitro",
   "description": "Get stuff done with Nitro.",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "offline_enabled": true,
   "app": {
     "launch": {
