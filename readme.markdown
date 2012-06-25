@@ -1,4 +1,4 @@
-## Nitro 1.4.2
+## Nitro 1.4.3
 
 Licensed under the BSD License.
 
