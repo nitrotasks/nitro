@@ -317,7 +317,7 @@ cmd = function (cmd) {
 		case 'moveTaskUp':
 			if($tasks.find('.selected').length) {
 				var $this = $tasks.find('.selected').first(),
-					id = $this.attr('data-id').toNum(),
+					id = $this.attr('data-id'),
 					$parent = $this.parent()
 
 				if(ui.session.selected === 'next') {
@@ -349,7 +349,7 @@ cmd = function (cmd) {
 		case 'moveTaskDown':
 			if($tasks.find('.selected').length) {
 				var $this = $tasks.find('.selected').first(),
-					id = $this.attr('data-id').toNum(),
+					id = $this.attr('data-id'),
 					$parent = $this.parent()
 
 				if(ui.session.selected === 'next') {
@@ -547,8 +547,12 @@ plugin.add(function() {
 
 		// Get all tasks that are logged, but not in the logbook
 		if(filters === 'logged') {
-			for (var i=0; i<core.storage.tasks.length; i++) {
-				if(!core.storage.tasks[i].hasOwnProperty('deleted') && core.storage.tasks[i].logged && core.storage.tasks[i].list !== 'logbook') {
+			for (var i in core.storage.tasks) {
+				if(
+					!core.storage.tasks[i].hasOwnProperty('deleted') && // Not deleted
+					 core.storage.tasks[i].logged && 					// Logged
+					 core.storage.tasks[i].list !== 'logbook'			// Not in logbook
+				) {
 					results.push(i);
 				}
 			}
@@ -607,7 +611,7 @@ $lists.on('keydown', 'input', function(e) {
 $tasks.on('keydown', 'input.content', function(e) {
 	if(e.keyCode === 13) {
 		var $this = $(this).closest('li'),
-			id = $this.attr('data-id').toNum()
+			id = $this.attr('data-id')
 		ui.toggleTaskEdit($this, {}, function() {
 			$tasks.find('[data-id='+id+']').click()
 		})
@@ -617,7 +621,7 @@ $tasks.on('keydown', 'input.content', function(e) {
 $tasks.on('keydown', 'input, textarea', function(e) {
 	if(e.keyCode === 27) {
 		var $this = $(this).closest('li'),
-			id = $this.attr('data-id').toNum()
+			id = $this.attr('data-id')
 		ui.toggleTaskEdit($this, {}, function() {
 			$tasks.find('[data-id='+id+']').click()
 		})
@@ -675,9 +679,8 @@ plugin.add(function() {
 				}
 
 				// If all terms match then add task to the results array
-				if (pass2) {
-					return (key)
-				}
+				if (pass2) return (key)
+				else return false
 			}
 			
 			if (input == '') {
@@ -694,26 +697,22 @@ plugin.add(function() {
 					search;
 
 				if (ui.session.selected == 'all') {
+
 					// Search loop
-					for (var t = 0; t < core.storage.tasks.length; t++) {
+					for (var t in core.storage.tasks) {
 
-						// If task exists
-						if (core.storage.tasks[t]) {
-
-							//Seaches Task
-							var str = searcher(t);
-							if (str != undefined) {
-								results.push(str);
-							}
+						// Search Task
+						var str = searcher(t)
+						if (str) {
+							results.push(str)
 						}
+
 					}
 
 				} else {
 					for (var key in core.storage.lists.items[ui.session.selected].order) {
-						var str = parseInt(searcher(core.storage.lists.items[ui.session.selected].order[key]))
-						if (!isNaN(str)) {
-							results.push(str);
-						}
+						var str = searcher(core.storage.lists.items[ui.session.selected].order[key])
+						if(str) results.push(str);
 					}
 				}
 				// Draws
@@ -1832,7 +1831,7 @@ plugin.add(function() {
 		var $this = $(this).closest('li'),
 			val = $(this).val(),
 			model = {
-				id: $this.attr('data-id').toNum()
+				id: $this.attr('data-id')
 			},
 			task = core.storage.tasks[model.id]
 

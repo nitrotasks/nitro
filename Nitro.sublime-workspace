@@ -1,0 +1,981 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"sch",
+				"scheduledID"
+			],
+			[
+				"getD",
+				"getDateString"
+			],
+			[
+				"oaut",
+				"oauth_token"
+			],
+			[
+				"acc",
+				"access_token"
+			],
+			[
+				"show",
+				"showPopup"
+			],
+			[
+				"au",
+				"authorize_url"
+			],
+			[
+				"str",
+				"stringify"
+			],
+			[
+				"oau",
+				"oauth_secret"
+			],
+			[
+				"user",
+				"user_token"
+			],
+			[
+				"ch",
+				"checkbox"
+			],
+			[
+				"che",
+				"checkbox"
+			],
+			[
+				"font",
+				"font-size"
+			],
+			[
+				"border-r",
+				"border-right"
+			],
+			[
+				"mar",
+				"margin"
+			],
+			[
+				"li",
+				"lighten"
+			],
+			[
+				"sel",
+				"selected"
+			],
+			[
+				"in",
+				"include"
+			],
+			[
+				"r",
+				"recurInterval"
+			],
+			[
+				"rec",
+				"recurInterval"
+			],
+			[
+				"re",
+				"recurType"
+			],
+			[
+				"pr",
+				"priority"
+			],
+			[
+				"sever",
+				"emptyServer"
+			],
+			[
+				"new",
+				"newHeight"
+			],
+			[
+				"tex",
+				"text-align"
+			],
+			[
+				"su",
+				"success"
+			],
+			[
+				"typ",
+				"typeof"
+			],
+			[
+				"pro",
+				"properties"
+			],
+			[
+				"bo",
+				"body"
+			],
+			[
+				"me",
+				"message"
+			],
+			[
+				"se",
+				"selected"
+			],
+			[
+				"an",
+				"answer"
+			],
+			[
+				"bor",
+				"border-bottom"
+			],
+			[
+				"marg",
+				"margin-top"
+			],
+			[
+				"met",
+				"metaKey"
+			],
+			[
+				"bac",
+				"background"
+			],
+			[
+				"sort",
+				"sortType"
+			],
+			[
+				"margin",
+				"margin-left"
+			],
+			[
+				"pa",
+				"panel_color"
+			],
+			[
+				"s",
+				"scheduled"
+			],
+			[
+				"none",
+				"none_text"
+			],
+			[
+				"slide",
+				"slideUp"
+			],
+			[
+				"or",
+				"orig"
+			],
+			[
+				"logged",
+				"loggedTasks"
+			],
+			[
+				"op",
+				"opacity"
+			],
+			[
+				"si",
+				"sidebar_hover"
+			],
+			[
+				"sid",
+				"sidebar_hover"
+			],
+			[
+				"chec",
+				"checked"
+			],
+			[
+				"fou",
+				"focus"
+			],
+			[
+				"draw",
+				"drawSingleTask"
+			],
+			[
+				"task_",
+				"task_label_text"
+			],
+			[
+				"list",
+				"listSort"
+			],
+			[
+				"init",
+				"initLoad"
+			],
+			[
+				"sess",
+				"session"
+			],
+			[
+				"sor",
+				"sortType"
+			],
+			[
+				"key",
+				"keyup"
+			],
+			[
+				"to",
+				"to_html"
+			],
+			[
+				"remov",
+				"removeClass"
+			],
+			[
+				"e",
+				"expanded"
+			],
+			[
+				"all",
+				"allLists"
+			],
+			[
+				"has",
+				"hasOwnProperty"
+			],
+			[
+				"ty",
+				"typeof"
+			],
+			[
+				"mer",
+				"mergedListOrder"
+			],
+			[
+				"time",
+				"timestamp"
+			],
+			[
+				"merge",
+				"mergeOrder"
+			],
+			[
+				"inde",
+				"indexOf"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"togg",
+				"toggleFocus"
+			],
+			[
+				"do",
+				"document"
+			],
+			[
+				"focus",
+				"focus-toggle"
+			],
+			[
+				"log",
+				"logbook"
+			],
+			[
+				"lo",
+				"logbook"
+			],
+			[
+				"ha",
+				"hasClass"
+			],
+			[
+				"po",
+				"position"
+			],
+			[
+				"box-",
+				"box-shadow"
+			],
+			[
+				"inli",
+				"inline-block"
+			],
+			[
+				"di",
+				"display"
+			],
+			[
+				"h",
+				"height"
+			],
+			[
+				"fu",
+				"function"
+			],
+			[
+				"toda",
+				"todayTotal"
+			],
+			[
+				"font-",
+				"font-weight"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "js/main.js",
+			"settings":
+			{
+				"buffer_size": 28723,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "js/plugins/cmd.js",
+			"settings":
+			{
+				"buffer_size": 6425,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "js/plugins/keys.js",
+			"settings":
+			{
+				"buffer_size": 1787,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "js/core.js",
+			"settings":
+			{
+				"buffer_size": 11151,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "js/plugins/search.js",
+			"settings":
+			{
+				"buffer_size": 2231,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 327.0,
+		"selected_items":
+		[
+			[
+				"package",
+				"Package Control: Install Package"
+			],
+			[
+				"paca",
+				"Package Control: Add Channel"
+			],
+			[
+				"tabs",
+				"Indentation: Convert to Tabs"
+			]
+		],
+		"width": 467.0
+	},
+	"console":
+	{
+		"height": 153.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins.js",
+		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins/keys.js",
+		"/Volumes/Files/George/Documents/Github/Nitro/ChangeLog",
+		"/Volumes/Files/George/Documents/Github/Heroku-App/sync.js",
+		"/Volumes/Files/George/Documents/Github/Nitro/manifest.json",
+		"/Volumes/Files/George/Documents/Github/Nitro/js/translations/english.js",
+		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins/sync.js",
+		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins/scheduled.js",
+		"/Volumes/Files/George/Documents/Github/Nitro/sass/settings.scss",
+		"/Volumes/Files/George/Documents/Github/Nitro/sass/style.scss",
+		"/Volumes/Files/George/Documents/Github/Nitro/sass/sync.scss",
+		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins/settings.js",
+		"/Volumes/Files/George/Documents/Github/Nitro/js/main.js",
+		"/Volumes/Files/George/Documents/Github/Nitro-Sync/upgrade.js",
+		"/Volumes/Files/George/Documents/Github/Nitro/js/templates.js",
+		"/Volumes/Files/George/Documents/Github/Nitro/sass/default.scss",
+		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins/upgrade.js",
+		"/Volumes/Files/George/Documents/Github/Nitro/js/core.js",
+		"/Volumes/Files/George/Documents/Github/Nitro/sass/scheduled.scss",
+		"/Volumes/Files/George/Documents/Github/Nitro/css/style.css",
+		"/Volumes/Files/George/Documents/Github/Nitro/sass/coffee.scss",
+		"/Volumes/Files/George/Desktop/Nitro Stuff/Nitro 1.3.1/sass/screen.scss",
+		"/Volumes/Files/George/Desktop/Nitro Stuff/Nitro 1.3.1/sass/themes/coffee.scss",
+		"/Volumes/Files/George/Documents/Github/Nitro/index.html",
+		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins/cmd.js",
+		"/Volumes/Files/George/Documents/Github/Nitro-Sync/sync.js",
+		"/Volumes/Files/George/Documents/Github/Heroku-Test-App/sync.js",
+		"/Volumes/Files/George/Desktop/Nitro Stuff/Nitro 1.3.1/js/ui.js",
+		"/Volumes/Files/George/Documents/Github/Nitro-Sync/success/sass/style.scss",
+		"/Volumes/Files/George/Documents/Github/Nitro-Sync/success/index.html",
+		"/Volumes/Files/George/Documents/Github/Nitro-Sync/success/style.scss",
+		"/Volumes/Files/George/Documents/Github/Reader/sass/screen.scss",
+		"/Volumes/Files/George/Documents/Github/Reader/test.html",
+		"/Volumes/Files/George/Documents/Github/Reader/js/main.js",
+		"/Volumes/Files/George/Documents/Github/Reader/TODO",
+		"/Volumes/Files/George/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/Volumes/Files/George/Library/Application Support/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/Volumes/Files/George/Dropbox/Shared Stuff/omgapp/js/main.js",
+		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins/tags.js",
+		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins/filter.js",
+		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins/search.js",
+		"/Volumes/Files/George/Desktop/index.html",
+		"/Volumes/Files/George/Desktop/forum.html",
+		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins/tags.jes",
+		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins/sort.js",
+		"/Volumes/Files/George/Documents/Github/Nitro/TODO",
+		"/Volumes/Files/George/Documents/Github/Nitro/js/libs/polyStorage.js",
+		"/Volumes/Files/George/Downloads/Change Minecraft Name Offline Mode.command",
+		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins/timer.js",
+		"/Volumes/Files/George/Desktop/Natural Desktop/info.html",
+		"/Volumes/Files/George/Desktop/Natural Desktop/index_5.html",
+		"/Volumes/Files/George/Desktop/Natural Desktop/index_4.html",
+		"/Volumes/Files/George/Desktop/Natural Desktop/index_3.html",
+		"/Volumes/Files/George/Desktop/Natural Desktop/index_2.html",
+		"/Volumes/Files/George/Desktop/Natural Desktop/index.html",
+		"/Volumes/Files/George/Desktop/Natural Desktop/js/loadImg.js",
+		"/Volumes/DRIVE/index.html",
+		"/Volumes/Files/George/Desktop/minecraft.sh",
+		"/Applications/MAMP/htdocs/nd/contact.html",
+		"/Volumes/DRIVE/Natural Desktop/css/style.css"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"toNum",
+			"toNum()",
+			"toNum",
+			"toggletaskEdit",
+			"collapse",
+			".tonum()",
+			"tonum",
+			"close",
+			".length",
+			"toNum",
+			"c",
+			"1.4",
+			"msg",
+			"console.log",
+			"msg",
+			"scheduled",
+			"nextDate",
+			"cancel",
+			"i18n",
+			"$list",
+			".has(",
+			"schedule",
+			"console.log",
+			"hasOwnProperty",
+			"client.lists.items[list]",
+			"new Date",
+			"merge(",
+			"high",
+			"sync",
+			"=== 'number",
+			"tasks",
+			"over",
+			";",
+			"function() {",
+			"function ",
+			"function",
+			";",
+			"ui.external.cmd",
+			"ui.exteral",
+			"server.version",
+			"version",
+			"alert",
+			"version",
+			"JSON.string",
+			"checkbox",
+			"cli.storage.prefs.sync",
+			"coreent",
+			"snippet",
+			"count",
+			"$(this.el)",
+			"attributes",
+			"tag",
+			"tags",
+			":before",
+			"datepicke",
+			"tag",
+			"tags",
+			"timestamp",
+			"core.storage",
+			"listSort",
+			"sortab",
+			"temp",
+			"settings",
+			"sidebar",
+			"data-id",
+			"data-",
+			"json.s",
+			"pra",
+			"checked",
+			"display: -web",
+			"flex",
+			"extra details",
+			"local",
+			"console.log",
+			"addBTN",
+			"button.add",
+			"-1px",
+			"ui.language",
+			"ui.init",
+			"sessionStorage",
+			"$('#smart",
+			"ui.lists.draw",
+			"$('#lists",
+			"ui.lists.draw",
+			"ui.session.selected =",
+			"$$",
+			"$search",
+			"$panel",
+			"setTime",
+			"data-bind",
+			"update().cou",
+			"bg/",
+			"full",
+			"_orginals",
+			"full",
+			"_orginals",
+			"bg/full/",
+			"url",
+			"bg/large/",
+			"bg/preview/",
+			"bg/large/",
+			"bg/preview/",
+			"bg/large/",
+			".jpg.jpg",
+			"bg/preview/",
+			"img src=\"",
+			"helper",
+			"logged",
+			"core.storage.lists.order",
+			"trash",
+			"toNum",
+			"core.storage",
+			"lists.order",
+			"meta",
+			"delete",
+			"cli",
+			"core.storage",
+			"server.save",
+			"core.storage",
+			"all",
+			"log",
+			"server.save([",
+			"cli",
+			"order",
+			"\"",
+			"server.save();",
+			"core.storage",
+			"cli"
+		],
+		"highlight": false,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 4,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "js/main.js",
+					"settings":
+					{
+						"buffer_size": 28723,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								13991,
+								14005
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 10130.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "js/plugins/cmd.js",
+					"settings":
+					{
+						"buffer_size": 6425,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5114,
+								5114
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 3280.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "js/plugins/keys.js",
+					"settings":
+					{
+						"buffer_size": 1787,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1689,
+								1689
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 449.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "js/core.js",
+					"settings":
+					{
+						"buffer_size": 11151,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1759,
+								1759
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "js/plugins/search.js",
+					"settings":
+					{
+						"buffer_size": 2231,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false,
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1075.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 34.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"sear.",
+				"js/plugins/search.js"
+			],
+			[
+				"core",
+				"js/core.js"
+			],
+			[
+				"cmd",
+				"js/plugins/cmd.js"
+			],
+			[
+				"keys",
+				"js/plugins/keys.js"
+			],
+			[
+				"plugi",
+				"js/plugins.js"
+			],
+			[
+				"key.js",
+				"js/plugins/keys.js"
+			],
+			[
+				"cmd.js",
+				"js/plugins/cmd.js"
+			],
+			[
+				"main.js",
+				"js/main.js"
+			],
+			[
+				"english.js",
+				"js/translations/english.js"
+			],
+			[
+				"en",
+				"js/translations/english.js"
+			],
+			[
+				"sync.js",
+				"js/plugins/sync.js"
+			],
+			[
+				"up",
+				"js/plugins/upgrade.js"
+			],
+			[
+				"sync",
+				"js/plugins/sync.js"
+			],
+			[
+				"main",
+				"js/main.js"
+			],
+			[
+				"sch",
+				"js/plugins/scheduled.js"
+			],
+			[
+				"settings.js",
+				"js/plugins/settings.js"
+			],
+			[
+				"setti",
+				"sass/settings.scss"
+			],
+			[
+				"styl",
+				"sass/style.scss"
+			],
+			[
+				"set",
+				"js/plugins/settings.js"
+			],
+			[
+				"translati",
+				"Nitro/js/translations/english.js"
+			],
+			[
+				"keys.js",
+				"Nitro/js/plugins/keys.js"
+			],
+			[
+				"core.js",
+				"Nitro/js/core.js"
+			],
+			[
+				"upg",
+				"Nitro/js/plugins/upgrade.js"
+			],
+			[
+				"defau",
+				"Nitro/sass/default.scss"
+			],
+			[
+				"def",
+				"Nitro/sass/default.scss"
+			],
+			[
+				"sched",
+				"Nitro/sass/scheduled.scss"
+			],
+			[
+				"style.scss",
+				"Nitro/sass/style.scss"
+			],
+			[
+				"scss",
+				"Nitro/css/style.css"
+			],
+			[
+				"teme",
+				"Nitro/js/templates.js"
+			],
+			[
+				"style",
+				"sass/style.scss"
+			],
+			[
+				"templ",
+				"js/templates.js"
+			],
+			[
+				"tags",
+				"js/plugins/tags.js"
+			],
+			[
+				"temp",
+				"js/templates.js"
+			],
+			[
+				"style.",
+				"sass/style.scss"
+			],
+			[
+				"po",
+				"js/libs/polyStorage.js"
+			],
+			[
+				"del",
+				"sass/default.scss"
+			],
+			[
+				"syn",
+				"Nitro-Sync/sync.js"
+			],
+			[
+				"sear",
+				"js/plugins/search.js"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": false,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 241.0,
+	"status_bar_visible": true
+}

@@ -18,15 +18,20 @@ version = '1.4.3'
 
 //Core Module
 var core = {
+	getID: function() {
+		var part = function() {
+			return ((1 + Math.random()) * 16777216 | 0).toString(36).substring(1)
+		}
+		return part() + part() + "-" + part() + "-" + part() + "-" + part() + "-" + part() + part() + part()
+	},
 	task: function(id) {
 		return {
 			add: function(name, list) {
 				//ID of task
-				var taskId = core.storage.tasks.length;
-				core.storage.tasks.length++;
+				var taskID = core.getID()
 
 				//Saves
-				core.storage.tasks[taskId] = {
+				core.storage.tasks[taskID] = {
 					content: name,
 					priority: 'none',
 					date: '',
@@ -42,16 +47,15 @@ var core = {
 						list: 0,
 						logged: 0,
 						tags: 0
-					},
-					synced: false
+					}
 				};
 
 				//Pushes to array
-				core.storage.lists.items[list].order.unshift(taskId);
+				core.storage.lists.items[list].order.unshift(taskID);
 				core.storage.save([['lists', list, 'order']]);
 				console.log('Adding Task: ' + name + ' into list: ' + list);
 
-				return taskId;
+				return taskID;
 			},
 
 			/* Move a task somewhere.
@@ -124,42 +128,38 @@ var core = {
 		return {
 			add: function(name) {
 				//New ID
-				var listId = core.storage.lists.items.length;
-				core.storage.lists.items.length++;
+				var listID = core.getID()
 
 				//Chucks data in object
-				core.storage.lists.items[listId] = {
+				core.storage.lists.items[listID] = {
 					name: name,
 					order: [],
 					time: {
 						name: 0,
 						order: 0
-					},
-					synced: false
-				};
+					}
+				}
 
 				//Adds to order array
-				core.storage.lists.order.push(listId);
-				core.storage.save([['list-order', null, null]]);
-				console.log("Created List: '" + name + "' with id: " + listId);
+				core.storage.lists.order.push(listID)
+				core.storage.save([['list-order', null, null]])
+				console.log("Created List: '" + name + "' with id: " + listID)
 
-				return listId;
+				return listID
 			},
 			delete: function() {
 				//Deletes tasks in a list
 				for (var i = core.storage.lists.items[id].order.length - 1; i >= 0; i--) {
-					core.task(core.storage.lists.items[id].order[i]).move('trash');
+					core.task(core.storage.lists.items[id].order[i]).move('trash')
 				}
 
 				//Remove from List order
-				var index = core.storage.lists.order.indexOf(id);
-				if(index > -1) {
-					core.storage.lists.order.splice(index, 1);
-				}
+				var index = core.storage.lists.order.indexOf(id)
+				if(index > -1) core.storage.lists.order.splice(index, 1)
 
 				//Deletes List
-				core.storage.lists.items[id] = {deleted: core.timestamp()};
-				core.storage.save([['list-order', null, null]]);
+				core.storage.lists.items[id] = {deleted: core.timestamp()}
+				core.storage.save([['list-order', null, null]])
 			},
 			populate: function() {
 				switch(id) {
@@ -180,7 +180,7 @@ var core = {
 						}
 
 						// Make sure the task is still in today
-						var remove = smartTasks.filter(function(i) {return !(today.indexOf(i) > -1);})
+						var remove = smartTasks.filter(function(i) {return !(today.indexOf(i) > -1)})
 
 						// Remove each task that was in today but not anymore
 						for(var i = 0; i < remove.length; i++) {
@@ -198,9 +198,9 @@ var core = {
 						var results = [];
 
 						// Loop
-						for (var i=0; i<core.storage.tasks.length; i++) {
+						for (var i in core.storage.tasks) {
 							if(!core.storage.tasks[i].hasOwnProperty('deleted') && !core.storage.tasks[i].logged) {
-								results.push(i);
+								results.push(i)
 							}
 						}
 
@@ -299,9 +299,7 @@ var core = {
 	},
 	
 	storage: {
-		tasks: $.polyStorage.get('tasks', {
-			length:0
-		}),
+		tasks: $.polyStorage.get('tasks', {}),
 		lists: $.polyStorage.get('lists', {
 			order: [],
 			items: {
@@ -322,8 +320,7 @@ var core = {
 					time: {
 						order: 0
 					}
-				},
-				length: 0
+				}
 			},
 			time: 0
 		}),

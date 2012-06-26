@@ -161,7 +161,7 @@ cmd = function (cmd) {
 		case 'moveTaskUp':
 			if($tasks.find('.selected').length) {
 				var $this = $tasks.find('.selected').first(),
-					id = $this.attr('data-id').toNum(),
+					id = $this.attr('data-id'),
 					$parent = $this.parent()
 
 				if(ui.session.selected === 'next') {
@@ -193,7 +193,7 @@ cmd = function (cmd) {
 		case 'moveTaskDown':
 			if($tasks.find('.selected').length) {
 				var $this = $tasks.find('.selected').first(),
-					id = $this.attr('data-id').toNum(),
+					id = $this.attr('data-id'),
 					$parent = $this.parent()
 
 				if(ui.session.selected === 'next') {

@@ -124,10 +124,10 @@ var ui = {
 		});
 
 		// Theme init
-		core.storage.prefs.theme = core.storage.prefs.theme || 'default';
+		core.storage.prefs.theme = core.storage.prefs.theme || 'default'
 		$('link.theme').attr('href', 'css/' + core.storage.prefs.theme + '.css').ready(function () {
 			//I can't trigger it?
-			$('.tasksContent').height(height - $('.panel').height())
+			$tasks.height(height - $('.panel').height())
 			ui.reload()
 		});
 
@@ -166,7 +166,7 @@ var ui = {
 
 				//Loops through lists & adds the to an array
 				$lists.children().map(function () {
-					listOrder.push($(this).attr('id').substr(1).toNum())
+					listOrder.push($(this).attr('id').substr(1))
 				});
 
 				//Saves
@@ -205,12 +205,11 @@ var ui = {
 					})
 			} else {
 				obj = Mustache.to_html(templates.list, {
-						id: listID[0],
-						name: listID[1],
-						count: 0
-					})
+					id: listID[0],
+					name: listID[1],
+					count: 0
+				})
 			}
-			
 			return obj
 		},
 
@@ -218,7 +217,7 @@ var ui = {
 		drawTasks: function(tasks) {
 
 			var markup = ""
-
+			
 			if (tasks.length == 0) {
 				//Display a messsage
 				markup = '<div class="noTasks">'
@@ -314,8 +313,8 @@ var ui = {
 				count: function() {
 
 					// Update all list counts
-					for(var id = 0; id < core.storage.lists.items.length; id++) {
-						if(!core.storage.lists.items[id].hasOwnProperty('deleted')) {
+					for (var id in core.storage.lists.items) {
+						if (id !== 'length' && !core.storage.lists.items[id].hasOwnProperty('deleted')) {
 							var list = core.storage.lists.items[id];			
 							$('#L' + id).find('.count').html(list.order.length);
 						}
@@ -341,7 +340,7 @@ var ui = {
 				logbook: function() {
 
 					// Loop through all tasks
-					for(var id = 0; id < core.storage.tasks.length; id++) {
+					for(var id in core.storage.tasks) {
 
 						// If task is not deleted
 						if(!core.storage.tasks[id].hasOwnProperty('deleted')) {
@@ -365,8 +364,8 @@ var ui = {
 			accept: "#tasks li",
 			tolerance: 'pointer',
 			drop: function (event, uix) {
-				var listId = $(this).attr('id').substr(1).toNum(),
-					taskId = $(uix.draggable).attr('data-id').toNum()
+				var listId = $(this).attr('id').substr(1),
+					taskId = $(uix.draggable).attr('data-id')
 
 				if(core.storage.tasks[taskId].list !== listId || ui.session.selected == 'all') {
 
@@ -395,7 +394,7 @@ var ui = {
 			// Saves order of tasks in list
 			var taskOrder = []
 			$tasks.find('ul').first().find('li').map(function () {
-				var id = $(this).attr('data-id').toNum()
+				var id = $(this).attr('data-id')
 	
 				//If not in the correct list, move to the list.
 				if (core.storage.tasks[id].list != ui.session.selected) {
@@ -418,7 +417,7 @@ var ui = {
 					NtaskOrder = [];
 					//This needs to be put into a function...
 					$('#tasks > .tasksContent > ul.' + core.storage.lists.order[i] + ' > li').map(function () {
-						var id = $(this).attr('data-id').toNum()
+						var id = $(this).attr('data-id')
 	
 						//If not in the correct list, move to the list.
 						if (core.storage.tasks[id].list != core.storage.lists.order[i]) {
@@ -450,7 +449,7 @@ var ui = {
 				var $input = _this.find('input'),
 					model = {
 						name: $input.val(),
-						id: _this.attr('id').substr(1).toNum()
+						id: _this.attr('id').substr(1)
 					}
 
 				// Sometimes it triggers fucking blur more than once...
@@ -475,7 +474,7 @@ var ui = {
 	},
 	toggleTaskEdit: function($this, e, cb) {
 
-		var id = $this.attr('data-id').toNum()
+		var id = $this.attr('data-id')
 			model = core.storage.tasks[id]
 
 		//Checked Tasks
@@ -576,7 +575,7 @@ $sidebar.on('click', '.name, .count', function() {
 	// Cache ID of list
 	var $this = $(this).parent(),
 		model =  {
-			id: $this.attr('id').substr(1).toNum(),
+			id: $this.attr('id').substr(1),
 			name: $this.find('.name').text(),
 		}
 
@@ -696,7 +695,7 @@ $lists.on('click', '.delete', function() {
 		}
 
 		var model = {
-				id: $this.attr('id').substr(1).toNum()
+				id: $this.attr('id').substr(1)
 			}
 
 		// Delete list
@@ -767,7 +766,7 @@ $tasks.on('click', '.checkbox', function() {
 
 			var $this = $(this),
 				model = {
-					id: $this.attr('data-id').toNum()
+					id: $this.attr('data-id')
 				}
 
 			//Changes Appearance
@@ -800,7 +799,7 @@ $tasks.on('dblclick', 'li', function(e) {
 $tasks.on('expand', 'li', function() {
 
 	var $this = $(this),
-		id = $this.attr('data-id').toNum(),
+		id = $this.attr('data-id'),
 		model = core.storage.tasks[id]
 
 	$this.find('.date')
@@ -819,7 +818,7 @@ $tasks.on('expand', 'li', function() {
 
 // Content
 $tasks.on('change', 'li input.content', function() {
-	var id = $(this).closest('li').attr('data-id').toNum()
+	var id = $(this).closest('li').attr('data-id')
 	core.storage.tasks[id].content = plugin.url($(this).val()).toHTML()
 	core.storage.save([['tasks', id, 'content']])
 })
@@ -827,7 +826,7 @@ $tasks.on('change', 'li input.content', function() {
 // Priority
 $tasks.on('click', '.priority', function() {
 	var $this = $(this).closest('li'),
-		id = $this.attr('data-id').toNum(),
+		id = $this.attr('data-id'),
 		model = core.storage.tasks[id],
 		original = model.priority,
 		next = original
@@ -859,7 +858,7 @@ $tasks.on('click', '.priority', function() {
 
 // Notes
 $tasks.on('change', 'textarea', function() {
-	var id = id = $(this).closest('li').attr('data-id').toNum()
+	var id = id = $(this).closest('li').attr('data-id')
 	core.storage.tasks[id].notes = $(this).val()
 	core.storage.save([['tasks', id, 'notes']])
 })
@@ -1004,7 +1003,7 @@ $panel.left.on('click', 'button.delete', function() {
 
 			// Deletes from CLI
 			$selected.each(function() {
-				var taskId = $(this).attr('data-id').toNum()
+				var taskId = $(this).attr('data-id')
 				core.task(taskId).move('trash')
 			})
 			
