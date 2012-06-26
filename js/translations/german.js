@@ -34,7 +34,7 @@ ui.language({
 	high: "Hoch",
 
 	//Date Labels
-	dueDate: "Fälligkeitsdatum setzen",
+	dueDate: "Fälligkeitsdatum",
 	schedule: "Geplant",
 
 	// Delete Modals
@@ -48,7 +48,7 @@ ui.language({
 	warning: "Warnung!",
 
 	recurring: "wiederkehrend",
-	reviewNo: "Review in:",
+	reviewNo: "Überprüfung:",
 	recurType: "Erstellt:",
 	daily: "täglich",
 	weekly: "wöchentlich",
