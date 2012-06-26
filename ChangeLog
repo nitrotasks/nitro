@@ -1,7 +1,19 @@
 Changelog
 =========
 
-### 1.4 (Not Released)
+### 1.4.3
+- Brought back expanding notes area
+- Brought back auto linking of URLs
+- You can now move tasks in the All Tasks list
+- Moving tasks is more stable
+
+### 1.4.2
+- List order timestamps
+
+### 1.4.1
+- Bugfix for Upgrade (jstorage/jStorage)
+
+### 1.4
 - Major rewrite
 - Speed improvements
 - Stability improvements
@@ -19,6 +31,7 @@ Changelog
 - Tasks in logbook are sorted by the date they were completed
 - Focus List section can now be hidden
 - Removed Edit button from panel 
+- Removed Scheduled list (Too buggy, and didn't work with Sync)
 - Removed "Show in Today" button
 
 ### 1.3.1 (2012-05-24)
