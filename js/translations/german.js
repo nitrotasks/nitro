@@ -81,7 +81,7 @@ ui.language({
 	shrink: "Verkleinern",
 	center: "Zentrieren",
 	tile: "Kacheln",
-	bgDescription: "Durch die Auswahl einer Textfarbe kann man die Lesbarkeit auf eigenen Hintergrund verbessern.",
+	bgDescription: "Durch die Auswahl einer Textfarbe kann man die Lesbarkeit auf eigenen Hintergründen verbessern.",
 	headingColor: "Hintergrundfarbe der Kopfzeile",
 	default: "Voreingestellt",
 	light: "Hell",
