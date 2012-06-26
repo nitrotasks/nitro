@@ -38,6 +38,9 @@ var ui = {
 		//Nice shorthand Method
 		$l = $.i18n;
 
+		// Runs cleaner
+		plugin.cleanDB()
+
 		// Loads
 		$(document).trigger('loaded')
 		ui.initLoad();
