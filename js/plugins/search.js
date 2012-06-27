@@ -70,10 +70,14 @@ plugin.add(function() {
 					// Search loop
 					for (var t in core.storage.tasks) {
 
-						// Search Task
-						var str = searcher(t)
-						if (str) {
-							results.push(str)
+						if(!core.storage.tasks[t].hasOwnProperty('deleted')) {
+
+							// Search Task
+							var str = searcher(t)
+							if (str) {
+								results.push(str)
+							}
+
 						}
 
 					}

@@ -54,7 +54,7 @@ plugin.add(function() {
 		var days = millisBetween / millisecondsPerDay;
 		
 		// Round down.
-		var diff = Math.floor(days);
+		var diff = Math.floor(days)
 
 		if(diff > 14) {
 			diff = 14
@@ -87,7 +87,7 @@ plugin.add(function() {
 						b: getDateWorth(b.date)
 					}
 
-					var worth = { none: 0, low: 2, medium: 6, high: 10 }
+					var worth = { none: 0, low: 2, medium: 4, high: 6 }
 
 					rating.a += worth[a.priority]
 					rating.b += worth[b.priority]

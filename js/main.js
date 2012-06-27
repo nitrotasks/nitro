@@ -317,7 +317,6 @@ var ui = {
 					// Update all list counts
 					for (var id in core.storage.lists.items) {
 						if (!core.storage.lists.items[id].hasOwnProperty('deleted')) {
-							console.log(id)
 							var count = filter(core.list(id).populate(), {logged: false})			
 							$('#L' + id).find('.count').html(count.length);
 						}
@@ -433,8 +432,6 @@ var ui = {
 						}
 					});
 	
-					console.log(core.storage.lists.order[i], NtaskOrder)
-	
 					//Saves to order
 					core.storage.lists.items[core.storage.lists.order[i]].order = NtaskOrder;
 				}
@@ -465,7 +462,6 @@ var ui = {
 				} catch(e) {}
 			} else {
 				var $name = _this.find('.name')
-				console.log($name)
 				if(_this.closest('ul').attr('id') == 'lists') {
 					var name = $name.text()
 					$name.replaceWith('<input type="text" value="' + name + '" placeholder="Enter the list name">')
