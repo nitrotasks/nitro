@@ -247,14 +247,10 @@ $(function() {
 						</tr>		\
 						<tr>\
 							<td>3</td>\
-							<td>Scheduled</td>\
-						</tr>	\
-						<tr>\
-							<td>4</td>\
 							<td>Logbook</td>\
 						</tr>	\
 						<tr>\
-							<td>5</td>\
+							<td>4</td>\
 							<td>All Tasks</td>\
 						</tr>\
 				</div>\

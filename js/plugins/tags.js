@@ -7,7 +7,7 @@ plugin.add(function() {
 		var $this = $(this).closest('li'),
 			val = $(this).val(),
 			model = {
-				id: $this.attr('data-id').toNum()
+				id: $this.attr('data-id')
 			},
 			task = core.storage.tasks[model.id]
 

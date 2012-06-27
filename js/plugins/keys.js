@@ -27,9 +27,8 @@ key('s', function() {cmd('sync')})
 
 key('1', function() {cmd('today')})
 key('2', function() {cmd('next')})
-key('3', function() {cmd('scheduled')})
-key('4', function() {cmd('logbook')})
-key('5', function() {cmd('allTasks')})
+key('3', function() {cmd('logbook')})
+key('4', function() {cmd('allTasks')})
 
 key('esc', function() {cmd('escape')})
 
@@ -44,7 +43,7 @@ $lists.on('keydown', 'input', function(e) {
 $tasks.on('keydown', 'input.content', function(e) {
 	if(e.keyCode === 13) {
 		var $this = $(this).closest('li'),
-			id = $this.attr('data-id').toNum()
+			id = $this.attr('data-id')
 		ui.toggleTaskEdit($this, {}, function() {
 			$tasks.find('[data-id='+id+']').click()
 		})
@@ -54,7 +53,7 @@ $tasks.on('keydown', 'input.content', function(e) {
 $tasks.on('keydown', 'input, textarea', function(e) {
 	if(e.keyCode === 27) {
 		var $this = $(this).closest('li'),
-			id = $this.attr('data-id').toNum()
+			id = $this.attr('data-id')
 		ui.toggleTaskEdit($this, {}, function() {
 			$tasks.find('[data-id='+id+']').click()
 		})

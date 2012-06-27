@@ -331,17 +331,46 @@
 			"file": "js/plugins/cleanDB.js",
 			"settings":
 			{
-				"buffer_size": 8423,
+				"buffer_size": 5814,
 				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "js/main.js",
+			"settings":
+			{
+				"buffer_size": 28734,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "js/core.js",
+			"settings":
+			{
+				"buffer_size": 11102,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "bbr9qsvl-7tok-2qi5-g6tw-fohvsjzsgapc",
+			"settings":
+			{
+				"buffer_size": 36,
+				"line_ending": "Unix",
+				"name": "bbr9qsvl-7tok-2qi5-g6tw-fohvsjzsgapc"
 			}
 		}
 	],
-	"build_system": "",
+	"build_system": "Packages/Sublime-JSHint/JSHint.sublime-build",
 	"command_palette":
 	{
-		"height": 327.0,
+		"height": 50.0,
 		"selected_items":
 		[
+			[
+				"jsh",
+				"JSHint: Linter"
+			],
 			[
 				"package",
 				"Package Control: Install Package"
@@ -355,11 +384,11 @@
 				"Indentation: Convert to Tabs"
 			]
 		],
-		"width": 467.0
+		"width": 588.0
 	},
 	"console":
 	{
-		"height": 153.0
+		"height": 487.0
 	},
 	"distraction_free":
 	{
@@ -372,13 +401,16 @@
 	},
 	"file_history":
 	[
-		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins.js",
+		"/Volumes/Files/George/Documents/Github/Nitro/js/main.js",
+		"/Volumes/Files/George/Library/Application Support/Sublime Text 2/Packages/Sublime-JSHint/JSHint.py",
 		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins/cleanDB.js",
+		"/Volumes/Files/George/Documents/Github/Nitro-Sync/sync.js",
+		"/Volumes/Files/George/Documents/Github/Nitro-Sync/merge.js",
+		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins.js",
 		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins/search.js",
 		"/Volumes/Files/George/Documents/Github/Nitro/js/core.js",
 		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins/keys.js",
 		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins/cmd.js",
-		"/Volumes/Files/George/Documents/Github/Nitro/js/main.js",
 		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins/filter.js",
 		"/Volumes/Files/George/Documents/Github/Nitro/ChangeLog",
 		"/Volumes/Files/George/Documents/Github/Heroku-App/sync.js",
@@ -400,7 +432,6 @@
 		"/Volumes/Files/George/Desktop/Nitro Stuff/Nitro 1.3.1/sass/screen.scss",
 		"/Volumes/Files/George/Desktop/Nitro Stuff/Nitro 1.3.1/sass/themes/coffee.scss",
 		"/Volumes/Files/George/Documents/Github/Nitro/index.html",
-		"/Volumes/Files/George/Documents/Github/Nitro-Sync/sync.js",
 		"/Volumes/Files/George/Documents/Github/Heroku-Test-App/sync.js",
 		"/Volumes/Files/George/Desktop/Nitro Stuff/Nitro 1.3.1/js/ui.js",
 		"/Volumes/Files/George/Documents/Github/Nitro-Sync/success/sass/style.scss",
@@ -595,7 +626,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -603,21 +634,102 @@
 					"file": "js/plugins/cleanDB.js",
 					"settings":
 					{
-						"buffer_size": 8423,
+						"buffer_size": 5814,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								1361,
+								1361
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "js/main.js",
+					"settings":
+					{
+						"buffer_size": 28734,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2239,
+								2239
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "js/core.js",
+					"settings":
+					{
+						"buffer_size": 11102,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1880,
+								1880
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 128.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"settings":
+					{
+						"buffer_size": 36,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								24,
+								36
+							]
+						],
+						"settings":
+						{
+							"auto_name": "bbr9qsvl-7tok-2qi5-g6tw-fohvsjzsgapc",
+							"is_xml": false,
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -670,6 +782,22 @@
 		"selected_items":
 		[
 			[
+				"core.",
+				"Nitro/js/core.js"
+			],
+			[
+				"main",
+				"Nitro/js/main.js"
+			],
+			[
+				"clea",
+				"Nitro/js/plugins/cleanDB.js"
+			],
+			[
+				"main.js",
+				"Nitro/js/main.js"
+			],
+			[
 				"fi",
 				"js/plugins/filter.js"
 			],
@@ -706,10 +834,6 @@
 				"js/plugins/cmd.js"
 			],
 			[
-				"main.js",
-				"js/main.js"
-			],
-			[
 				"english.js",
 				"js/translations/english.js"
 			],
@@ -728,10 +852,6 @@
 			[
 				"sync",
 				"js/plugins/sync.js"
-			],
-			[
-				"main",
-				"js/main.js"
 			],
 			[
 				"sch",
@@ -843,7 +963,7 @@
 	"show_minimap": true,
 	"show_open_files": true,
 	"show_tabs": true,
-	"side_bar_visible": true,
+	"side_bar_visible": false,
 	"side_bar_width": 241.0,
 	"status_bar_visible": true
 }

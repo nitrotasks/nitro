@@ -48,9 +48,8 @@ plugin.add(function() {
 				}
 
 				// If all terms match then add task to the results array
-				if (pass2) {
-					return (key)
-				}
+				if (pass2) return (key)
+				else return false
 			}
 			
 			if (input == '') {
@@ -67,26 +66,22 @@ plugin.add(function() {
 					search;
 
 				if (ui.session.selected == 'all') {
+
 					// Search loop
-					for (var t = 0; t < core.storage.tasks.length; t++) {
+					for (var t in core.storage.tasks) {
 
-						// If task exists
-						if (core.storage.tasks[t]) {
-
-							//Seaches Task
-							var str = searcher(t);
-							if (str != undefined) {
-								results.push(str);
-							}
+						// Search Task
+						var str = searcher(t)
+						if (str) {
+							results.push(str)
 						}
+
 					}
 
 				} else {
 					for (var key in core.storage.lists.items[ui.session.selected].order) {
-						var str = parseInt(searcher(core.storage.lists.items[ui.session.selected].order[key]))
-						if (!isNaN(str)) {
-							results.push(str);
-						}
+						var str = searcher(core.storage.lists.items[ui.session.selected].order[key])
+						if(str) results.push(str);
 					}
 				}
 				// Draws
