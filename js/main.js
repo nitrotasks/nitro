@@ -316,19 +316,20 @@ var ui = {
 
 					// Update all list counts
 					for (var id in core.storage.lists.items) {
-						if (id !== 'length' && !core.storage.lists.items[id].hasOwnProperty('deleted')) {
-							var list = core.storage.lists.items[id];			
-							$('#L' + id).find('.count').html(list.order.length);
+						if (!core.storage.lists.items[id].hasOwnProperty('deleted')) {
+							console.log(id)
+							var count = filter(core.list(id).populate(), {logged: false})			
+							$('#L' + id).find('.count').html(count.length);
 						}
 					}
 
-					var focusLists = ['next', 'logbook', 'all'];
+					var focusLists = ['all', 'logbook'];
 					for (var id = 0; id < focusLists.length; id++) {
 						$('#L' + focusLists[id]).find('.count').html(core.list(focusLists[id]).populate().length);
 					}
 
 					// Today
-					var todayTotal = core.list('today').populate().length
+					var todayTotal = filter(core.list('today').populate(), {logged: false}).length
 					$('#Ltoday .count').html(todayTotal)
 
 					// Set Title
