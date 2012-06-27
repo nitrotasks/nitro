@@ -27,9 +27,8 @@ key('s', function() {cmd('sync')})
 
 key('1', function() {cmd('today')})
 key('2', function() {cmd('next')})
-key('3', function() {cmd('scheduled')})
-key('4', function() {cmd('logbook')})
-key('5', function() {cmd('allTasks')})
+key('3', function() {cmd('logbook')})
+key('4', function() {cmd('allTasks')})
 
 key('esc', function() {cmd('escape')})
 

@@ -86,6 +86,9 @@ var ui = {
 			upgrade($.polyStorage.get('jStorage', 'empty'))
 		}
 
+		// Clean
+		plugin.cleanDB()
+
 		//Buttons
 		$sidebar.find('h2.smartlists')
 			.html($l._('focus'))
@@ -273,12 +276,8 @@ var ui = {
 					break
 
 				case 'all':
-					//Translated Name or Custom Name
-					if (typeof(model.list) == 'number') {
-						list = core.storage.lists.items[model.list].name
-					} else {
-						list = $l._(model.list)
-					}
+					// Translated Name or Custom Name
+					list = core.storage.lists.items[model.list].name || model.list
 
 				default:
 					// Show task due date

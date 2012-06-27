@@ -14,15 +14,18 @@
  */
 
 app = 'js'
-version = '1.4.3'
+version = '1.4.5'
 
 //Core Module
 var core = {
 	getID: function() {
-		var part = function() {
-			return ((1 + Math.random()) * 16777216 | 0).toString(36).substring(1)
+		var bit = function() {
+			return (Math.floor(Math.random() *36)).toString(36)
+		},
+		part = function() {
+			return bit() + bit() + bit() + bit()
 		}
-		return part() + part() + "-" + part() + "-" + part() + "-" + part() + "-" + part() + part() + part()
+		return part() + "-" + part() + "-" + part()
 	},
 	task: function(id) {
 		return {
@@ -87,7 +90,10 @@ var core = {
 					//Remove from list
 					if(core.storage.lists.items.hasOwnProperty(old)) {
 						if(!core.storage.lists.items[old].hasOwnProperty('deleted')) {
-							core.storage.lists.items[old].order.remove(id)
+							
+							var index = core.storage.lists.items[old].order.indexOf(id)
+							if(index > -1) core.storage.lists.items[old].order.splice(index, 1)
+							console.log(old, core.storage.lists.items[old].order, id, index)
 							core.storage.save([['lists', old, 'order']])
 						}
 					}
@@ -100,7 +106,10 @@ var core = {
 					//Remove from list
 					if(core.storage.lists.items.hasOwnProperty(old)) {
 						if(!core.storage.lists.items[old].hasOwnProperty('deleted')) {
-							core.storage.lists.items[old].order.remove(id)
+
+							var index = core.storage.lists.items[old].order.indexOf(id)
+							if(index > -1) core.storage.lists.items[old].order.splice(index, 1)
+							console.log(old, core.storage.lists.items[old].order, id, index)
 							core.storage.save([['lists', old, 'order']])
 						}
 					}
@@ -364,14 +373,4 @@ var core = {
 	timestamp: function() {
 		return Date.now();
 	}
-}
-Array.prototype.remove= function(){
-	var what, a= arguments, L= a.length, ax;
-	while(L && this.length){
-		what= a[--L];
-		while((ax= this.indexOf(what))!= -1){
-			this.splice(ax, 1);
-		}
-	}
-	return this;
 }
