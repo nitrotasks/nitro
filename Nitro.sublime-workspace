@@ -4,6 +4,26 @@
 		"selected_items":
 		[
 			[
+				"debu",
+				"debugMode"
+			],
+			[
+				"file",
+				"FileReadStream"
+			],
+			[
+				"oa",
+				"oauth_secret"
+			],
+			[
+				"oauth",
+				"oauth_token"
+			],
+			[
+				"for",
+				"for	for (…) {…}"
+			],
+			[
 				"sch",
 				"scheduledID"
 			],
@@ -328,10 +348,10 @@
 	"buffers":
 	[
 		{
-			"file": "js/plugins/cleanDB.js",
+			"file": "/Volumes/Files/George/Documents/Github/Heroku-App/sync.js",
 			"settings":
 			{
-				"buffer_size": 5814,
+				"buffer_size": 11894,
 				"line_ending": "Unix"
 			}
 		},
@@ -339,25 +359,32 @@
 			"file": "js/main.js",
 			"settings":
 			{
-				"buffer_size": 28734,
+				"buffer_size": 28585,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "js/core.js",
+			"file": "manifest.json",
 			"settings":
 			{
-				"buffer_size": 11102,
+				"buffer_size": 357,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "bbr9qsvl-7tok-2qi5-g6tw-fohvsjzsgapc",
+			"file": "js/plugins/search.js",
 			"settings":
 			{
-				"buffer_size": 36,
-				"line_ending": "Unix",
-				"name": "bbr9qsvl-7tok-2qi5-g6tw-fohvsjzsgapc"
+				"buffer_size": 2176,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "js/plugins/sort.js",
+			"settings":
+			{
+				"buffer_size": 3556,
+				"line_ending": "Unix"
 			}
 		}
 	],
@@ -367,6 +394,14 @@
 		"height": 50.0,
 		"selected_items":
 		[
+			[
+				"pcainstall",
+				"Package Control: Install Package"
+			],
+			[
+				"ssjson",
+				"Set Syntax: JSON"
+			],
 			[
 				"jsh",
 				"JSHint: Linter"
@@ -401,28 +436,36 @@
 	},
 	"file_history":
 	[
-		"/Volumes/Files/George/Documents/Github/Nitro/js/main.js",
-		"/Volumes/Files/George/Library/Application Support/Sublime Text 2/Packages/Sublime-JSHint/JSHint.py",
+		"/Volumes/Files/George/Dropbox/Apps/Nitro/nitro_data.json",
+		"/Volumes/Files/George/Documents/Github/Nitro/manifest.json",
 		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins/cleanDB.js",
+		"/Volumes/Files/George/Documents/Github/Nitro-Sync/upgrade_1.4.3.js",
+		"/Volumes/Files/George/Documents/Github/Nitro-Sync/upgrade.js",
 		"/Volumes/Files/George/Documents/Github/Nitro-Sync/sync.js",
+		"/Volumes/Files/George/Dropbox/Apps/Nitro-Sync-Beta/nitro_data.json",
+		"/Volumes/Files/George/Documents/Github/Nitro/js/main.js",
+		"/Volumes/Files/George/Documents/Github/Nitro/js/core.js",
+		"/Volumes/Files/George/Documents/Github/Nitro-Sync/merge_1.4.3.js",
 		"/Volumes/Files/George/Documents/Github/Nitro-Sync/merge.js",
+		"/Volumes/Files/George/Documents/Github/Heroku-App/merge_1.4.3.js",
+		"/Volumes/Files/George/Documents/Github/Heroku-App/merge.js",
+		"/Volumes/Files/George/Documents/Github/Heroku-App/sync.js",
+		"/Volumes/Files/George/Library/Application Support/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins/settings.js",
+		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins/keys.js",
+		"/Volumes/Files/George/Documents/Github/Nitro/css/settings.css",
+		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins/cmd.js",
+		"/Volumes/Files/George/Library/Application Support/Sublime Text 2/Packages/Sublime-JSHint/JSHint.py",
 		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins.js",
 		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins/search.js",
-		"/Volumes/Files/George/Documents/Github/Nitro/js/core.js",
-		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins/keys.js",
-		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins/cmd.js",
 		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins/filter.js",
 		"/Volumes/Files/George/Documents/Github/Nitro/ChangeLog",
-		"/Volumes/Files/George/Documents/Github/Heroku-App/sync.js",
-		"/Volumes/Files/George/Documents/Github/Nitro/manifest.json",
 		"/Volumes/Files/George/Documents/Github/Nitro/js/translations/english.js",
 		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins/sync.js",
 		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins/scheduled.js",
 		"/Volumes/Files/George/Documents/Github/Nitro/sass/settings.scss",
 		"/Volumes/Files/George/Documents/Github/Nitro/sass/style.scss",
 		"/Volumes/Files/George/Documents/Github/Nitro/sass/sync.scss",
-		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins/settings.js",
-		"/Volumes/Files/George/Documents/Github/Nitro-Sync/upgrade.js",
 		"/Volumes/Files/George/Documents/Github/Nitro/js/templates.js",
 		"/Volumes/Files/George/Documents/Github/Nitro/sass/default.scss",
 		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins/upgrade.js",
@@ -442,7 +485,6 @@
 		"/Volumes/Files/George/Documents/Github/Reader/js/main.js",
 		"/Volumes/Files/George/Documents/Github/Reader/TODO",
 		"/Volumes/Files/George/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
-		"/Volumes/Files/George/Library/Application Support/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
 		"/Volumes/Files/George/Dropbox/Shared Stuff/omgapp/js/main.js",
 		"/Volumes/Files/George/Documents/Github/Nitro/js/plugins/tags.js",
 		"/Volumes/Files/George/Desktop/index.html",
@@ -481,6 +523,23 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"console.log",
+			"1.4",
+			"upgrade",
+			"_that",
+			"o.lists.items[i]",
+			"toString",
+			"o.lists.items[i]",
+			"o.tasks[i]",
+			"index",
+			"Number",
+			"toNum",
+			"typeof",
+			"isStr",
+			"isString",
+			"toNum",
+			"dedupe",
+			"clone",
 			"items.length",
 			"core.storage.lists.items.length",
 			"core.storage.tasks.length",
@@ -591,24 +650,7 @@
 			"bg/preview/",
 			"img src=\"",
 			"helper",
-			"logged",
-			"core.storage.lists.order",
-			"trash",
-			"toNum",
-			"core.storage",
-			"lists.order",
-			"meta",
-			"delete",
-			"cli",
-			"core.storage",
-			"server.save",
-			"core.storage",
-			"all",
-			"log",
-			"server.save([",
-			"cli",
-			"order",
-			"\""
+			"logged"
 		],
 		"highlight": false,
 		"in_selection": false,
@@ -631,18 +673,18 @@
 			[
 				{
 					"buffer": 0,
-					"file": "js/plugins/cleanDB.js",
+					"file": "/Volumes/Files/George/Documents/Github/Heroku-App/sync.js",
 					"settings":
 					{
-						"buffer_size": 5814,
+						"buffer_size": 11894,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1361,
-								1361
+								2496,
+								2496
 							]
 						],
 						"settings":
@@ -651,7 +693,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 380.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -661,15 +703,15 @@
 					"file": "js/main.js",
 					"settings":
 					{
-						"buffer_size": 28734,
+						"buffer_size": 28585,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2239,
-								2239
+								2208,
+								2208
 							]
 						],
 						"settings":
@@ -678,25 +720,53 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1521.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "js/core.js",
+					"file": "manifest.json",
 					"settings":
 					{
-						"buffer_size": 11102,
+						"buffer_size": 357,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1880,
-								1880
+								89,
+								89
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "js/plugins/search.js",
+					"settings":
+					{
+						"buffer_size": 2176,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1717,
+								1717
 							]
 						],
 						"settings":
@@ -705,34 +775,34 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 128.0,
+						"translation.y": 974.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 4,
+					"file": "js/plugins/sort.js",
 					"settings":
 					{
-						"buffer_size": 36,
+						"buffer_size": 3556,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								24,
-								36
+								2316,
+								2316
 							]
 						],
 						"settings":
 						{
-							"auto_name": "bbr9qsvl-7tok-2qi5-g6tw-fohvsjzsgapc",
-							"is_xml": false,
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1121.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -782,8 +852,52 @@
 		"selected_items":
 		[
 			[
+				"sort",
+				"Nitro/js/plugins/sort.js"
+			],
+			[
+				"main.js",
+				"Nitro/js/main.js"
+			],
+			[
+				"core.js",
+				"Nitro/js/core.js"
+			],
+			[
 				"core.",
 				"Nitro/js/core.js"
+			],
+			[
+				"1.",
+				"Nitro-Sync/merge_1.4.3.js"
+			],
+			[
+				"1.4.3",
+				"Nitro-Sync/upgrade_1.4.3.js"
+			],
+			[
+				"settings",
+				"Nitro/js/plugins/settings.js"
+			],
+			[
+				"cmd",
+				"Nitro/js/plugins/cmd.js"
+			],
+			[
+				"keys",
+				"Nitro/js/plugins/keys.js"
+			],
+			[
+				"syncjs",
+				"Nitro-Sync/sync.js"
+			],
+			[
+				"merge",
+				"Nitro-Sync/merge.js"
+			],
+			[
+				"clean",
+				"Nitro/js/plugins/cleanDB.js"
 			],
 			[
 				"main",
@@ -792,10 +906,6 @@
 			[
 				"clea",
 				"Nitro/js/plugins/cleanDB.js"
-			],
-			[
-				"main.js",
-				"Nitro/js/main.js"
 			],
 			[
 				"fi",
@@ -812,14 +922,6 @@
 			[
 				"core",
 				"js/core.js"
-			],
-			[
-				"cmd",
-				"js/plugins/cmd.js"
-			],
-			[
-				"keys",
-				"js/plugins/keys.js"
 			],
 			[
 				"plugi",
@@ -880,10 +982,6 @@
 			[
 				"keys.js",
 				"Nitro/js/plugins/keys.js"
-			],
-			[
-				"core.js",
-				"Nitro/js/core.js"
 			],
 			[
 				"upg",
@@ -963,7 +1061,7 @@
 	"show_minimap": true,
 	"show_open_files": true,
 	"show_tabs": true,
-	"side_bar_visible": false,
+	"side_bar_visible": true,
 	"side_bar_width": 241.0,
 	"status_bar_visible": true
 }

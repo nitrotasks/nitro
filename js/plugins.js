@@ -1111,6 +1111,7 @@ $(function() {
 						<option value="default">Default</option>\
 						<option value="linux">Linux</option>\
 						<option value="coffee">Blue Coffee</option>\
+						<option value="metro">Metro</option>\
 						<option value="wunderlist">Wunderlist</option>\
 						<option value="bieber">Justin Bieber</option>\
 					</select><br>\
