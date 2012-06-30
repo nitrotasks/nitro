@@ -1,450 +1,158 @@
-/* ./plugins/autosize.js */
+/* ./plugins/filter.js */
 
-// Autosize 1.9 - jQuery plugin for textareas
-// (c) 2011 Jack Moore - jacklmoore.com
-// license: www.opensource.org/licenses/mit-license.php
+/* Filters Plugin for Nitro
+ * By Jono Cooper & George Czabania
+ * Licensed under the BSD License
+ */
 
-(function ($, undefined) {
-	var 
-	hidden = 'hidden',
-	borderBox = 'border-box',
-	copy = '<textarea style="position:absolute; top:-9999px; left:-9999px; right:auto; bottom:auto; -moz-box-sizing:content-box; -webkit-box-sizing:content-box; box-sizing:content-box; word-wrap:break-word; height:0 !important; min-height:0 !important; overflow:hidden">',
-	// line-height is omitted because IE7/IE8 doesn't return the correct value.
-	copyStyle = [
-		'fontFamily',
-		'fontSize',
-		'fontWeight',
-		'fontStyle',
-		'letterSpacing',
-		'textTransform',
-		'wordSpacing',
-		'textIndent'
-	],
-	oninput = 'oninput',
-	onpropertychange = 'onpropertychange',
-	test = $(copy)[0];
-
-	test.setAttribute(oninput, "return");
-
-	if ($.isFunction(test[oninput]) || onpropertychange in test) {
-		$.fn.autosize = function (className) {
-			return this.each(function () {
-				var 
-				ta = this,
-				$ta = $(ta),
-				mirror,
-				minHeight = $ta.height(),
-				maxHeight = parseInt($ta.css('maxHeight'), 10),
-				active,
-				i = copyStyle.length,
-				resize,
-				boxOffset = 0;
-
-				if ($ta.css('box-sizing') === borderBox || $ta.css('-moz-box-sizing') === borderBox || $ta.css('-webkit-box-sizing') === borderBox){
-					boxOffset = $ta.outerHeight() - $ta.height();
-				}
-
-				if ($ta.data('mirror') || $ta.data('ismirror')) {
-					// if autosize has already been applied, exit.
-					// if autosize is being applied to a mirror element, exit.
-					return;
-				} else {
-					mirror = $(copy).data('ismirror', true).addClass(className || 'autosizejs')[0];
-
-					resize = $ta.css('resize') === 'none' ? 'none' : 'horizontal';
-
-					$ta.data('mirror', $(mirror)).css({
-						overflow: hidden, 
-						overflowY: hidden, 
-						wordWrap: 'break-word',
-						resize: resize
-					});
-				}
-
-				// Opera returns '-1px' when max-height is set to 'none'.
-				maxHeight = maxHeight && maxHeight > 0 ? maxHeight : 9e4;
-
-				// Using mainly bare JS in this function because it is going
-				// to fire very often while typing, and needs to very efficient.
-				function adjust() {
-					var height, overflow;
-					// the active flag keeps IE from tripping all over itself.  Otherwise
-					// actions in the adjust function will cause IE to call adjust again.
-					if (!active) {
-						active = true;
-
-						mirror.value = ta.value;
-
-						mirror.style.overflowY = ta.style.overflowY;
-
-						// Update the width in case the original textarea width has changed
-						mirror.style.width = $ta.css('width');
-
-						// Needed for IE to reliably return the correct scrollHeight
-						mirror.scrollTop = 0;
-
-						// Set a very high value for scrollTop to be sure the 
-						// mirror is scrolled all the way to the bottom.
-						mirror.scrollTop = 9e4;
-
-						height = mirror.scrollTop;
-						overflow = hidden;
-						if (height > maxHeight) {
-							height = maxHeight;
-							overflow = 'scroll';
-						} else if (height < minHeight) {
-							height = minHeight;
-						}
-						ta.style.overflowY = overflow;
-
-						ta.style.height = height + boxOffset + 'px';
-						var $task = $(ta).closest('li')
-						$task.height($task.find('.boxhelp').height() + height + boxOffset)
-						
-						// This small timeout gives IE a chance to draw it's scrollbar
-						// before adjust can be run again (prevents an infinite loop).
-						setTimeout(function () {
-							active = false;
-						}, 1);
-					}
-				}
-
-				// mirror is a duplicate textarea located off-screen that
-				// is automatically updated to contain the same text as the 
-				// original textarea.  mirror always has a height of 0.
-				// This gives a cross-browser supported way getting the actual
-				// height of the text, through the scrollTop property.
-				while (i--) {
-					mirror.style[copyStyle[i]] = $ta.css(copyStyle[i]);
-				}
-
-				$('body').append(mirror);
-
-				if (onpropertychange in ta) {
-					if (oninput in ta) {
-						// Detects IE9.  IE9 does not fire onpropertychange or oninput for deletions,
-						// so binding to onkeyup to catch most of those occassions.  There is no way that I
-						// know of to detect something like 'cut' in IE9.
-						ta[oninput] = ta.onkeyup = adjust;
-					} else {
-						// IE7 / IE8
-						ta[onpropertychange] = adjust;
-					}
-				} else {
-					// Modern Browsers
-					ta[oninput] = adjust;
-				}
-
-				$(window).resize(adjust);
-
-				// Allow for manual triggering if needed.
-				$ta.bind('autosize', adjust);
-
-				// Call adjust in case the textarea already contains text.
-				adjust();
-			});
-		}; 
-	} else {
-		// Makes no changes for older browsers (FireFox3- and Safari4-)
-		$.fn.autosize = function () {
-			return this;
-		};
-	}
-
-}(jQuery));
-/* ./plugins/cleanDB.js */
-
-plugin.cleanDB = function() {
-
-	console.log("Running cleanDB")
-
-	var time = Date.now()
-
-// -------------------------------------------------
-// 		VERSION 1.4.5
-// -------------------------------------------------
-
-	var defaults = {
-		task: function() {
-			return {
-				content: 'New Task',
-				priority: 'none',
-				date: '',
-				notes: '',
-				list: 'today',
-				logged: false,
-				tags: [],
-				time: {
-					content: 0,
-					priority: 0,
-					date: 0,
-					notes: 0,
-					list: 0,
-					logged: 0,
-					tags: 0
-				}
-			}
-		},
-		list: function() {
-			return {
-				name: 'New List',
-				order: [],
-				time: {
-					name: 0,
-					order: 0
-				}
-			}
-		},
-		smartlist: function() {
-			return {
-				order: [],
-				time: {
-					order: 0
-				}
-			}
-		},
-		server: function() {
-			return {
-				tasks: {},
-				lists: {
-					order: [],
-					items: {
-						today: {
-							order: [],
-							time: {
-								order: 0
-							}
-						},
-						next: {
-							order: [],
-							time: {
-								order: 0
-							}
-						},
-						logbook:{
-							order:[],
-							time:{
-								order:0
-							}
-						}
-					},
-					time: 0
-				}
-			}
-		}
-	}
-
-	var isArray = function(obj) { return obj.constructor == Array }
-	var isObject = function(obj) { return obj.constructor == Object }
-	var isNumber = function(obj) { return !isNaN(parseFloat(obj)) && isFinite(obj) }
-
-	var d = core.storage
-	var o = new defaults.server()
-
-	// Tasks
-	var tasks
-	if(d.hasOwnProperty('tasks')) tasks = d.tasks
-	else tasks = new defaults.server().tasks
-
-	// Find length
-	for(var i in tasks) {
-
-		// Only run if this is an object
-		if(isObject(tasks[i])) var _this = tasks[i]
-		else continue
-
-		// Create default task
-		o.tasks[i] = new defaults.task()
-
-
-		// Deleted
-		if(_this.hasOwnProperty('deleted')) {
-			if(isNumber(_this.deleted) || isNumber(Number(_this.deleted))) {
-				o.tasks[i] = {
-					deleted: Number(_this.deleted)
-				}
-			} else {
-				o.tasks[i] = {
-					deleted: 0
-				}
-			}
-		}
-
-		// Content
-		if(_this.hasOwnProperty('content')) {
-			o.tasks[i].content = _this.content
-		}
-
-		// Priority
-		if(_this.hasOwnProperty('priority')) {
-			if(_this.priority === 'important') _this.priority = 'high'
-			if(	_this.priority === 'none' || _this.priority === 'low' || _this.priority === 'medium' || _this.priority === 'high') {
-				o.tasks[i].priority = _this.priority
-			}
-		}
-
-		// Date
-		if(_this.hasOwnProperty('date')) {
-			if(isNumber(_this.date)) {
-				o.tasks[i].date = _this.date
-			} else {
-				var Dt = new Date(_this.date).getTime()
-				if(!isNaN(Dt)) {
-					o.tasks[i].date = Dt
-				}
-			}
-		}
-
-		// Notes
-		if(_this.hasOwnProperty('notes')) {
-			o.tasks[i].notes = _this.notes
-		}
-
-		// Tags
-		if(_this.hasOwnProperty('tags')) {
-			if(isArray(_this.tags)) {
-				o.tasks[i].tags = _this.tags.slice(0)
-			}
-		}
-
-		// Logged
-		if(_this.hasOwnProperty('logged')) {
-			if(isNumber(_this.logged)) {
-				o.tasks[i].logged = _this.logged
-			} else if(_this.logged === 'true' || _this.logged === true) {
-				o.tasks[i].logged = Date.now()
-			}
-		}
-
-		// List -- May be able to remove this.
-		if(_this.hasOwnProperty('list')) {
-			o.tasks[i].list = _this.list
-		}
-
-		// Timestamps
-		if(_this.hasOwnProperty('time')) {
-			if(isObject(_this.time)) {
-				for(var j in o.tasks[i].time) {
-					if(isNumber(_this.time[j])) {
-						o.tasks[i].time[j] = _this.time[j]
-					} else {
-						var Dt = new Date(_this.time[j]).getTime()
-						if(isNumber(Dt)) {
-							o.tasks[i].time[j] = Dt
-						}
-					}
-				}
-			}
-		}
-	}
+//Adds as a plugin
+plugin.add(function() {
 	
-	// Lists
-	var lists
-	if(d.hasOwnProperty('lists')) lists = d.lists
-	else lists = new defaults.server().lists
+	console.log("Loaded filter.js")
 	
-	for(var i in lists.items) {
+	filter = function(list, filters) {
 		
-		if(isObject(lists.items[i])) var _this = lists.items[i]
-		else continue
-
-		// Create blank list
-		if (i == 'today' || i == 'next' || i == 'logbook') {
-			o.lists.items[i] = new defaults.smartlist()
-		} else {
-			o.lists.items[i] = new defaults.list()
-		}
-		
-		// Deleted
-		if(_this.hasOwnProperty('deleted')) {
-			if(isNumber(Number(_this.deleted))) {
-				o.lists.items[i] = {
-					deleted: Number(_this.deleted)
-				}
-			} else {
-				o.lists.items[i] = {
-					deleted: 0
-				}
-			}
-		}
+		// This will check one task and either return true or false
+		var check = function(task, key, property) {
 			
-		// Name
-		if(_this.hasOwnProperty('name')) {
-			o.lists.items[i].name = _this.name
-		}		
-		
-		// Order
-		if(_this.hasOwnProperty('order')) {
-			if(isArray(_this.order)) {
+			// Handles multiple properties in an array
+			if(typeof property === 'object') {
+				var match = false;
+				// Loop through this
+				for(var i = 0; i < property.length; i++) {			
+					if(check(task, key, property[i])) {
+						match = true;
+					}
+				}
+				return match;
+			}
+			
+			// Formats the property value
+			switch(key) {
 				
-				// All tasks in list
-				for(var j = 0; j < _this.order.length; j++) {
-					if(o.tasks.hasOwnProperty(_this.order[j])) {
-						if(!o.tasks[_this.order[j]].hasOwnProperty('deleted')) {
-							
-							// Push to order
-							o.lists.items[i].order.push(_this.order[j].toString())
-							
-							// Update task.list
-							o.tasks[_this.order[j]].list = i
-							
-						}
+				case "logged":
+						
+					// Get tasks that are logged
+					if (property === true) {
+						if(typeof task[key] == 'number') return true;
+						
+					// Get tasks that were logged after a certain time
+					} else if (typeof property == 'number') {
+						if(task[key] >= property) return true;
 					}
+					break;
+					
+				case "notes":
+				
+					// Get tasks with notes
+					if (property === true) {
+						// Notes must have at least one non-space char
+						if(task[key].match(/\S/)) return true;
+					}
+					break;
+					
+				case "priority":
+				
+					// Gets tasks without a priority
+					if (property === false) {
+						property = "none";
+					
+					// Get tasks that have a priority
+					} else if (property === true) {
+						if(task[key] !== "none") return true;
+					}
+					break;
+					
+				case "date":
+				
+					if (property === true) {
+						if (task[key] != false) return true;
+					}
+				
+					var due = new Date(task[key]),
+						today = new Date();
+						
+					if (property == 'month') {
+						if (due.getMonth() == today.getMonth()) return true;
+					}
+				
+					// Copy date parts of the timestamps, discarding the time parts.
+					var one = new Date(due.getFullYear(), due.getMonth(), due.getDate());
+					var two = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+					
+					// Do the math.
+					var millisecondsPerDay = 1000 * 60 * 60 * 24;
+					var millisBetween = one.getTime() - two.getTime();
+					var days = millisBetween / millisecondsPerDay;
+					
+					// Round down.
+					var diff = Math.floor(days);
+					
+					// Get tasks due today
+					if (property == 'overdue') {
+						if (diff < 0) return true
+					} else if (property == 'today') {
+						if (diff === 0) return true;
+					} else if(property == 'tomorrow') {
+						if (diff <= 1) return true;
+					} else if (property == 'week') {
+						if (diff <= 7) return true;
+					} else if (property == 'fortnight') {
+						if (diff <= 14) return true;
+					} else if (typeof property == 'number') {
+						if (diff <= property) return true;
+					}
+					break;
+			}
+			
+			if(task[key] == property) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		
+		var results = [];		
+		
+		// Loop through tasks
+		for(var i = 0; i < list.length; i++) {
+			
+			var task = core.storage.tasks[list[i]];
+			
+			for(var key in filters) {
+				
+				// Convert string to boolean
+				if(filters[key] === 'true') filters[key] = true;
+				if(filters[key] === 'false') filters[key] = false;
+				
+				if(check(task, key, filters[key])) {
+					
+					results.push(list[i]);
+					
+				}
+				
+			}
+			
+		}
+
+		// Get all tasks that are logged, but not in the logbook
+		if(filters === 'logged') {
+			for (var i in core.storage.tasks) {
+				if(
+					!core.storage.tasks[i].hasOwnProperty('deleted') && // Not deleted
+					 core.storage.tasks[i].logged && 					// Logged
+					 core.storage.tasks[i].list !== 'logbook'			// Not in logbook
+				) {
+					results.push(i);
 				}
 			}
 		}
 		
-		// Timestamps
-		if(_this.hasOwnProperty('time')) {
-			if(isObject(_this.time)) {
-				for(var j in o.lists.items[i].time) {
-					if(isNumber(_this.time[j])) {
-						o.lists.items[i].time[j] = _this.time[j]
-					} else {
-						var Dt = new Date(_this.time[j]).getTime()
-						if(isNumber(Dt)) {
-							o.lists.items[i].time[j] = Dt
-						}
-					}
-				}
-			}
-		}
-	}
+		return results;
+		
+	};
 	
-	// List order. Part I: Moving and Removing.
-	for(var i = 0; i < lists.order.length; i++) {
-		var _this = lists.order[i].toString()
-		if(typeof _this == 'object' && o.lists.items.hasOwnProperty(_this) && _this != 'today' && _this != 'next' && _this != 'logbook') {
-			if(!o.lists.items[_this].hasOwnProperty('deleted')) {
-				o.lists.order.push(_this)
-			}
-		}
-	}
-	
-	// List order. Part II: Hidden Lists.
-	for(var i in o.lists.items) {
-		var _this = o.lists.items[i]
-		if(typeof _this == 'object' && !_this.hasOwnProperty('deleted') && i != 'today' && i != 'next' && i != 'logbook') {
-			var index = o.lists.order.indexOf(i)
-			if(index < 0) {
-				o.lists.order.push(i.toString())
-			}
-		}
-	}
-	
-	// List Time
-	if(lists.hasOwnProperty('time')) {
-		o.lists.time = Number(lists.time)
-	}
-
-	d.tasks = o.tasks
-	d.lists = o.lists
-
-	core.storage.save()
-
-	console.log("Cleaning complete. Took " + (Date.now() - time)/1000 + "s")
-
-}
+});
 /* ./plugins/cmd.js */
 
 // CMD
@@ -701,322 +409,6 @@ cmd = function (cmd) {
 			break
 	}
 }
-/* ./plugins/filter.js */
-
-/* Filters Plugin for Nitro
- * By Jono Cooper & George Czabania
- * Licensed under the BSD License
- */
-
-//Adds as a plugin
-plugin.add(function() {
-	
-	console.log("Loaded filter.js")
-	
-	filter = function(list, filters) {
-		
-		// This will check one task and either return true or false
-		var check = function(task, key, property) {
-			
-			// Handles multiple properties in an array
-			if(typeof property === 'object') {
-				var match = false;
-				// Loop through this
-				for(var i = 0; i < property.length; i++) {			
-					if(check(task, key, property[i])) {
-						match = true;
-					}
-				}
-				return match;
-			}
-			
-			// Formats the property value
-			switch(key) {
-				
-				case "logged":
-						
-					// Get tasks that are logged
-					if (property === true) {
-						if(typeof task[key] == 'number') return true;
-						
-					// Get tasks that were logged after a certain time
-					} else if (typeof property == 'number') {
-						if(task[key] >= property) return true;
-					}
-					break;
-					
-				case "notes":
-				
-					// Get tasks with notes
-					if (property === true) {
-						// Notes must have at least one non-space char
-						if(task[key].match(/\S/)) return true;
-					}
-					break;
-					
-				case "priority":
-				
-					// Gets tasks without a priority
-					if (property === false) {
-						property = "none";
-					
-					// Get tasks that have a priority
-					} else if (property === true) {
-						if(task[key] !== "none") return true;
-					}
-					break;
-					
-				case "date":
-				
-					if (property === true) {
-						if (task[key] != false) return true;
-					}
-				
-					var due = new Date(task[key]),
-						today = new Date();
-						
-					if (property == 'month') {
-						if (due.getMonth() == today.getMonth()) return true;
-					}
-				
-					// Copy date parts of the timestamps, discarding the time parts.
-					var one = new Date(due.getFullYear(), due.getMonth(), due.getDate());
-					var two = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-					
-					// Do the math.
-					var millisecondsPerDay = 1000 * 60 * 60 * 24;
-					var millisBetween = one.getTime() - two.getTime();
-					var days = millisBetween / millisecondsPerDay;
-					
-					// Round down.
-					var diff = Math.floor(days);
-					
-					// Get tasks due today
-					if (property == 'overdue') {
-						if (diff < 0) return true
-					} else if (property == 'today') {
-						if (diff === 0) return true;
-					} else if(property == 'tomorrow') {
-						if (diff <= 1) return true;
-					} else if (property == 'week') {
-						if (diff <= 7) return true;
-					} else if (property == 'fortnight') {
-						if (diff <= 14) return true;
-					} else if (typeof property == 'number') {
-						if (diff <= property) return true;
-					}
-					break;
-			}
-			
-			if(task[key] == property) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-		
-		var results = [];		
-		
-		// Loop through tasks
-		for(var i = 0; i < list.length; i++) {
-			
-			var task = core.storage.tasks[list[i]];
-			
-			for(var key in filters) {
-				
-				// Convert string to boolean
-				if(filters[key] === 'true') filters[key] = true;
-				if(filters[key] === 'false') filters[key] = false;
-				
-				if(check(task, key, filters[key])) {
-					
-					results.push(list[i]);
-					
-				}
-				
-			}
-			
-		}
-
-		// Get all tasks that are logged, but not in the logbook
-		if(filters === 'logged') {
-			for (var i in core.storage.tasks) {
-				if(
-					!core.storage.tasks[i].hasOwnProperty('deleted') && // Not deleted
-					 core.storage.tasks[i].logged && 					// Logged
-					 core.storage.tasks[i].list !== 'logbook'			// Not in logbook
-				) {
-					results.push(i);
-				}
-			}
-		}
-		
-		return results;
-		
-	};
-	
-});
-/* ./plugins/keys.js */
-
-// Keyboard Shortcuts!
-
-key('up, k', function() {cmd('prevTask')})
-key('down, j', function() {cmd('nextTask')})
-key('⌘+up, ⌘+k', function() {cmd('moveTaskUp')})
-key('⌘+down, ⌘+j', function() {cmd('moveTaskDown')})
-
-key('⇧+up, ⇧+k, i', function() {cmd('prevList')})
-key('⇧+down, ⇧+j, u', function() {cmd('nextList')})
-key('⇧+⌘+up, ⇧+⌘+k', function() {cmd('moveListUp')})
-key('⇧+⌘+down, ⇧+⌘+j', function() {cmd('moveListDown')})
-
-key('space', function() {cmd('check')})
-key('enter', function() {cmd('editTask'); return false})
-key('⌘+enter', function() {cmd('editList'); return false})
-
-key('delete', function() {cmd('delete')})
-
-key('f', function() {cmd('find'); return false})
-key('p', function() {cmd('prefs')})
-// key('a', function() {cmd('about')})
-// key('h', function() {cmd('help')})
-
-key('n, t', function() {cmd('newtask'); return false})
-key('l', function() {cmd('newlist'); return false})
-key('s', function() {cmd('sync')})
-
-key('1', function() {cmd('today')})
-key('2', function() {cmd('next')})
-key('3', function() {cmd('logbook')})
-key('4', function() {cmd('allTasks')})
-
-key('esc', function() {cmd('escape')})
-
-// Lists
-$lists.on('keydown', 'input', function(e) {
-	if(e.keyCode === 13) {
-		ui.toggleListEdit($(this).parent(), 'close')
-	}
-})
-
-// Tasks
-$tasks.on('keydown', 'input.content', function(e) {
-	if(e.keyCode === 13) {
-		var $this = $(this).closest('li'),
-			id = $this.attr('data-id')
-		ui.toggleTaskEdit($this, {}, function() {
-			$tasks.find('[data-id='+id+']').click()
-		})
-	}
-})
-
-$tasks.on('keydown', 'input, textarea', function(e) {
-	if(e.keyCode === 27) {
-		var $this = $(this).closest('li'),
-			id = $this.attr('data-id')
-		ui.toggleTaskEdit($this, {}, function() {
-			$tasks.find('[data-id='+id+']').click()
-		})
-	}
-})
-/* ./plugins/search.js */
-
-/* Nitro Search Plugin
- * By Jono Cooper & George Czabania
- * Licensed under the BSD License
- */
-
-//Adds as a plugin
-plugin.add(function() {
-
-	$(document).on('loaded', function() {
-		$panel.right.append('<input id="search" type="search" placeholder="'+$.i18n._('Search')+'">')
-		$search = $("#search")
-	
-		$search.on('keyup', function() {
-
-			var $this = $(this),
-				input = $this.val()
-
-			var searcher = function(key) {
-				var pass1 = [],
-					pass2 = true;
-
-				// Loop through each word in the query
-				for (var q = 0; q < query.length; q++) {
-
-					// Create new search
-					search = new RegExp(query[q], 'i');
-
-					if(typeof(key) == 'function') {
-						//Nope. Not a good idea
-						return;
-					}
-
-					var task = core.storage.tasks[key]
-
-					// Search
-					if (search.test(task.content + task.notes + '#' + task.tags.toString().replace(/,/g,' #'))) {
-						pass1.push(true);
-					} else {
-						pass1.push(false);
-					}
-				}
-
-				// This makes sure that the task has matched each word in the query
-				for (var p = 0; p < pass1.length; p++) {
-					if (pass1[p] === false) {
-						pass2 = false;
-					}
-				}
-
-				// If all terms match then add task to the results array
-				if (pass2) return (key)
-				else return false
-			}
-			
-			if (input == '') {
-				//If there's no input, just load list
-				$sidebar.find('.selected .name').click();
-			} else {
-				//Puts the results into the UI
-				$tasks.html('<h2>Search Results: ' + $this.val() + '</h2><ul></ul>')
-
-				//There is some input
-				// Set vars
-				var query = input.split(' '),
-					results = [],
-					search;
-
-				if (ui.session.selected == 'all') {
-
-					// Search loop
-					for (var t in core.storage.tasks) {
-
-						if(!core.storage.tasks[t].hasOwnProperty('deleted')) {
-
-							// Search Task
-							var str = searcher(t)
-							if (str) {
-								results.push(str)
-							}
-
-						}
-
-					}
-
-				} else {
-					for (var key in core.storage.lists.items[ui.session.selected].order) {
-						var str = searcher(core.storage.lists.items[ui.session.selected].order[key])
-						if(str) results.push(str);
-					}
-				}
-				// Draws
-				$tasks.find('ul').append(ui.lists.drawTasks(results))
-			}
-		})
-	})
-})
 /* ./plugins/settings.js */
 
 $(function() {
@@ -1536,153 +928,65 @@ $(function() {
 
 });
 
-/* ./plugins/sort.js */
+/* ./plugins/tags.js */
 
-/* Sorting Plugin for Nitro
- * Requried by main.js - so don't remove it
- * By Jono Cooper & George Czabania
- * Licensed under the BSD License
- */
+// Tags plugin 2
 
-// Globals
-var $sortType
-
-//Adds as a plugin
 plugin.add(function() {
-	
-	console.log("Loaded sort.js")
 
-	$(document).on('loaded', function() {
-		$panel.left.append('\
-			<span>\
-			<button data-toggle="dropdown" class="sort">'+$.i18n._("sortbtn")+'</button>\
-			<ul class="dropdown-menu">\
-			  <li class="current" data-value="magic"><span class="icon magic"></span>'+$.i18n._("sortMagic")+'</li>\
-			  <li data-value="manual"><span class="icon hand"></span>'+$.i18n._("sortDefault")+'</li>\
-			  <li data-value="priority"><span class="icon priority"></span>'+$.i18n._("sortPriority")+'</li>\
-			  <li data-value="date"><span class="icon date"></span>'+$.i18n._("sortDate")+'</li>\
-			</ul>\
-			</span>')
+	$tasks.on('change', 'input.tags', function() {
 
-		$sortType = $('.panel .left span ul li')
-		$sortType.on('click', function() {
-			$sortType.removeClass('current')
-			$(this).addClass('current')
-			var val = $(this).attr('data-value')
-			core.storage.prefs.listSort[ui.session.selected] = val
-			$('#L' + ui.session.selected + ' .name').click()
-			core.storage.save()
-		})
+		var $this = $(this).closest('li'),
+			val = $(this).val(),
+			model = {
+				id: $this.attr('data-id')
+			},
+			task = core.storage.tasks[model.id]
+
+		var tags = val.split(/\s*,\s*/)
+
+		// Because regex is hard
+		for(var i = 0; i < tags.length; i++) {
+			if(tags[i].length == 0) {
+				tags.splice(i, 1)
+			}
+		}
+
+		task.tags = tags
+		core.storage.save([['tasks', model.id, 'tags']])
+
 	})
 
-	var getDateWorth = function(timestamp) {
+	// Clicking a tag
+	$tasks.on('click', '.tag', function() {
 
-		if(timestamp == "") {
-			return 0;
-		}
-
-		var due = new Date(timestamp),
-			today = new Date();
-
-		// Copy date parts of the timestamps, discarding the time parts.
-		var one = new Date(due.getFullYear(), due.getMonth(), due.getDate());
-		var two = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+		// Get tag name
+		var tag = '#' + $(this).text();
+		// Go to All Tasks list
+		$('#Lall .name').trigger('click')
+		// Run search - We should give the searchbox an ID
+		$search.val(tag).trigger('keyup')
 		
-		// Do the math.
-		var millisecondsPerDay = 1000 * 60 * 60 * 24;
-		var millisBetween = one.getTime() - two.getTime();
-		var days = millisBetween / millisecondsPerDay;
-		
-		// Round down.
-		var diff = Math.floor(days)
+	})
 
-		if(diff > 14) {
-			diff = 14
+})
+/* ./plugins/url.js */
+
+plugin.add(function() {
+	
+	plugin.url = function(text) {
+		return {
+			toHTML: function() {
+				var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+				return text.replace(exp,'<a target=_blank href=$1>$1</a>');
+			},
+			toText: function() {
+				var exp = /<a\b[^>]*>(.*?)<\/a>/ig;
+				return text.replace(exp, '$1');
+			}
 		}
-
-		return 14 - diff + 1;
-
 	}
-	
-	plugin.sort = function(array, method) {
-
-		// Clone list
-		list = array.slice(0)
-
-		// Convert task IDs to obects
-		for(var i = 0; i < list.length; i++) {
-			var id = list[i];
-			list[i] = core.storage.tasks[list[i]];
-			list[i].arrayID = id;
-		}
-		
-		// Sorting methods
-		switch(method) {
-			
-			case "magic":
-				list.sort(function(a, b) {
-
-					var rating = {
-						a: getDateWorth(a.date),
-						b: getDateWorth(b.date)
-					}
-
-					var worth = { none: 0, low: 2, medium: 4, high: 6 }
-
-					rating.a += worth[a.priority]
-					rating.b += worth[b.priority]
-
-					if(a.logged && !b.logged) return 1
-					else if(!a.logged && b.logged) return -1
-					else if(a.logged && b.logged) return 0
-
-					return rating.b - rating.a
-	
-				})
-				break
-				
-			case "manual":
-				break;
-				
-			case "priority":
-				
-				list.sort(function(a,b) {
-					var worth = { none: 0, low: 1, medium: 2, high: 3 };
-					if(a.logged && !b.logged) return 1
-					else if(!a.logged && b.logged) return -1
-					else if(a.logged && b.logged) return 0
-					return worth[b.priority] - worth[a.priority]
-				});
-				break;
-				
-			case "date":
-				list.sort(function(a,b) {
-					if(a.logged && !b.logged) return 1
-					else if(!a.logged && b.logged) return -1
-					else if(a.logged && b.logged) return 0
-					// Handle tasks without dates
-					if(a.date=="" && b.date !== "") return 1;
-					else if(b.date=="" && a.date !== "") return -1;
-					else if (a.date == "" && b.date == "") return 0;
-					// Sort timestamps
-					return a.date -  b.date
-				});
-				break;
-			
-		}
-		
-		// Unconvert task IDs to obects
-		for(var i = 0; i < list.length; i++) {
-			var id = list[i].arrayID
-			delete list[i].arrayID
-			list[i] = id
-		}
-		
-		return list;
-		
-	};
-	
-});
+})
 /* ./plugins/sync.js */
 
 /* Nitro Sync Plugin
@@ -1792,45 +1096,29 @@ plugin.add(function() {
 					cb(newval)
 				})
 
-				switch(app) {
-					case 'python':
-						document.title = 'null'
-						document.title = 'ajax|reqURL|' + service
-						break
-					case 'js':
-						$.ajax({
-							type: "POST",
-							url: core.storage.prefs.sync.url + '/request_url',
-							dataType: 'json',
-							data: {
-								service: service
-							},
-							success: function (data) {
-								ajaxdata.data = data
-							},
-							error: function(data) {
-								ajaxdata = 'error'
-							}
-						})
-						break
-				}
+				$.ajax({
+					type: "POST",
+					url: core.storage.prefs.sync.url + '/request_url',
+					dataType: 'json',
+					data: {
+						service: service
+					},
+					success: function (data) {
+						ajaxdata.data = data
+					},
+					error: function(data) {
+						ajaxdata = 'error'
+					}
+				})
 			}
 
 			var showPopup = function(url) {
-				switch(app) {
-					case 'python':
-						document.location = url
-						break
-					case 'web':
-						$('#login .container').html('<div class="loading">Loading... You may need to disable your popup blocker.</div>')
-					case 'js':
-						var width = 960,
-							height = 600
-							left = (screen.width / 2) - (width / 2),
-							top = (screen.height / 2) - (height / 2)
-						window.open(url, Math.random(), 'toolbar=no, type=popup, status=no, width='+width+', height='+height+', top='+top+', left='+left)
-						break
-				}
+				var width = 960,
+					height = 600
+					left = (screen.width / 2) - (width / 2),
+					top = (screen.height / 2) - (height / 2)
+				window.open(url, Math.random(), 'toolbar=no, type=popup, status=no, width='+width+', height='+height+', top='+top+', left='+left)
+				break
 			}
 
 			var authorizeToken = function (token, service, cb) {
@@ -1864,29 +1152,21 @@ plugin.add(function() {
 					}
 				})
 
-				switch(app) {
-					case 'python':
-						document.title = 'null'
-						document.title = 'ajax|token|' + JSON.stringify(token) + '|' + service
-						break
-					case 'js':
-						$.ajax({
-							type: "POST",
-							url: core.storage.prefs.sync.url + '/auth',
-							dataType: 'json',
-							data: {
-								token: token,
-								service: service
-							},
-							success: function (data) {
-								ajaxdata.data = data
-							},
-							error: function(data) {
-								ajaxdata.data = 'error'
-							}
-						})
-						break
-				}
+				$.ajax({
+					type: "POST",
+					url: core.storage.prefs.sync.url + '/auth',
+					dataType: 'json',
+					data: {
+						token: token,
+						service: service
+					},
+					success: function (data) {
+						ajaxdata.data = data
+					},
+					error: function(data) {
+						ajaxdata.data = 'error'
+					}
+				})
 			}
 
 			// Connect
@@ -1929,36 +1209,30 @@ plugin.add(function() {
 				ui.reload();
 			});
 
-			//^ Ajax Request we're watching for
-			if (app == 'python') {
-				document.title = 'null';
-				document.title = 'ajax|sync|' + JSON.stringify(compress(client)) + '|' + JSON.stringify(core.storage.prefs.sync.access) + '|' + core.storage.prefs.sync.service;
-			} else {
-				$.ajax({
-					type: "POST",
-					url: core.storage.prefs.sync.url + '/sync/',
-					dataType: 'json',
-					data: {
-						data: JSON.stringify(compress(client)),
-						access: core.storage.prefs.sync.access,
-						service: core.storage.prefs.sync.service
-					},
-					success: function (data) {
-						if (data != 'failed') {
-							ajaxdata.data = data;
-							return true;
-						} else {
-							if(typeof callback === 'function') callback(false)
-							return false;
-						}
-					},
-					error: function () {
-						console.log("Hello")
+			$.ajax({
+				type: "POST",
+				url: core.storage.prefs.sync.url + '/sync/',
+				dataType: 'json',
+				data: {
+					data: JSON.stringify(compress(client)),
+					access: core.storage.prefs.sync.access,
+					service: core.storage.prefs.sync.service
+				},
+				success: function (data) {
+					if (data != 'failed') {
+						ajaxdata.data = data;
+						return true;
+					} else {
 						if(typeof callback === 'function') callback(false)
 						return false;
 					}
-				});
-			}
+				},
+				error: function () {
+					console.log("Hello")
+					if(typeof callback === 'function') callback(false)
+					return false;
+				}
+			});
 		},
 		notify:function (msg) {
 			$runSync.before('<div class="message">'+msg+'</div>')
@@ -2113,47 +1387,508 @@ plugin.add(function() {
 		});
 	}
 });
-/* ./plugins/tags.js */
+/* ./plugins/cleanDB.js */
 
-// Tags plugin 2
+plugin.cleanDB = function() {
 
-plugin.add(function() {
+	console.log("Running cleanDB")
 
-	$tasks.on('change', 'input.tags', function() {
+	var time = Date.now()
 
-		var $this = $(this).closest('li'),
-			val = $(this).val(),
-			model = {
-				id: $this.attr('data-id')
-			},
-			task = core.storage.tasks[model.id]
+// -------------------------------------------------
+// 		VERSION 1.4.5
+// -------------------------------------------------
 
-		var tags = val.split(/\s*,\s*/)
+	var defaults = {
+		task: function() {
+			return {
+				content: 'New Task',
+				priority: 'none',
+				date: '',
+				notes: '',
+				list: 'today',
+				logged: false,
+				tags: [],
+				time: {
+					content: 0,
+					priority: 0,
+					date: 0,
+					notes: 0,
+					list: 0,
+					logged: 0,
+					tags: 0
+				}
+			}
+		},
+		list: function() {
+			return {
+				name: 'New List',
+				order: [],
+				time: {
+					name: 0,
+					order: 0
+				}
+			}
+		},
+		smartlist: function() {
+			return {
+				order: [],
+				time: {
+					order: 0
+				}
+			}
+		},
+		server: function() {
+			return {
+				tasks: {},
+				lists: {
+					order: [],
+					items: {
+						today: {
+							order: [],
+							time: {
+								order: 0
+							}
+						},
+						next: {
+							order: [],
+							time: {
+								order: 0
+							}
+						},
+						logbook:{
+							order:[],
+							time:{
+								order:0
+							}
+						}
+					},
+					time: 0
+				}
+			}
+		}
+	}
 
-		// Because regex is hard
-		for(var i = 0; i < tags.length; i++) {
-			if(tags[i].length == 0) {
-				tags.splice(i, 1)
+	var isArray = function(obj) { return obj.constructor == Array }
+	var isObject = function(obj) { return obj.constructor == Object }
+	var isNumber = function(obj) { return !isNaN(parseFloat(obj)) && isFinite(obj) }
+
+	var d = core.storage
+	var o = new defaults.server()
+
+	// Tasks
+	var tasks
+	if(d.hasOwnProperty('tasks')) tasks = d.tasks
+	else tasks = new defaults.server().tasks
+
+	// Find length
+	for(var i in tasks) {
+
+		// Only run if this is an object
+		if(isObject(tasks[i])) var _this = tasks[i]
+		else continue
+
+		// Create default task
+		o.tasks[i] = new defaults.task()
+
+
+		// Deleted
+		if(_this.hasOwnProperty('deleted')) {
+			if(isNumber(_this.deleted) || isNumber(Number(_this.deleted))) {
+				o.tasks[i] = {
+					deleted: Number(_this.deleted)
+				}
+			} else {
+				o.tasks[i] = {
+					deleted: 0
+				}
 			}
 		}
 
-		task.tags = tags
-		core.storage.save([['tasks', model.id, 'tags']])
+		// Content
+		if(_this.hasOwnProperty('content')) {
+			o.tasks[i].content = _this.content
+		}
 
-	})
+		// Priority
+		if(_this.hasOwnProperty('priority')) {
+			if(_this.priority === 'important') _this.priority = 'high'
+			if(	_this.priority === 'none' || _this.priority === 'low' || _this.priority === 'medium' || _this.priority === 'high') {
+				o.tasks[i].priority = _this.priority
+			}
+		}
 
-	// Clicking a tag
-	$tasks.on('click', '.tag', function() {
+		// Date
+		if(_this.hasOwnProperty('date')) {
+			if(isNumber(_this.date)) {
+				o.tasks[i].date = _this.date
+			} else {
+				var Dt = new Date(_this.date).getTime()
+				if(!isNaN(Dt)) {
+					o.tasks[i].date = Dt
+				}
+			}
+		}
 
-		// Get tag name
-		var tag = '#' + $(this).text();
-		// Go to All Tasks list
-		$('#Lall .name').trigger('click')
-		// Run search - We should give the searchbox an ID
-		$search.val(tag).trigger('keyup')
+		// Notes
+		if(_this.hasOwnProperty('notes')) {
+			o.tasks[i].notes = _this.notes
+		}
+
+		// Tags
+		if(_this.hasOwnProperty('tags')) {
+			if(isArray(_this.tags)) {
+				o.tasks[i].tags = _this.tags.slice(0)
+			}
+		}
+
+		// Logged
+		if(_this.hasOwnProperty('logged')) {
+			if(isNumber(_this.logged)) {
+				o.tasks[i].logged = _this.logged
+			} else if(_this.logged === 'true' || _this.logged === true) {
+				o.tasks[i].logged = Date.now()
+			}
+		}
+
+		// List -- May be able to remove this.
+		if(_this.hasOwnProperty('list')) {
+			o.tasks[i].list = _this.list
+		}
+
+		// Timestamps
+		if(_this.hasOwnProperty('time')) {
+			if(isObject(_this.time)) {
+				for(var j in o.tasks[i].time) {
+					if(isNumber(_this.time[j])) {
+						o.tasks[i].time[j] = _this.time[j]
+					} else {
+						var Dt = new Date(_this.time[j]).getTime()
+						if(isNumber(Dt)) {
+							o.tasks[i].time[j] = Dt
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	// Lists
+	var lists
+	if(d.hasOwnProperty('lists')) lists = d.lists
+	else lists = new defaults.server().lists
+	
+	for(var i in lists.items) {
 		
+		if(isObject(lists.items[i])) var _this = lists.items[i]
+		else continue
+
+		// Create blank list
+		if (i == 'today' || i == 'next' || i == 'logbook') {
+			o.lists.items[i] = new defaults.smartlist()
+		} else {
+			o.lists.items[i] = new defaults.list()
+		}
+		
+		// Deleted
+		if(_this.hasOwnProperty('deleted')) {
+			if(isNumber(Number(_this.deleted))) {
+				o.lists.items[i] = {
+					deleted: Number(_this.deleted)
+				}
+			} else {
+				o.lists.items[i] = {
+					deleted: 0
+				}
+			}
+		}
+			
+		// Name
+		if(_this.hasOwnProperty('name')) {
+			o.lists.items[i].name = _this.name
+		}		
+		
+		// Order
+		if(_this.hasOwnProperty('order')) {
+			if(isArray(_this.order)) {
+				
+				// All tasks in list
+				for(var j = 0; j < _this.order.length; j++) {
+					if(o.tasks.hasOwnProperty(_this.order[j])) {
+						if(!o.tasks[_this.order[j]].hasOwnProperty('deleted')) {
+							
+							// Push to order
+							o.lists.items[i].order.push(_this.order[j].toString())
+							
+							// Update task.list
+							o.tasks[_this.order[j]].list = i
+							
+						}
+					}
+				}
+			}
+		}
+		
+		// Timestamps
+		if(_this.hasOwnProperty('time')) {
+			if(isObject(_this.time)) {
+				for(var j in o.lists.items[i].time) {
+					if(isNumber(_this.time[j])) {
+						o.lists.items[i].time[j] = _this.time[j]
+					} else {
+						var Dt = new Date(_this.time[j]).getTime()
+						if(isNumber(Dt)) {
+							o.lists.items[i].time[j] = Dt
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	// List order. Part I: Moving and Removing.
+	for(var i = 0; i < lists.order.length; i++) {
+		var _this = lists.order[i].toString()
+		if(typeof _this == 'object' && o.lists.items.hasOwnProperty(_this) && _this != 'today' && _this != 'next' && _this != 'logbook') {
+			if(!o.lists.items[_this].hasOwnProperty('deleted')) {
+				o.lists.order.push(_this)
+			}
+		}
+	}
+	
+	// List order. Part II: Hidden Lists.
+	for(var i in o.lists.items) {
+		var _this = o.lists.items[i]
+		if(typeof _this == 'object' && !_this.hasOwnProperty('deleted') && i != 'today' && i != 'next' && i != 'logbook') {
+			var index = o.lists.order.indexOf(i)
+			if(index < 0) {
+				o.lists.order.push(i.toString())
+			}
+		}
+	}
+	
+	// List Time
+	if(lists.hasOwnProperty('time')) {
+		o.lists.time = Number(lists.time)
+	}
+
+	d.tasks = o.tasks
+	d.lists = o.lists
+
+	core.storage.save()
+
+	console.log("Cleaning complete. Took " + (Date.now() - time)/1000 + "s")
+
+}
+/* ./plugins/sort.js */
+
+/* Sorting Plugin for Nitro
+ * Requried by main.js - so don't remove it
+ * By Jono Cooper & George Czabania
+ * Licensed under the BSD License
+ */
+
+// Globals
+var $sortType
+
+//Adds as a plugin
+plugin.add(function() {
+	
+	console.log("Loaded sort.js")
+
+	$(document).on('loaded', function() {
+		$panel.left.append('\
+			<span>\
+			<button data-toggle="dropdown" class="sort">'+$.i18n._("sortbtn")+'</button>\
+			<ul class="dropdown-menu">\
+			  <li class="current" data-value="magic"><span class="icon magic"></span>'+$.i18n._("sortMagic")+'</li>\
+			  <li data-value="manual"><span class="icon hand"></span>'+$.i18n._("sortDefault")+'</li>\
+			  <li data-value="priority"><span class="icon priority"></span>'+$.i18n._("sortPriority")+'</li>\
+			  <li data-value="date"><span class="icon date"></span>'+$.i18n._("sortDate")+'</li>\
+			</ul>\
+			</span>')
+
+		$sortType = $('.panel .left span ul li')
+		$sortType.on('click', function() {
+			$sortType.removeClass('current')
+			$(this).addClass('current')
+			var val = $(this).attr('data-value')
+			core.storage.prefs.listSort[ui.session.selected] = val
+			$('#L' + ui.session.selected + ' .name').click()
+			core.storage.save()
+		})
 	})
 
+	var getDateWorth = function(timestamp) {
+
+		if(timestamp == "") {
+			return 0;
+		}
+
+		var due = new Date(timestamp),
+			today = new Date();
+
+		// Copy date parts of the timestamps, discarding the time parts.
+		var one = new Date(due.getFullYear(), due.getMonth(), due.getDate());
+		var two = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+		
+		// Do the math.
+		var millisecondsPerDay = 1000 * 60 * 60 * 24;
+		var millisBetween = one.getTime() - two.getTime();
+		var days = millisBetween / millisecondsPerDay;
+		
+		// Round down.
+		var diff = Math.floor(days)
+
+		if(diff > 14) {
+			diff = 14
+		}
+
+		return 14 - diff + 1;
+
+	}
+	
+	plugin.sort = function(array, method) {
+
+		// Clone list
+		list = array.slice(0)
+
+		// Convert task IDs to obects
+		for(var i = 0; i < list.length; i++) {
+			var id = list[i];
+			list[i] = core.storage.tasks[list[i]];
+			list[i].arrayID = id;
+		}
+		
+		// Sorting methods
+		switch(method) {
+			
+			case "magic":
+				list.sort(function(a, b) {
+
+					var rating = {
+						a: getDateWorth(a.date),
+						b: getDateWorth(b.date)
+					}
+
+					var worth = { none: 0, low: 2, medium: 4, high: 6 }
+
+					rating.a += worth[a.priority]
+					rating.b += worth[b.priority]
+
+					if(a.logged && !b.logged) return 1
+					else if(!a.logged && b.logged) return -1
+					else if(a.logged && b.logged) return 0
+
+					return rating.b - rating.a
+	
+				})
+				break
+				
+			case "manual":
+				break;
+				
+			case "priority":
+				
+				list.sort(function(a,b) {
+					var worth = { none: 0, low: 1, medium: 2, high: 3 };
+					if(a.logged && !b.logged) return 1
+					else if(!a.logged && b.logged) return -1
+					else if(a.logged && b.logged) return 0
+					return worth[b.priority] - worth[a.priority]
+				});
+				break;
+				
+			case "date":
+				list.sort(function(a,b) {
+					if(a.logged && !b.logged) return 1
+					else if(!a.logged && b.logged) return -1
+					else if(a.logged && b.logged) return 0
+					// Handle tasks without dates
+					if(a.date=="" && b.date !== "") return 1;
+					else if(b.date=="" && a.date !== "") return -1;
+					else if (a.date == "" && b.date == "") return 0;
+					// Sort timestamps
+					return a.date -  b.date
+				});
+				break;
+			
+		}
+		
+		// Unconvert task IDs to obects
+		for(var i = 0; i < list.length; i++) {
+			var id = list[i].arrayID
+			delete list[i].arrayID
+			list[i] = id
+		}
+		
+		return list;
+		
+	};
+	
+});
+/* ./plugins/keys.js */
+
+// Keyboard Shortcuts!
+
+key('up, k', function() {cmd('prevTask')})
+key('down, j', function() {cmd('nextTask')})
+key('⌘+up, ⌘+k', function() {cmd('moveTaskUp')})
+key('⌘+down, ⌘+j', function() {cmd('moveTaskDown')})
+
+key('⇧+up, ⇧+k, i', function() {cmd('prevList')})
+key('⇧+down, ⇧+j, u', function() {cmd('nextList')})
+key('⇧+⌘+up, ⇧+⌘+k', function() {cmd('moveListUp')})
+key('⇧+⌘+down, ⇧+⌘+j', function() {cmd('moveListDown')})
+
+key('space', function() {cmd('check')})
+key('enter', function() {cmd('editTask'); return false})
+key('⌘+enter', function() {cmd('editList'); return false})
+
+key('delete', function() {cmd('delete')})
+
+key('f', function() {cmd('find'); return false})
+key('p', function() {cmd('prefs')})
+// key('a', function() {cmd('about')})
+// key('h', function() {cmd('help')})
+
+key('n, t', function() {cmd('newtask'); return false})
+key('l', function() {cmd('newlist'); return false})
+key('s', function() {cmd('sync')})
+
+key('1', function() {cmd('today')})
+key('2', function() {cmd('next')})
+key('3', function() {cmd('logbook')})
+key('4', function() {cmd('allTasks')})
+
+key('esc', function() {cmd('escape')})
+
+// Lists
+$lists.on('keydown', 'input', function(e) {
+	if(e.keyCode === 13) {
+		ui.toggleListEdit($(this).parent(), 'close')
+	}
+})
+
+// Tasks
+$tasks.on('keydown', 'input.content', function(e) {
+	if(e.keyCode === 13) {
+		var $this = $(this).closest('li'),
+			id = $this.attr('data-id')
+		ui.toggleTaskEdit($this, {}, function() {
+			$tasks.find('[data-id='+id+']').click()
+		})
+	}
+})
+
+$tasks.on('keydown', 'input, textarea', function(e) {
+	if(e.keyCode === 27) {
+		var $this = $(this).closest('li'),
+			id = $this.attr('data-id')
+		ui.toggleTaskEdit($this, {}, function() {
+			$tasks.find('[data-id='+id+']').click()
+		})
+	}
 })
 /* ./plugins/upgrade.js */
 
@@ -2466,20 +2201,255 @@ plugin.add(function() {
 
 	}
 // })
-/* ./plugins/url.js */
+/* ./plugins/autosize.js */
 
-plugin.add(function() {
-	
-	plugin.url = function(text) {
-		return {
-			toHTML: function() {
-				var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-				return text.replace(exp,'<a target=_blank href=$1>$1</a>');
-			},
-			toText: function() {
-				var exp = /<a\b[^>]*>(.*?)<\/a>/ig;
-				return text.replace(exp, '$1');
-			}
-		}
+// Autosize 1.9 - jQuery plugin for textareas
+// (c) 2011 Jack Moore - jacklmoore.com
+// license: www.opensource.org/licenses/mit-license.php
+
+(function ($, undefined) {
+	var 
+	hidden = 'hidden',
+	borderBox = 'border-box',
+	copy = '<textarea style="position:absolute; top:-9999px; left:-9999px; right:auto; bottom:auto; -moz-box-sizing:content-box; -webkit-box-sizing:content-box; box-sizing:content-box; word-wrap:break-word; height:0 !important; min-height:0 !important; overflow:hidden">',
+	// line-height is omitted because IE7/IE8 doesn't return the correct value.
+	copyStyle = [
+		'fontFamily',
+		'fontSize',
+		'fontWeight',
+		'fontStyle',
+		'letterSpacing',
+		'textTransform',
+		'wordSpacing',
+		'textIndent'
+	],
+	oninput = 'oninput',
+	onpropertychange = 'onpropertychange',
+	test = $(copy)[0];
+
+	test.setAttribute(oninput, "return");
+
+	if ($.isFunction(test[oninput]) || onpropertychange in test) {
+		$.fn.autosize = function (className) {
+			return this.each(function () {
+				var 
+				ta = this,
+				$ta = $(ta),
+				mirror,
+				minHeight = $ta.height(),
+				maxHeight = parseInt($ta.css('maxHeight'), 10),
+				active,
+				i = copyStyle.length,
+				resize,
+				boxOffset = 0;
+
+				if ($ta.css('box-sizing') === borderBox || $ta.css('-moz-box-sizing') === borderBox || $ta.css('-webkit-box-sizing') === borderBox){
+					boxOffset = $ta.outerHeight() - $ta.height();
+				}
+
+				if ($ta.data('mirror') || $ta.data('ismirror')) {
+					// if autosize has already been applied, exit.
+					// if autosize is being applied to a mirror element, exit.
+					return;
+				} else {
+					mirror = $(copy).data('ismirror', true).addClass(className || 'autosizejs')[0];
+
+					resize = $ta.css('resize') === 'none' ? 'none' : 'horizontal';
+
+					$ta.data('mirror', $(mirror)).css({
+						overflow: hidden, 
+						overflowY: hidden, 
+						wordWrap: 'break-word',
+						resize: resize
+					});
+				}
+
+				// Opera returns '-1px' when max-height is set to 'none'.
+				maxHeight = maxHeight && maxHeight > 0 ? maxHeight : 9e4;
+
+				// Using mainly bare JS in this function because it is going
+				// to fire very often while typing, and needs to very efficient.
+				function adjust() {
+					var height, overflow;
+					// the active flag keeps IE from tripping all over itself.  Otherwise
+					// actions in the adjust function will cause IE to call adjust again.
+					if (!active) {
+						active = true;
+
+						mirror.value = ta.value;
+
+						mirror.style.overflowY = ta.style.overflowY;
+
+						// Update the width in case the original textarea width has changed
+						mirror.style.width = $ta.css('width');
+
+						// Needed for IE to reliably return the correct scrollHeight
+						mirror.scrollTop = 0;
+
+						// Set a very high value for scrollTop to be sure the 
+						// mirror is scrolled all the way to the bottom.
+						mirror.scrollTop = 9e4;
+
+						height = mirror.scrollTop;
+						overflow = hidden;
+						if (height > maxHeight) {
+							height = maxHeight;
+							overflow = 'scroll';
+						} else if (height < minHeight) {
+							height = minHeight;
+						}
+						ta.style.overflowY = overflow;
+
+						ta.style.height = height + boxOffset + 'px';
+						var $task = $(ta).closest('li')
+						$task.height($task.find('.boxhelp').height() + height + boxOffset)
+						
+						// This small timeout gives IE a chance to draw it's scrollbar
+						// before adjust can be run again (prevents an infinite loop).
+						setTimeout(function () {
+							active = false;
+						}, 1);
+					}
+				}
+
+				// mirror is a duplicate textarea located off-screen that
+				// is automatically updated to contain the same text as the 
+				// original textarea.  mirror always has a height of 0.
+				// This gives a cross-browser supported way getting the actual
+				// height of the text, through the scrollTop property.
+				while (i--) {
+					mirror.style[copyStyle[i]] = $ta.css(copyStyle[i]);
+				}
+
+				$('body').append(mirror);
+
+				if (onpropertychange in ta) {
+					if (oninput in ta) {
+						// Detects IE9.  IE9 does not fire onpropertychange or oninput for deletions,
+						// so binding to onkeyup to catch most of those occassions.  There is no way that I
+						// know of to detect something like 'cut' in IE9.
+						ta[oninput] = ta.onkeyup = adjust;
+					} else {
+						// IE7 / IE8
+						ta[onpropertychange] = adjust;
+					}
+				} else {
+					// Modern Browsers
+					ta[oninput] = adjust;
+				}
+
+				$(window).resize(adjust);
+
+				// Allow for manual triggering if needed.
+				$ta.bind('autosize', adjust);
+
+				// Call adjust in case the textarea already contains text.
+				adjust();
+			});
+		}; 
+	} else {
+		// Makes no changes for older browsers (FireFox3- and Safari4-)
+		$.fn.autosize = function () {
+			return this;
+		};
 	}
+
+}(jQuery));
+/* ./plugins/search.js */
+
+/* Nitro Search Plugin
+ * By Jono Cooper & George Czabania
+ * Licensed under the BSD License
+ */
+
+//Adds as a plugin
+plugin.add(function() {
+
+	$(document).on('loaded', function() {
+		$panel.right.append('<input id="search" type="search" placeholder="'+$.i18n._('Search')+'">')
+		$search = $("#search")
+	
+		$search.on('keyup', function() {
+
+			var $this = $(this),
+				input = $this.val()
+
+			var searcher = function(key) {
+				var pass1 = [],
+					pass2 = true;
+
+				// Loop through each word in the query
+				for (var q = 0; q < query.length; q++) {
+
+					// Create new search
+					search = new RegExp(query[q], 'i');
+
+					if(typeof(key) == 'function') {
+						//Nope. Not a good idea
+						return;
+					}
+
+					var task = core.storage.tasks[key]
+
+					// Search
+					if (search.test(task.content + task.notes + '#' + task.tags.toString().replace(/,/g,' #'))) {
+						pass1.push(true);
+					} else {
+						pass1.push(false);
+					}
+				}
+
+				// This makes sure that the task has matched each word in the query
+				for (var p = 0; p < pass1.length; p++) {
+					if (pass1[p] === false) {
+						pass2 = false;
+					}
+				}
+
+				// If all terms match then add task to the results array
+				if (pass2) return (key)
+				else return false
+			}
+			
+			if (input == '') {
+				//If there's no input, just load list
+				$sidebar.find('.selected .name').click();
+			} else {
+				//Puts the results into the UI
+				$tasks.html('<h2>Search Results: ' + $this.val() + '</h2><ul></ul>')
+
+				//There is some input
+				// Set vars
+				var query = input.split(' '),
+					results = [],
+					search;
+
+				if (ui.session.selected == 'all') {
+
+					// Search loop
+					for (var t in core.storage.tasks) {
+
+						if(!core.storage.tasks[t].hasOwnProperty('deleted')) {
+
+							// Search Task
+							var str = searcher(t)
+							if (str) {
+								results.push(str)
+							}
+
+						}
+
+					}
+
+				} else {
+					for (var key in core.storage.lists.items[ui.session.selected].order) {
+						var str = searcher(core.storage.lists.items[ui.session.selected].order[key])
+						if(str) results.push(str);
+					}
+				}
+				// Draws
+				$tasks.find('ul').append(ui.lists.drawTasks(results))
+			}
+		})
+	})
 })
