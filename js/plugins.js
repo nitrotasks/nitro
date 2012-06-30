@@ -1095,7 +1095,6 @@ plugin.add(function() {
 					ajaxdata.unwatch()
 					cb(newval)
 				})
-
 				$.ajax({
 					type: "POST",
 					url: core.storage.prefs.sync.url + '/request_url',
@@ -1118,7 +1117,6 @@ plugin.add(function() {
 					left = (screen.width / 2) - (width / 2),
 					top = (screen.height / 2) - (height / 2)
 				window.open(url, Math.random(), 'toolbar=no, type=popup, status=no, width='+width+', height='+height+', top='+top+', left='+left)
-				break
 			}
 
 			var authorizeToken = function (token, service, cb) {
@@ -1152,21 +1150,29 @@ plugin.add(function() {
 					}
 				})
 
-				$.ajax({
-					type: "POST",
-					url: core.storage.prefs.sync.url + '/auth',
-					dataType: 'json',
-					data: {
-						token: token,
-						service: service
-					},
-					success: function (data) {
-						ajaxdata.data = data
-					},
-					error: function(data) {
-						ajaxdata.data = 'error'
-					}
-				})
+				switch(app) {
+					case 'python':
+						document.title = 'null'
+						document.title = 'ajax|token|' + JSON.stringify(token) + '|' + service
+						break
+					case 'js':
+						$.ajax({
+							type: "POST",
+							url: core.storage.prefs.sync.url + '/auth',
+							dataType: 'json',
+							data: {
+								token: token,
+								service: service
+							},
+							success: function (data) {
+								ajaxdata.data = data
+							},
+							error: function(data) {
+								ajaxdata.data = 'error'
+							}
+						})
+						break
+				}
 			}
 
 			// Connect
@@ -1209,30 +1215,36 @@ plugin.add(function() {
 				ui.reload();
 			});
 
-			$.ajax({
-				type: "POST",
-				url: core.storage.prefs.sync.url + '/sync/',
-				dataType: 'json',
-				data: {
-					data: JSON.stringify(compress(client)),
-					access: core.storage.prefs.sync.access,
-					service: core.storage.prefs.sync.service
-				},
-				success: function (data) {
-					if (data != 'failed') {
-						ajaxdata.data = data;
-						return true;
-					} else {
+			//^ Ajax Request we're watching for
+			if (app == 'python') {
+				document.title = 'null';
+				document.title = 'ajax|sync|' + JSON.stringify(compress(client)) + '|' + JSON.stringify(core.storage.prefs.sync.access) + '|' + core.storage.prefs.sync.service;
+			} else {
+				$.ajax({
+					type: "POST",
+					url: core.storage.prefs.sync.url + '/sync/',
+					dataType: 'json',
+					data: {
+						data: JSON.stringify(compress(client)),
+						access: core.storage.prefs.sync.access,
+						service: core.storage.prefs.sync.service
+					},
+					success: function (data) {
+						if (data != 'failed') {
+							ajaxdata.data = data;
+							return true;
+						} else {
+							if(typeof callback === 'function') callback(false)
+							return false;
+						}
+					},
+					error: function () {
+						console.log("Hello")
 						if(typeof callback === 'function') callback(false)
 						return false;
 					}
-				},
-				error: function () {
-					console.log("Hello")
-					if(typeof callback === 'function') callback(false)
-					return false;
-				}
-			});
+				});
+			}
 		},
 		notify:function (msg) {
 			$runSync.before('<div class="message">'+msg+'</div>')
