@@ -1,38 +1,150 @@
 Changelog
 =========
 
-1.0.8 (2012-04-11)
+### 1.4.3
+- Brought back expanding notes area
+- Brought back auto linking of URLs
+- You can now move tasks in the All Tasks list
+- Moving tasks is more stable
+
+### 1.4.2
+- List order timestamps
+
+### 1.4.1
+- Bugfix for Upgrade (jstorage/jStorage)
+
+### 1.4
+- Major rewrite
+- Speed improvements
+- Stability improvements
+- Now using Mustache to render tasks
+- Polystorage
+- Sidebar is now resizable
+- Lists can now be sorted
+- Tags can now be given tags
+- Multiple tasks can now be selected, deleted and expanded (Cmd/Ctrl + Click)
+- Default theme is more "metro" - a lot less gradients and shadows
+- Made themes easier to create, edit and maintain
+- Fixed Checkboxes in Firefox
+- Moved logbook to the sidebar
+- Changed the way tasks are sent to the logbook
+- Tasks in logbook are sorted by the date they were completed
+- Focus List section can now be hidden
+- Removed Edit button from panel 
+- Removed Scheduled list (Too buggy, and didn't work with Sync)
+- Removed "Show in Today" button
+
+### 1.3.1 (2012-05-24)
+- Updated Finnish
+- Async Linux Sync
+- Offline Mode for Chrome
+
+### 1.3 (2012-05-21)
+- Sync with Dropbox & Ubuntu One
+- Updated various translations
+- Removal of Someday
+- New Icon
+- Scheduled Tasks
+- Recurring Tasks
+- If there is nothing in the search box, it just displays the list.
+- Fixed show more tasks
+- List of Donors
+- New Icon
+
+### 1.2.5 (2012-05-03)
+- Added 'All Tasks' list
+- Search now only searches the current list (use the All Tasks list to search all tasks)
+- Fixes dropdown menu position in Wunderlist theme
+- Added a keyboard shortcut for deleting tasks (the delete key)
+- If no lists are selected (e.g. in logbook view) Shift+U and Shift+I now auto select the today list
+- Placeholder text in search beox is now fainter
+- '1 day left' -> 'due tomorrow' and '1 day overdue' -> 'due yesterday'
+- Removed 'dayLeft' and 'dayOverdue' from translation
+- If there are no search results, "No Search Results" will be displayed
+- Add padding to the bottom of the tasks so that you can scroll past the last task
+- Set a max height for the notes editor
+- Deleting a list will no longer display the old tasks
+- Centered warning dialog in Wunderlist theme (again)
+- Updated German
+- Fixes Low Graphics Label in settings
+
+
+### 1.2.3 (2012-04-30)
+- Added Hungarian
+- Fixes bug where remove from today would look ugly
+- New Sync settings
+
+### 1.2.2 (2012-04-29)
+- Updated Italian
+- Added Spanish
+- Background size is now set to tile by default
+- Coffee theme list buttons are fixed
+- You can now delete task 0
+- Additional Keyboard Shortcuts for Linux
+
+### 1.2 (2012-04-27)
+- Adds Keyboard Shortcuts
+- Chrome Version has custom backgrounds
+- Ubuntu Version has App Menu Support
+- About Dialog
+- New Settings
+- Donate/Report Bug/Help buttons
+- Bug fixes that I can't remember
+- Adds Basque Translation
+- Adds Finnish Translation
+- Adds Polish Translation
+
+---
+
+### 1.1 (2012-04-16)
+- Adds French Translation
+- Adds Italian Translation
+- Adds Russian Translation
+- Adds Vietnamese Translation
+- Adds Arabic Translation
+- Adds Ambiance Theme
+- Adds Adwaita Theme
+- Adds Coffee Theme
+- Adds Elementary Theme
+- Adds Radiance Theme
+- Adds Wunderlist Theme
+- Adds Justin Bieber Theme
+- Fixes bug where items would not immediately update
+
+---
+
+### 1.0.8 (2012-04-11)
 - Adds German Translation
 - Adds Spanish Translation
 - Fixes Spelling Error in Portuguese translation
 
-1.0.7 (2012-04-10)
+### 1.0.7 (2012-04-10)
 - Adds Portuguese Translation
 - Fixed date rolling over and not adding tasks to today
 
-1.0.6 (2012-04-09)
+### 1.0.6 (2012-04-09)
 - Adds Simplified Chinese translation
 - Fixes a translation error in Next List
 - New Language Selection Window
 
-1.0.5 (2012-04-07)
+### 1.0.5 (2012-04-07)
 - Lists can now be deleted again
 
-1.0.4 (2012-04-07)
+### 1.0.4 (2012-04-07)
 - Fixes the logbook that broke in 1.0.3
 
-1.0.3 (2012-04-06)
+### 1.0.3 (2012-04-06)
 - The apostrophe, quote marl & backslash would break the Linux version of Nitro
 
-1.0.2 (2012-04-05)
+### 1.0.2 (2012-04-05)
 - Adds Translation Support
 - Pirate English
 - Adds May to the Calendar
 - Multiline notes work in Python
 - Pressing return on a task will collapse it
 
-1.0.1 (2012-03-30)
+### 1.0.1 (2012-03-30)
 - Prevents Smart Lists from being deleted
 
-1.0 (2012-03-30)
+### 1.0 (2012-03-30)
 - Initial Release

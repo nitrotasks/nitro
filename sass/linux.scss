@@ -1,0 +1,217 @@
+@import "compass/css3/images";
+
+$sidebar_back: #fbfbfb;
+$sidebar_hover: #fff;
+$selected_color: #33a3ef;
+$sidebar_border: #ccc;
+
+$panel_color: #333;
+$panel_border: #111;
+$panel_text: #fff;
+$task_color: #fff;
+$task_selected: #C8FDFF;
+$notes_bg: #F8FAF0;
+
+$none_text: #ACACAC;
+$low_color: #6CC0E5;
+$medium_color: #FBC93D;
+$high_color: #FB4F4F;
+
+body {
+	background: url(img/linuxbg.png);
+	box-shadow: 1px 0 2px rgba(0, 0, 0, 0.2) inset;
+}
+html, button, input, select, textarea {
+	font-family: "Ubuntu", "Helvetica", "Arial", sans-serif;
+}
+
+
+#sidebar {
+	background: $sidebar_back;
+	box-shadow: 1px 0 1px rgba(0, 0, 0, 0.3);
+
+	h2 {
+		border-top: 1px solid $sidebar_border;
+		border-bottom: 1px solid $sidebar_border;
+		box-shadow: 0 0 1px rgba(0,0,0,0.2) inset;
+	}
+
+	ul li {
+
+		&:hover {
+			background: $sidebar_hover;
+		}
+
+		&.dragHover {
+			background: darken($sidebar_hover, 8%);
+		}
+
+		input {
+			border-radius: 4px;
+			box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
+			border: none;
+		}
+	}
+	
+	.listAddBTN {
+		text-align:left;
+		padding-left: 10px;
+		box-shadow: 0 0 1px rgba(0,0,0,0.2) inset;
+		border-top: 1px solid $sidebar_border;
+	}
+}
+.panel {
+	display: none;
+}
+#sidebar {
+	ul {
+		li {
+			&.selected {
+				background: $selected_color;
+				color: #fff;
+				border: 1px solid darken($selected_color, 20%);
+				border-left: none;
+				border-right: none;
+				font-weight: bold;
+				text-shadow: 0 1px 1px darken($selected_color, 15%);
+			}
+			
+		}
+	}
+}
+#tasks .tasksContent {
+	h2, h2.dark {
+		color: lighten($panel_color, 5%);
+		text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
+	}
+	h2.light {
+		color: #fff;
+		text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+	}
+
+	.noTasks {
+		width: 250px;
+		margin: 0 auto;
+		text-align: center;
+		background: rgba(255, 255, 255, 0.4);
+		padding: 15px;
+		font-size: 14px;
+		border-radius: 2px;
+	}
+	ul {
+		li {
+			border: 1px solid darken($task_color, 25%);
+			box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
+			border-radius: 4px;
+			@include background(linear-gradient(top, $task_color 0%, darken($task_color, 2%) 100%));
+			
+			.tag {
+				color: darken($low_color, 30%);
+			}
+
+			.label {
+				border-left: 1px solid darken($task_color, 25%);
+				border-radius: 0 4px 4px 0;
+
+				&.overdue, &.due {
+					@include background(linear-gradient(top, lighten($high_color, 25%) 0%, lighten($high_color, 20%) 100%));
+				}
+			}
+
+			.notes {
+				width: 30px;
+				background: url(img/notes.png) no-repeat 8px 7px;
+			}
+			
+			&.selected {
+				@include background(linear-gradient(top, $task_selected 0%, darken($task_selected, 2%) 100%));
+			}
+
+			&.expanded {
+				margin: 15px 0;
+
+				&:first-child {
+					margin-top: 0;
+				}
+
+				&:hover {
+					@include background(linear-gradient(top, $task_color 0%, darken($task_color, 2%) 100%));
+				}
+			}
+
+			.checkbox {
+				border: 1px solid #D4D4D4;
+				border-radius: 3px;
+				background: $task_color;
+
+				&.scheduled {
+					background: url(glyphicons-halflings.png) 277px 13px;
+				}
+				&.recurring {
+					background: url(glyphicons-halflings.png) 601px 13px;
+				}
+
+				&.low {
+					border-color: darken($low_color, 10%);
+					@include background(linear-gradient(top, lighten($low_color, 15%) 0%, lighten($low_color, 20%) 100%));
+				}
+				&.medium {
+					border-color: darken($medium_color, 17%);
+					@include background(linear-gradient(top, lighten($medium_color, 15%) 0%, lighten($medium_color, 24%) 100%));
+				}
+				&.high {
+					border-color: darken($high_color, 20%);
+					@include background(linear-gradient(top, lighten($high_color, 15%) 0%, lighten($high_color, 22%) 100%));
+				}
+			}
+
+			button.none, button.low, button.medium, button.high, input.date, input.tags, button.date, div.tag {
+				border-left: 1px solid darken($task_color, 10%);
+			}
+			button.none {
+				color: $none_text;
+			}
+			button.low {
+				@include background(linear-gradient(top, lighten($low_color, 35%) 0%, lighten($low_color, 25%) 100%));
+			}
+			button.medium {
+				@include background(linear-gradient(top, lighten($medium_color, 35%) 0%, lighten($medium_color, 25%) 100%));
+			}
+			button.high {
+				@include background(linear-gradient(top, lighten($high_color, 35%) 0%, lighten($high_color, 30%) 100%));
+			}
+
+			.hidden textarea {
+				border-top: 1px solid  darken($task_color, 15%);
+				border-radius: 0 0 5px 5px;
+				background: url(img/notes.png) no-repeat 8px 7px, $notes_bg;
+			}
+		}
+	}
+}
+.vsplitbar {
+	margin-top: 0;
+	border-left: 0;
+}
+
+// Modal Dialog
+.modal {
+	border-radius: 5px;
+	border-color: #ccc;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+	h3 {
+		border-bottom-color: #ccc;
+	}
+}
+
+//jQuery UI trys to override
+.ui-sortable-helper.tasks {
+	@include background(linear-gradient(top, $task_color 0%, darken($task_color, 2%) 100%));
+	color: #333;
+	line-height: 24px;
+	border-radius: 3px;
+	border: 1px solid #BFBFBF;
+	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
+	font-weight: normal;
+	opacity: 0.8;
+}
