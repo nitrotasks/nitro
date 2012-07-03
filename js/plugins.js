@@ -1692,7 +1692,6 @@ plugin.add(function() {
 	
 });
 /* ./plugins/sync.js */
-
 /* Nitro Sync Plugin
  * By Jono Cooper & George Czabania
  * Licensed under the BSD License
@@ -1800,45 +1799,28 @@ plugin.add(function() {
 					cb(newval)
 				})
 
-				switch(app) {
-					case 'python':
-						document.title = 'null'
-						document.title = 'ajax|reqURL|' + service
-						break
-					case 'js':
-						$.ajax({
-							type: "POST",
-							url: core.storage.prefs.sync.url + '/request_url',
-							dataType: 'json',
-							data: {
-								service: service
-							},
-							success: function (data) {
-								ajaxdata.data = data
-							},
-							error: function(data) {
-								ajaxdata = 'error'
-							}
-						})
-						break
-				}
+				$.ajax({
+					type: "POST",
+					url: core.storage.prefs.sync.url + '/request_url',
+					dataType: 'json',
+					data: {
+						service: service
+					},
+					success: function (data) {
+						ajaxdata.data = data
+					},
+					error: function(data) {
+						ajaxdata = 'error'
+					}
+				})
 			}
 
 			var showPopup = function(url) {
-				switch(app) {
-					case 'python':
-						document.location = url
-						break
-					case 'web':
-						$('#login .container').html('<div class="loading">Loading... You may need to disable your popup blocker.</div>')
-					case 'js':
-						var width = 960,
-							height = 600
-							left = (screen.width / 2) - (width / 2),
-							top = (screen.height / 2) - (height / 2)
-						window.open(url, Math.random(), 'toolbar=no, type=popup, status=no, width='+width+', height='+height+', top='+top+', left='+left)
-						break
-				}
+				var width = 960,
+					height = 600
+					left = (screen.width / 2) - (width / 2),
+					top = (screen.height / 2) - (height / 2)
+				window.open(url, Math.random(), 'toolbar=no, type=popup, status=no, width='+width+', height='+height+', top='+top+', left='+left)
 			}
 
 			var authorizeToken = function (token, service, cb) {
@@ -1872,29 +1854,21 @@ plugin.add(function() {
 					}
 				})
 
-				switch(app) {
-					case 'python':
-						document.title = 'null'
-						document.title = 'ajax|token|' + JSON.stringify(token) + '|' + service
-						break
-					case 'js':
-						$.ajax({
-							type: "POST",
-							url: core.storage.prefs.sync.url + '/auth',
-							dataType: 'json',
-							data: {
-								token: token,
-								service: service
-							},
-							success: function (data) {
-								ajaxdata.data = data
-							},
-							error: function(data) {
-								ajaxdata.data = 'error'
-							}
-						})
-						break
-				}
+				$.ajax({
+					type: "POST",
+					url: core.storage.prefs.sync.url + '/auth',
+					dataType: 'json',
+					data: {
+						token: token,
+						service: service
+					},
+					success: function (data) {
+						ajaxdata.data = data
+					},
+					error: function(data) {
+						ajaxdata.data = 'error'
+					}
+				})
 			}
 
 			// Connect
@@ -1937,36 +1911,30 @@ plugin.add(function() {
 				ui.reload();
 			});
 
-			//^ Ajax Request we're watching for
-			if (app == 'python') {
-				document.title = 'null';
-				document.title = 'ajax|sync|' + JSON.stringify(compress(client)) + '|' + JSON.stringify(core.storage.prefs.sync.access) + '|' + core.storage.prefs.sync.service;
-			} else {
-				$.ajax({
-					type: "POST",
-					url: core.storage.prefs.sync.url + '/sync/',
-					dataType: 'json',
-					data: {
-						data: JSON.stringify(compress(client)),
-						access: core.storage.prefs.sync.access,
-						service: core.storage.prefs.sync.service
-					},
-					success: function (data) {
-						if (data != 'failed') {
-							ajaxdata.data = data;
-							return true;
-						} else {
-							if(typeof callback === 'function') callback(false)
-							return false;
-						}
-					},
-					error: function () {
-						console.log("Hello")
+			$.ajax({
+				type: "POST",
+				url: core.storage.prefs.sync.url + '/sync/',
+				dataType: 'json',
+				data: {
+					data: JSON.stringify(compress(client)),
+					access: core.storage.prefs.sync.access,
+					service: core.storage.prefs.sync.service
+				},
+				success: function (data) {
+					if (data != 'failed') {
+						ajaxdata.data = data;
+						return true;
+					} else {
 						if(typeof callback === 'function') callback(false)
 						return false;
 					}
-				});
-			}
+				},
+				error: function () {
+					console.log("Hello")
+					if(typeof callback === 'function') callback(false)
+					return false;
+				}
+			});
 		},
 		notify:function (msg) {
 			$runSync.before('<div class="message">'+msg+'</div>')
@@ -2121,6 +2089,7 @@ plugin.add(function() {
 		});
 	}
 });
+
 /* ./plugins/tags.js */
 
 // Tags plugin 2
