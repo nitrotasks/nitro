@@ -127,13 +127,13 @@ html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubun
 #sidebar ul { margin: 0; padding: 0; }
 #sidebar ul * { cursor: pointer; }
 #sidebar ul li { display: box; display: -webkit-box; display: -moz-box; height: 30px; -moz-box-sizing: border-box; box-sizing: border-box; line-height: 30px; font-weight: normal; font-size: 13px; color: #444444; padding: 0 0 0 15px; position: relative; width: 100% !important; }
-#sidebar ul li .edit { background: url("img/list_edit.png") 0 -105px; border: 0; padding: 0 7px; margin-right: 5px; }
+#sidebar ul li .edit { background: url("img/list_edit.png") 0 -105px; }
 #sidebar ul li .edit.open { padding: 0 7px 0 6px; background-position: 0 177px; }
-#sidebar ul li .delete { background: url("img/list_edit.png") 1px -83px; border: 0; padding: 0 7px; margin-right: 5px; }
-#sidebar ul li .edit, #sidebar ul li .delete { opacity: 0.5; -webkit-transition: opacity 0.15s; -moz-transition: opacity 0.15s; -o-transition: opacity 0.15s; transition: opacity 0.15s; }
+#sidebar ul li .delete { background: url("img/list_edit.png") 1px -83px; }
+#sidebar ul li .edit, #sidebar ul li .delete { border: 0; height: 16px; margin-top: 7px; margin-right: 5px; opacity: 0.5; padding: 0 7px; -webkit-transition: opacity 0.15s; -moz-transition: opacity 0.15s; -o-transition: opacity 0.15s; transition: opacity 0.15s; }
 #sidebar ul li .edit:hover, #sidebar ul li .delete:hover { opacity: 1; }
-#sidebar ul li .count { display: inline-block; text-align: center; padding: 1px 9px; line-height: 1; margin: 0 10px 0 0; min-width: 13px; }
-#sidebar ul li .name { display: block; height: 32px; box-flex: 1; -webkit-box-flex: 1; -moz-box-flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#sidebar ul li .count { display: inline-block; text-align: center; padding: 1px 9px; line-height: 28px; margin: 0 10px 0 0; min-width: 13px; }
+#sidebar ul li .name { display: block; box-flex: 1; -webkit-box-flex: 1; -moz-box-flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 #sidebar ul li.selected { background: #eee; border: 1px solid #000; border-left: none; border-right: none; }
 #sidebar ul li.selected .edit { opacity: 0.9; background-position: 0 -41px; }
 #sidebar ul li.selected .edit.open { background-position: 0 1px; }

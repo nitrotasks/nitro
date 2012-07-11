@@ -210,10 +210,8 @@ html, button, input, select, textarea {
 			position: relative;
 
 			.edit {
-				background: url("img/list_edit.png") 0 -105px;;
-				border: 0;
-				padding: 0 7px;
-				margin-right: 5px;
+				background: url("img/list_edit.png") 0 -105px;
+
 				&.open {
 					padding: 0 7px 0 6px;
 					background-position: 0 177px;
@@ -221,12 +219,14 @@ html, button, input, select, textarea {
 			}
 			.delete {
 				background: url("img/list_edit.png") 1px -83px;
-				border: 0;
-				padding: 0 7px;
-				margin-right: 5px;
 			}
 			.edit, .delete {
+				border: 0;
+				height: 16px;
+				margin-top: 7px;
+				margin-right: 5px;
 				opacity: 0.5;
+				padding: 0 7px;
 				@include transition(opacity 0.15s);
 				&:hover {
 					opacity: 1;
@@ -240,14 +240,13 @@ html, button, input, select, textarea {
 				display: inline-block;
 				text-align: center;
 				padding: 1px 9px;
-				line-height: 1;
+				line-height: 28px;
 				margin: 0 10px 0 0;
 				min-width: 13px;
 			}
 
 			.name {
 				display: block;
-				height: 32px;
 				box-flex: 1;
 				-webkit-box-flex: 1;
 				-moz-box-flex: 1;
