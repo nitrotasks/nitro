@@ -101,7 +101,7 @@ html, button, input, select, textarea {
 
 #sidebar {
 	height: 100%;
-	position: absolute;
+	position: relative;
 	z-index: 2;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -118,6 +118,7 @@ html, button, input, select, textarea {
 	
 	// Vertically align elements
 	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
 
 	h2 {
 		margin: 0;
@@ -695,7 +696,7 @@ html, button, input, select, textarea {
 	width: 5px;
 	border-left: 1px solid #000;
 	box-shadow: 0 -1px 0 #111, 0 -41px 0 #fff;
-	margin-top: 41px;
+	top: 41px;
 	height: 100%;
 	z-index: 2;
 }

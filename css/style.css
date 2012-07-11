@@ -116,7 +116,7 @@ html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubun
 
 #content { position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; }
 
-#sidebar { height: 100%; position: absolute; z-index: 2; -moz-box-sizing: border-box; box-sizing: border-box; min-width: 115px; width: 200px; max-width: 500px; display: -webkit-box; display: -moz-box; display: box; -webkit-box-orient: vertical; }
+#sidebar { height: 100%; position: relative; z-index: 2; -moz-box-sizing: border-box; box-sizing: border-box; min-width: 115px; width: 200px; max-width: 500px; display: -webkit-box; display: -moz-box; display: box; -webkit-box-orient: vertical; -moz-box-orient: vertical; }
 #sidebar h2 { margin: 0; padding: 0 0 0 15px; font-size: 13px; line-height: 30px; height: 30px; text-transform: uppercase; border-top: 1px solid #000; border-bottom: 1px solid #000; }
 #sidebar h2 button { background: transparent; float: right; border-top: 1px solid transparent; border-bottom: 1px solid transparent; border-left: 0; border-right: 0; padding: 0; font-weight: bold; }
 #sidebar h2 .list-toggle { display: inline-block; cursor: pointer; float: right; height: 30px; width: 40px; }
@@ -206,7 +206,7 @@ html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubun
 #tasks .tasksContent ul li .hidden textarea { width: 100%; border: 0; border-top: 1px solid #000; -moz-box-sizing: border-box; box-sizing: border-box; padding: 8px 30px 8px 32px; resize: none; min-height: 20px; overflow: hidden; }
 #tasks .tasksContent ul li .hidden textarea:focus { box-shadow: none; outline: 0; }
 
-.vsplitbar { border-right: 4px solid transparent; -moz-box-sizing: border-box; box-sizing: border-box; position: absolute; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; -webkit-user-select: none; width: 5px; border-left: 1px solid #000; box-shadow: 0 -1px 0 #111111, 0 -41px 0 white; margin-top: 41px; height: 100%; z-index: 2; }
+.vsplitbar { border-right: 4px solid transparent; -moz-box-sizing: border-box; box-sizing: border-box; position: absolute; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; -webkit-user-select: none; width: 5px; border-left: 1px solid #000; box-shadow: 0 -1px 0 #111111, 0 -41px 0 white; top: 41px; height: 100%; z-index: 2; }
 
 .modal { width: 360px; position: absolute; display: none; z-index: 100; top: 50%; left: 50%; margin-left: -180px; margin-top: -100px; background: #fff; border: 1px solid #000; }
 .modal h3 { height: 40px; line-height: 40px; margin: 0; padding: 0; text-align: center; font-size: 16px; border-bottom: 1px solid #000; position: relative; }
