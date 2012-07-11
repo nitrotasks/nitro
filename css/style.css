@@ -1,7 +1,7 @@
 @import url(datepicker.css);
-* { -webkit-user-select: none; cursor: default; }
+* { -webkit-user-select: none; -moz-user-select: -moz-none; cursor: default; }
 
-input, textarea { -webkit-user-select: text; cursor: text; }
+input, textarea { -webkit-user-select: text; -moz-user-select: text; cursor: text; }
 
 a { cursor: pointer; }
 
@@ -19,8 +19,6 @@ html { font-size: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 10
 html, button, input, select, textarea { font-family: sans-serif; color: #222; }
 
 body { margin: 0; font-size: 1em; line-height: 1.4; }
-
-::-moz-selection { background: transparent; }
 
 ::selection { background: transparent; }
 

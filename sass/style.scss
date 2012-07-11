@@ -6,10 +6,12 @@ $support-for-original-webkit-gradients: false;
 
 * {
 	-webkit-user-select: none;
+	-moz-user-select: -moz-none; // non-standard, allows sub-elements to enable selection
 	cursor: default;
 }
 input, textarea {
 	-webkit-user-select: text;
+	-moz-user-select: text;
 	cursor: text;
 }
 a {
@@ -27,7 +29,6 @@ html { font-size: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 10
 html, button, input, select, textarea { font-family: sans-serif; color: #222; }
 body { margin: 0; font-size: 1em; line-height: 1.4; }
 
-::-moz-selection { background: transparent;  }
 ::selection { background: transparent;  }
 
 a { color: #00e; }
