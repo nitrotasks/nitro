@@ -160,6 +160,7 @@ html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubun
 .panel .left span ul li .icon.priority { background-position: -12px -12px; width: 13px; height: 11px; }
 .panel .left span.open ul { display: block; }
 .panel .right { float: right; }
+.panel .right button { height: 40px; }
 .panel .right input { border: 1px solid #000; font-size: 13px; padding: 5px 5px; margin: 7px 0; vertical-align: top; }
 .panel button { background: #fff; border: 0; padding: 0 18px; line-height: 40px; font-size: 13px; }
 .panel .runSync { background: url("img/sync_static.gif"); background-repeat: no-repeat; background-position: 5px 7px; }

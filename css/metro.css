@@ -39,7 +39,7 @@ html, button, input, select, textarea { font-family: "Segoe UI", "Open Sans", sa
 #tasks .panel .left span.open ul li { width: 72px; }
 #tasks .panel .left span.open ul li.current { background: rgba(0, 0, 0, 0.3); box-shadow: none; }
 #tasks .panel .right { margin-top: 16px; }
-#tasks .panel .right button { line-height: 20px; margin: 4px 5px; opacity: 0.65; padding: 0; -webkit-transition: opacity 200ms; }
+#tasks .panel .right button { height: 20px; line-height: 20px; margin: 4px 5px; opacity: 0.65; padding: 0; -webkit-transition: opacity 200ms; }
 #tasks .panel .right button:hover { opacity: 1; -webkit-transition: opacity 100ms; }
 #tasks .panel .right button.runSync { background: url("themes/metro/sync.png") no-repeat 0 0; width: 24px; }
 #tasks .panel .right button.runSync.running { background-position: 0 -20px; }

@@ -391,6 +391,11 @@ html, button, input, select, textarea {
 	.right {
 		float: right;
 
+		button {
+			// Firefox doesn't apply line-height to empty elements?
+			// Without setting a height, these buttons don't show up at all.
+			height: 40px;
+		}
 		input {
 			border: 1px solid #000;
 			font-size: 13px;
