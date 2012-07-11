@@ -103,6 +103,7 @@ html, button, input, select, textarea {
 	height: 100%;
 	position: absolute;
 	z-index: 2;
+	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	
 	// Resizable sidebar settings
@@ -197,6 +198,7 @@ html, button, input, select, textarea {
 			display: -webkit-box;
 			display: -moz-box;
 			height: 30px;
+			-moz-box-sizing: border-box;
 			box-sizing: border-box;
 			line-height: 30px;
 			font-weight: normal;
@@ -317,6 +319,7 @@ html, button, input, select, textarea {
 	position: relative;
 	border-bottom: 1px solid #000;
 	padding: 0 20px 0 16px;
+	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 
 	.left {
@@ -432,6 +435,7 @@ html, button, input, select, textarea {
 	left: 0;
 	height: 100%;
 	z-index: 1;
+	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	background-image: #ffffff;
 	background-image: -webkit-radial-gradient(50% 50%, ellipse closest-side, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.0) 100%);
@@ -575,6 +579,7 @@ html, button, input, select, textarea {
 					line-height: 1;
 					box-shadow: none;
 					background: transparent;
+					-moz-box-sizing: border-box;
 					box-sizing: border-box;
 
 					&:focus {
@@ -661,6 +666,7 @@ html, button, input, select, textarea {
 						width: 100%;
 						border: 0;
 						border-top: 1px solid #000;
+						-moz-box-sizing: border-box;
 						box-sizing: border-box;
 						padding: 8px 30px 8px 32px;
 						resize: none;
@@ -679,6 +685,7 @@ html, button, input, select, textarea {
 }
 .vsplitbar {
 	border-right: 4px solid transparent;
+	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	position: absolute;
 	-webkit-user-select: none;
