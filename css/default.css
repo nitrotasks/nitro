@@ -18,7 +18,7 @@ body { background: url(img/bg.png); }
 .panel button:hover { background-color: rgba(0, 0, 0, 0.2); }
 .panel .left span ul { background: #333333; border: 1px solid black; border-top: none; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4); margin: 0; }
 .panel .left span ul li { color: white; font-weight: bold; }
-.panel .right input { border: 0; border-radius: 2px; width: 120px; padding-left: 23px; background: url(img/search.png) no-repeat, white; -webkit-transition: 150ms width ease; }
+.panel .right input { border: 0; border-radius: 2px; width: 120px; padding-left: 23px; background: url(img/search.png) no-repeat, white; -webkit-transition: 150ms width ease; -moz-transition: 150ms width ease; -ms-transition: 150ms width ease; -o-transition: 150ms width ease; transition: 150ms width ease; }
 .panel .right input:focus { outline: 0; box-shadow: none; width: 220px; }
 
 #sidebar ul li.selected { background: #33a3ef; color: #fff; border: 1px solid #0e6dae; border-left: none; border-right: none; font-weight: bold; text-shadow: 0 1px 1px #107cc6; }

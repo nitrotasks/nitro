@@ -1,5 +1,6 @@
 @import "compass/css3";
 @import "compass/support";
+
 //Less CSS = Better
 $legacy-support-for-ie: false;
 $support-for-original-webkit-gradients: false;
@@ -113,13 +114,10 @@ html, button, input, select, textarea {
 	max-width: 500px;
 	
 	// Use flex box
-	display: -webkit-box;
-	display: -moz-box;
-	display: box;
+	@include display-box;
 	
 	// Vertically align elements
-	-webkit-box-orient: vertical;
-	-moz-box-orient: vertical;
+	@include box-orient(vertical);
 
 	h2 {
 		margin: 0;
@@ -175,8 +173,7 @@ html, button, input, select, textarea {
 	}
 
 	#lists {
-		-webkit-box-flex: 1;
-		-moz-box-flex: 1;
+		@include box-flex(1);
 		overflow-y: auto;
 
 		li:hover {
@@ -196,9 +193,7 @@ html, button, input, select, textarea {
 		}
 		
 		li {
-			display: box;
-			display: -webkit-box;
-			display: -moz-box;
+			@include display-box;
 			height: 30px;
 			-moz-box-sizing: border-box;
 			box-sizing: border-box;
@@ -247,9 +242,7 @@ html, button, input, select, textarea {
 
 			.name {
 				display: block;
-				box-flex: 1;
-				-webkit-box-flex: 1;
-				-moz-box-flex: 1;
+				@include box-flex(1);
 
 				overflow: hidden;
 				text-overflow: ellipsis;
@@ -280,9 +273,7 @@ html, button, input, select, textarea {
 				background: #fff;
 				padding: 0 0 0 5px;
 				margin: 3px 5px 0 -6px;
-				box-flex: 1;
-				-webkit-box-flex: 1;
-				-moz-box-flex: 1;
+				@include box-flex(1);
 			}
 			input:focus {
 				outline: none;
@@ -446,6 +437,7 @@ html, button, input, select, textarea {
 	box-sizing: border-box;
 	background-image: #ffffff;
 	background-image: -webkit-radial-gradient(50% 50%, ellipse closest-side, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.0) 100%);
+	background-image: -moz-radial-gradient(50% 50%, ellipse closest-side, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.0) 100%);
 	background-position: center center; background-repeat: repeat; background-size: cover;
 	
 	.tile { background-size: auto; }
@@ -503,11 +495,18 @@ html, button, input, select, textarea {
 				-webkit-transition-property: margin, opacity;
  				-webkit-transition-duration: 150ms, 300ms;  
  				-webkit-transition-timing-function: ease, ease;
+ 				-moz-transform: translateZ(0);
+				-moz-transition-property: margin, opacity;
+ 				-moz-transition-duration: 150ms, 300ms;  
+ 				-moz-transition-timing-function: ease, ease;
  				
  				&.animate.height {
  					-webkit-transition-property: margin, opacity, height;
 	 				-webkit-transition-duration: 150ms, 300ms, 150ms;  
-	 				-webkit-transition-timing-function: ease, ease, ease;	
+	 				-webkit-transition-timing-function: ease, ease, ease;
+	 				-moz-transition-property: margin, opacity, height;
+	 				-moz-transition-duration: 150ms, 300ms, 150ms;  
+	 				-moz-transition-timing-function: ease, ease, ease;	
  				}
 
 				&.placeholder {
@@ -516,9 +515,7 @@ html, button, input, select, textarea {
 				}
 
 				.boxhelp {
-					display: -webkit-box;
-					display: -moz-box;
-					display: box;
+					@include display-box;
 					width: 100%;
 				}
 
@@ -603,17 +600,13 @@ html, button, input, select, textarea {
 				}
 				
 				.content {
-					-webkit-box-flex: 1;
-					-moz-box-flex: 1;
-					box-flex: 1;
+					@include box-flex(1);
 				}
 
 				input.content {
 					padding: 0;
 					margin: 0;
-					-webkit-box-flex: 1;
-					-moz-box-flex: 1;
-					box-flex: 1;
+					@include box-flex(1);
 					display: block;
 				}
 

@@ -114,7 +114,7 @@ html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubun
 
 #content { position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; }
 
-#sidebar { height: 100%; position: relative; z-index: 2; -moz-box-sizing: border-box; box-sizing: border-box; min-width: 115px; width: 200px; max-width: 500px; display: -webkit-box; display: -moz-box; display: box; -webkit-box-orient: vertical; -moz-box-orient: vertical; }
+#sidebar { height: 100%; position: relative; z-index: 2; -moz-box-sizing: border-box; box-sizing: border-box; min-width: 115px; width: 200px; max-width: 500px; display: -webkit-box; display: -moz-box; display: -ms-box; display: box; -webkit-box-orient: vertical; -moz-box-orient: vertical; -ms-box-orient: vertical; box-orient: vertical; }
 #sidebar h2 { margin: 0; padding: 0 0 0 15px; font-size: 13px; line-height: 30px; height: 30px; text-transform: uppercase; border-top: 1px solid #000; border-bottom: 1px solid #000; }
 #sidebar h2 button { background: transparent; float: right; border-top: 1px solid transparent; border-bottom: 1px solid transparent; border-left: 0; border-right: 0; padding: 0; font-weight: bold; }
 #sidebar h2 .list-toggle { display: inline-block; cursor: pointer; float: right; height: 30px; width: 40px; }
@@ -122,23 +122,23 @@ html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubun
 #sidebar h2 .list-toggle:hover .icon { border-right-color: #5b5b5b; }
 #sidebar h2 .list-toggle.collapsed .icon { -webkit-transform: rotate(180deg); -moz-transform: rotate(180deg); -ms-transform: rotate(180deg); -o-transform: rotate(180deg); transform: rotate(180deg); }
 #sidebar h2.collapsed { border-bottom: none; }
-#sidebar #lists { -webkit-box-flex: 1; -moz-box-flex: 1; overflow-y: auto; }
+#sidebar #lists { -webkit-box-flex: 1; -moz-box-flex: 1; -ms-box-flex: 1; box-flex: 1; overflow-y: auto; }
 #sidebar #lists li:hover .edit, #sidebar #lists li:hover .delete { display: inline-block; }
 #sidebar ul { margin: 0; padding: 0; }
 #sidebar ul * { cursor: pointer; }
-#sidebar ul li { display: box; display: -webkit-box; display: -moz-box; height: 30px; -moz-box-sizing: border-box; box-sizing: border-box; line-height: 30px; font-weight: normal; font-size: 13px; color: #444444; padding: 0 0 0 15px; position: relative; width: 100% !important; }
+#sidebar ul li { display: -webkit-box; display: -moz-box; display: -ms-box; display: box; height: 30px; -moz-box-sizing: border-box; box-sizing: border-box; line-height: 30px; font-weight: normal; font-size: 13px; color: #444444; padding: 0 0 0 15px; position: relative; width: 100% !important; }
 #sidebar ul li .edit { background: url("img/list_edit.png") 0 -105px; }
 #sidebar ul li .edit.open { padding: 0 7px 0 6px; background-position: 0 177px; }
 #sidebar ul li .delete { background: url("img/list_edit.png") 1px -83px; }
-#sidebar ul li .edit, #sidebar ul li .delete { border: 0; height: 16px; margin-top: 7px; margin-right: 5px; opacity: 0.5; padding: 0 7px; -webkit-transition: opacity 0.15s; -moz-transition: opacity 0.15s; -o-transition: opacity 0.15s; transition: opacity 0.15s; }
+#sidebar ul li .edit, #sidebar ul li .delete { border: 0; height: 16px; margin-top: 7px; margin-right: 5px; opacity: 0.5; padding: 0 7px; -webkit-transition: opacity 0.15s; -moz-transition: opacity 0.15s; -ms-transition: opacity 0.15s; -o-transition: opacity 0.15s; transition: opacity 0.15s; }
 #sidebar ul li .edit:hover, #sidebar ul li .delete:hover { opacity: 1; }
 #sidebar ul li .count { display: inline-block; text-align: center; padding: 1px 9px; line-height: 28px; margin: 0 10px 0 0; min-width: 13px; }
-#sidebar ul li .name { display: block; box-flex: 1; -webkit-box-flex: 1; -moz-box-flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#sidebar ul li .name { display: block; -webkit-box-flex: 1; -moz-box-flex: 1; -ms-box-flex: 1; box-flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 #sidebar ul li.selected { background: #eee; border: 1px solid #000; border-left: none; border-right: none; }
 #sidebar ul li.selected .edit { opacity: 0.9; background-position: 0 -41px; }
 #sidebar ul li.selected .edit.open { background-position: 0 1px; }
 #sidebar ul li.selected .delete { opacity: 0.9; background-position: 1px -19px; }
-#sidebar ul li input { display: block; height: 22px; background: #fff; padding: 0 0 0 5px; margin: 3px 5px 0 -6px; box-flex: 1; -webkit-box-flex: 1; -moz-box-flex: 1; }
+#sidebar ul li input { display: block; height: 22px; background: #fff; padding: 0 0 0 5px; margin: 3px 5px 0 -6px; -webkit-box-flex: 1; -moz-box-flex: 1; -ms-box-flex: 1; box-flex: 1; }
 #sidebar ul li input:focus { outline: none; }
 #sidebar ul li.dragHover { background: #ccc; }
 #sidebar ul li .delete, #sidebar ul li .edit { display: none; }
@@ -165,7 +165,7 @@ html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubun
 .panel .runSync.running { background-image: url("img/sync.gif"); }
 .panel .message { position: absolute; color: #fff; background: #333; top: 40px; margin-left: -60px; padding: 5px 20px; border: 1px solid #000; }
 
-#tasks { position: absolute; top: 0; bottom: 0; right: 0; left: 0; height: 100%; z-index: 1; -moz-box-sizing: border-box; box-sizing: border-box; background-image: #ffffff; background-image: -webkit-radial-gradient(50% 50%, ellipse closest-side, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%); background-position: center center; background-repeat: repeat; background-size: cover; }
+#tasks { position: absolute; top: 0; bottom: 0; right: 0; left: 0; height: 100%; z-index: 1; -moz-box-sizing: border-box; box-sizing: border-box; background-image: #ffffff; background-image: -webkit-radial-gradient(50% 50%, ellipse closest-side, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%); background-image: -moz-radial-gradient(50% 50%, ellipse closest-side, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%); background-position: center center; background-repeat: repeat; background-size: cover; }
 #tasks .tile { background-size: auto; }
 #tasks .shrink { background-size: contain; }
 #tasks .tasksContent { overflow-y: auto; text-align: center; }
@@ -173,10 +173,10 @@ html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubun
 #tasks .tasksContent .button { cursor: pointer; margin: 0 0 15px; padding: 6px 15px; border-radius: 4px; background: rgba(255, 255, 255, 0.7); border: 1px solid #bbb; font-size: 14px; font-weight: bold; color: #444; }
 #tasks .tasksContent .button:hover { background: rgba(255, 255, 255, 0.6); }
 #tasks .tasksContent ul { padding: 0 20px 40px 16px; margin: 0; text-align: left; }
-#tasks .tasksContent ul li { display: block; min-height: 30px; height: 30px; cursor: pointer; overflow: hidden; padding: 0; position: relative; z-index: 2; margin-bottom: -1px; background: #fff; border: 1px solid #000; font-size: 13px; line-height: 30px; color: #111; -webkit-transform: translateZ(0); -webkit-transition-property: margin, opacity; -webkit-transition-duration: 150ms, 300ms; -webkit-transition-timing-function: ease, ease; }
-#tasks .tasksContent ul li.animate.height { -webkit-transition-property: margin, opacity, height; -webkit-transition-duration: 150ms, 300ms, 150ms; -webkit-transition-timing-function: ease, ease, ease; }
+#tasks .tasksContent ul li { display: block; min-height: 30px; height: 30px; cursor: pointer; overflow: hidden; padding: 0; position: relative; z-index: 2; margin-bottom: -1px; background: #fff; border: 1px solid #000; font-size: 13px; line-height: 30px; color: #111; -webkit-transform: translateZ(0); -webkit-transition-property: margin, opacity; -webkit-transition-duration: 150ms, 300ms; -webkit-transition-timing-function: ease, ease; -moz-transform: translateZ(0); -moz-transition-property: margin, opacity; -moz-transition-duration: 150ms, 300ms; -moz-transition-timing-function: ease, ease; }
+#tasks .tasksContent ul li.animate.height { -webkit-transition-property: margin, opacity, height; -webkit-transition-duration: 150ms, 300ms, 150ms; -webkit-transition-timing-function: ease, ease, ease; -moz-transition-property: margin, opacity, height; -moz-transition-duration: 150ms, 300ms, 150ms; -moz-transition-timing-function: ease, ease, ease; }
 #tasks .tasksContent ul li.placeholder { background: rgba(0, 0, 0, 0.1); box-shadow: 0 0 0 #000; }
-#tasks .tasksContent ul li .boxhelp { display: -webkit-box; display: -moz-box; display: box; width: 100%; }
+#tasks .tasksContent ul li .boxhelp { display: -webkit-box; display: -moz-box; display: -ms-box; display: box; width: 100%; }
 #tasks .tasksContent ul li.recurring .checkbox { border-color: transparent; background: url(glyphicons-halflings.png) 601px 13px; }
 #tasks .tasksContent ul li.scheduled .checkbox { border-color: transparent; background: url(glyphicons-halflings.png) 277px 13px; }
 #tasks .tasksContent ul li .checkbox { cursor: pointer; margin: 8px; width: 13px; height: 13px; border: 1px solid #000; }
@@ -191,13 +191,13 @@ html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubun
 #tasks .tasksContent ul li input { border: 0; line-height: 1; box-shadow: none; background: transparent; -moz-box-sizing: border-box; box-sizing: border-box; }
 #tasks .tasksContent ul li input:focus { box-shadow: none; outline: 0; height: 31px; }
 #tasks .tasksContent ul li .content { padding-left: 1px; padding-top: 1px; }
-#tasks .tasksContent ul li .content { -webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1; }
-#tasks .tasksContent ul li input.content { padding: 0; margin: 0; -webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1; display: block; }
+#tasks .tasksContent ul li .content { -webkit-box-flex: 1; -moz-box-flex: 1; -ms-box-flex: 1; box-flex: 1; }
+#tasks .tasksContent ul li input.content { padding: 0; margin: 0; -webkit-box-flex: 1; -moz-box-flex: 1; -ms-box-flex: 1; box-flex: 1; display: block; }
 #tasks .tasksContent ul li button.none, #tasks .tasksContent ul li button.low, #tasks .tasksContent ul li button.medium, #tasks .tasksContent ul li button.high, #tasks .tasksContent ul li button.date { border: 0; border-left: 1px solid #000; background: transparent; line-height: 31px; padding: 0 15px; }
 #tasks .tasksContent ul li input.date { text-align: center; }
 #tasks .tasksContent ul li input.date, #tasks .tasksContent ul li input.tags { border-left: 1px solid #000; padding: 8px 5px; vertical-align: top; width: 80px; }
 #tasks .tasksContent ul li input.date:focus, #tasks .tasksContent ul li input.tags:focus { outline: 0; height: 31px; }
-#tasks .tasksContent ul li input.tags { -webkit-transition: width 0.15s; -moz-transition: width 0.15s; -o-transition: width 0.15s; transition: width 0.15s; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 59px; }
+#tasks .tasksContent ul li input.tags { -webkit-transition: width 0.15s; -moz-transition: width 0.15s; -ms-transition: width 0.15s; -o-transition: width 0.15s; transition: width 0.15s; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 59px; }
 #tasks .tasksContent ul li input.tags:focus, #tasks .tasksContent ul li input.tags.hasContent { width: 250px; }
 #tasks .tasksContent ul li.expanded { opacity: 1; }
 #tasks .tasksContent ul li.selected.expanded { background: #fff; }
