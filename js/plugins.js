@@ -1692,6 +1692,7 @@ plugin.add(function() {
 	
 });
 /* ./plugins/sync.js */
+
 /* Nitro Sync Plugin
  * By Jono Cooper & George Czabania
  * Licensed under the BSD License
@@ -2089,7 +2090,6 @@ plugin.add(function() {
 		});
 	}
 });
-
 /* ./plugins/tags.js */
 
 // Tags plugin 2
