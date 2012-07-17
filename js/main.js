@@ -146,7 +146,7 @@ var ui = {
 
 		//Collapse Lists
 		$sidebar.find('h2.lists').html($l._('lists'))
-		$sidebar.append(Mustache.to_html(templates.button.addList, {name: "Add List"}))
+		$sidebar.append(Mustache.to_html(templates.button.addList, {name: $.i18n._('addList')}))
 
 		//Good idea to save? If theme or lang needs to be saved?
 		core.storage.save();
