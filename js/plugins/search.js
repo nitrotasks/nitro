@@ -7,7 +7,7 @@
 plugin.add(function() {
 
 	$(document).on('loaded', function() {
-		$panel.right.append('<input id="search" type="search" placeholder="'+$.i18n._('Search')+'">')
+		$panel.right.append('<input id="search" type="search" placeholder="'+$.i18n._('search')+'">')
 		$search = $("#search")
 	
 		$search.on('keyup', function() {
