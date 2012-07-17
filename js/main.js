@@ -97,7 +97,12 @@ var ui = {
 			}))
 
 		// Append  smartlists
-		var markup = "", smartlists = [['today', 'Today'], ['next', 'Next'], ['logbook', 'Logbook'], ['all', 'All Tasks']]
+		var markup = "", smartlists = [
+			['today', $.i18n._('today')],
+			['next', $.i18n._('next')],
+			['logbook', $.i18n._('logbook')],
+			['all', $.i18n._('all')]
+		]
 		for(var i = 0; i < smartlists.length; i++) { markup += ui.lists.draw(smartlists[i]) }
 		$smartlists.append(markup).trigger('ready')
 		
