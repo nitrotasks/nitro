@@ -8,6 +8,10 @@ ui.language({
 	logbook: "Logbuch",
 	all: "Alle Tasks",
 
+	// Empty List Filler Text
+	noTasksInList: "No Tasks in %s",
+	thisList: "This List",
+
 	//Default Names
 	nlist: "Neue Liste",
 	ntask: "Neue Aufgaben",

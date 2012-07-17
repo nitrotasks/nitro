@@ -8,6 +8,10 @@ ui.language({
 	logbook: "Lokikirja",
 	all: "Kaikki tehtävät",
 
+	// Empty List Filler Text
+	noTasksInList: "No Tasks in %s",
+	thisList: "This List",
+
 	//Default Names
 	nlist: "Uusi lista",
 	ntask: "Uusi tehtävä",

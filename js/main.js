@@ -224,22 +224,22 @@ var ui = {
 		// Easy way to use drawSingleTask to render a list
 		drawTasks: function(tasks) {
 
-			var markup = ""
-			
+			var markup = "",
+				listName = "thisList" // dictionary key for our current list name
+
 			if (tasks.length == 0) {
 				//Display a messsage
 				markup = '<div class="noTasks">'
-				if (ui.session.selected == 'today') {
-					markup += 'No Tasks in Today'
-				} else if (ui.session.selected == 'next') {
-					markup += 'No Tasks in Next'
-				} else if (ui.session.selected == 'logbook') {
-					markup += 'No Tasks in Logbook'
-				} else if (ui.session.selected == 'all') {
-					markup += 'No Tasks in All'
-				} else {
-					markup += 'No Tasks in List'
+
+				// if the selected list is a predefined list with a name we recognize...
+				if (ui.session.selected === 'today' || ui.session.selected === 'next' ||
+					ui.session.selected === 'logbook' || ui.session.selected === 'all') {
+
+					// the list name conviently maps to the correct dictionary key
+					listName = ui.session.selected
 				}
+				// find the "No Tasks..." translation and append the localized list name to it
+				markup += $.i18n._('noTasksInList', [$.i18n._(listName)])
 				markup += '</div>'
 					
 			} else {
