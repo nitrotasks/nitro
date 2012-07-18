@@ -938,7 +938,7 @@ $tasks.on('keydown', 'input, textarea', function(e) {
 plugin.add(function() {
 
 	$(document).on('loaded', function() {
-		$panel.right.append('<input id="search" type="search" placeholder="'+$.i18n._('Search')+'">')
+		$panel.right.append('<input id="search" type="search" placeholder="'+$.i18n._('search')+'">')
 		$search = $("#search")
 	
 		$search.on('keyup', function() {
@@ -1692,6 +1692,7 @@ plugin.add(function() {
 	
 });
 /* ./plugins/sync.js */
+
 /* Nitro Sync Plugin
  * By Jono Cooper & George Czabania
  * Licensed under the BSD License
@@ -2089,7 +2090,6 @@ plugin.add(function() {
 		});
 	}
 });
-
 /* ./plugins/tags.js */
 
 // Tags plugin 2

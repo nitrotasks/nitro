@@ -13,9 +13,10 @@ ui.language({
 	ntask: "Yeni Görev",
 
 	//Buttons
-	addbtn: "Ekle", 
-	deletebtn: "Sil", 
+	addbtn: "Ekle",
+	deletebtn: "Sil",
 	sortbtn: "Sort",
+	addList: "Add List",
 
 	// Sort
 	sortMagic: "Magic",

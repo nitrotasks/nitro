@@ -97,7 +97,12 @@ var ui = {
 			}))
 
 		// Append  smartlists
-		var markup = "", smartlists = [['today', 'Today'], ['next', 'Next'], ['logbook', 'Logbook'], ['all', 'All Tasks']]
+		var markup = "", smartlists = [
+			['today', $.i18n._('today')],
+			['next', $.i18n._('next')],
+			['logbook', $.i18n._('logbook')],
+			['all', $.i18n._('all')]
+		]
 		for(var i = 0; i < smartlists.length; i++) { markup += ui.lists.draw(smartlists[i]) }
 		$smartlists.append(markup).trigger('ready')
 		
@@ -141,7 +146,7 @@ var ui = {
 
 		//Collapse Lists
 		$sidebar.find('h2.lists').html($l._('lists'))
-		$sidebar.append(Mustache.to_html(templates.button.addList, {name: "Add List"}))
+		$sidebar.append(Mustache.to_html(templates.button.addList, {name: $.i18n._('addList')}))
 
 		//Good idea to save? If theme or lang needs to be saved?
 		core.storage.save();

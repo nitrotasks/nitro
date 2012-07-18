@@ -16,6 +16,7 @@ ui.language({
 	addbtn: "Dodaj",
 	deletebtn: "Usuń",
 	sortbtn: "Sortuj",
+	addList: "Add List",
 
 	// Sort
 	sortMagic: "Magic",

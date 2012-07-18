@@ -16,6 +16,7 @@ ui.language({
 	addbtn: "Lisää",
 	deletebtn: "Muokkaa",
 	sortbtn: "Poista",
+	addList: "Add List",
 
 	// Sort
 	sortMagic: "Taikuudella",

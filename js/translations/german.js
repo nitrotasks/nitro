@@ -16,6 +16,7 @@ ui.language({
 	addbtn: "Hinzufügen",
 	deletebtn: "Löschen",
 	sortbtn: "Sortieren",
+	addList: "Add List",
 
 	// Sort
 	sortMagic: "Magisch",
@@ -70,6 +71,7 @@ ui.language({
 	language: "Sprache",
 	authortext: "Autor",
 
+	about: "About",
 	theme: "Theme",
 	pickTheme: "Wähle ein Theme: ",
 	themeDescription: "Themes erlauben es, das Aussehen von Nitro zu verändern. Man kann mit Hilfe von CSS eigene Theme erstellen!",
