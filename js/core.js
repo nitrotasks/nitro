@@ -232,6 +232,20 @@ var core = {
 	},
 	
 	date:  function(timestamp) {
+		var months = [
+			$.i18n._('janShort'),
+			$.i18n._('febShort'),
+			$.i18n._('marShort'),
+			$.i18n._('aprShort'),
+			$.i18n._('mayShort'),
+			$.i18n._('junShort'),
+			$.i18n._('julShort'),
+			$.i18n._('augShort'),
+			$.i18n._('sepShort'),
+			$.i18n._('octShort'),
+			$.i18n._('novShort'),
+			$.i18n._('decShort')
+		];
 		return {
 			getDaysLeft: function() {
 				if(!timestamp) return false
@@ -272,8 +286,7 @@ var core = {
 					words = $.i18n._('daysLeft', [difference])
 				} else {
 					// Due after 15 days
-					var month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-					words = month[date.getMonth()] + " " + date.getDate()
+					words = months[date.getMonth()] + " " + date.getDate()
 				}
 
 				return {
@@ -299,8 +312,7 @@ var core = {
 				} else if (d == -1) {
 					return "Yesterday"
 				} else {
-					var month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-					return date.getDate() + " " + month[date.getMonth()];
+					return date.getDate() + " " + months[date.getMonth()];
 				}
 			}
 		}
