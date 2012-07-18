@@ -21,6 +21,8 @@ ui.language({
 	deletebtn: "Muokkaa",
 	sortbtn: "Poista",
 	addList: "Add List",
+	moveToLogbookSingle: "Move 1 completed task to the Logbook",
+	moveToLogbookPlural: "Move %s completed tasks to the Logbook",
 
 	// Sort
 	sortMagic: "Taikuudella",
@@ -48,6 +50,8 @@ ui.language({
 	dueToday: "due today",
 	dueTomorrow: "due tomorrow",
 	daysLeft: "%s days left",
+	moveToLogbookSingle: "Move 1 completed task to the Logbook",
+	moveToLogbookPlural: "Move %s completed tasks to the Logbook",
 
 	// Delete Modals
 	deleteMore: "Haluatko varmasti poistaa nämä &s tehtävää?",

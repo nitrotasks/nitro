@@ -21,6 +21,8 @@ ui.language({
 	deletebtn: "Delete",
 	sortbtn: "Töröl",
 	addList: "Add List",
+	moveToLogbookSingle: "Move 1 completed task to the Logbook",
+	moveToLogbookPlural: "Move %s completed tasks to the Logbook",
 
 	// Sort
 	sortMagic: "Magic",
@@ -48,6 +50,8 @@ ui.language({
 	dueToday: "due today",
 	dueTomorrow: "due tomorrow",
 	daysLeft: "%s days left",
+	moveToLogbookSingle: "Move 1 completed task to the Logbook",
+	moveToLogbookPlural: "Move %s completed tasks to the Logbook",
 
 	// Delete Modals
 	deleteMore: "Do you really want to delete these %s tasks?",

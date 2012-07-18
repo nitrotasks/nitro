@@ -623,8 +623,10 @@ $sidebar.on('click', '.name, .count', function() {
 	// Show Add tasks to logbook
 	else if (ui.session.selected == 'logbook') {
 		var loggedTasks = filter([], 'logged').length
-		if(loggedTasks > 0) {
-			$tasks.find('h2').after('<button id="updateLogbook" class="button">Move '+ filter([], 'logged').length +' completed tasks to the Logbook</button>')
+		if (loggedTasks === 1) {
+			$tasks.find('h2').after('<button id="updateLogbook" class="button">' + $.i18n._('moveToLogbookSingle') + '</button>')
+		} else if (loggedTasks > 1) {
+			$tasks.find('h2').after('<button id="updateLogbook" class="button">' + $.i18n._('moveToLogbookPlural', [loggedTasks]) + '</button>')
 		}
 	}
 

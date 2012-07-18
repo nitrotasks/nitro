@@ -21,6 +21,8 @@ ui.language({
 	deletebtn: "Delete",
 	sortbtn: "Sort",
 	addList: "Add List",
+	moveToLogbookSingle: "Move 1 completed task to the Logbook",
+	moveToLogbookPlural: "Move %s completed tasks to the Logbook",
 
 	// Sort
 	sortMagic: "Magic",
