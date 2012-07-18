@@ -8,6 +8,10 @@ ui.language({
 	logbook: "Logbook",
 	all: "All Tasks",
 
+	// Empty List Filler Text
+	noTasksInList: "No Tasks in %s",
+	thisList: "This List",
+
 	//Default Names
 	nlist: "New List",
 	ntask: "New Task",
@@ -17,6 +21,8 @@ ui.language({
 	deletebtn: "Delete",
 	sortbtn: "Sort",
 	addList: "Add List",
+	moveToLogbookSingle: "Move 1 completed task to the Logbook",
+	moveToLogbookPlural: "Move %s completed tasks to the Logbook",
 
 	// Sort
 	sortMagic: "Magic",
@@ -37,6 +43,64 @@ ui.language({
 	//Date Labels
 	dueDate: "Due Date",
 	schedule: "Schedule",
+
+	// Due Date Labels
+	daysOverdue: "%s days overdue",
+	dueYesterday: "due yesterday",
+	dueToday: "due today",
+	dueTomorrow: "due tomorrow",
+	daysLeft: "%s days left",
+
+	// Days and Months
+	sunday: "Sunday",
+	monday: "Monday",
+	tuesday: "Tuesday",
+	wednesday: "Wednesday",
+	thursday: "Thursday",
+	friday: "Friday",
+	saturday: "Saturday",
+
+	sunShort: "Sun",
+	monShort: "Mon",
+	tueShort: "Tue",
+	wedShort: "Wed",
+	thuShort: "Thu",
+	friShort: "Fri",
+	satShort: "Sat",
+
+	sunMin: "Su",
+	monMin: "Mo",
+	tueMin: "Tu",
+	wedMin: "We",
+	thuMin: "Th",
+	friMin: "Fr",
+	satMin: "Sa",
+
+	january: "January",
+	february: "February",
+	march: "March",
+	april: "April",
+	may: "May",
+	june: "June",
+	july: "July",
+	august: "August",
+	september: "September",
+	october: "October",
+	november: "November",
+	december: "December",
+
+	janShort: "Jan",
+	febShort: "Feb",
+	marShort: "Mar",
+	aprShort: "Apr",
+	mayShort: "May",
+	junShort: "Jun",
+	julShort: "Jul",
+	augShort: "Aug",
+	sepShort: "Sep",
+	octShort: "Oct",
+	novShort: "Nov",
+	decShort: "Dec",
 
 	// Delete Modals
 	deleteMore: "Do you really want to delete these %s tasks?",
