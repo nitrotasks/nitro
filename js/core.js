@@ -252,25 +252,24 @@ var core = {
 					// Overdue
 					difference = Math.abs(difference);
 					if (difference !== 1) {
-						// return [$.i18n._('daysOverdue', [difference]), 'overdue'];
-						words = difference + ' days overdue'
+						words = $.i18n._('daysOverdue', [difference])
 						className = 'overdue'
 					}
 				} else if (difference === -1) {
 					// Yesterday
-					words = 'due yesterday'
+					words = $.i18n._('dueYesterday')
 					className = 'overdue'
 				} else if (difference === 0) {
-					// Due;
-					words = 'due today'
+					// Due Today
+					words = $.i18n._('dueToday')
 					className = 'due'
 				} else if (difference === 1) {
-					// Due
-					words = 'due tomorrow'
+					// Due Tomorrow
+					words = $.i18n._('dueTomorrow')
 					className = 'soon'
 				} else if (difference < 15) {
 					// Due in the next 15 days
-					words = difference + ' days left'
+					words = $.i18n._('daysLeft', [difference])
 				} else {
 					// Due after 15 days
 					var month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];

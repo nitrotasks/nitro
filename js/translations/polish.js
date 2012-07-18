@@ -42,6 +42,13 @@ ui.language({
 	dueDate: "Termnin",
 	schedule: "Harmonogram",
 
+	// Due Date Labels
+	daysOverdue: "%s days overdue",
+	dueYesterday: "due yesterday",
+	dueToday: "due today",
+	dueTomorrow: "due tomorrow",
+	daysLeft: "%s days left",
+
 	// Delete Modals
 	deleteMore: "Na pewno chesz usunąć te zadania?",
 	deleteMoreYes: "Tak",

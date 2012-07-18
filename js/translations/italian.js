@@ -42,6 +42,13 @@ ui.language({
 	dueDate: "Due Date",
 	schedule: "Schedule",
 
+	// Due Date Labels
+	daysOverdue: "%s days overdue",
+	dueYesterday: "due yesterday",
+	dueToday: "due today",
+	dueTomorrow: "due tomorrow",
+	daysLeft: "%s days left",
+
 	// Delete Modals
 	deleteMore: "Voui cancellare %s queste attività?",
 	deleteMoreYes: "Si, cancellali",

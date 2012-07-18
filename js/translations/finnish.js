@@ -42,6 +42,13 @@ ui.language({
 	dueDate: "Eräpäivä",
 	schedule: "Ajasta",
 
+	// Due Date Labels
+	daysOverdue: "%s days overdue",
+	dueYesterday: "due yesterday",
+	dueToday: "due today",
+	dueTomorrow: "due tomorrow",
+	daysLeft: "%s days left",
+
 	// Delete Modals
 	deleteMore: "Haluatko varmasti poistaa nämä &s tehtävää?",
 	deleteMoreYes: "Kyllä, poista ne",
