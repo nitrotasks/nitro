@@ -10,7 +10,7 @@ $panel_color: #333;
 $panel_border: #111;
 $panel_text: #fff;
 $task_color: #fff;
-$task_selected: #C8FDFF;
+$task_selected: lighten(#6CC0E5, 32%);
 $notes_bg: #F8FAF0;
 
 $none_text: #ACACAC;
@@ -180,7 +180,7 @@ body {
 			}
 
 			.label {
-				border-left: 1px solid darken($task_color, 25%);
+				border-left: 1px solid darken($task_color, 10%);
 				&:last-child {
 					border-radius: 0 4px 4px 0;
 				}
@@ -196,7 +196,7 @@ body {
 			}
 			
 			&.selected {
-				@include background(linear-gradient(top, $task_selected 0%, darken($task_selected, 2%) 100%));
+				@include background(linear-gradient(top, $task_selected 0%, darken($task_selected, 5%) 100%));
 			}
 
 			&.expanded {
