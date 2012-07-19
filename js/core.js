@@ -14,7 +14,7 @@
  */
 
 app = 'js'
-version = '1.4.5'
+version = '1.4.7'
 
 //Core Module
 var core = {

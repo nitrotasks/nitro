@@ -37,9 +37,6 @@ $(function() {
 								<td class="language"><a href="#" data-value="hungarian">Magyar</a></td>\
 								<td class="author"><a href="mailto:sjozsef0227@gmail.com">József Samu</a>\
 							</tr>\
-								<td class="language"><a href="#" data-value="hungarian">Magyar</a></td>\
-								<td class="author"><a href="mailto:sjozsef0227@gmail.com">József Samu</a>\
-							</td>\
 							<tr>\
 								<td class="language"><a href="#" data-value="pirate">English (Pirate)</a></td>\
 								<td class="author">Caffeinated Code</td>\
@@ -81,11 +78,15 @@ $(function() {
 								<td class="author">Marcin Tydelski,<br>Kajetan Szczepaniak</td>\
 								<td class="language"><a href="#" data-value="turkish">Türkçe</a></td>\
 								<td class="author"><a href="mailto:selimssevgi@gmail.com">Selim Sırrı Sevgi</a></td>\
-							</tr-->\
+							</tr>\
+							<tr>\
+								<td class="language"><a href="#" data-value="bulgarian">Български</a></td>\
+								<td class="author"><a href="mailto:rextans@gmail.com">Belkin Fahri</a></td>\
+							</tr>\
 						</tbody>\
 					</table>  \
 				</div>\
-				<div class="tab-pane" id="tabTheme">  \
+				<div class="tab-pane" id="tabTheme">\
 					<label class="left translate" data-translate="pickTheme"></label><select id="theme">\
 						<option value="default">Default</option>\
 						<option value="linux">Linux</option>\
