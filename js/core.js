@@ -261,29 +261,46 @@ var core = {
 
 				var words, className = ''
 
+				/*
+	
+					Difference
+
+					==  5: "5 days left"
+					==  1: "Due tomorrow"
+					==  0: "Due today"
+					== -1: "Due yesterday"
+					== -5: "5 days overdue"
+		
+				*/
+
 				// Show difference nicely
-				if (difference < -1) {
-					// Overdue
-					difference = Math.abs(difference);
-					if (difference !== 1) {
-						words = $.i18n._('daysOverdue', [difference])
-						className = 'overdue'
-					}
-				} else if (difference === -1) {
+				if (difference === -1) {
 					// Yesterday
 					words = $.i18n._('dueYesterday')
 					className = 'overdue'
+
+				} else if (difference < -1) {
+					// Overdue
+
+					// Make sure the difference is a positive number
+					difference = Math.abs(difference);
+					words = $.i18n._('daysOverdue', [difference])
+					className = 'overdue'
+
 				} else if (difference === 0) {
 					// Due Today
 					words = $.i18n._('dueToday')
 					className = 'due'
+
 				} else if (difference === 1) {
 					// Due Tomorrow
 					words = $.i18n._('dueTomorrow')
 					className = 'soon'
+
 				} else if (difference < 15) {
 					// Due in the next 15 days
 					words = $.i18n._('daysLeft', [difference])
+
 				} else {
 					// Due after 15 days
 					words = months[date.getMonth()] + " " + date.getDate()
