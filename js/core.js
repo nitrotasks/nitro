@@ -264,11 +264,8 @@ var core = {
 				// Show difference nicely
 				if (difference < -1) {
 					// Overdue
-					difference = Math.abs(difference);
-					if (difference !== 1) {
-						words = $.i18n._('daysOverdue', [difference])
-						className = 'overdue'
-					}
+					words = $.i18n._('daysOverdue', [Math.abs(difference)])
+					className = 'overdue'
 				} else if (difference === -1) {
 					// Yesterday
 					words = $.i18n._('dueYesterday')
