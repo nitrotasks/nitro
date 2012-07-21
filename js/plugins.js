@@ -439,10 +439,11 @@ plugin.cleanDB = function() {
 
 	d.prefs.sync = d.prefs.sync || {}
 	d.prefs.sync.url = "http://app.nitrotasks.com"
-	if (d.prefs.sync.service !== 'dropbox' || d.prefs.sync.service !== 'ubuntu') {
+	if (d.prefs.sync.service !== 'dropbox' && d.prefs.sync.service !== 'ubuntu') {
 		delete d.prefs.sync.access
 		delete d.prefs.sync.email
 		delete d.prefs.sync.active
+		delete d.prefs.sync.service
 	}
 
 	d.tasks = o.tasks
