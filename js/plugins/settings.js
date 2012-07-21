@@ -18,6 +18,8 @@ $(function() {
 						<option value="noLists" class="translate" data-translate="nextNoLists"></option>\
 						<option value="everything" class="translate" data-translate="nextEverything"></option>\
 					</select>\
+					<hr>\
+					<label class="left translate" data-translate="resetnitro"> </label><button id="cleardata" class="translate" data-translate="cleardata"></button>\
 				</form>\
 				</div>  \
 				<div class="tab-pane" id="tabLanguage">\
@@ -500,6 +502,33 @@ $(function() {
 		core.storage.save()
 		// Go back to main page
 		animateTab($tabSync, $tabSync.find('.settings'), $tabSync.find('.connect'))
+	})
+
+	$('#cleardata').click(function(e) {
+		//Because it's a bloody button
+		e.preventDefault()
+		var markup = Mustache.to_html(templates.dialog.modal, {
+			id: 'clearDataModal',
+			title: $l._('warning'),
+			message: $l._('clearDataMsg'),
+			button: {yes: $l._('deleteOneYes'), no: $l._('deleteOneNo')}
+		})
+		$body.append(markup)
+		var $modal = $('#clearDataModal'),
+			$this = $(this).parent()
+
+		$modal.modal()
+		$modal.find('button').bind('click', function(e) {
+
+			if($(e.target).hasClass('no')) {
+				$modal.modal('hide').remove()
+				return
+			}
+			//We're Deleting Everything
+			localStorage.clear()
+			window.location.reload()
+		})
+
 	})
 
 	// SYNC TYPE

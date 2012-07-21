@@ -132,6 +132,11 @@ ui.language({
 	nextDescription: "Show other lists in Next: ", 
 	deleteWarningsDescription: "This disables the confirm box that appears when you delete a task or list.",
 
+	//Clear Data
+	resetnitro: "Reset Nitro: ",
+	cleardata: "Clear Data",
+	clearDataMsg: "Are you sure you want to reset Nitro? Your data will be gone forever (a long time)",
+
 	language: "Language",
 	authortext: "Author",
 
