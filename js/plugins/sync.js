@@ -104,6 +104,8 @@ plugin.add(function() {
 					ajaxdata.unwatch()
 					cb(newval)
 				})
+				
+				console.log("Sync Service: " + service)
 
 				$.ajax({
 					type: "POST",
@@ -122,11 +124,15 @@ plugin.add(function() {
 			}
 
 			var showPopup = function(url) {
-				var width = 960,
-					height = 600
-					left = (screen.width / 2) - (width / 2),
-					top = (screen.height / 2) - (height / 2)
-				window.open(url, Math.random(), 'toolbar=no, type=popup, status=no, width='+width+', height='+height+', top='+top+', left='+left)
+				if (app == 'python') {
+					document.title = 'isolate_window|url'
+				} else {
+					var width = 960,
+						height = 600
+						left = (screen.width / 2) - (width / 2),
+						top = (screen.height / 2) - (height / 2)
+					window.open(url, Math.random(), 'toolbar=no, type=popup, status=no, width='+width+', height='+height+', top='+top+', left='+left)
+				}
 			}
 
 			var authorizeToken = function (token, service, cb) {
@@ -184,6 +190,7 @@ plugin.add(function() {
 				if(result == 'error') {
 					callback(false)
 				} else {
+					console.log("Request URL: " + result.authorize_url)
 					core.storage.prefs.sync.token = result
 					showPopup(result.authorize_url)
 					authorizeToken(result, service, function(result) {
