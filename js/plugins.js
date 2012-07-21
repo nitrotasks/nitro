@@ -1850,7 +1850,7 @@ plugin.add(function() {
 
 			var showPopup = function(url) {
 				if (app == 'python') {
-					document.title = 'isolate_window|url'
+					document.title = 'isolate_window|' + url
 				} else {
 					var width = 960,
 						height = 600
