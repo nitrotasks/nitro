@@ -107,8 +107,8 @@ b=new e(this));if("string"==typeof a)b[a]()})};c.fn.tab.Constructor=e;c(function
 
 	var Datepicker = function(element, options){
 		this.element = $(element);
-		this.language = options.language||this.element.data('date-language')||"i18n";
-		this.language = this.language in dates ? this.language : "i18n";
+		this.language = options.language||this.element.data('date-language')||"en";
+		this.language = this.language in dates ? this.language : "en";
 		this.format = DPGlobal.parseFormat(options.format||this.element.data('date-format')||'mm/dd/yyyy');
 		this.picker = $(DPGlobal.template)
 							.appendTo('body')
@@ -683,68 +683,13 @@ b=new e(this));if("string"==typeof a)b[a]()})};c.fn.tab.Constructor=e;c(function
 	};
 	$.fn.datepicker.Constructor = Datepicker;
 	var dates = $.fn.datepicker.dates = {
-		// Nitro is using its own dictionary for translations
-		// If you wish to add translations for day/month names, see this folder: /js/translations/
-		i18n: {
-			days: [
-				$.i18n._("sunday"),
-				$.i18n._("monday"),
-				$.i18n._("tuesday"),
-				$.i18n._("wednesday"),
-				$.i18n._("thursday"),
-				$.i18n._("friday"),
-				$.i18n._("saturday"),
-				$.i18n._("sunday")
-			],
-			daysShort: [
-				$.i18n._("sunShort"),
-				$.i18n._("monShort"),
-				$.i18n._("tueShort"),
-				$.i18n._("wedShort"),
-				$.i18n._("thuShort"),
-				$.i18n._("friShort"),
-				$.i18n._("satShort"),
-				$.i18n._("sunShort")
-			],
-			daysMin: [
-				$.i18n._("sunMin"),
-				$.i18n._("monMin"),
-				$.i18n._("tueMin"),
-				$.i18n._("wedMin"),
-				$.i18n._("thuMin"),
-				$.i18n._("friMin"),
-				$.i18n._("satMin"),
-				$.i18n._("sunMin")
-			],
-			months: [
-				$.i18n._("january"),
-				$.i18n._("february"),
-				$.i18n._("march"),
-				$.i18n._("april"),
-				$.i18n._("may"),
-				$.i18n._("june"),
-				$.i18n._("july"),
-				$.i18n._("august"),
-				$.i18n._("september"),
-				$.i18n._("october"),
-				$.i18n._("november"),
-				$.i18n._("december")
-			],
-			monthsShort: [
-				$.i18n._("janShort"),
-				$.i18n._("febShort"),
-				$.i18n._("marShort"),
-				$.i18n._("aprShort"),
-				$.i18n._("mayShort"),
-				$.i18n._("junShort"),
-				$.i18n._("julShort"),
-				$.i18n._("augShort"),
-				$.i18n._("sepShort"),
-				$.i18n._("octShort"),
-				$.i18n._("novShort"),
-				$.i18n._("decShort")
-			],
-			today: $.i18n._('today')
+		en: {
+			days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+			daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+			daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
+			months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+			monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+			today: "Today"
 		}
 	}
 
