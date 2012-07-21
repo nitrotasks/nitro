@@ -16,6 +16,15 @@ $(document).ready(function() {
 	//Language Init
 	core.storage.prefs.lang = core.storage.prefs.lang || 'english';
 	$('#languagescript').attr('src', 'js/translations/' + core.storage.prefs.lang + '.js');
+
+	//Fixes shit browsers. Yes, I'm looking at you Internet Explorer and Opera.
+	if (app == 'web') {
+		$('body').append('<script src="js/libs/modernizr.js"></script>')
+		Modernizr.load({
+		  test: Modernizr.flexbox,
+		  nope: 'js/libs/flexie.js'
+		});
+	}
 })
 
 var $body = $('body'),
