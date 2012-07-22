@@ -204,6 +204,7 @@ html, button, input, select, textarea {
 			color: #444444;
 			padding: 0 0 0 15px;
 			position: relative;
+			@include transition(100ms all ease);
 
 			.edit {
 				background: url("img/list_edit.png") 0 -105px;
@@ -776,11 +777,31 @@ html, button, input, select, textarea {
 	cursor: pointer;
 }
 //Bootstrap
+@-webkit-keyframes modalanim {
+	0%   { background: rgba(0,0,0,0.3); }
+	100% { background: rgba(0,0,0,0.7); }
+}
+@-moz-keyframes modalanim {
+	0%   { background: rgba(0,0,0,0.3); }
+	100% { background: rgba(0,0,0,0.7); }
+}
+@-ms-keyframes modalanim {
+	0%   { background: rgba(0,0,0,0.3); }
+	100% { background: rgba(0,0,0,0.7); }
+}
+@-o-keyframes modalanim {
+	0%   { background: rgba(0,0,0,0.3); }
+	100% { background: rgba(0,0,0,0.7); }
+}
 .modal-backdrop {
 	width: 100%;
 	height: 100%;
 	position: fixed;
 	background: rgba(0,0,0,0.7);
+	-webkit-animation: modalanim 150ms 1;
+	-moz-animation: modalanim 150ms 1;
+	-ms-animation: modalanim 150ms 1;
+	-o-animation: modalanim 150ms 1;
 	top: 0;
 	left: 0;
 	z-index: 50;
