@@ -1,5 +1,7 @@
 @import "compass/css3";
 
+//I love right to left languages. They're so awesome.
+
 $sidebar_back: #fbfbfb;
 $sidebar_hover: #fff;
 $selected_color: #33a3ef;
@@ -19,6 +21,10 @@ $high_color: #FB4F4F;
 
 body {
 	background: url(img/bg.png);
+}
+
+input, textarea {
+	text-align: right;
 }
 
 #sidebar {
@@ -69,6 +75,18 @@ body {
 	box-shadow: 0 0 2px rgba(0,0,0,0.4);
 	padding: 0 16px 0 20px;
 
+	.left, .right {
+		@include display-box;
+		@include box-direction(reverse);
+	}
+
+	.left {
+		float: right;
+	}
+	.right {
+		float: left;
+	}
+
 	.brand {
 		line-height: 40px;
 		font-size: 18px;
@@ -81,6 +99,7 @@ body {
 		background: $panel_color;
 		color: $panel_text;
 		font-weight: bold;
+		display: block;
 
 		&.add {
 			background: url(img/add.png) no-repeat 18px 0;
@@ -95,7 +114,7 @@ body {
 			padding-left: 46px;
 		}
 		&.settingsbtn {
-			margin: 0 7px 0 0;
+			margin: 0 0 0 7px;
 			background: url(img/settings.png) no-repeat 8px 0;
 			padding: 0 20px;
 		}
@@ -125,8 +144,8 @@ body {
 		border: 0;
 		border-radius: 2px;
 		width: 120px;
-		padding-left: 23px;
-		background: url(img/search.png) no-repeat, #fff;
+		padding-right: 23px;
+		background: url(img/search.png) no-repeat 100%, #fff;
 
 		@include transition(150ms width ease);
 
@@ -187,15 +206,21 @@ body {
 			box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
 			border-radius: 4px;
 			@include background(linear-gradient(top, $task_color 0%, darken($task_color, 2%) 100%));
+			text-align: right;
+
+			.boxhelp {
+				@include box-direction(reverse);
+			}
 			
 			.tag {
 				color: darken($low_color, 30%);
 			}
 
 			.label {
-				border-left: 1px solid darken($task_color, 10%);
+				border-right: 1px solid darken($task_color, 10%);
+				border-left: 0;
 				&:last-child {
-					border-radius: 0 4px 4px 0;
+					border-radius: 4px 0 0 4px;
 				}
 
 				&.overdue, &.due {
@@ -249,7 +274,8 @@ body {
 			}
 
 			button.none, button.low, button.medium, button.high, input.date, input.tags, button.date, div.tag {
-				border-left: 1px solid darken($task_color, 10%);
+				border-right: 1px solid darken($task_color, 10%);
+				border-left: 0;
 			}
 			button.none {
 				color: $none_text;
