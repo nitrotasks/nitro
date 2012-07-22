@@ -200,9 +200,11 @@ var ui = {
 	},
 	reloadSidebar: function() {
 		$('.vsplitbar').remove()
-		if(core.storage.prefs.theme === 'wunderlist') {
+		if(core.storage.prefs.theme === 'wunderlist' || core.storage.prefs.theme === 'rtl') {
 			$sidebar.insertAfter('#tasks')
-			$search.insertAfter($sidebar.find('.brand'))
+			if(core.storage.prefs.theme === 'wunderlist') {
+				$search.insertAfter($sidebar.find('.brand'))
+			}
 			$('#content').splitter({sizeRight: true})
 		} else {
 			$sidebar.insertBefore('#tasks')
