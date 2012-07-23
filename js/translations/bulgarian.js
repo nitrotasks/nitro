@@ -1,7 +1,7 @@
 ui.language({
 	//List Headers
-	focus: "Фокуа",
-	lists: "Листове",
+	focus: "Фокус",
+	lists: "Списъци",
 	today: "Днес",
 	next: "Други",
 	scheduled: "Насрочени",
@@ -9,7 +9,7 @@ ui.language({
 	all: "Всички задачи",
 
 	//Default Names
-	nlist: "Нов лист",
+	nlist: "Нов списък",
 	ntask: "Нова задача",
 
 	//Buttons
@@ -34,7 +34,7 @@ ui.language({
 	high: "Висок",
 
 	//Date Labels
-	dueDate: "Крайната дата",
+	dueDate: "Дата",
 	schedule: "Планирам",
 
 	// Delete Modals
@@ -42,8 +42,8 @@ ui.language({
 	deleteMoreYes: "Да, изтрий ги",
 	deleteMoreNo: "Не, задръж ги",
 	deleteOne: "Сигурнили сте, че искате да изтриете тази задача?",
-	deleteOneYes: "Yes, Delete it",
-	deleteOneNo: "Да, изтрий ги",
+	deleteOneYes: "Да, изтрий я",
+	deleteOneNo: "Не, върни се",
 	deleteList: "Сигурнили сте, че искате да изтриете този списък?",
 	warning: "Предупреждение!",
 
@@ -63,9 +63,9 @@ ui.language({
 	nextNoLists: "Не показвай задачи в други",
 	nextEverything:	"Покажи всички задачи",
 
-	general: "Общ",
-	nextDescription: "Покажи другите листи в други: ", 
-	deleteWarningsDescription: "Това забранява потвърдителния прозорец, когато триеш задача или списък.",
+	general: "Общи",
+	nextDescription: "Покажи списаци в други: ", 
+	deleteWarningsDescription: "Изключва потвърдителния прозорец, когато триеш задача или списък.",
 
 	language: "Език",
 	authortext: "Автор",
@@ -81,12 +81,12 @@ ui.language({
 	fill:"Запълни екрана",
 	shrink:	"Свит",
 	tile:"Плочки",
-	bgDescription: "Смени цветъ на другите за да изглежда добре с вашия фон.",
+	bgDescription: "Смени цвета на другите за да изглежда добре с вашия фон.",
 	headingColor: "Главен цвят",
 	default: "По подразвбиране",
 	light: "Светъл",
 	dark:"Тъмен",
-	headingDescription:	"Смени цветъ на другите за да изглежда добре с вашия фон.",
+	headingDescription:	"Смени цвета на другите за да изглежда добре с вашия фон.",
 	sync: "Синхронизация",
 	donateText:	"Синхронизацията е в бета. Ако Nitro се счупи, избухне или стопи вашия компютър - ние те предупредихме. То е доста стабилен, но нещо ако се счупи се свържете с нас <a href='https://twitter.com/GeorgeCzabania'>@GeorgeCzabania</a> или <a href='https://twitter.com/consindo'>@consindo",
 	syncLabel: "Стартирай синхронизацията: ",
