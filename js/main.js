@@ -37,17 +37,6 @@ var ui = {
 
 		//Nice shorthand Method
 		$l = $.i18n;
-
-		// Loads
-		$(document).trigger('loaded')
-		ui.initLoad();
-
-		$('#tasks > .tasksContent').click(function(e) { 
-			if(e.target.nodeName == 'UL' || e.target.nodeName == 'H2' || e.target.className == 'tasksContent') {
-				$tasks.find('.expanded').dblclick()
-				$tasks.find('.selected').removeClass('selected')
-			}
-		})
 	},
 	initLoad: function() {
 		// Move sidebar to the right
@@ -569,7 +558,11 @@ var ui = {
 
 // Load correct language
 core.storage.prefs.lang = core.storage.prefs.lang || 'english';
-$.getScript('js/translations/' + core.storage.prefs.lang + '.js');
+$.getScript('js/translations/' + core.storage.prefs.lang + '.js').done(function () {
+	// After language has been set, load the interface
+	$(document).trigger('loaded')
+	ui.initLoad();
+});
 
 $(document).ready(function() {
 	//Fixes shit browsers. Yes, I'm looking at you Internet Explorer and Opera.
@@ -834,6 +827,14 @@ $tasks.on('expand', 'li', function() {
 	setTimeout(function() {
 		$input.focus()
 	}, 150);
+})
+
+// Collapsing a task
+$('#tasks > .tasksContent').click(function(e) {
+	if(e.target.nodeName == 'UL' || e.target.nodeName == 'H2' || e.target.className == 'tasksContent') {
+		$tasks.find('.expanded').dblclick()
+		$tasks.find('.selected').removeClass('selected')
+	}
 })
 
 // Content
