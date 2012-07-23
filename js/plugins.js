@@ -941,92 +941,90 @@ $tasks.on('keydown', 'input, textarea', function(e) {
 //Adds as a plugin
 plugin.add(function() {
 
-	$(document).on('loaded', function() {
-		$panel.right.append('<input id="search" type="search" placeholder="'+$.i18n._('search')+'">')
-		$search = $("#search")
-	
-		$search.on('keyup', function() {
+	$panel.right.append('<input id="search" type="search" placeholder="'+$.i18n._('search')+'">')
+	$search = $("#search")
 
-			var $this = $(this),
-				input = $this.val()
+	$search.on('keyup', function() {
 
-			var searcher = function(key) {
-				var pass1 = [],
-					pass2 = true;
+		var $this = $(this),
+			input = $this.val()
 
-				// Loop through each word in the query
-				for (var q = 0; q < query.length; q++) {
+		var searcher = function(key) {
+			var pass1 = [],
+				pass2 = true;
 
-					// Create new search
-					search = new RegExp(query[q], 'i');
+			// Loop through each word in the query
+			for (var q = 0; q < query.length; q++) {
 
-					if(typeof(key) == 'function') {
-						//Nope. Not a good idea
-						return;
-					}
+				// Create new search
+				search = new RegExp(query[q], 'i');
 
-					var task = core.storage.tasks[key]
-
-					// Search
-					if (search.test(task.content + task.notes + '#' + task.tags.toString().replace(/,/g,' #'))) {
-						pass1.push(true);
-					} else {
-						pass1.push(false);
-					}
+				if(typeof(key) == 'function') {
+					//Nope. Not a good idea
+					return;
 				}
 
-				// This makes sure that the task has matched each word in the query
-				for (var p = 0; p < pass1.length; p++) {
-					if (pass1[p] === false) {
-						pass2 = false;
-					}
-				}
+				var task = core.storage.tasks[key]
 
-				// If all terms match then add task to the results array
-				if (pass2) return (key)
-				else return false
+				// Search
+				if (search.test(task.content + task.notes + '#' + task.tags.toString().replace(/,/g,' #'))) {
+					pass1.push(true);
+				} else {
+					pass1.push(false);
+				}
 			}
-			
-			if (input == '') {
-				//If there's no input, just load list
-				$sidebar.find('.selected .name').click();
-			} else {
-				//Puts the results into the UI
-				$tasks.html('<h2>Search Results: ' + $this.val() + '</h2><ul></ul>')
 
-				//There is some input
-				// Set vars
-				var query = input.split(' '),
-					results = [],
-					search;
+			// This makes sure that the task has matched each word in the query
+			for (var p = 0; p < pass1.length; p++) {
+				if (pass1[p] === false) {
+					pass2 = false;
+				}
+			}
 
-				if (ui.session.selected == 'all') {
+			// If all terms match then add task to the results array
+			if (pass2) return (key)
+			else return false
+		}
+		
+		if (input == '') {
+			//If there's no input, just load list
+			$sidebar.find('.selected .name').click();
+		} else {
+			//Puts the results into the UI
+			$tasks.html('<h2>Search Results: ' + $this.val() + '</h2><ul></ul>')
 
-					// Search loop
-					for (var t in core.storage.tasks) {
+			//There is some input
+			// Set vars
+			var query = input.split(' '),
+				results = [],
+				search;
 
-						if(!core.storage.tasks[t].hasOwnProperty('deleted')) {
+			if (ui.session.selected == 'all') {
 
-							// Search Task
-							var str = searcher(t)
-							if (str) {
-								results.push(str)
-							}
+				// Search loop
+				for (var t in core.storage.tasks) {
 
+					if(!core.storage.tasks[t].hasOwnProperty('deleted')) {
+
+						// Search Task
+						var str = searcher(t)
+						if (str) {
+							results.push(str)
 						}
 
 					}
 
-				} else {
-					for (var key in core.storage.lists.items[ui.session.selected].order) {
-						var str = searcher(core.storage.lists.items[ui.session.selected].order[key])
-						if(str) results.push(str);
-					}
 				}
-				// Draws
-				$tasks.find('ul').append(ui.lists.drawTasks(results))
+
+			} else {
+				for (var key in core.storage.lists.items[ui.session.selected].order) {
+					var str = searcher(core.storage.lists.items[ui.session.selected].order[key])
+					if(str) results.push(str);
+				}
 			}
-		})
+			// Draws
+			$tasks.find('ul').append(ui.lists.drawTasks(results))
+		}
 	})
 })
 /* ./plugins/settings.js */
@@ -1295,15 +1293,13 @@ $(function() {
 			</div>\
 		</div>\
 	');
-	//Because it needs time to load
-	$(document).on('loaded', function() {
-		$('#prefsDialog .translate').map(function () {
-			$(this).html($.i18n._($(this).attr('data-translate')));
-		})
-		$('#tabAbout h2 span').html(version)
-		// Only show linux theme in Python version
-		if(app != 'python') $('#theme').find('[value=linux]').remove()
+
+	$('#prefsDialog .translate').map(function () {
+		$(this).html($.i18n._($(this).attr('data-translate')));
 	})
+	$('#tabAbout h2 span').html(version)
+	// Only show linux theme in Python version
+	if(app != 'python') $('#theme').find('[value=linux]').remove()
 
 	var $tabSync = $('#tabSync')
 
@@ -1595,27 +1591,25 @@ plugin.add(function() {
 	
 	console.log("Loaded sort.js")
 
-	$(document).on('loaded', function() {
-		$panel.left.append('\
-			<span>\
-			<button data-toggle="dropdown" class="sort">'+$.i18n._("sortbtn")+'</button>\
-			<ul class="dropdown-menu">\
-			  <li class="current" data-value="magic"><span class="icon magic"></span>'+$.i18n._("sortMagic")+'</li>\
-			  <li data-value="manual"><span class="icon hand"></span>'+$.i18n._("sortDefault")+'</li>\
-			  <li data-value="priority"><span class="icon priority"></span>'+$.i18n._("sortPriority")+'</li>\
-			  <li data-value="date"><span class="icon date"></span>'+$.i18n._("sortDate")+'</li>\
-			</ul>\
-			</span>')
+	$panel.left.append('\
+		<span>\
+		<button data-toggle="dropdown" class="sort">'+$.i18n._("sortbtn")+'</button>\
+		<ul class="dropdown-menu">\
+		  <li class="current" data-value="magic"><span class="icon magic"></span>'+$.i18n._("sortMagic")+'</li>\
+		  <li data-value="manual"><span class="icon hand"></span>'+$.i18n._("sortDefault")+'</li>\
+		  <li data-value="priority"><span class="icon priority"></span>'+$.i18n._("sortPriority")+'</li>\
+		  <li data-value="date"><span class="icon date"></span>'+$.i18n._("sortDate")+'</li>\
+		</ul>\
+		</span>')
 
-		$sortType = $('.panel .left span ul li')
-		$sortType.on('click', function() {
-			$sortType.removeClass('current')
-			$(this).addClass('current')
-			var val = $(this).attr('data-value')
-			core.storage.prefs.listSort[ui.session.selected] = val
-			$('#L' + ui.session.selected + ' .name').click()
-			core.storage.save()
-		})
+	$sortType = $('.panel .left span ul li')
+	$sortType.on('click', function() {
+		$sortType.removeClass('current')
+		$(this).addClass('current')
+		var val = $(this).attr('data-value')
+		core.storage.prefs.listSort[ui.session.selected] = val
+		$('#L' + ui.session.selected + ' .name').click()
+		core.storage.save()
 	})
 
 	var getDateWorth = function(timestamp) {
@@ -1737,10 +1731,8 @@ plugin.add(function() {
 //Adds as a plugin
 plugin.add(function() {
 
-	$(document).on('loaded', function() {
-		$panel.right.prepend('<button class="runSync"></button>')
-		$runSync = $('.runSync')
-	})
+	$panel.right.prepend('<button class="runSync"></button>')
+	$runSync = $('.runSync')
 
 	$panel.right.on('click', '.runSync', function() {
 		$this = $(this)

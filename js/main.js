@@ -562,7 +562,6 @@ $.getScript('js/translations/' + core.storage.prefs.lang + '.js').done(function 
 	// After language has been set, load the plugins
 	$.getScript('js/plugins.js').done(function () {
 		// After plugins have loaded, load the interface
-		$(document).trigger('loaded');
 		ui.initLoad();
 	})
 });
