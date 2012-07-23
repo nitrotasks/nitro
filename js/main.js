@@ -567,11 +567,11 @@ var ui = {
 	}
 }
 
-$(document).ready(function() {
-	//Language Init
-	core.storage.prefs.lang = core.storage.prefs.lang || 'english';
-	$('#languagescript').attr('src', 'js/translations/' + core.storage.prefs.lang + '.js');
+// Load correct language
+core.storage.prefs.lang = core.storage.prefs.lang || 'english';
+$.getScript('js/translations/' + core.storage.prefs.lang + '.js');
 
+$(document).ready(function() {
 	//Fixes shit browsers. Yes, I'm looking at you Internet Explorer and Opera.
 	if (app == 'web') {
 		$('body').append('<script src="js/libs/modernizr.js"></script>')
