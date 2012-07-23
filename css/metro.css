@@ -67,7 +67,7 @@ html, button, input, select, textarea { font-family: "Segoe UI", "Open Sans", sa
 #tasks .tasksContent ul li .checkbox.high:before { background: #ee3333; }
 #tasks .tasksContent ul li .content { font-size: 15px; padding: 0 10px 0 4px; }
 #tasks .tasksContent ul li .notes { background: url("themes/metro/note.png") no-repeat; height: 16px; margin-top: 8px; width: 16px; }
-#tasks .tasksContent ul li .tag { color: #999; cursor: pointer; font-style: italic; }
+#tasks .tasksContent ul li .tag { color: #999; cursor: pointer; font-style: italic; margin: 0 6px; padding: 0; }
 #tasks .tasksContent ul li .tag:before { content: "#"; }
 #tasks .tasksContent ul li .label, #tasks .tasksContent ul li button.priority { background: #00aadd; border: 0; color: #fff; font-size: 12px; height: 22px; line-height: 22px; margin-left: 20px; margin-top: 4px; position: relative; text-transform: capitalize; }
 #tasks .tasksContent ul li .label:before, #tasks .tasksContent ul li button.priority:before { border: 11px solid transparent; border-right-color: #00aadd; content: ""; left: -22px; position: absolute; top: 0; }

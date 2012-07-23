@@ -361,6 +361,9 @@ html, button, input, select, textarea {
                     color: #999;
                     cursor: pointer;
                     font-style: italic;
+                    margin: 0 6px;
+                    padding: 0;
+
                     &:before {
                         content: "#";
                     }
