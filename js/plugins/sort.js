@@ -32,6 +32,7 @@ plugin.add(function() {
 		$('#L' + ui.session.selected + ' .name').click()
 		core.storage.save()
 	})
+	var priorityWorth = { none: 0, low: 1, medium: 2, high: 3 };
 
 	var getDateWorth = function(timestamp) {
 
@@ -105,11 +106,10 @@ plugin.add(function() {
 			case "priority":
 				
 				list.sort(function(a,b) {
-					var worth = { none: 0, low: 1, medium: 2, high: 3 };
 					if(a.logged && !b.logged) return 1
 					else if(!a.logged && b.logged) return -1
 					else if(a.logged && b.logged) return 0
-					return worth[b.priority] - worth[a.priority]
+					return priorityWorth[b.priority] - priorityWorth[a.priority]
 				});
 				break;
 				
@@ -122,6 +122,8 @@ plugin.add(function() {
 					if(a.date=="" && b.date !== "") return 1;
 					else if(b.date=="" && a.date !== "") return -1;
 					else if (a.date == "" && b.date == "") return 0;
+					// Sort by priority if dates match
+					if (a.date == b.date) return priorityWorth[b.priority] - priorityWorth[a.priority];
 					// Sort timestamps
 					return a.date -  b.date
 				});
