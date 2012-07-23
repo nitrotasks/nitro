@@ -263,14 +263,27 @@ html, button, input, select, textarea {
         }
     }
     .tasksContent {
+        text-align: left;
+
         h2 {
+            display: inline-block;
             font-size: 25px;
             font-weight: normal;
             line-height: 25px;
             margin: 0;
             padding: 16px 20px 8px 16px;
-            text-align: left;
             text-transform: capitalize;
+        }
+        .button {
+            border: 0;
+            border-radius: 0;
+
+            &#updateLogbook {
+                color: #fff;
+                float: right;
+                margin: 16px 20px;
+                @include modalbutton($purple);
+            }
         }
         .noTasks {
             color: #888;
@@ -280,6 +293,7 @@ html, button, input, select, textarea {
                 background: rgba(255,255,255,0.95);
                 border-color: #eee;
                 border-left: 0;
+                clear: both;
                 padding: 4px 0 4px 4px;
 
                 &.selected {
