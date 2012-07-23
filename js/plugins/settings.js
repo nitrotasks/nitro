@@ -12,7 +12,16 @@ $(function() {
 				<div class="tab-pane active" id="tabGeneral">\
 				<form>\
 					<input type="checkbox" id="deleteWarnings"><label for="deleteWarnings" class="translate" data-translate="hideWarnings"></label><br>\
-					<label class="description translate" data-translate="deleteWarningsDescription"></label>\
+					<label class="description translate" data-translate="deleteWarningsDescription"></label><br>\
+					<label class="left translate" for="weekStartsOn" data-translate="weekStartsOn"></label><select id="weekStartsOn">\
+						<option class="translate" data-translate="sunday" value="0"></option>\
+						<option class="translate" data-translate="monday" value="1"></option>\
+						<option class="translate" data-translate="tuesday" value="2"></option>\
+						<option class="translate" data-translate="wednesday" value="3"></option>\
+						<option class="translate" data-translate="thursday" value="4"></option>\
+						<option class="translate" data-translate="friday" value="5"></option>\
+						<option class="translate" data-translate="saturday" value="6"></option>\
+					</select>\
 					<hr>\
 					<label class="left translate" data-translate="nextDescription"> </label><select id="nextAmount">\
 						<option value="noLists" class="translate" data-translate="nextNoLists"></option>\
@@ -282,39 +291,38 @@ $(function() {
 		SETTINGS
 	**********************************/
 
-	// CHECK BOXES [DELETE WARNINGS & LOW GRAPHICS MODE]
-	$('#tabGeneral form input').change(function () {
-
+	// CHECK BOXES [Delete Warnings & Week Starts on]
+	$('#tabGeneral form input, #weekStartsOn').change(function () {
 		core.storage.prefs.deleteWarnings = $('#deleteWarnings').prop('checked')
+		core.storage.prefs.weekStartsOn = parseInt($('#weekStartsOn').val())
 		core.storage.save()
-
 	})
 
 	// NEXT AMOUNT
 	$('#nextAmount').change(function () {
 
-		core.storage.prefs.nextAmount = this.value;
-		core.storage.save();
+		core.storage.prefs.nextAmount = this.value
+		core.storage.save()
 
 		//Reloads next if it is selected
 		if (ui.session.selected === 'next') {
-			$('#Lnext .name').click();
+			$('#Lnext .name').click()
 		}
-	});
+	})
 
 	// THEME
 	$('#theme').change(function () {
 		// Get value
-		var theme = $(this)[0].value;
+		var theme = $(this)[0].value
 
 		// Set CSS file
 		$('link.theme').attr('href', 'css/' + theme + '.css').ready(function () {
-			$(window).resize();
-		});
+			$(window).resize()
+		})
 
 		//Saves Theme
-		core.storage.prefs.theme = theme;
-		core.storage.save();
+		core.storage.prefs.theme = theme
+		core.storage.save()
 
 		// Reload sidebar
 		ui.reloadSidebar()
@@ -323,7 +331,7 @@ $(function() {
 		if (app == 'python') {
 			document.title = 'theme|' + core.storage.prefs.theme
 		}
-	});
+	})
 
 	/**********************************
 		CUSTOM BACKGROUNDS
@@ -331,9 +339,9 @@ $(function() {
 
 	// REMOVE CUSTOM BACKGROUND
 	$('#removeBG').click(function () {
-		localStorage.removeItem('background');
-		$tasks[0].style.backgroundImage = 'none';
-	});
+		localStorage.removeItem('background')
+		$tasks[0].style.backgroundImage = 'none'
+	})
 
 	// DRAG AND DROP
 	$body.bind({
@@ -347,93 +355,94 @@ $(function() {
 			e.preventDefault();
 			e = e.originalEvent || e;
 			if (e.hasOwnProperty('files') || e.hasOwnProperty('dataTransfer')) {
-				var files = (e.files || e.dataTransfer.files);
-				setBG(files[0]);
+				var files = (e.files || e.dataTransfer.files)
+				setBG(files[0])
 				return false;
 			}
 		}
-	});
+	})
 
 	// BUTTON UPLOAD
 	$('#chooseBG').change(function (e) {
-		var files = $(this)[0].files;
-		setBG(files[0]);
-	});
+		var files = $(this)[0].files
+		setBG(files[0])
+	})
 
 	// Takes a file and sets it as the background
 	var setBG = function (f) {
-		core.storage.prefs.bgSize = this.value;
-		var reader = new FileReader();
+		core.storage.prefs.bgSize = this.value
+		var reader = new FileReader()
 		reader.onload = function (event) {
 
-			localStorage.removeItem('background');
-			localStorage.setItem('background', event.target.result);
+			localStorage.removeItem('background')
+			localStorage.setItem('background', event.target.result)
 
-			$tasks[0].style.backgroundImage = 'url(' + event.target.result + ')';
-		};
-		reader.readAsDataURL(f);
+			$tasks[0].style.backgroundImage = 'url(' + event.target.result + ')'
+		}
+		reader.readAsDataURL(f)
 		core.storage.save()
-	};
+	}
 
 	// BACKGROUND SIZE
 	$('#backgroundSize').change(function () {
 		core.storage.prefs.bgSize = this.value;
 		switch (this.value) {
 		case 'tile':
-			$tasks.removeClass('shrink zoom').addClass('tile');
+			$tasks.removeClass('shrink zoom').addClass('tile')
 			break;
 		case 'shrink':
-			$tasks.removeClass('tile zoom').addClass('shrink');
+			$tasks.removeClass('tile zoom').addClass('shrink')
 			break;
 		case 'zoom':
-			$tasks.removeClass('tile shrink').addClass('zoom');
+			$tasks.removeClass('tile shrink').addClass('zoom')
 			break;
 		}
-		core.storage.save();
-	});
+		core.storage.save()
+	})
 
 	// HEADING COLOR
 	$('#headingColor').change(function () {
-		core.storage.prefs.bgColor = this.value;
-		core.storage.save();
+		core.storage.prefs.bgColor = this.value
+		core.storage.save()
 
-		$tasks.find('h2').removeClass('light dark').addClass(core.storage.prefs.bgColor);
-	});
+		$tasks.find('h2').removeClass('light dark').addClass(core.storage.prefs.bgColor)
+	})
 
 	/**********************************
 			LOADING PREFERENCES
 	**********************************/
-	$('#deleteWarnings').prop('checked', core.storage.prefs.deleteWarnings);
-	$('#nextAmount').val(core.storage.prefs.nextAmount);
-	$('#theme').val(core.storage.prefs.theme);
-	$('#backgroundSize').val(core.storage.prefs.bgSize);
-	$('#headingColor').val(core.storage.prefs.bgColor);
+	$('#deleteWarnings').prop('checked', core.storage.prefs.deleteWarnings)
+	$('#weekStartsOn').val(core.storage.prefs.weekStartsOn)
+	$('#nextAmount').val(core.storage.prefs.nextAmount)
+	$('#theme').val(core.storage.prefs.theme)
+	$('#backgroundSize').val(core.storage.prefs.bgSize)
+	$('#headingColor').val(core.storage.prefs.bgColor)
 
 	// CUSTOM BACKGROUND
 	if (localStorage.hasOwnProperty('background')) {
-		$tasks[0].style.backgroundImage = 'url(' + localStorage.getItem('background') + ')';
+		$tasks[0].style.backgroundImage = 'url(' + localStorage.getItem('background') + ')'
 	} else if (core.storage.prefs.hasOwnProperty('background')) {
-		$tasks[0].style.backgroundImage = 'url(' + core.storage.prefs.background + ')';
+		$tasks[0].style.backgroundImage = 'url(' + core.storage.prefs.background + ')'
 	}
 
-	$tasks.addClass(core.storage.prefs.bgSize);
+	$tasks.addClass(core.storage.prefs.bgSize)
 
 	// LANGUAGE
-	$('#tabLanguage a.current').removeClass('current');
+	$('#tabLanguage a.current').removeClass('current')
 	$('#tabLanguage .language a').each(function () {
 		if ($(this).data('value') === core.storage.prefs.lang) {
-			$(this).addClass('current');
+			$(this).addClass('current')
 		}
-	});
+	})
 	$('#tabLanguage').bind('click', function (e) {
 		if ($(e.srcElement).is('.language a')) {
-			core.storage.prefs.lang = $(e.srcElement).data('value');
+			core.storage.prefs.lang = $(e.srcElement).data('value')
 			core.storage.save();
 
-			window.location.reload();
+			window.location.reload()
 			return false;
 		}
-	});
+	})
 
 	// SYNC
 	$('#syncInterval').val(core.storage.prefs.sync.interval)
@@ -471,12 +480,12 @@ $(function() {
 
 	$tabSync.find('a.button:not(".signup")').click(function() {
 			
-		var service = $(this).data('service');
+		var service = $(this).data('service')
 			
 		// Run sync
 		sync.run(service, function (result) {
 			if(result) {
-				$tabSync.find('.email').html(core.storage.prefs.sync.email);
+				$tabSync.find('.email').html(core.storage.prefs.sync.email)
 				$tabSync.find('.service').html(service);
 				animateTab($tabSync, $tabSync.find('.waiting'), $tabSync.find('.settings'))
 			} else {
@@ -548,4 +557,4 @@ $(function() {
 		core.storage.save()
 	})
 
-});
+})

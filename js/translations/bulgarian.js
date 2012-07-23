@@ -37,6 +37,67 @@ ui.language({
 	dueDate: "Дата",
 	schedule: "Планирам",
 
+	// Due Date Labels
+	daysOverdue: "%s days overdue",
+	dueYesterday: "due yesterday",
+	dueToday: "due today",
+	dueTomorrow: "due tomorrow",
+	daysLeft: "%s days left",
+	
+	// Datepicker
+	weekStartsOn: "Week starts on: ",
+
+	// Days and Months
+	sunday: "Sunday",
+	monday: "Monday",
+	tuesday: "Tuesday",
+	wednesday: "Wednesday",
+	thursday: "Thursday",
+	friday: "Friday",
+	saturday: "Saturday",
+
+	sunShort: "Sun",
+	monShort: "Mon",
+	tueShort: "Tue",
+	wedShort: "Wed",
+	thuShort: "Thu",
+	friShort: "Fri",
+	satShort: "Sat",
+
+	sunMin: "Su",
+	monMin: "Mo",
+	tueMin: "Tu",
+	wedMin: "We",
+	thuMin: "Th",
+	friMin: "Fr",
+	satMin: "Sa",
+
+	january: "January",
+	february: "February",
+	march: "March",
+	april: "April",
+	may: "May",
+	june: "June",
+	july: "July",
+	august: "August",
+	september: "September",
+	october: "October",
+	november: "November",
+	december: "December",
+
+	janShort: "Jan",
+	febShort: "Feb",
+	marShort: "Mar",
+	aprShort: "Apr",
+	mayShort: "May",
+	junShort: "Jun",
+	julShort: "Jul",
+	augShort: "Aug",
+	sepShort: "Sep",
+	octShort: "Oct",
+	novShort: "Nov",
+	decShort: "Dec",
+
 	// Delete Modals
 	deleteMore: "Сигурнили сте, че искате да изтриете тези %s  задачи?",
 	deleteMoreYes: "Да, изтрий ги",

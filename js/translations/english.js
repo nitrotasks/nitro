@@ -51,6 +51,9 @@ ui.language({
 	dueTomorrow: "due tomorrow",
 	daysLeft: "%s days left",
 
+	// Datepicker
+	weekStartsOn: "Week starts on: ",
+
 	// Days and Months
 	sunday: "Sunday",
 	monday: "Monday",

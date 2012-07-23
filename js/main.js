@@ -818,7 +818,7 @@ $tasks.on('expand', 'li', function() {
 		model = core.storage.tasks[id]
 
 	$this.find('.date')
-		.datepicker()
+		.datepicker({weekStart: core.storage.prefs.weekStartsOn})
 		.on('changeDate', function(ev) {
 			core.storage.tasks[id].date = ev.date.valueOf()
 			ui.lists.update().count()
