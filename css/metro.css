@@ -6,7 +6,7 @@ html, button, input, select, textarea { font-family: "Segoe UI", "Open Sans", sa
 .panel { background: #eee; border: 0; box-shadow: none; color: #000; height: 58px; }
 .panel button { background: none; }
 
-.vsplitbar { background-image: -webkit-linear-gradient(white 10%, #cccccc, white 90%); background-clip: content-box; border: 0; box-shadow: none; margin-top: 58px; opacity: 0; padding: 0 3px; -webkit-transition: opacity 300ms; width: 7px; z-index: auto; }
+.vsplitbar { background-image: -webkit-linear-gradient(white 10%, #cccccc, white 90%); background-clip: content-box; border: 0; box-shadow: none; opacity: 0; padding: 0 3px; -webkit-transition: opacity 300ms; top: 58px; width: 7px; z-index: auto; }
 .vsplitbar:hover { opacity: 1; -webkit-transition: 0; }
 
 #sidebar { display: block; overflow-y: auto; padding-top: 58px; text-transform: lowercase; z-index: auto; }

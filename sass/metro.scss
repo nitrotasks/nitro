@@ -51,10 +51,10 @@ html, button, input, select, textarea {
     background-clip: content-box;
     border: 0;
     box-shadow: none;
-    margin-top: $panel-height;
     opacity: 0;
     padding: 0 3px;
     -webkit-transition: opacity 300ms;
+    top: $panel-height;
     width: 7px;
     z-index: auto;
 
