@@ -11,21 +11,7 @@
  * Neither the name of Caffeinated Code nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
- 
-$(document).ready(function() {
-	//Language Init
-	core.storage.prefs.lang = core.storage.prefs.lang || 'english';
-	$('#languagescript').attr('src', 'js/translations/' + core.storage.prefs.lang + '.js');
 
-	//Fixes shit browsers. Yes, I'm looking at you Internet Explorer and Opera.
-	if (app == 'web') {
-		$('body').append('<script src="js/libs/modernizr.js"></script>')
-		Modernizr.load({
-		  test: Modernizr.flexbox,
-		  nope: 'js/libs/flexie.js'
-		});
-	}
-})
 
 var $body = $('body'),
 	$tasks = $('#tasks .tasksContent'),
@@ -37,7 +23,12 @@ var $body = $('body'),
 		left: $('#tasks .panel .left')
 	},
 	$addBTN = $(),
-	$delBTN = $()
+	$delBTN = $(),
+	plugin = {
+		add: function(fn) {
+			fn();
+		}
+	}
 
 var ui = {
 	language: function (data) {
@@ -576,6 +567,21 @@ var ui = {
 	}
 }
 
+$(document).ready(function() {
+	//Language Init
+	core.storage.prefs.lang = core.storage.prefs.lang || 'english';
+	$('#languagescript').attr('src', 'js/translations/' + core.storage.prefs.lang + '.js');
+
+	//Fixes shit browsers. Yes, I'm looking at you Internet Explorer and Opera.
+	if (app == 'web') {
+		$('body').append('<script src="js/libs/modernizr.js"></script>')
+		Modernizr.load({
+		  test: Modernizr.flexbox,
+		  nope: 'js/libs/flexie.js'
+		});
+	}
+})
+
 // ------------------------------------//
 //              TEMPLATES              //
 // ------------------------------------//
@@ -1057,13 +1063,6 @@ $sidebar.on('click', '.list-toggle', function() {
 	}
 })
 
-
-//This is the best plugin system in the world. Sue me.
-var plugin = {
-	add: function(fn) {
-		fn();
-	}
-}
 
 String.prototype.toNum = function () {
 	var x = parseInt(this, 10);
