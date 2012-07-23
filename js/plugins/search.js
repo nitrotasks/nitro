@@ -6,91 +6,89 @@
 //Adds as a plugin
 plugin.add(function() {
 
-	$(document).on('loaded', function() {
-		$panel.right.append('<input id="search" type="search" placeholder="'+$.i18n._('search')+'">')
-		$search = $("#search")
-	
-		$search.on('keyup', function() {
+	$panel.right.append('<input id="search" type="search" placeholder="'+$.i18n._('search')+'">')
+	$search = $("#search")
 
-			var $this = $(this),
-				input = $this.val()
+	$search.on('keyup', function() {
 
-			var searcher = function(key) {
-				var pass1 = [],
-					pass2 = true;
+		var $this = $(this),
+			input = $this.val()
 
-				// Loop through each word in the query
-				for (var q = 0; q < query.length; q++) {
+		var searcher = function(key) {
+			var pass1 = [],
+				pass2 = true;
 
-					// Create new search
-					search = new RegExp(query[q], 'i');
+			// Loop through each word in the query
+			for (var q = 0; q < query.length; q++) {
 
-					if(typeof(key) == 'function') {
-						//Nope. Not a good idea
-						return;
-					}
+				// Create new search
+				search = new RegExp(query[q], 'i');
 
-					var task = core.storage.tasks[key]
-
-					// Search
-					if (search.test(task.content + task.notes + '#' + task.tags.toString().replace(/,/g,' #'))) {
-						pass1.push(true);
-					} else {
-						pass1.push(false);
-					}
+				if(typeof(key) == 'function') {
+					//Nope. Not a good idea
+					return;
 				}
 
-				// This makes sure that the task has matched each word in the query
-				for (var p = 0; p < pass1.length; p++) {
-					if (pass1[p] === false) {
-						pass2 = false;
-					}
-				}
+				var task = core.storage.tasks[key]
 
-				// If all terms match then add task to the results array
-				if (pass2) return (key)
-				else return false
+				// Search
+				if (search.test(task.content + task.notes + '#' + task.tags.toString().replace(/,/g,' #'))) {
+					pass1.push(true);
+				} else {
+					pass1.push(false);
+				}
 			}
-			
-			if (input == '') {
-				//If there's no input, just load list
-				$sidebar.find('.selected .name').click();
-			} else {
-				//Puts the results into the UI
-				$tasks.html('<h2>Search Results: ' + $this.val() + '</h2><ul></ul>')
 
-				//There is some input
-				// Set vars
-				var query = input.split(' '),
-					results = [],
-					search;
+			// This makes sure that the task has matched each word in the query
+			for (var p = 0; p < pass1.length; p++) {
+				if (pass1[p] === false) {
+					pass2 = false;
+				}
+			}
 
-				if (ui.session.selected == 'all') {
+			// If all terms match then add task to the results array
+			if (pass2) return (key)
+			else return false
+		}
+		
+		if (input == '') {
+			//If there's no input, just load list
+			$sidebar.find('.selected .name').click();
+		} else {
+			//Puts the results into the UI
+			$tasks.html('<h2>Search Results: ' + $this.val() + '</h2><ul></ul>')
 
-					// Search loop
-					for (var t in core.storage.tasks) {
+			//There is some input
+			// Set vars
+			var query = input.split(' '),
+				results = [],
+				search;
 
-						if(!core.storage.tasks[t].hasOwnProperty('deleted')) {
+			if (ui.session.selected == 'all') {
 
-							// Search Task
-							var str = searcher(t)
-							if (str) {
-								results.push(str)
-							}
+				// Search loop
+				for (var t in core.storage.tasks) {
 
+					if(!core.storage.tasks[t].hasOwnProperty('deleted')) {
+
+						// Search Task
+						var str = searcher(t)
+						if (str) {
+							results.push(str)
 						}
 
 					}
 
-				} else {
-					for (var key in core.storage.lists.items[ui.session.selected].order) {
-						var str = searcher(core.storage.lists.items[ui.session.selected].order[key])
-						if(str) results.push(str);
-					}
 				}
-				// Draws
-				$tasks.find('ul').append(ui.lists.drawTasks(results))
+
+			} else {
+				for (var key in core.storage.lists.items[ui.session.selected].order) {
+					var str = searcher(core.storage.lists.items[ui.session.selected].order[key])
+					if(str) results.push(str);
+				}
 			}
-		})
+			// Draws
+			$tasks.find('ul').append(ui.lists.drawTasks(results))
+		}
 	})
 })

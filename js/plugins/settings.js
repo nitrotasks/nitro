@@ -268,15 +268,13 @@ $(function() {
 			</div>\
 		</div>\
 	');
-	//Because it needs time to load
-	$(document).on('loaded', function() {
-		$('#prefsDialog .translate').map(function () {
-			$(this).html($.i18n._($(this).attr('data-translate')));
-		})
-		$('#tabAbout h2 span').html(version)
-		// Only show linux theme in Python version
-		if(app != 'python') $('#theme').find('[value=linux]').remove()
+
+	$('#prefsDialog .translate').map(function () {
+		$(this).html($.i18n._($(this).attr('data-translate')));
 	})
+	$('#tabAbout h2 span').html(version)
+	// Only show linux theme in Python version
+	if(app != 'python') $('#theme').find('[value=linux]').remove()
 
 	var $tabSync = $('#tabSync')
 
