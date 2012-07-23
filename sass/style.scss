@@ -475,6 +475,10 @@ html, button, input, select, textarea {
 			padding: 0 20px 40px 16px;
 			margin: 0;
 			text-align: left;
+
+			&:last-child {
+				padding-bottom: 20px;
+			}
 		
 			li {
 				display: block;
