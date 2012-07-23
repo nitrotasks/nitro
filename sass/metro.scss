@@ -124,6 +124,10 @@ html, button, input, select, textarea {
                     opacity: 0.5;
                 }
             }
+            .edit, .delete {
+                // Metro theme doesn't need as much of a margin above icons
+                margin-top: 5px;
+            }
             // Override positioning from style.scss, move icons down 2px
             .edit {
                 background-position: 0 -103px;

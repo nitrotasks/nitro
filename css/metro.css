@@ -20,6 +20,7 @@ html, button, input, select, textarea { font-family: "Segoe UI", "Open Sans", sa
 #sidebar ul li.selected .edit { background-position: 0 -103px; opacity: 0.5; }
 #sidebar ul li.selected .edit.open { background-position: 0 179px; }
 #sidebar ul li.selected .delete { background-position: 1px -81px; opacity: 0.5; }
+#sidebar ul li .edit, #sidebar ul li .delete { margin-top: 5px; }
 #sidebar ul li .edit { background-position: 0 -103px; }
 #sidebar ul li .edit.open { background-position: 0 179px; }
 #sidebar ul li .delete { background-position: 1px -81px; }
