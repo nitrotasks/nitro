@@ -298,7 +298,7 @@ html, button, input, select, textarea {
                 border-color: #eee;
                 border-left: 0;
                 clear: both;
-                padding: 4px 0 4px 4px;
+                height: auto;
 
                 &.selected {
                     background: lighten($blue, 50%);
@@ -326,7 +326,9 @@ html, button, input, select, textarea {
                     }
                 }
                 .boxhelp {
-                    padding-right: 4px;
+                    -moz-box-sizing: border-box;
+                    box-sizing: border-box;
+                    padding: 2px 4px;
                 }
                 .checkbox {
                     background-color: rgba(255,255,255,0.95);
@@ -359,7 +361,7 @@ html, button, input, select, textarea {
                 }
                 .content {
                     font-size: 15px;
-                    padding: 0 10px 0 4px;
+                    padding: 0 10px 0 0;
                 }
                 .notes {
                     background: url('themes/metro/note.png') no-repeat;
