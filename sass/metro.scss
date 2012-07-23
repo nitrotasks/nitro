@@ -305,6 +305,27 @@ html, button, input, select, textarea {
                 }
                 &.expanded {
                     margin: 15px 0;
+
+                    button.priority {
+                        color: #fff;
+                        font-size: 12px;
+                        height: 22px;
+                        line-height: 22px;
+                        margin: 4px 8px;
+
+                        &.none {
+                            @include modalbutton(#999);
+                        }
+                        &.low {
+                            @include modalbutton($blue);
+                        }
+                        &.medium {
+                            @include modalbutton($orange);
+                        }
+                        &.high {
+                            @include modalbutton($red);
+                        }
+                    }
                 }
                 &.checked {
                     .checkbox {
@@ -380,7 +401,7 @@ html, button, input, select, textarea {
                         content: "#";
                     }
                 }
-                .label, button.priority {
+                .label {
                     background: $blue;
                     border: 0;
                     color: #fff;
@@ -417,18 +438,6 @@ html, button, input, select, textarea {
                 }
                 .label.list {
                     @include labeltag($purple);
-                }
-                button.priority.none {
-                    @include labeltag(#999);
-                }
-                button.priority.low {
-                    @include labeltag($blue);
-                }
-                button.priority.medium {
-                    @include labeltag($orange);
-                }
-                button.priority.high {
-                    @include labeltag($red);
                 }
                 button.none, button.low, button.medium, button.high, input.date, input.tags, button.date, div.tag {
                     border: 0;

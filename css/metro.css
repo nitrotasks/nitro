@@ -56,6 +56,15 @@ html, button, input, select, textarea { font-family: "Segoe UI", "Open Sans", sa
 #tasks .tasksContent ul li { background: rgba(255, 255, 255, 0.95); border-color: #eee; border-left: 0; clear: both; height: auto; }
 #tasks .tasksContent ul li.selected { background: #ddf7ff; }
 #tasks .tasksContent ul li.expanded { margin: 15px 0; }
+#tasks .tasksContent ul li.expanded button.priority { color: #fff; font-size: 12px; height: 22px; line-height: 22px; margin: 4px 8px; }
+#tasks .tasksContent ul li.expanded button.priority.none { background: #999999; border: 1px solid #8c8c8c; }
+#tasks .tasksContent ul li.expanded button.priority.none:hover { background: #a6a6a6; border-color: #999999; }
+#tasks .tasksContent ul li.expanded button.priority.low { background: #00aadd; border: 1px solid #0096c4; }
+#tasks .tasksContent ul li.expanded button.priority.low:hover { background: #00bef7; border-color: #00aadd; }
+#tasks .tasksContent ul li.expanded button.priority.medium { background: #ffbb44; border: 1px solid #ffb22a; }
+#tasks .tasksContent ul li.expanded button.priority.medium:hover { background: #ffc45d; border-color: #ffbb44; }
+#tasks .tasksContent ul li.expanded button.priority.high { background: #ee3333; border: 1px solid #ec1b1b; }
+#tasks .tasksContent ul li.expanded button.priority.high:hover { background: #f04b4b; border-color: #ee3333; }
 #tasks .tasksContent ul li.checked .checkbox { position: static; }
 #tasks .tasksContent ul li.checked .checkbox:after { left: auto; top: 5px; }
 #tasks .tasksContent ul li.checked .content { color: #888; text-decoration: line-through; }
@@ -71,23 +80,15 @@ html, button, input, select, textarea { font-family: "Segoe UI", "Open Sans", sa
 #tasks .tasksContent ul li .notes { background: url("themes/metro/note.png") no-repeat; height: 16px; margin-top: 8px; width: 16px; }
 #tasks .tasksContent ul li .tag { color: #999; cursor: pointer; font-style: italic; margin: 0 6px; padding: 0; }
 #tasks .tasksContent ul li .tag:before { content: "#"; }
-#tasks .tasksContent ul li .label, #tasks .tasksContent ul li button.priority { background: #00aadd; border: 0; color: #fff; font-size: 12px; height: 22px; line-height: 22px; margin-left: 20px; margin-top: 4px; position: relative; text-transform: capitalize; }
-#tasks .tasksContent ul li .label:before, #tasks .tasksContent ul li button.priority:before { border: 11px solid transparent; border-right-color: #00aadd; content: ""; left: -22px; position: absolute; top: 0; }
-#tasks .tasksContent ul li .label:after, #tasks .tasksContent ul li button.priority:after { border: 2px solid #fff; border-radius: 50%; content: ""; left: -2px; position: absolute; top: 9px; }
+#tasks .tasksContent ul li .label { background: #00aadd; border: 0; color: #fff; font-size: 12px; height: 22px; line-height: 22px; margin-left: 20px; margin-top: 4px; position: relative; text-transform: capitalize; }
+#tasks .tasksContent ul li .label:before { border: 11px solid transparent; border-right-color: #00aadd; content: ""; left: -22px; position: absolute; top: 0; }
+#tasks .tasksContent ul li .label:after { border: 2px solid #fff; border-radius: 50%; content: ""; left: -2px; position: absolute; top: 9px; }
 #tasks .tasksContent ul li .label.overdue { background: #ee3333; }
 #tasks .tasksContent ul li .label.overdue:before { border-right-color: #ee3333; }
 #tasks .tasksContent ul li .label.due { background: #55bb22; }
 #tasks .tasksContent ul li .label.due:before { border-right-color: #55bb22; }
 #tasks .tasksContent ul li .label.list { background: #8866bb; }
 #tasks .tasksContent ul li .label.list:before { border-right-color: #8866bb; }
-#tasks .tasksContent ul li button.priority.none { background: #999999; }
-#tasks .tasksContent ul li button.priority.none:before { border-right-color: #999999; }
-#tasks .tasksContent ul li button.priority.low { background: #00aadd; }
-#tasks .tasksContent ul li button.priority.low:before { border-right-color: #00aadd; }
-#tasks .tasksContent ul li button.priority.medium { background: #ffbb44; }
-#tasks .tasksContent ul li button.priority.medium:before { border-right-color: #ffbb44; }
-#tasks .tasksContent ul li button.priority.high { background: #ee3333; }
-#tasks .tasksContent ul li button.priority.high:before { border-right-color: #ee3333; }
 #tasks .tasksContent ul li button.none, #tasks .tasksContent ul li button.low, #tasks .tasksContent ul li button.medium, #tasks .tasksContent ul li button.high, #tasks .tasksContent ul li input.date, #tasks .tasksContent ul li input.tags, #tasks .tasksContent ul li button.date, #tasks .tasksContent ul li div.tag { border: 0; }
 #tasks .tasksContent ul li .hidden textarea { background: #fafafa url("themes/metro/note.png") no-repeat 8px 8px; border-top-color: #ddd; color: #444; }
 
