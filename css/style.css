@@ -288,6 +288,9 @@ html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubun
 #tabLanguage table tr td.author { font-style: italic; color: #888; }
 #tabLanguage table tr td.author a { color: #555; }
 
+#tabAbout a { color: #0ba1d0; text-decoration: none; }
+#tabAbout a:hover { cursor: pointer; text-decoration: underline; }
+#tabAbout a.current { font-weight: bold; color: #444; }
 #tabAbout table { width: 100%; }
 #tabAbout table tr { border-bottom: 1px solid #eee; }
 #tabAbout table tr.break { background: #eee; }

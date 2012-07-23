@@ -1186,26 +1186,32 @@ $(function() {
 				<div class="tab-pane" id="tabAbout">\
 					<img src="css/img/nitro_128.png" class="center">\
 					<h2>Nitro <span></span></h2>\
-					<p class="center">By George Czabania & Jono Cooper<br>\
-					Copyright © 2012 Caffeinated Code<br>\
+					<p class="center">By <a href="https://twitter.com/GeorgeCzabania">George Czabania</a> & <a href="https://twitter.com/consindo">Jono Cooper</a><br>\
+					Copyright © 2012 <a href="http://caffeinatedco.de">Caffeinated Code</a><br>\
 					Licensed under the BSD licence</p>\
 					<hr>\
+					<h3>Special Thanks</h3>\
+					<ul>\
+						<li><a href="https://github.com/mlms13">Michael Martin-Smucker</a> - Help with translations and creator of Metro theme</li>\
+						<li>Icon designed by Николай Гармаш (Nicholay Garmash)</li>\
+						<li>A huge thanks to all the translators!</li>\
+					</ul>\
 					<h3>Donors</h3>\
 					<p>A huge thanks to everyone that donated! To make a donation, visit our <a href="http://nitrotasks.com/#donate">website</a>.</p>\
 					<ul>\
 						<li>Gabriel Favaro</li>\
+						<li>Andrew (Extreme Gaming & Computers)</li>\
 						<li>James Thomas</li>\
 					</ul>\
 					<ul>\
-						<li>Sergio Rubi</li>\
+						<li>Sergio Rubio</li>\
 						<li>James Mendenhall</li>\
 						<li>Nekhelesh Ramananthan</li>\
+						<li>Nasser Alshammari</li>\
 						<li>Valentin Vago</li>\
-						<li>Sebastian Alvarez</li>\
+						<li>Martin Degeling</li>\
 						<li>Pierre Quillery</li>\
-					</ul>\
-					<ul>\
-						<li>Icon designed by Николай Гармаш (Nicholay Garmash)</li>\
+						<li>Luo Qi</li>\
 					</ul>\
 					<hr>\
 					<h3>Keyboard Shortcuts</h3>\

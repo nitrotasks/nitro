@@ -27,20 +27,11 @@
 #prefsDialog .tab-content .tab-pane blockquote.disabled { color: #3b3b3b; background: #fff; border-color: #fff; width: 490px; padding: 0; margin: 0; }
 #prefsDialog .tab-content .tab-pane blockquote.disabled img { margin: 0 13px; cursor: pointer; }
 #prefsDialog .tab-content .tab-pane blockquote .icon { float: left; margin: 0 10px 0 0; }
-#prefsDialog .tab-content .tab-pane table { width: 100%; }
-#prefsDialog .tab-content .tab-pane table tr { border-bottom: 1px solid #eee; }
-#prefsDialog .tab-content .tab-pane table tr.break { background: #eee; }
-#prefsDialog .tab-content .tab-pane table tr td { padding: 5px; }
-#prefsDialog .tab-content .tab-pane table tr td:first-child { font-weight: bold; width: 50%; }
 #prefsDialog .tab-content .tab-pane.active { display: block; }
 #prefsDialog .tab-content .tab-pane img.center { display: table; margin: 0 auto; }
 #prefsDialog .tab-content .tab-pane p.center { text-align: center; }
-#prefsDialog .tab-content .tab-pane a.icon { display: inline-block; width: 150px; height: 122px; margin: 12.5px; border-radius: 5px; box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2), 0 1px 0 white; background: rgba(0, 0, 0, 0.05); }
-#prefsDialog .tab-content .tab-pane a.icon:hover { background: -webkit-linear-gradient(#fcfcfc, #e5e5e5); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }
-#prefsDialog .tab-content .tab-pane a.icon:active { background: -webkit-linear-gradient(#e5e5e5, #fcfcfc); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }
-#prefsDialog .tab-content .tab-pane a.icon img { margin-top: 8.5px; }
 #prefsDialog .tab-content .tab-pane#tabSync { position: relative; }
-#prefsDialog .tab-content .tab-pane#tabSync .icons { text-align: center; }
+#prefsDialog .tab-content .tab-pane#tabSync .icons { text-align: center; margin-bottom: 30px; }
 #prefsDialog .tab-content .tab-pane#tabSync blockquote { text-align: left; }
 #prefsDialog .tab-content .tab-pane#tabSync .waiting, #prefsDialog .tab-content .tab-pane#tabSync .settings { display: none; }
 #prefsDialog .tab-content .tab-pane#tabSync .waiting { text-align: center; }
@@ -63,3 +54,12 @@
 #tabLanguage table tr a.current { font-weight: bold; color: #444; }
 #tabLanguage table tr td.author { font-style: italic; color: #888; }
 #tabLanguage table tr td.author a { color: #555; }
+
+#tabAbout a { color: #0ba1d0; text-decoration: none; }
+#tabAbout a:hover { cursor: pointer; text-decoration: underline; }
+#tabAbout a.current { font-weight: bold; color: #444; }
+#tabAbout table { width: 100%; }
+#tabAbout table tr { border-bottom: 1px solid #eee; }
+#tabAbout table tr.break { background: #eee; }
+#tabAbout table tr td { padding: 5px; }
+#tabAbout table tr td:first-child { font-weight: bold; width: 50%; }

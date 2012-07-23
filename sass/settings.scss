@@ -297,6 +297,18 @@
 }
 
 #tabAbout {
+	a {
+		color: #0ba1d0;
+		text-decoration: none;
+		&:hover {
+			cursor: pointer;
+			text-decoration: underline;
+		}
+		&.current {
+			font-weight: bold;
+			color: #444;
+		}	
+	}
 	table {
 		width: 100%;
 		tr {
