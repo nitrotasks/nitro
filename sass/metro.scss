@@ -314,6 +314,12 @@ html, button, input, select, textarea {
                         color: #888;
                         text-decoration: line-through;
                     }
+                    &.logbook {
+                        .content {
+                            color: #111;
+                            text-decoration: none;
+                        }
+                    }
                 }
                 .boxhelp {
                     padding-right: 4px;

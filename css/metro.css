@@ -58,6 +58,7 @@ html, button, input, select, textarea { font-family: "Segoe UI", "Open Sans", sa
 #tasks .tasksContent ul li.checked .checkbox { position: static; }
 #tasks .tasksContent ul li.checked .checkbox:after { left: auto; top: 5px; }
 #tasks .tasksContent ul li.checked .content { color: #888; text-decoration: line-through; }
+#tasks .tasksContent ul li.checked.logbook .content { color: #111; text-decoration: none; }
 #tasks .tasksContent ul li .boxhelp { padding-right: 4px; }
 #tasks .tasksContent ul li .checkbox { background-color: rgba(255, 255, 255, 0.95); border-color: rgba(0, 0, 0, 0.2); box-sizing: border-box; margin-top: 9px; }
 #tasks .tasksContent ul li .checkbox:hover { border-color: rgba(0, 0, 0, 0.3); }
