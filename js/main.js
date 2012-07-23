@@ -559,9 +559,12 @@ var ui = {
 // Load correct language
 core.storage.prefs.lang = core.storage.prefs.lang || 'english';
 $.getScript('js/translations/' + core.storage.prefs.lang + '.js').done(function () {
-	// After language has been set, load the interface
-	$(document).trigger('loaded')
-	ui.initLoad();
+	// After language has been set, load the plugins
+	$.getScript('js/plugins.js').done(function () {
+		// After plugins have loaded, load the interface
+		$(document).trigger('loaded');
+		ui.initLoad();
+	})
 });
 
 $(document).ready(function() {
