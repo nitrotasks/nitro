@@ -550,6 +550,9 @@ var ui = {
 				$tasks.find('ul li[data-id="' + id + '"]').trigger('collapse')
 
 				if(typeof cb === 'function') cb()
+
+				// after a task has changed, reload the list to re-sort
+				$sidebar.find('.selected .name').click()
 				
 			}, 150)
 		}
