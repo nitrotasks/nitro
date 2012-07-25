@@ -559,8 +559,8 @@ var ui = {
 
 				if(typeof cb === 'function') cb()
 
-				// after a task has changed, reload the list to re-sort
-				$sidebar.find('.selected .name').click()
+				// after a task has changed, reload the list to re-sort (Breaks stuff)
+				//$sidebar.find('.selected .name').click()
 				
 			}, 150)
 		}

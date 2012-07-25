@@ -1,7 +1,10 @@
-#prefsDialog { display: none; position: fixed; width: 520px; left: 50%; margin-left: -250px; top: 100px; background: #fff; box-shadow: 0 2px 15px rgba(0, 0, 0, 0.7); z-index: 100; border-radius: 2px; }
+@-webkit-keyframes settingsanim { 0% { -webkit-transform: scale(0.5); }
+  100% { -webkit-transform: scale(1); } }
+
+#prefsDialog { -webkit-animation: settingsanim 250ms 1; -webkit-animation-timing-function: ease-out; display: none; position: fixed; width: 520px; left: 50%; margin-left: -250px; top: 100px; background: #fff; box-shadow: 0 2px 15px rgba(0, 0, 0, 0.7); z-index: 100; border-radius: 2px; }
 #prefsDialog > ul { height: 30px; margin: 0; padding: 0; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom: 1px solid rgba(0, 0, 0, 0.2); background: #ddd; }
 #prefsDialog > ul > li { display: inline-block; margin: 0; width: 20%; box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; text-align: center; line-height: 30px; height: 30px; }
-#prefsDialog > ul > li.active { background: #f0f0f0; }
+#prefsDialog > ul > li.active { -webkit-transition: 150ms background ease; -moz-transition: 150ms background ease; -ms-transition: 150ms background ease; -o-transition: 150ms background ease; transition: 150ms background ease; background: #f0f0f0; }
 #prefsDialog > ul > li.active a { color: #222; }
 #prefsDialog > ul > li:first-child { border-top-left-radius: 5px; }
 #prefsDialog > ul > li:last-child { border-top-right-radius: 5px; }

@@ -156,7 +156,8 @@ html, button, input, select, textarea {
 				border-right: 8px solid #ccc;
 				border-top: 5px solid transparent;
 				border-bottom: 5px solid transparent;
-				@include transform(rotate(-90deg));
+				@include transform(rotate(270deg));
+				@include transition(100ms all ease);
 			}
 			
 			&:hover .icon {
@@ -204,7 +205,7 @@ html, button, input, select, textarea {
 			color: #444444;
 			padding: 0 0 0 15px;
 			position: relative;
-			@include transition(100ms all ease);
+			@include transition(150ms background ease, 150ms color ease);
 
 			.edit {
 				background: url("img/list_edit.png") 0 -105px;
@@ -802,10 +803,10 @@ html, button, input, select, textarea {
 	height: 100%;
 	position: fixed;
 	background: rgba(0,0,0,0.7);
-	-webkit-animation: modalanim 150ms 1;
-	-moz-animation: modalanim 150ms 1;
-	-ms-animation: modalanim 150ms 1;
-	-o-animation: modalanim 150ms 1;
+	-webkit-animation: modalanim 300ms 1;
+	-moz-animation: modalanim 300ms 1;
+	-ms-animation: modalanim 300ms 1;
+	-o-animation: modalanim 300ms 1;
 	top: 0;
 	left: 0;
 	z-index: 50;
