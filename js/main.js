@@ -39,6 +39,13 @@ var ui = {
 		$l = $.i18n;
 	},
 	initLoad: function() {
+
+		// Web Version
+		if (app == 'web') {
+			$('html').addClass('web')
+			$('body').append('<div id="login"><div class="loading"></div><div class="login">LOGIN YALL</div></div>')
+		}
+
 		// Move sidebar to the right
 		ui.reloadSidebar()
 
@@ -126,6 +133,7 @@ var ui = {
 			//I can't trigger it?
 			$tasks.height(height - $('.panel').height())
 			ui.reload()
+			$('html').addClass('loaded')
 		});
 
 		//Tells Python to hide / show the fucking panel
