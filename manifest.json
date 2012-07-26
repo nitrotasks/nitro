@@ -1,6 +1,7 @@
 {
   "name": "Nitro",
-  "description": "Get stuff done with Nitro.",
+  "description": "__MSG_appDesc__",
+  "default_locale": "en",
   "version": "1.4.7.1",
   "offline_enabled": true,
   "app": {
