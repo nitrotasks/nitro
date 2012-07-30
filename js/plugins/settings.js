@@ -51,48 +51,50 @@ $(function() {
 							<tr>\
 								<td class="language"><a href="#" data-value="pirate">English (Pirate)</a></td>\
 								<td class="author">Caffeinated Code</td>\
-								<td class="language"><a href="#" data-value="portuguese">Português</a></td>\
-								<td class="author"><a href="mailto:email@belenos.me">Belenos Govannon</a></td>	\
+								<td class="language"><a href="#" data-value="dutch">Nederlands</a></td>\
+								<td class="author"><a href="mailto:erik.am@solcon.nl">Erik Ammerlaan</a>\
 							</tr>\
 							<tr>\
 								<td class="language"><a href="#" data-value="german">Deutsch</a></td>\
 								<td class="author"><a href="mailto:d.peteranderl@googlemail.com">Dennis Peteranderl</a>, <a href="info@agentur-simon.de">Bertram Simon</a></td>\
-								<td class="language"><a href="#" data-value="russian">Русский</a></td>\
-								<td class="author"><a href="mailto:a.pryah@gmail.com">Andrej Pryakhin</a></td>\
+								<td class="language"><a href="#" data-value="portuguese">Português</a></td>\
+								<td class="author"><a href="mailto:email@belenos.me">Belenos Govannon</a></td>	\
 							</tr>\
 							<tr>\
 								<td class="language"><a href="#" data-value="spanish">Español</a></td>\
 								<td class="author"><a href="mailto:admin@bumxu.com">Juande Martos</a></td></td>\
-								<td class="language"><a href="#" data-value="finnish">Suomi</a></td>\
-								<td class="author"><a href="mailto:rami.selin@gmail.com">Rami Selin</a></td>\
+								<td class="language"><a href="#" data-value="russian">Русский</a></td>\
+								<td class="author"><a href="mailto:a.pryah@gmail.com">Andrej Pryakhin</a></td>\
 							</tr>\
 							<tr>\
 								<td class="language"><a href="#" data-value="basque">Euskara</a></td>\
 								<td class="author"><a href="mailto:atxooy@gmail.com">Naxo Oyanguren</a></td>\
-								<td class="language"><a href="#" data-value="vietnamese">Tiếng Việt</a></td>\
-								<td class="author"><a href="mailto:dinhquan@narga.net">Nguyễn Đình Quân</a></td>\
+								<td class="language"><a href="#" data-value="finnish">Suomi</a></td>\
+								<td class="author"><a href="mailto:rami.selin@gmail.com">Rami Selin</a></td>\
 							</tr>\
 							<tr>\
 								<td class="language"><a href="#" data-value="french">Français</a></td>\
 								<td class="author"><a href="mailto:maurin.raphael@gmail.com">Raphaël Maurin</a></td>\
-								<td class="language"><a href="#" data-value="arabic">‏العربية‏</a></td>\
-								<td class="author"><a href="mailto:fouad.hassouneh@gmail.com">Fouad Hassouneh</td>\
+								<td class="language"><a href="#" data-value="vietnamese">Tiếng Việt</a></td>\
+								<td class="author"><a href="mailto:dinhquan@narga.net">Nguyễn Đình Quân</a></td>\
 							</tr>\
 							<tr>\
 								<td class="language"><a href="#" data-value="italian">Italiano</a></td>\
 								<td class="author"><a href="mailto:lmassa@bwlab.it.com">Luigi Massa</a></td>\
-								<td class="language"><a href="#" data-value="chinese">中文(简体)</a></td>\
-								<td class="author"><a href="mailto:1132321739qq@gmail.com">tuhaihe</a>, 2012</td>\
+								<td class="language"><a href="#" data-value="arabic">‏العربية‏</a></td>\
+								<td class="author"><a href="mailto:fouad.hassouneh@gmail.com">Fouad Hassouneh</td>\
 							</tr>\
 							<tr>\
 								<td class="language"><a href="#" data-value="polish">Polski</a></td>\
 								<td class="author">Marcin Tydelski,<br>Kajetan Szczepaniak</td>\
-								<td class="language"><a href="#" data-value="turkish">Türkçe</a></td>\
-								<td class="author"><a href="mailto:selimssevgi@gmail.com">Selim Sırrı Sevgi</a></td>\
+								<td class="language"><a href="#" data-value="chinese">中文(简体)</a></td>\
+								<td class="author"><a href="mailto:1132321739qq@gmail.com">tuhaihe</a>, 2012</td>\
 							</tr>\
 							<tr>\
 								<td class="language"><a href="#" data-value="bulgarian">Български</a></td>\
 								<td class="author"><a href="mailto:rextans@gmail.com">Belkin Fahri</a></td>\
+								<td class="language"><a href="#" data-value="turkish">Türkçe</a></td>\
+								<td class="author"><a href="mailto:selimssevgi@gmail.com">Selim Sırrı Sevgi</a></td>\
 							</tr>\
 						</tbody>\
 					</table>  \
