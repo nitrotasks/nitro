@@ -31,6 +31,7 @@ ui.language({
 	sortDefault: "Handmatig",
 	sortPriority: "Op prioriteit",
 	sortDate: "Op datum",
+	sortTitle: "By title",
 
 	//Placeholder Text
 	search: "Zoeken",

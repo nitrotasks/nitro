@@ -20,9 +20,9 @@ plugin.add(function() {
 		<ul class="dropdown-menu">\
 			<li class="current" data-value="magic"><span class="icon magic"></span>'+$.i18n._("sortMagic")+'</li>\
 			<li data-value="manual"><span class="icon hand"></span>'+$.i18n._("sortDefault")+'</li>\
+            <li data-value="title"><span class="icon title"></span>' + $.i18n._("sortTitle") + '</li>\
+			<li data-value="date"><span class="icon date"></span>' + $.i18n._("sortDate") + '</li>\
 			<li data-value="priority"><span class="icon priority"></span>'+$.i18n._("sortPriority")+'</li>\
-			<li data-value="date"><span class="icon date"></span>'+$.i18n._("sortDate")+'</li>\
-			<li data-value="title"><span class="icon title"></span>'+$.i18n._("sortTitle")+'</li>\
 		</ul>\
 		</span>')
 

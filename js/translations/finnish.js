@@ -29,6 +29,7 @@ ui.language({
 	sortDefault: "Käsin",
 	sortPriority: "Tärkeys",
 	sortDate: "Päiväys",
+	sortTitle: "By title",
 
 	//Placeholder Text
 	search: "Hae",

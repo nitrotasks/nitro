@@ -29,6 +29,7 @@ ui.language({
 	sortDefault: "手动",
 	sortPriority: "优先度",
 	sortDate: "日期",
+	sortTitle: "By title",
 
 	//Placeholder Text
 	search: "搜索",

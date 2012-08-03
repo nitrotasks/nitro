@@ -148,14 +148,16 @@ html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubun
 .panel .left { float: left; margin-left: -16px; font-size: 0; }
 .panel .left span { position: relative; color: #000; }
 .panel .left span ul { display: none; position: absolute; left: 0; margin: 1px 0; padding: 0; background: #fff; }
-.panel .left span ul li { list-style-type: none; padding: 0 10px; width: 69px; cursor: pointer; font-size: 13px; line-height: 25px; }
+.panel .left span ul li { list-style-type: none; padding: 0 8px; width: 120px; cursor: pointer; font-size: 13px; line-height: 28px; }
 .panel .left span ul li:hover { background: rgba(0, 0, 0, 0.2); }
 .panel .left span ul li.current { box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.5); background: rgba(0, 0, 0, 0.2); }
-.panel .left span ul li .icon { display: inline-block; background: url("img/sort_menu.png"); margin-right: 5px; }
-.panel .left span ul li .icon.date { background-position: 0 0; width: 11px; height: 12px; }
-.panel .left span ul li .icon.hand { background-position: 0 -12px; width: 12px; height: 11px; }
-.panel .left span ul li .icon.magic { background-position: -12px 0; width: 13px; height: 12px; }
-.panel .left span ul li .icon.priority { background-position: -12px -12px; width: 13px; height: 11px; }
+.panel .left span ul li .icon { display: inline-block; background: url("img/sort_menu.png"); margin-right: 8px; width: 12px; height: 12px; }
+.panel .left span ul li .icon.date { background-position: 0 0; }
+.panel .left span ul li .icon.hand { background-position: 0 -12px; }
+.panel .left span ul li .icon.magic { background-position: -12px 0; }
+.panel .left span ul li .icon.priority { background-position: -12px -12px; }
+.panel .left span ul li .icon.title { background-position: 0 -24px; }
+
 .panel .left span.open ul { display: block; }
 .panel .right { float: right; }
 .panel .right button { height: 40px; }

@@ -29,6 +29,7 @@ ui.language({
 	sortDefault: "by Hand",
 	sortPriority: "Priority",
 	sortDate: "Date",
+	sortTitle: "By title",
 
 	//Placeholder Text
 	search:"Ara", 
