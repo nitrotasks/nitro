@@ -29,6 +29,7 @@ ui.language({
 	sortDefault: "Manuale",
 	sortPriority: "Priorità",
 	sortDate: "Data",
+	sortTitle: "By title",
 
 	//Placeholder Text
 	search: "Cerca",

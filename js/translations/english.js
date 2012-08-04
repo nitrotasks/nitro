@@ -26,9 +26,10 @@ ui.language({
 
 	// Sort
 	sortMagic: "Magic",
-	sortDefault: "by Hand",
-	sortPriority: "Priority",
-	sortDate: "Date",
+	sortDefault: "By hand",
+	sortPriority: "By priority",
+	sortDate: "By date",
+	sortTitle: "By title",
 
 	//Placeholder Text
 	search: "Search",

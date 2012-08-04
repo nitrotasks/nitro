@@ -25,10 +25,11 @@ ui.language({
 	moveToLogbookPlural: "Move %s completed tasks to the Logbook",
 
 	// Sort
-	sortMagic: "Magic",
-	sortDefault: "by Hand",
-	sortPriority: "Priority",
-	sortDate: "Date",
+	sortMagic: "Mágico",
+	sortDefault: "A mano",
+	sortPriority: "Por prioridad",
+	sortDate: "Por fecha",
+	sortTitle: "Por título",
 
 	//Placeholder Text
 	search: "Buscar",

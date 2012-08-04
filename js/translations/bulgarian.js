@@ -22,6 +22,7 @@ ui.language({
 	sortDefault: "Ръчно",
 	sortPriority: "Приоритет",
 	sortDate: "Дата",
+	sortTitle: "By title",
 
 	//Placeholder Text
 	search: "Търси",
