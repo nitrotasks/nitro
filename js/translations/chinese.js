@@ -23,6 +23,8 @@ ui.language({
 	addList: "添加列表",
 	moveToLogbookSingle: "移动 1 项已完成的任务至日志本",
 	moveToLogbookPlural: "移动 %s 项已完成的任务至日志本",
+	showLoggedTask: "Show 1 logged task",
+	showLoggedTasks: "Show %s logged tasks",
 
 	// Sort
 	sortMagic: "智能",

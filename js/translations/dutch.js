@@ -23,6 +23,8 @@ ui.language({
 	addList: "Lijstje toevoegen",
 	moveToLogbookSingle: "1 voltooide taak naar het logboek verplaatsen",
 	moveToLogbookPlural: "%s voltooide taken naar het logboek verplaatsen",
+	showLoggedTask: "Show 1 logged task",
+	showLoggedTasks: "Show %s logged tasks",
 
 	// Sort
 	sortMagic: "Magisch",

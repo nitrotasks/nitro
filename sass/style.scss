@@ -447,9 +447,9 @@ html, button, input, select, textarea {
 	.shrink { background-size: contain; }
 
 	.tasksContent {
+		font-size: 13px;
 		overflow-y: auto;
 		text-align: center;
-		
 		
 		h2 {
 			text-align: center;
@@ -477,7 +477,7 @@ html, button, input, select, textarea {
 			margin: 0;
 			text-align: left;
 
-			&:last-child {
+			&:last-of-type {
 				padding-bottom: 20px;
 			}
 		
@@ -492,10 +492,9 @@ html, button, input, select, textarea {
 				z-index: 2;
 				margin-bottom: -1px;
 
-				background: #fff;				
+				background: #fff;
 				border: 1px solid #000;
-						
-				font-size: 13px;
+
 				line-height: 30px;
 				color: #111;
 				-webkit-transform: translateZ(0);
@@ -686,6 +685,13 @@ html, button, input, select, textarea {
 						}
 					}
 				}
+			}
+		}
+		.showMore {
+			color: #555;
+			margin-left: 16px;
+			&:hover {
+				text-decoration: underline;
 			}
 		}
 	}

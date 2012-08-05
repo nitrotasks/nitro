@@ -62,6 +62,7 @@ plugin.add(function() {
 			// Set vars
 			var query = input.split(' '),
 				results = [],
+				loggedResults = [],
 				search;
 
 			if (ui.session.selected == 'all') {
@@ -74,7 +75,11 @@ plugin.add(function() {
 						// Search Task
 						var str = searcher(t)
 						if (str) {
-							results.push(str)
+							if (core.storage.tasks[t].list === 'logbook') {
+								loggedResults.push(str)
+							} else {
+								results.push(str)
+							}
 						}
 
 					}
@@ -89,6 +94,20 @@ plugin.add(function() {
 			}
 			// Draws
 			$tasks.find('ul').append(ui.lists.drawTasks(results))
+
+			// Offer to show logged results
+			if (loggedResults.length) {
+				// Add a button with correctly pluralized text
+				$tasks.append('<a class="showMore">' +
+					((loggedResults.length === 1) ? $l._('showLoggedTask') : $l._('showLoggedTasks', [loggedResults.length])) +
+					'</a>');
+
+				// Show the logged results when the button is clicked
+				$tasks.find('.showMore').click(function () {
+					$tasks.find('ul').append(ui.lists.drawTasks(loggedResults));
+					$(this).hide();
+				});
+			}
 		}
 	})
 })
