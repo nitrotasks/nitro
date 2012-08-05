@@ -136,6 +136,11 @@ ui.language({
 	nextDescription: "Pokaż inne listy na liście Następe: ", 
 	deleteWarningsDescription: "Wyłączenie potwierdzenia pojawiającego się podczas usuwania zadania lub listy.",
 
+	//Clear Data
+	resetnitro: "Reset Nitro: ",
+	cleardata: "Clear Data",
+	clearDataMsg: "Are you sure you want to reset Nitro? Your data will be gone forever (a long time)",
+
 	language: "Język",
 	authortext: "Autor",
 

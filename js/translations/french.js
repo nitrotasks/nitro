@@ -136,6 +136,11 @@ ui.language({
 	nextDescription: "Montrer d'autres listes dans Prochainement : ", 
 	deleteWarningsDescription: "Cela désactive la fenêtre de confirmation qui apparait lorsque vous supprimez une liste ou une tâche.",
 
+	//Clear Data
+	resetnitro: "Reset Nitro: ",
+	cleardata: "Clear Data",
+	clearDataMsg: "Are you sure you want to reset Nitro? Your data will be gone forever (a long time)",
+
 	language: "Langue",
 	authortext: "Auteur",
 

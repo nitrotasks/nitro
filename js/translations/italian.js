@@ -136,6 +136,11 @@ ui.language({
 	nextDescription: "Mostra le altre liste in Prossimi: ", 
 	deleteWarningsDescription: "Questo disabilita il box per la conferma che appare quando cancelli un'attività o una lista.",
 
+	//Clear Data
+	resetnitro: "Reset Nitro: ",
+	cleardata: "Clear Data",
+	clearDataMsg: "Are you sure you want to reset Nitro? Your data will be gone forever (a long time)",
+
 	language: "Lingua",
 	authortext: "Autore",
 

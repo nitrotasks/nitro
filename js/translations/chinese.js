@@ -136,6 +136,11 @@ ui.language({
 	nextDescription: "在“接下来”中显示其他列表：", 
 	deleteWarningsDescription: "当您删除任务或列表时这会禁用确认框。",
 
+	//Clear Data
+	resetnitro: "Reset Nitro: ",
+	cleardata: "Clear Data",
+	clearDataMsg: "Are you sure you want to reset Nitro? Your data will be gone forever (a long time)",
+
 	language: "语言",
 	authortext: "作者",
 

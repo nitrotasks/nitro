@@ -136,6 +136,11 @@ ui.language({
 	nextDescription: "Sonrakiler'de her listeden: ", 
 	deleteWarningsDescription: "Bir görev veya listeyi silerken doğrulama kutucuğunu göstermez.",
 
+	//Clear Data
+	resetnitro: "Reset Nitro: ",
+	cleardata: "Clear Data",
+	clearDataMsg: "Are you sure you want to reset Nitro? Your data will be gone forever (a long time)",
+
 	language: "Dil",
 	authortext: "Çeviren",
 

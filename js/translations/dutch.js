@@ -1,5 +1,3 @@
-// Nederlands (Dutch)
-
 ui.language({
 	//List Headers
 	focus: "In beeld",
@@ -53,6 +51,9 @@ ui.language({
 	dueToday: "uiterlijk vandaag",
 	dueTomorrow: "uiterlijk morgen",
 	daysLeft: "nog %s dagen",
+
+	// Datepicker
+	weekStartsOn: "Week starts on: ",
 
 	// Days and Months
 	sunday: "zondag",

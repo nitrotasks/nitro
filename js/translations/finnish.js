@@ -136,6 +136,11 @@ ui.language({
 	nextDescription: "Näytä muut listat seuraavissa: ", 
 	deleteWarningsDescription: "Tämä piilottaa varmistuslaatikon, joka ilmaantuu poistettaessa tehtäviä tai listoja.",
 
+	//Clear Data
+	resetnitro: "Reset Nitro: ",
+	cleardata: "Clear Data",
+	clearDataMsg: "Are you sure you want to reset Nitro? Your data will be gone forever (a long time)",
+
 	language: "Kieli",
 	authortext: "Kääntäjä",
 

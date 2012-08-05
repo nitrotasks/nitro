@@ -136,6 +136,11 @@ ui.language({
 	nextDescription: "Zeige weitere Listen unter DEMNÄCHST: ", 
 	deleteWarningsDescription: "Schaltet die Bestätigungsabfrage für das Löschen einer Aufgabe oder Liste ab.",
 
+	//Clear Data
+	resetnitro: "Reset Nitro: ",
+	cleardata: "Clear Data",
+	clearDataMsg: "Are you sure you want to reset Nitro? Your data will be gone forever (a long time)",
+
 	language: "Sprache",
 	authortext: "Autor",
 
