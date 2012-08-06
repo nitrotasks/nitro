@@ -1,5 +1,3 @@
-// Nederlands (Dutch)
-
 ui.language({
 	//List Headers
 	focus: "In beeld",
@@ -25,6 +23,8 @@ ui.language({
 	addList: "Lijstje toevoegen",
 	moveToLogbookSingle: "1 voltooide taak naar het logboek verplaatsen",
 	moveToLogbookPlural: "%s voltooide taken naar het logboek verplaatsen",
+	showLoggedTask: "Show 1 logged task",
+	showLoggedTasks: "Show %s logged tasks",
 
 	// Sort
 	sortMagic: "Magisch",
@@ -53,6 +53,9 @@ ui.language({
 	dueToday: "uiterlijk vandaag",
 	dueTomorrow: "uiterlijk morgen",
 	daysLeft: "nog %s dagen",
+
+	// Datepicker
+	weekStartsOn: "Week starts on: ",
 
 	// Days and Months
 	sunday: "zondag",

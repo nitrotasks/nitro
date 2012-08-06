@@ -47,7 +47,7 @@ html, button, input, select, textarea { font-family: "Segoe UI", "Open Sans", sa
 #tasks .panel .right button.settingsbtn { background: url("themes/metro/settings.png") no-repeat 0 0; width: 24px; }
 #tasks .panel .right input { background: white url("themes/metro/search.png") no-repeat right center; background-color: rgba(255, 255, 255, 0.9); border: 0; margin: 0 0 0 4px; padding-right: 25px; -webkit-transition: 200ms ease width; width: 140px; }
 #tasks .panel .right input:focus { border: 0; outline: 0; width: 250px; }
-#tasks .tasksContent { text-align: left; }
+#tasks .tasksContent { font-size: 15px; text-align: left; }
 #tasks .tasksContent h2 { display: inline-block; font-size: 25px; font-weight: normal; line-height: 25px; margin: 0; padding: 16px 20px 8px 16px; text-transform: capitalize; }
 #tasks .tasksContent .button { border: 0; border-radius: 0; }
 #tasks .tasksContent .button#updateLogbook { color: #fff; float: right; margin: 16px 20px; background: #8866bb; border: 1px solid #7a54b3; }
@@ -76,7 +76,7 @@ html, button, input, select, textarea { font-family: "Segoe UI", "Open Sans", sa
 #tasks .tasksContent ul li .checkbox.low:before { background: #00aadd; }
 #tasks .tasksContent ul li .checkbox.medium:before { background: #ffbb44; }
 #tasks .tasksContent ul li .checkbox.high:before { background: #ee3333; }
-#tasks .tasksContent ul li .content { font-size: 15px; padding: 0 10px 0 0; }
+#tasks .tasksContent ul li .content { padding: 0 10px 0 0; }
 #tasks .tasksContent ul li .notes { background: url("themes/metro/note.png") no-repeat; height: 16px; margin-top: 8px; width: 16px; }
 #tasks .tasksContent ul li .tag { color: #999; cursor: pointer; font-style: italic; margin: 0 6px; padding: 0; }
 #tasks .tasksContent ul li .tag:before { content: "#"; }

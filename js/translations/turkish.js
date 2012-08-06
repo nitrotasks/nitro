@@ -23,6 +23,8 @@ ui.language({
 	addList: "Add List",
 	moveToLogbookSingle: "Move 1 completed task to the Logbook",
 	moveToLogbookPlural: "Move %s completed tasks to the Logbook",
+	showLoggedTask: "Show 1 logged task",
+	showLoggedTasks: "Show %s logged tasks",
 
 	// Sort
 	sortMagic: "Magic",
@@ -135,6 +137,11 @@ ui.language({
 	general: "Genel",
 	nextDescription: "Sonrakiler'de her listeden: ", 
 	deleteWarningsDescription: "Bir görev veya listeyi silerken doğrulama kutucuğunu göstermez.",
+
+	//Clear Data
+	resetnitro: "Reset Nitro: ",
+	cleardata: "Clear Data",
+	clearDataMsg: "Are you sure you want to reset Nitro? Your data will be gone forever (a long time)",
 
 	language: "Dil",
 	authortext: "Çeviren",

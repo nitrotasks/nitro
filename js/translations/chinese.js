@@ -23,6 +23,8 @@ ui.language({
 	addList: "添加列表",
 	moveToLogbookSingle: "移动 1 项已完成的任务至日志本",
 	moveToLogbookPlural: "移动 %s 项已完成的任务至日志本",
+	showLoggedTask: "Show 1 logged task",
+	showLoggedTasks: "Show %s logged tasks",
 
 	// Sort
 	sortMagic: "智能",
@@ -135,6 +137,11 @@ ui.language({
 	general: "常规",
 	nextDescription: "在“接下来”中显示其他列表：", 
 	deleteWarningsDescription: "当您删除任务或列表时这会禁用确认框。",
+
+	//Clear Data
+	resetnitro: "Reset Nitro: ",
+	cleardata: "Clear Data",
+	clearDataMsg: "Are you sure you want to reset Nitro? Your data will be gone forever (a long time)",
 
 	language: "语言",
 	authortext: "作者",

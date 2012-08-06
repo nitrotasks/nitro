@@ -8,6 +8,10 @@ ui.language({
 	logbook: "Logbook",
 	all: "Всички задачи",
 
+	// Empty List Filler Text
+	noTasksInList: "No Tasks in %s",
+	thisList: "This List",
+
 	//Default Names
 	nlist: "Нов списък",
 	ntask: "Нова задача",
@@ -16,6 +20,11 @@ ui.language({
 	addbtn: "Добави",
 	deletebtn: "Изтрий",
 	sortbtn: "Сортирай",
+	addList: "Add List",
+	moveToLogbookSingle: "Move 1 completed task to the Logbook",
+	moveToLogbookPlural: "Move %s completed tasks to the Logbook",
+	showLoggedTask: "Show 1 logged task",
+	showLoggedTasks: "Show %s logged tasks",
 
 	// Sort
 	sortMagic: "Магия",
@@ -128,6 +137,11 @@ ui.language({
 	general: "Общи",
 	nextDescription: "Покажи списаци в други: ", 
 	deleteWarningsDescription: "Изключва потвърдителния прозорец, когато триеш задача или списък.",
+
+	//Clear Data
+	resetnitro: "Reset Nitro: ",
+	cleardata: "Clear Data",
+	clearDataMsg: "Are you sure you want to reset Nitro? Your data will be gone forever (a long time)",
 
 	language: "Език",
 	authortext: "Автор",

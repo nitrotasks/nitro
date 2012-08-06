@@ -23,6 +23,8 @@ ui.language({
 	addList: "Nuevo grupo",
 	moveToLogbookSingle: "Move 1 completed task to the Logbook",
 	moveToLogbookPlural: "Move %s completed tasks to the Logbook",
+	showLoggedTask: "Show 1 logged task",
+	showLoggedTasks: "Show %s logged tasks",
 
 	// Sort
 	sortMagic: "Mágico",
@@ -136,6 +138,11 @@ ui.language({
 	nextDescription: "Mostrar tareas de otras listas en el grupo de próximas: ", 
 	deleteWarningsDescription: "Deshabilita el diálogo de confirmación al eliminar grupos o tareas.",
 
+	//Clear Data
+	resetnitro: "Restaurar Nitro:",
+	cleardata: "Borrar todos los datos",
+	clearDataMsg: "Are you sure you want to reset Nitro? Your data will be gone forever (a long time)",
+
 	language: "Idioma",
 	authortext: "Autor",
 
@@ -170,7 +177,4 @@ ui.language({
 	syncAuthenticate: "Esperando autorización del servicio...",
 	syncError: "No se pudo sincronizar con el servidor...",
 	cancel: "Cancelar",
-	
-	resetnitro: "Restaurar Nitro:",
-	cleardata: "Borrar todos los datos"
 })
