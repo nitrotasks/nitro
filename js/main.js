@@ -878,7 +878,7 @@ $tasks.on('expand', 'li', function() {
 
 // Deselecting all tasks
 $('#tasks > .tasksContent').click(function(e) {
-	if(e.target.nodeName == 'UL' || e.target.nodeName == 'H2' || e.target.className == 'tasksContent') {
+	if(e.target.nodeName == 'UL' || e.target.nodeName == 'H2' || e.target.className.indexOf('tasksContent') > -1) {
 		$tasks.find('.expanded').dblclick()
 		$tasks.find('.selected').removeClass('selected')
 		ui.panel.updateButtons({del: false})
