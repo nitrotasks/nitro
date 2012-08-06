@@ -37,3 +37,7 @@ Thumbs.db
 # Folders
 ######################
 .sass-cache
+
+# Misc
+######################
+*.sublime-*

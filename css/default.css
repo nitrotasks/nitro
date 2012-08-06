@@ -16,6 +16,7 @@ body { background: url(img/bg.png); }
 .panel button.sort { background: url(img/sort.png) no-repeat 12px 0; padding-left: 46px; }
 .panel button.settingsbtn { margin: 0 7px 0 0; background: url(img/settings.png) no-repeat 8px 0; padding: 0 20px; }
 .panel button:hover { background-color: rgba(0, 0, 0, 0.2); }
+.panel button.disabled { opacity: 0.7; }
 .panel .left span ul { background: #333333; border: 1px solid black; border-top: none; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4); margin: 0; }
 .panel .left span ul li { color: white; font-weight: bold; }
 .panel .right input { border: 0; border-radius: 2px; width: 120px; padding-left: 23px; background: url(img/search.png) no-repeat, white; -webkit-transition: 150ms width ease; -moz-transition: 150ms width ease; -ms-transition: 150ms width ease; -o-transition: 150ms width ease; transition: 150ms width ease; }

@@ -11,7 +11,7 @@
   },
   "permissions": [
     "unlimitedStorage",
-    "http://app.nitrotasks.com/"
+    "http://*/*"
   ],
   "icons": {
     "16": "css/img/nitro_16.png",

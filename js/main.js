@@ -564,6 +564,35 @@ var ui = {
 				
 			}, 150)
 		}
+	},
+
+	panel: {
+
+		// Toggle button disable status
+		updateButtons: function(obj) {
+
+			// Class name to add to buttons when disabled
+			var CLASS = 'disabled'
+
+			$addBTN.addClass(CLASS)
+			$delBTN.addClass(CLASS)
+
+			// Add
+			if (!obj.hasOwnProperty('add')) {
+				if (ui.session.selected != 'logged' &&
+					ui.session.selected != 'all') {
+					obj.add = true
+				}
+			}
+			if (obj.add) {
+				$addBTN.removeClass(CLASS)
+			}
+			// Delete
+			if (obj.del) {
+				$delBTN.removeClass(CLASS)
+			}
+
+		}
 	}
 }
 
@@ -652,6 +681,9 @@ $sidebar.on('click', '.name, .count', function() {
 			$tasks.find('h2').after('<button id="updateLogbook" class="button">' + $.i18n._('moveToLogbookPlural', [loggedTasks]) + '</button>')
 		}
 	}
+
+	// Update Panel Buttons
+	ui.panel.updateButtons({del: false})
 
 	setTimeout(function() {
 
@@ -771,6 +803,8 @@ $tasks.on('click', 'li', function(e) {
 		$tasks.find('.selected').removeClass('selected')
 		$this.addClass('selected')
 	}
+	// Update Panel Buttons
+	ui.panel.updateButtons({del: true})
 })
 
 // Completing a task
@@ -842,11 +876,12 @@ $tasks.on('expand', 'li', function() {
 	}, 150);
 })
 
-// Collapsing a task
+// Deselecting all tasks
 $('#tasks > .tasksContent').click(function(e) {
 	if(e.target.nodeName == 'UL' || e.target.nodeName == 'H2' || e.target.className == 'tasksContent') {
 		$tasks.find('.expanded').dblclick()
 		$tasks.find('.selected').removeClass('selected')
+		ui.panel.updateButtons({del: false})
 	}
 })
 
@@ -901,7 +936,7 @@ $tasks.on('change', 'textarea', function() {
 // BUTTONS
 // -------
 
-// Updates the logbook with an bloody awesome animation
+// Updates the logbook with an animation
 $tasks.on('click', '#updateLogbook', function() {
 
 	// Get current tasks in logbook
