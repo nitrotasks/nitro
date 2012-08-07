@@ -865,7 +865,9 @@ $tasks.on('expand', 'li', function() {
 	$this.find('.date')
 		.datepicker({weekStart: core.storage.prefs.weekStartsOn})
 		.on('change', function() {
-			core.storage.tasks[id].date = Date.parse($(this).val())
+			// Use the new date, or an empty string if Date.parse doesn't understand the input
+			var newDate = Date.parse($(this).val()) || '';
+			core.storage.tasks[id].date = newDate
 			ui.lists.update().count()
 			core.storage.save([['tasks', id, 'date']])
 		})
