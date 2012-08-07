@@ -37,7 +37,7 @@ html, button, input, select, textarea { font-family: "Segoe UI", "Open Sans", sa
 #tasks .panel .left button.sort { background-image: url("themes/metro/sort.png"); color: #00aadd; }
 #tasks .panel .left span.open ul { background: #999; color: #fff; margin-top: 10px; }
 #tasks .panel .left span.open ul:before { border: 10px solid transparent; border-bottom-color: #999; content: ""; left: 10px; position: absolute; top: -20px; }
-#tasks .panel .left span.open ul li { width: 72px; }
+#tasks .panel .left span.open ul li { width: 120px; }
 #tasks .panel .left span.open ul li.current { background: rgba(0, 0, 0, 0.3); box-shadow: none; }
 #tasks .panel .right { margin-top: 16px; }
 #tasks .panel .right button { height: 20px; line-height: 20px; margin: 4px 5px; opacity: 0.65; padding: 0; -webkit-transition: opacity 200ms; }
