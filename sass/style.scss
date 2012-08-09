@@ -482,7 +482,6 @@ html, button, input, select, textarea {
 			li {
 				display: block;
 				min-height: 30px;
-				height: 30px;
 				cursor: pointer;
 				overflow: hidden;
 				padding: 0;
@@ -598,8 +597,11 @@ html, button, input, select, textarea {
 				}
 
 				.content {
+					overflow: hidden;
 					padding-left: 1px;
 					padding-top: 1px;
+					text-overflow: ellipsis;
+					white-space: nowrap;
 				}
 				
 				.content {

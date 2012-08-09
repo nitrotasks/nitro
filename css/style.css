@@ -175,7 +175,7 @@ html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubun
 #tasks .tasksContent .button:hover { background: rgba(255, 255, 255, 0.6); }
 #tasks .tasksContent ul { padding: 0 20px 40px 16px; margin: 0; text-align: left; }
 #tasks .tasksContent ul:last-of-type { padding-bottom: 20px; }
-#tasks .tasksContent ul li { display: block; min-height: 30px; height: 30px; cursor: pointer; overflow: hidden; padding: 0; position: relative; z-index: 2; margin-bottom: -1px; background: #fff; border: 1px solid #000; line-height: 30px; color: #111; -webkit-transform: translateZ(0); -webkit-transition-property: margin, opacity; -webkit-transition-duration: 150ms, 300ms; -webkit-transition-timing-function: ease, ease; -moz-transform: translateZ(0); -moz-transition-property: margin, opacity; -moz-transition-duration: 150ms, 300ms; -moz-transition-timing-function: ease, ease; }
+#tasks .tasksContent ul li { display: block; min-height: 30px; cursor: pointer; overflow: hidden; padding: 0; position: relative; z-index: 2; margin-bottom: -1px; background: #fff; border: 1px solid #000; line-height: 30px; color: #111; -webkit-transform: translateZ(0); -webkit-transition-property: margin, opacity; -webkit-transition-duration: 150ms, 300ms; -webkit-transition-timing-function: ease, ease; -moz-transform: translateZ(0); -moz-transition-property: margin, opacity; -moz-transition-duration: 150ms, 300ms; -moz-transition-timing-function: ease, ease; }
 #tasks .tasksContent ul li.animate.height { -webkit-transition-property: margin, opacity, height; -webkit-transition-duration: 150ms, 300ms, 150ms; -webkit-transition-timing-function: ease, ease, ease; -moz-transition-property: margin, opacity, height; -moz-transition-duration: 150ms, 300ms, 150ms; -moz-transition-timing-function: ease, ease, ease; }
 #tasks .tasksContent ul li.placeholder { background: rgba(0, 0, 0, 0.1); box-shadow: 0 0 0 #000; }
 #tasks .tasksContent ul li .boxhelp { display: -webkit-box; display: -moz-box; display: -ms-box; display: box; width: 100%; }
@@ -192,7 +192,7 @@ html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubun
 #tasks .tasksContent ul li .tag:hover { text-decoration: underline; }
 #tasks .tasksContent ul li input { border: 0; line-height: 1; box-shadow: none; background: transparent; -moz-box-sizing: border-box; box-sizing: border-box; }
 #tasks .tasksContent ul li input:focus { box-shadow: none; outline: 0; height: 31px; }
-#tasks .tasksContent ul li .content { padding-left: 1px; padding-top: 1px; }
+#tasks .tasksContent ul li .content { overflow: hidden; padding-left: 1px; padding-top: 1px; text-overflow: ellipsis; white-space: nowrap; }
 #tasks .tasksContent ul li .content { -webkit-box-flex: 1; -moz-box-flex: 1; -ms-box-flex: 1; box-flex: 1; }
 #tasks .tasksContent ul li input.content { padding: 0; margin: 0; -webkit-box-flex: 1; -moz-box-flex: 1; -ms-box-flex: 1; box-flex: 1; display: block; }
 #tasks .tasksContent ul li button.none, #tasks .tasksContent ul li button.low, #tasks .tasksContent ul li button.medium, #tasks .tasksContent ul li button.high, #tasks .tasksContent ul li button.date { border: 0; border-left: 1px solid #000; background: transparent; line-height: 31px; padding: 0 15px; }
