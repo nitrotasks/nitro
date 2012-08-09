@@ -335,12 +335,12 @@ html, button, input, select, textarea {
 				background: #fff;
 
 				li {
-					list-style-type: none;
-					padding: 0 10px;
-					width: 120px;
 					cursor: pointer;
 					font-size: 13px;
-					line-height: 25px;
+					line-height: 28px;
+					list-style-type: none;
+					padding: 0 8px;
+					width: 120px;
 
 					&:hover {
 						background: rgba(0,0,0,0.2);
@@ -352,28 +352,26 @@ html, button, input, select, textarea {
 					}
 
 					.icon{
-						display: inline-block;
 						background: url('img/sort_menu.png');
-						margin-right: 5px;
+						display: inline-block;
+						height: 12px;
+						margin-right: 8px;
+						width: 12px;
+
 						&.date {
 							background-position: 0 0;
-							width: 11px;
-							height: 12px;
 						}
 						&.hand {
 							background-position: 0 -12px;
-							width: 12px;
-							height: 11px;	
 						}
 						&.magic {
 							background-position: -12px 0;
-							width: 13px;
-							height: 12px;
 						}
 						&.priority {
 							background-position: -12px -12px;
-							width: 13px;
-							height: 11px;
+						}
+						&.title {
+							background-position: 0 -24px;
 						}
 					}
 				}
