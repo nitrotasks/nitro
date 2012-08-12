@@ -154,12 +154,32 @@ var ui = {
 	reload: function() {
 		//Populates Template
 		var markup = ""
-		for (var i=0; i<core.storage.lists.order.length; i++) { markup += ui.lists.draw(core.storage.lists.order[i]) }
+		for (var i=0; i<core.storage.lists.order.length; i++) {
+			markup += ui.lists.draw(core.storage.lists.order[i])
+		}
 		$lists.html(markup)
 		$('#L' + ui.session.selected + ' .name').click();
 
-		//Sortable Lists 
-		$lists.sortable({
+		//Sortable Lists
+		$lists.sortable().bind('sortupdate', function() {
+			//Triggered when the user stopped sorting and the DOM position has changed.
+			//Saves Everything
+			var listOrder = []
+
+			//Loops through lists & adds the to an array
+			$lists.children().map(function () {
+				listOrder.push($(this).attr('id').substr(1))
+			});
+
+			console.log(listOrder)
+
+			//Saves
+			core.storage.lists.order = listOrder;
+			core.storage.save([['list-order', null, null]])
+		});
+
+		//Old shit jQuery UI way
+		/*$lists.sortable({
 			containment: 'parent',
 			axis: 'y',
 			distance: 20,
@@ -178,10 +198,10 @@ var ui = {
 				core.storage.lists.order = listOrder;
 				core.storage.save([['list-order', null, null]])
 			}
-		});
+		});*/
 
 		//Droppable
-		$sidebar.find('ul li:not("#Lall")').droppable(ui.lists.dropOptions)
+		//$sidebar.find('ul li:not("#Lall")').droppable(ui.lists.dropOptions)
 
 		//Update Counts
 		ui.lists.update().count()
@@ -606,17 +626,6 @@ $.getScript('js/translations/' + core.storage.prefs.lang + '.js').done(function 
 	})
 });
 
-$(document).ready(function() {
-	//Fixes shit browsers. Yes, I'm looking at you Internet Explorer and Opera.
-	if (app == 'web') {
-		$('body').append('<script src="js/libs/modernizr.js"></script>')
-		Modernizr.load({
-		  test: Modernizr.flexbox,
-		  nope: 'js/libs/flexie.js'
-		});
-	}
-})
-
 // ------------------------------------//
 //              TEMPLATES              //
 // ------------------------------------//
@@ -689,7 +698,11 @@ $sidebar.on('click', '.name, .count', function() {
 
 	setTimeout(function() {
 
-		$tasks.find('ul').sortable({
+		$tasks.find('ul').sortable().bind('sortupdate', function(ev) {
+			//Triggered when the user stopped sorting and the DOM position has changed.
+			ui.sortStop()
+		});
+		/*$tasks.find('ul').sortable({
 			placeholder: "placeholder",
 			distance: 20,
 			appendTo: 'body',
@@ -716,7 +729,7 @@ $sidebar.on('click', '.name, .count', function() {
 			stop: function (event, elem) {
 				ui.sortStop(event, elem)
 			}
-		});
+		});*/
 	}, 100)
 
 	return true
@@ -1010,7 +1023,7 @@ $sidebar.on('click', '.listAddBTN', function() {
 	var listId = core.list().add($l._('nlist'))
 	$lists.append(ui.lists.draw(listId))
 	// Edit List Name
-	$('#L' + listId).droppable(ui.lists.dropOptions).find('.name').dblclick()
+	//$('#L' + listId).droppable(ui.lists.dropOptions).find('.name').dblclick()
 })
 
 

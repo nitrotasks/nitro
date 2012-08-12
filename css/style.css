@@ -177,7 +177,7 @@ html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubun
 #tasks .tasksContent ul:last-of-type { padding-bottom: 20px; }
 #tasks .tasksContent ul li { display: block; min-height: 30px; cursor: pointer; overflow: hidden; padding: 0; position: relative; z-index: 2; margin-bottom: -1px; background: #fff; border: 1px solid #000; line-height: 30px; color: #111; -webkit-transform: translateZ(0); -webkit-transition-property: margin, opacity; -webkit-transition-duration: 150ms, 300ms; -webkit-transition-timing-function: ease, ease; -moz-transform: translateZ(0); -moz-transition-property: margin, opacity; -moz-transition-duration: 150ms, 300ms; -moz-transition-timing-function: ease, ease; }
 #tasks .tasksContent ul li.animate.height { -webkit-transition-property: margin, opacity, height; -webkit-transition-duration: 150ms, 300ms, 150ms; -webkit-transition-timing-function: ease, ease, ease; -moz-transition-property: margin, opacity, height; -moz-transition-duration: 150ms, 300ms, 150ms; -moz-transition-timing-function: ease, ease, ease; }
-#tasks .tasksContent ul li.placeholder { background: rgba(0, 0, 0, 0.1); box-shadow: 0 0 0 #000; }
+#tasks .tasksContent ul li.sortable-placeholder { background: rgba(0, 0, 0, 0.1); box-shadow: 0 0 0 #000; }
 #tasks .tasksContent ul li .boxhelp { display: -webkit-box; display: -moz-box; display: -ms-box; display: box; width: 100%; }
 #tasks .tasksContent ul li.recurring .checkbox { border-color: transparent; background: url(glyphicons-halflings.png) 601px 13px; }
 #tasks .tasksContent ul li.scheduled .checkbox { border-color: transparent; background: url(glyphicons-halflings.png) 277px 13px; }
