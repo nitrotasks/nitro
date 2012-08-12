@@ -149,7 +149,7 @@ var ui = {
 		core.storage.save();
 	},
 	session: {
-		selected: 'today'
+		selected: core.storage.prefs.selected || 'today'
 	},
 	reload: function() {
 		//Populates Template
@@ -637,6 +637,8 @@ $sidebar.on('click', '.name, .count', function() {
 	$sidebar.find('.selected').removeClass('selected')
 	$this.addClass('selected')
 	ui.session.selected = model.id
+	core.storage.prefs.selected = ui.session.selected
+	core.storage.save()
 
 	//Gets list id & populates
 	var tasks = core.list(model.id).populate()
