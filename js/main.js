@@ -199,38 +199,8 @@ var ui = {
 				core.storage.save([['list-order', null, null]])
 			}
 		});*/
-
 		//Droppable
-
-		$sidebar.find('ul li:not("#Lall")').on('dragenter', function(e) {
-			$(this).addClass('dragHover')
-		}).on('dragleave', function(e) {
-			$(this).removeClass('dragHover')
-		}).on('drop', function(e) {
-			var listId = $(this).attr('id').substr(1),
-				taskId = e.originalEvent.dataTransfer.getData('text/html')
-
-			if(core.storage.tasks[taskId].list !== listId || ui.session.selected == 'all') {
-
-				// Moves Task
-				core.task(taskId).move(listId)
-
-				// Removes and Saves
-				if(ui.session.selected != 'all') {
-					$('#tasks .tasksContent li[data-id=' + taskId + '], li.sortable-placeholder').remove()
-				}
-
-				// If we're in the next list, we may as well reload
-				if (ui.session.selected == 'next' || ui.session.selected == 'all') {
-					$sidebar.find('.selected').click()
-				}
-
-				// Update Counts
-				ui.lists.update().count()
-				$(this).removeClass('dragHover')
-
-			}
-		})
+		ui.lists.droppable('ul li:not("#Lall")')
 
 		//Update Counts
 		ui.lists.update().count()
@@ -411,13 +381,14 @@ var ui = {
 				}
 			}
 		},
-		dropOptions: {
-			hoverClass: "dragHover",
-			accept: "#tasks li",
-			tolerance: 'pointer',
-			drop: function (event, uix) {
+		droppable: function(elem){
+			$sidebar.find(elem).on('dragenter', function(e) {
+				$(this).addClass('dragHover')
+			}).on('dragleave', function(e) {
+				$(this).removeClass('dragHover')
+			}).on('drop', function(e) {
 				var listId = $(this).attr('id').substr(1),
-					taskId = $(uix.draggable).attr('data-id')
+					taskId = e.originalEvent.dataTransfer.getData('text/html')
 
 				if(core.storage.tasks[taskId].list !== listId || ui.session.selected == 'all') {
 
@@ -425,7 +396,9 @@ var ui = {
 					core.task(taskId).move(listId)
 
 					// Removes and Saves
-					if(ui.session.selected != 'all') $(uix.draggable).remove()
+					if(ui.session.selected != 'all') {
+						$('#tasks .tasksContent li[data-id=' + taskId + '], li.sortable-placeholder').remove()
+					}
 
 					// If we're in the next list, we may as well reload
 					if (ui.session.selected == 'next' || ui.session.selected == 'all') {
@@ -434,9 +407,10 @@ var ui = {
 
 					// Update Counts
 					ui.lists.update().count()
+					$(this).removeClass('dragHover')
 
 				}
-			}
+			})
 		}
 	},
 	sortStop: function() {
@@ -1051,8 +1025,12 @@ $sidebar.on('click', '.listAddBTN', function() {
 	ui.toggleListEdit($lists.find('input').parent(), 'close')
 	var listId = core.list().add($l._('nlist'))
 	$lists.append(ui.lists.draw(listId))
+	
 	// Edit List Name
-	//$('#L' + listId).droppable(ui.lists.dropOptions).find('.name').dblclick()
+	$('#L' + listId).find('.name').dblclick()
+
+	//Droppable
+	ui.lists.droppable($('#L' + listId))
 })
 
 
