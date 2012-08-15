@@ -201,7 +201,36 @@ var ui = {
 		});*/
 
 		//Droppable
-		//$sidebar.find('ul li:not("#Lall")').droppable(ui.lists.dropOptions)
+
+		$sidebar.find('ul li:not("#Lall")').on('dragenter', function(e) {
+			$(this).addClass('dragHover')
+		}).on('dragleave', function(e) {
+			$(this).removeClass('dragHover')
+		}).on('drop', function(e) {
+			var listId = $(this).attr('id').substr(1),
+				taskId = e.originalEvent.dataTransfer.getData('text/html')
+
+			if(core.storage.tasks[taskId].list !== listId || ui.session.selected == 'all') {
+
+				// Moves Task
+				core.task(taskId).move(listId)
+
+				// Removes and Saves
+				if(ui.session.selected != 'all') {
+					$('#tasks .tasksContent li[data-id=' + taskId + '], li.sortable-placeholder').remove()
+				}
+
+				// If we're in the next list, we may as well reload
+				if (ui.session.selected == 'next' || ui.session.selected == 'all') {
+					$sidebar.find('.selected').click()
+				}
+
+				// Update Counts
+				ui.lists.update().count()
+				$(this).removeClass('dragHover')
+
+			}
+		})
 
 		//Update Counts
 		ui.lists.update().count()
