@@ -11,7 +11,7 @@ body { background: url(img/bg.png); }
 .panel { background: #333333; border-bottom: 0 1px solid #111111; color: white; box-shadow: 0 0 2px rgba(0, 0, 0, 0.4); }
 .panel .brand { line-height: 40px; font-size: 18px; font-weight: bold; padding-left: 20px; background: url(img/logo.png) no-repeat; }
 .panel button { background: #333333; color: white; font-weight: bold; }
-.panel button.add { background: url(img/add.png) no-repeat 18px 0; padding-left: 50px; }
+.panel button.add { background: url(img/svg/add.svg) no-repeat 18px 50%; padding-left: 50px; }
 .panel button.delete { background: url(img/delete.png) no-repeat 18px 0; padding-left: 50px; }
 .panel button.sort { background: url(img/sort.png) no-repeat 12px 0; padding-left: 46px; }
 .panel button.settingsbtn { margin: 0 7px 0 0; background: url(img/settings.png) no-repeat 8px 0; padding: 0 20px; }
