@@ -129,15 +129,15 @@ body {
 		font-weight: bold;
 
 		&.add {
-			background: url(img/add.png) no-repeat 18px 0;
+			background: url(img/svg/add.svg) no-repeat 18px 50%;
 			padding-left: 50px;
 		}
 		&.delete {
-			background: url(img/delete.png) no-repeat 18px 0;
+			background: url(img/svg/delete.svg) no-repeat 18px 50%;
 			padding-left: 50px;
 		}
 		&.sort {
-			background: url(img/sort.png) no-repeat 12px 0;
+			background: url(img/svg/sort.svg) no-repeat 14px 50%;
 			padding-left: 46px;
 		}
 		&.settingsbtn {
