@@ -5,6 +5,7 @@
 //Less CSS = Better
 $legacy-support-for-ie: false;
 $support-for-original-webkit-gradients: false;
+$notes_bg: #F8FAF0;
 
 * {
 	-webkit-user-select: none;
@@ -682,6 +683,7 @@ html, button, input, select, textarea {
 						resize: none;
 						min-height: 20px;
 						overflow: hidden;
+						background: url(img/svg/notes.svg) no-repeat 10px 7px, $notes_bg;
 
 						&:focus {
 							box-shadow: none;

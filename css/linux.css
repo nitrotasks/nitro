@@ -20,7 +20,6 @@ html, button, input, select, textarea { font-family: "Ubuntu", "Helvetica", "Ari
 #tasks .tasksContent ul li .tag { color: #1c759c; }
 #tasks .tasksContent ul li .label { border-left: 1px solid #e6e6e6; border-radius: 0 4px 4px 0; }
 #tasks .tasksContent ul li .label.overdue, #tasks .tasksContent ul li .label.due { background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fecccc), color-stop(100%, #fdb3b3)); background: -webkit-linear-gradient(top, #fecccc 0%, #fdb3b3 100%); background: -moz-linear-gradient(top, #fecccc 0%, #fdb3b3 100%); background: -o-linear-gradient(top, #fecccc 0%, #fdb3b3 100%); background: linear-gradient(top, #fecccc 0%, #fdb3b3 100%); }
-#tasks .tasksContent ul li .notes { width: 30px; background: url(img/notes.png) no-repeat 8px 7px; }
 #tasks .tasksContent ul li.selected { background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f7fbfe), color-stop(100%, #e1f2fa)); background: -webkit-linear-gradient(top, #f7fbfe 0%, #e1f2fa 100%); background: -moz-linear-gradient(top, #f7fbfe 0%, #e1f2fa 100%); background: -o-linear-gradient(top, #f7fbfe 0%, #e1f2fa 100%); background: linear-gradient(top, #f7fbfe 0%, #e1f2fa 100%); }
 #tasks .tasksContent ul li.expanded { margin: 15px 0; }
 #tasks .tasksContent ul li.expanded:first-child { margin-top: 0; }
@@ -36,7 +35,7 @@ html, button, input, select, textarea { font-family: "Ubuntu", "Helvetica", "Ari
 #tasks .tasksContent ul li button.low { background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #d8eef8)); background: -webkit-linear-gradient(top, #ffffff 0%, #d8eef8 100%); background: -moz-linear-gradient(top, #ffffff 0%, #d8eef8 100%); background: -o-linear-gradient(top, #ffffff 0%, #d8eef8 100%); background: linear-gradient(top, #ffffff 0%, #d8eef8 100%); }
 #tasks .tasksContent ul li button.medium { background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fffaec), color-stop(100%, #feecba)); background: -webkit-linear-gradient(top, #fffaec 0%, #feecba 100%); background: -moz-linear-gradient(top, #fffaec 0%, #feecba 100%); background: -o-linear-gradient(top, #fffaec 0%, #feecba 100%); background: linear-gradient(top, #fffaec 0%, #feecba 100%); }
 #tasks .tasksContent ul li button.high { background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fffefe), color-stop(100%, #fee5e5)); background: -webkit-linear-gradient(top, #fffefe 0%, #fee5e5 100%); background: -moz-linear-gradient(top, #fffefe 0%, #fee5e5 100%); background: -o-linear-gradient(top, #fffefe 0%, #fee5e5 100%); background: linear-gradient(top, #fffefe 0%, #fee5e5 100%); }
-#tasks .tasksContent ul li .hidden textarea { border-top: 1px solid #d9d9d9; border-radius: 0 0 5px 5px; background: url(img/notes.png) no-repeat 8px 7px, #f8faf0; }
+#tasks .tasksContent ul li .hidden textarea { border-top: 1px solid #d9d9d9; border-radius: 0 0 5px 5px; }
 
 .vsplitbar { top: 0; border-left: 0; }
 

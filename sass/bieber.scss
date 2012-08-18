@@ -10,7 +10,6 @@ $panel_border: #111;
 $panel_text: #fff;
 $task_color: #fff;
 $task_selected: lighten(#6CC0E5, 32%);
-$notes_bg: #F8FAF0;
 
 $none_text: #ACACAC;
 $low_color: #6CC0E5;
@@ -273,7 +272,6 @@ body {
 			.hidden textarea {
 				border-top: 1px solid  darken($task_color, 15%);
 				border-radius: 0 0 5px 5px;
-				background: url(img/notes.png) no-repeat 8px 7px, $notes_bg;
 			}
 		}
 	}
