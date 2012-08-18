@@ -87,11 +87,11 @@ body {
 	box-shadow: 0 0 2px rgba(0,0,0,0.4);
 
 	.brand {
-		line-height: 40px;
+		line-height: 41px;
 		font-size: 18px;
 		font-weight: bold;
 		padding-left: 20px;
-		background: url(img/logo.png) no-repeat;
+		background: url(img/svg/logo.svg) no-repeat 0 45%;
 	}
 
 	button {
@@ -113,7 +113,7 @@ body {
 		}
 		&.settingsbtn {
 			margin: 0 7px 0 0;
-			background: url(img/settings.png) no-repeat 8px 0;
+			background: url(img/svg/settings.svg) no-repeat 50%;
 			padding: 0 20px;
 		}
 

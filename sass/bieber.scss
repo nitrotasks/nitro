@@ -18,7 +18,7 @@ $medium_color: #FBC93D;
 $high_color: #FB4F4F;
 
 body {
-	background: url(img/justin.jpeg) no-repeat left center fixed;
+	background: url(themes/bieber/justin.jpeg) no-repeat left center fixed;
 }
 
 #sidebar {
@@ -69,7 +69,7 @@ body {
 		font-size: 18px;
 		font-weight: bold;
 		padding-left: 20px;
-		background: url(img/logo.png) no-repeat;
+		background: url(img/svg/logo.svg) no-repeat 0 45%;
 	}
 
 	button {
@@ -92,7 +92,7 @@ body {
 		}
 		&.settingsbtn {
 			margin: 0 7px 0 0;
-			background: url(img/settings.png) no-repeat 8px 0;
+			background: url(img/svg/settings.svg) no-repeat 50%;
 			padding: 0 20px;
 		}
 

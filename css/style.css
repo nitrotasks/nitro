@@ -126,7 +126,7 @@ html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubun
 #sidebar #lists li:hover .edit, #sidebar #lists li:hover .delete { display: inline-block; }
 #sidebar ul { margin: 0; padding: 0; }
 #sidebar ul * { cursor: pointer; }
-#sidebar ul li { display: -webkit-box; display: -moz-box; display: -ms-box; display: box; height: 30px; -moz-box-sizing: border-box; box-sizing: border-box; line-height: 30px; font-weight: normal; font-size: 13px; color: #444444; padding: 0 0 0 15px; position: relative; -webkit-transition: 150ms background ease, 150ms color ease; -moz-transition: 150ms background ease, 150ms color ease; -o-transition: 150ms background ease, 150ms color ease; transition: 150ms background ease, 150ms color ease; width: 100% !important; }
+#sidebar ul li { display: -webkit-box; display: -moz-box; display: -ms-box; display: box; height: 30px; -moz-box-sizing: border-box; box-sizing: border-box; line-height: 30px; font-weight: normal; font-size: 13px; color: #444444; padding: 0 0 0 15px; position: relative; -webkit-transition: 150ms background ease, 150ms color ease, 150ms border ease; -moz-transition: 150ms background ease, 150ms color ease, 150ms border ease; -o-transition: 150ms background ease, 150ms color ease, 150ms border ease; transition: 150ms background ease, 150ms color ease, 150ms border ease; width: 100% !important; }
 #sidebar ul li .edit { background: url("img/list_edit.png") 0 -105px; }
 #sidebar ul li .edit.open { padding: 0 7px 0 6px; background-position: 0 177px; }
 #sidebar ul li .delete { background: url("img/list_edit.png") 1px -83px; }
@@ -235,10 +235,7 @@ html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubun
 
 .modal-backdrop { width: 100%; height: 100%; position: fixed; background: rgba(0, 0, 0, 0.7); -webkit-animation: modalanim 300ms 1; -moz-animation: modalanim 300ms 1; -ms-animation: modalanim 300ms 1; -o-animation: modalanim 300ms 1; top: 0; left: 0; z-index: 50; }
 
-@-webkit-keyframes settingsanim { 0% { -webkit-transform: scale(0.5); }
-  100% { -webkit-transform: scale(1); } }
-
-#prefsDialog { -webkit-animation: settingsanim 250ms 1; -webkit-animation-timing-function: ease-out; display: none; position: fixed; width: 520px; left: 50%; margin-left: -250px; top: 100px; background: #fff; box-shadow: 0 2px 15px rgba(0, 0, 0, 0.7); z-index: 100; border-radius: 2px; }
+#prefsDialog { display: none; position: fixed; width: 520px; left: 50%; margin-left: -250px; top: 100px; background: #fff; box-shadow: 0 2px 15px rgba(0, 0, 0, 0.7); z-index: 100; border-radius: 2px; }
 #prefsDialog > ul { height: 30px; margin: 0; padding: 0; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom: 1px solid rgba(0, 0, 0, 0.2); background: #ddd; }
 #prefsDialog > ul > li { display: inline-block; margin: 0; width: 20%; box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; text-align: center; line-height: 30px; height: 30px; }
 #prefsDialog > ul > li.active { -webkit-transition: 150ms background ease; -moz-transition: 150ms background ease; -o-transition: 150ms background ease; transition: 150ms background ease; background: #f0f0f0; }

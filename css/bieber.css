@@ -1,4 +1,4 @@
-body { background: url(img/justin.jpeg) no-repeat left center fixed; }
+body { background: url(themes/bieber/justin.jpeg) no-repeat left center fixed; }
 
 #sidebar { background: #fbfbfb; box-shadow: 1px 0 1px rgba(0, 0, 0, 0.3); }
 #sidebar h2 { border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc; box-shadow: 0 0 1px rgba(0, 0, 0, 0.2) inset; }
@@ -9,12 +9,12 @@ body { background: url(img/justin.jpeg) no-repeat left center fixed; }
 #sidebar .listAddBTN:hover { background: #3b3b3b; }
 
 .panel { background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, rgba(173, 127, 168, 0.85)), color-stop(100%, rgba(128, 0, 128, 0.85))); background: -webkit-linear-gradient(top, rgba(173, 127, 168, 0.85) 0%, rgba(128, 0, 128, 0.85) 100%); background: -moz-linear-gradient(top, rgba(173, 127, 168, 0.85) 0%, rgba(128, 0, 128, 0.85) 100%); background: -o-linear-gradient(top, rgba(173, 127, 168, 0.85) 0%, rgba(128, 0, 128, 0.85) 100%); background: linear-gradient(top, rgba(173, 127, 168, 0.85) 0%, rgba(128, 0, 128, 0.85) 100%); border-bottom: 0; color: white; box-shadow: 0 0 2px rgba(0, 0, 0, 0.4); text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6); }
-.panel .brand { line-height: 40px; font-size: 18px; font-weight: bold; padding-left: 20px; background: url(img/logo.png) no-repeat; }
+.panel .brand { line-height: 40px; font-size: 18px; font-weight: bold; padding-left: 20px; background: url(img/svg/logo.svg) no-repeat 0 45%; }
 .panel button { background: #333333; color: white; font-weight: bold; text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6); }
 .panel button.add { background: url(img/svg/add.svg) no-repeat 18px 50%; padding-left: 50px; }
 .panel button.delete { background: url(img/svg/delete.svg) no-repeat 18px 50%; padding-left: 50px; }
 .panel button.sort { background: url(img/svg/sort.svg) no-repeat 14px 50%; padding-left: 46px; }
-.panel button.settingsbtn { margin: 0 7px 0 0; background: url(img/settings.png) no-repeat 8px 0; padding: 0 20px; }
+.panel button.settingsbtn { margin: 0 7px 0 0; background: url(img/svg/settings.svg) no-repeat 50%; padding: 0 20px; }
 .panel button:hover { background-color: rgba(0, 0, 0, 0.2); }
 .panel .left span ul { background: #333333; border: 1px solid black; border-top: none; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4); margin: 0; }
 .panel .left span ul li { color: white; font-weight: bold; }

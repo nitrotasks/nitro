@@ -1,13 +1,6 @@
 @import "compass/css3";
 
-@-webkit-keyframes settingsanim {
-	0%   { -webkit-transform: scale(0.5); }
-	100% { -webkit-transform: scale(1); }
-}
-
 #prefsDialog {
-	-webkit-animation: settingsanim 250ms 1;
-	-webkit-animation-timing-function: ease-out;
 	display: none;
 	position: fixed;
 	width: 520px;
