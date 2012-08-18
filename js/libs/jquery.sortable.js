@@ -41,7 +41,7 @@ $.fn.sortable = function(options) {
 			var dt = e.originalEvent.dataTransfer;
 			dt.effectAllowed = 'move';
 			dt.setData('Text', $(this).find('.content').text());
-			dt.setData('text/html', $(this).attr('data-id'));
+			dt.setData('application/json', $(this).attr('data-id'));
 
 			index = (dragging = $(this)).addClass('sortable-dragging').index();
 		}).on('dragend.h5s', function() {

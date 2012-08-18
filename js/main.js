@@ -388,7 +388,7 @@ var ui = {
 				$(this).removeClass('dragHover')
 			}).on('drop', function(e) {
 				var listId = $(this).attr('id').substr(1),
-					taskId = e.originalEvent.dataTransfer.getData('text/html')
+					taskId = e.originalEvent.dataTransfer.getData('application/json')
 
 				if(core.storage.tasks[taskId].list !== listId || ui.session.selected == 'all') {
 
