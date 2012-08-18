@@ -396,6 +396,8 @@ html, button, input, select, textarea {
 			padding: 5px 5px;
 			margin: 7px 0;
 			vertical-align: top;
+			background: url(img/svg/search.svg) no-repeat 5px 48%, #fff;
+			@include transition(150ms width ease);
 		}
 	}
 

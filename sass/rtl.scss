@@ -144,9 +144,6 @@ input, textarea {
 		border-radius: 2px;
 		width: 120px;
 		padding-right: 23px;
-		background: url(img/search.png) no-repeat 100%, #fff;
-
-		@include transition(150ms width ease);
 
 		&:focus {
 			outline: 0;

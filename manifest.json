@@ -15,6 +15,7 @@
   ],
   "icons": {
     "16": "css/img/nitro_16.png",
-    "128": "css/img/nitro_128.png"
+    "128": "css/img/nitro_128.png",
+    "256": "css/img/nitro_256.png"
   }
 }
