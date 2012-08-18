@@ -209,19 +209,19 @@ html, button, input, select, textarea {
 			@include transition(150ms background ease, 150ms color ease, 150ms border ease);
 
 			.edit {
-				background: url("img/list_edit.png") 0 -105px;
+				background: url("img/svg/listedit.svg") no-repeat 0 -58px;
 
 				&.open {
 					padding: 0 7px 0 6px;
-					background-position: 0 177px;
+					background-position: 0 -73px;
 				}
 			}
 			.delete {
-				background: url("img/list_edit.png") 1px -83px;
+				background: url("img/svg/listedit.svg") no-repeat 0 -42px;
 			}
 			.edit, .delete {
 				border: 0;
-				height: 16px;
+				height: 14px;
 				margin-top: 7px;
 				margin-right: 5px;
 				opacity: 0.5;
@@ -260,14 +260,14 @@ html, button, input, select, textarea {
 				border-right: none;
 				.edit {
 					opacity: 0.9;
-					background-position: 0 -41px;
+					background-position: 0 -15px;
 					&.open {
-						background-position: 0 1px;
+						background-position: 0 -29px;
 					}
 				}
 				.delete {
 					opacity: 0.9;
-					background-position: 1px -19px;
+					background-position: 0 1px;
 				}
 			}
 
