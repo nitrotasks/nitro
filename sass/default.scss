@@ -19,7 +19,10 @@ $medium_color: #FBC93D;
 $high_color: #FB4F4F;
 
 body {
-	background: url(img/bg.png);
+	background-image: url(img/bg.png);
+}
+@media screen and (-webkit-min-device-pixel-ratio: 2), screen and (max--moz-device-pixel-ratio: 2) {
+	background-size: 51px;
 }
 
 #sidebar {

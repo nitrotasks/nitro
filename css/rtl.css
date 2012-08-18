@@ -1,5 +1,6 @@
-body { background: url(img/bg.png); }
+body { background-image: url(img/bg.png); }
 
+@media screen and (-webkit-min-device-pixel-ratio: 2), screen and (max--moz-device-pixel-ratio: 2) { background-size: 51px; }
 input, textarea { text-align: right; }
 
 #sidebar { background: #fbfbfb; box-shadow: -1px 0 1px rgba(0, 0, 0, 0.3); }

@@ -184,7 +184,7 @@ html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubun
 #tasks .tasksContent ul li .checkbox { cursor: pointer; margin: 8px; width: 13px; height: 13px; border: 1px solid #000; }
 #tasks .tasksContent ul li.checked { opacity: 0.5; }
 #tasks .tasksContent ul li.checked .checkbox { position: relative; border-color: transparent !important; background: none !important; box-shadow: none !important; }
-#tasks .tasksContent ul li.checked .checkbox:after { display: block; position: absolute; content: url(img/logged.png); top: -6px; left: -1px; }
+#tasks .tasksContent ul li.checked .checkbox:after { display: block; position: absolute; content: url(img/svg/logged.svg); top: -6px; left: -1px; }
 #tasks .tasksContent ul li.checked.logbook { opacity: 1; }
 #tasks .tasksContent ul li .label { border-left: 1px solid #000; padding: 0 10px; }
 #tasks .tasksContent ul li .label.null { border-left: 0; }
