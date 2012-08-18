@@ -353,23 +353,23 @@ html, button, input, select, textarea {
 					}
 
 					.icon{
-						background: url('img/sort_menu.png');
+						background: url('img/svg/sortmenu.svg') no-repeat;
 						display: inline-block;
 						height: 12px;
 						margin-right: 8px;
 						width: 12px;
 
 						&.date {
-							background-position: 0 0;
+							background-position: 0 -11px;
 						}
 						&.hand {
-							background-position: 0 -12px;
+							background-position: 0 -36px;
 						}
 						&.magic {
-							background-position: -12px 0;
+							background-position: 0 -48px;
 						}
 						&.priority {
-							background-position: -12px -12px;
+							background-position: 0 1px;
 						}
 						&.title {
 							background-position: 0 -24px;
