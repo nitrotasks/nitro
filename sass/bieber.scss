@@ -206,11 +206,6 @@ body {
 					@include background(linear-gradient(top, lighten($high_color, 25%) 0%, lighten($high_color, 20%) 100%));
 				}
 			}
-
-			.notes {
-				width: 30px;
-				background: url(img/notes.png) no-repeat 8px 7px;
-			}
 			
 			&.selected {
 				@include background(linear-gradient(top, #FEFFFE 0%, #FADDFD 100%));

@@ -192,7 +192,7 @@ html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubun
 #tasks .tasksContent ul li .tag:hover { text-decoration: underline; }
 #tasks .tasksContent ul li input { border: 0; line-height: 1; box-shadow: none; background: transparent; -moz-box-sizing: border-box; box-sizing: border-box; }
 #tasks .tasksContent ul li input:focus { box-shadow: none; outline: 0; height: 31px; }
-#tasks .tasksContent ul li .content { overflow: hidden; padding-left: 1px; padding-top: 1px; text-overflow: ellipsis; white-space: nowrap; }
+#tasks .tasksContent ul li .content { overflow: hidden; padding-top: 1px; text-overflow: ellipsis; white-space: nowrap; }
 #tasks .tasksContent ul li .content { -webkit-box-flex: 1; -moz-box-flex: 1; -ms-box-flex: 1; box-flex: 1; }
 #tasks .tasksContent ul li input.content { padding: 0; margin: 0; -webkit-box-flex: 1; -moz-box-flex: 1; -ms-box-flex: 1; box-flex: 1; display: block; }
 #tasks .tasksContent ul li button.none, #tasks .tasksContent ul li button.low, #tasks .tasksContent ul li button.medium, #tasks .tasksContent ul li button.high, #tasks .tasksContent ul li button.date { border: 0; border-left: 1px solid #000; background: transparent; line-height: 31px; padding: 0 15px; }
@@ -203,6 +203,7 @@ html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubun
 #tasks .tasksContent ul li input.tags:focus, #tasks .tasksContent ul li input.tags.hasContent { width: 250px; }
 #tasks .tasksContent ul li.expanded { opacity: 1; }
 #tasks .tasksContent ul li.selected.expanded { background: #fff; }
+#tasks .tasksContent ul li .notes { width: 30px; background: url(img/svg/notes.svg) no-repeat 10px 7px; }
 #tasks .tasksContent ul li .hidden { display: none; }
 #tasks .tasksContent ul li .hidden textarea { width: 100%; border: 0; border-top: 1px solid #000; -moz-box-sizing: border-box; box-sizing: border-box; padding: 8px 30px 8px 32px; resize: none; min-height: 20px; overflow: hidden; }
 #tasks .tasksContent ul li .hidden textarea:focus { box-shadow: none; outline: 0; }
@@ -303,7 +304,7 @@ html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubun
 
 div.spinner { position: relative; width: 40px; height: 45px; display: inline-block; margin-top: 5px; }
 
-div.spinner div { width: 12%; height: 26%; background: #444; position: absolute; left: 44.5%; top: 37%; opacity: 0; -webkit-animation: fade 1s linear infinite; -moz-animation: fade 1s linear infinite; -ms-animation: fade 1s linear infinite; -o-animation: fade 1s linear infinite; animation: fade 1s linear infinite; border-radius: 50px; box-shadow: 0 0 3px rgba(0, 0, 0, 0.2); }
+div.spinner div { width: 12%; height: 26%; background: #444; position: absolute; left: 44.5%; top: 37%; opacity: 0; -webkit-animation: fade 1s linear infinite; -moz-animation: fade 1s linear infinite; -ms-animation: fade 1s linear infinite; -o-animation: fade 1s linear infinite; animation: fade 1s linear infinite; border-radius: 50px; box-shadow: 0 0 1px rgba(0, 0, 0, 0.1); }
 
 div.spinner div.bar1 { -webkit-transform: rotate(0deg) translate(0, -142%); -moz-transform: rotate(0deg) translate(0, -142%); -ms-transform: rotate(0deg) translate(0, -142%); -o-transform: rotate(0deg) translate(0, -142%); transform: rotate(0deg) translate(0, -142%); -webkit-animation-delay: 0s; -moz-animation-delay: 0s; -ms-animation-delay: 0s; -o-animation-delay: 0s; animation-delay: 0s; }
 

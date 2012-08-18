@@ -598,7 +598,6 @@ html, button, input, select, textarea {
 
 				.content {
 					overflow: hidden;
-					padding-left: 1px;
 					padding-top: 1px;
 					text-overflow: ellipsis;
 					white-space: nowrap;
@@ -663,6 +662,11 @@ html, button, input, select, textarea {
 					&.expanded {
 						background: #fff;
 					}
+				}
+
+				.notes {
+					width: 30px;
+					background: url(img/svg/notes.svg) no-repeat 10px 7px;
 				}
 
 				.hidden {

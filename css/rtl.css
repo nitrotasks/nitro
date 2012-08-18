@@ -42,7 +42,6 @@ input, textarea { text-align: right; }
 #tasks .tasksContent ul li .label { border-right: 1px solid #e6e6e6; border-left: 0; }
 #tasks .tasksContent ul li .label:last-child { border-radius: 4px 0 0 4px; }
 #tasks .tasksContent ul li .label.overdue, #tasks .tasksContent ul li .label.due { background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fecccc), color-stop(100%, #fdb3b3)); background: -webkit-linear-gradient(top, #fecccc 0%, #fdb3b3 100%); background: -moz-linear-gradient(top, #fecccc 0%, #fdb3b3 100%); background: -o-linear-gradient(top, #fecccc 0%, #fdb3b3 100%); background: linear-gradient(top, #fecccc 0%, #fdb3b3 100%); }
-#tasks .tasksContent ul li .notes { width: 30px; background: url(img/notes.png) no-repeat 8px 7px; }
 #tasks .tasksContent ul li.selected { background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f7fbfe), color-stop(100%, #e1f2fa)); background: -webkit-linear-gradient(top, #f7fbfe 0%, #e1f2fa 100%); background: -moz-linear-gradient(top, #f7fbfe 0%, #e1f2fa 100%); background: -o-linear-gradient(top, #f7fbfe 0%, #e1f2fa 100%); background: linear-gradient(top, #f7fbfe 0%, #e1f2fa 100%); }
 #tasks .tasksContent ul li.expanded { margin: 15px 0; }
 #tasks .tasksContent ul li.expanded:first-child { margin-top: 0; }

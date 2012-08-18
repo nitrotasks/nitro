@@ -42,7 +42,6 @@ body { background: url(themes/wunderlist/wood.jpg) 50% 0; }
 #tasks .tasksContent ul li .label { border-left: 1px solid #bfbfbf; }
 #tasks .tasksContent ul li .label:last-child { border-radius: 0 5px 5px 0; }
 #tasks .tasksContent ul li .label.overdue, #tasks .tasksContent ul li .label.due { background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fecccc), color-stop(100%, #fdb3b3)); background: -webkit-linear-gradient(top, #fecccc 0%, #fdb3b3 100%); background: -moz-linear-gradient(top, #fecccc 0%, #fdb3b3 100%); background: -o-linear-gradient(top, #fecccc 0%, #fdb3b3 100%); background: linear-gradient(top, #fecccc 0%, #fdb3b3 100%); }
-#tasks .tasksContent ul li .notes { width: 30px; background: url(img/notes.png) no-repeat 8px 7px; }
 #tasks .tasksContent ul li.selected { background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #c8fdff), color-stop(100%, #befdff)); background: -webkit-linear-gradient(top, #c8fdff 0%, #befdff 100%); background: -moz-linear-gradient(top, #c8fdff 0%, #befdff 100%); background: -o-linear-gradient(top, #c8fdff 0%, #befdff 100%); background: linear-gradient(top, #c8fdff 0%, #befdff 100%); }
 #tasks .tasksContent ul li.expanded { margin: 15px 0; }
 #tasks .tasksContent ul li.expanded:first-child { margin-top: 0; }
