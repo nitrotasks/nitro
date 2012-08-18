@@ -162,7 +162,7 @@ $(function() {
 					</div>\
 				</div>\
 				<div class="tab-pane" id="tabAbout">\
-					<img src="css/img/nitro_128.png" class="center">\
+					<img width="128" height="128" src="css/img/nitro_256.png" class="center">\
 					<h2>Nitro <span></span></h2>\
 					<p class="center">By <a href="https://twitter.com/GeorgeCzabania">George Czabania</a> & <a href="https://twitter.com/consindo">Jono Cooper</a><br>\
 					Copyright © 2012 <a href="http://caffeinatedco.de">Caffeinated Code</a><br>\
