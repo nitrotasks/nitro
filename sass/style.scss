@@ -497,11 +497,9 @@ html, button, input, select, textarea {
 
 				line-height: 30px;
 				color: #111;
-				-webkit-transform: translateZ(0);
 				-webkit-transition-property: margin, opacity;
  				-webkit-transition-duration: 150ms, 300ms;  
  				-webkit-transition-timing-function: ease, ease;
- 				-moz-transform: translateZ(0);
 				-moz-transition-property: margin, opacity;
  				-moz-transition-duration: 150ms, 300ms;  
  				-moz-transition-timing-function: ease, ease;

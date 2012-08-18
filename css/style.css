@@ -152,7 +152,7 @@ html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubun
 .panel .left span ul li:hover { background: rgba(0, 0, 0, 0.2); }
 .panel .left span ul li.current { box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.5); background: rgba(0, 0, 0, 0.2); }
 .panel .left span ul li .icon { background: url("img/svg/sortmenu.svg") no-repeat; display: inline-block; height: 12px; margin-right: 8px; width: 12px; }
-.panel .left span ul li .icon.date { background-position: 0 -12px; }
+.panel .left span ul li .icon.date { background-position: 0 -11px; }
 .panel .left span ul li .icon.hand { background-position: 0 -36px; }
 .panel .left span ul li .icon.magic { background-position: 0 -48px; }
 .panel .left span ul li .icon.priority { background-position: 0 1px; }
@@ -175,7 +175,7 @@ html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubun
 #tasks .tasksContent .button:hover { background: rgba(255, 255, 255, 0.6); }
 #tasks .tasksContent ul { padding: 0 20px 40px 16px; margin: 0; text-align: left; }
 #tasks .tasksContent ul:last-of-type { padding-bottom: 20px; }
-#tasks .tasksContent ul li { display: block; min-height: 30px; cursor: pointer; overflow: hidden; padding: 0; position: relative; z-index: 2; margin-bottom: -1px; background: #fff; border: 1px solid #000; line-height: 30px; color: #111; -webkit-transform: translateZ(0); -webkit-transition-property: margin, opacity; -webkit-transition-duration: 150ms, 300ms; -webkit-transition-timing-function: ease, ease; -moz-transform: translateZ(0); -moz-transition-property: margin, opacity; -moz-transition-duration: 150ms, 300ms; -moz-transition-timing-function: ease, ease; }
+#tasks .tasksContent ul li { display: block; min-height: 30px; cursor: pointer; overflow: hidden; padding: 0; position: relative; z-index: 2; margin-bottom: -1px; background: #fff; border: 1px solid #000; line-height: 30px; color: #111; -webkit-transition-property: margin, opacity; -webkit-transition-duration: 150ms, 300ms; -webkit-transition-timing-function: ease, ease; -moz-transition-property: margin, opacity; -moz-transition-duration: 150ms, 300ms; -moz-transition-timing-function: ease, ease; }
 #tasks .tasksContent ul li.animate.height { -webkit-transition-property: margin, opacity, height; -webkit-transition-duration: 150ms, 300ms, 150ms; -webkit-transition-timing-function: ease, ease, ease; -moz-transition-property: margin, opacity, height; -moz-transition-duration: 150ms, 300ms, 150ms; -moz-transition-timing-function: ease, ease, ease; }
 #tasks .tasksContent ul li.sortable-placeholder { background: rgba(0, 0, 0, 0.1); box-shadow: 0 0 0 #000; }
 #tasks .tasksContent ul li .boxhelp { display: -webkit-box; display: -moz-box; display: -ms-box; display: box; width: 100%; }
