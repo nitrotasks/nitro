@@ -584,7 +584,7 @@ html, button, input, select, textarea {
 			
 				input {
 					border: 0;
-					line-height: 1;
+					line-height: 16px;
 					box-shadow: none;
 					background: transparent;
 					-moz-box-sizing: border-box;
@@ -593,7 +593,6 @@ html, button, input, select, textarea {
 					&:focus {
 						box-shadow: none;
 						outline: 0;
-						height: 31px;
 					}
 				}
 
@@ -602,14 +601,11 @@ html, button, input, select, textarea {
 					padding-top: 1px;
 					text-overflow: ellipsis;
 					white-space: nowrap;
-				}
-				
-				.content {
 					@include box-flex(1);
 				}
 
 				input.content {
-					padding: 0;
+					padding: 8px 0 7px;
 					margin: 0;
 					@include box-flex(1);
 					display: block;
@@ -631,13 +627,12 @@ html, button, input, select, textarea {
 				input.date,
 				input.tags {
 					border-left: 1px solid #000;
-					padding: 8px 5px;
+					padding: 7px 5px;
 					vertical-align: top;
 					width: 80px;
 
 					&:focus {
 						outline: 0;
-						height: 31px;
 					}
 				}
 
