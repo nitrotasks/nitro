@@ -40,12 +40,6 @@ var ui = {
 	},
 	initLoad: function() {
 
-		// Web Version
-		if (app == 'web') {
-			$('html').addClass('web')
-			$('body').append('<div id="login"><div class="loading"></div><div class="login">LOGIN YALL</div></div>')
-		}
-
 		// Move sidebar to the right
 		ui.reloadSidebar()
 
@@ -84,6 +78,16 @@ var ui = {
 
 		// Clean
 		plugin.cleanDB()
+		
+		// Web Version
+		if (app == 'web') {
+			// Run sync
+			if (core.storage.prefs.sync.service && core.storage.prefs.sync.resume) {
+				sync.run();
+			}
+			// $('html').addClass('web')
+			// $('body').append('<div id="login"><div class="loading"></div><div class="login">Login</div></div>')
+		}
 
 		//Buttons
 		$sidebar.find('h2.smartlists')

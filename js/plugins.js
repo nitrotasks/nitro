@@ -1271,7 +1271,7 @@ plugin.cleanDB = function() {
 	d.prefs.sync = d.prefs.sync || {}
 	d.prefs.sync.url = "http://app.nitrotasks.com"
 	if (typeof d.prefs.sync == 'string') {
-		d.prefs.service = { url: "http://app.nitrotasks.com", interval: 'manual'}
+		d.prefs.sync = { url: "http://app.nitrotasks.com", interval: 'manual'}
 	}
 	if (d.prefs.sync.service !== 'dropbox' && d.prefs.sync.service !== 'ubuntu') {
 		delete d.prefs.sync.access
@@ -2737,7 +2737,8 @@ plugin.add(function() {
 					url: core.storage.prefs.sync.url + '/request_url',
 					dataType: 'json',
 					data: {
-						service: service
+						service: service,
+						app: app
 					},
 					success: function (data) {
 						ajaxdata.data = data
@@ -2751,6 +2752,10 @@ plugin.add(function() {
 			var showPopup = function(url) {
 				if (app == 'python') {
 					document.title = 'isolate_window|' + url
+				} else if (app == 'web') {
+					core.storage.prefs.sync.resume = true;
+					core.storage.save();
+					document.location.href = url;
 				} else {
 					var width = 960,
 						height = 600
@@ -2762,7 +2767,7 @@ plugin.add(function() {
 
 			var authorizeToken = function (token, service, cb) {
 
-				console.log("Getting access token")
+				console.log("Getting access token");
 
 				var ajaxdata = sync.ajaxdata
 				ajaxdata.watch('data', function (id, oldval, newval) {
@@ -2810,19 +2815,25 @@ plugin.add(function() {
 
 			// Connect
 
-			var service = core.storage.prefs.sync.service
-			requestURL(service, function(result) {
-				if(result == 'error') {
-					callback(false)
-				} else {
-					console.log("Request URL: " + result.authorize_url)
-					core.storage.prefs.sync.token = result
-					showPopup(result.authorize_url)
-					authorizeToken(result, service, function(result) {
-						callback(result)
-					})
-				}
-			})
+			var service = core.storage.prefs.sync.service;
+			if (app == 'web' && core.storage.prefs.sync.resume === true) {
+				core.storage.prefs.sync.resume = false;
+				core.storage.save();
+				authorizeToken(core.storage.prefs.sync.token, service, callback);
+			} else {
+				requestURL(service, function(result) {
+					if(result == 'error') {
+						callback(false)
+					} else {
+						console.log("Request URL: " + result.authorize_url)
+						core.storage.prefs.sync.token = result
+						showPopup(result.authorize_url)
+						authorizeToken(result, service, function(result) {
+							callback(result)
+						})
+					}
+				})
+			}
 		},
 
 		emit: function (callback) {
