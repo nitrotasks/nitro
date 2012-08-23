@@ -54,11 +54,11 @@ body {
 	}
 	
 	.listAddBTN {
-		background: $panel_color;
-		color: $panel_text;
+		background: #eee;
+		color: #333;
 		
 		&:hover {
-			background: lighten($panel_color, 3%);
+			background: #ddd;
 		}
 	}
 }
