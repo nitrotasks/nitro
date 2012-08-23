@@ -700,43 +700,22 @@ $sidebar.on('click', '.name, .count', function() {
 		}
 	}
 
-	// Update Panel Buttons
-	ui.panel.updateButtons({del: false})
+	switch (ui.session.selected) {
+		case 'logbook':
+			// Update Panel Buttons
+			ui.panel.updateButtons({del: false, add: false})
+			break
+		default:
+			// Update Panel Buttons
+			ui.panel.updateButtons({del: false})
+			break
+	}
 
 	setTimeout(function() {
-
 		$tasks.find('ul').sortable().bind('sortupdate', function(ev) {
 			//Triggered when the user stopped sorting and the DOM position has changed.
 			ui.sortStop()
-		});
-		/*$tasks.find('ul').sortable({
-			placeholder: "placeholder",
-			distance: 20,
-			appendTo: 'body',
-			items: 'li',
-			scroll: false,
-			connectWith: $tasks.find('ul'),
-			cursorAt: {
-				top: 15,
-				left: 30
-			},
-			helper: function (e, el) {
-				var name = $(el).find('.content').text(),
-					$temp = $('body')
-						.append('<span class="temp-helper" style="display: none; font-size: 13px; font-weight: bold;">' + name + '</span>')
-						.find('.temp-helper'),
-					width = $temp.width()
-				$temp.remove()
-			
-				var $el = $(el).find('.content').clone()
-				$el.width(width)
-				$el.addClass('tasks')
-				return $el
-			},
-			stop: function (event, elem) {
-				ui.sortStop(event, elem)
-			}
-		});*/
+		})
 	}, 100)
 
 	return true
