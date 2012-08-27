@@ -39,6 +39,16 @@ var ui = {
 		$l = $.i18n;
 	},
 	initLoad: function() {
+		
+		// Fixes for mac version
+		if (app == 'mac') {
+			// Stop the default system beep on keypress
+			$(document).on('keydown', function() {
+				if (!$('input, textarea').is(':focus')) {
+					return false; 
+				}
+			})
+		}
 
 		// Move sidebar to the right
 		ui.reloadSidebar()
