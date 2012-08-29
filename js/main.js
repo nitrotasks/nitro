@@ -11,12 +11,7 @@
  * Neither the name of Caffeinated Code nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
- 
-$(document).ready(function() {
-	//Language Init
-	core.storage.prefs.lang = core.storage.prefs.lang || 'english';
-	$('#languagescript').attr('src', 'js/translations/' + core.storage.prefs.lang + '.js');
-})
+
 
 var $body = $('body'),
 	$tasks = $('#tasks .tasksContent'),
@@ -28,7 +23,12 @@ var $body = $('body'),
 		left: $('#tasks .panel .left')
 	},
 	$addBTN = $(),
-	$delBTN = $()
+	$delBTN = $(),
+	plugin = {
+		add: function(fn) {
+			fn();
+		}
+	}
 
 var ui = {
 	language: function (data) {
@@ -37,19 +37,19 @@ var ui = {
 
 		//Nice shorthand Method
 		$l = $.i18n;
-
-		// Loads
-		$(document).trigger('loaded')
-		ui.initLoad();
-
-		$('#tasks > .tasksContent').click(function(e) { 
-			if(e.target.nodeName == 'UL' || e.target.nodeName == 'H2' || e.target.className == 'tasksContent') {
-				$tasks.find('.expanded').dblclick()
-				$tasks.find('.selected').removeClass('selected')
-			}
-		})
 	},
 	initLoad: function() {
+		
+		// Fixes for mac version
+		if (app == 'mac') {
+			// Stop the default system beep on keypress
+			$(document).on('keydown', function() {
+				if (!$('input, textarea').is(':focus')) {
+					return false; 
+				}
+			})
+		}
+
 		// Move sidebar to the right
 		ui.reloadSidebar()
 
@@ -88,6 +88,16 @@ var ui = {
 
 		// Clean
 		plugin.cleanDB()
+		
+		// Web Version
+		if (app == 'web') {
+			// Run sync
+			if (core.storage.prefs.sync.service && core.storage.prefs.sync.resume) {
+				sync.run();
+			}
+			// $('html').addClass('web')
+			// $('body').append('<div id="login"><div class="loading"></div><div class="login">Login</div></div>')
+		}
 
 		//Buttons
 		$sidebar.find('h2.smartlists')
@@ -97,7 +107,12 @@ var ui = {
 			}))
 
 		// Append  smartlists
-		var markup = "", smartlists = [['today', 'Today'], ['next', 'Next'], ['logbook', 'Logbook'], ['all', 'All Tasks']]
+		var markup = "", smartlists = [
+			['today', $.i18n._('today')],
+			['next', $.i18n._('next')],
+			['logbook', $.i18n._('logbook')],
+			['all', $.i18n._('all')]
+		]
 		for(var i = 0; i < smartlists.length; i++) { markup += ui.lists.draw(smartlists[i]) }
 		$smartlists.append(markup).trigger('ready')
 		
@@ -132,6 +147,7 @@ var ui = {
 			//I can't trigger it?
 			$tasks.height(height - $('.panel').height())
 			ui.reload()
+			$('html').addClass('loaded')
 		});
 
 		//Tells Python to hide / show the fucking panel
@@ -141,23 +157,43 @@ var ui = {
 
 		//Collapse Lists
 		$sidebar.find('h2.lists').html($l._('lists'))
-		$sidebar.append(Mustache.to_html(templates.button.addList, {name: "Add List"}))
+		$sidebar.append(Mustache.to_html(templates.button.addList, {name: $.i18n._('addList')}))
 
 		//Good idea to save? If theme or lang needs to be saved?
 		core.storage.save();
 	},
 	session: {
-		selected: 'today'
+		selected: core.storage.prefs.selected || 'today'
 	},
 	reload: function() {
 		//Populates Template
 		var markup = ""
-		for (var i=0; i<core.storage.lists.order.length; i++) { markup += ui.lists.draw(core.storage.lists.order[i]) }
+		for (var i=0; i<core.storage.lists.order.length; i++) {
+			markup += ui.lists.draw(core.storage.lists.order[i])
+		}
 		$lists.html(markup)
 		$('#L' + ui.session.selected + ' .name').click();
 
-		//Sortable Lists 
-		$lists.sortable({
+		//Sortable Lists
+		$lists.sortable().bind('sortupdate', function() {
+			//Triggered when the user stopped sorting and the DOM position has changed.
+			//Saves Everything
+			var listOrder = []
+
+			//Loops through lists & adds the to an array
+			$lists.children().map(function () {
+				listOrder.push($(this).attr('id').substr(1))
+			});
+
+			console.log(listOrder)
+
+			//Saves
+			core.storage.lists.order = listOrder;
+			core.storage.save([['list-order', null, null]])
+		});
+
+		//Old shit jQuery UI way
+		/*$lists.sortable({
 			containment: 'parent',
 			axis: 'y',
 			distance: 20,
@@ -176,19 +212,20 @@ var ui = {
 				core.storage.lists.order = listOrder;
 				core.storage.save([['list-order', null, null]])
 			}
-		});
-
+		});*/
 		//Droppable
-		$sidebar.find('ul li:not("#Lall")').droppable(ui.lists.dropOptions)
+		ui.lists.droppable('ul li:not("#Lall")')
 
 		//Update Counts
 		ui.lists.update().count()
 	},
 	reloadSidebar: function() {
 		$('.vsplitbar').remove()
-		if(core.storage.prefs.theme === 'wunderlist') {
+		if(core.storage.prefs.theme === 'wunderlist' || core.storage.prefs.theme === 'rtl') {
 			$sidebar.insertAfter('#tasks')
-			$search.insertAfter($sidebar.find('.brand'))
+			if(core.storage.prefs.theme === 'wunderlist') {
+				$search.insertAfter($sidebar.find('.brand'))
+			}
 			$('#content').splitter({sizeRight: true})
 		} else {
 			$sidebar.insertBefore('#tasks')
@@ -219,22 +256,22 @@ var ui = {
 		// Easy way to use drawSingleTask to render a list
 		drawTasks: function(tasks) {
 
-			var markup = ""
-			
+			var markup = "",
+				listName = "thisList" // dictionary key for our current list name
+
 			if (tasks.length == 0) {
 				//Display a messsage
 				markup = '<div class="noTasks">'
-				if (ui.session.selected == 'today') {
-					markup += 'No Tasks in Today'
-				} else if (ui.session.selected == 'next') {
-					markup += 'No Tasks in Next'
-				} else if (ui.session.selected == 'logbook') {
-					markup += 'No Tasks in Logbook'
-				} else if (ui.session.selected == 'all') {
-					markup += 'No Tasks in All'
-				} else {
-					markup += 'No Tasks in List'
+
+				// if the selected list is a predefined list with a name we recognize...
+				if (ui.session.selected === 'today' || ui.session.selected === 'next' ||
+					ui.session.selected === 'logbook' || ui.session.selected === 'all') {
+
+					// the list name conviently maps to the correct dictionary key
+					listName = ui.session.selected
 				}
+				// find the "No Tasks..." translation and append the localized list name to it
+				markup += $.i18n._('noTasksInList', [$.i18n._(listName)])
 				markup += '</div>'
 					
 			} else {
@@ -358,13 +395,14 @@ var ui = {
 				}
 			}
 		},
-		dropOptions: {
-			hoverClass: "dragHover",
-			accept: "#tasks li",
-			tolerance: 'pointer',
-			drop: function (event, uix) {
+		droppable: function(elem){
+			$sidebar.find(elem).on('dragenter', function(e) {
+				$(this).addClass('dragHover')
+			}).on('dragleave', function(e) {
+				$(this).removeClass('dragHover')
+			}).on('drop', function(e) {
 				var listId = $(this).attr('id').substr(1),
-					taskId = $(uix.draggable).attr('data-id')
+					taskId = e.originalEvent.dataTransfer.getData('application/json')
 
 				if(core.storage.tasks[taskId].list !== listId || ui.session.selected == 'all') {
 
@@ -372,7 +410,9 @@ var ui = {
 					core.task(taskId).move(listId)
 
 					// Removes and Saves
-					if(ui.session.selected != 'all') $(uix.draggable).remove()
+					if(ui.session.selected != 'all') {
+						$('#tasks .tasksContent li[data-id=' + taskId + '], li.sortable-placeholder').remove()
+					}
 
 					// If we're in the next list, we may as well reload
 					if (ui.session.selected == 'next' || ui.session.selected == 'all') {
@@ -381,9 +421,10 @@ var ui = {
 
 					// Update Counts
 					ui.lists.update().count()
+					$(this).removeClass('dragHover')
 
 				}
-			}
+			})
 		}
 	},
 	sortStop: function() {
@@ -554,11 +595,53 @@ var ui = {
 				$tasks.find('ul li[data-id="' + id + '"]').trigger('collapse')
 
 				if(typeof cb === 'function') cb()
+
+				// after a task has changed, reload the list to re-sort (Breaks stuff)
+				//$sidebar.find('.selected .name').click()
 				
 			}, 150)
 		}
+	},
+
+	panel: {
+
+		// Toggle button disable status
+		updateButtons: function(obj) {
+
+			// Class name to add to buttons when disabled
+			var CLASS = 'disabled'
+
+			$addBTN.addClass(CLASS)
+			$delBTN.addClass(CLASS)
+
+			// Add
+			if (!obj.hasOwnProperty('add')) {
+				if (ui.session.selected != 'logged' &&
+					ui.session.selected != 'all') {
+					obj.add = true
+				}
+			}
+			if (obj.add) {
+				$addBTN.removeClass(CLASS)
+			}
+			// Delete
+			if (obj.del) {
+				$delBTN.removeClass(CLASS)
+			}
+
+		}
 	}
 }
+
+// Load correct language
+core.storage.prefs.lang = core.storage.prefs.lang || 'english';
+$.getScript('js/translations/' + core.storage.prefs.lang + '.js').done(function () {
+	// After language has been set, load the plugins
+	$.getScript('js/plugins.js').done(function () {
+		// After plugins have loaded, load the interface
+		ui.initLoad();
+	})
+});
 
 // ------------------------------------//
 //              TEMPLATES              //
@@ -580,6 +663,8 @@ $sidebar.on('click', '.name, .count', function() {
 	$sidebar.find('.selected').removeClass('selected')
 	$this.addClass('selected')
 	ui.session.selected = model.id
+	core.storage.prefs.selected = ui.session.selected
+	core.storage.save()
 
 	//Gets list id & populates
 	var tasks = core.list(model.id).populate()
@@ -618,41 +703,29 @@ $sidebar.on('click', '.name, .count', function() {
 	// Show Add tasks to logbook
 	else if (ui.session.selected == 'logbook') {
 		var loggedTasks = filter([], 'logged').length
-		if(loggedTasks > 0) {
-			$tasks.find('h2').after('<button id="updateLogbook" class="button">Move '+ filter([], 'logged').length +' completed tasks to the Logbook</button>')
+		if (loggedTasks === 1) {
+			$tasks.find('h2').after('<button id="updateLogbook" class="button">' + $.i18n._('moveToLogbookSingle') + '</button>')
+		} else if (loggedTasks > 1) {
+			$tasks.find('h2').after('<button id="updateLogbook" class="button">' + $.i18n._('moveToLogbookPlural', [loggedTasks]) + '</button>')
 		}
 	}
 
-	setTimeout(function() {
+	switch (ui.session.selected) {
+		case 'logbook':
+			// Update Panel Buttons
+			ui.panel.updateButtons({del: false, add: false})
+			break
+		default:
+			// Update Panel Buttons
+			ui.panel.updateButtons({del: false})
+			break
+	}
 
-		$tasks.find('ul').sortable({
-			placeholder: "placeholder",
-			distance: 20,
-			appendTo: 'body',
-			items: 'li',
-			scroll: false,
-			connectWith: $tasks.find('ul'),
-			cursorAt: {
-				top: 15,
-				left: 30
-			},
-			helper: function (e, el) {
-				var name = $(el).find('.content').text(),
-					$temp = $('body')
-						.append('<span class="temp-helper" style="display: none; font-size: 13px; font-weight: bold;">' + name + '</span>')
-						.find('.temp-helper'),
-					width = $temp.width()
-				$temp.remove()
-			
-				var $el = $(el).find('.content').clone()
-				$el.width(width)
-				$el.addClass('tasks')
-				return $el
-			},
-			stop: function (event, elem) {
-				ui.sortStop(event, elem)
-			}
-		});
+	setTimeout(function() {
+		$tasks.find('ul').sortable().bind('sortupdate', function(ev) {
+			//Triggered when the user stopped sorting and the DOM position has changed.
+			ui.sortStop()
+		})
 	}, 100)
 
 	return true
@@ -741,6 +814,8 @@ $tasks.on('click', 'li', function(e) {
 		$tasks.find('.selected').removeClass('selected')
 		$this.addClass('selected')
 	}
+	// Update Panel Buttons
+	ui.panel.updateButtons({del: true})
 })
 
 // Completing a task
@@ -799,9 +874,11 @@ $tasks.on('expand', 'li', function() {
 		model = core.storage.tasks[id]
 
 	$this.find('.date')
-		.datepicker()
-		.on('changeDate', function(ev) {
-			core.storage.tasks[id].date = ev.date.valueOf()
+		.datepicker({weekStart: core.storage.prefs.weekStartsOn})
+		.on('change', function() {
+			// Use the new date, or an empty string if Date.parse doesn't understand the input
+			var newDate = Date.parse($(this).val()) || '';
+			core.storage.tasks[id].date = newDate
 			ui.lists.update().count()
 			core.storage.save([['tasks', id, 'date']])
 		})
@@ -810,6 +887,15 @@ $tasks.on('expand', 'li', function() {
 	setTimeout(function() {
 		$input.focus()
 	}, 150);
+})
+
+// Deselecting all tasks
+$('#tasks > .tasksContent').click(function(e) {
+	if(e.target.nodeName == 'UL' || e.target.nodeName == 'H2' || e.target.className.indexOf('tasksContent') > -1) {
+		$tasks.find('.expanded').dblclick()
+		$tasks.find('.selected').removeClass('selected')
+		ui.panel.updateButtons({del: false})
+	}
 })
 
 // Content
@@ -863,7 +949,7 @@ $tasks.on('change', 'textarea', function() {
 // BUTTONS
 // -------
 
-// Updates the logbook with an bloody awesome animation
+// Updates the logbook with an animation
 $tasks.on('click', '#updateLogbook', function() {
 
 	// Get current tasks in logbook
@@ -932,8 +1018,12 @@ $sidebar.on('click', '.listAddBTN', function() {
 	ui.toggleListEdit($lists.find('input').parent(), 'close')
 	var listId = core.list().add($l._('nlist'))
 	$lists.append(ui.lists.draw(listId))
+	
 	// Edit List Name
-	$('#L' + listId).droppable(ui.lists.dropOptions).find('.name').dblclick()
+	$('#L' + listId).find('.name').dblclick()
+
+	//Droppable
+	ui.lists.droppable($('#L' + listId))
 })
 
 
@@ -1039,13 +1129,6 @@ $sidebar.on('click', '.list-toggle', function() {
 	}
 })
 
-
-//This is the best plugin system in the world. Sue me.
-var plugin = {
-	add: function(fn) {
-		fn();
-	}
-}
 
 String.prototype.toNum = function () {
 	var x = parseInt(this, 10);

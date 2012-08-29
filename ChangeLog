@@ -1,6 +1,24 @@
 Changelog
 =========
 
+### 1.4.7
+- Translation fixes
+- Design fixes
+- Sync Fixes
+
+### 1.4.6
+- Added check for sync url and service
+- Added 'Metro' theme by mlms13
+- Linux version now uses AJAX to sync
+
+### 1.4.5
+- Added CleanDB. This cleans the local database for any errors and attempts to fix them.
+- Switched to using random IDs for tasks and lists to prevent sync errors
+- List counts now ignore completed tasks
+
+### 1.4.4
+- Duplicate of 1.4.3 for Linux
+
 ### 1.4.3
 - Brought back expanding notes area
 - Brought back auto linking of URLs

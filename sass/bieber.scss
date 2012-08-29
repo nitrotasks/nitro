@@ -9,8 +9,7 @@ $panel_color: #333;
 $panel_border: #111;
 $panel_text: #fff;
 $task_color: #fff;
-$task_selected: #C8FDFF;
-$notes_bg: #F8FAF0;
+$task_selected: lighten(#6CC0E5, 32%);
 
 $none_text: #ACACAC;
 $low_color: #6CC0E5;
@@ -18,7 +17,7 @@ $medium_color: #FBC93D;
 $high_color: #FB4F4F;
 
 body {
-	background: url(img/justin.jpeg) no-repeat left center fixed;
+	background: url(themes/bieber/justin.jpeg) no-repeat left center fixed;
 }
 
 #sidebar {
@@ -49,11 +48,11 @@ body {
 	}
 	
 	.listAddBTN {
-		background: $panel_color;
-		color: $panel_text;
+		background: #eee;
+		color: #333;
 		
 		&:hover {
-			background: lighten($panel_color, 3%);
+			background: #ddd;
 		}
 	}
 }
@@ -69,7 +68,7 @@ body {
 		font-size: 18px;
 		font-weight: bold;
 		padding-left: 20px;
-		background: url(img/logo.png) no-repeat;
+		background: url(img/svg/logo.svg) no-repeat 0 45%;
 	}
 
 	button {
@@ -79,20 +78,20 @@ body {
 		text-shadow: 0 1px 0 rgba(0,0,0,0.6);
 
 		&.add {
-			background: url(img/add.png) no-repeat 18px 0;
+			background: url(img/svg/add.svg) no-repeat 18px 50%;
 			padding-left: 50px;
 		}
 		&.delete {
-			background: url(img/delete.png) no-repeat 18px 0;
+			background: url(img/svg/delete.svg) no-repeat 18px 50%;
 			padding-left: 50px;
 		}
 		&.sort {
-			background: url(img/sort.png) no-repeat 12px 0;
+			background: url(img/svg/sort.svg) no-repeat 14px 50%;
 			padding-left: 46px;
 		}
 		&.settingsbtn {
 			margin: 0 7px 0 0;
-			background: url(img/settings.png) no-repeat 8px 0;
+			background: url(img/svg/settings.svg) no-repeat 50%;
 			padding: 0 20px;
 		}
 
@@ -122,9 +121,6 @@ body {
 		border-radius: 2px;
 		width: 120px;
 		padding-left: 23px;
-		background: url(img/search.png) no-repeat, #fff;
-
-		-webkit-transition: 150ms width ease;
 
 		&:focus {
 			outline: 0;
@@ -199,17 +195,12 @@ body {
 			}
 
 			.label {
-				border-left: 1px solid darken($task_color, 25%);
+				border-left: 1px solid darken($task_color, 10%);
 				border-radius: 0 4px 4px 0;
 
 				&.overdue, &.due {
 					@include background(linear-gradient(top, lighten($high_color, 25%) 0%, lighten($high_color, 20%) 100%));
 				}
-			}
-
-			.notes {
-				width: 30px;
-				background: url(img/notes.png) no-repeat 8px 7px;
 			}
 			
 			&.selected {
@@ -278,7 +269,6 @@ body {
 			.hidden textarea {
 				border-top: 1px solid  darken($task_color, 15%);
 				border-radius: 0 0 5px 5px;
-				background: url(img/notes.png) no-repeat 8px 7px, $notes_bg;
 			}
 		}
 	}

@@ -152,6 +152,837 @@
 	}
 
 }(jQuery));
+/* ./plugins/bootstrap-datepicker.js */
+
+/* =========================================================
+ * bootstrap-datepicker.js
+ * http://www.eyecon.ro/bootstrap-datepicker
+ * =========================================================
+ * Copyright 2012 Stefan Petre
+ * Improvements by Andrew Rowls
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ========================================================= */
+
+!function( $ ) {
+
+	// Picker object
+
+	var Datepicker = function(element, options){
+		this.element = $(element);
+		this.language = options.language||this.element.data('date-language')||"i18n";
+		this.language = this.language in dates ? this.language : "i18n";
+		this.format = DPGlobal.parseFormat(options.format||this.element.data('date-format')||'mm/dd/yyyy');
+		this.picker = $(DPGlobal.template)
+							.appendTo('body')
+							.on({
+								click: $.proxy(this.click, this),
+								mousedown: $.proxy(this.mousedown, this)
+							});
+		this.isInput = this.element.is('input');
+		this.component = this.element.is('.date') ? this.element.find('.add-on') : false;
+		if(this.component && this.component.length === 0)
+			this.component = false;
+
+		if (this.isInput) {
+			this.element.on({
+				focus: $.proxy(this.show, this),
+				blur: $.proxy(this._hide, this),
+				keyup: $.proxy(this.update, this),
+				keydown: $.proxy(this.keydown, this)
+			});
+		} else {
+			if (this.component){
+				// For components that are not readonly, allow keyboard nav
+				this.element.find('input').on({
+					focus: $.proxy(this.show, this),
+					blur: $.proxy(this._hide, this),
+					keyup: $.proxy(this.update, this),
+					keydown: $.proxy(this.keydown, this)
+				});
+
+				this.component.on('click', $.proxy(this.show, this));
+				var element = this.element.find('input');
+				element.on({
+					blur: $.proxy(this._hide, this)
+				})
+			} else {
+				this.element.on('click', $.proxy(this.show, this));
+			}
+		}
+
+		this.autoclose = false;
+		if ('autoclose' in options) {
+			this.autoclose = options.autoclose;
+		} else if ('dateAutoclose' in this.element.data()) {
+			this.autoclose = this.element.data('date-autoclose');
+		}
+
+		switch(options.startView){
+			case 2:
+			case 'decade':
+				this.viewMode = this.startViewMode = 2;
+				break;
+			case 1:
+			case 'year':
+				this.viewMode = this.startViewMode = 1;
+				break;
+			case 0:
+			case 'month':
+			default:
+				this.viewMode = this.startViewMode = 0;
+				break;
+		}
+
+		this.todayBtn = (options.todayBtn||this.element.data('date-today-btn')||false);
+
+		this.weekStart = ((options.weekStart||this.element.data('date-weekstart')||dates[this.language].weekStart||0) % 7);
+		this.weekEnd = ((this.weekStart + 6) % 7);
+		this.startDate = -Infinity;
+		this.endDate = Infinity;
+		this.setStartDate(options.startDate||this.element.data('date-startdate'));
+		this.setEndDate(options.endDate||this.element.data('date-enddate'));
+		this.fillDow();
+		this.fillMonths();
+		this.update();
+		this.showMode();
+	};
+
+	Datepicker.prototype = {
+		constructor: Datepicker,
+
+		show: function(e) {
+			this.picker.show();
+			this.height = this.component ? this.component.outerHeight() : this.element.outerHeight();
+			this.place();
+			$(window).on('resize', $.proxy(this.place, this));
+			if (e ) {
+				e.stopPropagation();
+				e.preventDefault();
+			}
+			if (!this.isInput) {
+				$(document).on('mousedown', $.proxy(this.hide, this));
+			}
+			this.element.trigger({
+				type: 'show',
+				date: this.date
+			});
+		},
+
+		_hide: function(e){
+			// When going from the input to the picker, IE handles the blur/click
+			// events differently than other browsers, in such a way that the blur
+			// event triggers a hide before the click event can stop propagation.
+			if ($.browser.msie) {
+				var t = this, args = arguments;
+
+				function cancel_hide(){
+					clearTimeout(hide_timeout);
+					e.target.focus();
+					t.picker.off('click', cancel_hide);
+				}
+
+				function do_hide(){
+					t.hide.apply(t, args);
+					t.picker.off('click', cancel_hide);
+				}
+
+				this.picker.on('click', cancel_hide);
+				var hide_timeout = setTimeout(do_hide, 100);
+			} else {
+				return this.hide.apply(this, arguments);
+			}
+		},
+
+		hide: function(e){
+			this.picker.hide();
+			$(window).off('resize', this.place);
+			this.viewMode = this.startViewMode;
+			this.showMode();
+			if (!this.isInput) {
+				$(document).off('mousedown', this.hide);
+			}
+			if (e && e.currentTarget.value)
+				this.setValue();
+			this.element.trigger({
+				type: 'hide',
+				date: this.date
+			});
+		},
+
+		setValue: function() {
+			var formated = DPGlobal.formatDate(this.date, this.format, this.language);
+			if (!this.isInput) {
+				if (this.component){
+					this.element.find('input').prop('value', formated);
+				}
+				this.element.data('date', formated);
+			} else {
+				this.element.prop('value', formated);
+			}
+		},
+
+		setStartDate: function(startDate){
+			this.startDate = startDate||-Infinity;
+			if (this.startDate !== -Infinity) {
+				this.startDate = DPGlobal.parseDate(this.startDate, this.format, this.language);
+			}
+			this.update();
+			this.updateNavArrows();
+		},
+
+		setEndDate: function(endDate){
+			this.endDate = endDate||Infinity;
+			if (this.endDate !== Infinity) {
+				this.endDate = DPGlobal.parseDate(this.endDate, this.format, this.language);
+			}
+			this.update();
+			this.updateNavArrows();
+		},
+
+		place: function(){
+			var offset = this.component ? this.component.offset() : this.element.offset();
+			this.picker.css({
+				top: offset.top + this.height,
+				left: offset.left - 150
+			});
+		},
+
+		update: function(){
+			this.date = DPGlobal.parseDate(
+				this.isInput ? this.element.prop('value') : this.element.data('date') || this.element.find('input').prop('value'),
+				this.format, this.language
+			);
+			if (this.date < this.startDate) {
+				this.viewDate = new Date(this.startDate);
+			} else if (this.date > this.endDate) {
+				this.viewDate = new Date(this.endDate);
+			} else {
+				this.viewDate = new Date(this.date);
+			}
+			this.fill();
+		},
+
+		fillDow: function(){
+			var dowCnt = this.weekStart;
+			var html = '<tr>';
+			while (dowCnt < this.weekStart + 7) {
+				html += '<th class="dow">'+dates[this.language].daysMin[(dowCnt++)%7]+'</th>';
+			}
+			html += '</tr>';
+			this.picker.find('.datepicker-days thead').append(html);
+		},
+
+		fillMonths: function(){
+			var html = '';
+			var i = 0
+			while (i < 12) {
+				html += '<span class="month">'+dates[this.language].monthsShort[i++]+'</span>';
+			}
+			this.picker.find('.datepicker-months td').html(html);
+		},
+
+		fill: function() {
+			var d = new Date(this.viewDate),
+				year = d.getFullYear(),
+				month = d.getMonth(),
+				startYear = this.startDate !== -Infinity ? this.startDate.getFullYear() : -Infinity,
+				startMonth = this.startDate !== -Infinity ? this.startDate.getMonth() : -Infinity,
+				endYear = this.endDate !== Infinity ? this.endDate.getFullYear() : Infinity,
+				endMonth = this.endDate !== Infinity ? this.endDate.getMonth() : Infinity,
+				currentDate = this.date.valueOf();
+			this.picker.find('.datepicker-days thead th:eq(1)')
+						.text(dates[this.language].months[month]+' '+year);
+			this.picker.find('tfoot th.today')
+						.text(dates[this.language].today)
+						.toggle(this.todayBtn);
+			this.updateNavArrows();
+			this.fillMonths();
+			var prevMonth = new Date(year, month-1, 28,0,0,0,0),
+				day = DPGlobal.getDaysInMonth(prevMonth.getFullYear(), prevMonth.getMonth());
+			prevMonth.setDate(day);
+			prevMonth.setDate(day - (prevMonth.getDay() - this.weekStart + 7)%7);
+			var nextMonth = new Date(prevMonth);
+			nextMonth.setDate(nextMonth.getDate() + 42);
+			nextMonth = nextMonth.valueOf();
+			html = [];
+			var clsName;
+			while(prevMonth.valueOf() < nextMonth) {
+				if (prevMonth.getDay() == this.weekStart) {
+					html.push('<tr>');
+				}
+				clsName = '';
+				if (prevMonth.getFullYear() < year || (prevMonth.getFullYear() == year && prevMonth.getMonth() < month)) {
+					clsName += ' old';
+				} else if (prevMonth.getFullYear() > year || (prevMonth.getFullYear() == year && prevMonth.getMonth() > month)) {
+					clsName += ' new';
+				}
+				if (prevMonth.valueOf() == currentDate) {
+					clsName += ' active';
+				}
+				if (prevMonth.valueOf() < this.startDate || prevMonth.valueOf() > this.endDate) {
+					clsName += ' disabled';
+				}
+				html.push('<td class="day'+clsName+'">'+prevMonth.getDate() + '</td>');
+				if (prevMonth.getDay() == this.weekEnd) {
+					html.push('</tr>');
+				}
+				prevMonth.setDate(prevMonth.getDate()+1);
+			}
+			this.picker.find('.datepicker-days tbody').empty().append(html.join(''));
+			var currentYear = this.date.getFullYear();
+
+			var months = this.picker.find('.datepicker-months')
+						.find('th:eq(1)')
+							.text(year)
+							.end()
+						.find('span').removeClass('active');
+			if (currentYear == year) {
+				months.eq(this.date.getMonth()).addClass('active');
+			}
+			if (year < startYear || year > endYear) {
+				months.addClass('disabled');
+			}
+			if (year == startYear) {
+				months.slice(0, startMonth).addClass('disabled');
+			}
+			if (year == endYear) {
+				months.slice(endMonth+1).addClass('disabled');
+			}
+
+			html = '';
+			year = parseInt(year/10, 10) * 10;
+			var yearCont = this.picker.find('.datepicker-years')
+								.find('th:eq(1)')
+									.text(year + '-' + (year + 9))
+									.end()
+								.find('td');
+			year -= 1;
+			for (var i = -1; i < 11; i++) {
+				html += '<span class="year'+(i == -1 || i == 10 ? ' old' : '')+(currentYear == year ? ' active' : '')+(year < startYear || year > endYear ? ' disabled' : '')+'">'+year+'</span>';
+				year += 1;
+			}
+			yearCont.html(html);
+		},
+
+		updateNavArrows: function() {
+			var d = new Date(this.viewDate),
+				year = d.getFullYear(),
+				month = d.getMonth();
+			switch (this.viewMode) {
+				case 0:
+					if (this.startDate !== -Infinity && year <= this.startDate.getFullYear() && month <= this.startDate.getMonth()) {
+						this.picker.find('.prev').css({visibility: 'hidden'});
+					} else {
+						this.picker.find('.prev').css({visibility: 'visible'});
+					}
+					if (this.endDate !== Infinity && year >= this.endDate.getFullYear() && month >= this.endDate.getMonth()) {
+						this.picker.find('.next').css({visibility: 'hidden'});
+					} else {
+						this.picker.find('.next').css({visibility: 'visible'});
+					}
+					break;
+				case 1:
+				case 2:
+					if (this.startDate !== -Infinity && year <= this.startDate.getFullYear()) {
+						this.picker.find('.prev').css({visibility: 'hidden'});
+					} else {
+						this.picker.find('.prev').css({visibility: 'visible'});
+					}
+					if (this.endDate !== Infinity && year >= this.endDate.getFullYear()) {
+						this.picker.find('.next').css({visibility: 'hidden'});
+					} else {
+						this.picker.find('.next').css({visibility: 'visible'});
+					}
+					break;
+			}
+		},
+
+		click: function(e) {
+			e.stopPropagation();
+			e.preventDefault();
+			var target = $(e.target).closest('span, td, th');
+			if (target.length == 1) {
+				switch(target[0].nodeName.toLowerCase()) {
+					case 'th':
+						switch(target[0].className) {
+							case 'switch':
+								this.showMode(1);
+								break;
+							case 'prev':
+							case 'next':
+								var dir = DPGlobal.modes[this.viewMode].navStep * (target[0].className == 'prev' ? -1 : 1);
+								switch(this.viewMode){
+									case 0:
+										this.viewDate = this.moveMonth(this.viewDate, dir);
+										break;
+									case 1:
+									case 2:
+										this.viewDate = this.moveYear(this.viewDate, dir);
+										break;
+								}
+								this.fill();
+								break;
+							case 'today':
+								var date = new Date();
+								date.setHours(0);
+								date.setMinutes(0);
+								date.setSeconds(0);
+								date.setMilliseconds(0);
+
+								this.showMode(-2);
+								this._setDate(date);
+								break;
+						}
+						break;
+					case 'span':
+						if (!target.is('.disabled')) {
+							this.viewDate.setDate(1);
+							if (target.is('.month')) {
+								var month = target.parent().find('span').index(target);
+								this.viewDate.setMonth(month);
+							} else {
+								var year = parseInt(target.text(), 10)||0;
+								this.viewDate.setFullYear(year);
+							}
+							this.showMode(-1);
+							this.fill();
+						}
+						break;
+					case 'td':
+						if (target.is('.day') && !target.is('.disabled')){
+							var day = parseInt(target.text(), 10)||1;
+							var year = this.viewDate.getFullYear(),
+								month = this.viewDate.getMonth();
+							if (target.is('.old')) {
+								if (month == 0) {
+									month = 11;
+									year -= 1;
+								} else {
+									month -= 1;
+								}
+							} else if (target.is('.new')) {
+								if (month == 11) {
+									month = 0;
+									year += 1;
+								} else {
+									month += 1;
+								}
+							}
+							this._setDate(new Date(year, month, day,0,0,0,0));
+						}
+						break;
+				}
+			}
+		},
+
+		_setDate: function( date ){
+			this.date = date;
+			this.viewDate = date;
+			this.fill();
+			this.setValue();
+			this.element.trigger({
+				type: 'changeDate',
+				date: this.date
+			});
+			var element;
+			if (this.isInput) {
+				element = this.element;
+			} else if (this.component){
+				element = this.element.find('input');
+			}
+			if (element) {
+				element.change();
+				if (this.autoclose) {
+					element.blur();
+				}
+			}
+		},
+
+		mousedown: function(e){
+			e.stopPropagation();
+			e.preventDefault();
+		},
+
+		moveMonth: function(date, dir){
+			if (!dir) return date;
+			var new_date = new Date(date.valueOf()),
+				day = new_date.getDate(),
+				month = new_date.getMonth(),
+				mag = Math.abs(dir),
+				new_month, test;
+			dir = dir > 0 ? 1 : -1;
+			if (mag == 1){
+				test = dir == -1
+					// If going back one month, make sure month is not current month
+					// (eg, Mar 31 -> Feb 31 == Feb 28, not Mar 02)
+					? function(){ return new_date.getMonth() == month; }
+					// If going forward one month, make sure month is as expected
+					// (eg, Jan 31 -> Feb 31 == Feb 28, not Mar 02)
+					: function(){ return new_date.getMonth() != new_month; };
+				new_month = month + dir;
+				new_date.setMonth(new_month);
+				// Dec -> Jan (12) or Jan -> Dec (-1) -- limit expected date to 0-11
+				if (new_month < 0 || new_month > 11)
+					new_month = (new_month + 12) % 12;
+			} else {
+				// For magnitudes >1, move one month at a time...
+				for (var i=0; i<mag; i++)
+					// ...which might decrease the day (eg, Jan 31 to Feb 28, etc)...
+					new_date = this.moveMonth(new_date, dir);
+				// ...then reset the day, keeping it in the new month
+				new_month = new_date.getMonth();
+				new_date.setDate(day);
+				test = function(){ return new_month != new_date.getMonth(); };
+			}
+			// Common date-resetting loop -- if date is beyond end of month, make it
+			// end of month
+			while (test()){
+				new_date.setDate(--day);
+				new_date.setMonth(new_month);
+			}
+			return new_date;
+		},
+
+		moveYear: function(date, dir){
+			return this.moveMonth(date, dir*12);
+		},
+
+		keydown: function(e){
+			if (this.picker.is(':not(:visible)')){
+				if (e.keyCode == 27) // allow escape to hide and re-show picker
+					this.show();
+				return;
+			}
+			var dateChanged = false,
+				dir, day, month;
+			switch(e.keyCode){
+				case 27: // escape
+					this.hide();
+					e.preventDefault();
+					break;
+				case 37: // left
+				case 39: // right
+					dir = e.keyCode == 37 ? -1 : 1;
+					if (e.ctrlKey){
+						this.date = this.moveYear(this.date, dir);
+						this.viewDate = this.moveYear(this.viewDate, dir);
+					} else if (e.shiftKey){
+						this.date = this.moveMonth(this.date, dir);
+						this.viewDate = this.moveMonth(this.viewDate, dir);
+					} else {
+						this.date.setDate(this.date.getDate() + dir);
+						this.viewDate.setDate(this.viewDate.getDate() + dir);
+					}
+					this.setValue();
+					this.update();
+					e.preventDefault();
+					dateChanged = true;
+					break;
+				case 38: // up
+				case 40: // down
+					dir = e.keyCode == 38 ? -1 : 1;
+					if (e.ctrlKey){
+						this.date = this.moveYear(this.date, dir);
+						this.viewDate = this.moveYear(this.viewDate, dir);
+					} else if (e.shiftKey){
+						this.date = this.moveMonth(this.date, dir);
+						this.viewDate = this.moveMonth(this.viewDate, dir);
+					} else {
+						this.date.setDate(this.date.getDate() + dir * 7);
+						this.viewDate.setDate(this.viewDate.getDate() + dir * 7);
+					}
+					this.setValue();
+					this.update();
+					e.preventDefault();
+					dateChanged = true;
+					break;
+				case 13: // enter
+					this.hide();
+					e.preventDefault();
+					break;
+			}
+			if (dateChanged){
+				this.element.trigger({
+					type: 'changeDate',
+					date: this.date
+				});
+				var element;
+				if (this.isInput) {
+					element = this.element;
+				} else if (this.component){
+					element = this.element.find('input');
+				}
+				if (element) {
+					element.change();
+				}
+			}
+		},
+
+		showMode: function(dir) {
+			if (dir) {
+				this.viewMode = Math.max(0, Math.min(2, this.viewMode + dir));
+			}
+			this.picker.find('>div').hide().filter('.datepicker-'+DPGlobal.modes[this.viewMode].clsName).show();
+			this.updateNavArrows();
+		}
+	};
+
+	$.fn.datepicker = function ( option ) {
+		var args = Array.apply(null, arguments);
+		args.shift();
+		return this.each(function () {
+			var $this = $(this),
+				data = $this.data('datepicker'),
+				options = typeof option == 'object' && option;
+			if (!data) {
+				$this.data('datepicker', (data = new Datepicker(this, $.extend({}, $.fn.datepicker.defaults,options))));
+			}
+			if (typeof option == 'string') data[option].apply(data, args);
+		});
+	};
+
+	$.fn.datepicker.defaults = {
+	};
+	$.fn.datepicker.Constructor = Datepicker;
+	var dates = $.fn.datepicker.dates = {
+		// Nitro is using its own dictionary for translations
+		// If you wish to add translations for day/month names, see this folder: /js/translations/
+		i18n: {
+			days: [
+				$.i18n._("sunday"),
+				$.i18n._("monday"),
+				$.i18n._("tuesday"),
+				$.i18n._("wednesday"),
+				$.i18n._("thursday"),
+				$.i18n._("friday"),
+				$.i18n._("saturday"),
+				$.i18n._("sunday")
+			],
+			daysShort: [
+				$.i18n._("sunShort"),
+				$.i18n._("monShort"),
+				$.i18n._("tueShort"),
+				$.i18n._("wedShort"),
+				$.i18n._("thuShort"),
+				$.i18n._("friShort"),
+				$.i18n._("satShort"),
+				$.i18n._("sunShort")
+			],
+			daysMin: [
+				$.i18n._("sunMin"),
+				$.i18n._("monMin"),
+				$.i18n._("tueMin"),
+				$.i18n._("wedMin"),
+				$.i18n._("thuMin"),
+				$.i18n._("friMin"),
+				$.i18n._("satMin"),
+				$.i18n._("sunMin")
+			],
+			months: [
+				$.i18n._("january"),
+				$.i18n._("february"),
+				$.i18n._("march"),
+				$.i18n._("april"),
+				$.i18n._("may"),
+				$.i18n._("june"),
+				$.i18n._("july"),
+				$.i18n._("august"),
+				$.i18n._("september"),
+				$.i18n._("october"),
+				$.i18n._("november"),
+				$.i18n._("december")
+			],
+			monthsShort: [
+				$.i18n._("janShort"),
+				$.i18n._("febShort"),
+				$.i18n._("marShort"),
+				$.i18n._("aprShort"),
+				$.i18n._("mayShort"),
+				$.i18n._("junShort"),
+				$.i18n._("julShort"),
+				$.i18n._("augShort"),
+				$.i18n._("sepShort"),
+				$.i18n._("octShort"),
+				$.i18n._("novShort"),
+				$.i18n._("decShort")
+			],
+			today: $.i18n._('today')
+		}
+	}
+
+	var DPGlobal = {
+		modes: [
+			{
+				clsName: 'days',
+				navFnc: 'Month',
+				navStep: 1
+			},
+			{
+				clsName: 'months',
+				navFnc: 'FullYear',
+				navStep: 1
+			},
+			{
+				clsName: 'years',
+				navFnc: 'FullYear',
+				navStep: 10
+		}],
+		isLeapYear: function (year) {
+			return (((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0))
+		},
+		getDaysInMonth: function (year, month) {
+			return [31, (DPGlobal.isLeapYear(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month]
+		},
+		validParts: /dd?|mm?|MM?|yy(?:yy)?/g,
+		nonpunctuation: /[^ -\/:-@\[-`{-~\t\n\r]+/g,
+		parseFormat: function(format){
+			// IE treats \0 as a string end in inputs (truncating the value),
+			// so it's a bad format delimiter, anyway
+			var separators = format.replace(this.validParts, '\0').split('\0'),
+				parts = format.match(this.validParts);
+			if (!separators || !separators.length || !parts || parts.length == 0){
+				throw new Error("Invalid date format.");
+			}
+			return {separators: separators, parts: parts};
+		},
+		parseDate: function(date, format, language) {
+			if (date instanceof Date) return date;
+			if (/^[-+]\d+[dmwy]([\s,]+[-+]\d+[dmwy])*$/.test(date)) {
+				var part_re = /([-+]\d+)([dmwy])/,
+					parts = date.match(/([-+]\d+)([dmwy])/g),
+					part, dir;
+				date = new Date();
+				for (var i=0; i<parts.length; i++) {
+					part = part_re.exec(parts[i]);
+					dir = parseInt(part[1]);
+					switch(part[2]){
+						case 'd':
+							date.setDate(date.getDate() + dir);
+							break;
+						case 'm':
+							date = Datepicker.prototype.moveMonth.call(Datepicker.prototype, date, dir);
+							break;
+						case 'w':
+							date.setDate(date.getDate() + dir * 7);
+							break;
+						case 'y':
+							date = Datepicker.prototype.moveYear.call(Datepicker.prototype, date, dir);
+							break;
+					}
+				}
+				return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0);
+			}
+			var parts = date ? date.match(this.nonpunctuation) : [],
+				date = new Date(),
+				parsed = {},
+				setters_order = ['yyyy', 'yy', 'M', 'MM', 'm', 'mm', 'd', 'dd'],
+				setters_map = {
+					yyyy: function(d,v){ return d.setFullYear(v); },
+					yy: function(d,v){ return d.setFullYear(2000+v); },
+					m: function(d,v){ return d.setMonth(v-1); },
+					d: function(d,v){ return d.setDate(v); }
+				},
+				val, filtered, part;
+			setters_map['M'] = setters_map['MM'] = setters_map['mm'] = setters_map['m'];
+			setters_map['dd'] = setters_map['d'];
+			date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0);
+			if (parts.length == format.parts.length) {
+				for (var i=0, cnt = format.parts.length; i < cnt; i++) {
+					val = parseInt(parts[i], 10)||1;
+					part = format.parts[i];
+					switch(part) {
+						case 'MM':
+							filtered = $(dates[language].months).filter(function(){
+								var m = this.slice(0, parts[i].length),
+									p = parts[i].slice(0, m.length);
+								return m == p;
+							});
+							val = $.inArray(filtered[0], dates[language].months) + 1;
+							break;
+						case 'M':
+							filtered = $(dates[language].monthsShort).filter(function(){
+								var m = this.slice(0, parts[i].length),
+									p = parts[i].slice(0, m.length);
+								return m == p;
+							});
+							val = $.inArray(filtered[0], dates[language].monthsShort) + 1;
+							break;
+					}
+					parsed[part] = val;
+				}
+				for (var i=0, s; i<setters_order.length; i++){
+					s = setters_order[i];
+					if (s in parsed)
+						setters_map[s](date, parsed[s])
+				}
+			}
+			return date;
+		},
+		formatDate: function(date, format, language){
+			var val = {
+				d: date.getDate(),
+				m: date.getMonth() + 1,
+				M: dates[language].monthsShort[date.getMonth()],
+				MM: dates[language].months[date.getMonth()],
+				yy: date.getFullYear().toString().substring(2),
+				yyyy: date.getFullYear()
+			};
+			val.dd = (val.d < 10 ? '0' : '') + val.d;
+			val.mm = (val.m < 10 ? '0' : '') + val.m;
+			var date = [],
+				seps = $.extend([], format.separators);
+			for (var i=0, cnt = format.parts.length; i < cnt; i++) {
+				if (seps.length)
+					date.push(seps.shift())
+				date.push(val[format.parts[i]]);
+			}
+			return date.join('');
+		},
+		headTemplate: '<thead>'+
+							'<tr>'+
+								'<th class="prev"><i class="icon-arrow-left"/></th>'+
+								'<th colspan="5" class="switch"></th>'+
+								'<th class="next"><i class="icon-arrow-right"/></th>'+
+							'</tr>'+
+						'</thead>',
+		contTemplate: '<tbody><tr><td colspan="7"></td></tr></tbody>',
+		footTemplate: '<tfoot><tr><th colspan="7" class="today"></th></tr></tfoot>'
+	};
+	DPGlobal.template = '<div class="datepicker dropdown-menu">'+
+							'<div class="datepicker-days">'+
+								'<table class=" table-condensed">'+
+									DPGlobal.headTemplate+
+									'<tbody></tbody>'+
+									DPGlobal.footTemplate+
+								'</table>'+
+							'</div>'+
+							'<div class="datepicker-months">'+
+								'<table class="table-condensed">'+
+									DPGlobal.headTemplate+
+									DPGlobal.contTemplate+
+									DPGlobal.footTemplate+
+								'</table>'+
+							'</div>'+
+							'<div class="datepicker-years">'+
+								'<table class="table-condensed">'+
+									DPGlobal.headTemplate+
+									DPGlobal.contTemplate+
+									DPGlobal.footTemplate+
+								'</table>'+
+							'</div>'+
+						'</div>';
+}( window.jQuery )
 /* ./plugins/cleanDB.js */
 
 plugin.cleanDB = function() {
@@ -435,6 +1266,18 @@ plugin.cleanDB = function() {
 	// List Time
 	if(lists.hasOwnProperty('time')) {
 		o.lists.time = Number(lists.time)
+	}
+
+	d.prefs.sync = d.prefs.sync || {}
+	d.prefs.sync.url = "http://app.nitrotasks.com"
+	if (typeof d.prefs.sync == 'string') {
+		d.prefs.sync = { url: "http://app.nitrotasks.com", interval: 'manual'}
+	}
+	if (d.prefs.sync.service !== 'dropbox' && d.prefs.sync.service !== 'ubuntu') {
+		delete d.prefs.sync.access
+		delete d.prefs.sync.email
+		delete d.prefs.sync.active
+		delete d.prefs.sync.service
 	}
 
 	d.tasks = o.tasks
@@ -926,96 +1769,137 @@ $tasks.on('keydown', 'input, textarea', function(e) {
  * Licensed under the BSD License
  */
 
+ /*jshint asi:true*/
+
 //Adds as a plugin
 plugin.add(function() {
 
-	$(document).on('loaded', function() {
-		$panel.right.append('<input id="search" type="search" placeholder="'+$.i18n._('Search')+'">')
-		$search = $("#search")
-	
-		$search.on('keyup', function() {
+	// Append search box to DOM and cache element
+	$panel.right.append('<input id="search" type="search" placeholder="'+$.i18n._('search')+'">')
+	$search = $("#search")
 
-			var $this = $(this),
-				input = $this.val()
 
-			var searcher = function(key) {
-				var pass1 = [],
-					pass2 = true;
+	// Run search when the user enters a key
+	$search.on('keyup', function() {
 
-				// Loop through each word in the query
-				for (var q = 0; q < query.length; q++) {
+		var $this = $(this),
+			input = $this.val()
 
-					// Create new search
-					search = new RegExp(query[q], 'i');
+		if (input === '') {
 
-					if(typeof(key) == 'function') {
-						//Nope. Not a good idea
-						return;
-					}
+			// If there's no input, just load list
+			$sidebar.find('.selected .name').click()
 
-					var task = core.storage.tasks[key]
+		} else {
 
-					// Search
-					if (search.test(task.content + task.notes + '#' + task.tags.toString().replace(/,/g,' #'))) {
-						pass1.push(true);
-					} else {
-						pass1.push(false);
-					}
-				}
+			// Puts the results into the UI
+			$tasks.html('<h2>Search Results: ' + $this.val() + '</h2><ul></ul>')
 
-				// This makes sure that the task has matched each word in the query
-				for (var p = 0; p < pass1.length; p++) {
-					if (pass1[p] === false) {
-						pass2 = false;
-					}
-				}
+			// Set vars
+			var query = input.split(' '),
+				results = [],
+				loggedResults = [],
+				search, str, tasks, key
 
-				// If all terms match then add task to the results array
-				if (pass2) return (key)
-				else return false
-			}
-			
-			if (input == '') {
-				//If there's no input, just load list
-				$sidebar.find('.selected .name').click();
-			} else {
-				//Puts the results into the UI
-				$tasks.html('<h2>Search Results: ' + $this.val() + '</h2><ul></ul>')
+			// All Tasks list
+			if (ui.session.selected == 'all') {
 
-				//There is some input
-				// Set vars
-				var query = input.split(' '),
-					results = [],
-					search;
+				// Loop through all tasks
+				for (key in core.storage.tasks) {
 
-				if (ui.session.selected == 'all') {
+					// Ignore deleted tasks
+					if(!core.storage.tasks[key].hasOwnProperty('deleted')) {
 
-					// Search loop
-					for (var t in core.storage.tasks) {
-
-						if(!core.storage.tasks[t].hasOwnProperty('deleted')) {
-
-							// Search Task
-							var str = searcher(t)
-							if (str) {
+						// Search Task
+						str = searcher(key, query)
+						if (str) {
+							if (core.storage.tasks[key].list === 'logbook') {
+								loggedResults.push(str)
+							} else {
 								results.push(str)
 							}
-
 						}
-
-					}
-
-				} else {
-					for (var key in core.storage.lists.items[ui.session.selected].order) {
-						var str = searcher(core.storage.lists.items[ui.session.selected].order[key])
-						if(str) results.push(str);
 					}
 				}
-				// Draws
-				$tasks.find('ul').append(ui.lists.drawTasks(results))
+
+			// Today list
+			} else if (ui.session.selected == 'today') {
+
+				// Search tasks that are due today as well
+				tasks = core.list('today').populate()
+				for (key in tasks) {
+					str = searcher(tasks[key], query)
+					if (str) {
+						results.push(str)
+					}
+				}
+
+			// Every other list
+			} else {
+				tasks = core.storage.lists.items[ui.session.selected].order
+				for (key in tasks) {
+					str = searcher(tasks[key], query)
+					if(str) results.push(str)
+				}
 			}
-		})
+
+			// Draws
+			$tasks.find('ul').append(ui.lists.drawTasks(results))
+
+			// Offer to show logged results
+			if (loggedResults.length) {
+
+				// Add a button with correctly pluralized text
+				$tasks.append('<a class="showMore">' +
+					((loggedResults.length === 1) ? $l._('showLoggedTask') : $l._('showLoggedTasks', [loggedResults.length])) +
+					'</a>')
+
+				// Show the logged results when the button is clicked
+				$tasks.find('.showMore').click(function () {
+					$tasks.find('ul').append(ui.lists.drawTasks(loggedResults))
+					$(this).hide()
+				})
+			}
+		}
 	})
+
+	// Will determine wether a task matches a query
+	var searcher = function(taskId, query) {
+		var pass1 = [],
+			pass2 = true;
+
+		// Loop through each word in the query
+		for (var q = 0; q < query.length; q++) {
+
+			// Create new search
+			search = new RegExp(query[q], 'i');
+
+			if(typeof(taskId) == 'function') {
+				//Nope. Not a good idea
+				return;
+			}
+
+			var task = core.storage.tasks[taskId]
+
+			// Search
+			if (search.test(task.content + task.notes + '#' + task.tags.toString().replace(/,/g,' #'))) {
+				pass1.push(true);
+			} else {
+				pass1.push(false);
+			}
+		}
+
+		// This makes sure that the task has matched each word in the query
+		for (var p = 0; p < pass1.length; p++) {
+			if (pass1[p] === false) {
+				pass2 = false;
+			}
+		}
+
+		// If all terms match then add task to the results array
+		if (pass2) return (taskId)
+		else return false
+	}
 })
 /* ./plugins/settings.js */
 
@@ -1033,12 +1917,23 @@ $(function() {
 				<div class="tab-pane active" id="tabGeneral">\
 				<form>\
 					<input type="checkbox" id="deleteWarnings"><label for="deleteWarnings" class="translate" data-translate="hideWarnings"></label><br>\
-					<label class="description translate" data-translate="deleteWarningsDescription"></label>\
+					<label class="description translate" data-translate="deleteWarningsDescription"></label><br>\
+					<label class="left translate" for="weekStartsOn" data-translate="weekStartsOn"></label><select id="weekStartsOn">\
+						<option class="translate" data-translate="sunday" value="0"></option>\
+						<option class="translate" data-translate="monday" value="1"></option>\
+						<option class="translate" data-translate="tuesday" value="2"></option>\
+						<option class="translate" data-translate="wednesday" value="3"></option>\
+						<option class="translate" data-translate="thursday" value="4"></option>\
+						<option class="translate" data-translate="friday" value="5"></option>\
+						<option class="translate" data-translate="saturday" value="6"></option>\
+					</select>\
 					<hr>\
 					<label class="left translate" data-translate="nextDescription"> </label><select id="nextAmount">\
 						<option value="noLists" class="translate" data-translate="nextNoLists"></option>\
 						<option value="everything" class="translate" data-translate="nextEverything"></option>\
 					</select>\
+					<hr>\
+					<label class="left translate" data-translate="resetnitro"> </label><button id="cleardata" class="translate" data-translate="cleardata"></button>\
 				</form>\
 				</div>  \
 				<div class="tab-pane" id="tabLanguage">\
@@ -1058,61 +1953,65 @@ $(function() {
 								<td class="language"><a href="#" data-value="hungarian">Magyar</a></td>\
 								<td class="author"><a href="mailto:sjozsef0227@gmail.com">József Samu</a>\
 							</tr>\
-								<td class="language"><a href="#" data-value="hungarian">Magyar</a></td>\
-								<td class="author"><a href="mailto:sjozsef0227@gmail.com">József Samu</a>\
-							</td>\
 							<tr>\
 								<td class="language"><a href="#" data-value="pirate">English (Pirate)</a></td>\
 								<td class="author">Caffeinated Code</td>\
-								<td class="language"><a href="#" data-value="portuguese">Português</a></td>\
-								<td class="author"><a href="mailto:email@belenos.me">Belenos Govannon</a></td>	\
+								<td class="language"><a href="#" data-value="dutch">Nederlands</a></td>\
+								<td class="author"><a href="mailto:erik.am@solcon.nl">Erik Ammerlaan</a>\
 							</tr>\
 							<tr>\
 								<td class="language"><a href="#" data-value="german">Deutsch</a></td>\
 								<td class="author"><a href="mailto:d.peteranderl@googlemail.com">Dennis Peteranderl</a>, <a href="info@agentur-simon.de">Bertram Simon</a></td>\
-								<td class="language"><a href="#" data-value="russian">Русский</a></td>\
-								<td class="author"><a href="mailto:a.pryah@gmail.com">Andrej Pryakhin</a></td>\
+								<td class="language"><a href="#" data-value="portuguese">Português</a></td>\
+								<td class="author"><a href="mailto:email@belenos.me">Belenos Govannon</a></td>	\
 							</tr>\
 							<tr>\
 								<td class="language"><a href="#" data-value="spanish">Español</a></td>\
 								<td class="author"><a href="mailto:admin@bumxu.com">Juande Martos</a></td></td>\
-								<td class="language"><a href="#" data-value="finnish">Suomi</a></td>\
-								<td class="author"><a href="mailto:rami.selin@gmail.com">Rami Selin</a></td>\
+								<td class="language"><a href="#" data-value="russian">Русский</a></td>\
+								<td class="author"><a href="mailto:a.pryah@gmail.com">Andrej Pryakhin</a></td>\
 							</tr>\
 							<tr>\
 								<td class="language"><a href="#" data-value="basque">Euskara</a></td>\
 								<td class="author"><a href="mailto:atxooy@gmail.com">Naxo Oyanguren</a></td>\
-								<td class="language"><a href="#" data-value="vietnamese">Tiếng Việt</a></td>\
-								<td class="author"><a href="mailto:dinhquan@narga.net">Nguyễn Đình Quân</a></td>\
+								<td class="language"><a href="#" data-value="finnish">Suomi</a></td>\
+								<td class="author"><a href="mailto:rami.selin@gmail.com">Rami Selin</a></td>\
 							</tr>\
 							<tr>\
 								<td class="language"><a href="#" data-value="french">Français</a></td>\
 								<td class="author"><a href="mailto:maurin.raphael@gmail.com">Raphaël Maurin</a></td>\
-								<td class="language"><a href="#" data-value="arabic">‏العربية‏</a></td>\
-								<td class="author"><a href="mailto:fouad.hassouneh@gmail.com">Fouad Hassouneh</td>\
+								<td class="language"><a href="#" data-value="vietnamese">Tiếng Việt</a></td>\
+								<td class="author"><a href="mailto:dinhquan@narga.net">Nguyễn Đình Quân</a></td>\
 							</tr>\
 							<tr>\
 								<td class="language"><a href="#" data-value="italian">Italiano</a></td>\
 								<td class="author"><a href="mailto:lmassa@bwlab.it.com">Luigi Massa</a></td>\
-								<td class="language"><a href="#" data-value="chinese">中文(简体)</a></td>\
-								<td class="author"><a href="mailto:1132321739qq@gmail.com">tuhaihe</a>, 2012</td>\
+								<td class="language"><a href="#" data-value="arabic">‏العربية‏</a></td>\
+								<td class="author"><a href="mailto:fouad.hassouneh@gmail.com">Fouad Hassouneh</td>\
 							</tr>\
 							<tr>\
 								<td class="language"><a href="#" data-value="polish">Polski</a></td>\
 								<td class="author">Marcin Tydelski,<br>Kajetan Szczepaniak</td>\
+								<td class="language"><a href="#" data-value="chinese">中文(简体)</a></td>\
+								<td class="author"><a href="mailto:1132321739qq@gmail.com">tuhaihe</a>, 2012</td>\
+							</tr>\
+							<tr>\
+								<td class="language"><a href="#" data-value="bulgarian">Български</a></td>\
+								<td class="author"><a href="mailto:rextans@gmail.com">Belkin Fahri</a></td>\
 								<td class="language"><a href="#" data-value="turkish">Türkçe</a></td>\
 								<td class="author"><a href="mailto:selimssevgi@gmail.com">Selim Sırrı Sevgi</a></td>\
-							</tr-->\
+							</tr>\
 						</tbody>\
 					</table>  \
 				</div>\
-				<div class="tab-pane" id="tabTheme">  \
+				<div class="tab-pane" id="tabTheme">\
 					<label class="left translate" data-translate="pickTheme"></label><select id="theme">\
 						<option value="default">Default</option>\
 						<option value="linux">Linux</option>\
 						<option value="coffee">Blue Coffee</option>\
 						<option value="metro">Metro</option>\
 						<option value="wunderlist">Wunderlist</option>\
+						<option value="rtl">Right to Left</option>\
 						<option value="bieber">Justin Bieber</option>\
 					</select><br>\
 					<label class="description translate" data-translate="themeDescription"></label>\
@@ -1148,7 +2047,7 @@ $(function() {
 					</div>\
 					<div class="waiting">\
 						<p><span class="translate" data-translate="syncAuthenticate"> </span><a class="cancel translate" data-translate="cancel"></a></p>\
-						<img class="spinner" src="css/img/spinner.gif">\
+						<div class="spinner"><div class="bar1"></div><div class="bar2"></div><div class="bar3"></div><div class="bar4"></div><div class="bar5"></div><div class="bar6"></div><div class="bar7"></div><div class="bar8"></div><div class="bar9"></div><div class="bar10"></div><div class="bar11"></div><div class="bar12"></div></div>\
 					</div>\
 					<div class="settings">\
 						<a class="left logout translate" data-translate="syncLogout" href="#"></a>\
@@ -1168,28 +2067,34 @@ $(function() {
 					</div>\
 				</div>\
 				<div class="tab-pane" id="tabAbout">\
-					<img src="css/img/nitro_128.png" class="center">\
+					<img width="128" height="128" src="css/img/nitro_256.png" class="center">\
 					<h2>Nitro <span></span></h2>\
-					<p class="center">By George Czabania & Jono Cooper<br>\
-					Copyright © 2012 Caffeinated Code<br>\
+					<p class="center">By <a href="https://twitter.com/GeorgeCzabania">George Czabania</a> & <a href="https://twitter.com/consindo">Jono Cooper</a><br>\
+					Copyright © 2012 <a href="http://caffeinatedco.de">Caffeinated Code</a><br>\
 					Licensed under the BSD licence</p>\
 					<hr>\
+					<h3>Special Thanks</h3>\
+					<ul>\
+						<li><a href="https://github.com/mlms13">Michael Martin-Smucker</a> - Help with translations and creator of Metro theme</li>\
+						<li>Icon designed by Николай Гармаш (Nicholay Garmash)</li>\
+						<li>A huge thanks to all the translators!</li>\
+					</ul>\
 					<h3>Donors</h3>\
 					<p>A huge thanks to everyone that donated! To make a donation, visit our <a href="http://nitrotasks.com/#donate">website</a>.</p>\
 					<ul>\
 						<li>Gabriel Favaro</li>\
+						<li>Andrew (Extreme Gaming & Computers)</li>\
 						<li>James Thomas</li>\
 					</ul>\
 					<ul>\
-						<li>Sergio Rubi</li>\
+						<li>Sergio Rubio</li>\
 						<li>James Mendenhall</li>\
 						<li>Nekhelesh Ramananthan</li>\
+						<li>Nasser Alshammari</li>\
 						<li>Valentin Vago</li>\
-						<li>Sebastian Alvarez</li>\
+						<li>Martin Degeling</li>\
 						<li>Pierre Quillery</li>\
-					</ul>\
-					<ul>\
-						<li>Icon designed by Николай Гармаш (Nicholay Garmash)</li>\
+						<li>Luo Qi</li>\
 					</ul>\
 					<hr>\
 					<h3>Keyboard Shortcuts</h3>\
@@ -1279,15 +2184,13 @@ $(function() {
 			</div>\
 		</div>\
 	');
-	//Because it needs time to load
-	$(document).on('loaded', function() {
-		$('#prefsDialog .translate').map(function () {
-			$(this).html($.i18n._($(this).attr('data-translate')));
-		})
-		$('#tabAbout h2 span').html(version)
-		// Only show linux theme in Python version
-		if(app != 'python') $('#theme').find('[value=linux]').remove()
+
+	$('#prefsDialog .translate').map(function () {
+		$(this).html($.i18n._($(this).attr('data-translate')));
 	})
+	$('#tabAbout h2 span').html(version)
+	// Only show linux theme in Python version
+	if(app != 'python') $('#theme').find('[value=linux]').remove()
 
 	var $tabSync = $('#tabSync')
 
@@ -1295,39 +2198,38 @@ $(function() {
 		SETTINGS
 	**********************************/
 
-	// CHECK BOXES [DELETE WARNINGS & LOW GRAPHICS MODE]
-	$('#tabGeneral form input').change(function () {
-
+	// CHECK BOXES [Delete Warnings & Week Starts on]
+	$('#tabGeneral form input, #weekStartsOn').change(function () {
 		core.storage.prefs.deleteWarnings = $('#deleteWarnings').prop('checked')
+		core.storage.prefs.weekStartsOn = parseInt($('#weekStartsOn').val())
 		core.storage.save()
-
 	})
 
 	// NEXT AMOUNT
 	$('#nextAmount').change(function () {
 
-		core.storage.prefs.nextAmount = this.value;
-		core.storage.save();
+		core.storage.prefs.nextAmount = this.value
+		core.storage.save()
 
 		//Reloads next if it is selected
 		if (ui.session.selected === 'next') {
-			$('#Lnext .name').click();
+			$('#Lnext .name').click()
 		}
-	});
+	})
 
 	// THEME
 	$('#theme').change(function () {
 		// Get value
-		var theme = $(this)[0].value;
+		var theme = $(this)[0].value
 
 		// Set CSS file
 		$('link.theme').attr('href', 'css/' + theme + '.css').ready(function () {
-			$(window).resize();
-		});
+			$(window).resize()
+		})
 
 		//Saves Theme
-		core.storage.prefs.theme = theme;
-		core.storage.save();
+		core.storage.prefs.theme = theme
+		core.storage.save()
 
 		// Reload sidebar
 		ui.reloadSidebar()
@@ -1336,7 +2238,7 @@ $(function() {
 		if (app == 'python') {
 			document.title = 'theme|' + core.storage.prefs.theme
 		}
-	});
+	})
 
 	/**********************************
 		CUSTOM BACKGROUNDS
@@ -1344,9 +2246,9 @@ $(function() {
 
 	// REMOVE CUSTOM BACKGROUND
 	$('#removeBG').click(function () {
-		localStorage.removeItem('background');
-		$tasks[0].style.backgroundImage = 'none';
-	});
+		localStorage.removeItem('background')
+		$tasks[0].style.backgroundImage = 'none'
+	})
 
 	// DRAG AND DROP
 	$body.bind({
@@ -1360,93 +2262,94 @@ $(function() {
 			e.preventDefault();
 			e = e.originalEvent || e;
 			if (e.hasOwnProperty('files') || e.hasOwnProperty('dataTransfer')) {
-				var files = (e.files || e.dataTransfer.files);
-				setBG(files[0]);
+				var files = (e.files || e.dataTransfer.files)
+				setBG(files[0])
 				return false;
 			}
 		}
-	});
+	})
 
 	// BUTTON UPLOAD
 	$('#chooseBG').change(function (e) {
-		var files = $(this)[0].files;
-		setBG(files[0]);
-	});
+		var files = $(this)[0].files
+		setBG(files[0])
+	})
 
 	// Takes a file and sets it as the background
 	var setBG = function (f) {
-		core.storage.prefs.bgSize = this.value;
-		var reader = new FileReader();
+		core.storage.prefs.bgSize = this.value
+		var reader = new FileReader()
 		reader.onload = function (event) {
 
-			localStorage.removeItem('background');
-			localStorage.setItem('background', event.target.result);
+			localStorage.removeItem('background')
+			localStorage.setItem('background', event.target.result)
 
-			$tasks[0].style.backgroundImage = 'url(' + event.target.result + ')';
-		};
-		reader.readAsDataURL(f);
+			$tasks[0].style.backgroundImage = 'url(' + event.target.result + ')'
+		}
+		reader.readAsDataURL(f)
 		core.storage.save()
-	};
+	}
 
 	// BACKGROUND SIZE
 	$('#backgroundSize').change(function () {
 		core.storage.prefs.bgSize = this.value;
 		switch (this.value) {
 		case 'tile':
-			$tasks.removeClass('shrink zoom').addClass('tile');
+			$tasks.removeClass('shrink zoom').addClass('tile')
 			break;
 		case 'shrink':
-			$tasks.removeClass('tile zoom').addClass('shrink');
+			$tasks.removeClass('tile zoom').addClass('shrink')
 			break;
 		case 'zoom':
-			$tasks.removeClass('tile shrink').addClass('zoom');
+			$tasks.removeClass('tile shrink').addClass('zoom')
 			break;
 		}
-		core.storage.save();
-	});
+		core.storage.save()
+	})
 
 	// HEADING COLOR
 	$('#headingColor').change(function () {
-		core.storage.prefs.bgColor = this.value;
-		core.storage.save();
+		core.storage.prefs.bgColor = this.value
+		core.storage.save()
 
-		$tasks.find('h2').removeClass('light dark').addClass(core.storage.prefs.bgColor);
-	});
+		$tasks.find('h2').removeClass('light dark').addClass(core.storage.prefs.bgColor)
+	})
 
 	/**********************************
 			LOADING PREFERENCES
 	**********************************/
-	$('#deleteWarnings').prop('checked', core.storage.prefs.deleteWarnings);
-	$('#nextAmount').val(core.storage.prefs.nextAmount);
-	$('#theme').val(core.storage.prefs.theme);
-	$('#backgroundSize').val(core.storage.prefs.bgSize);
-	$('#headingColor').val(core.storage.prefs.bgColor);
+	$('#deleteWarnings').prop('checked', core.storage.prefs.deleteWarnings)
+	$('#weekStartsOn').val(core.storage.prefs.weekStartsOn)
+	$('#nextAmount').val(core.storage.prefs.nextAmount)
+	$('#theme').val(core.storage.prefs.theme)
+	$('#backgroundSize').val(core.storage.prefs.bgSize)
+	$('#headingColor').val(core.storage.prefs.bgColor)
 
 	// CUSTOM BACKGROUND
 	if (localStorage.hasOwnProperty('background')) {
-		$tasks[0].style.backgroundImage = 'url(' + localStorage.getItem('background') + ')';
+		$tasks[0].style.backgroundImage = 'url(' + localStorage.getItem('background') + ')'
 	} else if (core.storage.prefs.hasOwnProperty('background')) {
-		$tasks[0].style.backgroundImage = 'url(' + core.storage.prefs.background + ')';
+		$tasks[0].style.backgroundImage = 'url(' + core.storage.prefs.background + ')'
 	}
 
-	$tasks.addClass(core.storage.prefs.bgSize);
+	$tasks.addClass(core.storage.prefs.bgSize)
 
 	// LANGUAGE
-	$('#tabLanguage a.current').removeClass('current');
+	$('#tabLanguage a.current').removeClass('current')
 	$('#tabLanguage .language a').each(function () {
 		if ($(this).data('value') === core.storage.prefs.lang) {
-			$(this).addClass('current');
+			$(this).addClass('current')
 		}
-	});
+	})
 	$('#tabLanguage').bind('click', function (e) {
 		if ($(e.srcElement).is('.language a')) {
-			core.storage.prefs.lang = $(e.srcElement).data('value');
+			core.storage.prefs.lang = $(e.srcElement).data('value')
 			core.storage.save();
 
-			window.location.reload();
+			window.location.reload()
 			return false;
 		}
-	});
+	})
 
 	// SYNC
 	$('#syncInterval').val(core.storage.prefs.sync.interval)
@@ -1484,12 +2387,12 @@ $(function() {
 
 	$tabSync.find('a.button:not(".signup")').click(function() {
 			
-		var service = $(this).data('service');
+		var service = $(this).data('service')
 			
 		// Run sync
 		sync.run(service, function (result) {
 			if(result) {
-				$tabSync.find('.email').html(core.storage.prefs.sync.email);
+				$tabSync.find('.email').html(core.storage.prefs.sync.email)
 				$tabSync.find('.service').html(service);
 				animateTab($tabSync, $tabSync.find('.waiting'), $tabSync.find('.settings'))
 			} else {
@@ -1522,6 +2425,33 @@ $(function() {
 		animateTab($tabSync, $tabSync.find('.settings'), $tabSync.find('.connect'))
 	})
 
+	$('#cleardata').click(function(e) {
+		//Because it's a bloody button
+		e.preventDefault()
+		var markup = Mustache.to_html(templates.dialog.modal, {
+			id: 'clearDataModal',
+			title: $l._('warning'),
+			message: $l._('clearDataMsg'),
+			button: {yes: $l._('deleteOneYes'), no: $l._('deleteOneNo')}
+		})
+		$body.append(markup)
+		var $modal = $('#clearDataModal'),
+			$this = $(this).parent()
+
+		$modal.modal()
+		$modal.find('button').bind('click', function(e) {
+
+			if($(e.target).hasClass('no')) {
+				$modal.modal('hide').remove()
+				return
+			}
+			//We're Deleting Everything
+			localStorage.clear()
+			window.location.reload()
+		})
+
+	})
+
 	// SYNC TYPE
 	$('#syncInterval').change(function () {
 		var interval = this.value
@@ -1534,7 +2464,7 @@ $(function() {
 		core.storage.save()
 	})
 
-});
+})
 
 /* ./plugins/sort.js */
 
@@ -1544,6 +2474,8 @@ $(function() {
  * Licensed under the BSD License
  */
 
+/*jshint asi: true, multistr: true*/
+
 // Globals
 var $sortType
 
@@ -1552,32 +2484,32 @@ plugin.add(function() {
 	
 	console.log("Loaded sort.js")
 
-	$(document).on('loaded', function() {
-		$panel.left.append('\
-			<span>\
-			<button data-toggle="dropdown" class="sort">'+$.i18n._("sortbtn")+'</button>\
-			<ul class="dropdown-menu">\
-			  <li class="current" data-value="magic"><span class="icon magic"></span>'+$.i18n._("sortMagic")+'</li>\
-			  <li data-value="manual"><span class="icon hand"></span>'+$.i18n._("sortDefault")+'</li>\
-			  <li data-value="priority"><span class="icon priority"></span>'+$.i18n._("sortPriority")+'</li>\
-			  <li data-value="date"><span class="icon date"></span>'+$.i18n._("sortDate")+'</li>\
-			</ul>\
-			</span>')
+	$panel.left.append('\
+		<span>\
+		<button data-toggle="dropdown" class="sort">'+$.i18n._("sortbtn")+'</button>\
+		<ul class="dropdown-menu">\
+			<li class="current" data-value="magic"><span class="icon magic"></span>'+$.i18n._("sortMagic")+'</li>\
+			<li data-value="manual"><span class="icon hand"></span>'+$.i18n._("sortDefault")+'</li>\
+            <li data-value="title"><span class="icon title"></span>' + $.i18n._("sortTitle") + '</li>\
+			<li data-value="date"><span class="icon date"></span>' + $.i18n._("sortDate") + '</li>\
+			<li data-value="priority"><span class="icon priority"></span>'+$.i18n._("sortPriority")+'</li>\
+		</ul>\
+		</span>')
 
-		$sortType = $('.panel .left span ul li')
-		$sortType.on('click', function() {
-			$sortType.removeClass('current')
-			$(this).addClass('current')
-			var val = $(this).attr('data-value')
-			core.storage.prefs.listSort[ui.session.selected] = val
-			$('#L' + ui.session.selected + ' .name').click()
-			core.storage.save()
-		})
+	$sortType = $('.panel .left span ul li')
+	$sortType.on('click', function() {
+		$sortType.removeClass('current')
+		$(this).addClass('current')
+		var val = $(this).attr('data-value')
+		core.storage.prefs.listSort[ui.session.selected] = val
+		$('#L' + ui.session.selected + ' .name').click()
+		core.storage.save()
 	})
+	var priorityWorth = { none: 0, low: 1, medium: 2, high: 3 };
 
 	var getDateWorth = function(timestamp) {
 
-		if(timestamp == "") {
+		if(timestamp === "") {
 			return 0;
 		}
 
@@ -1647,11 +2579,10 @@ plugin.add(function() {
 			case "priority":
 				
 				list.sort(function(a,b) {
-					var worth = { none: 0, low: 1, medium: 2, high: 3 };
 					if(a.logged && !b.logged) return 1
 					else if(!a.logged && b.logged) return -1
 					else if(a.logged && b.logged) return 0
-					return worth[b.priority] - worth[a.priority]
+					return priorityWorth[b.priority] - priorityWorth[a.priority]
 				});
 				break;
 				
@@ -1661,18 +2592,27 @@ plugin.add(function() {
 					else if(!a.logged && b.logged) return -1
 					else if(a.logged && b.logged) return 0
 					// Handle tasks without dates
-					if(a.date=="" && b.date !== "") return 1;
-					else if(b.date=="" && a.date !== "") return -1;
-					else if (a.date == "" && b.date == "") return 0;
+					if(a.date === "" && b.date !== "") return 1;
+					else if(b.date === "" && a.date !== "") return -1;
+					else if (a.date === "" && b.date === "") return 0;
+					// Sort by priority if dates match
+					if (a.date == b.date) return priorityWorth[b.priority] - priorityWorth[a.priority];
 					// Sort timestamps
 					return a.date -  b.date
 				});
+				break;
+
+			case "title":
+				list.sort(function(a,b) {
+					if (a.content < b.content) return -1
+					if (a.content > b.content) return 1
+				})
 				break;
 			
 		}
 		
 		// Unconvert task IDs to obects
-		for(var i = 0; i < list.length; i++) {
+		for (var i = 0; i < list.length; i++) {
 			var id = list[i].arrayID
 			delete list[i].arrayID
 			list[i] = id
@@ -1684,6 +2624,7 @@ plugin.add(function() {
 	
 });
 /* ./plugins/sync.js */
+
 /* Nitro Sync Plugin
  * By Jono Cooper & George Czabania
  * Licensed under the BSD License
@@ -1693,10 +2634,8 @@ plugin.add(function() {
 //Adds as a plugin
 plugin.add(function() {
 
-	$(document).on('loaded', function() {
-		$panel.right.prepend('<button class="runSync"></button>')
-		$runSync = $('.runSync')
-	})
+	$panel.right.prepend('<button class="runSync"></button>')
+	$runSync = $('.runSync')
 
 	$panel.right.on('click', '.runSync', function() {
 		$this = $(this)
@@ -1790,13 +2729,16 @@ plugin.add(function() {
 					ajaxdata.unwatch()
 					cb(newval)
 				})
+				
+				console.log("Sync Service: " + service)
 
 				$.ajax({
 					type: "POST",
 					url: core.storage.prefs.sync.url + '/request_url',
 					dataType: 'json',
 					data: {
-						service: service
+						service: service,
+						app: app
 					},
 					success: function (data) {
 						ajaxdata.data = data
@@ -1808,16 +2750,24 @@ plugin.add(function() {
 			}
 
 			var showPopup = function(url) {
-				var width = 960,
-					height = 600
-					left = (screen.width / 2) - (width / 2),
-					top = (screen.height / 2) - (height / 2)
-				window.open(url, Math.random(), 'toolbar=no, type=popup, status=no, width='+width+', height='+height+', top='+top+', left='+left)
+				if (app == 'python') {
+					document.title = 'isolate_window|' + url
+				} else if (app == 'web') {
+					core.storage.prefs.sync.resume = true;
+					core.storage.save();
+					document.location.href = url;
+				} else {
+					var width = 960,
+						height = 600
+						left = (screen.width / 2) - (width / 2),
+						top = (screen.height / 2) - (height / 2)
+					window.open(url, Math.random(), 'toolbar=no, type=popup, status=no, width='+width+', height='+height+', top='+top+', left='+left)
+				}
 			}
 
 			var authorizeToken = function (token, service, cb) {
 
-				console.log("Getting access token")
+				console.log("Getting access token");
 
 				var ajaxdata = sync.ajaxdata
 				ajaxdata.watch('data', function (id, oldval, newval) {
@@ -1865,18 +2815,25 @@ plugin.add(function() {
 
 			// Connect
 
-			var service = core.storage.prefs.sync.service
-			requestURL(service, function(result) {
-				if(result == 'error') {
-					callback(false)
-				} else {
-					core.storage.prefs.sync.token = result
-					showPopup(result.authorize_url)
-					authorizeToken(result, service, function(result) {
-						callback(result)
-					})
-				}
-			})
+			var service = core.storage.prefs.sync.service;
+			if (app == 'web' && core.storage.prefs.sync.resume === true) {
+				core.storage.prefs.sync.resume = false;
+				core.storage.save();
+				authorizeToken(core.storage.prefs.sync.token, service, callback);
+			} else {
+				requestURL(service, function(result) {
+					if(result == 'error') {
+						callback(false)
+					} else {
+						console.log("Request URL: " + result.authorize_url)
+						core.storage.prefs.sync.token = result
+						showPopup(result.authorize_url)
+						authorizeToken(result, service, function(result) {
+							callback(result)
+						})
+					}
+				})
+			}
 		},
 
 		emit: function (callback) {
@@ -2081,7 +3038,6 @@ plugin.add(function() {
 		});
 	}
 });
-
 /* ./plugins/tags.js */
 
 // Tags plugin 2

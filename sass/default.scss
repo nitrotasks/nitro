@@ -1,4 +1,5 @@
 @import "compass/css3/images";
+@import "compass/css3/transition";
 
 $sidebar_back: #fbfbfb;
 $sidebar_hover: #fff;
@@ -9,7 +10,7 @@ $panel_color: #333;
 $panel_border: #111;
 $panel_text: #fff;
 $task_color: #fff;
-$task_selected: #C8FDFF;
+$task_selected: lighten(#6CC0E5, 32%);
 $notes_bg: #F8FAF0;
 
 $none_text: #ACACAC;
@@ -18,10 +19,14 @@ $medium_color: #FBC93D;
 $high_color: #FB4F4F;
 
 body {
-	background: url(img/bg.png);
+	background-image: url(img/bg.png);
+}
+@media screen and (-webkit-min-device-pixel-ratio: 2), screen and (max--moz-device-pixel-ratio: 2) {
+	background-size: 51px;
 }
 
 #sidebar {
+
 	background: $sidebar_back;
 	box-shadow: 1px 0 1px rgba(0, 0, 0, 0.3);
 
@@ -49,11 +54,11 @@ body {
 	}
 	
 	.listAddBTN {
-		background: $panel_color;
-		color: $panel_text;
+		background: #eee;
+		color: #333;
 		
 		&:hover {
-			background: lighten($panel_color, 3%);
+			background: #ddd;
 		}
 	}
 }
@@ -68,7 +73,7 @@ body {
 		font-size: 18px;
 		font-weight: bold;
 		padding-left: 20px;
-		background: url(img/logo.png) no-repeat;
+		background: url(img/svg/logo.svg) no-repeat 0 45%;
 	}
 
 	button {
@@ -77,26 +82,31 @@ body {
 		font-weight: bold;
 
 		&.add {
-			background: url(img/add.png) no-repeat 18px 0;
+			background: url(img/svg/add.svg) no-repeat 18px 50%;
 			padding-left: 50px;
 		}
 		&.delete {
-			background: url(img/delete.png) no-repeat 18px 0;
+			background: url(img/svg/delete.svg) no-repeat 18px 50%;
 			padding-left: 50px;
 		}
 		&.sort {
-			background: url(img/sort.png) no-repeat 12px 0;
+			background: url(img/svg/sort.svg) no-repeat 14px 50%;
 			padding-left: 46px;
 		}
 		&.settingsbtn {
 			margin: 0 7px 0 0;
-			background: url(img/settings.png) no-repeat 8px 0;
+			background: url(img/svg/settings.svg) no-repeat 50%;
 			padding: 0 20px;
 		}
 
 		&:hover {
 			background-color: rgba(0,0,0,0.2);
 		}
+		
+		&.disabled {
+			opacity: 0.7;
+		}
+
 	}
 
 	.left {
@@ -120,9 +130,8 @@ body {
 		border-radius: 2px;
 		width: 120px;
 		padding-left: 23px;
-		background: url(img/search.png) no-repeat, #fff;
 
-		-webkit-transition: 150ms width ease;
+		@include transition(150ms width ease);
 
 		&:focus {
 			outline: 0;
@@ -179,7 +188,7 @@ body {
 			}
 
 			.label {
-				border-left: 1px solid darken($task_color, 25%);
+				border-left: 1px solid darken($task_color, 10%);
 				&:last-child {
 					border-radius: 0 4px 4px 0;
 				}
@@ -188,14 +197,9 @@ body {
 					@include background(linear-gradient(top, lighten($high_color, 25%) 0%, lighten($high_color, 20%) 100%));
 				}
 			}
-
-			.notes {
-				width: 30px;
-				background: url(img/notes.png) no-repeat 8px 7px;
-			}
 			
 			&.selected {
-				@include background(linear-gradient(top, $task_selected 0%, darken($task_selected, 2%) 100%));
+				@include background(linear-gradient(top, $task_selected 0%, darken($task_selected, 5%) 100%));
 			}
 
 			&.expanded {
@@ -254,7 +258,6 @@ body {
 				textarea {
 					border-top: 1px solid  darken($task_color, 15%);
 					border-radius: 0 0 5px 5px;
-					background: url(img/notes.png) no-repeat 8px 7px, $notes_bg;
 				}
 			}
 		}
@@ -283,6 +286,7 @@ body {
 	border-radius: 3px;
 	border: 1px solid #BFBFBF;
 	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
+	overflow: hidden;
 	font-weight: normal;
 	opacity: 0.8;
 }

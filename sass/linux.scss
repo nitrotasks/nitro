@@ -9,8 +9,7 @@ $panel_color: #333;
 $panel_border: #111;
 $panel_text: #fff;
 $task_color: #fff;
-$task_selected: #C8FDFF;
-$notes_bg: #F8FAF0;
+$task_selected: lighten(#6CC0E5, 32%);
 
 $none_text: #ACACAC;
 $low_color: #6CC0E5;
@@ -110,7 +109,7 @@ html, button, input, select, textarea {
 			}
 
 			.label {
-				border-left: 1px solid darken($task_color, 25%);
+				border-left: 1px solid darken($task_color, 10%);
 				border-radius: 0 4px 4px 0;
 
 				&.overdue, &.due {
@@ -118,13 +117,8 @@ html, button, input, select, textarea {
 				}
 			}
 
-			.notes {
-				width: 30px;
-				background: url(img/notes.png) no-repeat 8px 7px;
-			}
-			
 			&.selected {
-				@include background(linear-gradient(top, $task_selected 0%, darken($task_selected, 2%) 100%));
+				@include background(linear-gradient(top, $task_selected 0%, darken($task_selected, 5%) 100%));
 			}
 
 			&.expanded {
@@ -184,13 +178,12 @@ html, button, input, select, textarea {
 			.hidden textarea {
 				border-top: 1px solid  darken($task_color, 15%);
 				border-radius: 0 0 5px 5px;
-				background: url(img/notes.png) no-repeat 8px 7px, $notes_bg;
 			}
 		}
 	}
 }
 .vsplitbar {
-	margin-top: 0;
+	top: 0;
 	border-left: 0;
 }
 

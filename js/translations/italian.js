@@ -8,6 +8,10 @@ ui.language({
 	logbook: "Log",
 	all: "Tutti i task",
 
+	// Empty List Filler Text
+	noTasksInList: "No Tasks in %s",
+	thisList: "This List",
+
 	//Default Names
 	nlist: "Nuovo elenco",
 	ntask: "Nuova attività",
@@ -16,12 +20,18 @@ ui.language({
 	addbtn: "Aggiungi",
 	deletebtn: "Delete",
 	sortbtn: "Ordina per",
+	addList: "Add List",
+	moveToLogbookSingle: "Move 1 completed task to the Logbook",
+	moveToLogbookPlural: "Move %s completed tasks to the Logbook",
+	showLoggedTask: "Show 1 logged task",
+	showLoggedTasks: "Show %s logged tasks",
 
 	// Sort
 	sortMagic: "Magic",
 	sortDefault: "Manuale",
 	sortPriority: "Priorità",
 	sortDate: "Data",
+	sortTitle: "By title",
 
 	//Placeholder Text
 	search: "Cerca",
@@ -36,6 +46,67 @@ ui.language({
 	//Date Labels
 	dueDate: "Due Date",
 	schedule: "Schedule",
+
+	// Due Date Labels
+	daysOverdue: "%s days overdue",
+	dueYesterday: "due yesterday",
+	dueToday: "due today",
+	dueTomorrow: "due tomorrow",
+	daysLeft: "%s days left",
+	
+	// Datepicker
+	weekStartsOn: "Week starts on: ",
+
+	// Days and Months
+	sunday: "Sunday",
+	monday: "Monday",
+	tuesday: "Tuesday",
+	wednesday: "Wednesday",
+	thursday: "Thursday",
+	friday: "Friday",
+	saturday: "Saturday",
+
+	sunShort: "Sun",
+	monShort: "Mon",
+	tueShort: "Tue",
+	wedShort: "Wed",
+	thuShort: "Thu",
+	friShort: "Fri",
+	satShort: "Sat",
+
+	sunMin: "Su",
+	monMin: "Mo",
+	tueMin: "Tu",
+	wedMin: "We",
+	thuMin: "Th",
+	friMin: "Fr",
+	satMin: "Sa",
+
+	january: "January",
+	february: "February",
+	march: "March",
+	april: "April",
+	may: "May",
+	june: "June",
+	july: "July",
+	august: "August",
+	september: "September",
+	october: "October",
+	november: "November",
+	december: "December",
+
+	janShort: "Jan",
+	febShort: "Feb",
+	marShort: "Mar",
+	aprShort: "Apr",
+	mayShort: "May",
+	junShort: "Jun",
+	julShort: "Jul",
+	augShort: "Aug",
+	sepShort: "Sep",
+	octShort: "Oct",
+	novShort: "Nov",
+	decShort: "Dec",
 
 	// Delete Modals
 	deleteMore: "Voui cancellare %s queste attività?",
@@ -66,6 +137,11 @@ ui.language({
 	general: "Generale",
 	nextDescription: "Mostra le altre liste in Prossimi: ", 
 	deleteWarningsDescription: "Questo disabilita il box per la conferma che appare quando cancelli un'attività o una lista.",
+
+	//Clear Data
+	resetnitro: "Reset Nitro: ",
+	cleardata: "Clear Data",
+	clearDataMsg: "Are you sure you want to reset Nitro? Your data will be gone forever (a long time)",
 
 	language: "Lingua",
 	authortext: "Autore",

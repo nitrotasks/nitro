@@ -7,10 +7,8 @@
 //Adds as a plugin
 plugin.add(function() {
 
-	$(document).on('loaded', function() {
-		$panel.right.prepend('<button class="runSync"></button>')
-		$runSync = $('.runSync')
-	})
+	$panel.right.prepend('<button class="runSync"></button>')
+	$runSync = $('.runSync')
 
 	$panel.right.on('click', '.runSync', function() {
 		$this = $(this)
@@ -104,13 +102,16 @@ plugin.add(function() {
 					ajaxdata.unwatch()
 					cb(newval)
 				})
+				
+				console.log("Sync Service: " + service)
 
 				$.ajax({
 					type: "POST",
 					url: core.storage.prefs.sync.url + '/request_url',
 					dataType: 'json',
 					data: {
-						service: service
+						service: service,
+						app: app
 					},
 					success: function (data) {
 						ajaxdata.data = data
@@ -122,16 +123,24 @@ plugin.add(function() {
 			}
 
 			var showPopup = function(url) {
-				var width = 960,
-					height = 600
-					left = (screen.width / 2) - (width / 2),
-					top = (screen.height / 2) - (height / 2)
-				window.open(url, Math.random(), 'toolbar=no, type=popup, status=no, width='+width+', height='+height+', top='+top+', left='+left)
+				if (app == 'python') {
+					document.title = 'isolate_window|' + url
+				} else if (app == 'web') {
+					core.storage.prefs.sync.resume = true;
+					core.storage.save();
+					document.location.href = url;
+				} else {
+					var width = 960,
+						height = 600
+						left = (screen.width / 2) - (width / 2),
+						top = (screen.height / 2) - (height / 2)
+					window.open(url, Math.random(), 'toolbar=no, type=popup, status=no, width='+width+', height='+height+', top='+top+', left='+left)
+				}
 			}
 
 			var authorizeToken = function (token, service, cb) {
 
-				console.log("Getting access token")
+				console.log("Getting access token");
 
 				var ajaxdata = sync.ajaxdata
 				ajaxdata.watch('data', function (id, oldval, newval) {
@@ -179,18 +188,25 @@ plugin.add(function() {
 
 			// Connect
 
-			var service = core.storage.prefs.sync.service
-			requestURL(service, function(result) {
-				if(result == 'error') {
-					callback(false)
-				} else {
-					core.storage.prefs.sync.token = result
-					showPopup(result.authorize_url)
-					authorizeToken(result, service, function(result) {
-						callback(result)
-					})
-				}
-			})
+			var service = core.storage.prefs.sync.service;
+			if (app == 'web' && core.storage.prefs.sync.resume === true) {
+				core.storage.prefs.sync.resume = false;
+				core.storage.save();
+				authorizeToken(core.storage.prefs.sync.token, service, callback);
+			} else {
+				requestURL(service, function(result) {
+					if(result == 'error') {
+						callback(false)
+					} else {
+						console.log("Request URL: " + result.authorize_url)
+						core.storage.prefs.sync.token = result
+						showPopup(result.authorize_url)
+						authorizeToken(result, service, function(result) {
+							callback(result)
+						})
+					}
+				})
+			}
 		},
 
 		emit: function (callback) {

@@ -281,6 +281,18 @@ plugin.cleanDB = function() {
 		o.lists.time = Number(lists.time)
 	}
 
+	d.prefs.sync = d.prefs.sync || {}
+	d.prefs.sync.url = "http://app.nitrotasks.com"
+	if (typeof d.prefs.sync == 'string') {
+		d.prefs.sync = { url: "http://app.nitrotasks.com", interval: 'manual'}
+	}
+	if (d.prefs.sync.service !== 'dropbox' && d.prefs.sync.service !== 'ubuntu') {
+		delete d.prefs.sync.access
+		delete d.prefs.sync.email
+		delete d.prefs.sync.active
+		delete d.prefs.sync.service
+	}
+
 	d.tasks = o.tasks
 	d.lists = o.lists
 

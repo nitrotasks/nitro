@@ -4,6 +4,8 @@
  * Licensed under the BSD License
  */
 
+/*jshint asi: true, multistr: true*/
+
 // Globals
 var $sortType
 
@@ -12,32 +14,32 @@ plugin.add(function() {
 	
 	console.log("Loaded sort.js")
 
-	$(document).on('loaded', function() {
-		$panel.left.append('\
-			<span>\
-			<button data-toggle="dropdown" class="sort">'+$.i18n._("sortbtn")+'</button>\
-			<ul class="dropdown-menu">\
-			  <li class="current" data-value="magic"><span class="icon magic"></span>'+$.i18n._("sortMagic")+'</li>\
-			  <li data-value="manual"><span class="icon hand"></span>'+$.i18n._("sortDefault")+'</li>\
-			  <li data-value="priority"><span class="icon priority"></span>'+$.i18n._("sortPriority")+'</li>\
-			  <li data-value="date"><span class="icon date"></span>'+$.i18n._("sortDate")+'</li>\
-			</ul>\
-			</span>')
+	$panel.left.append('\
+		<span>\
+		<button data-toggle="dropdown" class="sort">'+$.i18n._("sortbtn")+'</button>\
+		<ul class="dropdown-menu">\
+			<li class="current" data-value="magic"><span class="icon magic"></span>'+$.i18n._("sortMagic")+'</li>\
+			<li data-value="manual"><span class="icon hand"></span>'+$.i18n._("sortDefault")+'</li>\
+            <li data-value="title"><span class="icon title"></span>' + $.i18n._("sortTitle") + '</li>\
+			<li data-value="date"><span class="icon date"></span>' + $.i18n._("sortDate") + '</li>\
+			<li data-value="priority"><span class="icon priority"></span>'+$.i18n._("sortPriority")+'</li>\
+		</ul>\
+		</span>')
 
-		$sortType = $('.panel .left span ul li')
-		$sortType.on('click', function() {
-			$sortType.removeClass('current')
-			$(this).addClass('current')
-			var val = $(this).attr('data-value')
-			core.storage.prefs.listSort[ui.session.selected] = val
-			$('#L' + ui.session.selected + ' .name').click()
-			core.storage.save()
-		})
+	$sortType = $('.panel .left span ul li')
+	$sortType.on('click', function() {
+		$sortType.removeClass('current')
+		$(this).addClass('current')
+		var val = $(this).attr('data-value')
+		core.storage.prefs.listSort[ui.session.selected] = val
+		$('#L' + ui.session.selected + ' .name').click()
+		core.storage.save()
 	})
+	var priorityWorth = { none: 0, low: 1, medium: 2, high: 3 };
 
 	var getDateWorth = function(timestamp) {
 
-		if(timestamp == "") {
+		if(timestamp === "") {
 			return 0;
 		}
 
@@ -107,11 +109,10 @@ plugin.add(function() {
 			case "priority":
 				
 				list.sort(function(a,b) {
-					var worth = { none: 0, low: 1, medium: 2, high: 3 };
 					if(a.logged && !b.logged) return 1
 					else if(!a.logged && b.logged) return -1
 					else if(a.logged && b.logged) return 0
-					return worth[b.priority] - worth[a.priority]
+					return priorityWorth[b.priority] - priorityWorth[a.priority]
 				});
 				break;
 				
@@ -121,18 +122,27 @@ plugin.add(function() {
 					else if(!a.logged && b.logged) return -1
 					else if(a.logged && b.logged) return 0
 					// Handle tasks without dates
-					if(a.date=="" && b.date !== "") return 1;
-					else if(b.date=="" && a.date !== "") return -1;
-					else if (a.date == "" && b.date == "") return 0;
+					if(a.date === "" && b.date !== "") return 1;
+					else if(b.date === "" && a.date !== "") return -1;
+					else if (a.date === "" && b.date === "") return 0;
+					// Sort by priority if dates match
+					if (a.date == b.date) return priorityWorth[b.priority] - priorityWorth[a.priority];
 					// Sort timestamps
 					return a.date -  b.date
 				});
+				break;
+
+			case "title":
+				list.sort(function(a,b) {
+					if (a.content < b.content) return -1
+					if (a.content > b.content) return 1
+				})
 				break;
 			
 		}
 		
 		// Unconvert task IDs to obects
-		for(var i = 0; i < list.length; i++) {
+		for (var i = 0; i < list.length; i++) {
 			var id = list[i].arrayID
 			delete list[i].arrayID
 			list[i] = id

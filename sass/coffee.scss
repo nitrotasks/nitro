@@ -9,8 +9,7 @@ $panel_color: #333;
 $panel_border: #111;
 $panel_text: #fff;
 $task_color: #fff;
-$task_selected: #C8FDFF;
-$notes_bg: #F8FAF0;
+$task_selected: lighten(#6CC0E5, 32%);
 
 $none_text: #ACACAC;
 $low_color: #6CC0E5;
@@ -87,11 +86,11 @@ body {
 	box-shadow: 0 0 2px rgba(0,0,0,0.4);
 
 	.brand {
-		line-height: 40px;
+		line-height: 41px;
 		font-size: 18px;
 		font-weight: bold;
 		padding-left: 20px;
-		background: url(img/logo.png) no-repeat;
+		background: url(img/svg/logo.svg) no-repeat 0 45%;
 	}
 
 	button {
@@ -100,20 +99,20 @@ body {
 		font-weight: bold;
 
 		&.add {
-			background: url(img/add.png) no-repeat 18px 0;
+			background: url(img/svg/add.svg) no-repeat 18px 50%;
 			padding-left: 50px;
 		}
 		&.delete {
-			background: url(img/delete.png) no-repeat 18px 0;
+			background: url(img/svg/delete.svg) no-repeat 18px 50%;
 			padding-left: 50px;
 		}
 		&.sort {
-			background: url(img/sort.png) no-repeat 12px 0;
+			background: url(img/svg/sort.svg) no-repeat 14px 50%;
 			padding-left: 46px;
 		}
 		&.settingsbtn {
 			margin: 0 7px 0 0;
-			background: url(img/settings.png) no-repeat 8px 0;
+			background: url(img/svg/settings.svg) no-repeat 50%;
 			padding: 0 20px;
 		}
 
@@ -143,9 +142,6 @@ body {
 		border-radius: 2px;
 		width: 120px;
 		padding-left: 23px;
-		background: url(img/search.png) no-repeat, #fff;
-
-		-webkit-transition: 150ms width ease;
 
 		&:focus {
 			outline: 0;
@@ -203,7 +199,7 @@ body {
 				}
 
 				.label {
-					border-left: 1px solid darken($task_color, 25%);
+					border-left: 1px solid darken($task_color, 10%);
 					&:last-child {
 						border-radius: 0 4px 4px 0;
 					}
@@ -211,14 +207,9 @@ body {
 						@include background(linear-gradient(top, lighten($high_color, 25%) 0%, lighten($high_color, 20%) 100%));
 					}
 				}
-
-				.notes {
-					width: 30px;
-					background: url(img/notes.png) no-repeat 8px 7px;
-				}
 				
 				&.selected {
-					@include background(linear-gradient(top, $task_selected 0%, darken($task_selected, 2%) 100%));
+					@include background(linear-gradient(top, $task_selected 0%, darken($task_selected, 5%) 100%));
 				}
 
 				&.expanded {
@@ -283,7 +274,6 @@ body {
 				.hidden textarea {
 					border-top: 1px solid  darken($task_color, 15%);
 					border-radius: 0 0 5px 5px;
-					background: url(img/notes.png) no-repeat 8px 7px, $notes_bg;
 				}
 			}
 		}

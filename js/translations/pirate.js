@@ -8,6 +8,10 @@ ui.language({
 	logbook: "Logbook",
 	all: "All Tasks",
 
+	// Empty List Filler Text
+	noTasksInList: "No Tasks in %s",
+	thisList: "This List",
+
 	//Default Names
 	nlist: "Parchment",
 	ntask: "Scribblin's",
@@ -16,12 +20,18 @@ ui.language({
 	addbtn: "Add",
 	deletebtn: "Delete",
 	sortbtn: "Sort",
+	addList: "Add List",
+	moveToLogbookSingle: "Move 1 completed task to the Logbook",
+	moveToLogbookPlural: "Move %s completed tasks to the Logbook",
+	showLoggedTask: "Show 1 logged task",
+	showLoggedTasks: "Show %s logged tasks",
 
 	// Sort
-	sortMagic: "Magic",
-	sortDefault: "by Hand",
-	sortPriority: "Priority",
-	sortDate: "Date",
+	sortMagic: "Magically",
+	sortDefault: "By hand",
+	sortPriority: "By priority",
+	sortDate: "By date",
+	sortTitle: "By title",
 
 	//Placeholder Text
 	search: "Search",
@@ -36,6 +46,67 @@ ui.language({
 	//Date Labels
 	dueDate: "Due Date",
 	schedule: "Schedule",
+
+	// Due Date Labels
+	daysOverdue: "%s days overdue",
+	dueYesterday: "due yesterday",
+	dueToday: "due today",
+	dueTomorrow: "due tomorrow",
+	daysLeft: "%s days left",
+	
+	// Datepicker
+	weekStartsOn: "Week starts on: ",
+
+	// Days and Months
+	sunday: "Sunday",
+	monday: "Monday",
+	tuesday: "Tuesday",
+	wednesday: "Wednesday",
+	thursday: "Thursday",
+	friday: "Friday",
+	saturday: "Saturday",
+
+	sunShort: "Sun",
+	monShort: "Mon",
+	tueShort: "Tue",
+	wedShort: "Wed",
+	thuShort: "Thu",
+	friShort: "Fri",
+	satShort: "Sat",
+
+	sunMin: "Su",
+	monMin: "Mo",
+	tueMin: "Tu",
+	wedMin: "We",
+	thuMin: "Th",
+	friMin: "Fr",
+	satMin: "Sa",
+
+	january: "January",
+	february: "February",
+	march: "March",
+	april: "April",
+	may: "May",
+	june: "June",
+	july: "July",
+	august: "August",
+	september: "September",
+	october: "October",
+	november: "November",
+	december: "December",
+
+	janShort: "Jan",
+	febShort: "Feb",
+	marShort: "Mar",
+	aprShort: "Apr",
+	mayShort: "May",
+	junShort: "Jun",
+	julShort: "Jul",
+	augShort: "Aug",
+	sepShort: "Sep",
+	octShort: "Oct",
+	novShort: "Nov",
+	decShort: "Dec",
 
 	// Delete Modals
 	deleteMore: "Do you really want to delete these %s tasks?",
@@ -66,6 +137,11 @@ ui.language({
 	general: "General",
 	nextDescription: "Show other lists in Next: ", 
 	deleteWarningsDescription: "This disables the confirm box that appears when you delete a task or list.",
+
+	//Clear Data
+	resetnitro: "Reset Nitro: ",
+	cleardata: "Clear Data",
+	clearDataMsg: "Are you sure you want to reset Nitro? Your data will be gone forever (a long time)",
 
 	language: "Language",
 	authortext: "Author",

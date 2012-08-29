@@ -8,6 +8,10 @@ ui.language({
 	logbook: "Lokikirja",
 	all: "Kaikki tehtävät",
 
+	// Empty List Filler Text
+	noTasksInList: "Ei tehtäviä listassa %s",
+	thisList: "Tämä lista",
+
 	//Default Names
 	nlist: "Uusi lista",
 	ntask: "Uusi tehtävä",
@@ -15,13 +19,19 @@ ui.language({
 	//Buttons
 	addbtn: "Lisää",
 	deletebtn: "Muokkaa",
-	sortbtn: "Poista",
+	sortbtn: "Lajittele",
+	addList: "Lisää lista",
+	moveToLogbookSingle: "Siirrä 1 suoritettu tehtävä lokikirjaan",
+	moveToLogbookPlural: "Siirrä %s suoritettua tehtävää lokikirjaan",
+	showLoggedTask: "Näytä 1 lokiin siirretty tehtävä",
+	showLoggedTasks: "Näytä %s lokiin siirrettyä tehtävää",
 
 	// Sort
 	sortMagic: "Taikuudella",
 	sortDefault: "Käsin",
 	sortPriority: "Tärkeys",
 	sortDate: "Päiväys",
+	sortTitle: "Otsikko",
 
 	//Placeholder Text
 	search: "Hae",
@@ -36,6 +46,67 @@ ui.language({
 	//Date Labels
 	dueDate: "Eräpäivä",
 	schedule: "Ajasta",
+
+	// Due Date Labels
+	daysOverdue: "erääntyi %s päivää sitten",
+	dueYesterday: "erääntyi eilen",
+	dueToday: "erääntyy tänään",
+	dueTomorrow: "erääntyy huomenna",
+	daysLeft: "%s päivää jäljellä",
+	
+	// Datepicker
+	weekStartsOn: "Viikko alkaa: ",
+
+	// Days and Months
+	sunday: "Sunnuntai",
+	monday: "Maanantai",
+	tuesday: "Tiistai",
+	wednesday: "Keskiviikko",
+	thursday: "Torstai",
+	friday: "Perjantai",
+	saturday: "Lauantai",
+
+	sunShort: "Sun",
+	monShort: "Maa",
+	tueShort: "Tii",
+	wedShort: "Kes",
+	thuShort: "Tor",
+	friShort: "Per",
+	satShort: "Lau",
+
+	sunMin: "Su",
+	monMin: "Ma",
+	tueMin: "Ti",
+	wedMin: "Ke",
+	thuMin: "To",
+	friMin: "Pe",
+	satMin: "La",
+
+	january: "Tammikuu",
+	february: "Helmikuu",
+	march: "Maaliskuu",
+	april: "Huhtikuu",
+	may: "Toukokuu",
+	june: "Kesäkuu",
+	july: "Heinäkuu",
+	august: "Elokuu",
+	september: "Syyskuu",
+	october: "Lokakuu",
+	november: "Marraskuu",
+	december: "Joulukuu",
+
+	janShort: "Tammi",
+	febShort: "Helmi",
+	marShort: "Maalis",
+	aprShort: "Huhti",
+	mayShort: "Touko",
+	junShort: "Kesä",
+	julShort: "Heinä",
+	augShort: "Elo",
+	sepShort: "Syys",
+	octShort: "Loka",
+	novShort: "Marras",
+	decShort: "Joulu",
 
 	// Delete Modals
 	deleteMore: "Haluatko varmasti poistaa nämä &s tehtävää?",
@@ -66,6 +137,11 @@ ui.language({
 	general: "Yleiset",
 	nextDescription: "Näytä muut listat seuraavissa: ", 
 	deleteWarningsDescription: "Tämä piilottaa varmistuslaatikon, joka ilmaantuu poistettaessa tehtäviä tai listoja.",
+
+	//Clear Data
+	resetnitro: "Palauta Nitro: ",
+	cleardata: "Tyhjennä tiedot",
+	clearDataMsg: "Haluatko varmasti palauttaa Nitron? Tietosi kadotetaan lopullisesti (pitkä aika)",
 
 	language: "Kieli",
 	authortext: "Kääntäjä",

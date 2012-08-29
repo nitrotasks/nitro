@@ -8,6 +8,10 @@ ui.language({
 	logbook: "Logbuch",
 	all: "Alle Tasks",
 
+	// Empty List Filler Text
+	noTasksInList: "No Tasks in %s",
+	thisList: "This List",
+
 	//Default Names
 	nlist: "Neue Liste",
 	ntask: "Neue Aufgaben",
@@ -16,12 +20,18 @@ ui.language({
 	addbtn: "Hinzufügen",
 	deletebtn: "Löschen",
 	sortbtn: "Sortieren",
+	addList: "Add List",
+	moveToLogbookSingle: "Move 1 completed task to the Logbook",
+	moveToLogbookPlural: "Move %s completed tasks to the Logbook",
+	showLoggedTask: "Show 1 logged task",
+	showLoggedTasks: "Show %s logged tasks",
 
 	// Sort
 	sortMagic: "Magisch",
 	sortDefault: "per Hand",
 	sortPriority: "Priorität",
 	sortDate: "Datum",
+	sortTitle: "By title",
 
 	//Placeholder Text
 	search: "Suchen",
@@ -36,6 +46,67 @@ ui.language({
 	//Date Labels
 	dueDate: "Fälligkeitsdatum",
 	schedule: "Geplant",
+
+	// Due Date Labels
+	daysOverdue: "%s days overdue",
+	dueYesterday: "due yesterday",
+	dueToday: "due today",
+	dueTomorrow: "due tomorrow",
+	daysLeft: "%s days left",
+	
+	// Datepicker
+	weekStartsOn: "Week starts on: ",
+
+	// Days and Months
+	sunday: "Sunday",
+	monday: "Monday",
+	tuesday: "Tuesday",
+	wednesday: "Wednesday",
+	thursday: "Thursday",
+	friday: "Friday",
+	saturday: "Saturday",
+
+	sunShort: "Sun",
+	monShort: "Mon",
+	tueShort: "Tue",
+	wedShort: "Wed",
+	thuShort: "Thu",
+	friShort: "Fri",
+	satShort: "Sat",
+
+	sunMin: "Su",
+	monMin: "Mo",
+	tueMin: "Tu",
+	wedMin: "We",
+	thuMin: "Th",
+	friMin: "Fr",
+	satMin: "Sa",
+
+	january: "January",
+	february: "February",
+	march: "March",
+	april: "April",
+	may: "May",
+	june: "June",
+	july: "July",
+	august: "August",
+	september: "September",
+	october: "October",
+	november: "November",
+	december: "December",
+
+	janShort: "Jan",
+	febShort: "Feb",
+	marShort: "Mar",
+	aprShort: "Apr",
+	mayShort: "May",
+	junShort: "Jun",
+	julShort: "Jul",
+	augShort: "Aug",
+	sepShort: "Sep",
+	octShort: "Oct",
+	novShort: "Nov",
+	decShort: "Dec",
 
 	// Delete Modals
 	deleteMore: "Möchtest du wirklich diese &s Aufgabe löschen?",
@@ -67,9 +138,15 @@ ui.language({
 	nextDescription: "Zeige weitere Listen unter DEMNÄCHST: ", 
 	deleteWarningsDescription: "Schaltet die Bestätigungsabfrage für das Löschen einer Aufgabe oder Liste ab.",
 
+	//Clear Data
+	resetnitro: "Reset Nitro: ",
+	cleardata: "Clear Data",
+	clearDataMsg: "Are you sure you want to reset Nitro? Your data will be gone forever (a long time)",
+
 	language: "Sprache",
 	authortext: "Autor",
 
+	about: "About",
 	theme: "Theme",
 	pickTheme: "Wähle ein Theme: ",
 	themeDescription: "Themes erlauben es, das Aussehen von Nitro zu verändern. Man kann mit Hilfe von CSS eigene Theme erstellen!",

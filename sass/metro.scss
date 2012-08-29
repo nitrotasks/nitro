@@ -51,10 +51,10 @@ html, button, input, select, textarea {
     background-clip: content-box;
     border: 0;
     box-shadow: none;
-    margin-top: $panel-height;
     opacity: 0;
     padding: 0 3px;
     -webkit-transition: opacity 300ms;
+    top: $panel-height;
     width: 7px;
     z-index: auto;
 
@@ -123,6 +123,10 @@ html, button, input, select, textarea {
                     background-position: 1px -81px;
                     opacity: 0.5;
                 }
+            }
+            .edit, .delete {
+                // Metro theme doesn't need as much of a margin above icons
+                margin-top: 5px;
             }
             // Override positioning from style.scss, move icons down 2px
             .edit {
@@ -208,7 +212,7 @@ html, button, input, select, textarea {
                     }
 
                     li {
-                        width: 72px;
+                        width: 120px;
 
                         &.current {
                             background: rgba(0,0,0,0.3);
@@ -222,6 +226,7 @@ html, button, input, select, textarea {
             margin-top: ($panel-height - 26) / 2;
 
             button {
+                height: 20px;
                 line-height: 20px;
                 margin: 4px 5px;
                 opacity: 0.65;
@@ -262,14 +267,28 @@ html, button, input, select, textarea {
         }
     }
     .tasksContent {
+        font-size: 15px;
+        text-align: left;
+
         h2 {
+            display: inline-block;
             font-size: 25px;
             font-weight: normal;
             line-height: 25px;
             margin: 0;
             padding: 16px 20px 8px 16px;
-            text-align: left;
             text-transform: capitalize;
+        }
+        .button {
+            border: 0;
+            border-radius: 0;
+
+            &#updateLogbook {
+                color: #fff;
+                float: right;
+                margin: 16px 20px;
+                @include modalbutton($purple);
+            }
         }
         .noTasks {
             color: #888;
@@ -279,13 +298,35 @@ html, button, input, select, textarea {
                 background: rgba(255,255,255,0.95);
                 border-color: #eee;
                 border-left: 0;
-                padding: 4px 0 4px 4px;
+                clear: both;
+                height: auto;
 
                 &.selected {
                     background: lighten($blue, 50%);
                 }
                 &.expanded {
                     margin: 15px 0;
+
+                    button.priority {
+                        color: #fff;
+                        font-size: 12px;
+                        height: 22px;
+                        line-height: 22px;
+                        margin: 4px 8px;
+
+                        &.none {
+                            @include modalbutton(#999);
+                        }
+                        &.low {
+                            @include modalbutton($blue);
+                        }
+                        &.medium {
+                            @include modalbutton($orange);
+                        }
+                        &.high {
+                            @include modalbutton($red);
+                        }
+                    }
                 }
                 &.checked {
                     .checkbox {
@@ -299,9 +340,17 @@ html, button, input, select, textarea {
                         color: #888;
                         text-decoration: line-through;
                     }
+                    &.logbook {
+                        .content {
+                            color: #111;
+                            text-decoration: none;
+                        }
+                    }
                 }
                 .boxhelp {
-                    padding-right: 4px;
+                    -moz-box-sizing: border-box;
+                    box-sizing: border-box;
+                    padding: 2px 4px;
                 }
                 .checkbox {
                     background-color: rgba(255,255,255,0.95);
@@ -333,8 +382,7 @@ html, button, input, select, textarea {
                     }
                 }
                 .content {
-                    font-size: 15px;
-                    padding: 0 10px 0 4px;
+                    padding: 0 10px 0 0;
                 }
                 .notes {
                     background: url('themes/metro/note.png') no-repeat;
@@ -346,11 +394,14 @@ html, button, input, select, textarea {
                     color: #999;
                     cursor: pointer;
                     font-style: italic;
+                    margin: 0 6px;
+                    padding: 0;
+
                     &:before {
                         content: "#";
                     }
                 }
-                .label, button.priority {
+                .label {
                     background: $blue;
                     border: 0;
                     color: #fff;
@@ -387,18 +438,6 @@ html, button, input, select, textarea {
                 }
                 .label.list {
                     @include labeltag($purple);
-                }
-                button.priority.none {
-                    @include labeltag(#999);
-                }
-                button.priority.low {
-                    @include labeltag($blue);
-                }
-                button.priority.medium {
-                    @include labeltag($orange);
-                }
-                button.priority.high {
-                    @include labeltag($red);
                 }
                 button.none, button.low, button.medium, button.high, input.date, input.tags, button.date, div.tag {
                     border: 0;

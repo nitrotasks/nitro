@@ -12,12 +12,23 @@ $(function() {
 				<div class="tab-pane active" id="tabGeneral">\
 				<form>\
 					<input type="checkbox" id="deleteWarnings"><label for="deleteWarnings" class="translate" data-translate="hideWarnings"></label><br>\
-					<label class="description translate" data-translate="deleteWarningsDescription"></label>\
+					<label class="description translate" data-translate="deleteWarningsDescription"></label><br>\
+					<label class="left translate" for="weekStartsOn" data-translate="weekStartsOn"></label><select id="weekStartsOn">\
+						<option class="translate" data-translate="sunday" value="0"></option>\
+						<option class="translate" data-translate="monday" value="1"></option>\
+						<option class="translate" data-translate="tuesday" value="2"></option>\
+						<option class="translate" data-translate="wednesday" value="3"></option>\
+						<option class="translate" data-translate="thursday" value="4"></option>\
+						<option class="translate" data-translate="friday" value="5"></option>\
+						<option class="translate" data-translate="saturday" value="6"></option>\
+					</select>\
 					<hr>\
 					<label class="left translate" data-translate="nextDescription"> </label><select id="nextAmount">\
 						<option value="noLists" class="translate" data-translate="nextNoLists"></option>\
 						<option value="everything" class="translate" data-translate="nextEverything"></option>\
 					</select>\
+					<hr>\
+					<label class="left translate" data-translate="resetnitro"> </label><button id="cleardata" class="translate" data-translate="cleardata"></button>\
 				</form>\
 				</div>  \
 				<div class="tab-pane" id="tabLanguage">\
@@ -37,61 +48,65 @@ $(function() {
 								<td class="language"><a href="#" data-value="hungarian">Magyar</a></td>\
 								<td class="author"><a href="mailto:sjozsef0227@gmail.com">József Samu</a>\
 							</tr>\
-								<td class="language"><a href="#" data-value="hungarian">Magyar</a></td>\
-								<td class="author"><a href="mailto:sjozsef0227@gmail.com">József Samu</a>\
-							</td>\
 							<tr>\
 								<td class="language"><a href="#" data-value="pirate">English (Pirate)</a></td>\
 								<td class="author">Caffeinated Code</td>\
-								<td class="language"><a href="#" data-value="portuguese">Português</a></td>\
-								<td class="author"><a href="mailto:email@belenos.me">Belenos Govannon</a></td>	\
+								<td class="language"><a href="#" data-value="dutch">Nederlands</a></td>\
+								<td class="author"><a href="mailto:erik.am@solcon.nl">Erik Ammerlaan</a>\
 							</tr>\
 							<tr>\
 								<td class="language"><a href="#" data-value="german">Deutsch</a></td>\
 								<td class="author"><a href="mailto:d.peteranderl@googlemail.com">Dennis Peteranderl</a>, <a href="info@agentur-simon.de">Bertram Simon</a></td>\
-								<td class="language"><a href="#" data-value="russian">Русский</a></td>\
-								<td class="author"><a href="mailto:a.pryah@gmail.com">Andrej Pryakhin</a></td>\
+								<td class="language"><a href="#" data-value="portuguese">Português</a></td>\
+								<td class="author"><a href="mailto:email@belenos.me">Belenos Govannon</a></td>	\
 							</tr>\
 							<tr>\
 								<td class="language"><a href="#" data-value="spanish">Español</a></td>\
 								<td class="author"><a href="mailto:admin@bumxu.com">Juande Martos</a></td></td>\
-								<td class="language"><a href="#" data-value="finnish">Suomi</a></td>\
-								<td class="author"><a href="mailto:rami.selin@gmail.com">Rami Selin</a></td>\
+								<td class="language"><a href="#" data-value="russian">Русский</a></td>\
+								<td class="author"><a href="mailto:a.pryah@gmail.com">Andrej Pryakhin</a></td>\
 							</tr>\
 							<tr>\
 								<td class="language"><a href="#" data-value="basque">Euskara</a></td>\
 								<td class="author"><a href="mailto:atxooy@gmail.com">Naxo Oyanguren</a></td>\
-								<td class="language"><a href="#" data-value="vietnamese">Tiếng Việt</a></td>\
-								<td class="author"><a href="mailto:dinhquan@narga.net">Nguyễn Đình Quân</a></td>\
+								<td class="language"><a href="#" data-value="finnish">Suomi</a></td>\
+								<td class="author"><a href="mailto:rami.selin@gmail.com">Rami Selin</a></td>\
 							</tr>\
 							<tr>\
 								<td class="language"><a href="#" data-value="french">Français</a></td>\
 								<td class="author"><a href="mailto:maurin.raphael@gmail.com">Raphaël Maurin</a></td>\
-								<td class="language"><a href="#" data-value="arabic">‏العربية‏</a></td>\
-								<td class="author"><a href="mailto:fouad.hassouneh@gmail.com">Fouad Hassouneh</td>\
+								<td class="language"><a href="#" data-value="vietnamese">Tiếng Việt</a></td>\
+								<td class="author"><a href="mailto:dinhquan@narga.net">Nguyễn Đình Quân</a></td>\
 							</tr>\
 							<tr>\
 								<td class="language"><a href="#" data-value="italian">Italiano</a></td>\
 								<td class="author"><a href="mailto:lmassa@bwlab.it.com">Luigi Massa</a></td>\
-								<td class="language"><a href="#" data-value="chinese">中文(简体)</a></td>\
-								<td class="author"><a href="mailto:1132321739qq@gmail.com">tuhaihe</a>, 2012</td>\
+								<td class="language"><a href="#" data-value="arabic">‏العربية‏</a></td>\
+								<td class="author"><a href="mailto:fouad.hassouneh@gmail.com">Fouad Hassouneh</td>\
 							</tr>\
 							<tr>\
 								<td class="language"><a href="#" data-value="polish">Polski</a></td>\
 								<td class="author">Marcin Tydelski,<br>Kajetan Szczepaniak</td>\
+								<td class="language"><a href="#" data-value="chinese">中文(简体)</a></td>\
+								<td class="author"><a href="mailto:1132321739qq@gmail.com">tuhaihe</a>, 2012</td>\
+							</tr>\
+							<tr>\
+								<td class="language"><a href="#" data-value="bulgarian">Български</a></td>\
+								<td class="author"><a href="mailto:rextans@gmail.com">Belkin Fahri</a></td>\
 								<td class="language"><a href="#" data-value="turkish">Türkçe</a></td>\
 								<td class="author"><a href="mailto:selimssevgi@gmail.com">Selim Sırrı Sevgi</a></td>\
-							</tr-->\
+							</tr>\
 						</tbody>\
 					</table>  \
 				</div>\
-				<div class="tab-pane" id="tabTheme">  \
+				<div class="tab-pane" id="tabTheme">\
 					<label class="left translate" data-translate="pickTheme"></label><select id="theme">\
 						<option value="default">Default</option>\
 						<option value="linux">Linux</option>\
 						<option value="coffee">Blue Coffee</option>\
 						<option value="metro">Metro</option>\
 						<option value="wunderlist">Wunderlist</option>\
+						<option value="rtl">Right to Left</option>\
 						<option value="bieber">Justin Bieber</option>\
 					</select><br>\
 					<label class="description translate" data-translate="themeDescription"></label>\
@@ -127,7 +142,7 @@ $(function() {
 					</div>\
 					<div class="waiting">\
 						<p><span class="translate" data-translate="syncAuthenticate"> </span><a class="cancel translate" data-translate="cancel"></a></p>\
-						<img class="spinner" src="css/img/spinner.gif">\
+						<div class="spinner"><div class="bar1"></div><div class="bar2"></div><div class="bar3"></div><div class="bar4"></div><div class="bar5"></div><div class="bar6"></div><div class="bar7"></div><div class="bar8"></div><div class="bar9"></div><div class="bar10"></div><div class="bar11"></div><div class="bar12"></div></div>\
 					</div>\
 					<div class="settings">\
 						<a class="left logout translate" data-translate="syncLogout" href="#"></a>\
@@ -147,28 +162,34 @@ $(function() {
 					</div>\
 				</div>\
 				<div class="tab-pane" id="tabAbout">\
-					<img src="css/img/nitro_128.png" class="center">\
+					<img width="128" height="128" src="css/img/nitro_256.png" class="center">\
 					<h2>Nitro <span></span></h2>\
-					<p class="center">By George Czabania & Jono Cooper<br>\
-					Copyright © 2012 Caffeinated Code<br>\
+					<p class="center">By <a href="https://twitter.com/GeorgeCzabania">George Czabania</a> & <a href="https://twitter.com/consindo">Jono Cooper</a><br>\
+					Copyright © 2012 <a href="http://caffeinatedco.de">Caffeinated Code</a><br>\
 					Licensed under the BSD licence</p>\
 					<hr>\
+					<h3>Special Thanks</h3>\
+					<ul>\
+						<li><a href="https://github.com/mlms13">Michael Martin-Smucker</a> - Help with translations and creator of Metro theme</li>\
+						<li>Icon designed by Николай Гармаш (Nicholay Garmash)</li>\
+						<li>A huge thanks to all the translators!</li>\
+					</ul>\
 					<h3>Donors</h3>\
 					<p>A huge thanks to everyone that donated! To make a donation, visit our <a href="http://nitrotasks.com/#donate">website</a>.</p>\
 					<ul>\
 						<li>Gabriel Favaro</li>\
+						<li>Andrew (Extreme Gaming & Computers)</li>\
 						<li>James Thomas</li>\
 					</ul>\
 					<ul>\
-						<li>Sergio Rubi</li>\
+						<li>Sergio Rubio</li>\
 						<li>James Mendenhall</li>\
 						<li>Nekhelesh Ramananthan</li>\
+						<li>Nasser Alshammari</li>\
 						<li>Valentin Vago</li>\
-						<li>Sebastian Alvarez</li>\
+						<li>Martin Degeling</li>\
 						<li>Pierre Quillery</li>\
-					</ul>\
-					<ul>\
-						<li>Icon designed by Николай Гармаш (Nicholay Garmash)</li>\
+						<li>Luo Qi</li>\
 					</ul>\
 					<hr>\
 					<h3>Keyboard Shortcuts</h3>\
@@ -258,15 +279,13 @@ $(function() {
 			</div>\
 		</div>\
 	');
-	//Because it needs time to load
-	$(document).on('loaded', function() {
-		$('#prefsDialog .translate').map(function () {
-			$(this).html($.i18n._($(this).attr('data-translate')));
-		})
-		$('#tabAbout h2 span').html(version)
-		// Only show linux theme in Python version
-		if(app != 'python') $('#theme').find('[value=linux]').remove()
+
+	$('#prefsDialog .translate').map(function () {
+		$(this).html($.i18n._($(this).attr('data-translate')));
 	})
+	$('#tabAbout h2 span').html(version)
+	// Only show linux theme in Python version
+	if(app != 'python') $('#theme').find('[value=linux]').remove()
 
 	var $tabSync = $('#tabSync')
 
@@ -274,39 +293,38 @@ $(function() {
 		SETTINGS
 	**********************************/
 
-	// CHECK BOXES [DELETE WARNINGS & LOW GRAPHICS MODE]
-	$('#tabGeneral form input').change(function () {
-
+	// CHECK BOXES [Delete Warnings & Week Starts on]
+	$('#tabGeneral form input, #weekStartsOn').change(function () {
 		core.storage.prefs.deleteWarnings = $('#deleteWarnings').prop('checked')
+		core.storage.prefs.weekStartsOn = parseInt($('#weekStartsOn').val())
 		core.storage.save()
-
 	})
 
 	// NEXT AMOUNT
 	$('#nextAmount').change(function () {
 
-		core.storage.prefs.nextAmount = this.value;
-		core.storage.save();
+		core.storage.prefs.nextAmount = this.value
+		core.storage.save()
 
 		//Reloads next if it is selected
 		if (ui.session.selected === 'next') {
-			$('#Lnext .name').click();
+			$('#Lnext .name').click()
 		}
-	});
+	})
 
 	// THEME
 	$('#theme').change(function () {
 		// Get value
-		var theme = $(this)[0].value;
+		var theme = $(this)[0].value
 
 		// Set CSS file
 		$('link.theme').attr('href', 'css/' + theme + '.css').ready(function () {
-			$(window).resize();
-		});
+			$(window).resize()
+		})
 
 		//Saves Theme
-		core.storage.prefs.theme = theme;
-		core.storage.save();
+		core.storage.prefs.theme = theme
+		core.storage.save()
 
 		// Reload sidebar
 		ui.reloadSidebar()
@@ -315,7 +333,7 @@ $(function() {
 		if (app == 'python') {
 			document.title = 'theme|' + core.storage.prefs.theme
 		}
-	});
+	})
 
 	/**********************************
 		CUSTOM BACKGROUNDS
@@ -323,9 +341,9 @@ $(function() {
 
 	// REMOVE CUSTOM BACKGROUND
 	$('#removeBG').click(function () {
-		localStorage.removeItem('background');
-		$tasks[0].style.backgroundImage = 'none';
-	});
+		localStorage.removeItem('background')
+		$tasks[0].style.backgroundImage = 'none'
+	})
 
 	// DRAG AND DROP
 	$body.bind({
@@ -339,93 +357,94 @@ $(function() {
 			e.preventDefault();
 			e = e.originalEvent || e;
 			if (e.hasOwnProperty('files') || e.hasOwnProperty('dataTransfer')) {
-				var files = (e.files || e.dataTransfer.files);
-				setBG(files[0]);
+				var files = (e.files || e.dataTransfer.files)
+				setBG(files[0])
 				return false;
 			}
 		}
-	});
+	})
 
 	// BUTTON UPLOAD
 	$('#chooseBG').change(function (e) {
-		var files = $(this)[0].files;
-		setBG(files[0]);
-	});
+		var files = $(this)[0].files
+		setBG(files[0])
+	})
 
 	// Takes a file and sets it as the background
 	var setBG = function (f) {
-		core.storage.prefs.bgSize = this.value;
-		var reader = new FileReader();
+		core.storage.prefs.bgSize = this.value
+		var reader = new FileReader()
 		reader.onload = function (event) {
 
-			localStorage.removeItem('background');
-			localStorage.setItem('background', event.target.result);
+			localStorage.removeItem('background')
+			localStorage.setItem('background', event.target.result)
 
-			$tasks[0].style.backgroundImage = 'url(' + event.target.result + ')';
-		};
-		reader.readAsDataURL(f);
+			$tasks[0].style.backgroundImage = 'url(' + event.target.result + ')'
+		}
+		reader.readAsDataURL(f)
 		core.storage.save()
-	};
+	}
 
 	// BACKGROUND SIZE
 	$('#backgroundSize').change(function () {
 		core.storage.prefs.bgSize = this.value;
 		switch (this.value) {
 		case 'tile':
-			$tasks.removeClass('shrink zoom').addClass('tile');
+			$tasks.removeClass('shrink zoom').addClass('tile')
 			break;
 		case 'shrink':
-			$tasks.removeClass('tile zoom').addClass('shrink');
+			$tasks.removeClass('tile zoom').addClass('shrink')
 			break;
 		case 'zoom':
-			$tasks.removeClass('tile shrink').addClass('zoom');
+			$tasks.removeClass('tile shrink').addClass('zoom')
 			break;
 		}
-		core.storage.save();
-	});
+		core.storage.save()
+	})
 
 	// HEADING COLOR
 	$('#headingColor').change(function () {
-		core.storage.prefs.bgColor = this.value;
-		core.storage.save();
+		core.storage.prefs.bgColor = this.value
+		core.storage.save()
 
-		$tasks.find('h2').removeClass('light dark').addClass(core.storage.prefs.bgColor);
-	});
+		$tasks.find('h2').removeClass('light dark').addClass(core.storage.prefs.bgColor)
+	})
 
 	/**********************************
 			LOADING PREFERENCES
 	**********************************/
-	$('#deleteWarnings').prop('checked', core.storage.prefs.deleteWarnings);
-	$('#nextAmount').val(core.storage.prefs.nextAmount);
-	$('#theme').val(core.storage.prefs.theme);
-	$('#backgroundSize').val(core.storage.prefs.bgSize);
-	$('#headingColor').val(core.storage.prefs.bgColor);
+	$('#deleteWarnings').prop('checked', core.storage.prefs.deleteWarnings)
+	$('#weekStartsOn').val(core.storage.prefs.weekStartsOn)
+	$('#nextAmount').val(core.storage.prefs.nextAmount)
+	$('#theme').val(core.storage.prefs.theme)
+	$('#backgroundSize').val(core.storage.prefs.bgSize)
+	$('#headingColor').val(core.storage.prefs.bgColor)
 
 	// CUSTOM BACKGROUND
 	if (localStorage.hasOwnProperty('background')) {
-		$tasks[0].style.backgroundImage = 'url(' + localStorage.getItem('background') + ')';
+		$tasks[0].style.backgroundImage = 'url(' + localStorage.getItem('background') + ')'
 	} else if (core.storage.prefs.hasOwnProperty('background')) {
-		$tasks[0].style.backgroundImage = 'url(' + core.storage.prefs.background + ')';
+		$tasks[0].style.backgroundImage = 'url(' + core.storage.prefs.background + ')'
 	}
 
-	$tasks.addClass(core.storage.prefs.bgSize);
+	$tasks.addClass(core.storage.prefs.bgSize)
 
 	// LANGUAGE
-	$('#tabLanguage a.current').removeClass('current');
+	$('#tabLanguage a.current').removeClass('current')
 	$('#tabLanguage .language a').each(function () {
 		if ($(this).data('value') === core.storage.prefs.lang) {
-			$(this).addClass('current');
+			$(this).addClass('current')
 		}
-	});
+	})
 	$('#tabLanguage').bind('click', function (e) {
 		if ($(e.srcElement).is('.language a')) {
-			core.storage.prefs.lang = $(e.srcElement).data('value');
+			core.storage.prefs.lang = $(e.srcElement).data('value')
 			core.storage.save();
 
-			window.location.reload();
+			window.location.reload()
 			return false;
 		}
-	});
+	})
 
 	// SYNC
 	$('#syncInterval').val(core.storage.prefs.sync.interval)
@@ -463,12 +482,12 @@ $(function() {
 
 	$tabSync.find('a.button:not(".signup")').click(function() {
 			
-		var service = $(this).data('service');
+		var service = $(this).data('service')
 			
 		// Run sync
 		sync.run(service, function (result) {
 			if(result) {
-				$tabSync.find('.email').html(core.storage.prefs.sync.email);
+				$tabSync.find('.email').html(core.storage.prefs.sync.email)
 				$tabSync.find('.service').html(service);
 				animateTab($tabSync, $tabSync.find('.waiting'), $tabSync.find('.settings'))
 			} else {
@@ -501,6 +520,33 @@ $(function() {
 		animateTab($tabSync, $tabSync.find('.settings'), $tabSync.find('.connect'))
 	})
 
+	$('#cleardata').click(function(e) {
+		//Because it's a bloody button
+		e.preventDefault()
+		var markup = Mustache.to_html(templates.dialog.modal, {
+			id: 'clearDataModal',
+			title: $l._('warning'),
+			message: $l._('clearDataMsg'),
+			button: {yes: $l._('deleteOneYes'), no: $l._('deleteOneNo')}
+		})
+		$body.append(markup)
+		var $modal = $('#clearDataModal'),
+			$this = $(this).parent()
+
+		$modal.modal()
+		$modal.find('button').bind('click', function(e) {
+
+			if($(e.target).hasClass('no')) {
+				$modal.modal('hide').remove()
+				return
+			}
+			//We're Deleting Everything
+			localStorage.clear()
+			window.location.reload()
+		})
+
+	})
+
 	// SYNC TYPE
 	$('#syncInterval').change(function () {
 		var interval = this.value
@@ -513,4 +559,4 @@ $(function() {
 		core.storage.save()
 	})
 
-});
+})

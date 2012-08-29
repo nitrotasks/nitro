@@ -14,7 +14,7 @@
  */
 
 app = 'js'
-version = '1.4.5'
+version = '1.4.7'
 
 //Core Module
 var core = {
@@ -232,6 +232,20 @@ var core = {
 	},
 	
 	date:  function(timestamp) {
+		var months = [
+			$.i18n._('janShort'),
+			$.i18n._('febShort'),
+			$.i18n._('marShort'),
+			$.i18n._('aprShort'),
+			$.i18n._('mayShort'),
+			$.i18n._('junShort'),
+			$.i18n._('julShort'),
+			$.i18n._('augShort'),
+			$.i18n._('sepShort'),
+			$.i18n._('octShort'),
+			$.i18n._('novShort'),
+			$.i18n._('decShort')
+		];
 		return {
 			getDaysLeft: function() {
 				if(!timestamp) return false
@@ -247,34 +261,49 @@ var core = {
 
 				var words, className = ''
 
+				/*
+	
+					Difference
+
+					==  5: "5 days left"
+					==  1: "Due tomorrow"
+					==  0: "Due today"
+					== -1: "Due yesterday"
+					== -5: "5 days overdue"
+		
+				*/
+
 				// Show difference nicely
-				if (difference < -1) {
-					// Overdue
-					difference = Math.abs(difference);
-					if (difference !== 1) {
-						// return [$.i18n._('daysOverdue', [difference]), 'overdue'];
-						words = difference + ' days overdue'
-						className = 'overdue'
-					}
-				} else if (difference === -1) {
+				if (difference === -1) {
 					// Yesterday
-					words = 'due yesterday'
+					words = $.i18n._('dueYesterday')
 					className = 'overdue'
+
+				} else if (difference < -1) {
+					// Overdue
+
+					// Make sure the difference is a positive number
+					difference = Math.abs(difference);
+					words = $.i18n._('daysOverdue', [difference])
+					className = 'overdue'
+
 				} else if (difference === 0) {
-					// Due;
-					words = 'due today'
+					// Due Today
+					words = $.i18n._('dueToday')
 					className = 'due'
+
 				} else if (difference === 1) {
-					// Due
-					words = 'due tomorrow'
+					// Due Tomorrow
+					words = $.i18n._('dueTomorrow')
 					className = 'soon'
+
 				} else if (difference < 15) {
 					// Due in the next 15 days
-					words = difference + ' days left'
+					words = $.i18n._('daysLeft', [difference])
+
 				} else {
 					// Due after 15 days
-					var month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-					words = month[date.getMonth()] + " " + date.getDate()
+					words = months[date.getMonth()] + " " + date.getDate()
 				}
 
 				return {
@@ -300,8 +329,7 @@ var core = {
 				} else if (d == -1) {
 					return "Yesterday"
 				} else {
-					var month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-					return date.getDate() + " " + month[date.getMonth()];
+					return date.getDate() + " " + months[date.getMonth()];
 				}
 			}
 		}
