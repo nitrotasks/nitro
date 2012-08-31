@@ -23,8 +23,8 @@ ui.language({
 	addList: "Adicionar Lista",
 	moveToLogbookSingle: "Mover 1 tarefa completada para o Diário de Bordo",
 	moveToLogbookPlural: "Mover %s tarefas completadas para o Diário de Bordo",
-	showLoggedTask: "Show 1 logged task",
-	showLoggedTasks: "Show %s logged tasks",
+	showLoggedTask: "Mostrar 1 tarefa do Diário de Bordo",
+	showLoggedTasks: "Mostrar %s tarefas do Diário de Bordo",
 
 	// Sort
 	sortMagic: "Aleatório",
