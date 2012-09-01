@@ -122,6 +122,15 @@ var ui = {
 		$addBTN = $panel.left.find('button.add')
 		$delBTN = $panel.left.find('button.delete')
 
+		//Splitter Resizing
+		$('.vsplitbar').on('mouseup', function(){
+			if ($('#tasks .panel').width() < 550) {
+				$('#tasks .panel .left button').css({'font-size': '0', 'padding': '0 5px'}).width(54)
+			} else {
+				$('#tasks .panel .left button').removeAttr("style")
+			}
+		})
+
 		//Splitter
 		var height = $(window).height(),
 			width = $(window).width()
@@ -138,8 +147,11 @@ var ui = {
 
 				//Content Height
 				$('.tasksContent').height(height - $('.panel').height());
+
+				//Responsive Panel
+				$('.vsplitbar').trigger('mouseup')
 			}
-		});
+		});	
 
 		// Theme init
 		core.storage.prefs.theme = core.storage.prefs.theme || 'default'
@@ -192,27 +204,6 @@ var ui = {
 			core.storage.save([['list-order', null, null]])
 		});
 
-		//Old shit jQuery UI way
-		/*$lists.sortable({
-			containment: 'parent',
-			axis: 'y',
-			distance: 20,
-			placeholder: 'listPlaceholder',
-			helper: 'clone',
-			stop: function() {
-				//Saves Everything, including order
-				var listOrder = []
-
-				//Loops through lists & adds the to an array
-				$lists.children().map(function () {
-					listOrder.push($(this).attr('id').substr(1))
-				});
-
-				//Saves
-				core.storage.lists.order = listOrder;
-				core.storage.save([['list-order', null, null]])
-			}
-		});*/
 		//Droppable
 		ui.lists.droppable('ul li:not("#Lall")')
 
