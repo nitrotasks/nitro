@@ -3,102 +3,17 @@
 	#sidebar, #tasks, .vsplitbar, #login {
 		display: none;
 	}
-	#sidebar {
-		-webkit-animation: anim 1500ms 1;
-		-webkit-transform-origin: 0% 50%;
-	}
-}
-#login {
-	display: none;
-	//@include transform(perspective(600px) rotatex(180deg);
-	width: 600px;
-	height: 300px;
-	@include perspective(600px);
-}
-.web #login {
-	display: block;
-	position: absolute;
-	left: 50%;
-	top: 100px;
-	margin-left: -300px;
 
-	.loading, .login {
-		width: 100%;
-		height: 100%;
-		background: #fff;
-		position: absolute;
-		top: 0;
-		left: 0;
-		border-radius: 3px;
-		box-shadow: 0 0 3px #888;
-		box-sizing: border-box;
-		-webkit-transform-style: preserve-3d;
-		-moz-transform-style: preserve-3d;
-		-ms-transform-style: preserve-3d;
-		padding: 20px;
-		-webkit-backface-visibility: hidden;
-		-moz-backface-visibility: hidden;
-		-ms-backface-visibility: hidden;
-	}
-	.loading {
-		background: url(img/spinner.gif) 50% 50% no-repeat, #fff;
-	}
-	
-}
-$perspective: perspective(1200px);
-.loaded.web #login {
-	
-	//@include transform(perspective(600px) rotatex(0deg);
+	//Special Prefs Styling
+	#prefsDialog {
+		top: 80px;
+		box-shadow: none;
+		border-radius: 4px;
+		border: 1px solid #BBB;
 
-	.loading {
-		-webkit-animation: loginx 1500ms 1;
-		-moz-animation: loginx 1500ms 1;
-		-ms-animation: loginx 1500ms 1;
-		@include transform($perspective rotatex(-180deg));
-	}
-
-	.login {
-		-webkit-animation: login 1500ms 1;
-		-moz-animation: login 1500ms 1;
-		-ms-animation: login 1500ms 1;
-		@include transform($perspective rotatex(0deg));
+		.nav-tabs {
+			display: none;
+		}
 	}
 }
 
-@-webkit-keyframes login {
-	0% { @include transform($perspective rotatex(180deg)) }
-	50% {@include transform($perspective rotatex(180deg)); }
-	100% {@include transform($perspective rotatex(0deg));}
-}
-@-webkit-keyframes loginx {
-	0% {@include transform($perspective rotatex(0deg)); }
-	50% {@include transform($perspective rotatex(0deg)); }
-	100% {@include transform($perspective rotatex(-180deg));}
-}
-@-moz-keyframes login {
-	0% { @include transform($perspective rotatex(180deg)) }
-	50% {@include transform($perspective rotatex(180deg)); }
-	100% {@include transform($perspective rotatex(0deg));}
-}
-@-moz-keyframes loginx {
-	0% {@include transform($perspective rotatex(0deg)); }
-	50% {@include transform($perspective rotatex(0deg)); }
-	100% {@include transform($perspective rotatex(-180deg));}
-}
-@-ms-keyframes login {
-	0% { @include transform($perspective rotatex(180deg)) }
-	50% {@include transform($perspective rotatex(180deg)); }
-	100% {@include transform($perspective rotatex(0deg));}
-}
-@-ms-keyframes loginx {
-	0% {@include transform($perspective rotatex(0deg)); }
-	50% {@include transform($perspective rotatex(0deg)); }
-	100% {@include transform($perspective rotatex(-180deg));}
-}
-
-
-@-webkit-keyframes anim {
-	0% {@include transform(perspective(600px) rotatey(90deg)); }
-	70% {@include transform(perspective(600px) rotatey(90deg)); }
-	100% {@include transform(perspective(600px) rotatey(0deg));}
-}

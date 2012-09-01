@@ -91,12 +91,22 @@ var ui = {
 		
 		// Web Version
 		if (app == 'web') {
-			// Run sync
-			if (core.storage.prefs.sync.service && core.storage.prefs.sync.resume) {
-				sync.run();
+			// Run sync if out shit is loaded
+			$('html').addClass('web')
+			$('body').append('<div id="syncloader" class="spinner"><div class="bar1"></div><div class="bar2"></div><div class="bar3"></div><div class="bar4"></div><div class="bar5"></div><div class="bar6"></div><div class="bar7"></div><div class="bar8"></div><div class="bar9"></div><div class="bar10"></div><div class="bar11"></div><div class="bar12"></div></div>')
+
+			if (core.storage.prefs.sync.service && core.storage.prefs.sync.resume || core.storage.prefs.sync.access) {
+				if (core.storage.prefs.sync.service && core.storage.prefs.sync.resume) {
+					$('body').append('<div>Authorizing Nitro... <a href="#">Try again.</a></div>')
+				}
+				//Callback Removes Splash Screen
+				sync.run(undefined, function() {$('#syncloader').remove(); $('body').append('<style>.web #sidebar, .web #tasks, .web .vsplitbar, .web #login { display: block; }</style>')});
+			} else {
+				$('#syncloader').remove();
+				//Show Sync Tab
+				$('#prefsDialog .nav li a[data-target=#tabSync]').click()
+				$('#prefsDialog').show()
 			}
-			// $('html').addClass('web')
-			// $('body').append('<div id="login"><div class="loading"></div><div class="login">Login</div></div>')
 		}
 
 		//Buttons
