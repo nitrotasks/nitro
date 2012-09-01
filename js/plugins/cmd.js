@@ -72,19 +72,17 @@ cmd = function (cmd) {
 
 		// Help Menu
 		case 'about':
-			$('#aboutDialog .version').html(version)
-			$('#aboutDialog').fadeToggle(150)
-			$('#settingsOverlay').toggle(0)
+			$settingsbtn.click()
+			$('a[data-target=#tabAbout]').tab('show')
 			break
 		case 'donors':
-			$('#donateDialog').fadeToggle(150)
-			$('#settingsOverlay').toggle(0)
+			cmd('about')
 			break
 		case 'donate':
 			window.location = 'http://nitrotasks.com/donate.html'
 			break
 		case 'help':
-			window.location = 'http://nitrotasks.com/help'
+			cmd('about')
 			break
 		case 'bug':
 			window.location = 'https://github.com/stayradiated/Nitro/issues'
