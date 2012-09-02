@@ -17,8 +17,11 @@ body {
 	margin-left: -20px;
 }
 .web {
-	
-	#sidebar, #tasks, .vsplitbar, #login {
+	#cleardataweb {
+		display: block;
+	}
+
+	#prefsDialog .nav, #sidebar, #tasks, .vsplitbar, #login {
 		display: none;
 	}
 

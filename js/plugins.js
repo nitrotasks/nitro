@@ -2001,6 +2001,7 @@ $(function() {
 							</tr>\
 						</tbody>\
 					</table>  \
+					<button id="cleardataweb">Sign Out</button>\
 				</div>\
 				<div class="tab-pane" id="tabTheme">\
 					<label class="left translate" data-translate="pickTheme"></label><select id="theme">\
@@ -2448,6 +2449,12 @@ $(function() {
 			window.location.reload()
 		})
 
+	})
+
+	$('#cleardataweb').click(function() {
+		//We're Deleting Everything
+		localStorage.clear()
+		window.location.reload()
 	})
 
 	// SYNC TYPE
