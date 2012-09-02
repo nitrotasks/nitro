@@ -2666,6 +2666,19 @@ plugin.add(function() {
 
 	sync = {
 
+		// Prevent navigation during sync
+		preventNav: function(status) {
+			var message = "Nitro is currently syncing";
+
+			if (status == 'on' || status === true) {
+				window.onbeforeunload = function() {
+					return message;
+				}
+			} else if (status == 'off' || status === false) {
+				window.onbeforeunload = false;
+			}
+		},
+
 		// Timer
 		timer: function() {
 			$runSync.addClass('running')
@@ -2683,9 +2696,17 @@ plugin.add(function() {
 		},
 
 		// Magical function that handles connect and emit
-		run: function (service, callback) {
+		run: function (service, cb) {
 
 			var time = core.timestamp()
+
+			if (typeof(cb) == "function") {
+				callback = function() {
+					sync.preventNav('off')
+					core.storage.prefs.sync.active = false
+					cb.apply(this, arguments)
+				}
+			}
 
 			if (service) {
 				core.storage.prefs.sync.service = service;
@@ -2695,6 +2716,7 @@ plugin.add(function() {
 			}
 
 			core.storage.prefs.sync.active = true
+			sync.preventNav('on')
 
 			if (core.storage.prefs.sync.hasOwnProperty('access')) {
 
@@ -3196,7 +3218,7 @@ plugin.add(function() {
 		lists.time          = prefs.time   				|| 0
 		prefs.sync 			= prefs.sync 				|| {}
 		prefs.sync.interval = prefs.sync.interval  		|| 'manual'
-		prefs.sync.active   = prefs.sync.active    		|| true
+		prefs.sync.active   = prefs.sync.active    		|| false
 		prefs.sync.url      = prefs.sync.url       		|| 'http://app.nitrotasks.com'
 		prefs.sync.timer    = prefs.sync.timer     		|| 120000
 		prefs.lang          = prefs.lang           		|| 'english'

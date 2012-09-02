@@ -71,6 +71,7 @@ plugin.add(function() {
 			if (typeof(cb) == "function") {
 				callback = function() {
 					sync.preventNav('off')
+					core.storage.prefs.sync.active = false
 					cb.apply(this, arguments)
 				}
 			}
