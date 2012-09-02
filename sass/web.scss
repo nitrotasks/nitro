@@ -1,18 +1,115 @@
 @import "compass/css3";
+#splash {
+	opacity: 0;
+}
+body {
+	opacity: 0;
+}
+.loaded {
+	body {
+		opacity: 1;
+	}
+}
+#syncloader {
+	position: fixed;
+	left: 50%;
+	top: 80px;
+	margin-left: -20px;
+}
 .web {
+	
 	#sidebar, #tasks, .vsplitbar, #login {
 		display: none;
 	}
 
-	//Special Prefs Styling
-	#prefsDialog {
+	#loading {
+		position: absolute;
 		top: 80px;
-		box-shadow: none;
-		border-radius: 4px;
-		border: 1px solid #BBB;
+		left: 50%;
+	}
 
-		.nav-tabs {
-			display: none;
+	#splash {
+		position: fixed;
+		width: 700px;
+		margin-left: -400px;
+		left: 50%;
+		top: 80px;
+		font-size: 0;
+		-webkit-transition: 500ms ease opacity;
+
+		h1 {
+			font-size: 32px;
+			color: #444;
+			margin: 0;
+		}
+		.left {
+			width: 400px;
+			a {
+				color: #fff;
+				text-decoration: underline;
+			}
+			p {
+				margin: 0;
+				background: #333;
+				color: #fff;
+				padding: 5px 10px;
+			}
+		}
+		.right {
+			color: #666;
+			padding-left: 50px;
+			width: 250px;
+		}
+		.left, .right {
+			display: inline-block;
+			font-size: 14px;
+			vertical-align: top;
+		}
+		h2 {
+		margin: 0;
+		}
+		a {
+			text-decoration: none;
+			color: #0072C5;
+		}
+		a.dropbox, a.ubuntu {
+			display: block;
+			border-radius: 3px;
+			font-weight: bold;
+			padding: 8px 20px 7px 45px;
+			line-height: 1;
+			color: #fff;
+			cursor: pointer;
+			width: 100px;
+			margin-bottom: 5px;
+			text-decoration: none;
+		}
+		.dropbox {
+			text-shadow: #355782 0 1px 1px;
+			border-top: 1px #2270AB solid;
+			border-left: 1px #18639A solid;
+			border-right: 1px #18639A solid;
+			border-bottom: 1px #0F568B solid;
+			box-shadow: 0 1px 1px rgba(0, 0, 0, .3), inset 0 1px 0 #83c5f1;
+			background: url(monodropbox.png) no-repeat 18px 7px, -webkit-linear-gradient(#33A0E8, #2180CE);
+			background: url(monodropbox.png) no-repeat 18px 7px, -moz-linear-gradient(#33A0E8, #2180CE);
+			background: url(monodropbox.png) no-repeat 18px 7px, -ms-linear-gradient(#33A0E8, #2180CE);
+			background: url(monodropbox.png) no-repeat 18px 7px, -o-linear-gradient(#33A0E8, #2180CE);
+			background: url(monodropbox.png) no-repeat 18px 7px, linear-gradient(#33A0E8, #2180CE);
+		}
+		.ubuntu {
+			background: url(monoubuntu.png) no-repeat 18px 7px, -webkit-linear-gradient(top, #e26438 	0%, #bd3e11 100%);
+			background: url(monoubuntu.png) no-repeat 18px 7px, -moz-linear-gradient(top, #e26438 0%, 	#bd3e11 100%);
+			background: url(monoubuntu.png) no-repeat 18px 7px, -ms-linear-gradient(top, #e26438 0%, 	#bd3e11 100%);
+			background: url(monoubuntu.png) no-repeat 18px 7px, -o-linear-gradient(top, #e26438 0%, 	#bd3e11 100%);
+			background: url(monoubuntu.png) no-repeat 18px 7px, linear-gradient(top, #e26438 0%, 	#bd3e11 100%);
+			box-shadow: 0 1px 1px rgba(0, 0, 0, .3), inset 0 1px 0 #ed9e82;
+	
+			text-shadow: #6f240a 0 1px 1px;
+			border-top: 1px #ad3910 solid;
+			border-right: 1px #9e340e solid;
+			border-left: 1px #9e340e solid;
+			border-bottom: 1px #8e2f0d solid;
 		}
 	}
 }

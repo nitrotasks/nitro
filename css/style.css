@@ -5,6 +5,8 @@ input, textarea { -webkit-user-select: text; -moz-user-select: text; cursor: tex
 
 a { cursor: pointer; }
 
+#splash { display: none; }
+
 /* HTML5 Boilerplate  */
 article, aside, details, figcaption, figure, footer, header, hgroup, nav, section { display: block; }
 

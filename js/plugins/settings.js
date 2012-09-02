@@ -480,7 +480,7 @@ $(function() {
 		})
 	}
 
-	$tabSync.find('a.button:not(".signup")').click(function() {
+	$('.ubuntu, .dropbox').click(function() {
 			
 		var service = $(this).data('service')
 			

@@ -1368,15 +1368,13 @@ cmd = function (cmd) {
 			$('a[data-target=#tabAbout]').tab('show')
 			break
 		case 'donors':
-			$settingsbtn.click()
-			$('a[data-target=#tabAbout]').tab('show')
+			cmd('about')
 			break
 		case 'donate':
 			window.location = 'http://nitrotasks.com/donate.html'
 			break
 		case 'help':
-			$settingsbtn.click()
-			$('a[data-target=#tabAbout]').tab('show')
+			cmd('about')
 			break
 		case 'bug':
 			window.location = 'https://github.com/stayradiated/Nitro/issues'
@@ -2385,7 +2383,7 @@ $(function() {
 		})
 	}
 
-	$tabSync.find('a.button:not(".signup")').click(function() {
+	$('.ubuntu, .dropbox').click(function() {
 			
 		var service = $(this).data('service')
 			
