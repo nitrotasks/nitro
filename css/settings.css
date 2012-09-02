@@ -64,6 +64,8 @@
 #tabAbout table tr td { padding: 5px; }
 #tabAbout table tr td:first-child { font-weight: bold; width: 50%; }
 
+#cleardataweb { display: none; }
+
 div.spinner { position: relative; width: 40px; height: 45px; display: inline-block; margin-top: 5px; }
 
 div.spinner div { width: 12%; height: 26%; background: #444; position: absolute; left: 44.5%; top: 37%; opacity: 0; -webkit-animation: fade 1s linear infinite; -moz-animation: fade 1s linear infinite; -ms-animation: fade 1s linear infinite; -o-animation: fade 1s linear infinite; animation: fade 1s linear infinite; border-radius: 50px; box-shadow: 0 0 1px rgba(0, 0, 0, 0.1); }
