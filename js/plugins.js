@@ -2882,7 +2882,7 @@ plugin.add(function() {
 				console.log("Finished sync");
 				core.storage.tasks = newval.tasks;
 				core.storage.lists = newval.lists;
-				core.storage.save();
+				core.storage.store();
 				if(typeof callback === 'function') callback(true)
 				ui.reload();
 			});

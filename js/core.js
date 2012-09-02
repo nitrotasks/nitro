@@ -371,6 +371,11 @@ var core = {
 		}),
 		save: function(arr) {
 
+			if (core.storage.prefs.sync.active == false) {
+				console.log(core.storage.prefs.sync.active)
+				sync.run()
+			}
+
 			if(typeof arr == 'object') {
 				for(var i = 0; i < arr.length; i++) {
 					var type = arr[i][0],
