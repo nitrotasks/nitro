@@ -250,3 +250,48 @@ cmd = function (cmd) {
 			break
 	}
 }
+
+// Mac Wrapper
+macWrapper = function(input) {
+	// example input: "<NSMenuItem: 0x10012e170 Next>"
+	var raw = input.split(' '),
+		command = "";
+		
+	// Remove first two values
+	raw.splice(0, 2);
+	
+	var length = raw.length;
+	for (var i = 0; i < length; i++) {
+		if (i == length - 1) {
+			command += raw[i].slice(0,-1);
+		} else {
+			command += raw[i] + " ";
+		}
+	}
+	
+	console.log(command);
+	
+	switch (command) {
+		case "New Task":
+			cmd('newtask');
+			break;
+		case "New List":
+			cmd('newlist');
+			break;
+		case "Sync":
+			cmd("sync");
+			break;
+		case "Today":
+			cmd("today");
+			break;
+		case "Next":
+			cmd("next");
+			break;
+		case "Logbook":
+			cmd("logbook");
+			break;
+		case "All Tasks":
+			cmd("allTasks");
+			break;
+	}
+}
