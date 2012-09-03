@@ -149,7 +149,13 @@ var ui = {
 		$('.vsplitbar').on('mouseup', function(){
 			if ($('#tasks .panel').width() < 550) {
 				$('#tasks .panel .left button').css({'font-size': '0', 'padding': '0 5px'}).width(54)
+				$('#tasks .panel .right').show(0)
+
+				if ($('#tasks .panel').width() < 489) {
+					$('#tasks .panel .right').hide(0)
+				}
 			} else {
+				$('#tasks .panel .right').show(0)
 				$('#tasks .panel .left button').removeAttr("style")
 			}
 		})
@@ -175,6 +181,9 @@ var ui = {
 				$('.vsplitbar').trigger('mouseup')
 			}
 		});	
+
+		//Trigger on app load
+		$('.vsplitbar').trigger('mouseup')
 
 		// Theme init
 		core.storage.prefs.theme = core.storage.prefs.theme || 'default'
