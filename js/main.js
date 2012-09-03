@@ -182,9 +182,6 @@ var ui = {
 			}
 		});	
 
-		//Trigger on app load
-		$('.vsplitbar').trigger('mouseup')
-
 		// Theme init
 		core.storage.prefs.theme = core.storage.prefs.theme || 'default'
 		$('link.theme').attr('href', 'css/' + core.storage.prefs.theme + '.css').ready(function () {
