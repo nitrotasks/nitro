@@ -15,9 +15,11 @@ body { background-image: url(img/bg.png); }
 .panel button.add { background: url(img/svg/add.svg) no-repeat 18px 50%; padding-left: 50px; }
 .panel button.delete { background: url(img/svg/delete.svg) no-repeat 18px 50%; padding-left: 50px; }
 .panel button.sort { background: url(img/svg/sort.svg) no-repeat 14px 50%; padding-left: 46px; }
-.panel button.settingsbtn { margin: 0 7px 0 0; background: url(img/svg/settings.svg) no-repeat 50%; padding: 0 20px; }
+.panel button.settingsbtn { margin: 0 7px 0 0; background: url(img/svg/settings.svg) no-repeat 50%; padding: 14px 20px; vertical-align: top; }
 .panel button:hover { background-color: rgba(0, 0, 0, 0.2); }
 .panel button.disabled { opacity: 0.7; }
+.panel .downloadbtn { background: url(img/svg/download.svg) no-repeat 50%; padding: 20px; vertical-align: top; display: inline-block; }
+.panel .downloadbtn:hover { background-color: rgba(0, 0, 0, 0.2); }
 .panel .left span ul { background: #333333; border: 1px solid black; border-top: none; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4); margin: 0; }
 .panel .left span ul li { color: white; font-weight: bold; }
 .panel .right input { border: 0; border-radius: 2px; width: 120px; padding-left: 23px; -webkit-transition: 150ms width ease; -moz-transition: 150ms width ease; -o-transition: 150ms width ease; transition: 150ms width ease; }
