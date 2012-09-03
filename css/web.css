@@ -7,7 +7,7 @@ body { opacity: 0; }
 #syncloader { position: fixed; left: 50%; top: 80px; margin-left: -20px; }
 
 .web #cleardataweb { display: block; }
-.web #prefsDialog .nav, .web #sidebar, .web #tasks, .web .vsplitbar, .web #login { display: none; }
+.web #prefsDialog .nav, .web #content { display: none; }
 .web #loading { position: absolute; top: 80px; left: 50%; }
 .web #splash { position: fixed; width: 700px; margin-left: -400px; left: 50%; top: 80px; font-size: 0; -webkit-transition: 500ms ease opacity; }
 .web #splash h1 { font-size: 32px; color: #444; margin: 0; }

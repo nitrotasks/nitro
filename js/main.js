@@ -115,7 +115,7 @@ var ui = {
 					}, 10000)
 				}
 				//Callback Removes Splash Screen
-				sync.run(undefined, function() {$('#syncloader').remove(); $('body').removeAttr("style").append('<style>.web #sidebar, .web #tasks, .web .vsplitbar, .web #login { display: block; }</style>')});
+				sync.run(undefined, function() {$('#syncloader').remove(); $('body').removeAttr("style"); $('.web #content').show(0)});
 			} else {
 				$('#splash').show(0).css('opacity', '1')
 				$('#syncloader').css('opacity', '0')
