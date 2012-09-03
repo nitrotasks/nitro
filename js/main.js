@@ -207,7 +207,11 @@ var ui = {
 			markup += ui.lists.draw(core.storage.lists.order[i])
 		}
 		$lists.html(markup)
-		$('#L' + ui.session.selected + ' .name').click();
+		
+		//Causes a resync
+		if (app == 'web' && $('.selected').length == 0 || app != 'web') {
+			$('#L' + ui.session.selected + ' .name').click();
+		}
 
 		//Sortable Lists
 		$lists.sortable().bind('sortupdate', function() {
@@ -678,7 +682,7 @@ $sidebar.on('click', '.name, .count', function() {
 	$this.addClass('selected')
 	ui.session.selected = model.id
 	core.storage.prefs.selected = ui.session.selected
-	core.storage.save()
+	core.storage.store()
 
 	//Gets list id & populates
 	var tasks = core.list(model.id).populate()

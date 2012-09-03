@@ -107,7 +107,7 @@
 		lists.time          = prefs.time   				|| 0
 		prefs.sync 			= prefs.sync 				|| {}
 		prefs.sync.interval = prefs.sync.interval  		|| 'manual'
-		prefs.sync.active   = prefs.sync.active    		|| true
+		prefs.sync.active   = prefs.sync.active    		|| false
 		prefs.sync.url      = prefs.sync.url       		|| 'http://app.nitrotasks.com'
 		prefs.sync.timer    = prefs.sync.timer     		|| 120000
 		prefs.lang          = prefs.lang           		|| 'english'

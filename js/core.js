@@ -371,9 +371,10 @@ var core = {
 		}),
 		save: function(arr) {
 
-			if (!core.storage.prefs.sync.active) {
-				//The easiest auto sync ever
-				sync.run()			}
+			if (core.storage.prefs.sync.active == false) {
+				console.log(core.storage.prefs.sync.active)
+				sync.run()
+			}
 
 			if(typeof arr == 'object') {
 				for(var i = 0; i < arr.length; i++) {
@@ -396,10 +397,15 @@ var core = {
 					}
 				}
 			} else if(arr !== undefined) console.log("Error: timestamp could not be updated - data needs to be in an array")
-			
-			$.polyStorage.set('tasks', this.tasks);
-			$.polyStorage.set('lists', this.lists);
-			$.polyStorage.set('prefs', this.prefs);
+
+			// Save to database
+			core.storage.store()
+
+		},
+		store: function() {
+			$.polyStorage.set('tasks', core.storage.tasks);
+			$.polyStorage.set('lists', core.storage.lists);
+			$.polyStorage.set('prefs', core.storage.prefs);
 		}
 	},
 	timestamp: function() {

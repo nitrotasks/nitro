@@ -3084,6 +3084,7 @@ plugin.add(function() {
 			if (typeof(cb) == "function") {
 				callback = function() {
 					sync.preventNav('off')
+					core.storage.prefs.sync.active = false
 					cb.apply(this, arguments)
 				}
 			}
@@ -3262,7 +3263,7 @@ plugin.add(function() {
 				console.log("Finished sync");
 				core.storage.tasks = newval.tasks;
 				core.storage.lists = newval.lists;
-				core.storage.save();
+				core.storage.store();
 				if(typeof callback === 'function') callback(true)
 				ui.reload();
 			});
@@ -3598,7 +3599,7 @@ plugin.add(function() {
 		lists.time          = prefs.time   				|| 0
 		prefs.sync 			= prefs.sync 				|| {}
 		prefs.sync.interval = prefs.sync.interval  		|| 'manual'
-		prefs.sync.active   = prefs.sync.active    		|| true
+		prefs.sync.active   = prefs.sync.active    		|| false
 		prefs.sync.url      = prefs.sync.url       		|| 'http://app.nitrotasks.com'
 		prefs.sync.timer    = prefs.sync.timer     		|| 120000
 		prefs.lang          = prefs.lang           		|| 'english'
