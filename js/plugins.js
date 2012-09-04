@@ -2056,7 +2056,6 @@ $(function() {
 						<option value="metro">Metro</option>\
 						<option value="wunderlist">Wunderlist</option>\
 						<option value="rtl">Right to Left</option>\
-						<option value="bieber">Justin Bieber</option>\
 					</select><br>\
 					<label class="description translate" data-translate="themeDescription"></label>\
 					<div class="pythonshit">\
