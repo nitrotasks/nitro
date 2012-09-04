@@ -2744,6 +2744,7 @@ plugin.add(function() {
 		run: function (service, cb) {
 
 			var time = core.timestamp()
+			console.log("Starting sync...")
 
 			if (typeof(cb) == "function") {
 				callback = function() {
@@ -2966,6 +2967,26 @@ plugin.add(function() {
 					$(this).remove()
 				})
 			}, 4000)
+		},
+		auto: {
+			timer: false,
+			run: function() {
+				//Runs
+				if (core.storage.prefs.sync.active == false) {
+					sync.run()
+				}
+
+				//Clear the timer
+				if (sync.auto.timer) {
+					clearTimeout(sync.auto.timer);
+				}
+				//Runs every 10 secs
+				sync.auto.timer = setTimeout(function() {
+						if (core.storage.prefs.sync.active == false) {
+							sync.run()
+						}
+					}, 10000);
+			}
 		}
 	}
 

@@ -371,9 +371,9 @@ var core = {
 		}),
 		save: function(arr) {
 
-			if (core.storage.prefs.sync.active == false) {
+			if (app == 'web') {
 				console.log(core.storage.prefs.sync.active)
-				sync.run()
+				sync.auto.run()
 			}
 
 			if(typeof arr == 'object') {
