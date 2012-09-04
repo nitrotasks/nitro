@@ -289,6 +289,15 @@ plugin.add(function() {
 					$(this).remove()
 				})
 			}, 4000)
+		},
+		auto: {
+			timer: false,
+			run: function() {
+				if (sync.auto.timer) {
+					clearTimeout(sync.auto.timer);
+				}
+				sync.auto.timer = setTimeout(sync.run, 10000);
+			}
 		}
 	}
 
