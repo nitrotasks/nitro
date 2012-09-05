@@ -2,14 +2,6 @@
 #splash {
 	opacity: 0;
 }
-body {
-	opacity: 0;
-}
-.loaded {
-	body {
-		opacity: 1;
-	}
-}
 .loader {
 	padding: 5px;
 	font-size: 14px;
