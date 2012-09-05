@@ -2125,9 +2125,11 @@ $(function() {
 					<h3>Donors</h3>\
 					<p>A huge thanks to everyone that donated! To make a donation, visit our <a href="http://nitrotasks.com/#donate">website</a>.</p>\
 					<ul>\
+						<li>Omar Rodriguez</li>\
 						<li>Gabriel Favaro</li>\
 						<li>Andrew (Extreme Gaming & Computers)</li>\
 						<li>James Thomas</li>\
+						<li>Fanny Monteiro</li>\
 					</ul>\
 					<ul>\
 						<li>Sergio Rubio</li>\
@@ -2138,6 +2140,7 @@ $(function() {
 						<li>Martin Degeling</li>\
 						<li>Pierre Quillery</li>\
 						<li>Luo Qi</li>\
+						<li>Lochlan Bunn</li>\
 					</ul>\
 					<hr>\
 					<h3>Keyboard Shortcuts</h3>\
