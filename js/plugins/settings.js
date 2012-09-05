@@ -74,7 +74,7 @@ $(function() {
 							</tr>\
 							<tr>\
 								<td class="language"><a href="#" data-value="french">Français</a></td>\
-								<td class="author"><a href="mailto:stanley.h@vodafone.co.nz">Stanley Holt</a></td>\
+								<td class="author"><a href="mailto:maurin.raphael@gmail.com">Raphaël Maurin</a>,<br>Stanley Holt</td>\
 								<td class="language"><a href="#" data-value="vietnamese">Tiếng Việt</a></td>\
 								<td class="author"><a href="mailto:dinhquan@narga.net">Nguyễn Đình Quân</a></td>\
 							</tr>\
@@ -88,7 +88,7 @@ $(function() {
 								<td class="language"><a href="#" data-value="polish">Polski</a></td>\
 								<td class="author">Marcin Tydelski,<br>Kajetan Szczepaniak</td>\
 								<td class="language"><a href="#" data-value="chinese">中文(简体)</a></td>\
-								<td class="author"><a href="mailto:1132321739qq@gmail.com">tuhaihe</a>, 2012</td>\
+								<td class="author"><a href="mailto:1132321739qq@gmail.com">tuhaihe</a></td>\
 							</tr>\
 							<tr>\
 								<td class="language"><a href="#" data-value="bulgarian">Български</a></td>\
