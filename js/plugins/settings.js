@@ -74,7 +74,7 @@ $(function() {
 							</tr>\
 							<tr>\
 								<td class="language"><a href="#" data-value="french">Français</a></td>\
-								<td class="author"><a href="mailto:maurin.raphael@gmail.com">Raphaël Maurin</a></td>\
+								<td class="author"><a href="mailto:stanley.h@vodafone.co.nz">Stanley Holt</a></td>\
 								<td class="language"><a href="#" data-value="vietnamese">Tiếng Việt</a></td>\
 								<td class="author"><a href="mailto:dinhquan@narga.net">Nguyễn Đình Quân</a></td>\
 							</tr>\
