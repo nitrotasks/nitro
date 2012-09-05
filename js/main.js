@@ -1051,9 +1051,6 @@ $sidebar.on('click', '.listAddBTN', function() {
 	
 	// Edit List Name
 	$('#L' + listId).find('.name').dblclick()
-
-	//Droppable
-	ui.lists.droppable($('#L' + listId))
 })
 
 
@@ -1075,6 +1072,13 @@ $panel.left.on('click', 'button.add', function() {
 		
 		// Update list count
 		ui.lists.update().count()
+
+		setTimeout(function() {
+			$tasks.find('ul').sortable().bind('sortupdate', function(ev) {
+				//Triggered when the user stopped sorting and the DOM position has changed.
+				ui.sortStop()
+			})
+		}, 1000)
 
 	}
 })
