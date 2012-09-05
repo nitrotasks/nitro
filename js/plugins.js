@@ -2745,12 +2745,10 @@ plugin.add(function() {
 			var time = core.timestamp()
 			console.log("Starting sync...")
 
-			if (typeof(cb) == "function") {
-				callback = function() {
-					sync.preventNav('off')
-					core.storage.prefs.sync.active = false
-					cb.apply(this, arguments)
-				}
+			callback = function() {
+				sync.preventNav('off')
+				core.storage.prefs.sync.active = false
+				if (typeof cb == 'function') cb.apply(this, arguments);
 			}
 
 			if (service) {
@@ -2970,9 +2968,10 @@ plugin.add(function() {
 		auto: {
 			timer: false,
 			run: function() {
-				//Runs
-				if (core.storage.prefs.sync.active == false) {
-					sync.run()
+
+				if (core.storage.prefs.sync.active) {
+					setTimeout(sync.auto.run, 500);
+					return;
 				}
 
 				//Clear the timer
@@ -2981,10 +2980,13 @@ plugin.add(function() {
 				}
 				//Runs every 10 secs
 				sync.auto.timer = setTimeout(function() {
-						if (core.storage.prefs.sync.active == false) {
-							sync.run()
-						}
-					}, 10000);
+					if (core.storage.prefs.sync.active == false) {
+						$('#web-sync-status').addClass('active');
+						sync.run(core.storage.prefs.sync.service, function(success, time) {
+							$('#web-sync-status').removeClass('active');
+						});
+					}
+				}, 10000);
 			}
 		}
 	}
