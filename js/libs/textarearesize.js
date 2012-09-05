@@ -89,4 +89,4 @@ $(document).on('loaded', function() {
 		return this;
 	};
 
-})
+});
