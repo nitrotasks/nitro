@@ -39,8 +39,6 @@ var ui = {
 		$l = $.i18n;
 	},
 	initLoad: function() {
-
-		$('.loader').fadeOut(300)
 		
 		// Fixes for mac version
 		if (app == 'mac') {
@@ -202,6 +200,7 @@ var ui = {
 			$tasks.height(height - $('.panel').height())
 			ui.reload()
 			$('html').addClass('loaded')
+			$('.loader').fadeOut(300)
 		});
 
 		//Tells Python to hide / show the fucking panel
