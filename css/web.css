@@ -4,6 +4,8 @@ body { opacity: 0; }
 
 .loaded body { opacity: 1; }
 
+.loader { padding: 5px; font-size: 14px; }
+
 .notsupport { background: #fff; width: 100%; height: 100%; position: absolute; font-size: 14px; }
 .notsupport p { margin: 50px auto; width: 300px; }
 

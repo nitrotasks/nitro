@@ -39,6 +39,8 @@ var ui = {
 		$l = $.i18n;
 	},
 	initLoad: function() {
+
+		$('.loader').fadeOut(300)
 		
 		// Fixes for mac version
 		if (app == 'mac') {
