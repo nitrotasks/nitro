@@ -121,7 +121,12 @@ var ui = {
 					}, 10000)
 				}
 				//Callback Removes Splash Screen
-				sync.run(undefined, function() {$('#syncloader').remove(); $('body').removeAttr("style"); $('.web #content').show(0)});
+				sync.run(core.storage.prefs.sync.service, function() {
+					$('#syncloader').remove();
+					$('body').removeAttr("style");
+					$('.web #content').show(0);
+					ui.reload();
+				});
 			} else {
 				$('#splash').show(0).css('opacity', '1')
 				$('#syncloader').css('opacity', '0')
@@ -221,9 +226,7 @@ var ui = {
 		$lists.html(markup)
 		
 		//Causes a resync
-		if (app == 'web' && $('.selected').length == 0 || app != 'web') {
-			$('#L' + ui.session.selected + ' .name').click();
-		}
+		$('#L' + ui.session.selected + ' .name').click();
 
 		//Sortable Lists
 		$lists.sortable().bind('sortupdate', function() {

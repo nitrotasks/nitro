@@ -149,6 +149,7 @@ plugin.add(function() {
 				} else if (app == 'web') {
 					core.storage.prefs.sync.resume = true;
 					core.storage.save();
+					window.onbeforeunload = false;
 					document.location.href = url;
 				} else {
 					var width = 960,
