@@ -11,6 +11,9 @@ ui.language({
 	// Empty List Filler Text
 	noTasksInList: "%s içinde görev yok",
 	thisList: "Bu liste",
+	
+	// Search Result Header
+	searchResults: "Search results",
 
 	//Default Names
 	nlist: "Yeni Liste",
@@ -36,6 +39,7 @@ ui.language({
 	//Placeholder Text
 	search:"Ara", 
 	notes: "Not Ekle",
+	tags: "Tags, separated by a comma",
 
 	//Priority
 	none: "Hiçbiri",

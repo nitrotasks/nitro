@@ -11,6 +11,9 @@ ui.language({
 	// Empty List Filler Text
 	noTasksInList: "Aucune tâche dans %s",
 	thisList: "Cette liste-ci",
+	
+	// Search Result Header
+	searchResults: "Résultats de la recherche",
 
 	//Default Names
 	nlist: "Nouvelle liste",
@@ -36,6 +39,7 @@ ui.language({
 	//Placeholder Text
 	search: "Recherche",
 	notes: "Notes",
+	tags: "Balises, séparés par des virgules",
 
 	//Priority
 	none: "Aucune",

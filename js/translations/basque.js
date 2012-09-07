@@ -11,6 +11,9 @@ ui.language({
 	// Empty List Filler Text
 	noTasksInList: "No Tasks in %s",
 	thisList: "This List",
+	
+	// Search Result Header
+	searchResults: "Bilaketaren emaitzak",
 
 	//Default Names
 	nlist: "Zerrenda berria",
@@ -36,6 +39,7 @@ ui.language({
 	//Placeholder Text
 	search: "Bilatu",
 	notes: "Notak",
+	tags: "Etiketak, komaz bereizita",
 
 	//Priority
 	none: "Lehentasunik ez",

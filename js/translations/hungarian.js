@@ -11,6 +11,9 @@ ui.language({
 	// Empty List Filler Text
 	noTasksInList: "No Tasks in %s",
 	thisList: "This List",
+	
+	// Search Result Header
+	searchResults: "Search results",
 
 	//Default Names
 	nlist: "Új lista",
@@ -36,6 +39,7 @@ ui.language({
 	//Placeholder Text
 	search: "Keresés",
 	notes: "Megjegyzés",
+	tags: "Tags, separated by a comma",
 
 	//Priority
 	none: "Nincs",

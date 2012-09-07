@@ -569,6 +569,7 @@ var ui = {
 				content: plugin.url(model.content).toText(),
 				notes: model.notes,
 				notesPlaceholder : $l._('notes'),
+				tagsPlaceholder : $l._("tags"),
 				datePlaceholder: $l._('dueDate'),
 				date: dateStr,
 				tags: model.tags.toString().replace(/,/g,', '),

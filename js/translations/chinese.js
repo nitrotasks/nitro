@@ -11,6 +11,9 @@ ui.language({
 	// Empty List Filler Text
 	noTasksInList: "在 %s 无任务列表",
 	thisList: "该列表",
+	
+	// Search Result Header
+	searchResults: "Search results",
 
 	//Default Names
 	nlist: "新列表",
@@ -36,6 +39,7 @@ ui.language({
 	//Placeholder Text
 	search: "搜索",
 	notes: "便笺",
+	tags: "Tags, separated by a comma",
 
 	//Priority
 	none: "无",

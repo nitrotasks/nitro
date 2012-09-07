@@ -11,6 +11,9 @@ ui.language({
 	// Empty List Filler Text
 	noTasksInList: "Ei tehtäviä listassa %s",
 	thisList: "Tämä lista",
+	
+	// Search Result Header
+	searchResults: "Search results",
 
 	//Default Names
 	nlist: "Uusi lista",
@@ -36,6 +39,7 @@ ui.language({
 	//Placeholder Text
 	search: "Hae",
 	notes: "Huomautukset",
+	tags: "Tags, separated by a comma",
 
 	//Priority
 	none: "Ei mitään",

@@ -663,7 +663,8 @@ html, button, input, select, textarea {
 					overflow: hidden;
 					text-overflow: ellipsis;
 					white-space: nowrap;
-					width: 59px;
+					width: 96px;
+					padding: 7px 9px;
 					&:focus,
 					&.hasContent {
 						width: 250px;

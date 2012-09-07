@@ -11,6 +11,9 @@ ui.language({
 	// Empty List Filler Text
 	noTasksInList: "Không có việc gì trong %s",
 	thisList: "Danh sách này",
+	
+	// Search Result Header
+	searchResults: "Search results",
 
 	//Default Names
 	nlist: "Danh sách mới",
@@ -36,6 +39,7 @@ ui.language({
 	//Placeholder Text
 	search: "Tìm kiếm",
 	notes: "Ghi chú",
+	tags: "Tags, separated by a comma",
 
 	//Priority
 	none: "Không",

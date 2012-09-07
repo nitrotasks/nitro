@@ -10,7 +10,10 @@ ui.language({
 
 	// Empty List Filler Text
 	noTasksInList: "Ninguna tarea en %s",
-	thisList: "Este Grupo",
+	thisList: "este grupo",
+	
+	// Search Result Header
+	searchResults: "Resultados de la búsqueda",
 
 	//Default Names
 	nlist: "Nuevo grupo",
@@ -35,7 +38,8 @@ ui.language({
 
 	//Placeholder Text
 	search: "Buscar",
-	notes: "Notas",
+	notes: "Detalles",
+	tags: "Etiquetas, separadas por coma",
 
 	//Priority
 	none: "No prioritario",
@@ -48,11 +52,11 @@ ui.language({
 	schedule: "Programar",
 
 	// Due Date Labels
-	daysOverdue: "%s days overdue",
-	dueYesterday: "due yesterday",
-	dueToday: "due today",
-	dueTomorrow: "due tomorrow",
-	daysLeft: "%s days left",
+	daysOverdue: "%s días tarde",
+	dueYesterday: "Ayer",
+	dueToday: "Debe ser hoy",
+	dueTomorrow: "Mañana",
+	daysLeft: "Faltan %s días",
 	
 	// Datepicker
 	weekStartsOn: "La semana comienza en: ",
