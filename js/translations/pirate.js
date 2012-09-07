@@ -11,6 +11,9 @@ ui.language({
 	// Empty List Filler Text
 	noTasksInList: "No Tasks in %s",
 	thisList: "This List",
+	
+	// Search Result Header
+	searchResults: "Search resultz",
 
 	//Default Names
 	nlist: "Parchment",
@@ -36,6 +39,7 @@ ui.language({
 	//Placeholder Text
 	search: "Search",
 	notes: "Notes",
+	tags: "Tags, muzt separate with commas",
 
 	//Priority
 	none: "Empty",

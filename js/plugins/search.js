@@ -27,7 +27,7 @@ plugin.add(function() {
 		} else {
 
 			// Puts the results into the UI
-			$tasks.html('<h2>Search Results: ' + $this.val() + '</h2><ul></ul>')
+			$tasks.html('<h2>'+$.i18n._('searchResults')+': ' + $this.val() + '</h2><ul></ul>')
 
 			// Set vars
 			var query = input.split(' '),

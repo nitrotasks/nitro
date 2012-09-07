@@ -196,7 +196,7 @@ html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubun
 #tasks .tasksContent ul li input.date { text-align: center; }
 #tasks .tasksContent ul li input.date, #tasks .tasksContent ul li input.tags { border-left: 1px solid #000; padding: 7px 5px; vertical-align: top; width: 80px; }
 #tasks .tasksContent ul li input.date:focus, #tasks .tasksContent ul li input.tags:focus { outline: 0; }
-#tasks .tasksContent ul li input.tags { -webkit-transition: width 0.15s; -moz-transition: width 0.15s; -o-transition: width 0.15s; transition: width 0.15s; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 59px; }
+#tasks .tasksContent ul li input.tags { -webkit-transition: width 0.15s; -moz-transition: width 0.15s; -o-transition: width 0.15s; transition: width 0.15s; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 96px; padding: 7px 9px; }
 #tasks .tasksContent ul li input.tags:focus, #tasks .tasksContent ul li input.tags.hasContent { width: 250px; }
 #tasks .tasksContent ul li.expanded { opacity: 1; }
 #tasks .tasksContent ul li.selected.expanded { background: #fff; }
