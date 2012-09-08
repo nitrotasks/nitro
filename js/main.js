@@ -371,7 +371,7 @@ var ui = {
 				notes: model.notes,
 				date: date,
 				tags: tags,
-				list: list,
+				list: (model.list.length < 8) ? $.i18n._(list) : list,
 				priority: model.priority,
 				logged: logged
 			})
@@ -457,6 +457,11 @@ var ui = {
 					ui.lists.update().count()
 					$(this).removeClass('dragHover')
 
+				    // Update .boxhelp .list if "All List" is selected
+					if(ui.session.selected == 'all'){
+					    $('#Lall .name').click();
+					}
+					
 				}
 			})
 		}
