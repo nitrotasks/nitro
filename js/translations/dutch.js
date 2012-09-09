@@ -58,7 +58,7 @@ ui.language({
 	daysLeft: "nog %s dagen",
 
 	// Datepicker
-	weekStartsOn: "Week starts on: ",
+	weekStartsOn: "Week begint op: ",
 
 	// Days and Months
 	sunday: "zondag",
@@ -144,7 +144,7 @@ ui.language({
 	//Clear Data
 	resetnitro: "Nitro resetten: ",
 	cleardata: "Gegevens verwijderen",
-	clearDataMsg: "Weet u zeker dat u Nitro wilt resetten? Uw gegevens zullen voor altijd verloren zijn (dat is lang).",
+	clearDataMsg: "Weet u zeker dat u Nitro wilt resetten? Uw gegevens zullen voor altijd verloren gaan (dat is lang).",
 
 	language: "Taal",
 	authortext: "Auteur",
