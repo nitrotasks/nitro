@@ -371,7 +371,7 @@ var ui = {
 				notes: model.notes,
 				date: date,
 				tags: tags,
-				list: list,
+				list: (model.list.length < 8) ? $.i18n._(list) : list,
 				priority: model.priority,
 				logged: logged
 			})
@@ -457,6 +457,11 @@ var ui = {
 					ui.lists.update().count()
 					$(this).removeClass('dragHover')
 
+				    // Update .boxhelp .list if "All List" is selected
+					if(ui.session.selected == 'all'){
+					    $('#Lall .name').click();
+					}
+					
 				}
 			})
 		}
@@ -668,8 +673,31 @@ var ui = {
 	}
 }
 
+// Return browser language if no user defined language found
+browserLanguage = function () {
+    localeCode = ((navigator.language) ? navigator.language : navigator.userLanguage);
+    switch (localeCode.substr(0, 2)) {
+        case "ar": return "arabic";
+        case "bg": return "bulgarian";
+        case "de": return "german";
+        case "es": return "spanish";
+        case "eu": return "basque";
+        case "fi": return "finnish";
+        case "fr": return "french";
+        case "hu": return "hungarian";
+        case "it": return "italian";
+        case "nl": return "dutch";
+        case "pl": return "polish";
+        case "pt": return "portuguese";
+        case "tr": return "turkish";
+        case "vi": return "vietnamese";
+        case "zh": return "chinese";
+    }
+    return "english";
+}
+
 // Load correct language
-core.storage.prefs.lang = core.storage.prefs.lang || 'english';
+core.storage.prefs.lang = core.storage.prefs.lang || browserLanguage();
 $.getScript('js/translations/' + core.storage.prefs.lang + '.js').done(function () {
 	// After language has been set, load the plugins
 	$.getScript('js/plugins.js').done(function () {
