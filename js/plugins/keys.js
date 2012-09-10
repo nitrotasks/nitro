@@ -16,19 +16,21 @@ key('⌘+enter', function() {cmd('editList'); return false})
 
 key('delete', function() {cmd('delete')})
 
-key('f', function() {cmd('find'); return false})
-key('p', function() {cmd('prefs')})
-// key('a', function() {cmd('about')})
-// key('h', function() {cmd('help')})
+if (app != 'mac') {
+	key('f', function() {cmd('find'); return false})
+	key('p', function() {cmd('prefs')})
+	// key('a', function() {cmd('about')})
+	// key('h', function() {cmd('help')})
 
-key('n, t', function() {cmd('newtask'); return false})
-key('l', function() {cmd('newlist'); return false})
-key('s', function() {cmd('sync')})
+	key('n, t', function() {cmd('newtask'); return false})
+	key('l', function() {cmd('newlist'); return false})
+	key('s', function() {cmd('sync')})
 
-key('1', function() {cmd('today')})
-key('2', function() {cmd('next')})
-key('3', function() {cmd('logbook')})
-key('4', function() {cmd('allTasks')})
+	key('1', function() {cmd('today')})
+	key('2', function() {cmd('next')})
+	key('3', function() {cmd('logbook')})
+	key('4', function() {cmd('allTasks')})
+}
 
 key('esc', function() {cmd('escape')})
 

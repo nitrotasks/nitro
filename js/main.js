@@ -43,8 +43,9 @@ var ui = {
 		// Fixes for mac version
 		if (app == 'mac') {
 			// Stop the default system beep on keypress
-			$(document).on('keydown', function() {
+			$(document).on('keydown', function(e) {
 				if (!$('input, textarea').is(':focus')) {
+					if (e.metaKey) return true;
 					return false; 
 				}
 			})
