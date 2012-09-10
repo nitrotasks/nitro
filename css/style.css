@@ -131,7 +131,7 @@ html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubun
 #sidebar ul li .edit, #sidebar ul li .delete { border: 0; height: 14px; margin-top: 7px; margin-right: 5px; opacity: 0.5; padding: 0 7px; -webkit-transition: opacity 0.15s; -moz-transition: opacity 0.15s; -o-transition: opacity 0.15s; transition: opacity 0.15s; }
 #sidebar ul li .edit:hover, #sidebar ul li .delete:hover { opacity: 1; }
 #sidebar ul li .count { display: inline-block; text-align: center; padding: 1px 9px; line-height: 28px; margin: 0 10px 0 0; min-width: 13px; }
-#sidebar ul li .name { display: block; -webkit-box-flex: 1; -moz-box-flex: 1; -ms-box-flex: 1; box-flex: 1; -webkit-flex: 1; -ms-flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#sidebar ul li .name { display: block; -webkit-box-flex: 1; -moz-box-flex: 1; -ms-box-flex: 1; box-flex: 1; -webkit-flex: 1; -ms-flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 #sidebar ul li.selected { background: #eee; border: 1px solid #000; border-left: none; border-right: none; }
 #sidebar ul li.selected .edit { opacity: 0.9; background-position: 0 -15px; }
 #sidebar ul li.selected .edit.open { background-position: 0 -29px; }
@@ -190,7 +190,7 @@ html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubun
 #tasks .tasksContent ul li .tag:hover { text-decoration: underline; }
 #tasks .tasksContent ul li input { border: 0; line-height: 16px; box-shadow: none; background: transparent; -moz-box-sizing: border-box; box-sizing: border-box; }
 #tasks .tasksContent ul li input:focus { box-shadow: none; outline: 0; }
-#tasks .tasksContent ul li .content { overflow: hidden; padding-top: 1px; text-overflow: ellipsis; white-space: nowrap; -webkit-box-flex: 1; -moz-box-flex: 1; -ms-box-flex: 1; box-flex: 1; -webkit-flex: 1; -ms-flexbox: 1; }
+#tasks .tasksContent ul li .content { min-width: 0; overflow: hidden; padding-top: 1px; text-overflow: ellipsis; white-space: nowrap; -webkit-box-flex: 1; -moz-box-flex: 1; -ms-box-flex: 1; box-flex: 1; -webkit-flex: 1; -ms-flexbox: 1; }
 #tasks .tasksContent ul li input.content { padding: 8px 0 7px; margin: 0; -webkit-box-flex: 1; -moz-box-flex: 1; -ms-box-flex: 1; box-flex: 1; -webkit-flex: 1; -ms-flex: 1; display: block; }
 #tasks .tasksContent ul li button.none, #tasks .tasksContent ul li button.low, #tasks .tasksContent ul li button.medium, #tasks .tasksContent ul li button.high, #tasks .tasksContent ul li button.date { border: 0; border-left: 1px solid #000; background: transparent; line-height: 31px; padding: 0 15px; }
 #tasks .tasksContent ul li input.date { text-align: center; }
