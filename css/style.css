@@ -131,7 +131,7 @@ html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubun
 #sidebar ul li .edit, #sidebar ul li .delete { border: 0; height: 14px; margin-top: 7px; margin-right: 5px; opacity: 0.5; padding: 0 7px; -webkit-transition: opacity 0.15s; -moz-transition: opacity 0.15s; -o-transition: opacity 0.15s; transition: opacity 0.15s; }
 #sidebar ul li .edit:hover, #sidebar ul li .delete:hover { opacity: 1; }
 #sidebar ul li .count { display: inline-block; text-align: center; padding: 1px 9px; line-height: 28px; margin: 0 10px 0 0; min-width: 13px; }
-#sidebar ul li .name { display: block; -webkit-box-flex: 1; -moz-box-flex: 1; -ms-box-flex: 1; box-flex: 1; -webkit-flex: 1; -ms-flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#sidebar ul li .name { display: block; -webkit-box-flex: 1; -moz-box-flex: 1; -ms-box-flex: 1; box-flex: 1; -webkit-flex: 1; -ms-flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 #sidebar ul li.selected { background: #eee; border: 1px solid #000; border-left: none; border-right: none; }
 #sidebar ul li.selected .edit { opacity: 0.9; background-position: 0 -15px; }
 #sidebar ul li.selected .edit.open { background-position: 0 -29px; }
@@ -190,7 +190,7 @@ html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubun
 #tasks .tasksContent ul li .tag:hover { text-decoration: underline; }
 #tasks .tasksContent ul li input { border: 0; line-height: 16px; box-shadow: none; background: transparent; -moz-box-sizing: border-box; box-sizing: border-box; }
 #tasks .tasksContent ul li input:focus { box-shadow: none; outline: 0; }
-#tasks .tasksContent ul li .content { overflow: hidden; padding-top: 1px; text-overflow: ellipsis; white-space: nowrap; -webkit-box-flex: 1; -moz-box-flex: 1; -ms-box-flex: 1; box-flex: 1; -webkit-flex: 1; -ms-flexbox: 1; }
+#tasks .tasksContent ul li .content { min-width: 0; overflow: hidden; padding-top: 1px; text-overflow: ellipsis; white-space: nowrap; -webkit-box-flex: 1; -moz-box-flex: 1; -ms-box-flex: 1; box-flex: 1; -webkit-flex: 1; -ms-flexbox: 1; }
 #tasks .tasksContent ul li input.content { padding: 8px 0 7px; margin: 0; -webkit-box-flex: 1; -moz-box-flex: 1; -ms-box-flex: 1; box-flex: 1; -webkit-flex: 1; -ms-flex: 1; display: block; }
 #tasks .tasksContent ul li button.none, #tasks .tasksContent ul li button.low, #tasks .tasksContent ul li button.medium, #tasks .tasksContent ul li button.high, #tasks .tasksContent ul li button.date { border: 0; border-left: 1px solid #000; background: transparent; line-height: 31px; padding: 0 15px; }
 #tasks .tasksContent ul li input.date { text-align: center; }
@@ -307,7 +307,7 @@ div.spinner div { width: 12%; height: 26%; background: #444; position: absolute;
 
 div.spinner div.bar1 { -webkit-transform: rotate(0deg) translate(0, -142%); -moz-transform: rotate(0deg) translate(0, -142%); -ms-transform: rotate(0deg) translate(0, -142%); -o-transform: rotate(0deg) translate(0, -142%); transform: rotate(0deg) translate(0, -142%); -webkit-animation-delay: 0s; -moz-animation-delay: 0s; -ms-animation-delay: 0s; -o-animation-delay: 0s; animation-delay: 0s; }
 
-div.spinner div.bar2 { -webkit-transform: rotate(30deg) translate(0, -142%); -moz-transform: rotate(30deg) translate(0, -142%); -ms-transform: rotate(30deg) translate(0, -142%); -o-transform: rotate(30deg) translate(0, -142%); transform: rotate(30deg) translate(0, -142%); -webkit-animation-delay: -0.9167s; -moz-animation-delay: -0.9167s; -ms-animation-delay: -0.9167s; -o-animation-delay: -0.9167s; animation-delay: -0.9167s; }
+div.spinner div.bar2 { -webkit-transform: rotate(30deg) translate(0, -142%); -moz-transform: rotate(30deg) translate(0, -142%); -ms-transform: rotate(30deg) translate(0, -142%); -o-transform: rotate(30deg) translate(0, -142%); transform: rotate(30deg) translate(0, -142%); -webkit-animation-delay: -0.917s; -moz-animation-delay: -0.917s; -ms-animation-delay: -0.917s; -o-animation-delay: -0.917s; animation-delay: -0.917s; }
 
 div.spinner div.bar3 { -webkit-transform: rotate(60deg) translate(0, -142%); -moz-transform: rotate(60deg) translate(0, -142%); -ms-transform: rotate(60deg) translate(0, -142%); -o-transform: rotate(60deg) translate(0, -142%); transform: rotate(60deg) translate(0, -142%); -webkit-animation-delay: -0.833s; -moz-animation-delay: -0.833s; -ms-animation-delay: -0.833s; -o-animation-delay: -0.833s; animation-delay: -0.833s; }
 
@@ -315,19 +315,19 @@ div.spinner div.bar4 { -webkit-transform: rotate(90deg) translate(0, -142%); -mo
 
 div.spinner div.bar5 { -webkit-transform: rotate(120deg) translate(0, -142%); -moz-transform: rotate(120deg) translate(0, -142%); -ms-transform: rotate(120deg) translate(0, -142%); -o-transform: rotate(120deg) translate(0, -142%); transform: rotate(120deg) translate(0, -142%); -webkit-animation-delay: -0.667s; -moz-animation-delay: -0.667s; -ms-animation-delay: -0.667s; -o-animation-delay: -0.667s; animation-delay: -0.667s; }
 
-div.spinner div.bar6 { -webkit-transform: rotate(150deg) translate(0, -142%); -moz-transform: rotate(150deg) translate(0, -142%); -ms-transform: rotate(150deg) translate(0, -142%); -o-transform: rotate(150deg) translate(0, -142%); transform: rotate(150deg) translate(0, -142%); -webkit-animation-delay: -0.5833s; -moz-animation-delay: -0.5833s; -ms-animation-delay: -0.5833s; -o-animation-delay: -0.5833s; animation-delay: -0.5833s; }
+div.spinner div.bar6 { -webkit-transform: rotate(150deg) translate(0, -142%); -moz-transform: rotate(150deg) translate(0, -142%); -ms-transform: rotate(150deg) translate(0, -142%); -o-transform: rotate(150deg) translate(0, -142%); transform: rotate(150deg) translate(0, -142%); -webkit-animation-delay: -0.583s; -moz-animation-delay: -0.583s; -ms-animation-delay: -0.583s; -o-animation-delay: -0.583s; animation-delay: -0.583s; }
 
 div.spinner div.bar7 { -webkit-transform: rotate(180deg) translate(0, -142%); -moz-transform: rotate(180deg) translate(0, -142%); -ms-transform: rotate(180deg) translate(0, -142%); -o-transform: rotate(180deg) translate(0, -142%); transform: rotate(180deg) translate(0, -142%); -webkit-animation-delay: -0.5s; -moz-animation-delay: -0.5s; -ms-animation-delay: -0.5s; -o-animation-delay: -0.5s; animation-delay: -0.5s; }
 
-div.spinner div.bar8 { -webkit-transform: rotate(210deg) translate(0, -142%); -moz-transform: rotate(210deg) translate(0, -142%); -ms-transform: rotate(210deg) translate(0, -142%); -o-transform: rotate(210deg) translate(0, -142%); transform: rotate(210deg) translate(0, -142%); -webkit-animation-delay: -0.41667s; -moz-animation-delay: -0.41667s; -ms-animation-delay: -0.41667s; -o-animation-delay: -0.41667s; animation-delay: -0.41667s; }
+div.spinner div.bar8 { -webkit-transform: rotate(210deg) translate(0, -142%); -moz-transform: rotate(210deg) translate(0, -142%); -ms-transform: rotate(210deg) translate(0, -142%); -o-transform: rotate(210deg) translate(0, -142%); transform: rotate(210deg) translate(0, -142%); -webkit-animation-delay: -0.417s; -moz-animation-delay: -0.417s; -ms-animation-delay: -0.417s; -o-animation-delay: -0.417s; animation-delay: -0.417s; }
 
 div.spinner div.bar9 { -webkit-transform: rotate(240deg) translate(0, -142%); -moz-transform: rotate(240deg) translate(0, -142%); -ms-transform: rotate(240deg) translate(0, -142%); -o-transform: rotate(240deg) translate(0, -142%); transform: rotate(240deg) translate(0, -142%); -webkit-animation-delay: -0.333s; -moz-animation-delay: -0.333s; -ms-animation-delay: -0.333s; -o-animation-delay: -0.333s; animation-delay: -0.333s; }
 
 div.spinner div.bar10 { -webkit-transform: rotate(270deg) translate(0, -142%); -moz-transform: rotate(270deg) translate(0, -142%); -ms-transform: rotate(270deg) translate(0, -142%); -o-transform: rotate(270deg) translate(0, -142%); transform: rotate(270deg) translate(0, -142%); -webkit-animation-delay: -0.25s; -moz-animation-delay: -0.25s; -ms-animation-delay: -0.25s; -o-animation-delay: -0.25s; animation-delay: -0.25s; }
 
-div.spinner div.bar11 { -webkit-transform: rotate(300deg) translate(0, -142%); -moz-transform: rotate(300deg) translate(0, -142%); -ms-transform: rotate(300deg) translate(0, -142%); -o-transform: rotate(300deg) translate(0, -142%); transform: rotate(300deg) translate(0, -142%); -webkit-animation-delay: -0.1667s; -moz-animation-delay: -0.1667s; -ms-animation-delay: -0.1667s; -o-animation-delay: -0.1667s; animation-delay: -0.1667s; }
+div.spinner div.bar11 { -webkit-transform: rotate(300deg) translate(0, -142%); -moz-transform: rotate(300deg) translate(0, -142%); -ms-transform: rotate(300deg) translate(0, -142%); -o-transform: rotate(300deg) translate(0, -142%); transform: rotate(300deg) translate(0, -142%); -webkit-animation-delay: -0.167s; -moz-animation-delay: -0.167s; -ms-animation-delay: -0.167s; -o-animation-delay: -0.167s; animation-delay: -0.167s; }
 
-div.spinner div.bar12 { -webkit-transform: rotate(330deg) translate(0, -142%); -moz-transform: rotate(330deg) translate(0, -142%); -ms-transform: rotate(330deg) translate(0, -142%); -o-transform: rotate(330deg) translate(0, -142%); transform: rotate(330deg) translate(0, -142%); -webkit-animation-delay: -0.0833s; -moz-animation-delay: -0.0833s; -ms-animation-delay: -0.0833s; -o-animation-delay: -0.0833s; animation-delay: -0.0833s; }
+div.spinner div.bar12 { -webkit-transform: rotate(330deg) translate(0, -142%); -moz-transform: rotate(330deg) translate(0, -142%); -ms-transform: rotate(330deg) translate(0, -142%); -o-transform: rotate(330deg) translate(0, -142%); transform: rotate(330deg) translate(0, -142%); -webkit-animation-delay: -0.083s; -moz-animation-delay: -0.083s; -ms-animation-delay: -0.083s; -o-animation-delay: -0.083s; animation-delay: -0.083s; }
 
 @-webkit-keyframes fade { from { opacity: 1; }
   to { opacity: 0.25; } }

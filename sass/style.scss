@@ -262,6 +262,7 @@ html, button, input, select, textarea {
 				-webkit-flex: 1;
 				-ms-flex: 1;
 
+				min-width: 0;
 				overflow: hidden;
 				text-overflow: ellipsis;
 				white-space: nowrap;
@@ -615,6 +616,7 @@ html, button, input, select, textarea {
 				}
 
 				.content {
+					min-width: 0;
 					overflow: hidden;
 					padding-top: 1px;
 					text-overflow: ellipsis;
