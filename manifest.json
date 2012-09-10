@@ -1,8 +1,7 @@
 {
   "name": "Nitro",
-  "description": "__MSG_appDesc__",
-  "default_locale": "en",
-  "version": "1.4.7.1",
+  "description": "Get stuff done with Nitro.",
+  "version": "1.5",
   "offline_enabled": true,
   "app": {
     "launch": {
@@ -11,7 +10,7 @@
   },
   "permissions": [
     "unlimitedStorage",
-    "http://*/*"
+    "http://app.nitrotasks.com/"
   ],
   "icons": {
     "16": "css/img/nitro_16.png",
