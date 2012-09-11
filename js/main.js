@@ -698,14 +698,27 @@ browserLanguage = function () {
 }
 
 // Load correct language
-core.storage.prefs.lang = core.storage.prefs.lang || browserLanguage();
-$.getScript('js/translations/' + core.storage.prefs.lang + '.js').done(function () {
-	// After language has been set, load the plugins
-	$.getScript('js/plugins.js').done(function () {
-		// After plugins have loaded, load the interface
-		ui.initLoad();
-	})
-});
+(function () {
+	var langScript, pluginsScript;
+
+	core.storage.prefs.lang = core.storage.prefs.lang || browserLanguage();
+	langScript = document.createElement('script');
+	langScript.src = 'js/translations/' + core.storage.prefs.lang + '.js';
+
+	// when the language script has loaded, load plugins
+	langScript.onload = langScript.onreadystatechange = function () {
+		pluginsScript = document.createElement('script');
+		pluginsScript.src = 'js/plugins.js';
+
+		// when the plugins have loaded, initialize the UI
+		pluginsScript.onload = pluginsScript.onreadystatechange = function () {
+			ui.initLoad();
+		}
+		document.body.appendChild(pluginsScript);
+	}
+	document.body.appendChild(langScript);
+}())
+
 
 // ------------------------------------//
 //              TEMPLATES              //
