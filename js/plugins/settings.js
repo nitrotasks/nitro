@@ -309,6 +309,9 @@ $(function() {
 		core.storage.prefs.weekStartsOn = parseInt($('#weekStartsOn').val())
 		core.storage.prefs.dateFormat = $('#dateFormat').val()
 		core.storage.save()
+
+		// Refresh tasks dates
+		$('#sidebar').find('.selected .name').click()
 	})
 
 	// NEXT AMOUNT
