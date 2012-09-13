@@ -60,6 +60,10 @@ ui.language({
 	
 	// Datepicker
 	weekStartsOn: "Week starts on: ",
+	dateFormat: "Datumsformat: ",
+	dmy: "Tag / Monat / Jahr",
+	mdy: "Monat / Tag / Jahr",
+	ymd: "Jahr / Monat / Tag",
 
 	// Days and Months
 	sunday: "Sunday",
@@ -169,6 +173,9 @@ ui.language({
 	dark: "Dunkel",
 	headingDescription: "Durch die Auswahl einer Textfarbe kann die Lesbarkeit auf eigenen Hintergründen in der Kopfzeile verbessert werden.",
 	sync: "Sync",
+	syncChoose: "Wählen Sie einen Dienst Nitro Sync einrichten",
+	createAccount: "Konto erstellen",
+
 	syncLabel: "Sync ausführen: ",
 	syncDescription: "Mit SYNC kann man von unterschiedlichen Computern und Smartphones auf seine Aufgaben zugreifen.",
 	syncNever: "Niemals (Keine Benachrichtigung)",

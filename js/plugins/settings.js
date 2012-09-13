@@ -2,7 +2,8 @@ $(function() {
 	//Adds button to panel
 	$panel.right.prepend('<button class="settingsbtn"></button>')
 	$settingsbtn = $('.settingsbtn')
-	$settingsbtn.on('click', function() {
+	$settingsbtn.on('click', function () {
+		$tasks.find('.expanded').dblclick();
 		$('#prefsDialog').modal();
 	})
 	$('body').append('\
@@ -21,6 +22,12 @@ $(function() {
 						<option class="translate" data-translate="thursday" value="4"></option>\
 						<option class="translate" data-translate="friday" value="5"></option>\
 						<option class="translate" data-translate="saturday" value="6"></option>\
+					</select>\
+					<label class="left translate" for="dateFormat" data-translate="dateFormat"></label>\
+					<select id="dateFormat" class="right">\
+						<option class="translate" data-translate="dmy" value="dd/mm/yyyy">day/month/year</option>\
+						<option class="translate" data-translate="mdy" value="mm/dd/yyyy">month/day/year</option>\
+						<option class="translate" data-translate="ymd" value="yyyy/mm/dd">year/month/day</option>\
 					</select>\
 					<hr>\
 					<label class="left translate" data-translate="nextDescription"> </label><select id="nextAmount">\
@@ -297,10 +304,14 @@ $(function() {
 	**********************************/
 
 	// CHECK BOXES [Delete Warnings & Week Starts on]
-	$('#tabGeneral form input, #weekStartsOn').change(function () {
+	$('#tabGeneral form input, #weekStartsOn, #dateFormat').change(function () {
 		core.storage.prefs.deleteWarnings = $('#deleteWarnings').prop('checked')
 		core.storage.prefs.weekStartsOn = parseInt($('#weekStartsOn').val())
+		core.storage.prefs.dateFormat = $('#dateFormat').val()
 		core.storage.save()
+
+		// Refresh tasks dates
+		$('#sidebar').find('.selected .name').click()
 	})
 
 	// NEXT AMOUNT
@@ -418,6 +429,7 @@ $(function() {
 	**********************************/
 	$('#deleteWarnings').prop('checked', core.storage.prefs.deleteWarnings)
 	$('#weekStartsOn').val(core.storage.prefs.weekStartsOn)
+	$('#dateFormat').val(core.storage.prefs.dateFormat)
 	$('#nextAmount').val(core.storage.prefs.nextAmount)
 	$('#theme').val(core.storage.prefs.theme)
 	$('#backgroundSize').val(core.storage.prefs.bgSize)

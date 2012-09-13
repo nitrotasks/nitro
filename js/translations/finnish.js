@@ -60,6 +60,10 @@ ui.language({
 	
 	// Datepicker
 	weekStartsOn: "Viikko alkaa: ",
+	dateFormat: "Päivämäärän muoto: ",
+	dmy: "Päivä / Kuukausi / Vuosi",
+	mdy: "Kuukausi / Päivä / Vuosi",
+	ymd: "Vuosi / Kuukausi / Päivä",
 
 	// Days and Months
 	sunday: "Sunnuntai",
@@ -168,6 +172,9 @@ ui.language({
 	dark:"Tumma",
 	headingDescription:	"Vaihda tekstin väriä vastaamaan paremmin valitsemaasi taustaa.",
 	sync: "Synkronointi",
+	syncChoose: "Valitse palvelu setup Nitro Sync",
+	createAccount: "Luo tili",
+
 	donateText:	"Synkronointi on beeta. Jos Nitro hajottaa, räjäyttää tai sulattaa tietokoneesi - me varoitimme sinua. Se toimii melko vakaasti, mutta jos jokin rikkoontuu, voit ottaa yhteyttä <a href='https://twitter.com/GeorgeCzabania'>@GeorgeCzabania</a> tai <a href='https://twitter.com/consindo'>@consindo",
 	syncLabel: "Synkronoi: ",
 	syncDescription:"Synkronoinnin avulla pääset käsiksi tehtäviisi muilta tietokoneilta ja älypuhelimista.",

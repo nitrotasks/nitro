@@ -60,6 +60,10 @@ ui.language({
 	
 	// Datepicker
 	weekStartsOn: "La semana comienza en: ",
+	dateFormat: "Formato de fecha: ",
+	dmy: "Día / Mes / Año",
+	mdy: "Mes / Día / Año",
+    ymd: "Año / Mes / Día",
 
 	// Days and Months
 	sunday: "Domingo",
@@ -153,7 +157,7 @@ ui.language({
 	about: "Acerca de",
 	theme: "Tema",
 	pickTheme: "Elige un tema: ",
-	themeDescription: "Los temas te permiten cambiar el estilo de Nitro. Si quieres darle tu propio estilo puedes usar CSS para crear tu propio tema.",
+	themeDescription: "Los temas te permiten cambiar el estilo de Nitro.<br>Puedes usar CSS para crear tu propio tema.",
 	replaceDefault:"Aplicar un tema personalizado:",
 	useDefault: "Usar la imágen de fondo por defecto: ",
 	removeBG: "Eliminar actual",
@@ -168,6 +172,9 @@ ui.language({
 	dark:"Oscuro",
 	headingDescription:	"Cambia el color del texto para que quede bien con tu imágen de fondo.",
 	sync: "Sync",
+	syncChoose: "Elige un servicio para sincronizar Nitro",
+    createAccount: "Crear una cuenta",
+
 	donateText:	"Sync is beta. If Nitro breaks, explodes or melts your computer - we warned you. It is pretty stable but if anything does break, you can contact <a href='https://twitter.com/GeorgeCzabania'>@GeorgeCzabania</a> or <a href='https://twitter.com/consindo'>@consindo",
 	syncLabel: "Sincronizar: ",
 	syncDescription:"Sync te permite acceder a tus tareas desde otros dispositivos con Nitro.",

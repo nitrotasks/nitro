@@ -60,6 +60,10 @@ ui.language({
 	
 	// Datepicker
 	weekStartsOn: "Week starts on: ",
+	dateFormat: "Дата формат: ",
+	dmy: "Ден / Месец / Година",
+	mdy: "Месец / Ден / Година",
+	ymd: "Година / Месец / Ден",
 
 	// Days and Months
 	sunday: "Sunday",
@@ -167,7 +171,10 @@ ui.language({
 	light: "Светъл",
 	dark:"Тъмен",
 	headingDescription:	"Смени цвета на другите за да изглежда добре с вашия фон.",
-	sync: "Синхронизация",
+	sync: "Sync",
+	syncChoose: "Изберете услугата, за да настроите Nitro Sync",
+	createAccount: "Създаване на акаунт",
+
 	donateText:	"Синхронизацията е в бета. Ако Nitro се счупи, избухне или стопи вашия компютър - ние те предупредихме. То е доста стабилен, но нещо ако се счупи се свържете с нас <a href='https://twitter.com/GeorgeCzabania'>@GeorgeCzabania</a> или <a href='https://twitter.com/consindo'>@consindo",
 	syncLabel: "Стартирай синхронизацията: ",
 	syncDescription:"Синхронизацията ти позволява достъп до задачите от други компютри и смартфони.",
