@@ -231,6 +231,49 @@ var core = {
 		}
 	},
 	
+	locale: {
+		langCode: function (){
+			return ((navigator.language) ? navigator.language : navigator.userLanguage).substr(0, 2)
+		},
+		// Choose the first run language according to browser preferences
+		lang: function () {
+			switch (core.locale.langCode()) {
+				case "ar": return "arabic";
+				case "bg": return "bulgarian";
+				case "de": return "german";
+				case "es": return "spanish";
+				case "eu": return "basque";
+				case "fi": return "finnish";
+				case "fr": return "french";
+				case "hu": return "hungarian";
+				case "it": return "italian";
+				case "nl": return "dutch";
+				case "pl": return "polish";
+				case "pt": return "portuguese";
+				case "tr": return "turkish";
+				case "vi": return "vietnamese";
+				case "zh": return "chinese";
+			}
+			return "english";
+		},
+		// Choose the more appropriate default date format
+		dateFormat: function () {
+			_local = ((navigator.language) ? navigator.language : navigator.userLanguage).substr(3, 2);
+			_lang = core.storage.prefs.lang;
+			if (_local == 'US')
+				return 'mm/dd/yyyy';
+			if (_lang == 'hungarian' || _lang == 'chinese' || _lang == 'japanese')
+				return 'yyyy/mm/dd';
+			return 'mm/dd/yyyy';
+		},
+		// Return a string with date:Date parsed according to template:String where dd: day, mm: month & yyyy: year, example "mm/dd/yyyy"
+		formatDate: function (template, date) {
+			return template.replace('dd', ('0' + date.getDate()).substring(('0' + date.getDate()).toString().length - 2))
+				.replace('mm', ('0' + (date.getUTCMonth() + 1)).substring(('0' + (date.getUTCMonth() + 1)).toString().length - 2))
+				.replace('yyyy', date.getFullYear());
+		}
+	},
+
 	date:  function(timestamp) {
 		var months = [
 			$.i18n._('janShort'),
@@ -303,7 +346,12 @@ var core = {
 
 				} else {
 					// Due after 15 days
-					words = months[date.getMonth()] + " " + date.getDate()
+					format = core.storage.prefs.dateFormat
+					if (format == 'mm/dd/yyyy' || format == 'yyyy/mm/dd') {
+						words = months[date.getMonth()] + " " + date.getDate()  // Month Day
+					} else {
+						words = date.getDate() + " " + months[date.getMonth()]  // Day Month
+					}
 				}
 
 				return {
@@ -325,11 +373,16 @@ var core = {
 				d = Math.ceil((date.getTime() - now.getTime()) / oneDay);
 				
 				if(d == 0) {
-					return "Today"
+					return $.i18n._('today')
 				} else if (d == -1) {
-					return "Yesterday"
+					return $.i18n._('dueYesterday')
 				} else {
-					return date.getDate() + " " + months[date.getMonth()];
+					format = core.storage.prefs.dateFormat
+					if (format == 'mm/dd/yyyy' || format == 'yyyy/mm/dd') {
+						return months[date.getMonth()] + " " + date.getDate()  // Month Day
+					} else {
+						return date.getDate() + " " + months[date.getMonth()]  // Day Month
+					}
 				}
 			}
 		}

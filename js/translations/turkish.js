@@ -60,6 +60,10 @@ ui.language({
 
 	// Datepicker
 	weekStartsOn: "Haftanın başlangıcı: ",
+	dateFormat: "Tarih biçimi: ",
+	dmy: "Gün / Ay / Yıl",
+	mdy: "Ay / Gün / Yıl",
+	ymd: "Yıl / Ay / Gün",
 
 	// Days and Months
 	sunday: "Pazar",
@@ -168,6 +172,9 @@ ui.language({
 	dark:"Koyu",
 	headingDescription:	"Seçtiğiniz arka planıyla uyumlu olması için yazı rengini değiştiriniz.",
 	sync: "Senkronize",
+	syncChoose: "Choose a service to setup Nitro Sync",
+	createAccount: "Hesap oluşturun",
+
 	donateText:	"Senkronize kısmı betadır.Nitro'nun bilgisayarına zarar verme ihtimali vardır.Sizi uyarmış olalım.Şu anda stabil bir durumdadır.Ama ters bir durumla karşılaşırsanız,iletişime geçebilirsiniz <a href='https://twitter.com/GeorgeCzabania'>@GeorgeCzabania</a> or <a href='https://twitter.com/consindo'>@consindo",
 	syncLabel: "Senkronize etmeye başla: ",
 	syncDescription:"Senkronize Ayarı, görevlerine diğer bilgisayar ve akıllı telefondan da ulaşmanı sağlar.",

@@ -60,6 +60,10 @@ ui.language({
 	
 	// Datepicker
 	weekStartsOn: "Week starts on: ",
+	dateFormat: "Dátum formátum: ",
+	dmy: "Day / Hónap / Év",
+	mdy: "Hónap / Day / Év",
+	ymd: "Év / Hónap / Day",
 
 	// Days and Months
 	sunday: "Sunday",
@@ -168,6 +172,9 @@ ui.language({
 	dark:"Sötét",
 	headingDescription:	"Beállíthatja a szöveg színét, hogy bármilyen háttérkép használata esetén olvashatóan jelenjen meg.",
 	sync: "Szinkronizáció",
+	syncChoose: "Válassza ki a szolgáltatás beállításához Nitro Sync",
+	createAccount: "Fiók létrehozása",
+
 	donateText:	"Sync is beta. If Nitro breaks, explodes or melts your computer - we warned you. It is pretty stable but if anything does break, you can contact <a href='https://twitter.com/GeorgeCzabania'>@GeorgeCzabania</a> or <a href='https://twitter.com/consindo'>@consindo",
 	syncLabel: "Run sync: ",
 	syncDescription:"Sync allows you to access your tasks from other computers and smartphones.",

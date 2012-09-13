@@ -60,6 +60,10 @@ ui.language({
 	
 	// Datepicker
 	weekStartsOn: "Week starts on: ",
+	dateFormat: "Formato della data: ",
+	dmy: "Giorno / Mese  / Anno",
+	mdy: "Mese  / Giorno / Anno",
+	ymd: "Anno / Mese  / Giorno",
 
 	// Days and Months
 	sunday: "Sunday",
@@ -168,6 +172,9 @@ ui.language({
 	dark:"Dark",
 	headingDescription:	"Modifica il colore del testo per adattarlo al tuo sfondo.",
 	sync: "Sincronizza",
+	syncChoose: "Scegli un servizio per configurare Nitro Sync",
+	createAccount: "Crea account",
+
 	donateText:	"Sincronizza è in bwta. Se Nitro va in crash, esplode o blocca il pc - sei stato avvertito. E' abbastanza stabile ma se qualcosa si blocca, puoi contattare <a href='https://twitter.com/GeorgeCzabania'>@GeorgeCzabania</a> o <a href='https://twitter.com/consindo'>@consindo",
 	syncLabel: "Avvia la sincronizzazione: ",
 	syncDescription:"La Sincronizzazione ti permette di accedere alle tue attività da altri computer o smartphones.",

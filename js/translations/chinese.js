@@ -60,6 +60,10 @@ ui.language({
 	
 	// Datepicker
 	weekStartsOn: "星期开始于：",
+	dateFormat: "日期格式： ",
+	dmy: "日 / 月 / 年",
+	mdy: "月 / 日 / 年",
+	ymd: "年 / 月 / 日",
 
 	// Days and Months
 	sunday: "星期日",
@@ -168,6 +172,9 @@ ui.language({
 	dark:"黑色",
 	headingDescription:	"更改文本颜色让外观看起来与自定义背景协调。",
 	sync: "同步",
+	syncChoose: "选择服务设置硝基同步",
+	createAccount: "创建帐户",
+
 	donateText:	"同步功能处于 Beta 阶段。如果 Nitro 坏掉，它会把您的电脑整个底朝天 - 别说没告诉你。它很稳定的但如果有任何事情发生，您可以联系<a href='https://twitter.com/GeorgeCzabania'>@GeorgeCzabania</a> 或 <a href='https://twitter.com/consindo'>@consindo",
 	syncLabel: "运行同步：",
 	syncDescription:"同步允许您从其他计算机或智能手机上访问任务。",

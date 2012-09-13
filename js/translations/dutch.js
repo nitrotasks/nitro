@@ -59,6 +59,10 @@ ui.language({
 
 	// Datepicker
 	weekStartsOn: "Week begint op: ",
+	dateFormat: "Datum formaat: ",
+	dmy: "Dag / Maand / Jaar",
+	mdy: "Maand / Dag / Jaar",
+	ymd: "Jaar / Maand / Dag",
 
 	// Days and Months
 	sunday: "zondag",
@@ -167,6 +171,9 @@ ui.language({
 	dark:"Donker",
 	headingDescription:	"Verander de tekstkleur, zodat die goed bij de achtergrond past.",
 	sync: "Synchroniseren",
+	syncChoose: "Choose a service to setup Nitro Sync",
+	createAccount: "Account aanmaken",
+
 	donateText:	"Synchroniseren is in beta. Als door Nitro je computer kapotgaat, ontploft of smelt - we hebben je gewaarschuwd. Het is vrij stabiel, maar mocht er toch iets niet werken, kun je contact opnemen met <a href='https://twitter.com/GeorgeCzabania'>@GeorgeCzabania</a> of <a href='https://twitter.com/consindo'>@consindo",
 	syncLabel: "Synchroniseren: ",
 	syncDescription:"Door Synchroniseren kun je bij je taken vanaf andere computers of smartphones.",

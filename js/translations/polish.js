@@ -60,6 +60,10 @@ ui.language({
 	
 	// Datepicker
 	weekStartsOn: "Początek tygodnia: ",
+	dateFormat: "Format daty: ",
+	dmy: "Day / Miesiąc / Rok",
+	mdy: "Miesiąc / Day / Rok",
+	ymd: "Rok / Miesiąc / Day",
 
 	// Days and Months
 	sunday: "Niedziela",
@@ -168,6 +172,9 @@ ui.language({
 	dark:"Ciemny",
 	headingDescription:"Pozwala na zmianę koloru tekstu aby odpowiednio go dopasować do tła.",
 	sync: "Synchronizacja",
+	syncChoose: "Wybierz usługę skonfigurować Nitro Sync",
+	createAccount: "Utwórz konto",
+
 	donateText:	"Synchronizacja jest w wersji testowej. Jeśli przez Nitro Twój komputer eksploduje - ostrzegaliśmy Cię. Teoretycznie wszystko działa stabilnie, ale jeśli tak nie jest, skontaktuj się z <a href='https://twitter.com/GeorgeCzabania'>@GeorgeCzabania</a> lub <a href='https://twitter.com/consindo'>@consindo</a>",
 	syncLabel: "Synchronizuj: ",
 	syncDescription: "Synchronizacja umożliwia dostęp do Twoich zadań z poziomu innych urządzeń.",

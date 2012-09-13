@@ -60,6 +60,10 @@ ui.language({
 
 	// Datepicker
 	weekStartsOn: "Le semaine commence le: ",
+	dateFormat: "Format de la date: ",
+	dmy: "Jour / Mois / Année",
+	mdy: "Mois / Jour / Année",
+	ymd: "Année / Mois / Jour",
 
 	// Days and Months
 	sunday: "Dimanche",
@@ -168,6 +172,9 @@ ui.language({
 	dark:"Foncé",
 	headingDescription:	"Changer la couleur du texte pour l'assortir avec votre arrière-plan.",
 	sync: "Sync",
+	syncChoose: "Choisissez un service pour configurer Nitro Sync",
+	createAccount: "Créer un compte",
+
 	donateText:	"Sync est en version bêta. Si vous trouvez des problèmes (bien que ça ne soit pas probable…), veuillez nous contacter à <a href='https://twitter.com/GeorgeCzabania'>@GeorgeCzabania</a> ou <a href='https://twitter.com/consindo'>@consindo",
 	syncLabel: "Synchroniser: ",
 	syncDescription:"Sync vous permet d’accéder vos tâches avec d’autres portables et d’autres ordinateurs.",

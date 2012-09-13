@@ -565,7 +565,9 @@ var ui = {
 			var dateStr = ''
 			if (model.date != '') {
 				var modelDate = new Date(model.date);
-				dateStr = ('0' + (modelDate.getUTCMonth() + 1)).substring(('0' + (modelDate.getUTCMonth() + 1)).toString().length - 2) + '/' + ('0' + modelDate.getDate()).substring(('0' + modelDate.getDate()).toString().length - 2) + '/' + modelDate.getFullYear()		
+
+				// Format date
+				dateStr = core.locale.formatDate(core.storage.prefs.dateFormat, modelDate);
 			}
 			
 
@@ -674,34 +676,14 @@ var ui = {
 	}
 }
 
-// Return browser language if no user defined language found
-browserLanguage = function () {
-    localeCode = ((navigator.language) ? navigator.language : navigator.userLanguage);
-    switch (localeCode.substr(0, 2)) {
-        case "ar": return "arabic";
-        case "bg": return "bulgarian";
-        case "de": return "german";
-        case "es": return "spanish";
-        case "eu": return "basque";
-        case "fi": return "finnish";
-        case "fr": return "french";
-        case "hu": return "hungarian";
-        case "it": return "italian";
-        case "nl": return "dutch";
-        case "pl": return "polish";
-        case "pt": return "portuguese";
-        case "tr": return "turkish";
-        case "vi": return "vietnamese";
-        case "zh": return "chinese";
-    }
-    return "english";
-}
+// Load correct language, plugins and init
 
-// Load correct language
-(function () {
+	// Set first run defaults
+	core.storage.prefs.lang = core.storage.prefs.lang || core.locale.lang();
+	core.storage.prefs.dateFormat = core.storage.prefs.dateFormat || core.locale.dateFormat();
+
 	var langScript, pluginsScript;
 
-	core.storage.prefs.lang = core.storage.prefs.lang || browserLanguage();
 	langScript = document.createElement('script');
 	langScript.src = 'js/translations/' + core.storage.prefs.lang + '.js';
 
@@ -717,7 +699,6 @@ browserLanguage = function () {
 		document.body.appendChild(pluginsScript);
 	}
 	document.body.appendChild(langScript);
-}())
 
 
 // ------------------------------------//
@@ -951,10 +932,16 @@ $tasks.on('expand', 'li', function() {
 		model = core.storage.tasks[id]
 
 	$this.find('.date')
-		.datepicker({weekStart: core.storage.prefs.weekStartsOn})
+		.datepicker({weekStart: core.storage.prefs.weekStartsOn, format: core.storage.prefs.dateFormat})
 		.on('change', function() {
 			// Use the new date, or an empty string if Date.parse doesn't understand the input
-			var newDate = Date.parse($(this).val()) || '';
+			input = $(this).val();
+
+			// Converts D/M/Y to Y/M/D, format required by Date.parse
+			if (core.storage.prefs.dateFormat == 'dd/mm/yyyy')
+				input = $(this).val().substr(6, 4) + '/' + $(this).val().substr(3, 2) + '/' + $(this).val().substr(0, 2)
+
+			var newDate = Date.parse(input) || '';
 			core.storage.tasks[id].date = newDate
 			ui.lists.update().count()
 			core.storage.save([['tasks', id, 'date']])

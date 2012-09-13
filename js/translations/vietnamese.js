@@ -60,13 +60,17 @@ ui.language({
 	
 	// Datepicker
 	weekStartsOn: "Bắt đầu tuần từ: ",
+	dateFormat: "Định dạng ngày: ",
+	dmy: "Ngày / Tháng / Năm",
+	mdy: "Tháng / Ngày / Năm",
+	ymd: "Năm / Tháng / Ngày",
 
 	// Days and Months
 	sunday: "Chủ nhật",
 	monday: "Thứ hai",
 	tuesday: "Thứ ba",
 	wednesday: "Thứ tư",
-  thursday: "Thứ năm",
+	thursday: "Thứ năm",
 	friday: "Thứ sáu",
 	saturday: "Thứ bảy",
 
@@ -168,6 +172,9 @@ ui.language({
 	dark:"Tối",
 	headingDescription:	"Thay đổi màu chữ cho phù hợp với hình nền.",
 	sync: "Đồng bộ",
+	syncChoose: "Choose a service to setup Nitro Sync",
+	createAccount: "Tạo tài khoản",
+
 	donateText:	"Tính năng này đang trong giai đoạn thử nghiệm. Nó làm việc tốt trong hầu hết các trường hợp, nếu có vấn đề gì xảy ra xin hãy liên hệ với <a href='https://twitter.com/GeorgeCzabania'>@GeorgeCzabania</a> hoặc <a href='https://twitter.com/consindo'>@consindo",
 	syncLabel: "Đồng bộ bằng: ",
 	syncDescription:"Tính năng này cho phép bạn truy cập vào danh sách các việc cần làm từ các máy tính khác hoặc trên các thiết bị di động.",
