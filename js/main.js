@@ -404,6 +404,8 @@ var ui = {
 					if (app == 'python') {
 						//Tells Python
 						document.title = 'count|' + todayTotal
+					} else if (app == 'mac') {
+						macgap.dock.badge = todayTotal.toString()
 					} else {
 						todayTotal > 0 ? document.title = todayTotal + " - Nitro" : document.title = "Nitro";
 					}
