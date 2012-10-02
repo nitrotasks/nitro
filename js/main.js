@@ -405,9 +405,9 @@ var ui = {
 						//Tells Python
 						document.title = 'count|' + todayTotal
 					} else if (app == 'mac') {
-						macgap.dock.badge = todayTotal.toString()
+						macgap.dock.badge = todayTotal > 0 ? todayTotal.toString() : "";
 					} else {
-						todayTotal > 0 ? document.title = todayTotal + " - Nitro" : document.title = "Nitro";
+						document.title = todayTotal > 0 ? todayTotal + " - Nitro" : "Nitro";
 					}
 				},
 				logbook: function() {
