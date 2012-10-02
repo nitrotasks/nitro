@@ -1578,7 +1578,7 @@ macWrapper = function(input) {
 		case "About Nitro":
 			cmd("about");
 			break;
-		case "Preferences":
+		case "Preferences…":
 			cmd("prefs");
 			break;
 	}
