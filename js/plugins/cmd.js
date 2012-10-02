@@ -293,8 +293,5 @@ macWrapper = function(input) {
 		case "All Tasks":
 			cmd("allTasks");
 			break;
-		case "About Nitro":
-			cmd("about");
-			break;
 	}
 }

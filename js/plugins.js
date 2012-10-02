@@ -1575,9 +1575,6 @@ macWrapper = function(input) {
 		case "All Tasks":
 			cmd("allTasks");
 			break;
-		case "About Nitro":
-			cmd("about");
-			break;
 	}
 }
 /* ./plugins/filter.js */
@@ -1966,7 +1963,6 @@ $(function() {
 						<option class="translate" data-translate="friday" value="5"></option>\
 						<option class="translate" data-translate="saturday" value="6"></option>\
 					</select>\
-					<br>\
 					<label class="left translate" for="dateFormat" data-translate="dateFormat"></label>\
 					<select id="dateFormat" class="right">\
 						<option class="translate" data-translate="dmy" value="dd/mm/yyyy">day/month/year</option>\
