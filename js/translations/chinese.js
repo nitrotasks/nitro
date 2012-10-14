@@ -26,20 +26,20 @@ ui.language({
 	addList: "添加列表",
 	moveToLogbookSingle: "移动 1 项已完成的任务至日志本",
 	moveToLogbookPlural: "移动 %s 项已完成的任务至日志本",
-	showLoggedTask: "Show 1 logged task",
-	showLoggedTasks: "Show %s logged tasks",
+	showLoggedTask: "显示 1 个日志任务",
+	showLoggedTasks: "显示 %s 个日志任务",
 
 	// Sort
 	sortMagic: "智能",
 	sortDefault: "手动",
 	sortPriority: "优先度",
 	sortDate: "日期",
-	sortTitle: "By title",
+	sortTitle: "按标题",
 
 	//Placeholder Text
 	search: "搜索",
 	notes: "便笺",
-	tags: "Tags, separated by a comma",
+	tags: "标签，以逗号隔开",
 
 	//Priority
 	none: "无",
@@ -147,9 +147,9 @@ ui.language({
 	deleteWarningsDescription: "当您删除任务或列表时这会禁用确认框。",
 
 	//Clear Data
-	resetnitro: "Reset Nitro: ",
-	cleardata: "Clear Data",
-	clearDataMsg: "Are you sure you want to reset Nitro? Your data will be gone forever (a long time)",
+	resetnitro: "重置 Nitro：",
+	cleardata: "清除数据",
+	clearDataMsg: "您确定要重置 Nitro 吗？您的数据将永久丢失",
 
 	language: "语言",
 	authortext: "作者",
