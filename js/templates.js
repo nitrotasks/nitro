@@ -7,7 +7,6 @@ templates = {
 					<div class="{{logged}}"></div>\
 					<div class="content">{{{content}}}</div>\
 					{{#notes}}<div class="notes"></div>{{/notes}}\
-					{{#tags}}<div class="tag">{{tag}}</div>{{/tags}}\
 					{{#date}}<div class="{{date.className}} label">{{date.words}}</div>{{/date}}\
 					{{#list}}<div class="list label">{{list}}</div>{{/list}}\
 				</div>\
@@ -16,7 +15,7 @@ templates = {
 			<div class="boxhelp">\
 				<div class="{{logged}}"></div>\
 				<input class="content" value="{{content}}" type="text">\
-				<input class="tags{{#tags}} hasContent{{/tags}}" value="{{tags}}" placeholder="{{tagsPlaceholder}}"><button class="priority {{priority}}">{{i18n_priority}}</button><input value="{{date}}" type="text" class="date" placeholder="{{datePlaceholder}}">\
+				<button class="priority {{priority}}">{{i18n_priority}}</button><input value="{{date}}" type="text" class="date" placeholder="{{datePlaceholder}}">\
 			</div>\
 			<div class="hidden">\
 				<textarea placeholder="{{notesPlaceholder}}">{{notes}}</textarea>\

@@ -249,7 +249,7 @@ body {
 				}
 			}
 
-			button.none, button.low, button.medium, button.high, input.date, input.tags, button.date, div.tag {
+			button.none, button.low, button.medium, button.high, input.date, button.date {
 				border-left: 1px solid darken($task_color, 10%);
 			}
 			button.none {

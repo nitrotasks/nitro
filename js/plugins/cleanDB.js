@@ -1,11 +1,11 @@
 plugin.cleanDB = function() {
 
-	console.log("Running cleanDB")
+	console.log("Running cleanDB v2")
 
 	var time = Date.now()
 
 // -------------------------------------------------
-// 		VERSION 1.4.5
+// 		VERSION 2.0
 // -------------------------------------------------
 
 	var defaults = {
@@ -17,15 +17,13 @@ plugin.cleanDB = function() {
 				notes: '',
 				list: 'today',
 				logged: false,
-				tags: [],
 				time: {
 					content: 0,
 					priority: 0,
 					date: 0,
 					notes: 0,
 					list: 0,
-					logged: 0,
-					tags: 0
+					logged: 0
 				}
 			}
 		},
@@ -147,7 +145,11 @@ plugin.cleanDB = function() {
 		// Tags
 		if(_this.hasOwnProperty('tags')) {
 			if(isArray(_this.tags)) {
-				o.tasks[i].tags = _this.tags.slice(0)
+				//Turns them into a hashtag
+				for (var b=0; b<_this.tags.length; b++) {
+					_this.tags[b] = "#" + _this.tags[b]
+				}
+				o.tasks[i].content += " " + _this.tags.join(" ")
 			}
 		}
 

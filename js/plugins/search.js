@@ -116,7 +116,7 @@ plugin.add(function() {
 			var task = core.storage.tasks[taskId]
 
 			// Search
-			if (search.test(task.content + task.notes + '#' + task.tags.toString().replace(/,/g,' #'))) {
+			if (search.test(task.content + task.notes)) {
 				pass1.push(true);
 			} else {
 				pass1.push(false);

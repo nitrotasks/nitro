@@ -977,12 +977,12 @@
 
 plugin.cleanDB = function() {
 
-	console.log("Running cleanDB")
+	console.log("Running cleanDB v2")
 
 	var time = Date.now()
 
 // -------------------------------------------------
-// 		VERSION 1.4.5
+// 		VERSION 2.0
 // -------------------------------------------------
 
 	var defaults = {
@@ -994,15 +994,13 @@ plugin.cleanDB = function() {
 				notes: '',
 				list: 'today',
 				logged: false,
-				tags: [],
 				time: {
 					content: 0,
 					priority: 0,
 					date: 0,
 					notes: 0,
 					list: 0,
-					logged: 0,
-					tags: 0
+					logged: 0
 				}
 			}
 		},
@@ -1124,7 +1122,11 @@ plugin.cleanDB = function() {
 		// Tags
 		if(_this.hasOwnProperty('tags')) {
 			if(isArray(_this.tags)) {
-				o.tasks[i].tags = _this.tags.slice(0)
+				//Turns them into a hashtag
+				for (var b=0; b<_this.tags.length; b++) {
+					_this.tags[b] = "#" + _this.tags[b]
+				}
+				o.tasks[i].content += " " + _this.tags.join(" ")
 			}
 		}
 
@@ -1923,7 +1925,7 @@ plugin.add(function() {
 			var task = core.storage.tasks[taskId]
 
 			// Search
-			if (search.test(task.content + task.notes + '#' + task.tags.toString().replace(/,/g,' #'))) {
+			if (search.test(task.content + task.notes)) {
 				pass1.push(true);
 			} else {
 				pass1.push(false);
@@ -3150,44 +3152,15 @@ plugin.add(function() {
 /* ./plugins/tags.js */
 
 // Tags plugin 2
-
 plugin.add(function() {
-
-	$tasks.on('change', 'input.tags', function() {
-
-		var $this = $(this).closest('li'),
-			val = $(this).val(),
-			model = {
-				id: $this.attr('data-id')
-			},
-			task = core.storage.tasks[model.id]
-
-		var tags = val.split(/\s*,\s*/)
-
-		// Because regex is hard
-		for(var i = 0; i < tags.length; i++) {
-			if(tags[i].length == 0) {
-				tags.splice(i, 1)
-			}
-		}
-
-		task.tags = tags
-		core.storage.save([['tasks', model.id, 'tags']])
-
-	})
-
 	// Clicking a tag
 	$tasks.on('click', '.tag', function() {
-
-		// Get tag name
-		var tag = '#' + $(this).text();
 		// Go to All Tasks list
 		$('#Lall .name').trigger('click')
 		// Run search - We should give the searchbox an ID
-		$search.val(tag).trigger('keyup')
+		$search.val($(this).text()).trigger('keyup')
 		
 	})
-
 })
 /* ./plugins/upgrade.js */
 

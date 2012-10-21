@@ -41,15 +41,13 @@ var core = {
 					notes: '',
 					list: list,
 					logged: false,
-					tags: [],
 					time: {
 						content: 0,
 						priority: 0,
 						date: 0,
 						notes: 0,
 						list: 0,
-						logged: 0,
-						tags: 0
+						logged: 0
 					}
 				};
 

@@ -329,7 +329,7 @@ var ui = {
 			if (model.logged) checked = 'checked'
 
 			// Extra details
-			var date = false, list = false, tags = false
+			var date = false, list = false
 			switch(ui.session.selected) {
 
 				case 'today':
@@ -356,22 +356,15 @@ var ui = {
 					date = core.date(model.date).getDaysLeft()
 			}
 
-			if(model.tags) {
-				tags = []
-				for(var i = 0; i < model.tags.length; i++) {
-					tags.push({
-						tag: model.tags[i]
-					})
-				}
-			}
 
+			//Hashtags Yall.
+			var hashTag = new RegExp("\\s#([^ ]*)", "ig")
 			var temp = Mustache.to_html(templates.task.collapsed, {
 				id: id,
 				checked: checked,
-				content: model.content,
+				content: (" " + model.content.replace(hashTag, ' <span class="tag">#$1</span>')).slice(1),
 				notes: model.notes,
 				date: date,
-				tags: tags,
 				list: (model.list.length < 8) ? $.i18n._(list) : list,
 				priority: model.priority,
 				logged: logged
@@ -579,10 +572,8 @@ var ui = {
 				content: plugin.url(model.content).toText(),
 				notes: model.notes,
 				notesPlaceholder : $l._('notes'),
-				tagsPlaceholder : $l._("tags"),
 				datePlaceholder: $l._('dueDate'),
 				date: dateStr,
-				tags: model.tags.toString().replace(/,/g,', '),
 				extra: core.date(model.date).getDaysLeft()[0],
 				priority: model.priority,
 				// Because of Translated Version
