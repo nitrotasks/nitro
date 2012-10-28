@@ -13,7 +13,7 @@ ui.language({
 	thisList: "Esta Lista",
 	
 	// Search Result Header
-	searchResults: "Search results",
+	searchResults: "Resultados da busca",
 
 	//Default Names
 	nlist: "Nova Lista",
@@ -39,7 +39,7 @@ ui.language({
 	//Placeholder Text
 	search: "Buscar",
 	notes: "Notas",
-	tags: "Tags, separated by a comma",
+	tags: "Palavras-chave, separadar por vírgula",
 
 	//Priority
 	none: "Prioridade",
