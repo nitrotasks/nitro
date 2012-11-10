@@ -23,8 +23,6 @@ templates = {
 		</div>'
 	},
 	button: {
-		addTask: '<button class="add">{{name}}</button>',
-		deleteTask: '<button class="delete">{{name}}</button>',
 		addList: '<div class="listAddBTN">{{name}}</div>',
 		listToggle: '<div class="list-toggle" title="{{title}}"><div class="icon"></div></div>'
 	},

@@ -12,20 +12,6 @@ var $sortType
 //Adds as a plugin
 plugin.add(function() {
 	
-	console.log("Loaded sort.js")
-
-	$panel.left.append('\
-		<span>\
-		<button data-toggle="dropdown" class="sort">'+$.i18n._("sortbtn")+'</button>\
-		<ul class="dropdown-menu">\
-			<li class="current" data-value="magic"><span class="icon magic"></span>'+$.i18n._("sortMagic")+'</li>\
-			<li data-value="manual"><span class="icon hand"></span>'+$.i18n._("sortDefault")+'</li>\
-            <li data-value="title"><span class="icon title"></span>' + $.i18n._("sortTitle") + '</li>\
-			<li data-value="date"><span class="icon date"></span>' + $.i18n._("sortDate") + '</li>\
-			<li data-value="priority"><span class="icon priority"></span>'+$.i18n._("sortPriority")+'</li>\
-		</ul>\
-		</span>')
-
 	$sortType = $('.panel .left span ul li')
 	$sortType.on('click', function() {
 		$sortType.removeClass('current')

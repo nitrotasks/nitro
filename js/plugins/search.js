@@ -9,7 +9,7 @@
 plugin.add(function() {
 
 	// Append search box to DOM and cache element
-	$panel.right.append('<input id="search" type="search" placeholder="'+$.i18n._('search')+'">')
+	//$panel.right.append('<input id="search" type="search" placeholder="'+$.i18n._('search')+'">')
 	$search = $("#search")
 
 

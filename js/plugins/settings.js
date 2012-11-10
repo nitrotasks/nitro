@@ -1,6 +1,6 @@
 $(function() {
 	//Adds button to panel
-	$panel.right.prepend('<button class="settingsbtn"></button>')
+	//$panel.right.prepend('<button class="settingsbtn"></button>')
 	$settingsbtn = $('.settingsbtn')
 	$settingsbtn.on('click', function () {
 		$tasks.find('.expanded').dblclick();
@@ -107,36 +107,6 @@ $(function() {
 						</tbody>\
 					</table>  \
 					<button id="cleardataweb">Sign Out</button>\
-				</div>\
-				<div class="tab-pane" id="tabTheme">\
-					<label class="left translate" data-translate="pickTheme"></label><select id="theme">\
-						<option value="default">Default</option>\
-						<option value="linux">Linux</option>\
-						<option value="coffee">Blue Coffee</option>\
-						<option value="metro">Metro</option>\
-						<option value="wunderlist">Wunderlist</option>\
-						<option value="rtl">Right to Left</option>\
-					</select><br>\
-					<label class="description translate" data-translate="themeDescription"></label>\
-					<div class="pythonshit">\
-						<hr>\
-						<label class="left translate" data-translate="replaceDefault"></label><input type="file" id="chooseBG"><br>\
-						<label class="left translate" data-translate="useDefault"></label><button id="removeBG" class="translate" data-translate="removeBG"></button><br>\
-						<label class="left translate" data-translate="bgSize"></label><select id="backgroundSize">\
-							<option value="zoom" class="translate" data-translate="fill"></option>\
-							<option value="shrink" class="translate" data-translate="shrink"></option>\
-							<option value="tile" class="translate" data-translate="tile"></option>\
-						</select>\
-						<label class="description translate" data-translate="bgDescription"></label>\
-						<hr>\
-						<label class="left translate" data-translate="headingColor"></label>\
-						<select id="headingColor">\
-							<option value="" class="translate" data-translate="default"></option>\
-							<option value="light" class="translate" data-translate="light"></option>\
-							<option value="dark" class="translate" data-translate="dark"></option>\
-						</select>\
-						<label class="description translate" data-translate="headingDescription"></label>\
-					</div>\
 				</div>\
 				<div class="tab-pane" id="tabSync">\
 					<div class="connect">\

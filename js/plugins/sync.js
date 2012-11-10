@@ -7,10 +7,10 @@
 //Adds as a plugin
 plugin.add(function() {
 
-	$panel.right.prepend('<button class="runSync"></button>')
+	//$panel.right.prepend('<button class="runSync"></button>')
 	$runSync = $('.runSync')
 
-	$panel.right.on('click', '.runSync', function() {
+	$runSync.click(function() {
 		$this = $(this)
 
 		if($this.hasClass('running')) {

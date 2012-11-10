@@ -17,11 +17,7 @@ var $body = $('body'),
 	$tasks = $('#tasks .tasksContent'),
 	$sidebar = $('#sidebar'),
 	$smartlists = $('#smartlists'),
-	$lists = $('#lists')
-	$panel = {
-		right: $('#tasks .panel .right'),
-		left: $('#tasks .panel .left')
-	},
+	$lists = $('#lists'),
 	$addBTN = $(),
 	$delBTN = $(),
 	plugin = {
@@ -94,9 +90,6 @@ var ui = {
 			var loader = '<div id="syncloader" class="spinner"><div class="bar1"></div><div class="bar2"></div><div class="bar3"></div><div class="bar4"></div><div class="bar5"></div><div class="bar6"></div><div class="bar7"></div><div class="bar8"></div><div class="bar9"></div><div class="bar10"></div><div class="bar11"></div><div class="bar12"></div></div>'
 			$('body').css('background', '#fff').append(loader).append('<script src="js/libs/modernizr.min.js"></script>')
 
-			//Download Button
-			$('#tasks .panel .right').prepend('<a href="http://nitrotasks.com" title="Download Nitro" class="downloadbtn"></a>')
-
 			// Sync status
 			$('body').append('<div id="web-sync-status">Syncing...</div>');
 
@@ -147,31 +140,11 @@ var ui = {
 		]
 		for(var i = 0; i < smartlists.length; i++) { markup += ui.lists.draw(smartlists[i]) }
 		$smartlists.append(markup).trigger('ready')
-		
-		$panel.left.prepend(Mustache.to_html(templates.button.deleteTask, {name: $l._('deletebtn') }))
-		$panel.left.prepend(Mustache.to_html(templates.button.addTask, {name: $l._('addbtn') }))
-
-		$addBTN = $panel.left.find('button.add')
-		$delBTN = $panel.left.find('button.delete')
-
-		// Theme init
-		core.storage.prefs.theme = core.storage.prefs.theme || 'default'
-		$('link.theme').attr('href', 'css/' + core.storage.prefs.theme + '.css').ready(function () {
-			ui.reload()
-			$('html').addClass('loaded')
-			$('.loader').fadeOut(300)
-		});
-
-		//Tells Python to hide / show the fucking panel
-		if (app == 'python') {
-			document.title = 'theme|' + core.storage.prefs.theme
-		}
 
 		//Collapse Lists
 		$sidebar.find('h2.lists').html($l._('lists'))
 		$sidebar.append(Mustache.to_html(templates.button.addList, {name: $.i18n._('addList')}))
 
-		//Good idea to save? If theme or lang needs to be saved?
 		core.storage.save();
 	},
 	session: {
@@ -581,35 +554,6 @@ var ui = {
 				
 			}, 150)
 		}
-	},
-
-	panel: {
-
-		// Toggle button disable status
-		updateButtons: function(obj) {
-
-			// Class name to add to buttons when disabled
-			var CLASS = 'disabled'
-
-			$addBTN.addClass(CLASS)
-			$delBTN.addClass(CLASS)
-
-			// Add
-			if (!obj.hasOwnProperty('add')) {
-				if (ui.session.selected != 'logged' &&
-					ui.session.selected != 'all') {
-					obj.add = true
-				}
-			}
-			if (obj.add) {
-				$addBTN.removeClass(CLASS)
-			}
-			// Delete
-			if (obj.del) {
-				$delBTN.removeClass(CLASS)
-			}
-
-		}
 	}
 }
 
@@ -668,10 +612,6 @@ $sidebar.on('click', '.name, .count', function() {
 	//Adds Color
 	$tasks.find('h2').addClass(core.storage.prefs.bgColor)
 
-	//Set sort type
-	$sortType.removeClass('current');
-	$('.panel .dropdown-menu li[data-value=' + core.storage.prefs.listSort[model.id] + ']').addClass('current');
-
 	if (ui.session.selected == 'next' && core.storage.prefs.nextAmount == 'everything') {
 
 		var markup = "", listID, listName, listOrder
@@ -703,17 +643,6 @@ $sidebar.on('click', '.name, .count', function() {
 		} else if (loggedTasks > 1) {
 			$tasks.find('h2').after('<button id="updateLogbook" class="button">' + $.i18n._('moveToLogbookPlural', [loggedTasks]) + '</button>')
 		}
-	}
-
-	switch (ui.session.selected) {
-		case 'logbook':
-			// Update Panel Buttons
-			ui.panel.updateButtons({del: false, add: false})
-			break
-		default:
-			// Update Panel Buttons
-			ui.panel.updateButtons({del: false})
-			break
 	}
 
 	setTimeout(function() {
@@ -809,8 +738,6 @@ $tasks.on('click', 'li', function(e) {
 		$tasks.find('.selected').removeClass('selected')
 		$this.addClass('selected')
 	}
-	// Update Panel Buttons
-	ui.panel.updateButtons({del: true})
 })
 
 // Completing a task
@@ -895,7 +822,6 @@ $('#tasks > .tasksContent').click(function(e) {
 	if(e.target.nodeName == 'UL' || e.target.nodeName == 'H2' || e.target.className.indexOf('tasksContent') > -1) {
 		$tasks.find('.expanded').dblclick()
 		$tasks.find('.selected').removeClass('selected')
-		ui.panel.updateButtons({del: false})
 	}
 })
 
@@ -1023,96 +949,6 @@ $sidebar.on('click', '.listAddBTN', function() {
 	// Edit List Name
 	$('#L' + listId).find('.name').dblclick()
 })
-
-
-// Adding a task
-$panel.left.on('click', 'button.add', function() {
-	var list = ui.session.selected
-	if (list != 'all' && list != 'logbook') {
-		//Adds a task with the core
-		var taskId = core.task().add($l._('ntask'), list),
-			markup = ui.lists.drawSingleTask(taskId)
-
-		$tasks.find('ul').first().prepend(markup)
-
-		//Expands Task
-		$('#tasks ul li[data-id=' + taskId + ']').dblclick()
-
-		//Remove Notice
-		$('.noTasks').remove();
-		
-		// Update list count
-		ui.lists.update().count()
-
-		setTimeout(function() {
-			$tasks.find('ul').sortable().bind('sortupdate', function(ev) {
-				//Triggered when the user stopped sorting and the DOM position has changed.
-				ui.sortStop()
-			})
-		}, 1000)
-
-	}
-})
-
-
-// Deleting a task
-$panel.left.on('click', 'button.delete', function() {
-
-	var $selected = $tasks.find('.selected')
-
-	if($selected.length) {
-
-		var message, yes, no
-		if($selected.length > 1) {
-			message = $l._('deleteMore', [$selected.length])
-			yes = $l._('deleteMoreYes')
-			no = $l._('deleteMoreNo')
-		} else {
-			message = $l._('deleteOne')
-			yes = $l._('deleteOneYes')
-			no = $l._('deleteOneNo')
-		}
-
-		var markup = Mustache.to_html(templates.dialog.modal, {
-			id: "deleteTaskModal",
-			title: $l._("warning"),
-			message: message,
-			button: {yes: yes, no: no}
-		})
-		$body.append(markup)
-		$modal = $('#deleteTaskModal')
-		$modal.modal()
-
-		$modal.find('button').bind('click', function(e) {
-
-			if($(e.target).hasClass('no')) {
-				$modal.modal('hide').remove()
-				return
-			}
-
-			var lists = {}
-
-			// Deletes from CLI
-			$selected.each(function() {
-				var taskId = $(this).attr('data-id')
-				core.task(taskId).move('trash')
-			})
-			
-			// Update list count
-			ui.lists.update().count()
-			
-			// Remove from DOM			
-			$selected.remove()
-			$modal.modal('hide').remove()
-		})
-
-		//If the user has disabled the warnings
-		if (core.storage.prefs.deleteWarnings) {
-			$modal.find('button.yes').trigger('click')
-		}
-	}
-})
-
 
 // Hiding smart lists
 $sidebar.on('click', '.list-toggle', function() {
