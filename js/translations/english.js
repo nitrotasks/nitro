@@ -23,7 +23,7 @@ ui.language({
 	addbtn: "Add",
 	deletebtn: "Delete",
 	sortbtn: "Sort",
-	addList: "Add List",
+	addList: "New List...",
 	moveToLogbookSingle: "Move 1 completed task to the Logbook",
 	moveToLogbookPlural: "Move %s completed tasks to the Logbook",
 	showLoggedTask: "Show 1 logged task",

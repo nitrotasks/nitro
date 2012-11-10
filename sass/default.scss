@@ -1,9 +1,7 @@
 @import "compass/css3/images";
 @import "compass/css3/transition";
 
-$sidebar_back: #fbfbfb;
-$sidebar_hover: #fff;
-$selected_color: #33a3ef;
+$sidebar_back: #333;
 $sidebar_border: #ccc;
 
 $panel_color: #333;
@@ -18,6 +16,8 @@ $low_color: #6CC0E5;
 $medium_color: #FBC93D;
 $high_color: #FB4F4F;
 
+$hl_color: #1bc1f1;
+
 body {
 	background-image: url(img/bg.png);
 }
@@ -30,140 +30,25 @@ body {
 	background: $sidebar_back;
 
 	h2 {
-		border-top: 1px solid $sidebar_border;
-		border-bottom: 1px solid $sidebar_border;
-		box-shadow: 0 0 1px rgba(0,0,0,0.2) inset;
+		color: $hl_color;
+		border-bottom: 2px solid $hl_color;
 	}
 
 	ul li {
 
-		&:hover {
-			background: $sidebar_hover;
-		}
+		color: #ccc;
+		border-bottom: 1px solid #4e4e4e;
 
-		&.dragHover {
-			background: darken($sidebar_hover, 8%);
+		&.selected {
+			font-weight: bold;
+			color: #fff;
+			text-shadow: 0 1px 1px #222;
 		}
 
 		input {
 			border-radius: 4px;
 			box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
 			border: none;
-		}
-	}
-	
-	.listAddBTN {
-		background: #eee;
-		color: #333;
-		
-		&:hover {
-			background: #ddd;
-		}
-	}
-}
-.panel {
-	background: $panel_color;
-	border-bottom: 0 1px solid $panel_border;
-	color: $panel_text;
-	box-shadow: 0 0 2px rgba(0,0,0,0.4);
-
-	.brand {
-		line-height: 40px;
-		font-size: 18px;
-		font-weight: bold;
-		padding-left: 20px;
-		background: url(img/svg/logo.svg) no-repeat 0 45%;
-	}
-
-	button {
-		background: $panel_color;
-		color: $panel_text;
-		font-weight: bold;
-
-		&.add {
-			background: url(img/svg/add.svg) no-repeat 18px 50%;
-			padding-left: 50px;
-		}
-		&.delete {
-			background: url(img/svg/delete.svg) no-repeat 18px 50%;
-			padding-left: 50px;
-		}
-		&.sort {
-			background: url(img/svg/sort.svg) no-repeat 14px 50%;
-			padding-left: 46px;
-		}
-		&.settingsbtn {
-			margin: 0 7px 0 0;
-			background: url(img/svg/settings.svg) no-repeat 50%;
-			padding:14px 20px;
-			vertical-align: top;
-		}
-
-		&:hover {
-			background-color: rgba(0,0,0,0.2);
-		}
-		
-		&.disabled {
-			opacity: 0.7;
-		}
-
-	}
-	.downloadbtn {
-		background: url(img/svg/download.svg) no-repeat 50%;
-		padding:  20px;
-		vertical-align: top;
-		display: inline-block;
-
-		&:hover {
-			background-color: rgba(0,0,0,0.2);
-		}
-	}
-
-	.left {
-		span {
-			ul {
-				background: $panel_color;
-				border: 1px solid black;
-				border-top: none;
-				box-shadow: 0 1px 1px rgba(0,0,0,0.4);
-				margin: 0;
-				li {
-					color: white;
-					font-weight: bold;
-				}
-			}
-		}
-	}
-
-	.right input {
-		border: 0;
-		border-radius: 2px;
-		width: 120px;
-		padding-left: 23px;
-
-		@include transition(150ms width ease);
-
-		&:focus {
-			outline: 0;
-			box-shadow: none;
-			width: 220px;
-
-		}
-	}
-}
-#sidebar {
-	ul {
-		li {
-			&.selected {
-				background: $selected_color;
-				color: #fff;
-				border: 1px solid darken($selected_color, 20%);
-				border-left: none;
-				border-right: none;
-				font-weight: bold;
-				text-shadow: 0 1px 1px darken($selected_color, 15%);
-			}
-			
 		}
 	}
 }

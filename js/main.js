@@ -124,13 +124,6 @@ var ui = {
 			}
 		}
 
-		//Buttons
-		$sidebar.find('h2.smartlists')
-			.html($l._('focus'))
-			.append(Mustache.to_html(templates.button.listToggle,{
-				title: "Hide lists"
-			}))
-
 		// Append  smartlists
 		var markup = "", smartlists = [
 			['today', $.i18n._('today')],
@@ -948,26 +941,6 @@ $sidebar.on('click', '.listAddBTN', function() {
 	
 	// Edit List Name
 	$('#L' + listId).find('.name').dblclick()
-})
-
-// Hiding smart lists
-$sidebar.on('click', '.list-toggle', function() {
-	var $this = $(this),
-		$h2 = $this.parent(),
-		$ul = $h2.next('ul')
-		
-	if($h2.hasClass('collapsed')) {
-		$h2.removeClass('collapsed')
-		$this.removeClass('collapsed')
-		$ul.slideDown(150, function() {
-			height = $(window).height()
-		})
-	} else {
-		$this.addClass('collapsed')
-		$ul.slideUp(150, function() {
-			$h2.addClass('collapsed')
-		})
-	}
 })
 
 
