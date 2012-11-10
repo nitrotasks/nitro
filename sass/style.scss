@@ -111,11 +111,7 @@ html, button, input, select, textarea {
 	z-index: 2;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	
-	// Resizable sidebar settings
-	min-width: 115px;
-	width: 200px;
-	max-width: 500px;
+	width: 250px;
 	
 	// Use flex box
 	@include display-box;
@@ -451,7 +447,7 @@ html, button, input, select, textarea {
 	top: 0;
 	bottom: 0;
 	right: 0;
-	left: 0;
+	left: 250px;
 	height: 100%;
 	z-index: 1;
 	-moz-box-sizing: border-box;

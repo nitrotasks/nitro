@@ -157,48 +157,9 @@ var ui = {
 		$addBTN = $panel.left.find('button.add')
 		$delBTN = $panel.left.find('button.delete')
 
-		//Splitter Resizing
-		$('.vsplitbar').on('mouseup', function(){
-			if ($('#tasks .panel').width() < 550) {
-				$('#tasks .panel .left button').css({'font-size': '0', 'padding': '0 5px'}).width(54)
-				$('#tasks .panel .right').show(0)
-
-				if ($('#tasks .panel').width() < 489) {
-					$('#tasks .panel .right').hide(0)
-				}
-			} else {
-				$('#tasks .panel .right').show(0)
-				$('#tasks .panel .left button').removeAttr("style")
-			}
-		})
-
-		//Splitter
-		var height = $(window).height(),
-			width = $(window).width()
-
-		$(window).resize(function() {
-			//Causes lag without it?
-			if (height != $(window).height() || width != $(window).width()) {
-				//Redefines
-				height = $(window).height(),
-				width = $(window).width()
-
-				//Splitter
-				$('#content').trigger('resize');
-
-				//Content Height
-				$('.tasksContent').height(height - $('.panel').height());
-
-				//Responsive Panel
-				$('.vsplitbar').trigger('mouseup')
-			}
-		});	
-
 		// Theme init
 		core.storage.prefs.theme = core.storage.prefs.theme || 'default'
 		$('link.theme').attr('href', 'css/' + core.storage.prefs.theme + '.css').ready(function () {
-			//I can't trigger it?
-			$tasks.height(height - $('.panel').height())
 			ui.reload()
 			$('html').addClass('loaded')
 			$('.loader').fadeOut(300)
@@ -261,11 +222,9 @@ var ui = {
 			if(core.storage.prefs.theme === 'wunderlist') {
 				$search.insertAfter($sidebar.find('.brand'))
 			}
-			$('#content').splitter({sizeRight: true})
 		} else {
 			$sidebar.insertBefore('#tasks')
 			$search.insertAfter($panel.right.find('.settingsbtn'))
-			$('#content').splitter({sizeLeft: true})
 		}
 	},
 	lists: {
