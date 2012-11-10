@@ -26,8 +26,8 @@ body {
 }
 
 #decor {
-	@include background(linear-gradient(top, #3aa6f1 0%, #2887c9 100%));
-	box-shadow: 0 0 3px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.2) inset, 0 -1px 0 rgba(0,0,0,0.2) inset;;
+	@include background(linear-gradient(top, #ECF0F1 0%, #C3C9CC 100%));
+	box-shadow: rgba(255, 255, 255, 0.2) 0px 1px 0px inset, #A9B5BB 0px -1px 0px inset;
 	z-index: 3;
 }
 
@@ -111,10 +111,8 @@ body {
 		z-index: 0;
 
 		li {
-			border: 1px solid darken($task_color, 25%);
-			box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
-			border-radius: 4px;
-			@include background(linear-gradient(top, $task_color 0%, darken($task_color, 2%) 100%));
+			border: 1px solid #ccc;
+			background: #fff;
 			
 			.tag {
 				color: darken($low_color, 30%);
@@ -149,7 +147,7 @@ body {
 
 			.checkbox {
 				border: 1px solid #D4D4D4;
-				border-radius: 3px;
+				border-radius: 2px;
 				background: $task_color;
 
 				&:hover {
