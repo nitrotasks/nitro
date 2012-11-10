@@ -93,32 +93,30 @@ html, body {
 	width: 100%;
 }
 html, button, input, select, textarea {
-	font-family: "Droid Sans", "Arial", "Ubuntu", sans-serif;
+	font-family: "Source Sans Pro", "Arial", "Ubuntu", sans-serif;
 }
 
 #content {
 	position: absolute;
-	top: 0;
+	top: 40px;
 	left: 0;
-	height: 100%;
+	bottom: 0;
 	width: 100%;
 	overflow: hidden;
 }
 
-.right {
-	#tasks {
-		left: 0;
-		right: 250px;
-	}
-	#sidebar {
-		right: 0;
-		left: auto;
-	}
+#decor {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	background: #0f0;
+	height: 40px;
 }
 
 #sidebar {
 	height: 100%;
-	position:absolute;
+	position:fixed;
 	z-index: 2;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -314,6 +312,7 @@ html, button, input, select, textarea {
 	position: absolute;
 	top: 0;
 	bottom: 0;
+	overflow: auto;
 	right: 0;
 	left: 250px;
 	height: 100%;
@@ -331,11 +330,10 @@ html, button, input, select, textarea {
 	.tasksContent {
 		font-size: 13px;
 		overflow-y: auto;
-		text-align: center;
 		
 		h2 {
-			text-align: center;
-			font-size: 20px;
+			font-size: 24px;
+			line-height: 1;
 		}
 
 		.button {
@@ -355,7 +353,7 @@ html, button, input, select, textarea {
 		}
 		
 		ul {
-			padding: 0 20px 40px 16px;
+			padding: 0 30px 40px;
 			margin: 0;
 			text-align: left;
 

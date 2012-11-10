@@ -19,14 +19,20 @@ $high_color: #FB4F4F;
 $hl_color: #1bc1f1;
 
 body {
-	background-image: url(img/bg.png);
+	background: #EEEEEF
 }
 @media screen and (-webkit-min-device-pixel-ratio: 2), screen and (max--moz-device-pixel-ratio: 2) {
 	background-size: 51px;
 }
 
-#sidebar {
+#decor {
+	@include background(linear-gradient(top, #3aa6f1 0%, #2887c9 100%));
+	box-shadow: 0 0 3px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.2) inset, 0 -1px 0 rgba(0,0,0,0.2) inset;;
+	z-index: 3;
+}
 
+#sidebar {
+	z-index: 2;
 	background: $sidebar_back;
 
 	h2 {
@@ -53,13 +59,41 @@ body {
 	}
 }
 #tasks .tasksContent {
-	h2, h2.dark {
-		color: lighten($panel_color, 5%);
-		text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
-	}
-	h2.light {
-		color: #fff;
-		text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+	.listhead {
+		color: #444;
+		background: #fff;
+		margin: 0;
+		padding: 3px 30px 8px;
+		line-height: 2;
+		position: fixed;
+		top: 40px;
+		right: 0;
+		left: 250px;
+		z-index: 1;
+		border-bottom: 1px solid #bbb;
+		box-shadow: 0 0 3px rgba(0,0,0, 0.2) inset;
+		font-weight: 300;
+		letter-spacing: -1px;
+		font-size: 16px;
+
+		h2 {
+			font-weight: 300;
+			margin-bottom:0;
+			margin-top: 15px;
+			padding-right: 10px;
+			font-size: 30px;
+			display:inline-block;
+			color: darken($hl_color, 20%);
+		}
+
+		span {
+			padding-right: 7px;
+			color: #ccc;
+
+			&.black {
+				color: #777;
+			}
+		}
 	}
 
 	.noTasks {
@@ -72,6 +106,10 @@ body {
 		border-radius: 2px;
 	}
 	ul {
+		padding-top: 85px;
+		position: relative;
+		z-index: 0;
+
 		li {
 			border: 1px solid darken($task_color, 25%);
 			box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
