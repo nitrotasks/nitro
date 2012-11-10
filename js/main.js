@@ -51,9 +51,6 @@ var ui = {
 			})
 		}
 
-		// Move sidebar to the right
-		ui.reloadSidebar()
-
 		// Run Upgrade function
 		if (app == 'python') {
 			var get = function(name, def) {
@@ -214,18 +211,6 @@ var ui = {
 
 		//Update Counts
 		ui.lists.update().count()
-	},
-	reloadSidebar: function() {
-		$('.vsplitbar').remove()
-		if(core.storage.prefs.theme === 'wunderlist' || core.storage.prefs.theme === 'rtl') {
-			$sidebar.insertAfter('#tasks')
-			if(core.storage.prefs.theme === 'wunderlist') {
-				$search.insertAfter($sidebar.find('.brand'))
-			}
-		} else {
-			$sidebar.insertBefore('#tasks')
-			$search.insertAfter($panel.right.find('.settingsbtn'))
-		}
 	},
 	lists: {
 		//Draws a list to the DOM
