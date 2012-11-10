@@ -600,7 +600,7 @@ $sidebar.on('click', '.name, .count', function() {
 
 	//Gets list id & populates
 	var tasks = core.list(model.id).populate()
-	$tasks.html('<div class="listhead"><h2>Today</h2><span class="black">magic</span><span>date</span><span>priority</span><span>manual</span></div><ul>' + ui.lists.drawTasks(tasks) + '</ul>')
+	$tasks.html('<div class="listhead"><h2>Today</h2></div><ul>' + ui.lists.drawTasks(tasks) + '</ul>')
 	
 	//Adds Color
 	$tasks.find('h2').addClass(core.storage.prefs.bgColor)
