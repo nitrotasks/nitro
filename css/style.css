@@ -112,7 +112,10 @@ html, button, input, select, textarea { font-family: "Helvetica", "Arial", "Ubun
 
 #content { position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; }
 
-#sidebar { height: 100%; position: relative; z-index: 2; -moz-box-sizing: border-box; box-sizing: border-box; width: 250px; display: -webkit-box; display: -moz-box; display: -ms-box; display: box; display: -webkit-flex; display: -ms-flexbox; -webkit-box-orient: vertical; -moz-box-orient: vertical; -ms-box-orient: vertical; box-orient: vertical; -webkit-flex-direction: column; -ms-flex-direction: column; }
+.right #tasks { left: 0; right: 250px; }
+.right #sidebar { right: 0; left: auto; }
+
+#sidebar { height: 100%; position: absolute; z-index: 2; -moz-box-sizing: border-box; box-sizing: border-box; width: 250px; left: 0; display: -webkit-box; display: -moz-box; display: -ms-box; display: box; display: -webkit-flex; display: -ms-flexbox; -webkit-box-orient: vertical; -moz-box-orient: vertical; -ms-box-orient: vertical; box-orient: vertical; -webkit-flex-direction: column; -ms-flex-direction: column; }
 #sidebar h2 { margin: 0; padding: 0 0 0 15px; font-size: 13px; line-height: 30px; height: 30px; text-transform: uppercase; border-top: 1px solid #000; border-bottom: 1px solid #000; }
 #sidebar h2 button { background: transparent; float: right; border-top: 1px solid transparent; border-bottom: 1px solid transparent; border-left: 0; border-right: 0; padding: 0; font-weight: bold; }
 #sidebar h2 .list-toggle { display: inline-block; cursor: pointer; float: right; height: 30px; width: 40px; }

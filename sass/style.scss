@@ -105,13 +105,25 @@ html, button, input, select, textarea {
 	overflow: hidden;
 }
 
+.right {
+	#tasks {
+		left: 0;
+		right: 250px;
+	}
+	#sidebar {
+		right: 0;
+		left: auto;
+	}
+}
+
 #sidebar {
 	height: 100%;
-	position: relative;
+	position:absolute;
 	z-index: 2;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	width: 250px;
+	left: 0;
 	
 	// Use flex box
 	@include display-box;
