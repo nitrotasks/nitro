@@ -98,7 +98,7 @@ html, button, input, select, textarea {
 
 #content {
 	position: absolute;
-	top: 40px;
+	top: 60px;
 	left: 0;
 	bottom: 0;
 	width: 100%;
@@ -116,19 +116,22 @@ html, button, input, select, textarea {
 
 #sidebar {
 	height: 100%;
-	position:fixed;
+	position:absolute;
 	z-index: 2;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	width: 250px;
-	left: 0;
+	width: 265px;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	overflow: auto;
+	padding: 0 30px 0 15px;
 
 	h2 {
-		margin: 5px 15px;
-		padding: 0 0 0 15px;
+		margin: 0 0 1px;
+		text-indent: 15px;
 		font-size: 18px;
-		line-height: 40px;
-		height: 35px;
+		line-height: 36px;
 
 		button {
 			background: transparent;
@@ -186,7 +189,7 @@ html, button, input, select, textarea {
 	}
 	
 	ul {
-		margin: 0 15px;
+		margin: 0;
 		padding: 0;
 
 		& * {
@@ -298,7 +301,7 @@ html, button, input, select, textarea {
 	}
 	
 	.listAddBTN {
-		margin: 0 30px;
+		margin: 0 15px;
 		height: 38px;
 		line-height: 38px;
 		color: #999;
@@ -313,16 +316,12 @@ html, button, input, select, textarea {
 	top: 0;
 	bottom: 0;
 	overflow: auto;
-	right: 0;
-	left: 250px;
+	right: 265px;
+	left: 0;
 	height: 100%;
 	z-index: 1;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	background-image: #ffffff;
-	background-image: -webkit-radial-gradient(50% 50%, ellipse closest-side, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.0) 100%);
-	background-image: -moz-radial-gradient(50% 50%, ellipse closest-side, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.0) 100%);
-	background-position: center center; background-repeat: repeat; background-size: cover;
 	
 	.tile { background-size: auto; }
 	.shrink { background-size: contain; }
@@ -330,10 +329,11 @@ html, button, input, select, textarea {
 	.tasksContent {
 		font-size: 13px;
 		overflow-y: auto;
+		padding: 0 15px 0 30px;
 		
 		h2 {
 			font-size: 24px;
-			line-height: 1;
+			line-height: 36px;
 		}
 
 		.button {
@@ -346,14 +346,13 @@ html, button, input, select, textarea {
 			font-size: 14px;
 			font-weight: bold;
 			color: #444;
-			// box-shadow: inset 0 0 4px rgba(0,0,0,0.2);
 			&:hover {
 				background: rgba(255,255,255,0.6);
 			}
 		}
 		
 		ul {
-			padding: 0 30px 40px;
+			padding: 0 0 40px;
 			margin: 0;
 			text-align: left;
 

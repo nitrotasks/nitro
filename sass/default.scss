@@ -16,10 +16,11 @@ $low_color: #6CC0E5;
 $medium_color: #FBC93D;
 $high_color: #FB4F4F;
 
-$hl_color: #1bc1f1;
+$hl_color: #008eda;
+$hl_line: #1bc2f7;
 
 body {
-	background: #EEEEEF
+	background: #fff;
 }
 @media screen and (-webkit-min-device-pixel-ratio: 2), screen and (max--moz-device-pixel-ratio: 2) {
 	background-size: 51px;
@@ -32,23 +33,20 @@ body {
 }
 
 #sidebar {
-	z-index: 2;
-	background: $sidebar_back;
 
 	h2 {
 		color: $hl_color;
-		border-bottom: 2px solid $hl_color;
+		border-bottom: 2px solid $hl_line;
 	}
 
 	ul li {
 
-		color: #ccc;
-		border-bottom: 1px solid #4e4e4e;
+		color: #4c4c4c;
+		border-bottom: 1px solid #e6e6e6;
 
 		&.selected {
 			font-weight: bold;
-			color: #fff;
-			text-shadow: 0 1px 1px #222;
+			color: #333;
 		}
 
 		input {
@@ -60,20 +58,15 @@ body {
 }
 #tasks .tasksContent {
 	.listhead {
-		color: #444;
-		margin: 0;
-		padding: 3px 30px 8px;
-		line-height: 2;
-		font-weight: 300;
-		letter-spacing: -1px;
-		font-size: 16px;
+		margin: 0 0 20px;
+		border-bottom: 2px solid $hl_line;
 
 		h2 {
-			font-weight: 300;
-			margin-bottom:0;
-			margin-top: 15px;
+			margin: 0;
 			padding-right: 10px;
-			font-size: 30px;
+			font-size: 22px;
+			text-indent: 3px;
+			color: $hl_color;
 			display:inline-block;
 		}
 	}
