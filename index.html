@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Nitro</title>
+		<link rel="stylesheet" href="css/styles.css" />
+	</head>
+	<body>
+		<header class="group">
+			<div class="logo"></div>
+			<div class="user"><img src="img/temp/avatar.png" alt="George Czabania" /><a href="#" class="name">George Czabania</a></div>
+			<div class="search">
+				<input type="search" value="Lorem ipsum"/>
+				<a href="#" class="clear-search"></a>
+			</div>
+		</header>
+		<section class="main tasks">
+			<div class="title">
+				<h1 contenteditable="true">Nitro</h1>
+				<ul class="buttons">
+					<li><a href="#" class="email" title="email"></a></li>
+					<li><a href="#" class="print" title="print"></a></li>
+					<li><a href="" class="share" title="share"></a></li>
+				</ul>
+			</div>
+			<div class="tasks-container">
+				<input type="text" placeholder="Add a task" class="new-task" />
+				<ul class="tasks">
+					<li class="task">
+						<div class="priority high"></div>
+						<div class="checkbox"></div>
+						<div class="name">Lorem ipsum dolor sit amet, consectetur adipisicing elit</div>
+						<div class="date">5th Dec 2012</div>
+					</li>
+					<li class="task expanded">
+						<div class="priority high"></div>
+						<div class="checkbox"></div>
+						<div class="name" contenteditable="true">Sed do eiusmod tempor incididunt ut labore et dolore magna</div>
+						<div class="date">5th Dec 2012</div>
+						<div class="notes" contenteditable="true" onblur="if(this.innerHTML.length==0)this.innerHTML='Notes';" onfocus="if(this.innerHTML=='Notes')this.innerHTML='';">Notes</div>
+					</li>
+					<li class="task">
+						<div class="priority high"></div>
+						<div class="checkbox"></div>
+						<div class="name">Ut enim ad minim veniam</div>
+					</li>
+					<br />
+					<li class="task">
+						<div class="priority medium"></div>
+						<div class="checkbox"></div>
+						<div class="name">Duis aute irure dolor in reprehenderit in voluptate</div>
+						<div class="date">5th Dec 2012</div>
+					</li>
+					<li class="task">
+						<div class="priority medium"></div>
+						<div class="checkbox"></div>
+						<div class="name">Velit esse cillum dolore eu fugiat</div>
+						<div class="date">5th Dec 2012</div>
+					</li>
+					<br />
+					<li class="task">
+						<div class="priority low"></div>
+						<div class="checkbox"></div>
+						<div class="name">Sunt in culpa qui officia deserunt mollit</div>
+					</li>
+					<li class="task completed">
+						<div class="priority low"></div>
+						<div class="checkbox"></div>
+						<div class="name">Excepteur sint occaecat cupidatat non proident</div>
+					</li>
+				</ul>
+			</div>
+		</section>
+		<aside class="sidebar">
+			<div class="title">
+				<h2>Lists</h2>
+				<button class="add-list">+</button>
+			</div>
+			<ul class="lists">
+				<li class="list" data-id="inbox">
+					<div class="name">Inbox</div>
+					<div class="count">12</div>
+				</li>
+				<li class="list">
+					<div class="name">Gradiator</div>
+					<div class="count">4</div>
+				</li>
+				<li class="list">
+					<div class="name">Lightread</div>
+					<div class="count">10</div>
+				</li>
+				<li class="list current">
+					<div class="name">Nitro</div>
+					<div class="count">7</div>
+				</li>
+				<li class="list">
+					<div class="name">StormCloud</div>
+					<div class="count">3</div>
+				</li>
+				<li class="list">
+					<div class="name">WebKeys</div>
+					<div class="count">8</div>
+				</li>
+			</ul>
+		</aside>
+		<section class="main settings">
+			<div class="title">
+				<h1>Settings</h1>
+			</div>
+			<div class="settings-container">
+				<p>Some random settings and stuff</p>
+			</div>
+		</section>
+	</body>
+</html>
