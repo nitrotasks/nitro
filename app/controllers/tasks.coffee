@@ -39,15 +39,15 @@ class Tasks extends Spine.Controller
       @listName.attr("contenteditable", true)
 
     if @list.disabled then @input.hide() else @input.show()
-    # @tasks.empty()
+    @tasks.empty()
     tasks = Task.list(@list.id)
-    @tasks.html @template tasks
-    # last = tasks[0]?.priority
-    # for task in tasks
-    #   if task.priority isnt last
-    #     @tasks.prepend "<li class=\"sep\"></li>"
-    #     last = task.priority
-    #   @addOne task
+    # @tasks.html @template tasks
+    last = tasks[0]?.priority
+    for task in tasks
+      if task.priority isnt last
+        @tasks.prepend "<li class=\"sep\"></li>"
+        last = task.priority
+      @addOne task
 
   new: (e) ->
     val = @input.val()
