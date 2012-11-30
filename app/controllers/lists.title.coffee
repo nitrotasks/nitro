@@ -5,6 +5,7 @@ class ListTitle extends Spine.Controller
 
   elements:
     "h1": "listName"
+    ".buttons .trash": "deleteButton"
 
   events:
     "keyup h1": "rename"
@@ -20,10 +21,12 @@ class ListTitle extends Spine.Controller
     @listName.text @list.name
 
     # Disables contenteditable on noneditable lists
-    if @list.id is "all" or @list.id is "inbox"
+    if @list.permanent
       @listName.removeAttr("contenteditable")
+      @deleteButton.hide()
     else
       @listName.attr("contenteditable", true)
+      @deleteButton.show()
 
   # This is fired on keyup when a list is renamed
   rename: (e) ->
