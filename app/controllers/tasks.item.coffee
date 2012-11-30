@@ -17,6 +17,10 @@ class TaskItem extends Spine.Controller
     "blur input": "finishEdit"
     "keyup input": "finishEditOnEnter"
 
+    # Editing the actual task
+    'click .name': 'startEdit'
+    'blur .name': 'endEdit'
+
   constructor: ->
     super
     throw "@task required" unless @task
@@ -60,11 +64,20 @@ class TaskItem extends Spine.Controller
     if List.current.id isnt "all" and task.list isnt List.current.id
       @release()
 
+  # Delete Button
   remove: ->
     @task.destroy()
 
   toggleStatus: ->
     @task.completed = !@task.completed
     @task.save()
+
+  startEdit: (e) ->
+    $(e.currentTarget).parent().draggable({ disabled: true }).find(".name").attr("contenteditable", "true")
+    @log("clicked")
+
+  endEdit: (e) ->
+    $(e.currentTarget).removeAttr("contenteditable").parent().draggable({ disabled: false })
+    @log("blur")
 
 module.exports = TaskItem
