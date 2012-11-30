@@ -1,218 +1,386 @@
-@import './mixin'
+@import "./mixin"
+@import "./normalize"
 
 body
-  font-family: 'Helvetica Neue'
-  margin: 50px
-  width: 400px
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Geneva, sans-serif
+
+// Clear fix
+.group:after
+	content: ""
+	display: table
+	clear: both
+
+// --------------------
+//     HEADER
+// --------------------
 
 header
-  position: fixed
-  top: 0
-  left: 0
-  right: 0
-  height: 39px
-  border-bottom: 1px #ddd solid
+	abs(0, 0, auto, 0)
+	height: 39px
+	z-index: 1
+	vbg-background(#ebedef, #dfe4e6)
+	box-shadow(0 1px 3px rgba(0,0,0,0.05))
+	border-bottom: 1px solid #BFBFBF
 
-  h1
-    margin: 0 0 0 20px
-    line-height: 40px
-    font-size: 20px
+	.logo
+		float: left
+		margin: 9px 0 0 20px
+		background: url("../img/logo.png") no-repeat
+		width: 23px
+		height: 22px
+
+	.user
+		float: left
+		margin-left: 20px
+		padding: 6px 0 0
+
+		img
+			margin-right: 8px
+			vertical-align: top
+
+		.name
+			display: inline-block
+			font-size: 12px
+			line-height: 28px
+			color: #4B5C66
+			text-shadow(0px 1px 0px #fff)
+			text-decoration: none
+			&:hover
+				text-decoration: underline
+
+	.search
+		position: relative
+		float: right
+		height: 24px
+		padding: 0 20px 0 25px
+		margin: 7px 20px 0 0
+		border-radius(26px)
+		border: 1px solid #B8C3C9
+		background: #fff url("../img/search.png") no-repeat 7px 5px
+
+		input
+			width: 200px
+			border: 0
+			height: 18px
+			margin: 3px 0
+			font-size: 12px
+			line-height: 18px
+			&:focus
+				outline: none
+
+		.clear-search
+			display: block
+			abs(5px, 5px, auto, auto)
+			background: url("../img/clear-search.png")
+			opacity: 0.6
+			width: 14px
+			height: 14px
+			transition(0.2s, opacity)
+			&:hover
+				opacity: 1
 
 
-// LISTS
-.lists
-  position: fixed
-  top: 40px
-  bottom: 0
-  left: 0
-  width: 229px
-  border-right: 1px #ddd solid
-  padding: 20px
-  border-box()
+// --------------------
+//     MAIN SECTION
+// --------------------
 
-  input
-    width: 100%
-    line-height: 20px
-    font-size: 14px
-    padding: 5px 10px
-    border-box()
-    border: 1px #ddd solid
-    margin-top: 20px
+.main
+	abs(40px, 260px, 0px, 30px)
+	padding-right: 20px
+	overflow-y: hidden
+	overflow-y: auto
 
-    &:focus
-      outline: none
-      border-color: #08c
+	.title
+		border-bottom: 2px #1bc1f5 solid
+		position: relative
+		height: 70px
+		margin: 0 0 20px
 
-  ul
-    padding: 0
-    margin: 0
-    border: 1px #ddd solid
-    border-bottom: none
+		h1
+			font-size: 25px
+			padding: 0
+			color: #068dd8
+			margin: 0
+			abs(auto, auto, 5px, 0)
+			border: 1px transparent solid
+			cursor: default
+			transition(0.2s, border-color)
 
-  .list
-    display: block
-    padding: 10px
-    border-bottom: 1px #ddd solid
-    font-size: 14px
-    line-height: 16px
-    cursor: default
-    overflow: auto
+			&[contenteditable=true]:hover
+				border-color: #999
 
-    &.all
-      border: 1px #ddd solid
-      border-bottom: none
+		.buttons
+			abs(auto, 0, 10px, auto)
+			font-size: 0
 
-    &:hover
-      background: #fafafa
+			li
+				display: inline-block
+				list-style-type: none
+				margin-left: 10px
 
-    &.active
-      font-weight: bold
+				a
+					display: block
+					height: 16px
+					width: 16px
+					background-repeat: no-repeat
 
-    &.ui-state-active
-      background: #eee
+				.email
+					margin-bottom: -2px
+					background-image: url("../img/email.png")
 
-    .name
-      float: left
-      width: 137px
+				.print
+					background-image: url("../img/print.png")
 
-    .count
-      float: right
-      text-align: center
-      width: 28px
+				.share
+					background-image: url("../img/share.png")
 
-// Tasks
-.tasks
-  position: fixed
-  top: 40px
-  bottom: 0
-  right: 0
-  left: 230px
-  padding: 20px
-  overflow: auto
 
-  h2
-    margin-top: 0
-    padding-bottom: 5px
-    margin-bottom: 10px
-    border-bottom: 1px #eee solid
+	// Holds the tasks
+	.tasks-container
 
-  input.newTask
-    width: 100%
-    line-height: 20px
-    font-size: 14px
-    padding: 5px 10px
-    border-box()
-    border: 1px #ddd solid
-    margin-bottom: 20px
+		// The 'Add a task' input box
+		.new-task
+			width: 100%
+			box-sizing: border-box
+			border: 1px #E6E6E6 solid
+			height: 28px
+			padding: 0 0 0 10px
+			line-height: 18px
+			font-size: 13px
+			color: hsl(0,0,30%)
+			transition(border-color 0.3s)
+			&:focus
+				outline: none
+				border-color: #1bc1f5
+			&.placeholder
+				font-style: italic
+				color: hsl(0,0,60%)
 
-    &:focus
-      outline: none
-      border-color: #08c
+		ul.tasks
+			width: 100%
+			margin: 0
+			padding: 0
+			margin-top: 20px
 
-  ul
-    padding: 0
-    margin: 0
+			li.task
+				display: block
+				list-style-type: none
+				// height: 28px
+				border: 1px #d9d9d9 solid
+				position: relative
+				margin-bottom: -1px
+				font-size: 13px
+				color: #4c4c4c
+				line-height: 28px
 
-    li
-      display: block
-      position: relative
-      padding: 10px
-      border: 1px #ddd solid
-      margin-bottom: -1px
-      font-size: 14px
 
-      &:hover
-        background: #fafafa
+				// Vertical Stripes
+				&:before, &:after
+					content: ""
+					display: block
+					background: #E6E6E6
+					width: 1px
+				&:before
+					abs(0, auto, 0, 31px)
+				&:after
+					abs(0, auto, 0, 34px)
 
-        .show
-          .delete
-            display: block
+				// Priority
+				.priority
+					abs(-1px, auto, -1px, -1px)
+					width: 4px
 
-      &.completed
-        text-decoration: line-through
-        color: #666
+					&.high
+						background: #E15556
 
-        .toggle
-          background: #bbb
-          border-color: #bbb
+					&.medium
+						background: #9DD071
 
-      &.edit
-        outline: 1px #08c solid
-        border: none
-        margin-bottom: 1px
-        background: #fff
-        .edit
-          display: block
-        .show
-          display: none
+					&.low
+						background: #1BC1F5
 
-      &.sep
-        border: none
-        &:hover
-          background: none
+				// Checkbox
+				.checkbox
+					display: inline-block
+					position: relative
+					margin: 8px 18px 0 11px
+					border: 1px #D9D9D9 solid
+					height: 10px
+					width: 10px
 
-      .toggle
-        display: block
-        width: 10px
-        height: 10px
-        border: 1px #ddd solid
-        margin: 2px 7px 0 0
-        float: left
+				// Task Name
+				.name
+					line-height: 18px
+					abs(6px, 0, auto, 44px)
+					overflow: hidden
+					white-space: nowrap
+					text-overflow: ellipsis
+					transition(0.2s, background)
 
-        &:hover, &:active
-          border-color: #bbb
+					&:focus
+						background: #f5f5f5
+						outline: none
 
-      &.p3, &.p2, &.p1
-        &:before
-          content: ""
-          display: block
-          position: absolute
-          top: -1px
-          bottom: -1px
-          left: -1px
-          width: 5px
+				// Date
+				.date
+					font-size: 12px
+					color: #999
+					abs(1px, 0,auto,auto)
+					padding: 0 14px 0 5px
+					background: #fff
 
-      &.p3:before
-        background: #e15556
+					&:before
+						content: ""
+						display: inline-block
+						background: url("../img/calendar.png") no-repeat
+						width: 10px
+						height: 10px
+						margin-right: 5px
 
-      &.p2:before
-        background: #9ecf6a
+				// Expanded Task
+				&.expanded
 
-      &.p1:before
-        background: #1bc2f7
+					// Add some spacing around the task
+					margin: 5px 0
 
-      .show
-        .name
-          cursor: default
+					// Show the notes
+					.notes
+						display: block
+						background: #FAFAFA
+						border-top: 1px #E6E6E6 solid
+						padding: 5px 44px
+						font-style: italic
+						min-height: 40px
+						line-height: 21px
 
-        .delete
-          float: right
-          display: none
+						// Remove ugly outline on focus
+						&:focus
+							outline: none
 
-      .edit
-        display: none
-        padding-left: 19px
+				// Completed Task
+				&.completed
 
-        input
-          background: transparent
-          border: none
-          font-size: 14px
-          width: 100%
-          padding: 0
-          margin: 0
-          font-family: "Helvetica Neue"
+					// Add Tick to Checkbox
+					.checkbox:after
+						content: ""
+						display: block
+						abs(0,0,0,0)
+						background: url("../img/checkmark.png")
 
-          &:focus
-            outline: none
+					// Strikethrough task name
+					.name
+						text-decoration: line-through
+						color: hsl(0,0,60%)
 
-.helper
-  display: inline-block
-  min-height: 27px
-  min-width: 100px
-  line-height: 27px
-  padding: 5px 10px
-  background: rgba(#fff, 0.9)
-  border: 1px #ddd solid
-  box-shadow: 0 1px 5px rgba(0,0,0,0.1)
-  font-size: 14px
-  cursor: default
+	// SETTINGS
+	&.settings
+		display: none
+		font-size: 14px
+		color: hsl(0,0,30%)
+
+
+
+
+// --------------------
+//     SIDEBAR
+// --------------------
+
+.sidebar
+	abs(40px, 0, 0px, auto)
+	width: 220px
+	padding-right: 30px
+	overflow-x: hidden
+	overflow-y: auto
+
+	// Sidebar title
+	.title
+		height: 70px
+		border-bottom: 2px #1bc1f5 solid
+		position: relative
+		margin: 0
+
+		h2
+			color: #068dd8
+			font-size: 18px
+			display: block
+			abs(auto, auto, 6px, 15px)
+			margin: 0
+
+		// Add List Button
+		.add-list
+			border: none
+			margin: 0
+			padding: 0
+			background: none
+			color: #068dd8
+			font-weight: bold
+			font-size: 18px
+			display: block
+			abs(auto, 15px, 6px, auto)
+
+	// Lists
+	ul.lists
+		margin: 0
+		padding: 0
+		font-size: 0
+
+		li.list
+			position: relative
+			list-style-type: none
+			overflow: hidden
+			font-size: 14px
+			color: #4c4c4c
+			height: 40px
+			line-height: 40px
+			border-bottom: 1px #E6E6E6 solid
+			cursor: default
+
+			// Remove Extra Border
+			&:last-of-type
+				border-bottom: none
+
+			// Add Inbox Icon
+			&[data-id=inbox]
+				background: url("../img/inbox.png") no-repeat 15px 14px
+
+				.name
+					margin-left: 32px
+
+
+			// List Name
+			.name
+				display: inline-block
+				margin-left: 15px
+
+			// Number of Tasks
+			.count
+				display: inline-block
+				float: right
+				margin-right: 15px
+
+			// Currently Selected Task
+			&.current
+				font-weight: bold
+
+				// Add arrow
+				.name:before
+					content: ""
+					display: inline-block
+					background: url("../img/arrow-left.png") no-repeat
+					width: 7px
+					height: 10px
+					margin-right: 10px
+
+
+
+
+
+
+
+
+
+
+
+
+
+

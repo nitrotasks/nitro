@@ -1,3 +1,10 @@
+abs(top = auto, right = auto, bottom = auto, left = auto)
+  position: absolute
+  top: top
+  bottom: bottom
+  left: left
+  right: right
+
 border-radius()
   -moz-border-radius: arguments
   -webkit-border-radius: arguments
@@ -11,7 +18,7 @@ vbg-gradient(fc = #FFF, tc = #FFF)
   background: linear-gradient(top, fc, tc)
 
 /* Horizontal Background Gradient */
-hbg-gradient(fc = #FFF, tc = #FFF) 
+hbg-gradient(fc = #FFF, tc = #FFF)
   background: fc
   background: -webkit-gradient(linear, left top, right top, from(fc), to(tc))
   background: -moz-linear-gradient(left, fc, tc)
@@ -21,6 +28,11 @@ box-shadow()
   -moz-box-shadow: arguments
   -webkit-box-shadow: arguments
   box-shadow: arguments
+
+text-shadow()
+  -moz-text-shadow: arguments
+  -webkit-text-shadow: arguments
+  text-shadow: arguments
 
 inset-box-shadow()
   -moz-box-shadow: inset arguments
@@ -37,7 +49,7 @@ hbox()
   -webkit-box-orient: horizontal
   -webkit-box-align: stretch
   -webkit-box-pack: start
-  
+
   display: -moz-box
   -moz-box-orient: horizontal
   -moz-box-align: stretch
@@ -77,13 +89,13 @@ box-pack(type = center)
   -webkit-box-pack: type
   -moz-box-pack: type
   box-pack: type
-  
+
 transform(tr)
   -webkit-transform: tr
   -moz-transform: tr
   -ms-transform: tr
   -o-transform: tr
   transform: tr
-  
+
 hacel()
   transform(translate3d(0,0,0))
