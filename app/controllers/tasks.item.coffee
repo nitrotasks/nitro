@@ -29,6 +29,8 @@ class TaskItem extends Spine.Controller
     @el.draggable
       revert: "invalid"
       revertDuration: 200
+      distance: 10
+      scroll: false
       cursorAt:
         top: 15
         right: 30
