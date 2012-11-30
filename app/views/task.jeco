@@ -1,4 +1,4 @@
-<li class="task<% if @completed: %>completed<% end %> p<%= @priority %>">
+<li class="task <% if @completed: %>completed<% end %> p<%= @priority %>">
   <div class="priority"></div>
   <div class="checkbox"></div>
   <div class="name"><%- @name or "<i>No name</i>" %></div>
