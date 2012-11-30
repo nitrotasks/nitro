@@ -1,4 +1,4 @@
 <li class="list">
-  <span class="name"><%= @name %></span>
+  <div class="name"><%= @name %></div>
   <div class="count"><%= @count %></div>
 </li>

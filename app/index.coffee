@@ -9,7 +9,7 @@ class App extends Spine.Controller
 
   elements:
     '.tasks': 'tasksContainer'
-    '.lists': 'listsContainer'
+    '.sidebar': 'listsContainer'
 
   constructor: ->
     super

@@ -9,10 +9,10 @@ class Tasks extends Spine.Controller
   elements:
     "ul": "tasks"
     "input": "input"
-    "h2": "listName"
+    "h1": "listName"
 
   events:
-    "keyup input.newTask": "new"
+    "keyup input.new-task": "new"
 
   constructor: ->
     super

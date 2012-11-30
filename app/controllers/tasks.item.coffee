@@ -12,7 +12,7 @@ class TaskItem extends Spine.Controller
 
   events:
     'click .delete': 'remove'
-    'click .toggle': 'toggleStatus'
+    'click .checkbox': 'toggleStatus'
     "dblclick": "edit"
     "blur input": "finishEdit"
     "keyup input": "finishEditOnEnter"

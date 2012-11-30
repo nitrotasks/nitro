@@ -16,24 +16,51 @@
 </head>
 <body>
 
-  <header>
-    <h1>Simple List App</h1>
+  <header class="group">
+    <div class="logo"></div>
+      <div class="user"><img src="img/temp/avatar.png" alt="George Czabania" /><a href="#" class="name">George Czabania</a></div>
+      <div class="search">
+        <input type="search" placeholder="Search">
+        <a href="#" class="clear-search"></a>
+      </div>
+    </div>
   </header>
 
-  <aside class="lists">
+  <section class="main tasks">
+    <div class="title">
+      <h1 contenteditable="true">List Name</h1>
+      <ul class="buttons">
+        <li><a href="#" class="email" title="email"></a></li>
+        <li><a href="#" class="print" title="print"></a></li>
+        <li><a href="" class="share" title="share"></a></li>
+      </ul>
+    </div>
+    <div class="tasks-container">
+      <input type="text" placeholder="Add a task" class="new-task">
+      <ul class="tasks"></ul>
+    </div>
+  </section>
+
+  <aside class="sidebar">
+    <div class="title">
+        <h2>Lists</h2>
+        <button class="add-list">+</button>
+      </div>
     <div class="all list">
       <span class="name">All Tasks</span>
       <div class="count"></div>
     </div>
-    <ul></ul>
+    <ul class="lists"></ul>
     <input placeholder="New list">
+    <section class="main settings">
+      <div class="title">
+        <h1>Settings</h1>
+      </div>
+      <div class="settings-container">
+        <p>Some random settings and stuff</p>
+      </div>
+    </section>
   </aside>
-
-  <section class="tasks">
-    <h2>List name</h2>
-    <input placeholder="New task" class="newTask">
-    <ul></ul>
-  </section>
 
 </body>
 </html>
