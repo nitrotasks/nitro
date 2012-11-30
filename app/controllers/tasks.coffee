@@ -61,6 +61,7 @@ class Tasks extends Spine.Controller
       @input.val ""
 
   rename: (e) ->
-    console.log("test")
+    # This is fired on keyup when a list is renamed
+    List.current.updateAttribute("name", @listName.text())
 
 module.exports = Tasks

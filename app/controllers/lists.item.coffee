@@ -5,6 +5,9 @@ List  = require("models/list")
 class ListItem extends Spine.Controller
   template: require("views/list")
 
+  elements:
+    '.count': 'count'
+
   events:
     'click': 'click'
 
@@ -28,10 +31,11 @@ class ListItem extends Spine.Controller
     @current()
     @
 
-  update: =>
+  update: (task) =>
     # Only update if the task was in the list
     # if task.list is @list.id
-    @render()
+    if task.list is @list.id
+      @count.text Task.active(@list.id).length
 
   click: ->
     List.trigger "changeList", @list
