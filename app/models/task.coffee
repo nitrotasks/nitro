@@ -12,11 +12,11 @@ class window.Task extends Spine.Model
     @select (task) ->
       task.completed and (task.list is list if list)
 
-  @list: (list) =>
-    return [] unless list
-    if list is "all" then return @byPriority()
+  @list: (listId) =>
+    return [] unless listId
+    if listId is "all" then return @byPriority()
     @byPriority().filter (task) ->
-        task.list is list
+        task.list is listId
 
   @byPriority: ->
     @all().sort (a, b) ->
@@ -26,6 +26,5 @@ class window.Task extends Spine.Model
         # then sort by name
         b.name.localeCompare(a.name)
       else diff
-
 
 module.exports = Task
