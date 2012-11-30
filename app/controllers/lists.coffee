@@ -25,6 +25,7 @@ class Lists extends Spine.Controller
     List.bind "create", @addOne
     List.bind "refresh", @addAll
     List.bind "changeList", @change
+    List.bind "destroy", @showInbox
     Task.bind "refresh create update destroy", @updateAll
 
   new: (e) ->
