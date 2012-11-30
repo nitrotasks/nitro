@@ -13,6 +13,7 @@ class Tasks extends Spine.Controller
 
   events:
     "keyup input.new-task": "new"
+    "keyup h1": "rename"
 
   constructor: ->
     super
@@ -36,6 +37,13 @@ class Tasks extends Spine.Controller
   render: (list) =>
     @list = list if list
     @listName.text @list.name
+
+    # Disables contenteditable on noneditable lists
+    if @list.id is "all" or @list.id is "inbox"
+      @listName.removeAttr("contenteditable")
+    else
+      @listName.attr("contenteditable", true)
+
     if @list.disabled then @input.hide() else @input.show()
     @tasks.empty()
     tasks = Task.list(@list.id)
@@ -59,5 +67,8 @@ class Tasks extends Spine.Controller
           return 0
         )()
       @input.val ""
+
+  rename: (e) ->
+    console.log("test")
 
 module.exports = Tasks
