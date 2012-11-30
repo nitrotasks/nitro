@@ -51,7 +51,7 @@ class ListItem extends Spine.Controller
       @el.parent().parent().find(".current").removeClass("current")
       @el.addClass "current"
 
-  remove: ->
+  remove: =>
     @el.remove()
 
 module.exports = ListItem
