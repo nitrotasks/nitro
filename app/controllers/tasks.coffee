@@ -16,9 +16,17 @@ class Tasks extends Spine.Controller
 
   constructor: ->
     super
-    Task.bind "create", @addOne
+    Task.bind "create", @create
     Task.bind "refresh", @render
     List.bind "changeList", @render
+
+  create: (task) =>
+    taskItem = new TaskItem
+      task: task
+    @tasks
+      .find(".p#{ task.priority }")
+      .first()
+      .before taskItem.render().el
 
   addOne: (task) =>
     taskItem = new TaskItem
