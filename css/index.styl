@@ -173,6 +173,7 @@ header
 				font-size: 13px
 				color: #4c4c4c
 				line-height: 28px
+				cursor: default
 
 
 				// Vertical Stripes
@@ -362,6 +363,10 @@ header
 				height: 10px
 				margin-right: 10px
 
+		// jQuery UI Hover state
+		&.ui-state-active
+			background: #fafafa
+
 	.new-list
 		width: 100%
 		box-sizing: border-box
@@ -380,15 +385,14 @@ header
 			font-style: italic
 			color: hsl(0,0,60%)
 
-
-
-
-
-
-
-
-
-
-
-
-
+.helper
+	display: inline-block
+	min-height: 27px
+	min-width: 100px
+	line-height: 27px
+	padding: 5px 10px
+	background: rgba(#fff, 0.9)
+	border: 1px #ddd solid
+	box-shadow: 0 1px 5px rgba(0,0,0,0.1)
+	font-size: 14px
+	cursor: default

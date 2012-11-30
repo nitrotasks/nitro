@@ -29,6 +29,9 @@ class TaskItem extends Spine.Controller
     @el.draggable
       revert: "invalid"
       revertDuration: 200
+      cursorAt:
+        top: 15
+        right: 30
       helper: =>
         $("body").append("<div class=\"helper\">#{ @task.name }</div>")
         $(".helper")
