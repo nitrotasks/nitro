@@ -14,6 +14,7 @@ class Tasks extends Spine.Controller
   events:
     "keyup input.new-task": "new"
     "keyup h1": "rename"
+    "keypress h1": "preventer"
 
   constructor: ->
     super
@@ -63,5 +64,9 @@ class Tasks extends Spine.Controller
   rename: (e) ->
     # This is fired on keyup when a list is renamed
     List.current.updateAttribute("name", @listName.text())
+
+  preventer: (e) ->
+    # Prevents the enter key
+    e.preventDefault() if e.keyCode is 13
 
 module.exports = Tasks
