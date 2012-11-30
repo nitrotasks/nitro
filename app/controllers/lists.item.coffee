@@ -52,6 +52,10 @@ class ListItem extends Spine.Controller
       @el.addClass "current"
 
   remove: =>
-    @el.remove()
+    # Delete all tasks
+    for task in Task.list(@list.id)
+      task.destroy()
+    # Remove element and bindings
+    @release()
 
 module.exports = ListItem
