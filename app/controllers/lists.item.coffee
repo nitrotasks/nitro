@@ -6,6 +6,7 @@ class ListItem extends Spine.Controller
   template: require("views/list")
 
   elements:
+    '.name': 'name'
     '.count': 'count'
 
   events:
@@ -14,9 +15,10 @@ class ListItem extends Spine.Controller
   constructor: ->
     super
     throw "@list required" unless @list
-    @list.bind "update", @render
+    # Update is bound to something else so we don't keep rewriting the dom
+    @list.bind "update", @updateList
     @list.bind "destroy", @remove
-    Task.bind "create update destroy", @update
+    Task.bind "create update destroy", @updateTask
     @list.bind "changeList", @current
 
   render: =>
@@ -31,11 +33,15 @@ class ListItem extends Spine.Controller
     @current()
     @
 
-  update: (task) =>
+  updateTask: (task) =>
     # Only update if the task was in the list
     # if task.list is @list.id
     if task.list is @list.id
       @count.text Task.active(@list.id).length
+
+  updateList: (list) =>
+    # Called when a list name is updated
+    @name.text list.name
 
   click: ->
     List.trigger "changeList", @list
