@@ -289,6 +289,18 @@ header
 //     SIDEBAR
 // --------------------
 
+@-webkit-keyframes slide
+	0%
+		left: -17px
+	100%
+		left: 0
+
+@-webkit-keyframes fade
+	0%
+		opacity: 0
+	100%
+		opacity: 1
+
 .sidebar
 	abs(40px, 0, 0px, auto)
 	width: 220px
@@ -343,6 +355,8 @@ header
 		.name
 			display: inline-block
 			margin-left: 15px
+			position: relative
+			transition(0.1s, left)
 
 		// Number of Tasks
 		.count
@@ -354,14 +368,18 @@ header
 		&.current
 			font-weight: bold
 
+			.name
+				left: 10px
+
 			// Add arrow
 			.name:before
-				content: ""
+				// content: ""
 				display: inline-block
 				background: url("img/arrow-left.png") no-repeat
 				width: 7px
 				height: 10px
 				margin-right: 10px
+				-webkit-animation: 300ms ease fade infinite
 
 		// jQuery UI Hover state
 		&.ui-state-active
