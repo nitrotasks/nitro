@@ -1,7 +1,15 @@
 Spine = require('spine')
 
 class window.Task extends Spine.Model
-  @configure 'Task', 'name', 'completed', 'priority', 'list'
+
+  # Set model properties
+  @configure 'Task',
+    'name',
+    'notes',
+    'completed',
+    'priority',
+    'list'
+
   @extend @Local
 
   @active: (list) =>
