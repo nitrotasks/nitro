@@ -7,7 +7,7 @@ class Tasks extends Spine.Controller
   ENTER_KEY = 13
 
   elements:
-    "ul": "tasks"
+    "ul.tasks": "tasks"
     "input": "input"
     "h1": "listName"
 

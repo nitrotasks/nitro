@@ -306,18 +306,6 @@ header
 			abs(auto, auto, 6px, 15px)
 			margin: 0
 
-		// Add List Button
-		.add-list
-			border: none
-			margin: 0
-			padding: 0
-			background: none
-			color: #068dd8
-			font-weight: bold
-			font-size: 18px
-			display: block
-			abs(auto, 15px, 6px, auto)
-
 	// Lists
 	ul.lists
 		margin: 0
@@ -371,6 +359,23 @@ header
 					height: 10px
 					margin-right: 10px
 
+	.new-list
+		width: 100%
+		box-sizing: border-box
+		border: 0
+		border-top: 1px #E6E6E6 solid
+		font-style: italic
+		height: 40px
+		padding: 0 0 0 15px
+		font-size: 14px
+		color: hsl(0,0,30%)
+		transition(border-color 0.3s)
+		&:focus
+			outline: none
+			font-style: normal
+		&.placeholder
+			font-style: italic
+			color: hsl(0,0,60%)
 
 
 
