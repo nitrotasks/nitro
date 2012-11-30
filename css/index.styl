@@ -367,10 +367,6 @@ header
     padding: 0
     font-size: 0
 
-    // Remove Extra Border
-    li:last-of-type
-      border-bottom: none
-
   .list
     position: relative
     list-style-type: none
@@ -379,22 +375,26 @@ header
     color: #4c4c4c
     height: 40px
     line-height: 40px
-    border-bottom: 1px #E6E6E6 solid
+    border-top: 1px #E6E6E6 solid
     cursor: default
 
     // Add Inbox Icon
-    &[data-id=inbox]
-      background: url("img/inbox.png") no-repeat 15px 14px
+    &.inbox
+      background: url("img/inbox.png") no-repeat 15px 15px
+      border-top: 0
+      transition(background, 0.1s, ease)
 
       .name
-        margin-left: 32px
+        margin-left: 25px
 
+      &.current
+        background: url("img/inbox.png") no-repeat 32px 15px
 
     // List Name
     .name
       display: inline-block
       margin-left: 5px
-      transition(0.1s, left)
+      transition(0.1s, left, ease)
       text-overflow: ellipsis;
       width: 150px;
       white-space: nowrap;
