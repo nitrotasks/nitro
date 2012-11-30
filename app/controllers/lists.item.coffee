@@ -14,7 +14,7 @@ class ListItem extends Spine.Controller
     @list.bind "update", @render
     @list.bind "destroy", @remove
     Task.bind "create update destroy", @update
-    @list.bind "changeList", @active
+    @list.bind "changeList", @current
 
   render: =>
     @list.count = Task.active(@list.id).length
@@ -25,23 +25,21 @@ class ListItem extends Spine.Controller
         task = ui.draggable.data("item")
         task.updateAttribute("list", @list.id)
 
-    @active()
+    @current()
     @
-
-  click: =>
-    @el.parent().parent().find(".current").removeClass("current")
-    @el.addClass("current")
-    List.trigger "changeList", @list
-    true
 
   update: =>
     # Only update if the task was in the list
     # if task.list is @list.id
     @render()
 
-  active: =>
+  click: ->
+    List.trigger "changeList", @list
+
+  current: =>
     if List.current?.id is @list.id
-      @el.addClass "active"
+      @el.parent().parent().find(".current").removeClass("current")
+      @el.addClass "current"
 
   remove: ->
     @el.remove()
