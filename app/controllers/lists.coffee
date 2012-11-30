@@ -15,7 +15,6 @@ class Lists extends Spine.Controller
 
   events:
     "keyup input": "new"
-    "click li": "clickList"
     "click .all": "showAllTasks"
 
   constructor: ->
@@ -43,11 +42,6 @@ class Lists extends Spine.Controller
   change: (list) =>
     @el.find(".active").removeClass "active"
     List.current = list
-
-  clickList: (e) =>
-    list = $(e.currentTarget).data("item")
-    List.trigger "changeList", list
-    true
 
   # Show all tasks
   showAllTasks: =>

@@ -5,6 +5,9 @@ List  = require("models/list")
 class ListItem extends Spine.Controller
   template: require("views/list")
 
+  events:
+    'click': 'click'
+
   constructor: ->
     super
     throw "@list required" unless @list
@@ -24,6 +27,12 @@ class ListItem extends Spine.Controller
 
     @active()
     @
+
+  click: =>
+    # list = $(e.currentTarget).data("item")
+    @el.addClass("selected")
+    List.trigger "changeList", @list
+    true
 
   update: =>
     # Only update if the task was in the list
