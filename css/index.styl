@@ -12,6 +12,28 @@ body
 	clear: both
 
 // --------------------
+//     ANIMATIONS
+// --------------------
+
+@-webkit-keyframes fade-out
+	0%
+		background-position-y: -100px
+	100%
+		background-position-y: 0px
+
+@-webkit-keyframes fade-in
+	0%
+		background-position-y: 0px
+	100%
+		background-position-y: -100px
+
+@-webkit-keyframes opacity
+	0%
+		opacity: 0
+	100%
+		opacity: 1
+
+// --------------------
 //     HEADER
 // --------------------
 
@@ -230,6 +252,20 @@ header
 						background: #f5f5f5
 						outline: none
 
+				// Trash Can
+				.delete
+					abs(0, 0, auto)
+					background: url("img/trashcan_grey.png") 50% 50% no-repeat
+					width: 30px
+					height: 30px
+					cursor: pointer
+					display: none
+
+				&:hover
+					.delete
+						display: block
+						-webkit-animation: 200ms opacity ease 1
+
 				// Date
 				.date
 					font-size: 12px
@@ -293,18 +329,6 @@ header
 // --------------------
 //     SIDEBAR
 // --------------------
-
-@-webkit-keyframes fade-out
-	0%
-		background-position-y: -100px
-	100%
-		background-position-y: 0px
-
-@-webkit-keyframes fade-in
-	0%
-		background-position-y: 0px
-	100%
-		background-position-y: -100px
 
 .sidebar
 	abs(40px, 0, 0px, auto)
