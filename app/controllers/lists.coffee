@@ -51,6 +51,7 @@ class Lists extends Spine.Controller
       name: "All Tasks"
       id: "all"
       disabled: yes
+      permanent: yes
     @el.find(".current").removeClass "current"
     @all.addClass "current"
     true
@@ -60,6 +61,7 @@ class Lists extends Spine.Controller
     List.trigger "changeList",
       name: "Inbox"
       id: "inbox"
+      permanent: yes
     @el.find(".current").removeClass "current"
     @inbox.addClass "current"
     true
