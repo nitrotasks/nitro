@@ -12,7 +12,6 @@ class Lists extends Spine.Controller
     "input": "input"
     ".list.all": "all"
     ".list.inbox": "inbox"
-
     ".list.all .count": "allCount"
     ".list.inbox .count": "inboxCount"
 
@@ -52,7 +51,8 @@ class Lists extends Spine.Controller
       name: "All Tasks"
       id: "all"
       disabled: yes
-    @all.addClass "active"
+    @el.find(".current").removeClass "current"
+    @all.addClass "current"
     true
 
   # Show inbox
@@ -60,7 +60,8 @@ class Lists extends Spine.Controller
     List.trigger "changeList",
       name: "Inbox"
       id: "inbox"
-    @inbox.addClass "active"
+    @el.find(".current").removeClass "current"
+    @inbox.addClass "current"
     true
 
   updateAll: =>

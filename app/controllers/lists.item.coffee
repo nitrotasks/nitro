@@ -29,7 +29,7 @@ class ListItem extends Spine.Controller
     @
 
   click: =>
-    @el.parent().find(".current").removeClass("current")
+    @el.parent().parent().find(".current").removeClass("current")
     @el.addClass("current")
     List.trigger "changeList", @list
     true

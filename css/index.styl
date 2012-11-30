@@ -314,52 +314,52 @@ header
 		padding: 0
 		font-size: 0
 
-		li.list
-			position: relative
-			list-style-type: none
-			overflow: hidden
-			font-size: 14px
-			color: #4c4c4c
-			height: 40px
-			line-height: 40px
-			border-bottom: 1px #E6E6E6 solid
-			cursor: default
+		// Remove Extra Border
+		li:last-of-type
+			border-bottom: none
 
-			// Remove Extra Border
-			&:last-of-type
-				border-bottom: none
+	.list
+		position: relative
+		list-style-type: none
+		overflow: hidden
+		font-size: 14px
+		color: #4c4c4c
+		height: 40px
+		line-height: 40px
+		border-bottom: 1px #E6E6E6 solid
+		cursor: default
 
-			// Add Inbox Icon
-			&[data-id=inbox]
-				background: url("img/inbox.png") no-repeat 15px 14px
+		// Add Inbox Icon
+		&[data-id=inbox]
+			background: url("img/inbox.png") no-repeat 15px 14px
 
-				.name
-					margin-left: 32px
-
-
-			// List Name
 			.name
+				margin-left: 32px
+
+
+		// List Name
+		.name
+			display: inline-block
+			margin-left: 15px
+
+		// Number of Tasks
+		.count
+			display: inline-block
+			float: right
+			margin-right: 15px
+
+		// Currently Selected Task
+		&.current
+			font-weight: bold
+
+			// Add arrow
+			.name:before
+				content: ""
 				display: inline-block
-				margin-left: 15px
-
-			// Number of Tasks
-			.count
-				display: inline-block
-				float: right
-				margin-right: 15px
-
-			// Currently Selected Task
-			&.current
-				font-weight: bold
-
-				// Add arrow
-				.name:before
-					content: ""
-					display: inline-block
-					background: url("img/arrow-left.png") no-repeat
-					width: 7px
-					height: 10px
-					margin-right: 10px
+				background: url("img/arrow-left.png") no-repeat
+				width: 7px
+				height: 10px
+				margin-right: 10px
 
 	.new-list
 		width: 100%
