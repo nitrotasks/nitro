@@ -175,7 +175,6 @@ header
 				line-height: 28px
 				cursor: default
 
-
 				// Vertical Stripes
 				&:before, &:after
 					content: ""
@@ -196,12 +195,10 @@ header
 				&.p1 .priority
 					background: #1BC1F5
 
-				// Priority
+				// Priority
 				.priority
 					abs(-1px, auto, -1px, -1px)
 					width: 4px
-
-
 
 				// Checkbox
 				.checkbox
@@ -289,17 +286,17 @@ header
 //     SIDEBAR
 // --------------------
 
-@-webkit-keyframes slide
+@-webkit-keyframes fade-out
 	0%
-		left: -17px
+		background-position-y: -100px
 	100%
-		left: 0
+		background-position-y: 0px
 
-@-webkit-keyframes fade
+@-webkit-keyframes fade-in
 	0%
-		opacity: 0
+		background-position-y: 0px
 	100%
-		opacity: 1
+		background-position-y: -100px
 
 .sidebar
 	abs(40px, 0, 0px, auto)
@@ -358,6 +355,12 @@ header
 			position: relative
 			transition(0.1s, left)
 
+		.arrow
+			display: inline-block
+			margin-top: 10px
+			width: 7px
+			height: 10px
+
 		// Number of Tasks
 		.count
 			display: inline-block
@@ -370,6 +373,10 @@ header
 
 			.name
 				left: 10px
+
+			.arrow
+				background: url("img/arrow-left-fade.png") no-repeat
+				-webkit-animation: 300ms steps(10, end) fade-out 1
 
 			// Add arrow
 			.name:before

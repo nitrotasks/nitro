@@ -25,7 +25,7 @@ class TaskItem extends Spine.Controller
     @task.bind 'change', @change
 
   render: =>
-    @replace @template @task
+    @replace @getCode
     @el.draggable
       revert: "invalid"
       revertDuration: 200
@@ -36,6 +36,9 @@ class TaskItem extends Spine.Controller
         $("body").append("<div class=\"helper\">#{ @task.name }</div>")
         $(".helper")
     @
+
+  getCode: =>
+    @template @task
 
   edit: =>
     @el.addClass "edit"
