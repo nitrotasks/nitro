@@ -30,8 +30,9 @@ class Tasks extends Spine.Controller
     @listName.text @list.name
     if @list.disabled then @input.hide() else @input.show()
     @tasks.empty()
-    last = Task.first().priority
-    for task in Task.list(@list.id)
+    tasks = Task.list(@list.id)
+    last = tasks[0]?.priority
+    for task in tasks
       if task.priority isnt last
         @tasks.prepend "<li class=\"sep\"></li>"
         last = task.priority
