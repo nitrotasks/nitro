@@ -356,10 +356,12 @@ header
 			transition(0.1s, left)
 
 		.arrow
-			display: inline-block
-			margin-top: 10px
-			width: 7px
-			height: 10px
+			display: inline-block;
+			margin-top: 10px;
+			width: 7px;
+			height: 10px;
+			position: relative;
+			left: 25px;
 
 		// Number of Tasks
 		.count
@@ -372,21 +374,12 @@ header
 			font-weight: bold
 
 			.name
-				left: 10px
+				left: 15px
 
 			.arrow
 				background: url("img/arrow-left-fade.png") no-repeat
-				-webkit-animation: 300ms steps(10, end) fade-out 1
+				-webkit-animation: 200ms steps(10, end) fade-out 1
 
-			// Add arrow
-			.name:before
-				// content: ""
-				display: inline-block
-				background: url("img/arrow-left.png") no-repeat
-				width: 7px
-				height: 10px
-				margin-right: 10px
-				-webkit-animation: 300ms ease fade infinite
 
 		// jQuery UI Hover state
 		&.ui-state-active
