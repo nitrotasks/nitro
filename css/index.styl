@@ -106,8 +106,13 @@ header
 			border: 1px transparent solid
 			cursor: default
 			transition(0.2s, border-color)
+			outline: 0
 
 			&[contenteditable=true]:hover
+				border-color: #999
+				cursor: text
+
+			&[contenteditable=true]:focus
 				border-color: #999
 
 		.buttons
@@ -352,8 +357,12 @@ header
 		.name
 			display: inline-block
 			margin-left: 5px
-			position: relative
 			transition(0.1s, left)
+			text-overflow: ellipsis;
+			width: 150px;
+			white-space: nowrap;
+			overflow: hidden;
+			abs(auto, 45px, auto, 10px)
 
 		.arrow
 			display: inline-block;
@@ -374,7 +383,7 @@ header
 			font-weight: bold
 
 			.name
-				left: 15px
+				left: 25px
 
 			.arrow
 				background: url("img/arrow-left-fade.png") no-repeat
