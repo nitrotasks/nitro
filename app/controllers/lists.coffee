@@ -40,7 +40,6 @@ class Lists extends Spine.Controller
     List.each(@addOne)
 
   change: (list) =>
-    @el.find(".active").removeClass "active"
     List.current = list
 
   # Show all tasks

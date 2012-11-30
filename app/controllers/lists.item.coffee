@@ -29,8 +29,8 @@ class ListItem extends Spine.Controller
     @
 
   click: =>
-    # list = $(e.currentTarget).data("item")
-    @el.addClass("selected")
+    @el.parent().find(".current").removeClass("current")
+    @el.addClass("current")
     List.trigger "changeList", @list
     true
 
