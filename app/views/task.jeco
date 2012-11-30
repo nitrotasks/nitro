@@ -1,11 +1,5 @@
 <li class="task<% if @completed: %>completed<% end %> p<%= @priority %>">
   <div class="priority"></div>
   <div class="checkbox"></div>
-  <div class="show">
-    <div class="name"><%- @name or "<i>No name</i>" %></span>
-    <!--button class="delete">Delete</button-->
-  </div>
-  <!--TEPORATMYNLY REMOVED YALLdiv class="edit">
-    <input type="text" class="name">
-  </div-->
+  <div class="name"><%- @name or "<i>No name</i>" %></div>
 </li>

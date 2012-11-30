@@ -10,13 +10,17 @@ class Lists extends Spine.Controller
   elements:
     "ul": "lists"
     "input": "input"
-    ".all": "all"
-    ".all .count": "allCount"
+    ".list.all": "all"
+    ".list.inbox": "inbox"
+
+    ".list.all .count": "allCount"
+    ".list.inbox .count": "inboxCount"
 
   events:
     "keyup input": "new"
-    "click li": "clickList"
-    "click .all": "showAllTasks"
+    "click .list": "clickList"
+    "click .list.all": "showAllTasks"
+    "click .list.inbox": "showInbox"
 
   constructor: ->
     super
@@ -58,7 +62,16 @@ class Lists extends Spine.Controller
     @all.addClass "active"
     true
 
+  # Show inbox
+  showInbox: =>
+    List.trigger "changeList",
+      name: "Inbox"
+      id: "inbox"
+    @inbox.addClass "active"
+    true
+
   updateAll: =>
     @allCount.text Task.active().length
+    @inboxCount.text Task.list("inbox").length
 
 module.exports = Lists

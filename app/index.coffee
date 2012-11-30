@@ -25,6 +25,6 @@ class App extends Spine.Controller
     List.fetch()
 
     # Select the first list on load
-    @lists.showAllTasks()
+    @lists.showInbox()
 
 module.exports = App

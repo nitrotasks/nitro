@@ -27,14 +27,14 @@ class Tasks extends Spine.Controller
 
   render: (list) =>
     @list = list if list
-    @listName.text list.name
-    if list.disabled then @input.hide() else @input.show()
+    @listName.text @list.name
+    if @list.disabled then @input.hide() else @input.show()
     @tasks.empty()
     last = Task.first().priority
     for task in Task.list(@list.id)
       if task.priority isnt last
         @tasks.prepend "<li class=\"sep\"></li>"
-      last = task.priority
+        last = task.priority
       @addOne task
 
   new: (e) ->
