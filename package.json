@@ -1,0 +1,10 @@
+{
+  "name": "app",
+  "version": "0.0.1",
+  "dependencies": {
+    "serveup": "~0.0.5",
+    "hem": "~0.1.8",
+    "jqueryify": "~0.0.1",
+    "spine": "~1.0.7"
+  }
+}

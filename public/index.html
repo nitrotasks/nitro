@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset=utf-8>
+  <title>App</title>
+  <link rel="stylesheet" href="application.css" type="text/css" charset="utf-8">
+  <script src="application.js" type="text/javascript" charset="utf-8"></script>
+  <script type="text/javascript" charset="utf-8">
+    var jQuery  = require("jqueryify");
+    var exports = this;
+    jQuery(function(){
+      var App = require("index");
+      exports.app = new App({el: $("body")});
+    });
+  </script>
+</head>
+<body>
+
+  <header>
+    <h1>Simple List App</h1>
+  </header>
+
+  <aside class="lists">
+    <div class="all list">
+      <span class="name">All Tasks</span>
+      <div class="count"></div>
+    </div>
+    <ul></ul>
+    <input placeholder="New list">
+  </aside>
+
+  <section class="tasks">
+    <h2>List name</h2>
+    <input placeholder="New task" class="newTask">
+    <ul></ul>
+  </section>
+
+</body>
+</html>

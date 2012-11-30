@@ -1,0 +1,8 @@
+{
+  "dependencies": [
+    "jqueryify",
+    "spine",
+    "spine/lib/local"
+  ],
+  "libs": []
+}
