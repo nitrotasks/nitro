@@ -31,7 +31,12 @@ class Tasks extends Spine.Controller
     # Disable task input box
     if @list.disabled then @input.hide() else @input.show()
     @tasks.empty()
-    tasks = Task.list(@list.id)
+
+    if list.id is "search"
+      tasks = list.tasks
+    else
+      tasks = Task.list(@list.id)
+
     last = tasks[0]?.priority
     for task in tasks
       if task.priority isnt last

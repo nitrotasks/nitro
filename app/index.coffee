@@ -5,6 +5,7 @@ List  = require('models/list')
 Tasks = require('controllers/tasks')
 Lists = require('controllers/lists')
 ListTitle = require('controllers/lists.title')
+Panel = require('controllers/panel')
 
 class App extends Spine.Controller
 
@@ -12,9 +13,14 @@ class App extends Spine.Controller
     '.tasks': 'tasksContainer'
     '.sidebar': 'listsContainer'
     '.tasks .title': 'listTitle'
+    'header': 'panel'
 
   constructor: ->
     super
+
+    # Init panel
+    new Panel
+      el: @panel
 
     # Init tasks
     @tasks = new Tasks( el: @tasksContainer )

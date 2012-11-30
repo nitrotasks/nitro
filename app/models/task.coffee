@@ -27,4 +27,10 @@ class window.Task extends Spine.Model
         b.name.localeCompare(a.name)
       else diff
 
+  @filter: (query) ->
+    return all() unless query
+    query = query.toLowerCase()
+    @select (item) ->
+      item.name?.toLowerCase().indexOf(query) > -1
+
 module.exports = Task
