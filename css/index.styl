@@ -3,104 +3,104 @@
 @import "./print"
 
 body
-	font-family: "Lucida Grande", "Lucida Sans Unicode", Geneva, sans-serif
+  font-family: "Lucida Grande", "Lucida Sans Unicode", Geneva, sans-serif
 
 // Clear fix
 .group:after
-	content: ""
-	display: table
-	clear: both
+  content: ""
+  display: table
+  clear: both
 
 // --------------------
 //     ANIMATIONS
 // --------------------
 
 @-webkit-keyframes fade-out
-	0%
-		background-position-y: -100px
-	100%
-		background-position-y: 0px
+  0%
+    background-position-y: -100px
+  100%
+    background-position-y: 0px
 
 @-webkit-keyframes fade-in
-	0%
-		background-position-y: 0px
-	100%
-		background-position-y: -100px
+  0%
+    background-position-y: 0px
+  100%
+    background-position-y: -100px
 
 @-webkit-keyframes opacity
-	0%
-		opacity: 0
-	100%
-		opacity: 1
+  0%
+    opacity: 0
+  100%
+    opacity: 1
 
 // --------------------
 //     HEADER
 // --------------------
 
 header
-	abs(0, 0, auto, 0)
-	height: 39px
-	z-index: 1
-	vbg-gradient(#ebedef, #dfe4e6)
-	box-shadow(0 1px 3px rgba(0,0,0,0.05))
-	border-bottom: 1px solid #BFBFBF
+  abs(0, 0, auto, 0)
+  height: 39px
+  z-index: 1
+  vbg-gradient(#ebedef, #dfe4e6)
+  box-shadow(0 1px 3px rgba(0,0,0,0.05))
+  border-bottom: 1px solid #BFBFBF
 
-	.logo
-		float: left
-		margin: 9px 0 0 20px
-		background: url("img/logo.png") no-repeat
-		width: 23px
-		height: 22px
+  .logo
+    float: left
+    margin: 9px 0 0 20px
+    background: url("img/logo.png") no-repeat
+    width: 23px
+    height: 22px
 
-	.user
-		float: left
-		margin-left: 20px
-		padding: 6px 0 0
+  .user
+    float: left
+    margin-left: 20px
+    padding: 6px 0 0
 
-		img
-			margin-right: 8px
-			vertical-align: top
+    img
+      margin-right: 8px
+      vertical-align: top
 
-		.name
-			display: inline-block
-			font-size: 12px
-			line-height: 28px
-			color: #4B5C66
-			text-shadow(0px 1px 0px #fff)
-			text-decoration: none
-			&:hover
-				text-decoration: underline
+    .name
+      display: inline-block
+      font-size: 12px
+      line-height: 28px
+      color: #4B5C66
+      text-shadow(0px 1px 0px #fff)
+      text-decoration: none
+      &:hover
+        text-decoration: underline
 
-	.search
-		position: relative
-		float: right
-		height: 24px
-		padding: 0 20px 0 25px
-		margin: 7px 20px 0 0
-		border-radius(26px)
-		border: 1px solid #B8C3C9
-		background: #fff url("img/search.png") no-repeat 7px 5px
+  .search
+    position: relative
+    float: right
+    height: 24px
+    padding: 0 20px 0 25px
+    margin: 7px 20px 0 0
+    border-radius(26px)
+    border: 1px solid #B8C3C9
+    background: #fff url("img/search.png") no-repeat 7px 5px
 
-		input
-			width: 200px
-			border: 0
-			height: 18px
-			margin: 3px 0
-			font-size: 12px
-			line-height: 18px
-			&:focus
-				outline: none
+    input
+      width: 200px
+      border: 0
+      height: 18px
+      margin: 3px 0
+      font-size: 12px
+      line-height: 18px
+      &:focus
+        outline: none
 
-		.clear-search
-			display: block
-			abs(5px, 5px, auto, auto)
-			background: url("img/clear-search.png")
-			opacity: 0.6
-			width: 14px
-			height: 14px
-			transition(0.2s, opacity)
-			&:hover
-				opacity: 1
+    .clear-search
+      display: block
+      abs(5px, 5px, auto, auto)
+      background: url("img/clear-search.png")
+      opacity: 0.6
+      width: 14px
+      height: 14px
+      transition(0.2s, opacity)
+      &:hover
+        opacity: 1
 
 
 // --------------------
@@ -108,220 +108,230 @@ header
 // --------------------
 
 .main
-	abs(40px, 290px, 0px, 30px)
-	padding-right: 20px
-	overflow-y: hidden
-	overflow-y: auto
+  abs(40px, 290px, 0px, 30px)
+  padding-right: 20px
+  overflow-y: hidden
+  overflow-y: auto
 
-	.title
-		border-bottom: 2px #1bc1f5 solid
-		position: relative
-		height: 70px
-		margin: 0 0 20px
+  .title
+    border-bottom: 2px #1bc1f5 solid
+    position: relative
+    height: 70px
+    margin: 0 0 20px
 
-		h1
-			font-size: 25px
-			padding: 0
-			color: #068dd8
-			margin: 0
-			abs(auto, auto, 5px, 0)
-			border: 1px transparent solid
-			cursor: default
-			transition(0.2s, border-color)
-			outline: 0
+    h1
+      font-size: 25px
+      padding: 0
+      color: #068dd8
+      margin: 0
+      abs(auto, auto, 5px, 0)
+      border: 1px transparent solid
+      cursor: default
+      transition(0.2s, border-color)
+      outline: 0
 
-			&[contenteditable=true]:hover
-				border-color: #999
-				cursor: text
+      &[contenteditable=true]:hover
+        border-color: #999
+        cursor: text
 
-			&[contenteditable=true]:focus
-				border-color: #999
+      &[contenteditable=true]:focus
+        border-color: #999
 
-		.buttons
-			abs(auto, 0, 10px, auto)
-			font-size: 0
+    .buttons
+      abs(auto, 0, 10px, auto)
+      font-size: 0
 
-			li
-				display: inline-block
-				list-style-type: none
-				margin-left: 10px
+      li
+        display: inline-block
+        list-style-type: none
+        margin-left: 10px
 
-				a
-					display: block
-					height: 16px
-					width: 16px
-					background-repeat: no-repeat
+        a
+          display: block
+          height: 16px
+          width: 16px
+          background-repeat: no-repeat
 
-				.trash
-					background-image: url("img/trashcan.png")
+        .trash
+          background-image: url("img/trashcan.png")
 
-				.email
-					margin-bottom: -2px
-					background-image: url("img/email.png")
+        .email
+          margin-bottom: -2px
+          background-image: url("img/email.png")
 
-				.print
-					background-image: url("img/print.png")
+        .print
+          background-image: url("img/print.png")
 
-				.share
-					background-image: url("img/share.png")
+        .share
+          background-image: url("img/share.png")
 
 
-	// Holds the tasks
-	.tasks-container
+  // Holds the tasks
+  .tasks-container
 
-		// The 'Add a task' input box
-		.new-task
-			width: 100%
-			box-sizing: border-box
-			border: 1px #E6E6E6 solid
-			height: 28px
-			padding: 0 0 0 10px
-			line-height: 18px
-			font-size: 13px
-			color: hsl(0,0,30%)
-			transition(border-color 0.3s)
-			&:focus
-				outline: none
-				border-color: #1bc1f5
-			&.placeholder
-				font-style: italic
-				color: hsl(0,0,60%)
+    // The 'Add a task' input box
+    .new-task
+      width: 100%
+      box-sizing: border-box
+      border: 1px #E6E6E6 solid
+      height: 28px
+      padding: 0 0 0 10px
+      line-height: 18px
+      font-size: 13px
+      color: hsl(0,0,30%)
+      transition(border-color 0.3s)
 
-		ul.tasks
-			width: 100%
-			margin: 0
-			padding: 0
-			margin-top: 20px
+      &:focus
+        outline: none
+        border-color: #1bc1f5
 
-			li.task
-				display: block
-				list-style-type: none
-				// height: 28px
-				border: 1px #d9d9d9 solid
-				position: relative
-				margin-bottom: -1px
-				font-size: 13px
-				color: #4c4c4c
-				line-height: 28px
-				cursor: default
+      &::input-placeholder
+        font-style: italic
+        color: hsl(0,0,60%)
 
-				// Vertical Stripes
-				&:before, &:after
-					content: ""
-					display: block
-					background: #E6E6E6
-					width: 1px
-				&:before
-					abs(0, auto, 0, 31px)
-				&:after
-					abs(0, auto, 0, 34px)
+      &::-webkit-input-placeholder
+        font-style: italic
+        color: hsl(0,0,60%)
 
-				&.p3 .priority
-					background: #E15556
+      &::-moz-placeholder
+        font-style: italic
+        color: hsl(0,0,60%)
 
-				&.p2 .priority
-					background: #9DD071
+    ul.tasks
+      width: 100%
+      margin: 0
+      padding: 0
+      margin-top: 20px
 
-				&.p1 .priority
-					background: #1BC1F5
+      li.task
+        display: block
+        list-style-type: none
+        // height: 28px
+        border: 1px #d9d9d9 solid
+        position: relative
+        margin-bottom: -1px
+        font-size: 13px
+        color: #4c4c4c
+        line-height: 28px
+        cursor: default
 
-				// Priority
-				.priority
-					abs(-1px, auto, -1px, -1px)
-					width: 4px
+        // Vertical Stripes
+        &:before, &:after
+          content: ""
+          display: block
+          background: #E6E6E6
+          width: 1px
+        &:before
+          abs(0, auto, 0, 31px)
+        &:after
+          abs(0, auto, 0, 34px)
 
-				// Checkbox
-				.checkbox
-					display: inline-block
-					position: relative
-					margin: 8px 18px 0 11px
-					border: 1px #D9D9D9 solid
-					height: 10px
-					width: 10px
+        &.p3 .priority
+          background: #E15556
 
-				// Task Name
-				.name
-					line-height: 18px
-					abs(6px, 0, auto, 44px)
-					overflow: hidden
-					white-space: nowrap
-					text-overflow: ellipsis
-					transition(0.2s, background)
+        &.p2 .priority
+          background: #9DD071
 
-					&:focus
-						background: #f5f5f5
-						outline: none
+        &.p1 .priority
+          background: #1BC1F5
 
-				// Trash Can
-				.delete
-					abs(0, 0, auto)
-					background: url("img/trashcan_grey.png") 50% 50% no-repeat
-					width: 30px
-					height: 30px
-					cursor: pointer
-					display: none
+        // Priority
+        .priority
+          abs(-1px, auto, -1px, -1px)
+          width: 4px
 
-				&:hover
-					.delete
-						display: block
-						-webkit-animation: 200ms opacity ease 1
+        // Checkbox
+        .checkbox
+          display: inline-block
+          position: relative
+          margin: 8px 18px 0 11px
+          border: 1px #D9D9D9 solid
+          height: 10px
+          width: 10px
 
-				// Date
-				.date
-					font-size: 12px
-					color: #999
-					abs(1px, 0,auto,auto)
-					padding: 0 14px 0 5px
-					background: #fff
+        // Task Name
+        .name
+          line-height: 18px
+          abs(6px, 0, auto, 44px)
+          overflow: hidden
+          white-space: nowrap
+          text-overflow: ellipsis
+          transition(0.2s, background)
 
-					&:before
-						content: ""
-						display: inline-block
-						background: url("img/calendar.png") no-repeat
-						width: 10px
-						height: 10px
-						margin-right: 5px
+          &:focus
+            background: #f5f5f5
+            outline: none
 
-				// Expanded Task
-				&.expanded
+        // Trash Can
+        .delete
+          abs(0, 0, auto)
+          background: url("img/trashcan_grey.png") 50% 50% no-repeat
+          width: 30px
+          height: 30px
+          cursor: pointer
+          display: none
 
-					// Add some spacing around the task
-					margin: 5px 0
+        &:hover
+          .delete
+            display: block
+            -webkit-animation: 200ms opacity ease 1
 
-					// Show the notes
-					.notes
-						display: block
-						background: #FAFAFA
-						border-top: 1px #E6E6E6 solid
-						padding: 5px 44px
-						font-style: italic
-						min-height: 40px
-						line-height: 21px
+        // Date
+        .date
+          font-size: 12px
+          color: #999
+          abs(1px, 0,auto,auto)
+          padding: 0 14px 0 5px
+          background: #fff
 
-						// Remove ugly outline on focus
-						&:focus
-							outline: none
+          &:before
+            content: ""
+            display: inline-block
+            background: url("img/calendar.png") no-repeat
+            width: 10px
+            height: 10px
+            margin-right: 5px
 
-				// Completed Task
-				&.completed
+        // Expanded Task
+        &.expanded
 
-					// Add Tick to Checkbox
-					.checkbox:after
-						content: ""
-						display: block
-						abs(0,0,0,0)
-						background: url("img/checkmark.png")
+          // Add some spacing around the task
+          margin: 5px 0
 
-					// Strikethrough task name
-					.name
-						text-decoration: line-through
-						color: hsl(0,0,60%)
+          // Show the notes
+          .notes
+            display: block
+            background: #FAFAFA
+            border-top: 1px #E6E6E6 solid
+            padding: 5px 44px
+            font-style: italic
+            min-height: 40px
+            line-height: 21px
 
-	// SETTINGS
-	&.settings
-		display: none
-		font-size: 14px
-		color: hsl(0,0,30%)
+            // Remove ugly outline on focus
+            &:focus
+              outline: none
+
+        // Completed Task
+        &.completed
+
+          // Add Tick to Checkbox
+          .checkbox:after
+            content: ""
+            display: block
+            abs(0,0,0,0)
+            background: url("img/checkmark.png")
+
+          // Strikethrough task name
+          .name
+            text-decoration: line-through
+            color: hsl(0,0,60%)
+
+  // SETTINGS
+  &.settings
+    display: none
+    font-size: 14px
+    color: hsl(0,0,30%)
 
 
 
@@ -331,123 +341,131 @@ header
 // --------------------
 
 .sidebar
-	abs(40px, 0, 0px, auto)
-	width: 250px
-	padding-right: 30px
-	overflow-x: hidden
-	overflow-y: auto
+  abs(40px, 0, 0px, auto)
+  width: 250px
+  padding-right: 30px
+  overflow-x: hidden
+  overflow-y: auto
 
-	// Sidebar title
-	.title
-		height: 70px
-		border-bottom: 2px #1bc1f5 solid
-		position: relative
-		margin: 0
+  // Sidebar title
+  .title
+    height: 70px
+    border-bottom: 2px #1bc1f5 solid
+    position: relative
+    margin: 0
 
-		h2
-			color: #068dd8
-			font-size: 18px
-			display: block
-			abs(auto, auto, 6px, 15px)
-			margin: 0
+    h2
+      color: #068dd8
+      font-size: 18px
+      display: block
+      abs(auto, auto, 6px, 15px)
+      margin: 0
 
-	// Lists
-	ul.lists
-		margin: 0
-		padding: 0
-		font-size: 0
+  // Lists
+  ul.lists
+    margin: 0
+    padding: 0
+    font-size: 0
 
-	.list
-		position: relative
-		list-style-type: none
-		overflow: hidden
-		font-size: 14px
-		color: #4c4c4c
-		height: 40px
-		line-height: 40px
-		border-top: 1px #E6E6E6 solid
-		cursor: default
+  .list
+    position: relative
+    list-style-type: none
+    overflow: hidden
+    font-size: 14px
+    color: #4c4c4c
+    height: 40px
+    line-height: 40px
+    border-top: 1px #E6E6E6 solid
+    cursor: default
 
-		// Add Inbox Icon
-		&.inbox
-			background: url("img/inbox.png") no-repeat 15px 15px
-			border-top: 0
-			transition(background, 0.1s, ease)
+    // Add Inbox Icon
+    &.inbox
+      background: url("img/inbox.png") no-repeat 15px 15px
+      border-top: 0
+      transition(background, 0.1s, ease)
 
-			.name
-				margin-left: 25px
+      .name
+        margin-left: 25px
 
-			&.current
-				background: url("img/inbox.png") no-repeat 32px 15px
+      &.current
+        background: url("img/inbox.png") no-repeat 32px 15px
+
+    // List Name
+    .name
+      display: inline-block
+      margin-left: 5px
+      transition(0.1s, left, ease)
+      text-overflow: ellipsis;
+      width: 150px;
+      white-space: nowrap;
+      overflow: hidden;
+      abs(auto, 45px, auto, 10px)
+
+    .arrow
+      display: inline-block;
+      margin-top: 10px;
+      width: 7px;
+      height: 10px;
+      position: relative;
+      left: 15px;
+
+    // Number of Tasks
+    .count
+      display: inline-block
+      float: right
+      margin-right: 15px
+
+    // Currently Selected Task
+    &.current
+      font-weight: bold
+
+      .name
+        left: 25px
+
+      .arrow
+        background: url("img/arrow-left-fade.png") no-repeat
+        -webkit-animation: 200ms steps(10, end) fade-out 1
 
 
-		// List Name
-		.name
-			display: inline-block
-			margin-left: 5px
-			transition(0.1s, left, ease)
-			text-overflow: ellipsis;
-			width: 150px;
-			white-space: nowrap;
-			overflow: hidden;
-			abs(auto, 45px, auto, 10px)
+    // jQuery UI Hover state
+    &.ui-state-active
+      background: #fafafa
 
-		.arrow
-			display: inline-block;
-			margin-top: 10px;
-			width: 7px;
-			height: 10px;
-			position: relative;
-			left: 15px;
+  .new-list
+    width: 100%
+    box-sizing: border-box
+    border: 0
+    border-top: 1px #E6E6E6 solid
+    font-style: italic
+    height: 40px
+    padding: 0 0 0 15px
+    font-size: 14px
+    color: hsl(0,0,30%)
+    transition(border-color 0.3s)
+    &:focus
+      outline: none
+      font-style: normal
 
-		// Number of Tasks
-		.count
-			display: inline-block
-			float: right
-			margin-right: 15px
+    &::input-placeholder
+      font-style: italic
+      color: hsl(0,0,60%)
 
-		// Currently Selected Task
-		&.current
-			font-weight: bold
+    &::-webkit-input-placeholder
+      font-style: italic
+      color: hsl(0,0,60%)
 
-			.name
-				left: 25px
-
-			.arrow
-				background: url("img/arrow-left-fade.png") no-repeat
-				-webkit-animation: 200ms steps(10, end) fade-out 1
-
-
-		// jQuery UI Hover state
-		&.ui-state-active
-			background: #fafafa
-
-	.new-list
-		width: 100%
-		box-sizing: border-box
-		border: 0
-		border-top: 1px #E6E6E6 solid
-		font-style: italic
-		height: 40px
-		padding: 0 0 0 15px
-		font-size: 14px
-		color: hsl(0,0,30%)
-		transition(border-color 0.3s)
-		&:focus
-			outline: none
-			font-style: normal
-		&.placeholder
-			font-style: italic
-			color: hsl(0,0,60%)
+    &::-moz-placeholder
+      font-style: italic
+      color: hsl(0,0,60%)
 
 .helper
-	display: inline-block
-	min-height: 27px
-	min-width: 100px
-	line-height: 27px
-	padding: 5px 10px
-	background: rgba(#fff, 0.9)
-	border: 1px #ddd solid
-	box-shadow: 0 1px 5px rgba(0,0,0,0.1)
-	font-size: 14px
-	cursor: default
+  display: inline-block
+  min-height: 27px
+  min-width: 100px
+  line-height: 27px
+  padding: 5px 10px
+  background: rgba(#fff, 0.9)
+  border: 1px #ddd solid
+  box-shadow: 0 1px 5px rgba(0,0,0,0.1)
+  font-size: 14px
+  cursor: default
