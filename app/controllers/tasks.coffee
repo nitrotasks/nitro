@@ -4,18 +4,14 @@ List     = require("models/list")
 TaskItem = require("controllers/tasks.item")
 
 class Tasks extends Spine.Controller
-  template: require('views/task')
   ENTER_KEY = 13
 
   elements:
     "ul.tasks": "tasks"
-    "input": "input"
-    "h1": "listName"
+    "input.new-task": "input"
 
   events:
     "keyup input.new-task": "new"
-    "keyup h1": "rename"
-    "keypress h1": "preventer"
 
   constructor: ->
     super
@@ -29,19 +25,13 @@ class Tasks extends Spine.Controller
     @tasks.prepend taskItem.render().el
 
   render: (list) =>
+    # Update current list if the list is changed
     @list = list if list
-    @listName.text @list.name
 
-    # Disables contenteditable on noneditable lists
-    if @list.id is "all" or @list.id is "inbox"
-      @listName.removeAttr("contenteditable")
-    else
-      @listName.attr("contenteditable", true)
-
+    # Disable task input box
     if @list.disabled then @input.hide() else @input.show()
     @tasks.empty()
     tasks = Task.list(@list.id)
-    # @tasks.html @template tasks
     last = tasks[0]?.priority
     for task in tasks
       if task.priority isnt last
@@ -62,13 +52,5 @@ class Tasks extends Spine.Controller
           return 0
         )()
       @input.val ""
-
-  rename: (e) ->
-    # This is fired on keyup when a list is renamed
-    List.current.updateAttribute("name", @listName.text())
-
-  preventer: (e) ->
-    # Prevents the enter key
-    e.preventDefault() if e.keyCode is 13
 
 module.exports = Tasks
