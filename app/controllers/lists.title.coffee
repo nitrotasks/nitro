@@ -33,8 +33,17 @@ class ListTitle extends Spine.Controller
   preventer: (e) ->
     e.preventDefault() if e.keyCode is 13
 
-  # Prints JELLO
-  menuClick: ->
-    console.log("JELLO")
+  # Handles menu buttons
+  menuClick: (e)->
+    if $(e.currentTarget).hasClass("trash")
+      @list.destroy()
+    else if $(e.currentTarget).hasClass("email")
+      console.log("emailing")
+
+    # Prints Tasks
+    else if $(e.currentTarget).hasClass("print")
+      window.print()
+    else if $(e.currentTarget).hasClass("share")
+      console.log("sharing")
 
 module.exports = ListTitle
