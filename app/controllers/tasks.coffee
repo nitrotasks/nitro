@@ -20,13 +20,10 @@ class Tasks extends Spine.Controller
     Task.bind "refresh", @render
     List.bind "changeList", @render
 
-  addOne: (task, returnHTML = no) =>
+  addOne: (task) =>
     taskItem = new TaskItem
       task: task
-    if returnHTML
-      @log taskItem.getCode().html()
-    else
-      @tasks.prepend taskItem.render().el
+    @tasks.prepend taskItem.render().el
 
   render: (list) =>
     @list = list if list
@@ -35,13 +32,11 @@ class Tasks extends Spine.Controller
     @tasks.empty()
     tasks = Task.list(@list.id)
     last = tasks[0]?.priority
-    html = ""
     for task in tasks
       if task.priority isnt last
-        html += "<li class=\"sep\"></li>"
+        @tasks.prepend "<li class=\"sep\"></li>"
         last = task.priority
-      @addOne task, true
-    @tasks.prepend html
+      @addOne task
 
   new: (e) ->
     val = @input.val()
