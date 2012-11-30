@@ -9,6 +9,7 @@ class ListTitle extends Spine.Controller
   events:
     "keyup h1": "rename"
     "keypress h1": "preventer"
+    "click .buttons a": "menuClick"
 
   constructor: ->
     super
@@ -31,5 +32,9 @@ class ListTitle extends Spine.Controller
   # Prevents the enter key
   preventer: (e) ->
     e.preventDefault() if e.keyCode is 13
+
+  # Prints JELLO
+  menuClick: ->
+    console.log("JELLO")
 
 module.exports = ListTitle

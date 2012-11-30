@@ -16,7 +16,6 @@ class TaskItem extends Spine.Controller
     "dblclick": "edit"
     "blur input": "finishEdit"
     "keyup input": "finishEditOnEnter"
-    "click .buttons a": "menuClick"
 
   constructor: ->
     super
@@ -67,8 +66,5 @@ class TaskItem extends Spine.Controller
   toggleStatus: ->
     @task.completed = !@task.completed
     @task.save()
-
-  menuClick: ->
-    console.log("JELLO")
 
 module.exports = TaskItem
