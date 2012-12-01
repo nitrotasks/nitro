@@ -323,6 +323,10 @@ $task-color = #d9d9d9
             height: 10px
             margin-right: 5px
 
+        &.animout
+          .notes
+            -webkit-animation: 0.15s ease rev 1
+
         // Show the notes
         .notes
           background: #FAFAFA
@@ -334,8 +338,6 @@ $task-color = #d9d9d9
           padding: 0 44px
           overflow:hidden
 
-          &.animout
-            -webkit-animation: 0.15s ease rev 1
         // Expanded Task
         &.expanded
           border-top: 1px solid $task-color
