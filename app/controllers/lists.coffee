@@ -28,6 +28,13 @@ class Lists extends Spine.Controller
     List.bind "destroy", @showInbox
     Task.bind "refresh create update destroy", @updateAll
 
+    # Set up draggable on inbox
+    @inbox.droppable
+      hoverClass: "ui-state-active"
+      drop: (event, ui) =>
+        task = ui.draggable.data("item")
+        task.updateAttribute("list", "inbox")
+
   new: (e) ->
     val = @input.val()
     if e.which is ENTER_KEY and val
@@ -69,6 +76,6 @@ class Lists extends Spine.Controller
 
   updateAll: =>
     @allCount.text Task.active().length
-    @inboxCount.text Task.list("inbox").length
+    @inboxCount.text Task.active("inbox").length
 
 module.exports = Lists
