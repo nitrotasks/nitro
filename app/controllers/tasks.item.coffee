@@ -9,6 +9,7 @@ class TaskItem extends Spine.Controller
 
   elements:
     '.name': 'name'
+    '.notes': 'notes'
 
   events:
     'click .delete': 'remove'
@@ -18,6 +19,11 @@ class TaskItem extends Spine.Controller
     'click .name': 'startEdit'
     'blur .name': 'endEdit'
     'keypress .name': 'endEditOnEnter'
+
+    # Make notes editable
+    'click .notes': 'notesEdit'
+    'blur .notes': 'notesSave'
+
 
   constructor: ->
     super
@@ -74,5 +80,16 @@ class TaskItem extends Spine.Controller
     if e.which is ENTER_KEY
       e.preventDefault()
       @name.blur()
+
+  notesEdit: =>
+    if @notes.text() is "Notes:" then @notes.text("")
+    @notes.focus()
+
+  notesSave: =>
+    text = @notes.text()
+    if text is ""
+      @notes.text("Notes:")
+    else
+      @task.updateAttribute "notes", text
 
 module.exports = TaskItem
