@@ -8,18 +8,16 @@ class TaskItem extends Spine.Controller
   ESCAPE_KEY = 27
 
   elements:
-    'input.name': 'input'
+    '.name': 'name'
 
   events:
     'click .delete': 'remove'
     'click .checkbox': 'toggleStatus'
-    "dblclick": "edit"
-    "blur input": "finishEdit"
-    "keyup input": "finishEditOnEnter"
 
     # Editing the actual task
     'click .name': 'startEdit'
     'blur .name': 'endEdit'
+    'keypress .name': 'endEditOnEnter'
 
   constructor: ->
     super
@@ -30,34 +28,18 @@ class TaskItem extends Spine.Controller
 
   render: =>
     @replace @template @task
-    @el.draggable
-      revert: "invalid"
-      revertDuration: 200
-      distance: 10
-      scroll: false
-      cursorAt:
-        top: 15
-        right: 30
-      helper: =>
-        $("body").append("<div class=\"helper\">#{ @task.name }</div>")
-        $(".helper")
+    # @el.draggable
+    #   revert: "invalid"
+    #   revertDuration: 200
+    #   distance: 10
+    #   scroll: false
+    #   cursorAt:
+    #     top: 15
+    #     right: 30
+    #   helper: =>
+    #     $("body").append("<div class=\"helper\">#{ @task.name }</div>")
+    #     $(".helper")
     @
-
-  edit: =>
-    @el.addClass "edit"
-    @input.val(@task.name).focus()
-
-  finishEdit: ->
-    @el.removeClass "edit"
-    val = @input.val()
-    if val then @task.updateAttribute("name", val) else @task.destroy()
-
-  finishEditOnEnter: (e) ->
-    switch e.which
-      when ENTER_KEY then @input.blur()
-      when ESCAPE_KEY
-        @input.val @task.name
-        @input.blur()
 
   # Remove task if it is no longer in the current list
   change: (task) =>
@@ -72,12 +54,25 @@ class TaskItem extends Spine.Controller
     @task.completed = !@task.completed
     @task.save()
 
-  startEdit: (e) ->
-    $(e.currentTarget).parent().draggable({ disabled: true }).find(".name").attr("contenteditable", "true")
-    @log("clicked")
+  startEdit: ->
+    if not @expanded
+      @expanded = yes
+      @el.addClass("expanded")
+      # @el.draggable({ disabled: true })
+      @el.append("<div class=\"notes\"></div>")
+      @name.attr("contenteditable", "true")
+      @name.focus()
 
-  endEdit: (e) ->
-    $(e.currentTarget).removeAttr("contenteditable").parent().draggable({ disabled: false })
-    @log("blur")
+  endEdit: ->
+    # @name.removeAttr("contenteditable")
+    # @el.draggable({ disabled: false })
+    @expanded = no
+    val = @name.text()
+    if val then @task.updateAttribute("name", val) else @task.destroy()
+
+  endEditOnEnter: (e) =>
+    if e.which is ENTER_KEY
+      e.preventDefault()
+      @name.blur()
 
 module.exports = TaskItem
