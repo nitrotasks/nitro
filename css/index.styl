@@ -305,8 +305,8 @@ $task-color = #d9d9d9
 
         &:hover
           .delete
-            display: block
-            -webkit-animation: 200ms opacity ease 1
+            // display: block
+            // -webkit-animation: 200ms opacity ease 1
 
         // Date
         .date
@@ -365,17 +365,30 @@ $task-color = #d9d9d9
         // Completed Task
         &.completed
 
+          background: #fff7cd
+          border-color: #f8df57
+          outline-top: 1px #f8df57 solid
+
+          // Make priority yellow
+          .priority
+            background: #eccb71
+
+          .checkbox
+            border-color: #f8df57
+
           // Add Tick to Checkbox
           .checkbox:after
             content: ""
             display: block
             abs(0,0,0,0)
-            background: url("img/checkmark.png")
+            background: url("img/checkmark.png") -1px 0
 
-          // Strikethrough task name
+          // Change color
           .name
-            text-decoration: line-through
-            color: hsl(0,0,60%)
+            color: #cdb97d
+
+          .notes
+            background: #f9f1c8
 
   // SETTINGS
   &.settings
