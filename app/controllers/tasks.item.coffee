@@ -66,6 +66,7 @@ class TaskItem extends Spine.Controller
 
   expand: (e) ->
     if e.target.className isnt "checkbox"
+      @el.parent().find(".expanded").removeClass("expanded")
       @el.addClass("expanded animout")
       @el.draggable({ disabled: true })
 
