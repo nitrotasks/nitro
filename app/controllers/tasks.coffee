@@ -12,6 +12,7 @@ class Tasks extends Spine.Controller
 
   events:
     "keyup input.new-task": "new"
+    "click": "endEdit"
 
   constructor: ->
     super
@@ -57,5 +58,11 @@ class Tasks extends Spine.Controller
           return 0
         )()
       @input.val ""
+
+  # Collapsing of tasks
+  endEdit: (e) ->
+    # Only works on some elements
+    if e.target.nodeName in ["SECTION", "INPUT", "H1", "A"] or $(e.target).hasClass("title") or $(e.target).hasClass("tasks-container")
+      console.log("closing")
 
 module.exports = Tasks
