@@ -12,7 +12,7 @@ class Tasks extends Spine.Controller
 
   events:
     "keyup input.new-task": "new"
-    "click": "endEdit"
+    "click": "collapseAll"
 
   constructor: ->
     super
@@ -41,7 +41,7 @@ class Tasks extends Spine.Controller
     last = tasks[0]?.priority
     for task in tasks
       if task.priority isnt last
-        @tasks.prepend "<li class=\"sep\"></li>"
+        @tasks.prepend "<div class=\"sep\"></div>"
         last = task.priority
       @addOne task
 
@@ -60,7 +60,7 @@ class Tasks extends Spine.Controller
       @input.val ""
 
   # Collapsing of tasks
-  endEdit: (e) ->
+  collapseAll: (e) ->
     # Only works on some elements
     if e.target.className is "main tasks"
     # if e.target.nodeName in ["SECTION", "INPUT", "H1", "A"] or $(e.target).hasClass("title") or $(e.target).hasClass("tasks-container")

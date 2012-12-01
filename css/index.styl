@@ -227,9 +227,11 @@ $task-color = #d9d9d9
       margin-top: 20px
       margin-bottom: 40px
 
-      li.sep
+      .sep
         display: block
         height: 20px
+        & + .task
+          border-top: 1px $task-color solid
 
       li.task
         display: block
@@ -305,8 +307,8 @@ $task-color = #d9d9d9
 
         &:hover
           .delete
-            display: block
-            -webkit-animation: 200ms opacity ease 1
+            // display: block
+            // -webkit-animation: 200ms opacity ease 1
 
         // Date
         .date
