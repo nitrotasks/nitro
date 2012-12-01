@@ -37,9 +37,23 @@ body
   0%
     height: 0
     padding: 0 44px
+    border-top: 1px transparent solid
   100%
     height: 40px
     padding: 5 44px
+    border-top: 1px #E6E6E6 solid
+
+@-webkit-keyframes rev
+  0%
+    height: 40px
+    padding: 5 44px
+    border-top: 1px #E6E6E6 solid
+  100%
+    height: 0
+    padding: 0 44px
+    border-top: 1px transparent solid
+
+
 
 // --------------------
 //     HEADER
@@ -311,15 +325,15 @@ $task-color = #d9d9d9
 
         // Show the notes
         .notes
-          display: none
           background: #FAFAFA
-          border-top: 1px #E6E6E6 solid
-          padding: 5px 44px
+          border-top: 1px transparent solid
           font-style: italic
           line-height: 21px
           outline: none
-          height: 40px
+          height: 0
+          padding: 0 44px
           overflow:hidden
+          -webkit-animation: 0.15s ease rev 1
         // Expanded Task
         &.expanded
           border-top: 1px solid $task-color
@@ -331,7 +345,10 @@ $task-color = #d9d9d9
 
           .notes
             display: block
-            -webkit-animation: .15s ease height 1
+            height: 40px
+            padding: 5px 44px
+            border-top: 1px #E6E6E6 solid
+            -webkit-animation: 0.15s ease height 1
 
         // Completed Task
         &.completed
