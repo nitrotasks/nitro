@@ -55,8 +55,7 @@ class Tasks extends Spine.Controller
         priority: (->
           if val.indexOf("#high") >= 0 then return 3
           if val.indexOf("#medium") >= 0 then return 2
-          if val.indexOf("#low") >= 0 then return 1
-          return 0
+          return 1
         )()
       @input.val ""
 
