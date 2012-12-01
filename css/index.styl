@@ -33,6 +33,14 @@ body
   100%
     opacity: 1
 
+@-webkit-keyframes height
+  0%
+    min-height: 0
+    padding: 0 44px
+  100%
+    min-height: 40px
+    padding: 5 44px
+
 // --------------------
 //     HEADER
 // --------------------
@@ -109,7 +117,7 @@ header
 
 .main
   abs(0, 290px, 0, 0)
-  padding: 40px 30px 40px 20px
+  padding: 40px 20px 40px 30px
   overflow-y: hidden
   overflow-y: auto
 
@@ -292,25 +300,25 @@ header
             height: 10px
             margin-right: 5px
 
+        // Show the notes
+        .notes
+          display: none
+          background: #FAFAFA
+          border-top: 1px #E6E6E6 solid
+          padding: 5px 44px
+          font-style: italic
+          line-height: 21px
+          outline: none
+          min-height: 40px
         // Expanded Task
         &.expanded
 
           // Add some spacing around the task
           margin: 5px 0
 
-          // Show the notes
           .notes
             display: block
-            background: #FAFAFA
-            border-top: 1px #E6E6E6 solid
-            padding: 5px 44px
-            font-style: italic
-            min-height: 40px
-            line-height: 21px
-
-            // Remove ugly outline on focus
-            &:focus
-              outline: none
+            -webkit-animation: .15s ease height 1
 
         // Completed Task
         &.completed
