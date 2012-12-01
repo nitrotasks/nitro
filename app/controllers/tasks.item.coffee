@@ -34,17 +34,17 @@ class TaskItem extends Spine.Controller
 
   render: =>
     @replace @template @task
-    # @el.draggable
-    #   revert: "invalid"
-    #   revertDuration: 200
-    #   distance: 10
-    #   scroll: false
-    #   cursorAt:
-    #     top: 15
-    #     right: 30
-    #   helper: =>
-    #     $("body").append("<div class=\"helper\">#{ @task.name }</div>")
-    #     $(".helper")
+    @el.draggable
+      revert: "invalid"
+      revertDuration: 200
+      distance: 10
+      scroll: false
+      cursorAt:
+        top: 15
+        right: 30
+      helper: =>
+        $("body").append("<div class=\"helper\">#{ @task.name }</div>")
+        $(".helper")
     @
 
   # Remove task if it is no longer in the current list
@@ -68,13 +68,11 @@ class TaskItem extends Spine.Controller
     # Don't expand the task if they clicked the checkbox
     if e.target.className isnt "checkbox"
       @el.addClass("expanded")
-      # @el.draggable({ disabled: true })
-      @name.attr("contenteditable", "true")
+      @el.draggable({ disabled: true })
       @name.focus()
 
   endEdit: ->
-    # @name.removeAttr("contenteditable")
-    # @el.draggable({ disabled: false })
+    @el.draggable({ disabled: false })
     val = @name.text()
     if val then @task.updateAttribute("name", val) else @task.destroy()
 
