@@ -24,10 +24,10 @@ class ListTitle extends Spine.Controller
     # Disables contenteditable on noneditable lists
     if @list.permanent
       @listName.removeAttr("contenteditable")
-      @deleteButton.hide()
+      @deleteButton.fadeOut(300)
     else
       @listName.attr("contenteditable", true)
-      @deleteButton.show()
+      @deleteButton.fadeIn(300)
 
   # This is fired on keyup when a list is renamed
   rename: (e) ->
