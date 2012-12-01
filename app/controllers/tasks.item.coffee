@@ -59,18 +59,14 @@ class TaskItem extends Spine.Controller
     @task.save()
 
   startEdit: ->
-    if not @expanded
-      @expanded = yes
-      @el.addClass("expanded")
-      # @el.draggable({ disabled: true })
-      @el.append("<div class=\"notes\"></div>")
-      @name.attr("contenteditable", "true")
-      @name.focus()
+    @el.addClass("expanded")
+    # @el.draggable({ disabled: true })
+    @name.attr("contenteditable", "true")
+    @name.focus()
 
   endEdit: ->
     # @name.removeAttr("contenteditable")
     # @el.draggable({ disabled: false })
-    @expanded = no
     val = @name.text()
     if val then @task.updateAttribute("name", val) else @task.destroy()
 

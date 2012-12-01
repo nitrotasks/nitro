@@ -3,4 +3,5 @@
   <div class="checkbox"></div>
   <div class="name"><%- @name or "<i>No name</i>" %></div>
   <div class="delete"></div>
+  <div class="notes"><%= @notes %></div>
 </li>
