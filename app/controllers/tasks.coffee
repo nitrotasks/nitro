@@ -12,7 +12,7 @@ class Tasks extends Spine.Controller
 
   events:
     "keyup input.new-task": "new"
-    "click":"clickThing"
+    "click": "endEdit"
 
   constructor: ->
     super
@@ -59,8 +59,11 @@ class Tasks extends Spine.Controller
         )()
       @input.val ""
 
-  clickThing: (e) ->
+  # Collapsing of tasks
+  endEdit: (e) ->
+    # Only works on some elements
     if e.target.className is "main tasks"
-      @log "clicky clicky"
+    # if e.target.nodeName in ["SECTION", "INPUT", "H1", "A"] or $(e.target).hasClass("title") or $(e.target).hasClass("tasks-container")
+      @el.find(".expanded").removeClass("expanded")
 
 module.exports = Tasks
