@@ -12,6 +12,7 @@ class Tasks extends Spine.Controller
 
   events:
     "keyup input.new-task": "new"
+    "click":"clickThing"
 
   constructor: ->
     super
@@ -57,5 +58,9 @@ class Tasks extends Spine.Controller
           return 0
         )()
       @input.val ""
+
+  clickThing: (e) ->
+    if e.target.className is "main tasks"
+      @log "clicky clicky"
 
 module.exports = Tasks

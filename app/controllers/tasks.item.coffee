@@ -22,7 +22,7 @@ class TaskItem extends Spine.Controller
   constructor: ->
     super
     throw "@task required" unless @task
-    @task.bind 'update', @render
+    @task.bind 'update', @update
     @task.bind 'destroy', @release
     @task.bind 'change', @change
 
@@ -45,6 +45,10 @@ class TaskItem extends Spine.Controller
   change: (task) =>
     if List.current.id isnt "all" and task.list isnt List.current.id
       @release()
+
+  update: =>
+    @name.text @task.name
+    @el.toggleClass "completed", @task.completed
 
   # Delete Button
   remove: ->
