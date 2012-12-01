@@ -114,6 +114,7 @@ header
 // --------------------
 //     MAIN SECTION
 // --------------------
+$task-color = #d9d9d9
 
 .main
   abs(0, 290px, 0, 0)
@@ -219,13 +220,17 @@ header
         display: block
         list-style-type: none
         // height: 28px
-        border: 1px #d9d9d9 solid
+        border: 1px $task-color solid
         position: relative
-        margin-bottom: -1px
         font-size: 13px
         color: #4c4c4c
         line-height: 28px
         cursor: default
+        border-top: 0
+        transition(.15s, ease, margin)
+
+        &:first-child
+          border-top: 1px solid $task-color
 
         // Vertical Stripes
         &:before, &:after
@@ -285,8 +290,8 @@ header
 
         &:hover
           .delete
-            // display: block
-            // -webkit-animation: 200ms opacity ease 1
+            display: block
+            -webkit-animation: 200ms opacity ease 1
 
         // Date
         .date
@@ -317,6 +322,9 @@ header
           overflow:hidden
         // Expanded Task
         &.expanded
+          border-top: 1px solid $task-color
+          &+ li
+            border-top: 1px solid $task-color
 
           // Add some spacing around the task
           margin: 5px 0
