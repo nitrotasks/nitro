@@ -21,7 +21,7 @@ class TaskItem extends Spine.Controller
     'keypress .name': 'endEditOnEnter'
 
     # Make notes editable
-    'click .notes': 'notesEdit'
+    'focus .notes': 'notesEdit'
     'blur .notes': 'notesSave'
 
 
