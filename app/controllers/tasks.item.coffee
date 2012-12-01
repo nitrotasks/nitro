@@ -16,7 +16,7 @@ class TaskItem extends Spine.Controller
     'click .checkbox': 'toggleStatus'
 
     # Editing the actual task
-    'click': 'startEdit'
+    'click': 'expand'
     'blur .name': 'endEdit'
     'keypress .name': 'endEditOnEnter'
 
@@ -64,12 +64,10 @@ class TaskItem extends Spine.Controller
     @task.completed = !@task.completed
     @task.save()
 
-  startEdit: (e) ->
-    # Don't expand the task if they clicked the checkbox
+  expand: (e) ->
     if e.target.className isnt "checkbox"
       @el.addClass("expanded animout")
       @el.draggable({ disabled: true })
-      @name.focus()
 
   endEdit: ->
     @el.draggable({ disabled: false })
@@ -83,12 +81,14 @@ class TaskItem extends Spine.Controller
 
   notesEdit: =>
     if @notes.text() is "Notes:" then @notes.text("")
+    @notes.removeClass("placeholder")
     @notes.focus()
 
   notesSave: =>
     text = @notes.text()
     if text is ""
       @notes.text("Notes:")
+      @notes.addClass("placeholder")
     else
       @task.updateAttribute "notes", text
 
