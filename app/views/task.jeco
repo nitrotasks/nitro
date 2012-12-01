@@ -3,5 +3,10 @@
   <div class="checkbox"></div>
   <div class="name" contenteditable="true"><%- @name or "<i>No name</i>" %></div>
   <div class="delete"></div>
-  <div class="notes" contenteditable="true"><%= @notes or "Notes:" %></div>
+  <% if @notes: %>
+    <div class="notes" contenteditable="true"><%= @notes %></div>
+  <% else: %>
+    <div class="notes placeholder" contenteditable="true">Notes:</div>
+  <% end %>
+
 </li>

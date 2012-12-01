@@ -327,13 +327,17 @@ $task-color = #d9d9d9
         .notes
           background: #FAFAFA
           border-top: 1px transparent solid
-          font-style: italic
           line-height: 21px
           outline: none
           height: 0
           padding: 0 44px
           overflow:hidden
           -webkit-animation: 0.15s ease rev 1
+
+          &.placeholder
+            font-style: italic
+            color: hsl(0,0,40%)
+
         // Expanded Task
         &.expanded
           border-top: 1px solid $task-color
