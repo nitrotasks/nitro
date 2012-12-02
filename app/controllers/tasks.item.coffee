@@ -13,6 +13,7 @@ class TaskItem extends Spine.Controller
 
   events:
     'click .delete': 'remove'
+    'click .prioritybtn': 'prioritize'
     'click .checkbox': 'toggleStatus'
 
     # Editing the actual task
@@ -59,6 +60,18 @@ class TaskItem extends Spine.Controller
   # Delete Button
   remove: ->
     @task.destroy()
+
+  prioritize: ->
+    # There's a better way of doing this - tell me how george
+    # Change the priority
+    if @task.priority is 1
+      @task.updateAttribute "priority", 2
+    else if @task.priority is 2
+      @task.updateAttribute "priority", 3
+    else if @task.priority is 3
+      @task.updateAttribute "priority", 1
+
+    @el.removeClass("p0 p1 p2 p3").addClass("p" + @task.priority)
 
   toggleStatus: ->
     @task.completed = !@task.completed
