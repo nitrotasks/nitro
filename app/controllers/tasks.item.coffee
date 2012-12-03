@@ -88,6 +88,8 @@ class TaskItem extends Spine.Controller
     @el.draggable({ disabled: false })
     val = @name.text()
     if val then @task.updateAttribute("name", val) else @task.destroy()
+    # Makes tags clickable because shit.
+    @name.html(val.replace(new RegExp("\\s#([^ ]*)", "ig"), ' <span class="tag">#$1</span>'))
 
   endEditOnEnter: (e) =>
     if e.which is ENTER_KEY
@@ -109,7 +111,12 @@ class TaskItem extends Spine.Controller
 
   tagClick: (e) =>
     e.stopPropagation()
-    @log $(e.currentTarget).text()
+    List.trigger "changeList",
+      name: "Tagged with " + $(e.currentTarget).text()
+      id: "search"
+      tasks: Task.tag($(e.currentTarget).text().substr(1))
+      disabled: yes
+      permanent: yes
 
 
 module.exports = TaskItem
