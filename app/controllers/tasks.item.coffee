@@ -56,8 +56,9 @@ class TaskItem extends Spine.Controller
       @release()
 
   update: =>
-    @name.text @task.name
     @el.toggleClass "completed", @task.completed
+    # Makes tags clickable
+    @name.html @task.name.replace(new RegExp("\\s#([^ ]*)", "ig"), ' <span class="tag">#$1</span>')
 
   # Delete Button
   remove: ->
@@ -87,8 +88,6 @@ class TaskItem extends Spine.Controller
     @el.draggable({ disabled: false })
     val = @name.text()
     if val then @task.updateAttribute("name", val) else @task.destroy()
-    # Makes tags clickable because shit.
-    @name.html(val.replace(new RegExp("\\s#([^ ]*)", "ig"), ' <span class="tag">#$1</span>'))
 
   endEditOnEnter: (e) =>
     if e.which is ENTER_KEY
