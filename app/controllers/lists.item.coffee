@@ -34,9 +34,8 @@ class ListItem extends Spine.Controller
     @
 
   updateTask: (task) =>
-    # Only update if the task was in the list
-    # if task.list is @list.id
-    if task.list is @list.id
+    # Only update if the task was in the list or current list
+    if task.list is @list.id or @list.eql(List.current)
       @count.text Task.active(@list.id).length
 
   updateList: (list) =>
