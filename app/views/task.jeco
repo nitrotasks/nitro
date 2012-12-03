@@ -11,9 +11,9 @@
     </div>
   </div>
   <% if @notes: %>
-    <div class="notes" contenteditable="true"><%= @notes %></div>
+    <div class="notes"><div class="inner" contenteditable="true"><%= @notes %></div></div>
   <% else: %>
-    <div class="notes placeholder" contenteditable="true">Notes</div>
+    <div class="notes placeholder"><div class="inner" contenteditable="true">Notes</div></div>
   <% end %>
 
 </li>

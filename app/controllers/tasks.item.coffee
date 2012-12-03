@@ -8,7 +8,7 @@ class TaskItem extends Spine.Controller
 
   elements:
     '.name': 'name'
-    '.notes': 'notes'
+    '.notes .inner': 'notes'
 
   events:
     'click .delete': 'remove'
@@ -74,6 +74,7 @@ class TaskItem extends Spine.Controller
       @el.parent().find(".expanded").removeClass("expanded")
       @el.addClass("expanded animout")
       @el.draggable({ disabled: true })
+      @notes.parent().addClass("auto")
 
 
   # ----------------------------------------------------------------------------
@@ -106,16 +107,15 @@ class TaskItem extends Spine.Controller
 
   notesEdit: =>
     if @notes.text() is "Notes" then @notes.text("")
-    @notes.removeClass("placeholder")
+    @notes.parent().removeClass("placeholder")
 
   notesSave: =>
     text = @notes.text()
     if text is ""
       @notes.text("Notes")
-      @notes.addClass("placeholder")
+      @notes.parent().addClass("placeholder")
     else
       @task.updateAttribute "notes", text
-
 
   # ----------------------------------------------------------------------------
   # TAGS

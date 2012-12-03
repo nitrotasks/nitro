@@ -64,6 +64,6 @@ class Tasks extends Spine.Controller
     # Only works on some elements
     # if e.target.nodeName in ["SECTION", "INPUT", "H1", "A"] or $(e.target).hasClass("title") or $(e.target).hasClass("tasks-container")
     if e.target.className is "main tasks"
-      @el.find(".expanded").removeClass("expanded")
+      @el.find(".expanded").removeClass("expanded").find(".notes").removeClass("auto")
 
 module.exports = Tasks
