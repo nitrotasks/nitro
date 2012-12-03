@@ -497,7 +497,19 @@ header
         margin-left: 25px
 
       &.current
-        background: url("img/inbox.png") no-repeat 32px 15px
+        background-position: 32px 15px
+
+    // Add All Tasks Icon
+    &.all
+      background: url("img/all.png") no-repeat 15px 14px
+      transition(background, 0.1s, ease)
+
+      .name
+        margin-left: 25px
+
+      &.current
+        background-position: 32px 14px
+
 
     // List Name
     .name
