@@ -64,6 +64,14 @@ body
     padding: 5 44px
     border-top: 1px #E6E6E6 solid
 
+@-webkit-keyframes autoheight
+  0%
+    height: 0
+  99%
+    height: 0
+  100%
+    height: auto
+
 @-webkit-keyframes rev
   0%
     height: 40px
@@ -412,16 +420,19 @@ header
           .notes
             cursor: text
             display: block
-            height: 40px
+            min-height: 40px
             padding: 5px 5px 5px 44px
             border-top: 1px #E6E6E6 solid
             -webkit-animation: 0.15s ease height 1
-            -webkit-transition: 0.15s ease height;
+
+            &.auto
+              -webkit-animation: 0.3s ease autoheight 1
+              height: auto
 
             .inner
               min-height: 40px;
               width: 100%;
-              box-sizing: border-box;
+              outline: 0
 
         // Completed Task
         &.completed

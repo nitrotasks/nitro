@@ -1,11 +1,10 @@
 Spine = require('spine')
-List = require('models/list')
-$ = Spine.$
+List  = require('models/list')
+Keys  = require("utils/keys")
+$     = Spine.$
 
 class TaskItem extends Spine.Controller
   template: require('views/task')
-  ENTER_KEY = 13
-  ESCAPE_KEY = 27
 
   elements:
     '.name': 'name'
@@ -64,16 +63,6 @@ class TaskItem extends Spine.Controller
   remove: ->
     @task.destroy()
 
-  prioritize: ->
-    # There's a better way of doing this - tell me how george
-    # Change the priority
-    if @task.priority is 3
-      @task.updateAttribute "priority", 1
-    else
-      @task.updateAttribute "priority", @task.priority + 1
-
-    @el.removeClass("p0 p1 p2 p3").addClass("p" + @task.priority)
-
   toggleStatus: ->
     @task.completed = !@task.completed
     @task.save()
@@ -83,6 +72,26 @@ class TaskItem extends Spine.Controller
       @el.parent().find(".expanded").removeClass("expanded")
       @el.addClass("expanded animout")
       @el.draggable({ disabled: true })
+      @notes.parent().addClass("auto")
+
+
+  # ----------------------------------------------------------------------------
+  # PRIORITIES
+  # ----------------------------------------------------------------------------
+
+  prioritize: ->
+    # Change the priority
+    if @task.priority is 3
+      @task.updateAttribute "priority", 1
+    else
+      @task.updateAttribute "priority", @task.priority + 1
+
+    @el.removeClass("p0 p1 p2 p3").addClass("p" + @task.priority)
+
+
+  # ----------------------------------------------------------------------------
+  # NAME
+  # ----------------------------------------------------------------------------
 
   endEdit: ->
     @el.draggable({ disabled: false })
@@ -90,9 +99,14 @@ class TaskItem extends Spine.Controller
     if val then @task.updateAttribute("name", val) else @task.destroy()
 
   endEditOnEnter: (e) =>
-    if e.which is ENTER_KEY
+    if e.which is Keys.ENTER
       e.preventDefault()
       @name.blur()
+
+
+  # ----------------------------------------------------------------------------
+  # NOTES
+  # ----------------------------------------------------------------------------
 
   notesEdit: =>
     if @notes.text() is "Notes" then @notes.text("")
@@ -106,7 +120,12 @@ class TaskItem extends Spine.Controller
     else
       @task.updateAttribute "notes", text
 
+  # ----------------------------------------------------------------------------
+  # TAGS
+  # ----------------------------------------------------------------------------
+
   tagClick: (e) =>
+    # Stop task from expanding
     e.stopPropagation()
     List.trigger "changeList",
       name: "Tagged with " + $(e.currentTarget).text()

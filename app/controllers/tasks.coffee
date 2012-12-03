@@ -2,9 +2,9 @@ Spine    = require("spine")
 Task     = require("models/task")
 List     = require("models/list")
 TaskItem = require("controllers/tasks.item")
+Keys     = require("utils/keys")
 
 class Tasks extends Spine.Controller
-  ENTER_KEY = 13
 
   elements:
     "ul.tasks": "tasks"
@@ -47,7 +47,7 @@ class Tasks extends Spine.Controller
 
   new: (e) ->
     val = @input.val()
-    if e.which is ENTER_KEY and val
+    if e.which is Keys.ENTER and val
       Task.create
         name: val
         list: @list?.id
@@ -64,6 +64,6 @@ class Tasks extends Spine.Controller
     # Only works on some elements
     # if e.target.nodeName in ["SECTION", "INPUT", "H1", "A"] or $(e.target).hasClass("title") or $(e.target).hasClass("tasks-container")
     if e.target.className is "main tasks"
-      @el.find(".expanded").removeClass("expanded")
+      @el.find(".expanded").removeClass("expanded").find(".notes").removeClass("auto")
 
 module.exports = Tasks
