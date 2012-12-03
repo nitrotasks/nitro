@@ -41,4 +41,10 @@ class window.Task extends Spine.Model
     @select (item) ->
       item.name?.toLowerCase().indexOf(query) > -1
 
+  @tag: (tag) ->
+    return [] unless tag
+    tag = tag.toLowerCase()
+    @select (item) ->
+      item.name?.toLowerCase().indexOf(tag) > -1
+
 module.exports = Task
