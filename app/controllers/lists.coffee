@@ -1,11 +1,11 @@
-Spine = require("spine")
-List  = require("models/list")
-Task  = require("models/task")
+Spine    = require("spine")
+List     = require("models/list")
+Task     = require("models/task")
 ListItem = require("controllers/lists.item")
-$ = Spine.$
+Keys     = require("utils/keys")
+$        = Spine.$
 
 class Lists extends Spine.Controller
-  ENTER_KEY = 13
 
   elements:
     "ul": "lists"
@@ -37,7 +37,7 @@ class Lists extends Spine.Controller
 
   new: (e) ->
     val = @input.val()
-    if e.which is ENTER_KEY and val
+    if e.which is Keys.ENTER and val
       list = List.create name: val
       List.trigger "changeList", list
       @input.val ""

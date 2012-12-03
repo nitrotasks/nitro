@@ -1,8 +1,8 @@
 Spine = require('spine')
 List  = require("models/list")
+Keys  = require("utils/keys")
 
 class ListTitle extends Spine.Controller
-  ENTER_KEY = 13
 
   elements:
     "h1": "listName"
@@ -35,7 +35,7 @@ class ListTitle extends Spine.Controller
 
   # Prevents the enter key
   preventer: (e) ->
-    e.preventDefault() if e.which is ENTER_KEY
+    e.preventDefault() if e.which is Keys.ENTER
 
   # Handles menu buttons
   menuClick: (e)->

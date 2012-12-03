@@ -1,11 +1,10 @@
 Spine = require('spine')
-List = require('models/list')
-$ = Spine.$
+List  = require('models/list')
+Keys  = require("utils/keys")
+$     = Spine.$
 
 class TaskItem extends Spine.Controller
   template: require('views/task')
-  ENTER_KEY = 13
-  ESCAPE_KEY = 27
 
   elements:
     '.name': 'name'
@@ -99,7 +98,7 @@ class TaskItem extends Spine.Controller
     if val then @task.updateAttribute("name", val) else @task.destroy()
 
   endEditOnEnter: (e) =>
-    if e.which is ENTER_KEY
+    if e.which is Keys.ENTER
       e.preventDefault()
       @name.blur()
 
