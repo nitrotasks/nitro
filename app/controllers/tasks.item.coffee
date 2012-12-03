@@ -12,7 +12,7 @@ class TaskItem extends Spine.Controller
 
   events:
     'click .delete': 'remove'
-    'click .prioritybtn': 'prioritize'
+    'click .priority-button div': 'setPriority'
     'click .checkbox': 'toggleStatus'
     'click .tag': 'tagClick'
 
@@ -58,6 +58,8 @@ class TaskItem extends Spine.Controller
     @el.toggleClass "completed", @task.completed
     # Makes tags clickable
     @name.html @task.name.replace(new RegExp("\\s#([^ ]*)", "ig"), ' <span class="tag">#$1</span>')
+    # Set priority
+    @el.removeClass("p0 p1 p2 p3").addClass("p" + @task.priority)
 
   # Delete Button
   remove: ->
@@ -83,14 +85,9 @@ class TaskItem extends Spine.Controller
   # PRIORITIES
   # ----------------------------------------------------------------------------
 
-  prioritize: ->
-    # Change the priority
-    if @task.priority is 3
-      @task.updateAttribute "priority", 1
-    else
-      @task.updateAttribute "priority", @task.priority + 1
-
-    @el.removeClass("p0 p1 p2 p3").addClass("p" + @task.priority)
+  setPriority: (e) ->
+    priority = $(e.target).data('id')
+    @task.updateAttribute "priority", priority
 
 
   # ----------------------------------------------------------------------------

@@ -4,7 +4,11 @@
   <div class="name" contenteditable="true"><%- @name.replace(new RegExp("\\s#([^ ]*)", "ig"), ' <span class="tag">#$1</span>') or "<i>No name</i>" %></div>
   <div class="rightControls">
     <div class="delete"></div>
-    <div class="prioritybtn"></div>
+    <div class="priority-button">
+      <div data-id="1" class="low"></div>
+      <div data-id="2" class="medium"></div>
+      <div data-id="3" class="high"></div>
+    </div>
   </div>
   <% if @notes: %>
     <div class="notes"><div class="inner" contenteditable="true"><%= @notes %></div></div>
