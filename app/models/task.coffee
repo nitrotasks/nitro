@@ -5,6 +5,7 @@ class window.Task extends Spine.Model
   # Set model properties
   @configure 'Task',
     'name',
+    'date',
     'notes',
     'completed',
     'priority',
