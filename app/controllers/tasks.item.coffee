@@ -97,14 +97,13 @@ class TaskItem extends Spine.Controller
       @name.blur()
 
   notesEdit: =>
-    if @notes.text() is "Notes:" then @notes.text("")
+    if @notes.text() is "Notes" then @notes.text("")
     @notes.removeClass("placeholder")
-    @notes.focus()
 
   notesSave: =>
     text = @notes.text()
     if text is ""
-      @notes.text("Notes:")
+      @notes.text("Notes")
       @notes.addClass("placeholder")
     else
       @task.updateAttribute "notes", text
