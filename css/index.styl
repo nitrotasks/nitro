@@ -386,7 +386,7 @@ header
           line-height: 21px
           outline: none
           height: 0
-          padding: 0 44px
+          padding: 0 5px 0 44px
           overflow:hidden
 
           &.placeholder
@@ -413,9 +413,15 @@ header
             cursor: text
             display: block
             height: 40px
-            padding: 5px 44px
+            padding: 5px 5px 5px 44px
             border-top: 1px #E6E6E6 solid
             -webkit-animation: 0.15s ease height 1
+            -webkit-transition: 0.15s ease height;
+
+            .inner
+              min-height: 40px;
+              width: 100%;
+              box-sizing: border-box;
 
         // Completed Task
         &.completed
