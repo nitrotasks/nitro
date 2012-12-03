@@ -9,7 +9,7 @@
   <% if @notes: %>
     <div class="notes" contenteditable="true"><%= @notes %></div>
   <% else: %>
-    <div class="notes placeholder" contenteditable="true">Notes:</div>
+    <div class="notes placeholder" contenteditable="true">Notes</div>
   <% end %>
 
 </li>
