@@ -337,14 +337,20 @@ header
         .rightControls
           abs(0, 0, auto, auto)
           text-align: right
+          font-size: 0
 
         // Trash Can
         .delete
           background: url("img/trashcan_grey.png") 50% 50% no-repeat
           width: 25px
           height: 29px
-          cursor: pointer
           display: none
+          padding: 0 5px
+          opacity: 0.4
+          transition(0.2s, opacity)
+
+          &:hover
+            opacity: 0.8
 
         .priority-button
           display: none
@@ -352,6 +358,7 @@ header
           height: 29px
           vertical-align: top
           border-left: 1px solid $task-color
+          border-right: 1px solid $task-color
 
           .low, .medium, .high
             display: inline-block
@@ -360,7 +367,6 @@ header
             height: 9px
             border: 1px solid rgba(#000, 0.2)
             transition(0.1s, border)
-            cursor: pointer
 
             &:hover
               border: 1px solid rgba(#000, 0.5)
@@ -423,6 +429,7 @@ header
 
           .name
             cursor: text
+            right: 110px
 
           .notes
             cursor: text
