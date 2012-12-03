@@ -2,6 +2,13 @@
 @import "./normalize"
 @import "./print"
 
+// ------------------
+//     VARIABLES
+// ------------------
+$task-color = #d9d9d9
+$dark-blue = #068dd8
+$light-blue = #1BC1F5
+
 body
   font-family: "Lucida Grande", "Lucida Sans Unicode", Geneva, sans-serif
 
@@ -142,7 +149,7 @@ header
 // --------------------
 //     MAIN SECTION
 // --------------------
-$task-color = #d9d9d9
+
 
 .main
   abs(40px, 295px, 0, 0)
@@ -151,7 +158,7 @@ $task-color = #d9d9d9
   overflow-y: auto
 
   .title
-    border-bottom: 2px #1bc1f5 solid
+    border-bottom: 2px $light-blue solid
     position: relative
     height: 70px
     margin: 0 0 20px
@@ -159,7 +166,7 @@ $task-color = #d9d9d9
     h1
       font-size: 25px
       padding: 0
-      color: #068dd8
+      color: $dark-blue
       margin: 0
       abs(auto, auto, 5px, 0)
       border: 1px transparent solid
@@ -287,6 +294,14 @@ $task-color = #d9d9d9
         .priority
           abs(-1px, auto, -1px, -1px)
           width: 4px
+
+        .tag
+          color: $dark-blue
+          cursor: pointer
+
+          &:hover
+            text-decoration: underline
+
 
         // Checkbox
         .checkbox
@@ -440,12 +455,12 @@ $task-color = #d9d9d9
   // Sidebar title
   .title
     height: 70px
-    border-bottom: 2px #1bc1f5 solid
+    border-bottom: 2px $light-blue solid
     position: relative
     margin: 0
 
     h2
-      color: #068dd8
+      color: $dark-blue
       font-size: 18px
       display: block
       abs(auto, auto, 6px, 15px)

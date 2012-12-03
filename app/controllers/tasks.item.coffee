@@ -15,6 +15,7 @@ class TaskItem extends Spine.Controller
     'click .delete': 'remove'
     'click .prioritybtn': 'prioritize'
     'click .checkbox': 'toggleStatus'
+    'click .tag': 'tagClick'
 
     # Editing the actual task
     'click': 'expand'
@@ -105,5 +106,10 @@ class TaskItem extends Spine.Controller
       @notes.addClass("placeholder")
     else
       @task.updateAttribute "notes", text
+
+  tagClick: (e) =>
+    e.stopPropagation()
+    @log $(e.currentTarget).text()
+
 
 module.exports = TaskItem
