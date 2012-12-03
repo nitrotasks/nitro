@@ -72,7 +72,11 @@ class TaskItem extends Spine.Controller
       @el.parent().find(".expanded").removeClass("expanded")
       @el.addClass("expanded animout")
       @el.draggable({ disabled: true })
-      @notes.parent().addClass("auto")
+
+      notes = @notes.parent()
+      setTimeout (->
+        notes.addClass("auto")
+      ), 300
 
 
   # ----------------------------------------------------------------------------
