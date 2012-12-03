@@ -51,7 +51,8 @@ class TaskItem extends Spine.Controller
 
   # Remove task if it is no longer in the current list
   change: (task) =>
-    if List.current.id isnt "all" and task.list isnt List.current.id
+    # Temporary fix
+    if List.current.id isnt "all" and List.current.id isnt "filter" and task.list isnt List.current.id
       @release()
 
   update: =>
@@ -65,12 +66,10 @@ class TaskItem extends Spine.Controller
   prioritize: ->
     # There's a better way of doing this - tell me how george
     # Change the priority
-    if @task.priority is 1
-      @task.updateAttribute "priority", 2
-    else if @task.priority is 2
-      @task.updateAttribute "priority", 3
-    else if @task.priority is 3
+    if @task.priority is 3
       @task.updateAttribute "priority", 1
+    else
+      @task.updateAttribute "priority", @task.priority + 1
 
     @el.removeClass("p0 p1 p2 p3").addClass("p" + @task.priority)
 
@@ -113,7 +112,7 @@ class TaskItem extends Spine.Controller
     e.stopPropagation()
     List.trigger "changeList",
       name: "Tagged with " + $(e.currentTarget).text()
-      id: "search"
+      id: "filter"
       tasks: Task.tag($(e.currentTarget).text().substr(1))
       disabled: yes
       permanent: yes

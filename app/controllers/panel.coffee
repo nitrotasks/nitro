@@ -16,7 +16,7 @@ class Panel extends Spine.Controller
     super
 
   search: =>
-    if List.current.id isnt "search"
+    if List.current.id isnt "filter"
       @originalList = List.current
     query = @searchInput.val()
     if query.length is 0
@@ -24,7 +24,7 @@ class Panel extends Spine.Controller
     else
       List.trigger "changeList",
         name: "Results for: #{ query }"
-        id: "search"
+        id: "filter"
         tasks: Task.filter(query)
         disabled: yes
         permanent: yes

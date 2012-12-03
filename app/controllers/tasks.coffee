@@ -33,7 +33,7 @@ class Tasks extends Spine.Controller
     if @list.disabled then @input.hide() else @input.show()
     @tasks.empty()
 
-    if list.id is "search"
+    if list.id is "filter"
       tasks = list.tasks
     else
       tasks = Task.list(@list.id)
@@ -62,8 +62,8 @@ class Tasks extends Spine.Controller
   # Collapsing of tasks
   collapseAll: (e) ->
     # Only works on some elements
-    if e.target.className is "main tasks"
     # if e.target.nodeName in ["SECTION", "INPUT", "H1", "A"] or $(e.target).hasClass("title") or $(e.target).hasClass("tasks-container")
+    if e.target.className is "main tasks"
       @el.find(".expanded").removeClass("expanded")
 
 module.exports = Tasks
