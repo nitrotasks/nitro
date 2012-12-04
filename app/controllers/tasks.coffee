@@ -25,10 +25,13 @@ class Tasks extends Spine.Controller
   addOne: (task) =>
     @tasks.prepend @template task
     new TaskItem
-      el: @tasks.find(".task[data-item=#{ task.id }]")
+      el: @tasks.find("#task-#{ task.id }]")
       task: task
 
   render: (list) =>
+
+    console.time("test")
+
     # Update current list if the list is changed
     @list = list if list
 
@@ -48,19 +51,35 @@ class Tasks extends Spine.Controller
       last = tasks[0]?.priority
       for task in tasks
         if task.priority isnt last
-          html += "<div class=\"sep\"></div>"
+          html = "<div class=\"sep\"></div>" + html
           last = task.priority
-        html += @template(task)
+        html = @template(task) + html
     else
       for task in tasks
-        html += @template(task)
+        html = @template(task) + html
 
     @tasks.html html
 
-    @tasks.find(".task").each (index, value) ->
-      new TaskItem
-        task: tasks[index]
-        el: $(this)
+    setTimeout =>
+      for task in tasks
+        new TaskItem
+          task: task
+          el: @tasks.find("#task-#{ task.id }")
+    , 1
+
+    # @tasks.find(".task").draggable
+    #   revert: "invalid"
+    #   revertDuration: 200
+    #   distance: 10
+    #   scroll: false
+    #   cursorAt:
+    #     top: 15
+    #     right: 30
+    #   helper: ->
+    #     $("body").append("<div class=\"helper\">#{ $(this).find('.name').text() }</div>")
+    #     $(".helper")
+
+    console.timeEnd("test")
 
   new: (e) ->
     val = @input.val()

@@ -37,17 +37,17 @@ class TaskItem extends Spine.Controller
   render: =>
 
     # Make task item draggable
-    @el.draggable
-      revert: "invalid"
-      revertDuration: 200
-      distance: 10
-      scroll: false
-      cursorAt:
-        top: 15
-        right: 30
-      helper: =>
-        $("body").append("<div class=\"helper\">#{ @task.name }</div>")
-        $(".helper")
+    # @el.draggable
+    #   revert: "invalid"
+    #   revertDuration: 200
+    #   distance: 10
+    #   scroll: false
+    #   cursorAt:
+    #     top: 15
+    #     right: 30
+    #   helper: =>
+    #     $("body").append("<div class=\"helper\">#{ @task.name }</div>")
+    #     $(".helper")
 
     # Bind datepicker
     @date.datepicker()
