@@ -26,7 +26,7 @@ class Lists extends Spine.Controller
     List.bind "refresh", @addAll
     List.bind "changeList", @change
     List.bind "destroy", @showInbox
-    Task.bind "refresh create update destroy", @updateAll
+    Task.bind "refresh change", @updateAll
 
     # Set up draggable on inbox
     @inbox.droppable

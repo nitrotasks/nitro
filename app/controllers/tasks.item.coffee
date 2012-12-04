@@ -32,7 +32,6 @@ class TaskItem extends Spine.Controller
     throw "@task required" unless @task
     @task.bind 'update', @update
     @task.bind 'destroy', @release
-    @task.bind 'change', @change
 
   render: =>
     @replace @template @task
@@ -50,16 +49,17 @@ class TaskItem extends Spine.Controller
     @date.datepicker()
     @
 
-  # Remove task if it is no longer in the current list
-  change: (task) =>
-    # Temporary fix
+  update: (task) =>
+    # Remove task if it isn't in the current list
     if List.current.id isnt "all" and List.current.id isnt "filter" and task.list isnt List.current.id
       @release()
 
-  update: =>
+    # Set completed
     @el.toggleClass "completed", @task.completed
+
     # Makes tags clickable
     @name.html @task.name.replace(new RegExp("\\s#([^ ]*)", "ig"), ' <span class="tag">#$1</span>')
+
     # Set priority
     @el.removeClass("p0 p1 p2 p3").addClass("p" + @task.priority)
 

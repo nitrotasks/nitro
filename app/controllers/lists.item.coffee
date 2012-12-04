@@ -18,7 +18,7 @@ class ListItem extends Spine.Controller
     # Update is bound to something else so we don't keep rewriting the dom
     @list.bind "update", @updateList
     @list.bind "destroy", @remove
-    Task.bind "create update destroy", @updateTask
+    Task.bind "change", @updateTask
     @list.bind "changeList", @current
 
   render: =>
