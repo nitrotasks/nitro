@@ -25,6 +25,7 @@ class TaskItem extends Spine.Controller
     # Make notes editable
     'focus .notes': 'notesEdit'
     'blur .notes': 'notesSave'
+    'change .date': 'datesSave'
 
 
   constructor: ->
@@ -47,6 +48,8 @@ class TaskItem extends Spine.Controller
         $("body").append("<div class=\"helper\">#{ @task.name }</div>")
         $(".helper")
     @date.datepicker()
+    if parseInt(@date.val())
+      @date.datepicker("setDate", new Date(parseInt(@date.val())))
     @
 
   update: (task) =>
@@ -121,6 +124,12 @@ class TaskItem extends Spine.Controller
       @notes.parent().addClass("placeholder")
     else
       @task.updateAttribute "notes", text
+
+  # ----------------------------------------------------------------------------
+  # DATES
+  # ----------------------------------------------------------------------------
+  datesSave: =>
+    @task.updateAttribute "date", new Date(@date.val()).getTime()
 
   # ----------------------------------------------------------------------------
   # TAGS
