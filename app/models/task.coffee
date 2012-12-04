@@ -23,12 +23,12 @@ class window.Task extends Spine.Model
 
   @list: (listId) =>
     return [] unless listId
-    if listId is "all" then return @byPriority()
-    @byPriority().filter (task) ->
+    if listId is "all" then return @all()
+    @all().filter (task) ->
         task.list is listId
 
-  @byPriority: ->
-    @all().sort (a, b) ->
+  @sort: (tasks) ->
+    tasks.sort (a, b) ->
       diff = a.priority - b.priority
       if diff is 0
         # If the priorities are the same

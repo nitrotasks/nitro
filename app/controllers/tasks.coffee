@@ -18,7 +18,7 @@ class Tasks extends Spine.Controller
     super
     Task.bind "create", @addOne
     Task.bind "refresh", @render
-    List.bind "changeList", @render
+    List.bind "changeList changeSort", @render
 
   addOne: (task) =>
     taskItem = new TaskItem
@@ -38,12 +38,17 @@ class Tasks extends Spine.Controller
     else
       tasks = Task.list(@list.id)
 
-    last = tasks[0]?.priority
-    for task in tasks
-      if task.priority isnt last
-        @tasks.prepend "<div class=\"sep\"></div>"
-        last = task.priority
-      @addOne task
+    if List.sort
+      tasks = Task.sort(tasks)
+      last = tasks[0]?.priority
+      for task in tasks
+        if task.priority isnt last
+          @tasks.prepend "<div class=\"sep\"></div>"
+          last = task.priority
+        @addOne task
+    else
+      for task in tasks
+        @addOne task
 
   new: (e) ->
     val = @input.val()

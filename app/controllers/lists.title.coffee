@@ -39,15 +39,12 @@ class ListTitle extends Spine.Controller
 
   # Handles menu buttons
   menuClick: (e)->
-    if $(e.currentTarget).hasClass("trash")
-      @list.destroy()
-    else if $(e.currentTarget).hasClass("email")
-      console.log("emailing")
 
-    # Prints Tasks
-    else if $(e.currentTarget).hasClass("print")
-      window.print()
-    else if $(e.currentTarget).hasClass("share")
-      console.log("sharing")
+    switch e.currentTarget.className
+      when "trash" then @list.destroy()
+      when "email" then @log "emailing"
+      when "print" then window.print()
+      when "share" then @log "sharing"
+      when "sort"  then List.toggleSort()
 
 module.exports = ListTitle
