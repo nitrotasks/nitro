@@ -2,6 +2,8 @@
 # require('es5-shimify')
 require('jqueryify')
 require('lib/jquery-ui')
+require('lib/handlebars')
+require('utils/handlebar-helpers')
 
 require('spine')
 require('spine/lib/local')

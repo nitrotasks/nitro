@@ -32,7 +32,7 @@ class Lists extends Spine.Controller
     @inbox.droppable
       hoverClass: "ui-state-active"
       drop: (event, ui) =>
-        task = ui.draggable.data("item")
+        task = Task.find ui.draggable.data("item")
         task.updateAttribute("list", "inbox")
 
   new: (e) ->

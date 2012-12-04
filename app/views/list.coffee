@@ -1,0 +1,7 @@
+module.exports = """
+<li data-item="{{ id }}" class="list">
+  <div class="arrow"></div>
+  <div class="name">{{ name }}</div>
+  <div class="count">{{ count }}</div>
+</li>
+"""

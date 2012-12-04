@@ -6,6 +6,8 @@ Keys     = require("utils/keys")
 
 class Tasks extends Spine.Controller
 
+  template: Handlebars.compile require('views/task')
+
   elements:
     "ul.tasks": "tasks"
     "input.new-task": "input"
@@ -21,9 +23,10 @@ class Tasks extends Spine.Controller
     List.bind "changeList changeSort", @render
 
   addOne: (task) =>
-    taskItem = new TaskItem
+    @tasks.prepend @template task
+    new TaskItem
+      el: @tasks.find(".task[data-item=#{ task.id }]")
       task: task
-    @tasks.prepend taskItem.render().el
 
   render: (list) =>
     # Update current list if the list is changed
@@ -38,17 +41,26 @@ class Tasks extends Spine.Controller
     else
       tasks = Task.list(@list.id)
 
+    html = ""
+
     if List.sort
       tasks = Task.sort(tasks)
       last = tasks[0]?.priority
       for task in tasks
         if task.priority isnt last
-          @tasks.prepend "<div class=\"sep\"></div>"
+          html += "<div class=\"sep\"></div>"
           last = task.priority
-        @addOne task
+        html += @template(task)
     else
       for task in tasks
-        @addOne task
+        html += @template(task)
+
+    @tasks.html html
+
+    @tasks.find(".task").each (index, value) ->
+      new TaskItem
+        task: tasks[index]
+        el: $(this)
 
   new: (e) ->
     val = @input.val()

@@ -1,7 +1,0 @@
-<li class="expanded task <% if @completed: %>completed<% end %> p<%= @priority %>">
-  <div class="priority"></div>
-  <div class="checkbox"></div>
-  <div class="name"><%- @name or "<i>No name</i>" %></div>
-  <div class="delete"></div>
-  <div class="notes" contenteditable="true"">Notes: <%= @notes %></div>
-</li>

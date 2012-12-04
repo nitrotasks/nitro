@@ -3,7 +3,7 @@ Task  = require("models/task")
 List  = require("models/list")
 
 class ListItem extends Spine.Controller
-  template: require("views/list")
+  template: Handlebars.compile require("views/list")
 
   elements:
     '.name': 'name'
@@ -23,13 +23,14 @@ class ListItem extends Spine.Controller
 
   render: =>
     @list.count = Task.active(@list.id).length
+    window.template = @template
+    # @log @template.compile @list
     @replace @template @list
     @el.droppable
       hoverClass: "ui-state-active"
       drop: (event, ui) =>
-        task = ui.draggable.data("item")
+        task = Task.find ui.draggable.data("item")
         task.updateAttribute("list", @list.id)
-
     @current()
     @
 

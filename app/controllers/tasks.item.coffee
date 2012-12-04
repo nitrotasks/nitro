@@ -4,7 +4,6 @@ Keys  = require("utils/keys")
 $     = Spine.$
 
 class TaskItem extends Spine.Controller
-  template: require('views/task')
 
   elements:
     '.name': 'name'
@@ -33,9 +32,11 @@ class TaskItem extends Spine.Controller
     throw "@task required" unless @task
     @task.bind 'update', @update
     @task.bind 'destroy', @release
+    @render()
 
   render: =>
-    @replace @template @task
+
+    # Make task item draggable
     @el.draggable
       revert: "invalid"
       revertDuration: 200
@@ -47,10 +48,10 @@ class TaskItem extends Spine.Controller
       helper: =>
         $("body").append("<div class=\"helper\">#{ @task.name }</div>")
         $(".helper")
+
+    # Bind datepicker
     @date.datepicker()
-    if parseInt(@date.val())
-      @date.datepicker("setDate", new Date(parseInt(@date.val())))
-    @
+    @date.datepicker("setDate", new Date(@task.date)) if @task.date
 
   update: (task) =>
     # Remove task if it isn't in the current list
