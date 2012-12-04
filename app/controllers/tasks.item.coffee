@@ -95,7 +95,6 @@ class TaskItem extends Spine.Controller
   # ----------------------------------------------------------------------------
 
   endEdit: ->
-    @el.draggable({ disabled: false })
     val = @name.text()
     if val then @task.updateAttribute("name", val) else @task.destroy()
 
