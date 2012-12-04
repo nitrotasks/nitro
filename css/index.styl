@@ -373,6 +373,11 @@ header
             background: #E15556
 
         // Date
+        //This is so it shows up in the print styles
+        img
+          vertical-align: top
+          padding: 9px 0
+
         .date
           height: 29px
           line-height: 20px
@@ -380,18 +385,11 @@ header
           vertical-align: top
           font-size: 12px
           color: #999
-          padding: 0 5px
+          padding: 0 5px 0 7px
           background: #fff
           border: 0
           outline: 0
-
-          &:before
-            content: ""
-            display: inline-block
-            background: url("img/calendar.png") no-repeat
-            width: 10px
-            height: 10px
-            margin-right: 5px
+          width: 80px
 
         &.animout
           .notes
@@ -426,7 +424,7 @@ header
 
           .name
             cursor: text
-            right: 110px
+            right: 214px;
 
           .notes
             cursor: text
@@ -441,8 +439,8 @@ header
               height: auto
 
             .inner
-              min-height: 40px;
-              width: 100%;
+              min-height: 40px
+              width: 100%
               outline: 0
 
         // Completed Task
@@ -544,19 +542,19 @@ header
       display: inline-block
       margin-left: 5px
       transition(0.1s, left, ease)
-      text-overflow: ellipsis;
-      width: 150px;
-      white-space: nowrap;
-      overflow: hidden;
+      text-overflow: ellipsis
+      width: 150px
+      white-space: nowrap
+      overflow: hidden
       abs(auto, 45px, auto, 10px)
 
     .arrow
-      display: inline-block;
-      margin-top: 10px;
-      width: 7px;
-      height: 10px;
-      position: relative;
-      left: 15px;
+      display: inline-block
+      margin-top: 10px
+      width: 7px
+      height: 10px
+      position: relative
+      left: 15px
 
     // Number of Tasks
     .count
