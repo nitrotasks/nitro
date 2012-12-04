@@ -8,6 +8,7 @@ class TaskItem extends Spine.Controller
 
   elements:
     '.name': 'name'
+    '.date': 'date'
     '.notes .inner': 'notes'
 
   events:
@@ -46,6 +47,7 @@ class TaskItem extends Spine.Controller
       helper: =>
         $("body").append("<div class=\"helper\">#{ @task.name }</div>")
         $(".helper")
+    @date.datepicker()
     @
 
   # Remove task if it is no longer in the current list

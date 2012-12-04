@@ -326,17 +326,18 @@ header
             outline: none
 
         // Buttons
-        .rightControls
+        .right-controls
+          display: none
           abs(0, 0, auto, auto)
           text-align: right
           font-size: 0
 
         // Trash Can
         .delete
+          display: inline-block
           background: url("img/trashcan_grey.png") 50% 50% no-repeat
           width: 25px
           height: 29px
-          display: none
           padding: 0 5px
           opacity: 0.4
           transition(0.2s, opacity)
@@ -345,7 +346,7 @@ header
             opacity: 0.8
 
         .priority-button
-          display: none
+          display: inline-block
           padding: 0 10px
           height: 29px
           vertical-align: top
@@ -354,7 +355,7 @@ header
 
           .low, .medium, .high
             display: inline-block
-            margin: 8px 2px 0
+            margin: 9px 2px 0
             width: 9px
             height: 9px
             border: 1px solid rgba(#000, 0.2)
@@ -374,10 +375,13 @@ header
 
         // Date
         .date
+          height: 29px
+          line-height: 29px
+          display: inline-block
+          vertical-align: top
           font-size: 12px
           color: #999
-          abs(1px, 0,auto,auto)
-          padding: 0 14px 0 5px
+          padding: 0 5px
           background: #fff
 
           &:before
@@ -416,7 +420,7 @@ header
           margin: 5px 0
 
           // Show right buttons
-          .delete, .priority-button
+          .right-controls
             display: inline-block
 
           .name
