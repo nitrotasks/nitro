@@ -1,7 +1,7 @@
 <li class="task <% if @completed: %>completed<% end %> p<%= @priority %>">
   <div class="priority"></div>
   <div class="checkbox"></div>
-  <div class="name" contenteditable="true"><%- @name.replace(new RegExp("\\s#([^ ]*)", "ig"), ' <span class="tag">#$1</span>') or "<i>No name</i>" %></div>
+  <div class="name" contenteditable="true"><%- @name.replace(/#(\w+)/g, ' <span class="tag">#$1</span>') or "<i>No name</i>" %></div>
   <div class="right-controls">
     <img src="img/calendar.png"><input class="date" placeholder="Due Date" <%if @date: %>value="<%= @date %>"<% end %>>
     <div class="priority-button">

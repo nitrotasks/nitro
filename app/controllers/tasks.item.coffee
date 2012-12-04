@@ -61,7 +61,7 @@ class TaskItem extends Spine.Controller
     @el.toggleClass "completed", @task.completed
 
     # Makes tags clickable
-    @name.html @task.name.replace(new RegExp("\\s#([^ ]*)", "ig"), ' <span class="tag">#$1</span>')
+    @name.html @task.name.replace(/#(\w+)/g, ' <span class="tag">#$1</span>')
 
     # Set priority
     @el.removeClass("p0 p1 p2 p3").addClass("p" + @task.priority)
