@@ -3,7 +3,7 @@
   <div class="checkbox"></div>
   <div class="name" contenteditable="true"><%- @name.replace(new RegExp("\\s#([^ ]*)", "ig"), ' <span class="tag">#$1</span>') or "<i>No name</i>" %></div>
   <div class="right-controls">
-    <div class="date"><%= @date or "Due Date" %></div>
+    <input class="date" value="<%= @date or "Due Date" %>">
     <div class="priority-button">
       <div data-id="1" class="low"></div>
       <div data-id="2" class="medium"></div>
