@@ -271,12 +271,13 @@ header
           border-top: 1px solid $task-color
 
         // Vertical Stripes
-        &:before, &:after
+        &:before
           content: ""
           display: block
           border-left: 1px solid #E6E6E6
           border-right: 1px solid #E6E6E6
           width: 2px
+
         &:before
           abs(0, auto, 0, 31px)
 
@@ -300,7 +301,6 @@ header
 
           &:hover
             text-decoration: underline
-
 
         // Checkbox
         .checkbox
@@ -400,7 +400,7 @@ header
         // Show the notes
         .notes
           background: #FAFAFA
-          border-top: 1px transparent solid
+          // border-top: 1px transparent solid
           line-height: 21px
           outline: none
           height: 0
