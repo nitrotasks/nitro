@@ -1,5 +1,5 @@
 module.exports = """
-<li id="task-{{ id }}" class="task {{#if completed }}{{ completed }}{{/if}} p{{ priority }}">
+<li id="task-{{ id }}" class="task {{#if completed }}completed{{/if}} p{{ priority }}">
   <div class="priority"></div>
   <div class="checkbox"></div>
   <div class="name" contenteditable="true">{{addTags name }}</div>
