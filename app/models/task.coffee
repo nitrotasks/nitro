@@ -49,12 +49,15 @@ class window.Task extends Spine.Model
 
   @sort: (tasks) ->
     tasks.sort (a, b) ->
-      diff = a.priority - b.priority
-      if diff is 0
-        # If the priorities are the same
-        # then sort by name
-        b.name.localeCompare(a.name)
-      else diff
+      # If logged, move to bottom
+      if a.completed is b.completed
+        diff = a.priority - b.priority
+        if diff is 0
+          # If the priorities are the same then sort by name
+          b.name.localeCompare(a.name)
+        else diff
+      else if a.completed and not b.completed then -1
+      else if not a.completed and b.completed then 1
 
   @filter: (query) ->
     return all() unless query

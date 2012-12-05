@@ -42,7 +42,7 @@ class Tasks extends Spine.Controller
   addOne: (task) =>
     @tasks.prepend @template task
     new TaskItem
-      el: @tasks.find("#task-#{ task.id }]")
+      el: @tasks.find("#task-#{ task.id }")
       task: task
 
   render: (list) =>
@@ -67,9 +67,9 @@ class Tasks extends Spine.Controller
       tasks = Task.sort(tasks)
       last = tasks[0]?.priority
       for task in tasks
-        if task.priority isnt last
+        if not task.completed and task.priority isnt last
           html = "<div class=\"sep\"></div>" + html
-          last = task.priority
+        last = task.priority
         html = @template(task) + html
     else
       for task in tasks
