@@ -34,7 +34,6 @@ class Tasks extends Spine.Controller
             top: 15
             left: 30
           helper: (event, task) ->
-            console.log(this, event)
             id = $(task).attr("id")
             element = "<div data-id=\"#{ id }\" class=\"helper\">#{ $(this).find('.name').text() }</div>"
             $("body").append(element)
@@ -61,7 +60,6 @@ class Tasks extends Spine.Controller
       tasks = list.tasks
     else
       tasks = Task.list(@list.id)
-      @log tasks
 
     html = ""
 
@@ -75,8 +73,6 @@ class Tasks extends Spine.Controller
         last = task.priority
         html = @template(task) + html
 
-      # Fuckit, I'll refactor laterz
-      @log "HEY"
     else
       for task in tasks
         html = @template(task) + html
@@ -128,6 +124,7 @@ class Tasks extends Spine.Controller
       @el.find(".expanded")
         .removeClass("expanded")
         .draggable({ disabled: false })
+        .sortable({ disabled: false })
         .find(".notes")
         .removeClass("auto")
 
