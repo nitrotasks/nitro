@@ -12,13 +12,16 @@ class Lists extends Spine.Controller
     "input": "input"
     ".list.all": "all"
     ".list.inbox": "inbox"
+    ".list.completed": "completed"
     ".list.all .count": "allCount"
     ".list.inbox .count": "inboxCount"
+    ".list.completed .count": "completedCount"
 
   events:
     "keyup input": "new"
     "click .list.all": "showAllTasks"
     "click .list.inbox": "showInbox"
+    "click .list.completed": "showCompleted"
 
   constructor: ->
     super
@@ -74,8 +77,20 @@ class Lists extends Spine.Controller
     @inbox.addClass "current"
     true
 
+  # Show completed
+  showCompleted: =>
+    List.trigger "changeList",
+      name: "Completed"
+      id: "completed"
+      permanent: yes
+      disabled: yes
+    @el.find(".current").removeClass "current"
+    @completed.addClass "current"
+    true
+
   updateAll: =>
     @allCount.text Task.active().length
     @inboxCount.text Task.active("inbox").length
+    @completedCount.text Task.completed().length
 
 module.exports = Lists

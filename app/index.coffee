@@ -2,6 +2,7 @@ require('lib/setup')
 Spine = require('spine')
 Task  = require('models/task')
 List  = require('models/list')
+Settings = require("models/settings")
 Tasks = require('controllers/tasks')
 Lists = require('controllers/lists')
 ListTitle = require('controllers/lists.title')
@@ -17,6 +18,11 @@ class App extends Spine.Controller
 
   constructor: ->
     super
+
+    # Load settings
+    Settings.fetch()
+    if Settings.count() is 0
+      Settings.create()
 
     # Init panel
     new Panel

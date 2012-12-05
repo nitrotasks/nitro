@@ -37,13 +37,14 @@ class window.Task extends Spine.Model
     @select (task) ->
       !task.completed and (if list then (task.list is list) else yes)
 
-  @completed: (list) =>
+  @completed: =>
     @select (task) ->
-      task.completed and (task.list is list if list)
+      task.completed
 
   @list: (listId) =>
     return [] unless listId
-    if listId is "all" then return @all()
+    if listId is "all" then return @active()
+    else if listId is "completed" then return @completed()
     @all().filter (task) ->
         task.list is listId
 

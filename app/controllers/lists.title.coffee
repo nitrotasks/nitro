@@ -1,5 +1,6 @@
 Spine = require('spine')
 List  = require("models/list")
+Settings = require("models/settings")
 Keys  = require("utils/keys")
 
 class ListTitle extends Spine.Controller
@@ -45,6 +46,6 @@ class ListTitle extends Spine.Controller
       when "email" then @log "emailing"
       when "print" then window.print()
       when "share" then @log "sharing"
-      when "sort"  then List.toggleSort()
+      when "sort"  then Settings.toggleSort()
 
 module.exports = ListTitle

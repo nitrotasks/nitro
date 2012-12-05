@@ -1,6 +1,7 @@
 Spine    = require("spine")
 Task     = require("models/task")
 List     = require("models/list")
+Settings = require("models/settings")
 TaskItem = require("controllers/tasks.item")
 Keys     = require("utils/keys")
 
@@ -20,7 +21,8 @@ class Tasks extends Spine.Controller
     super
     Task.bind "create", @addOne
     Task.bind "refresh", @render
-    List.bind "changeList changeSort", @render
+    List.bind "changeList", @render
+    Settings.bind "changeSort", @render
 
     $("body").on("mouseover", ".main .task", ->
       $(this).draggable
@@ -62,10 +64,11 @@ class Tasks extends Spine.Controller
       tasks = list.tasks
     else
       tasks = Task.list(@list.id)
+      @log tasks
 
     html = ""
 
-    if List.sort
+    if Settings.sortMode()
       tasks = Task.sort(tasks)
       last = tasks[0]?.priority
       for task in tasks
