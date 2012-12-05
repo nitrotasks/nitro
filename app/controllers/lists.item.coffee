@@ -27,6 +27,7 @@ class ListItem extends Spine.Controller
     @el.droppable
       hoverClass: "ui-state-active"
       drop: (event, ui) =>
+        @log ui.draggable.attr("id")
         task = Task.find ui.draggable.attr("id").slice(5)
         task.updateAttribute("list", @list.id)
     @current()
