@@ -54,7 +54,8 @@ class Tasks extends Spine.Controller
       last = tasks[0]?.priority
       for task in tasks
         if not task.completed and task.priority isnt last
-          html = "<div class=\"sep\"></div>" + html
+          task = task.clone()
+          task.group = yes
         last = task.priority
         html = @template(task) + html
     else
