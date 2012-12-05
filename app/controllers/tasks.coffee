@@ -22,23 +22,6 @@ class Tasks extends Spine.Controller
     Task.bind "refresh", @render
     List.bind "changeList changeSort", @render
 
-    $("body").on("mouseover", ".main .tasks", ->
-      $(this).sortable
-        distance: 10
-        scroll: false
-        cursorAt:
-          top: 15
-          left: 30
-        helper: (event, task) ->
-          id = $(task).attr("id")
-          element = "<div data-id=\"#{ id }\" class=\"helper\">#{ $(task).find('.name').text() }</div>"
-          $("body").append(element)
-          $("[data-id=#{ id }]")
-
-
-    ).  on "mouseout", ".main .tasks", ->
-      # console.log "Bye"
-
   addOne: (task) =>
     @tasks.prepend @template task
     new TaskItem
@@ -83,6 +66,19 @@ class Tasks extends Spine.Controller
           task: task
           el: @tasks.find("#task-#{ task.id }")
     , 1
+
+    @log "This code isn't working."
+    $(this.el[1]).sortable
+      distance: 10
+      scroll: false
+      cursorAt:
+        top: 15
+        left: 30
+      helper: (event, task) ->
+        id = $(task).attr("id")
+        element = "<div data-id=\"#{ id }\" class=\"helper\">#{ $(task).find('.name').text() }</div>"
+        $("body").append(element)
+        $("[data-id=#{ id }]")
 
     console.timeEnd("test")
 
