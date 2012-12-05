@@ -24,25 +24,6 @@ class Tasks extends Spine.Controller
     List.bind "changeList", @render
     Settings.bind "changeSort", @render
 
-    $("body").on("mouseover", ".main .task", ->
-      $(this).draggable
-        revert: "invalid"
-        revertDuration: 200
-        distance: 10
-        scroll: false
-        cursorAt:
-          top: 15
-          right: 30
-        helper: ->
-          id = $(this).attr("id")
-          element = "<div data-id=\"#{ id }\" class=\"helper\">#{ $(this).find('.name').text() }</div>"
-          $("body").append(element)
-          $("[data-id=#{ id }]")
-
-
-    ).  on "mouseout", ".main .tasks", ->
-      # console.log "Bye"
-
   addOne: (task) =>
     @tasks.prepend @template task
     new TaskItem
@@ -89,18 +70,18 @@ class Tasks extends Spine.Controller
           el: @tasks.find("#task-#{ task.id }")
     , 1
 
-
-    #@tasks.find(".task").draggable
-    #  revert: "invalid"
-    #  revertDuration: 200
-    #  distance: 10
-    #  scroll: false
-    #  cursorAt:
-    #    top: 15
-    #    right: 30
-    #  helper: ->
-    #    $("body").append("<div class=\"helper\">#{ $(this).find('.name').text() }</div>")
-    #    $(".helper")
+    @log "This code isn't working."
+    $(this.el[1]).sortable
+      distance: 10
+      scroll: false
+      cursorAt:
+        top: 15
+        left: 30
+      helper: (event, task) ->
+        id = $(task).attr("id")
+        element = "<div data-id=\"#{ id }\" class=\"helper\">#{ $(task).find('.name').text() }</div>"
+        $("body").append(element)
+        $("[data-id=#{ id }]")
 
     console.timeEnd("test")
 
