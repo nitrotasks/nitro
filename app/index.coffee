@@ -1,12 +1,12 @@
 require('lib/setup')
-Spine = require('spine')
-Task  = require('models/task')
-List  = require('models/list')
-Settings = require("models/settings")
-Tasks = require('controllers/tasks')
-Lists = require('controllers/lists')
+Spine     = require('spine')
+Task      = require('models/task')
+List      = require('models/list')
+Settings  = require("models/settings")
+Tasks     = require('controllers/tasks')
+Lists     = require('controllers/lists')
 ListTitle = require('controllers/lists.title')
-Panel = require('controllers/panel')
+Panel     = require('controllers/panel')
 
 class App extends Spine.Controller
 

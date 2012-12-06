@@ -20,7 +20,7 @@ class Tasks extends Spine.Controller
   constructor: ->
     super
     Task.bind "create", @addOne
-    Task.bind "refresh", @render
+    Task.bind "refresh", @reload
     List.bind "changeList", @render
     Settings.bind "changeSort", @render
 
@@ -45,9 +45,10 @@ class Tasks extends Spine.Controller
       el: @tasks.find("#task-#{ task.id }")
       task: task
 
-  render: (list) =>
+  reload: =>
+    @render List.current
 
-    console.time("test")
+  render: (list) =>
 
     # Update current list if the list is changed
     @list = list if list
@@ -98,9 +99,6 @@ class Tasks extends Spine.Controller
           task: task
           el: @tasks.find("#task-#{ task.id }")
     , 1
-
-    @log "This code isn't working."
-    console.timeEnd("test")
 
   new: (e) ->
     val = @input.val()
