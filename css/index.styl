@@ -256,6 +256,13 @@ header
         & + .task
           border-top: 1px $task-color solid
 
+      li.seperator
+        list-style-type: none;
+        height: 20px;
+
+        &+ li
+          border-top: 1px $task-color solid
+
       li.task
         display: block
         list-style-type: none
@@ -414,8 +421,13 @@ header
         // Expanded Task
         &.expanded
           border-top: 1px solid $task-color
+          &.group
+            margin-bottom: 20px
           &+ li
             border-top: 1px solid $task-color
+
+            &.seperator
+              border-top: 0
 
           // Add some spacing around the task
           margin: 5px 0

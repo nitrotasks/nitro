@@ -47,8 +47,6 @@ class Tasks extends Spine.Controller
 
   render: (list) =>
 
-    console.time("test")
-
     # Update current list if the list is changed
     @list = list if list
 
@@ -99,12 +97,13 @@ class Tasks extends Spine.Controller
           el: @tasks.find("#task-#{ task.id }")
     , 1
 
-    @log "This code isn't working."
-    console.timeEnd("test")
-
   new: (e) ->
     val = @input.val()
     if e.which is Keys.ENTER and val
+      if Settings.sortMode()
+        if $(".main .tasks .seperator").length == 0
+          $(".main .tasks").prepend("<li class='seperator'></li>")
+
       Task.create
         name: val
         list: @list?.id
