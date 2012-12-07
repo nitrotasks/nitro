@@ -188,7 +188,7 @@
 	"buffers":
 	[
 		{
-			"file": "/Volumes/Storage/George/Documents/Github/Nitro v2/node_modules/spine/src/ajax.coffee",
+			"file": "node_modules/spine/src/ajax.coffee",
 			"settings":
 			{
 				"buffer_size": 4526,
@@ -196,7 +196,7 @@
 			}
 		},
 		{
-			"file": "/Volumes/Storage/George/Documents/Github/Nitro v2/app/models/task.coffee",
+			"file": "app/models/task.coffee",
 			"settings":
 			{
 				"buffer_size": 1993,
@@ -207,12 +207,12 @@
 			"file": "tasks.coffee",
 			"settings":
 			{
-				"buffer_size": 2827,
+				"buffer_size": 0,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/Volumes/Storage/George/Documents/Github/Nitro v2/public/index.html",
+			"file": "public/index.html",
 			"settings":
 			{
 				"buffer_size": 2338,
@@ -223,12 +223,12 @@
 			"file": "lists.coffee",
 			"settings":
 			{
-				"buffer_size": 2316,
+				"buffer_size": 0,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/Volumes/Storage/George/Documents/Github/Nitro v2/app/models/settings.coffee",
+			"file": "app/models/settings.coffee",
 			"settings":
 			{
 				"buffer_size": 396,
@@ -236,7 +236,7 @@
 			}
 		},
 		{
-			"file": "/Volumes/Storage/George/Documents/Github/Nitro v2/app/models/list.coffee",
+			"file": "app/models/list.coffee",
 			"settings":
 			{
 				"buffer_size": 147,
@@ -244,7 +244,7 @@
 			}
 		},
 		{
-			"file": "/Volumes/Storage/George/Documents/Github/Nitro v2/app/index.coffee",
+			"file": "app/index.coffee",
 			"settings":
 			{
 				"buffer_size": 962,
@@ -255,12 +255,12 @@
 			"file": "lists.title.coffee",
 			"settings":
 			{
-				"buffer_size": 1259,
+				"buffer_size": 0,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/Volumes/Storage/George/Documents/Github/Nitro v2/app/views/task.coffee",
+			"file": "app/views/task.coffee",
 			"settings":
 			{
 				"buffer_size": 853,
@@ -268,7 +268,7 @@
 			}
 		},
 		{
-			"file": "/Volumes/Storage/George/Documents/Github/Nitro v2/css/index.styl",
+			"file": "css/index.styl",
 			"settings":
 			{
 				"buffer_size": 12562,
@@ -276,10 +276,13 @@
 			}
 		},
 		{
-			"file": "/Volumes/Storage/George/Documents/Github/Nitro v2/.gitignore",
+			"contents": "/node_modules`\n",
+			"file": ".gitignore",
+			"file_size": 14,
+			"file_write_time": 1354680526000000,
 			"settings":
 			{
-				"buffer_size": 41,
+				"buffer_size": 15,
 				"line_ending": "Unix"
 			}
 		}
@@ -563,7 +566,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 95.0,
+		"height": 0.0,
 		"where_history":
 		[
 			""
@@ -710,12 +713,12 @@
 	"groups":
 	[
 		{
-			"selected": 11,
+			"selected": 10,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/Volumes/Storage/George/Documents/Github/Nitro v2/node_modules/spine/src/ajax.coffee",
+					"file": "node_modules/spine/src/ajax.coffee",
 					"settings":
 					{
 						"buffer_size": 4526,
@@ -831,7 +834,7 @@
 				},
 				{
 					"buffer": 1,
-					"file": "/Volumes/Storage/George/Documents/Github/Nitro v2/app/models/task.coffee",
+					"file": "app/models/task.coffee",
 					"settings":
 					{
 						"buffer_size": 1993,
@@ -950,15 +953,15 @@
 					"file": "tasks.coffee",
 					"settings":
 					{
-						"buffer_size": 2827,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1328,
-								1328
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1063,7 +1066,7 @@
 				},
 				{
 					"buffer": 3,
-					"file": "/Volumes/Storage/George/Documents/Github/Nitro v2/public/index.html",
+					"file": "public/index.html",
 					"settings":
 					{
 						"buffer_size": 2338,
@@ -1182,15 +1185,15 @@
 					"file": "lists.coffee",
 					"settings":
 					{
-						"buffer_size": 2316,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2108,
-								2108
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1295,7 +1298,7 @@
 				},
 				{
 					"buffer": 5,
-					"file": "/Volumes/Storage/George/Documents/Github/Nitro v2/app/models/settings.coffee",
+					"file": "app/models/settings.coffee",
 					"settings":
 					{
 						"buffer_size": 396,
@@ -1399,7 +1402,9 @@
 								"Ruby on Rails": "ruby"
 							},
 							"sublimelinter_wrap_find": true,
-							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage"
+							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1409,7 +1414,7 @@
 				},
 				{
 					"buffer": 6,
-					"file": "/Volumes/Storage/George/Documents/Github/Nitro v2/app/models/list.coffee",
+					"file": "app/models/list.coffee",
 					"settings":
 					{
 						"buffer_size": 147,
@@ -1523,7 +1528,7 @@
 				},
 				{
 					"buffer": 7,
-					"file": "/Volumes/Storage/George/Documents/Github/Nitro v2/app/index.coffee",
+					"file": "app/index.coffee",
 					"settings":
 					{
 						"buffer_size": 962,
@@ -1628,7 +1633,7 @@
 							},
 							"sublimelinter_wrap_find": true,
 							"syntax": "Packages/CoffeeScript/CoffeeScript.tmLanguage",
-							"tab_size": 2,
+							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
@@ -1642,15 +1647,15 @@
 					"file": "lists.title.coffee",
 					"settings":
 					{
-						"buffer_size": 1259,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1217,
-								1217
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1755,7 +1760,7 @@
 				},
 				{
 					"buffer": 9,
-					"file": "/Volumes/Storage/George/Documents/Github/Nitro v2/app/views/task.coffee",
+					"file": "app/views/task.coffee",
 					"settings":
 					{
 						"buffer_size": 853,
@@ -1871,7 +1876,7 @@
 				},
 				{
 					"buffer": 10,
-					"file": "/Volumes/Storage/George/Documents/Github/Nitro v2/css/index.styl",
+					"file": "css/index.styl",
 					"settings":
 					{
 						"buffer_size": 12562,
@@ -1987,18 +1992,18 @@
 				},
 				{
 					"buffer": 11,
-					"file": "/Volumes/Storage/George/Documents/Github/Nitro v2/.gitignore",
+					"file": ".gitignore",
 					"settings":
 					{
-						"buffer_size": 41,
+						"buffer_size": 15,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								22,
-								22
+								14,
+								14
 							]
 						],
 						"settings":
@@ -2100,6 +2105,11 @@
 					"type": "text"
 				}
 			]
+		},
+		{
+			"sheets":
+			[
+			]
 		}
 	],
 	"incremental_find":
@@ -2119,11 +2129,18 @@
 				0,
 				1,
 				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.5,
 			1.0
 		],
 		"rows":

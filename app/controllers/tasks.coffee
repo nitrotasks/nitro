@@ -46,7 +46,7 @@ class Tasks extends Spine.Controller
       task: task
 
   reload: =>
-    @render List.current
+    @render List.current if List.current
 
   render: (list) =>
 

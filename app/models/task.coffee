@@ -15,6 +15,8 @@ class window.Task extends Spine.Model
     'list'
 
   @extend @Local
+  @extend @Sync
+  @include @Sync
 
   @refresh: (values, options = {}) ->
     if options.clear

@@ -7,6 +7,7 @@ require('utils/handlebar-helpers')
 
 require('spine')
 require('spine/lib/local')
+require('lib/sync')
 # require('spine/lib/ajax')
 # require('spine/lib/manager')
 # require('spine/lib/route')
