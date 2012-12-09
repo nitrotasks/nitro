@@ -26,7 +26,8 @@ class Tasks extends Spine.Controller
 
     $("body").on "mouseover", ".main .task", ->
 
-      if Settings.sortMode()
+      if Settings.sortMode() and not $(this).hasClass("ui-draggable")
+
         $(this).draggable
           distance: 10
           scroll: false
@@ -40,6 +41,7 @@ class Tasks extends Spine.Controller
             $("[data-id=#{ id }]")
 
   addOne: (task) =>
+    return unless List.current.id in [task.list, "all"]
     @tasks.prepend @template task
     new TaskItem
       el: @tasks.find("#task-#{ task.id }")

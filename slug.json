@@ -1,5 +1,6 @@
 {
   "dependencies": [
+    "underscore/index",
     "jqueryify",
     "spine",
     "spine/lib/local"

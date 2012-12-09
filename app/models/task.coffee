@@ -1,6 +1,6 @@
 Spine = require('spine')
 
-class window.Task extends Spine.Model
+class Task extends Spine.Model
 
   isArray = (value) ->
     Object::toString.call(value) is '[object Array]'
@@ -14,7 +14,6 @@ class window.Task extends Spine.Model
     'priority',
     'list'
 
-  @extend @Local
   @extend @Sync
   @include @Sync
 

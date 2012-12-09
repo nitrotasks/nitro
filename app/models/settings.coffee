@@ -1,7 +1,7 @@
 Spine = require('spine')
 List = require('models/list')
 
-class window.Settings extends Spine.Model
+class Settings extends Spine.Model
   @configure 'Settings',
     'sort'
 
