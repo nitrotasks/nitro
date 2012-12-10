@@ -5,18 +5,48 @@ UpdateAttribute = require('lib/updateAttr')
 
 socket = SocketIo.connect("http://localhost:5000")
 
-# Handle socket.io
+
+# ------------------
+# Handle Sync Events
+# ------------------
+
 Sync =
 
+  # Sync status
   online: yes
   syncing: no
   enabled: yes
-  user: "username" # prompt("Username?")
+
+  # Store user information
+  user: "username"
+
+  # Hold unsynced events
   queue: JSON.parse localStorage.Queue or "[]"
 
-  goOffline: ->
-    console.error "NitroSync: Couldn't connect to server"
-    Sync.online = no
+  # Send data to the server using Socket.IO
+  emit: (name, args, fn) ->
+
+    # If the user is not online, we should check the arguments
+    # and possibly store them in the queue for later
+    if not @online
+      @addToQueue(name, args)
+      return
+
+    return unless @enabled
+    socket.emit(name, args, fn)
+
+  # Prevents models triggering events when we update them
+  disable: (callback) ->
+    if @enabled
+      @enabled = no
+      try
+        do callback
+      catch e
+        throw e
+      finally
+        @enabled = yes
+    else
+      do callback
 
   # Check an event, and if it is a model update add it to the queue
   # TODO: Add optimization for duplicate events with timestamps
@@ -169,34 +199,13 @@ Sync =
     # Save queue to localstorage
     localStorage.Queue = JSON.stringify @queue
 
-  # Prevents models triggering events when we update them
-  disable: (callback) ->
-    if @enabled
-      @enabled = no
-      try
-        do callback
-      catch e
-        throw e
-      finally
-        @enabled = yes
-    else
-      do callback
-
-  # Send data to the server using Socket.IO
-  emit: (name, args, fn) ->
-
-    # If the user is not online, we should check the arguments
-    # and possibly store them in the queue for later
-    if not @online
-      @addToQueue(name, args)
-      return
-
-    return unless @enabled
-    socket.emit(name, args, fn)
-
   # Update the server
   sync: (name, args, timestamps) ->
-    socket.emit(name, args, timestamps)
+    socket.emit("sync-" + name, args, timestamps)
+
+  goOffline: ->
+    console.error "NitroSync: Couldn't connect to server"
+    Sync.online = no
 
 # Handle offline modes
 for event in ['error', 'disconnect', 'connect_failed']
@@ -220,20 +229,23 @@ class Collection extends Base
     # Set up bindings for server events
 
     socket.on 'create', (data) =>
-      [model, item] = data
-      if model is @model.className
+      console.log "Trigger: Create"
+      [className, item] = data
+      if className is @model.className
         Sync.disable =>
           @model.create item
 
     socket.on 'update', (data) =>
-      [model, item] = data
-      if model is @model.className
+      console.log "Trigger: Update"
+      [className, item] = data
+      if className is @model.className
         Sync.disable =>
           @model.find(item.id).updateAttributes(item)
 
     socket.on 'destroy', (data) =>
-      [model, id] = data
-      if model is @model.className
+      console.log "Trigger: Destroy"
+      [className, id] = data
+      if className is @model.className
         Sync.disable =>
           @model.find(id).destroy()
 
@@ -255,16 +267,22 @@ class Collection extends Base
     @model.trigger('syncSuccess', data)
 
 
+# -----------------------
 # Control a single record
+# -----------------------
+
 class Singleton extends Base
 
   constructor: (@record) ->
     @model = @record.constructor
 
   create: (params, options) ->
-    Sync.emit 'create', [@model.className, @record.toJSON()]
+    Sync.emit 'create', [@model.className, @record.toJSON()], (id) =>
+      Sync.disable =>
+        @record.changeID(id)
 
   update: (model, key, val, old) =>
+    return if key is "id" # We don't need to update on ID changes
     item =
       id: @record.id
     item[key] = val
@@ -279,7 +297,11 @@ Include =
 Extend =
   sync: -> new Collection(this)
 
-# Extend Model with our events
+
+# ------------
+# Extend Model
+# ------------
+
 Model.Sync =
   extended: ->
     @fetch @syncFetch
@@ -315,11 +337,20 @@ Model.Sync =
     result = JSON.stringify(@)
     localStorage[@className] = result
 
+
+# ------------
+# Sync Methods
+# ------------
+
 Model.Sync.Methods =
   extended: ->
     @extend Extend
     @include Include
 
+
+# -------
 # Globals
+# -------
+
 Spine.Sync = Sync
 module?.exports = Sync

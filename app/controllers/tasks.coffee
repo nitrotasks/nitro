@@ -17,6 +17,9 @@ class Tasks extends Spine.Controller
     "keyup input.new-task": "new"
     "click": "collapseAll"
 
+  # Store currently loaded tasks
+  items: []
+
   constructor: ->
     super
     Task.bind "create", @addOne
@@ -43,9 +46,10 @@ class Tasks extends Spine.Controller
   addOne: (task) =>
     return unless List.current.id in [task.list, "all"]
     @tasks.prepend @template task
-    new TaskItem
+    view = new TaskItem
       el: @tasks.find("#task-#{ task.id }")
       task: task
+    @items.push view
 
   reload: =>
     @render List.current if List.current
@@ -57,6 +61,11 @@ class Tasks extends Spine.Controller
 
     # Disable task input box
     if @list.disabled then @input.hide() else @input.show()
+
+    # Unbind existing tasks
+    for item in @items
+      item.release()
+    @items = []
     @tasks.empty()
 
     if list.id is "filter"
@@ -97,9 +106,10 @@ class Tasks extends Spine.Controller
 
     setTimeout =>
       for task in tasks
-        new TaskItem
+        view = new TaskItem
           task: task
           el: @tasks.find("#task-#{ task.id }")
+        @items.push view
     , 1
 
   new: (e) ->

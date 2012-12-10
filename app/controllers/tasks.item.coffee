@@ -58,6 +58,12 @@ class TaskItem extends Spine.Controller
   remove: ->
     @task.destroy()
 
+  release: ->
+    # Remove model listeners
+    @task.unbind 'update', @update
+    @task.unbind 'destroy', @release
+    super
+
   toggleStatus: ->
     @task.completed = !@task.completed
     @task.save()

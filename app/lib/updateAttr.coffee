@@ -12,11 +12,11 @@ ClassMethods =
 
   # Clone model
   setAttributesSnapshot: (model) ->
-    @_attributesSnapshots[model.id] = model.toJSON()
+    @_attributesSnapshots[model.cid] = model.toJSON()
 
   # Return clone
   getAttributesSnapshot: (model) ->
-    @_attributesSnapshots[model.id]
+    @_attributesSnapshots[model.cid]
 
 AttributeTracking =
   extended: ->

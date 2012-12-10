@@ -1,6 +1,6 @@
 Spine = require('spine')
 
-class List extends Spine.Model
+class window.List extends Spine.Model
   @configure 'List', 'name'
 
   @extend @Sync

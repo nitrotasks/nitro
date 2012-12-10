@@ -1,9 +1,6 @@
 Spine = require('spine')
 
-class Task extends Spine.Model
-
-  isArray = (value) ->
-    Object::toString.call(value) is '[object Array]'
+class window.Task extends Spine.Model
 
   # Set model properties
   @configure 'Task',
@@ -16,23 +13,6 @@ class Task extends Spine.Model
 
   @extend @Sync
   @include @Sync
-
-  @refresh: (values, options = {}) ->
-    if options.clear
-      @records  = {}
-      @crecords = {}
-
-    records = @fromJSON(values)
-    records = [records] unless isArray(records)
-    # records = @sort(records)
-
-    for record in records
-      record.id           or= record.cid
-      @records[record.id]   = record
-      @crecords[record.cid] = record
-
-    @trigger('refresh', @cloneArray(records))
-    this
 
   @active: (list) =>
     @select (task) ->
