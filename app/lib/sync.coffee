@@ -14,7 +14,6 @@ Sync =
 
   # Sync status
   online: yes
-  syncing: no
   enabled: yes
 
   # Store user information
@@ -34,6 +33,18 @@ Sync =
 
     return unless @enabled
     socket.emit(name, args, fn)
+
+  # Go through each item in the queue and send it to the server
+  sync: ->
+    # Don't run if the queue is empty
+    return if @queue.length is 0
+    # Send queue to server
+    @emit 'sync', @queue, (records) ->
+      # Update records
+      console.log records
+      @queue = []
+      @saveQueue()
+    true
 
   # Prevents models triggering events when we update them
   disable: (callback) ->
@@ -180,28 +191,9 @@ Sync =
     @saveQueue()
     true
 
-  # Go through each item in the queue and send it to the server
-  emptyQueue: ->
-    # Don't run if the queue is empty
-    return if @queue.length is 0
-    # Disable items being able to be added to the queue
-    @syncing = yes
-    # Loop backwards so we can remove items afterwards
-    for index in [@queue.length-1..0]
-      item = @queue[index]
-      @sync.apply(this, item)
-      @queue.splice(index, 1)
-    @syncing = no
-    @saveQueue()
-    true
-
   saveQueue: ->
     # Save queue to localstorage
     localStorage.Queue = JSON.stringify @queue
-
-  # Update the server
-  sync: (name, args, timestamps) ->
-    socket.emit("sync-" + name, args, timestamps)
 
   goOffline: ->
     console.error "NitroSync: Couldn't connect to server"
@@ -214,9 +206,9 @@ for event in ['error', 'disconnect', 'connect_failed']
 # Login to server
 socket.emit 'login', Sync.user
 
-# Empty queue
+# Sync unsunk changes
 socket.on 'connect', ->
-  Sync.emptyQueue()
+  Sync.sync()
 
 # Just in case you need any default values
 class Base
@@ -229,21 +221,18 @@ class Collection extends Base
     # Set up bindings for server events
 
     socket.on 'create', (data) =>
-      console.log "Trigger: Create"
       [className, item] = data
       if className is @model.className
         Sync.disable =>
           @model.create item
 
     socket.on 'update', (data) =>
-      console.log "Trigger: Update"
       [className, item] = data
       if className is @model.className
         Sync.disable =>
           @model.find(item.id).updateAttributes(item)
 
     socket.on 'destroy', (data) =>
-      console.log "Trigger: Destroy"
       [className, id] = data
       if className is @model.className
         Sync.disable =>

@@ -438,7 +438,11 @@ header
 
           .name
             cursor: text
-            right: 214px;
+            right: 214px
+
+          &.completed
+            .name
+              color: #4c4c4c
 
           .notes
             cursor: text
@@ -469,7 +473,7 @@ header
 
           // Strikethrough task name
           .name
-            text-decoration: line-through
+            // text-decoration: line-through
             color: hsl(0,0,60%)
 
             // Change tag Color
