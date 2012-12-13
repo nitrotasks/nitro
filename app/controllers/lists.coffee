@@ -47,6 +47,7 @@ class Lists extends Spine.Controller
       @input.val ""
 
   addOne: (list) =>
+    return if list.id is "inbox"
     listItem = new ListItem( list: list )
     @lists.append listItem.render().el
 
