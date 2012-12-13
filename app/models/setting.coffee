@@ -13,6 +13,8 @@ class window.Setting extends Spine.Model
   constructor: ->
     super
     @sort ?= yes
+    @username ?= "username"
+    @theme ?= "light"
 
   # Change a setting
   # Setting.set("theme", "dark")
