@@ -70,6 +70,8 @@ class Tasks extends Spine.Controller
 
     if list.id is "filter"
       tasks = list.tasks
+    else if @list?.tasks
+      tasks = (Task.find id for id in @list.tasks)
     else
       tasks = Task.list(@list.id)
 

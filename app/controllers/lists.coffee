@@ -81,10 +81,7 @@ class Lists extends Spine.Controller
   # Show completed
   showCompleted: =>
     List.trigger "changeList",
-      name: "Completed"
-      id: "completed"
-      permanent: yes
-      disabled: yes
+      List.find("inbox")
     @el.find(".current").removeClass "current"
     @completed.addClass "current"
     true

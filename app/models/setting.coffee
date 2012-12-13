@@ -1,7 +1,7 @@
 Spine = require('spine')
 List = require('models/list')
 
-class Setting extends Spine.Model
+class window.Setting extends Spine.Model
   @configure 'Setting',
     'sort',
     'username'
@@ -19,7 +19,6 @@ class Setting extends Spine.Model
   @extend @Local
 
   @toggleSort: ->
-    console.log @first()
     @first().updateAttribute "sort", !@first().sort
     @trigger "changeSort", List.current
 

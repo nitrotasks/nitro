@@ -46,6 +46,13 @@ class App extends Spine.Controller
     new ListTitle
       el: @listTitle
 
+    # Create inbox list
+    if not List.exists("inbox")
+      List.create
+        id: "inbox"
+        name: "Inbox"
+        permanent: yes
+
     # Load data for localStorage
     Task.fetch()
     List.fetch()
