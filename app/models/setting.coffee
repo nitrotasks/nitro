@@ -16,6 +16,9 @@ class window.Setting extends Spine.Model
   @sortMode: =>
     @first().sort
 
+  @isPro: ->
+    return true
+
   @extend @Local
 
   @toggleSort: ->
