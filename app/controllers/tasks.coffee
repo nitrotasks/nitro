@@ -77,6 +77,10 @@ class Tasks extends Spine.Controller
 
     html = ""
 
+    # If the list is disabled, make sorting default
+    Setting.toggleSort() if @list.disabled and !Setting.sortMode()
+
+    # Sorting tasks
     if Setting.sortMode()
       tasks = Task.sort(tasks)
       last = tasks[0]?.priority
