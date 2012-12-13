@@ -103,6 +103,12 @@ class Tasks extends Spine.Controller
             element = "<div data-id=\"#{ id }\" class=\"helper\">#{ $(task).find('.name').text() }</div>"
             $("body").append(element)
             $("[data-id=#{ id }]")
+          update: ( event, ui ) ->
+            arr = []
+            $(this).children().each (index) ->
+              arr.push $(this).attr('id').slice(5)
+            @list.setOrder arr
+
 
     @tasks.html html
 
