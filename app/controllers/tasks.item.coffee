@@ -106,7 +106,6 @@ class TaskItem extends Spine.Controller
       e.preventDefault()
       @name.blur()
 
-
   # ----------------------------------------------------------------------------
   # NOTES
   # ----------------------------------------------------------------------------
@@ -116,7 +115,7 @@ class TaskItem extends Spine.Controller
     @notes.parent().removeClass("placeholder")
 
   notesSave: =>
-    text = @notes.text()
+    text = @notes.html()
     if text is ""
       @notes.text("Notes")
       @notes.parent().addClass("placeholder")
@@ -128,6 +127,14 @@ class TaskItem extends Spine.Controller
   # ----------------------------------------------------------------------------
   datesSave: =>
     @task.updateAttribute "date", new Date(@date.val()).getTime()
+
+    # Disables Shizz
+    if @date.val().length > 0
+      @el.find("img").css('display', 'inline-block')
+      @date.css('display', 'inline-block')
+    else
+      @el.find("img").removeAttr('style')
+      @date.removeAttr('style')
 
   # ----------------------------------------------------------------------------
   # TAGS
