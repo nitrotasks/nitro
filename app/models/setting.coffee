@@ -2,9 +2,6 @@ Spine = require('spine')
 List = require('models/list')
 
 class window.Setting extends Spine.Model
-
-  @extend @Local
-
   @configure 'Setting',
     'sort',
     'username',
@@ -16,11 +13,13 @@ class window.Setting extends Spine.Model
     @username ?= "username"
     @theme ?= "light"
 
+  @extend @Local
+
   # Change a setting
   # Setting.set("theme", "dark")
   @set: (key, value) =>
     @first().updateAttribute key, value
-    true
+    value
 
   @toggle: (key) =>
     @set key, !@get(key)
@@ -30,15 +29,13 @@ class window.Setting extends Spine.Model
   @get: (key) =>
     @first()[key]
 
-  # Return sort mode
   @sortMode: =>
-    @get("sort")
+    @get "sort"
 
   # Check is user is pro
   @isPro: ->
     return true
 
-  # Toggle sort
   @toggleSort: ->
     @toggle "sort"
     @trigger "changeSort", List.current
