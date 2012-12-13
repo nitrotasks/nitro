@@ -46,16 +46,16 @@ class App extends Spine.Controller
     new ListTitle
       el: @listTitle
 
+    # Load data for localStorage
+    List.fetch()
+    Task.fetch()
+
     # Create inbox list
-    if not List.exists("inbox")
+    if not !!List.exists("inbox")
       List.create
         id: "inbox"
         name: "Inbox"
         permanent: yes
-
-    # Load data for localStorage
-    Task.fetch()
-    List.fetch()
 
     # Select the first list on load
     @lists.showInbox()

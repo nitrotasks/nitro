@@ -92,6 +92,7 @@ class Tasks extends Spine.Controller
         html = @template(task) + html
 
         # Fuckit, I'll refactor laterz
+        self = @
         $(this.el[1]).sortable
           distance: 10
           scroll: false
@@ -106,8 +107,8 @@ class Tasks extends Spine.Controller
           update: ( event, ui ) ->
             arr = []
             $(this).children().each (index) ->
-              arr.push $(this).attr('id').slice(5)
-            @list.setOrder arr
+              arr.unshift $(this).attr('id').slice(5)
+            self.list.setOrder arr
 
 
     @tasks.html html

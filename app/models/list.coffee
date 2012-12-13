@@ -2,7 +2,7 @@ Spine = require('spine')
 Task = require('models/task')
 
 class window.List extends Spine.Model
-  @configure 'List', 'name', 'tasks'
+  @configure 'List', 'name', 'tasks', 'permanent'
 
   @extend @Sync
   @include @Sync
@@ -28,8 +28,8 @@ class window.List extends Spine.Model
       @tasks.splice(index, 1)
       @save()
 
-  setOrder: (tasks) ->
-    @task = tasks
-    @save()
+  setOrder: (tasks) =>
+    console.log "Setting order: ", tasks
+    @updateAttribute("tasks", tasks)
 
 module.exports = List
