@@ -91,27 +91,26 @@ class Tasks extends Spine.Controller
       for task in tasks
         html = @template(task) + html
 
-        # Fuckit, I'll refactor laterz
-        self = @
-        $(this.el[1]).sortable
-          distance: 10
-          scroll: false
-          cursorAt:
-            top: 15
-            left: 30
-          helper: (event, task) ->
-            id = $(task).attr("id")
-            element = "<div data-id=\"#{ id }\" class=\"helper\">#{ $(task).find('.name').text() }</div>"
-            $("body").append(element)
-            $("[data-id=#{ id }]")
-          update: ( event, ui ) ->
-            arr = []
-            $(this).children().each (index) ->
-              arr.unshift $(this).attr('id').slice(5)
-            self.list.setOrder arr
-
-
     @tasks.html html
+
+    if not @list.disabled
+      self = @
+      $(this.el[1]).sortable
+        distance: 10
+        scroll: false
+        cursorAt:
+          top: 15
+          left: 30
+        helper: (event, task) ->
+          id = $(task).attr("id")
+          element = "<div data-id=\"#{ id }\" class=\"helper\">#{ $(task).find('.name').text() }</div>"
+          $("body").append(element)
+          $("[data-id=#{ id }]")
+        update: ( event, ui ) ->
+          arr = []
+          $(this).children().each (index) ->
+            arr.unshift $(this).attr('id').slice(5)
+          self.list.setOrder arr
 
     setTimeout =>
       for task in tasks
