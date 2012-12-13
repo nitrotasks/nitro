@@ -30,5 +30,6 @@ class window.List extends Spine.Model
 
   setOrder: (tasks) ->
     @task = tasks
+    @save()
 
 module.exports = List
