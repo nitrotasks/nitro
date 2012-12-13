@@ -260,8 +260,8 @@ header
           border-top: 1px $task-color solid
 
       li.seperator
-        list-style-type: none;
-        height: 20px;
+        list-style-type: none
+        height: 20px
 
         &+ li
           border-top: 1px $task-color solid
@@ -665,6 +665,32 @@ header
   font-size: 14px
   cursor: default
   width: auto !important
+
+// Dark Theme
+.dark
+  body
+    background: #333333
+
+  .main .title h1, .sidebar .title h2
+    color: $light-blue
+
+  header
+    vbg-gradient(#333, #111)
+    border-bottom: 1px solid #444
+
+    .user .name
+      color: #fff
+      text-shadow: 0px 1px 0px black
+
+  .sidebar
+    .list
+      color: #fff
+      border-top: 1px solid #444
+
+    .new-list
+      background: #333
+      color: #fff
+      border-top: 1px solid #444
 
 
 // jQuery UI
