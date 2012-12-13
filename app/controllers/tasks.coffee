@@ -1,7 +1,7 @@
 Spine    = require("spine")
 Task     = require("models/task")
 List     = require("models/list")
-Settings = require("models/settings")
+Setting  = require("models/setting")
 TaskItem = require("controllers/tasks.item")
 Keys     = require("utils/keys")
 
@@ -25,11 +25,11 @@ class Tasks extends Spine.Controller
     Task.bind "create", @addOne
     Task.bind "refresh", @reload
     List.bind "changeList", @render
-    Settings.bind "changeSort", @render
+    Setting.bind "changeSort", @render
 
     $("body").on "mouseover", ".main .task", ->
 
-      if Settings.sortMode() and not $(this).hasClass("ui-draggable")
+      if Setting.sortMode() and not $(this).hasClass("ui-draggable")
 
         $(this).draggable
           distance: 10
@@ -75,7 +75,7 @@ class Tasks extends Spine.Controller
 
     html = ""
 
-    if Settings.sortMode()
+    if Setting.sortMode()
       tasks = Task.sort(tasks)
       last = tasks[0]?.priority
       for task in tasks
@@ -115,7 +115,7 @@ class Tasks extends Spine.Controller
   new: (e) ->
     val = @input.val()
     if e.which is Keys.ENTER and val
-      if Settings.sortMode()
+      if Setting.sortMode()
         if $(".main .tasks .seperator").length == 0
           $(".main .tasks").prepend("<li class='seperator'></li>")
 

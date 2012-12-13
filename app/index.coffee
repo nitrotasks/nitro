@@ -1,12 +1,17 @@
 require('lib/setup')
 Spine = require('spine')
+
+# Models
 Task  = require('models/task')
 List  = require('models/list')
-Settings = require("models/settings")
+Setting = require('models/setting')
+
+# Controllers
 Tasks = require('controllers/tasks')
 Lists = require('controllers/lists')
 ListTitle = require('controllers/lists.title')
 Panel = require('controllers/panel')
+Settings = require("controllers/settings")
 
 class App extends Spine.Controller
 
@@ -15,18 +20,23 @@ class App extends Spine.Controller
     '.sidebar': 'listsContainer'
     '.tasks .title': 'listTitle'
     'header': 'panel'
+    '.settings': 'settings'
 
   constructor: ->
     super
 
     # Load settings
-    Settings.fetch()
-    if Settings.count() is 0
-      Settings.create()
+    Setting.fetch()
+    if Setting.count() is 0
+      Setting.create()
 
     # Init panel
     new Panel
       el: @panel
+
+    # Init settings
+    window.settings = new Settings
+      el: @settings
 
     # Init tasks
     @tasks = new Tasks( el: @tasksContainer )
@@ -42,5 +52,8 @@ class App extends Spine.Controller
 
     # Select the first list on load
     @lists.showInbox()
+
+    # Login to sync
+    Spine.Sync.login(Setting.first().username)
 
 module.exports = App

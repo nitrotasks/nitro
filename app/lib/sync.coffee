@@ -16,9 +16,6 @@ Sync =
   online: yes
   enabled: yes
 
-  # Store user information
-  user: "username"
-
   # Hold unsynced events
   queue: JSON.parse localStorage.Queue or "[]"
 
@@ -199,12 +196,13 @@ Sync =
     console.error "NitroSync: Couldn't connect to server"
     Sync.online = no
 
+  # Login to server
+  login: (username) ->
+    socket.emit 'login', username
+
 # Handle offline modes
 for event in ['error', 'disconnect', 'connect_failed']
   socket.on event, Sync.goOffline
-
-# Login to server
-socket.emit 'login', Sync.user
 
 # Sync unsunk changes
 socket.on 'connect', ->

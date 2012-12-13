@@ -3,11 +3,15 @@ List = require('models/list')
 
 class Setting extends Spine.Model
   @configure 'Setting',
-    'sort'
+    'sort',
+    'username'
 
   constructor: ->
     super
     @sort ?= yes
+
+  @set: (key, value) =>
+    @first().updateAttribute key, value
 
   @sortMode: =>
     @first().sort

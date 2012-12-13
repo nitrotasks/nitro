@@ -1,6 +1,8 @@
 Spine = require('spine')
 List = require("models/list")
 Task = require("models/task")
+Setting = require("models/setting")
+Settings = require("controllers/settings")
 
 class Panel extends Spine.Controller
 
@@ -11,6 +13,7 @@ class Panel extends Spine.Controller
   events:
     "keyup .search input": "search"
     "click .search a": "clearSearch"
+    "click .user": "toggleSettings"
 
   constructor: ->
     super
@@ -32,5 +35,8 @@ class Panel extends Spine.Controller
   clearSearch: =>
     @searchInput.val("").focus()
     List.trigger "changeList", @originalList
+
+  toggleSettings: ->
+    Setting.trigger "toggle"
 
 module.exports = Panel
