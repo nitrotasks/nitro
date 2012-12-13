@@ -59,10 +59,12 @@ body
     height: 0
     padding: 0 44px
     border-top: 1px transparent solid
+    overflow: hidden
   100%
     height: 40px
     padding: 5 44px
     border-top: 1px #E6E6E6 solid
+    overflow: hidden
 
 @-webkit-keyframes rev
   0%
@@ -414,6 +416,9 @@ header
           padding: 0 5px 0 44px
           overflow:hidden
 
+          &::-webkit-scrollbar-track
+            margin: 10px 0
+
           &.placeholder
             font-style: italic
             color: hsl(0,0,40%)
@@ -452,6 +457,8 @@ header
             padding: 5px 5px 5px 44px
             border-top: 1px #E6E6E6 solid
             -webkit-animation: 0.15s ease height 1
+            overflow: auto
+            max-height: 200px
 
             &.auto
               height: auto
