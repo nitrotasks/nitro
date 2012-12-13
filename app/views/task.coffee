@@ -13,7 +13,7 @@ module.exports = """
     <div class="delete"></div>
   </div>
   {{#if notes }}
-    <div class="notes"><div class="inner" contenteditable="true">{{notes}}</div></div>
+    <div class="notes"><div class="inner" contenteditable="true">{{{notes}}</div></div>
   {{else}}
     <div class="notes placeholder"><div class="inner" contenteditable="true">Notes</div></div>
   {{/if }}

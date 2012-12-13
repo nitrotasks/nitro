@@ -116,7 +116,7 @@ class TaskItem extends Spine.Controller
     @notes.parent().removeClass("placeholder")
 
   notesSave: =>
-    text = @notes.text()
+    text = @notes.html()
     if text is ""
       @notes.text("Notes")
       @notes.parent().addClass("placeholder")
