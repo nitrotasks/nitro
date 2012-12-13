@@ -1,7 +1,8 @@
-Spine = require('spine')
-List  = require('models/list')
-Keys  = require("utils/keys")
-$     = Spine.$
+Spine   = require('spine')
+List    = require('models/list')
+Setting = require("models/setting")
+Keys    = require("utils/keys")
+$       = Spine.$
 
 class TaskItem extends Spine.Controller
 
@@ -72,6 +73,8 @@ class TaskItem extends Spine.Controller
     if e.target.className isnt "checkbox"
       @el.parent().find(".expanded").removeClass("expanded")
       @el.addClass("expanded animout")
+
+      # OMG AWESOME SETTIGNS OWKRS.
       @el.draggable({ disabled: true })
       @el.parent().sortable({ disabled: true })
 

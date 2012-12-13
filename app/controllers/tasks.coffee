@@ -137,10 +137,14 @@ class Tasks extends Spine.Controller
     # Only works on some elements
     # if e.target.nodeName in ["SECTION", "INPUT", "H1", "A"] or $(e.target).hasClass("title") or $(e.target).hasClass("tasks-container")
     if e.target.className is "main tasks"
+
+      if Setting.sortMode()
+        @el.find(".expanded").draggable({ disabled: false })
+      else
+        @el.find(".expanded").parent().sortable({ disabled: false })
+
       @el.find(".expanded")
         .removeClass("expanded")
-        .draggable({ disabled: false })
-        .sortable({ disabled: false })
         .find(".notes")
         .removeClass("auto")
 
