@@ -4,7 +4,11 @@ module.exports = """
   <div class="checkbox"></div>
   <div class="name" contenteditable="true">{{addTags name }}</div>
   <div class="right-controls">
-    <img src="img/calendar.png"><input class="date" placeholder="Due Date"{{#if date}}value="{{date}}"{{/if }}>
+    {{#if date}}
+    <img style="display: inline-block" src="img/calendar.png"><input style="display: inline-block" class="date" placeholder="Due Date" value="{{date}}">
+    {{else}}
+    <img src="img/calendar.png"><input class="date" placeholder="Due Date" value="">
+    {{/if }}
     <div class="priority-button">
       <div data-id="1" class="low"></div>
       <div data-id="2" class="medium"></div>
