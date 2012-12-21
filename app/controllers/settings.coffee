@@ -23,14 +23,16 @@ class Settings extends Spine.Controller
     @username.val Setting.get "username"
     @weekStart.val Setting.get "weekStart"
     @dateFormat.val Setting.get "dateFormat"
+    @confirmDelete.prop "checked", Setting.get("confirmDelete")
 
   toggle: =>
-    @el.toggleClass("show")
+    @el.toggleClass "show"
 
   save: =>
     Setting.set "username", @username.val()
     Setting.set "weekStart", @weekStart.val()
     Setting.set "dateFormat", @dateFormat.val()
+    Setting.set "confirmDelete",  @confirmDelete.prop "checked"
 
   clearData: =>
     @log "Clearing data"
