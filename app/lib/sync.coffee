@@ -33,10 +33,9 @@ Sync =
 
   # Go through each item in the queue and send it to the server
   sync: ->
-    # Don't run if the queue is empty
-    return if @queue.length is 0
+    console.log "Going to run sync"
     # Send queue to server
-    @emit 'sync', @queue, (records) ->
+    @emit 'sync', @queue, (records) =>
       # Update records
       console.log records
       @queue = []
@@ -205,8 +204,8 @@ for event in ['error', 'disconnect', 'connect_failed']
   socket.on event, Sync.goOffline
 
 # Sync unsunk changes
-socket.on 'connect', ->
-  Sync.sync()
+# socket.on 'connect', ->
+#   Sync.sync()
 
 # Just in case you need any default values
 class Base
