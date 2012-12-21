@@ -26,7 +26,7 @@ class App extends Spine.Controller
     '.settings': 'settings'
 
   events:
-    "keyup": "collapseAllOnEsc"
+    "keydown": "collapseAllOnEsc"
 
   constructor: ->
     super
@@ -71,9 +71,8 @@ class App extends Spine.Controller
 
   collapseAllOnEsc: (e) =>
     if e.which is Keys.ESCAPE
-      focusedInputs = $ "input:focus"
-      console.log focusedInputs
-      if focusedInputs is null and focusedInputs.length is 0
+      focusedInputs = $ "div:focus"
+      if focusedInputs.length is 0
         @tasks.collapseAll()
 
 module.exports = App
