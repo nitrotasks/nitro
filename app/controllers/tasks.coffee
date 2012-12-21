@@ -49,6 +49,7 @@ class Tasks extends Spine.Controller
     view = new TaskItem
       el: @tasks.find("#task-#{ task.id }")
       task: task
+    view.el.addClass("new")
     @items.push view
 
   reload: =>

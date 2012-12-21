@@ -13,6 +13,8 @@ class window.Setting extends Spine.Model
     @username ?= "username"
     @theme ?= "light"
 
+    $('html').addClass 'dark' if @theme == 'dark'
+
   @extend @Local
 
   # Change a setting

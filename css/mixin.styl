@@ -13,14 +13,14 @@ border-radius()
 /* Vertical Background Gradient */
 vbg-gradient(fc = #FFF, tc = #FFF)
   background: fc
-  background: -webkit-gradient(linear, left top, left bottom, from(fc), to(tc))
+  background: -webkit-linear-gradient(top, fc, tc)
   background: -moz-linear-gradient(top, fc, tc)
   background: linear-gradient(top, fc, tc)
 
 /* Horizontal Background Gradient */
 hbg-gradient(fc = #FFF, tc = #FFF)
   background: fc
-  background: -webkit-gradient(linear, left top, right top, from(fc), to(tc))
+  background: -webkit-linear-gradient(left, fc, tc)
   background: -moz-linear-gradient(left, fc, tc)
   background: linear-gradient(left, fc, tc)
 
