@@ -14,6 +14,7 @@ class window.List extends Spine.Model
     @tasks ?= []
     Task.bind "create", @addTask
     Task.bind "destroy", @removeTask
+    Task.bind "updateAttr", @updateTask
 
   addTask: (task) =>
     return unless task.list is @id
@@ -26,6 +27,14 @@ class window.List extends Spine.Model
     index = @tasks.indexOf(task.id)
     if index > -1
       @tasks.splice(index, 1)
+      @save()
+
+  # BUG: gets called twice on first run...
+  updateTask: (task, attr, val, old) =>
+    return unless attr in ["id"]
+    index = @tasks.indexOf(old)
+    if index > -1
+      @tasks[index] = val
       @save()
 
   setOrder: (tasks) =>
