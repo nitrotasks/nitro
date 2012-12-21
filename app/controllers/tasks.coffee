@@ -15,7 +15,7 @@ class Tasks extends Spine.Controller
 
   events:
     "keyup input.new-task": "new"
-    "click": "collapseAll"
+    "click": "collapseAllOnClick"
 
   # Store currently loaded tasks
   items: []
@@ -56,30 +56,53 @@ class Tasks extends Spine.Controller
 
   render: (list) =>
 
+    console.log ""
+
+    console.time "list"
+
+    console.time "start"
+
     # Update current list if the list is changed
     @list = list if list
 
     # Disable task input box
     if @list.disabled then @input.hide() else @input.show()
+    console.timeEnd "start"
+
+    console.time "release"
+
+    oldItems = @items.slice(0)
+    @items = []
 
     # Unbind existing tasks
-    for item in @items
-      item.release()
-    @items = []
-    @tasks.empty()
+    setTimeout ->
+      for item in oldItems
+        item.release()
+    , 300
+    console.timeEnd "release"
 
+    console.time "empty"
+    @tasks.html("")
+    console.timeEnd "empty"
+
+
+    console.time "getTasks"
     if list.id is "filter"
       tasks = list.tasks
     else if @list?.tasks
       tasks = (Task.find id for id in @list.tasks)
     else
       tasks = Task.list(@list.id)
+    console.timeEnd "getTasks"
 
     html = ""
 
+    console.time "toggleSort"
     # If the list is disabled, make sorting default
     Setting.toggleSort() if @list.disabled and !Setting.sortMode()
+    console.timeEnd "toggleSort"
 
+    console.time "sort"
     # Sorting tasks
     if Setting.sortMode()
       tasks = Task.sort(tasks)
@@ -94,9 +117,13 @@ class Tasks extends Spine.Controller
     else
       for task in tasks
         html = @template(task) + html
+    console.timeEnd "sort"
 
+    console.time "html"
     @tasks.html html
+    console.timeEnd "html"
 
+    console.time "sortable"
     if not @list.disabled
       self = @
       $(this.el[1]).sortable
@@ -115,14 +142,20 @@ class Tasks extends Spine.Controller
           $(this).children().each (index) ->
             arr.unshift $(this).attr('id').slice(5)
           self.list.setOrder arr
+    console.timeEnd "sortable"
 
     setTimeout =>
       for task in tasks
         view = new TaskItem
           task: task
           el: @tasks.find("#task-#{ task.id }")
-        @items.push view
-    , 1
+        @items[@items.length] = view
+    , 1000
+
+    console.timeEnd "list"
+
+    console.log ""
+
 
   new: (e) ->
     val = @input.val()

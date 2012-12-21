@@ -29,8 +29,8 @@ class window.Task extends Spine.Model
     @all().filter (task) ->
         task.list is listId
 
-  @sort: (tasks) ->
-    tasks.sort (a, b) ->
+  @sort: (tasks) =>
+    sorted = tasks.sort (a, b) ->
       # If logged, move to bottom
       if a.completed is b.completed
         diff = a.priority - b.priority
