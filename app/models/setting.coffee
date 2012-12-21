@@ -5,12 +5,14 @@ class window.Setting extends Spine.Model
   @configure 'Setting',
     'sort',
     'username',
+    'weekStart',
     'theme'
 
   constructor: ->
     super
     @sort ?= yes
     @username ?= "username"
+    @weekStart ?= "1"
     @theme ?= "light"
 
     $('html').addClass 'dark' if @theme == 'dark'

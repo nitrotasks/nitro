@@ -13,6 +13,7 @@ class Settings extends Spine.Controller
 
   events:
     "change input": "save"
+    "change select": "save"
     "click .clear-data": "clearData"
 
   constructor: ->
@@ -26,6 +27,7 @@ class Settings extends Spine.Controller
 
   save: =>
     Setting.set("username", @username.val())
+    Setting.set("weekStart", @weekStart.val())
 
   clearData: =>
     @log "Clearing data"
