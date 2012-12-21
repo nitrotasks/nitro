@@ -8,6 +8,7 @@ class TaskItem extends Spine.Controller
 
   elements:
     '.name': 'name'
+    '.input-name': 'inputName'
     '.date': 'date'
     '.notes .inner': 'notes'
 
@@ -19,8 +20,8 @@ class TaskItem extends Spine.Controller
 
     # Editing the actual task
     'click': 'expand'
-    'blur .name': 'endEdit'
-    'keypress .name': 'endEditOnEnter'
+    'blur .input-name': 'endEdit'
+    'keypress .input-name': 'endEditOnEnter'
 
     # Make notes editable
     'focus .notes': 'notesEdit'
@@ -70,16 +71,19 @@ class TaskItem extends Spine.Controller
     @task.save()
 
   expand: (e) ->
-    if e.target.className isnt "checkbox"
-      @el.parent().find(".expanded").removeClass("expanded")
+    if not @el.hasClass("expanded") and e.target.className isnt "checkbox"
+      @el.parent()
+        .find(".expanded")
+        .removeClass("expanded")
+      @inputName.val @task.name
       @el.addClass("expanded animout")
 
-      # OMG AWESOME SETTIGNS OWKRS.
+      # Disable sortable and draggable
       @el.draggable({ disabled: true })
       @el.parent().sortable({ disabled: true })
 
       notes = @notes.parent()
-      setTimeout (->
+      setTimeout ( =>
         notes.addClass("auto")
       ), 300
 
@@ -98,13 +102,13 @@ class TaskItem extends Spine.Controller
   # ----------------------------------------------------------------------------
 
   endEdit: ->
-    val = @name.text()
+    val = @inputName.val()
     if val then @task.updateAttribute("name", val) else @task.destroy()
 
   endEditOnEnter: (e) =>
     if e.which is Keys.ENTER
       e.preventDefault()
-      @name.blur()
+      @inputName.blur()
 
   # ----------------------------------------------------------------------------
   # NOTES

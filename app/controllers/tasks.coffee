@@ -14,7 +14,7 @@ class Tasks extends Spine.Controller
     "input.new-task": "input"
 
   events:
-    "keyup input.new-task": "new"
+    "keydown input.new-task": "new"
     "click": "collapseAllOnClick"
 
   # Store currently loaded tasks
@@ -183,6 +183,10 @@ class Tasks extends Spine.Controller
 
     @el.find(".expanded")
       .removeClass("expanded")
+      .find(".name")
+      .blur()
+      .attr("contenteditable", false)
+      .parent()
       .find(".notes")
       .removeClass("auto")
 
