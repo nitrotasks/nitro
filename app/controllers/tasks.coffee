@@ -82,11 +82,6 @@ class Tasks extends Spine.Controller
     , 300
     console.timeEnd "release"
 
-    console.time "empty"
-    @tasks.html("")
-    console.timeEnd "empty"
-
-
     console.time "getTasks"
     if list.id is "filter"
       tasks = list.tasks
@@ -121,7 +116,7 @@ class Tasks extends Spine.Controller
     console.timeEnd "sort"
 
     console.time "html"
-    @tasks.html html
+    @tasks[0].innerHTML = html
     console.timeEnd "html"
 
     console.time "sortable"
