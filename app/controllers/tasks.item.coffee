@@ -39,7 +39,9 @@ class TaskItem extends Spine.Controller
   render: =>
 
     # Bind datepicker
-    @date.datepicker(firstDay: Setting.get("weekStart"))
+    @date.datepicker
+      firstDay: Setting.get("weekStart")
+      dateFormat: Setting.get("dateFormat")
     @date.datepicker("setDate", new Date(@task.date)) if @task.date
 
   update: (task) =>

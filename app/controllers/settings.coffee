@@ -20,14 +20,17 @@ class Settings extends Spine.Controller
     super
     Setting.bind "toggle", @toggle
     Setting.bind "saved", @showFlash
-    @username.val Setting.first().username
+    @username.val Setting.get "username"
+    @weekStart.val Setting.get "weekStart"
+    @dateFormat.val Setting.get "dateFormat"
 
   toggle: =>
     @el.toggleClass("show")
 
   save: =>
-    Setting.set("username", @username.val())
-    Setting.set("weekStart", @weekStart.val())
+    Setting.set "username", @username.val()
+    Setting.set "weekStart", @weekStart.val()
+    Setting.set "dateFormat", @dateFormat.val()
 
   clearData: =>
     @log "Clearing data"

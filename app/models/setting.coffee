@@ -6,6 +6,7 @@ class window.Setting extends Spine.Model
     'sort',
     'username',
     'weekStart',
+    'dateFormat',
     'theme'
 
   constructor: ->
@@ -13,6 +14,7 @@ class window.Setting extends Spine.Model
     @sort ?= yes
     @username ?= "username"
     @weekStart ?= "1"
+    @dateFormat ?= "dd/mm/yy"
     @theme ?= "light"
 
     $('html').addClass 'dark' if @theme == 'dark'
