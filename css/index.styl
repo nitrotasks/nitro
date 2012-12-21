@@ -23,6 +23,7 @@ body
 ::-webkit-scrollbar
   -webkit-appearance: none
   width: 7px
+  height: 7px
 
 ::-webkit-scrollbar-track
   // Don't let the scrollbar touch the sides
@@ -340,11 +341,16 @@ ul.tasks
     overflow: hidden
     white-space: nowrap
     text-overflow: ellipsis
-    transition(0.2s, background)
+    cursor: default
 
+  .input-name
+    abs(6px, 0, auto, 44px)
+    transition(0.2s, background)
+    display: none
+    border: none
+    outline: none
     &:focus
       background: #f5f5f5
-      outline: none
 
   // Buttons
   .right-controls
@@ -457,6 +463,10 @@ ul.tasks
       display: inline-block
 
     .name
+      display: none
+
+    .input-name
+      display: inline-block
       cursor: text
       right: 214px
 

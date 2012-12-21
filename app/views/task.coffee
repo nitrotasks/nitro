@@ -2,7 +2,8 @@ module.exports = """
 <li id="task-{{ id }}" class="task {{#if group}}group{{/if}} {{#if completed }}completed{{/if}} p{{ priority }}">
   <div class="priority"></div>
   <div class="checkbox"></div>
-  <div class="name" contenteditable="true">{{addTags name }}</div>
+  <div class="name">{{addTags name }}</div>
+  <input type="text" class="input-name">
   <div class="right-controls">
     {{#if date}}
     <img style="display: inline-block" src="img/calendar.png"><input style="display: inline-block" class="date" placeholder="Due Date" value="{{date}}">
