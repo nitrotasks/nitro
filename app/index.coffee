@@ -1,6 +1,9 @@
 require('lib/setup')
 Spine = require('spine')
 
+# Helpers
+Keys = require("utils/keys")
+
 # Models
 Task  = require('models/task')
 List  = require('models/list')
@@ -21,6 +24,9 @@ class App extends Spine.Controller
     '.tasks .title': 'listTitle'
     'header': 'panel'
     '.settings': 'settings'
+
+  events:
+    "keyup": "collapseAllOnEsc"
 
   constructor: ->
     super
@@ -62,5 +68,12 @@ class App extends Spine.Controller
 
     # Login to sync
     Spine.Sync.login(Setting.first().username)
+
+  collapseAllOnEsc: (e) =>
+    if e.which is Keys.ESCAPE
+      focusedInputs = $ "input:focus"
+      console.log focusedInputs
+      if focusedInputs is null and focusedInputs.length is 0
+        @tasks.collapseAll()
 
 module.exports = App

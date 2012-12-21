@@ -142,20 +142,26 @@ class Tasks extends Spine.Controller
         )()
       @input.val ""
 
+  # ----------------------------------------------------------------------------
+  # COLLAPSE ALL
+  # ----------------------------------------------------------------------------
+
+  collapseAll: ->
+    if Setting.sortMode()
+      @el.find(".expanded").draggable({ disabled: false })
+    else
+      @el.find(".expanded").parent().sortable({ disabled: false })
+
+    @el.find(".expanded")
+      .removeClass("expanded")
+      .find(".notes")
+      .removeClass("auto")
+
   # Collapsing of tasks
-  collapseAll: (e) ->
+  collapseAllOnClick: (e) =>
     # Only works on some elements
     # if e.target.nodeName in ["SECTION", "INPUT", "H1", "A"] or $(e.target).hasClass("title") or $(e.target).hasClass("tasks-container")
     if e.target.className is "main tasks"
-
-      if Setting.sortMode()
-        @el.find(".expanded").draggable({ disabled: false })
-      else
-        @el.find(".expanded").parent().sortable({ disabled: false })
-
-      @el.find(".expanded")
-        .removeClass("expanded")
-        .find(".notes")
-        .removeClass("auto")
+      @collapseAll()
 
 module.exports = Tasks
