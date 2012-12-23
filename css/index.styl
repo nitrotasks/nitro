@@ -329,10 +329,23 @@ ul.tasks
   .checkbox
     display: inline-block
     position: relative
-    margin: 8px 18px 0 11px
-    border: 1px #D9D9D9 solid
-    height: 10px
-    width: 10px
+    margin: 0 0 0 4px
+    width: 28px
+    height: 28px
+    // Not sure why, but there is a large space underneath
+    margin-bottom: -9px
+
+
+    &:before
+      display: block
+      content: ""
+      top: 8px
+      left: 7px
+      position: absolute
+      border: 1px #D9D9D9 solid
+      height: 10px
+      width: 10px
+
 
   // Task Name
   .name
@@ -344,6 +357,7 @@ ul.tasks
     cursor: default
 
   .input-name
+    color: #4c4c4c
     abs(6px, 0, auto, 44px)
     transition(0.2s, background)
     display: none
@@ -503,8 +517,12 @@ ul.tasks
     .checkbox:after
       content: ""
       display: block
-      abs(0,0,0,0)
-      background: url("img/checkmark.png")
+      position: absolute
+      top: 9px
+      left: 8px
+      width: 10px
+      height: 10px
+      background: url("img/checkmark.png") no-repeat
 
     // Strikethrough task name
     .name
