@@ -60,7 +60,10 @@ class TaskItem extends Spine.Controller
 
   # Delete Button
   remove: ->
-    @task.destroy()
+    if Setting.get "confirmDelete"
+      @task.destroy() if window.confirm "DO YALL WANT TO DELET"
+    else
+      @task.destroy()
 
   release: ->
     # Remove model listeners

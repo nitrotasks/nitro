@@ -42,7 +42,11 @@ class ListTitle extends Spine.Controller
   menuClick: (e)->
 
     switch e.currentTarget.className
-      when "trash" then @list.destroy()
+      when "trash"
+        if Setting.get "confirmDelete"
+          @list.destroy() if window.confirm "DO YALL WANT TO DELET"
+        else
+          @list.destroy()
       when "email" then @log "emailing"
       when "print" then window.print()
       when "share" then @log "sharing"
