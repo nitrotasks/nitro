@@ -315,10 +315,12 @@ ul.tasks
   .priority
     abs(-1px, auto, -1px, -1px)
     width: 0
+    transition(150ms, border, ease)
 
   .tag
     color: $dark-blue
     cursor: pointer
+    transition(150ms, color, ease)
 
     &:hover
       text-decoration: underline
@@ -353,6 +355,7 @@ ul.tasks
     white-space: nowrap
     text-overflow: ellipsis
     cursor: default
+    transition(150ms, color, ease)
 
   .input-name
     color: #4c4c4c
