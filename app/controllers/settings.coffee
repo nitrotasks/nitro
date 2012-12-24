@@ -8,7 +8,6 @@ class Settings extends Spine.Controller
     ".week-start": "weekStart"
     ".date-format": "dateFormat"
     ".confirm-delete": "confirmDelete"
-    ".search-mode": "searchMode"
     ".username": "username"
 
   events:
