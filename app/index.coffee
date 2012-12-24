@@ -1,20 +1,21 @@
-require('lib/setup')
-Spine = require('spine')
+require "lib/setup"
+Spine = require "spine"
 
 # Helpers
-Keys = require("utils/keys")
+Keys = require "utils/keys"
 
 # Models
-Task  = require('models/task')
-List  = require('models/list')
-Setting = require('models/setting')
+Task    = require "models/task"
+List    = require "models/list"
+Setting = require "models/setting"
 
 # Controllers
-Tasks = require('controllers/tasks')
-Lists = require('controllers/lists')
-ListTitle = require('controllers/lists.title')
-Panel = require('controllers/panel')
-Settings = require("controllers/settings")
+Tasks     = require "controllers/tasks"
+Lists     = require "controllers/lists"
+ListTitle = require "controllers/lists.title"
+Panel     = require "controllers/panel"
+Settings  = require "controllers/settings"
+Auth      = require "controllers/auth"
 
 class App extends Spine.Controller
 
@@ -24,6 +25,7 @@ class App extends Spine.Controller
     '.tasks .title': 'listTitle'
     'header': 'panel'
     '.settings': 'settings'
+    '.auth': 'auth'
 
   events:
     "keydown": "collapseAllOnEsc"
@@ -35,6 +37,10 @@ class App extends Spine.Controller
     Setting.fetch()
     if Setting.count() is 0
       Setting.create()
+
+    # Init Auth
+    new Auth
+      el: @auth
 
     # Init panel
     new Panel

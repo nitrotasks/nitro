@@ -125,20 +125,29 @@
     </div>
   </section>
 
-  <section class="auth login">
-    <h1>Nitro</h1>
+  <section class="auth">
+    <div class="form login">
+      <h1>Nitro</h1>
 
-    <label for="auth-username">Username</label>
-    <input id="auth-username" class="username" type="text" placeholder="Username">
+      <div class="name">
+        <label for="auth-name">Name</label>
+        <input id="auth-name" type="text" placeholder="Name">
+      </div>
 
-    <label for="auth-email">Email</label>
-    <input id="auth-email" class="email" type="email" placeholder="Email">
+      <div class="email">
+        <label for="auth-email">Email</label>
+        <input id="auth-email" type="email" placeholder="Email">
+      </div>
 
-    <label for="auth-password">Password</label>
-    <input id="auth-password" class="password" type="password" placeholder="Password">
+      <div class="password">
+        <label for="auth-password">Password</label>
+        <input id="auth-password" type="password" placeholder="Password">
+      </div>
 
-    <button>Register</button>
-    <button>Sign In</button>
+      <button>Log In</button>
+      <p class="message sign-up">Don't have an account? <a href="#">Sign Up</a></p>
+      <p class="message login">Already have an account? <a href="#">Log In</a></p>
+    </div>
   </section>
 
 </body>
