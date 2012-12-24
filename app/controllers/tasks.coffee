@@ -103,11 +103,17 @@ class Tasks extends Spine.Controller
     if Setting.sortMode()
       tasks = Task.sort(tasks)
       last = tasks[0]?.priority
+      completed = tasks[0]?.completed
       for task in tasks
-        if not task.completed and task.priority isnt last
-          task = task.clone()
+        # Add seperator if it is completed and the last one wasn't
+        if completed and not task.completed
+          completed = false
+          task.group = yes
+        # Add seperator if it is a different priority to the last one
+        if not completed and task.priority isnt last
           task.group = yes
         last = task.priority
+        # Append html
         html = @template(task) + html
 
     else
