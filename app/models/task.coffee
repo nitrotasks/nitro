@@ -44,14 +44,13 @@ class window.Task extends Spine.Model
   @filter: (query) ->
     return all() unless query
     query = query.toLowerCase().split(" ")
-    results = []
-    @select (item) ->
+    tasks = @all()
+    tasks.filter (item) ->
       matches = yes
       for word in query
         regex = new RegExp(word, "i")
         if not item.name?.match(regex) then matches = no
-      results.push(item) unless matches is no
-    return results
+      return matches
 
   @tag: (tag) ->
     return [] unless tag
