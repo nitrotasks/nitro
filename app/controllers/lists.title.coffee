@@ -8,6 +8,7 @@ class ListTitle extends Spine.Controller
   elements:
     "h1": "listName"
     ".buttons .trash": "deleteButton"
+    ".buttons .sort": "sortButton"
 
   events:
     "keyup h1": "rename"
@@ -25,10 +26,16 @@ class ListTitle extends Spine.Controller
     # Disables contenteditable on noneditable lists
     if @list.permanent
       @listName.removeAttr("contenteditable")
-      @deleteButton.fadeOut(300)
+      @deleteButton.fadeOut(150)
     else
       @listName.attr("contenteditable", true)
-      @deleteButton.fadeIn(300)
+      @deleteButton.fadeIn(150)
+
+    # Er, not sure but it detects complted and all
+    if @list.disabled
+      @sortButton.fadeOut(150)
+    else
+      @sortButton.fadeIn(150)
 
   # This is fired on keyup when a list is renamed
   rename: (e) ->
