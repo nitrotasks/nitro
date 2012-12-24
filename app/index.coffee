@@ -59,8 +59,8 @@ class App extends Spine.Controller
       el: @listTitle
 
     # Load data for localStorage
-    List.fetch()
     Task.fetch()
+    List.fetch()
 
     # Create inbox list
     if not !!List.exists("inbox")
