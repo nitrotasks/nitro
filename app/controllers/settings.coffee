@@ -18,14 +18,13 @@ class Settings extends Spine.Controller
   constructor: ->
     super
     Setting.bind "toggle", @toggle
-    Setting.bind "saved", @showFlash
     @username.val Setting.get "username"
     @weekStart.val Setting.get "weekStart"
     @dateFormat.val Setting.get "dateFormat"
     @confirmDelete.prop "checked", Setting.get("confirmDelete")
 
   toggle: =>
-    @el.toggleClass "show"
+    @el.show(0).toggleClass "show"
 
   save: =>
     Setting.set "username", @username.val()

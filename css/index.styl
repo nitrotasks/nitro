@@ -9,6 +9,8 @@
 $task-color = #d9d9d9
 $dark-blue = #068dd8
 $light-blue = #1BC1F5
+$green = #9DD071
+$red = #E15556
 
 body
   font-family: "Lato", sans-serif
@@ -303,13 +305,13 @@ ul.tasks
     abs(0, auto, 0, 31px)
 
   &.p3 .priority
-    border-left: 4px solid #E15556
+    border-left: 4px solid $red
 
   &.p2 .priority
-    border-left: 4px solid #9DD071
+    border-left: 4px solid $green
 
   &.p1 .priority
-    border-left: 4px solid #1BC1F5
+    border-left: 4px solid $light-blue
 
   // Priority
   .priority
@@ -406,13 +408,13 @@ ul.tasks
         border: 1px solid rgba(#000, 0.5)
 
     .low
-      background: #1BC1F5
+      background: $blue
 
     .medium
-      background: #9DD071
+      background: $green
 
     .high
-      background: #E15556
+      background: $red
 
   // Date
   //This is so it shows up in the print styles
@@ -536,22 +538,32 @@ ul.tasks
 //     SETTINGS
 // --------------------
 
-.main.settings
+.modal.settings
   display: none
   font-size: 14px
   color: hsl(0,0,30%)
   background: #fff
+  width: 100%
+  height: 100%
+  background-color: rgba(255,255,255,0.7)
+  opacity: 0
+  z-index: 10
+  position: absolute
+  transition(.3s, opacity, ease)
+
+  .settings-container
+    width: 600px
+    abs(20%, auto, auto, 50%)
+    margin-left: -300px
+    background: #fff
+    border: 3px solid $green
+    transition(.3s, -webkit-transform, ease)
+    -webkit-transform: scale(0.75) translate3d(0, 0, 0)
 
   &.show
-    display: block
-
-  .flash
-    display: none
-    border: 1px solid #dcd978
-    background: #fffc92
-    border-radius(5px)
-    padding: 10px
-
+    opacity: 1
+    .settings-container
+      -webkit-transform: scale(1) translate3d(0, 0, 0)
 
 
 
