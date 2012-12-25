@@ -549,16 +549,47 @@ ul.tasks
   opacity: 0
   z-index: 10
   position: absolute
+  -webkit-transform: translate3d(0, 0, 0)
   transition(.3s, opacity, ease)
 
   .settings-container
     width: 600px
-    abs(20%, auto, auto, 50%)
+    abs(15%, auto, auto, 50%)
     margin-left: -300px
     background: #fff
     border: 3px solid $green
     transition(.3s, -webkit-transform, ease)
     -webkit-transform: scale(0.75) translate3d(0, 0, 0)
+
+    & > div
+      padding: 25px
+
+    .tabs
+      ul
+        list-style-type: none
+        margin: 0
+        padding: 0
+        font-size: 0
+        border-bottom: 3px solid $green
+      li
+        display: inline-block
+        line-height: 30px
+        font-size: 15px
+        padding: 0 15px
+        font-weight: bold
+        color: #666;
+        cursor: default
+        transition(.15s, background-color, ease)
+        background-color: #fff
+
+        &:hover
+          background-color: lighten($green, 90%)
+
+        &.current
+          background-color: $green
+          text-shadow: 0 -1px 0 darken($green, 30%)
+          color: #fff
+
 
   &.show
     opacity: 1

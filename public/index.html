@@ -75,42 +75,45 @@
 
   <section class="modal settings">
     <div class="settings-container">
+      <nav class="tabs">
+        <ul>
+          <li class="current">General</li>
+          <li>Account</li>
+          <li>Language</li>
+          <li>About</li>
+        </ul>
+      </nav>
+      <div class="general">
+        <label for="language">Language</label>
+        <select id="language">
+          <option value="english">English (UK)</option>
+        </select>
 
-      <h2>General</h2>
+        <br><br>
 
-      <label>Language</label>
-      <select>
-        <option value="english">English (UK)</option>
-      </select>
+        <label for="week-start">Week starts on:</label>
+        <select id="week-start" class="week-start">
+          <option value="1">Monday</option>
+          <option value="0">Sunday</option>
+        </select>
 
-      <br><br>
+        <br><br>
 
-      <label>Week starts on:</label>
-      <select class="week-start">
-        <option value="1">Monday</option>
-        <option value="0">Sunday</option>
-      </select>
+        <label for="date-format">Date format</label>
+        <select id="date-format" class="date-format">
+          <option value="dd/mm/yy">Day / Month / Year</option>
+          <option value="mm/dd/yy">Month / Day / Year</option>
+          <option value="yy/mm/dd">Year / Month / Day</option>
+        </select>
 
-      <br><br>
+        <br><br>
 
-      <label>Date format</label>
-      <select class="date-format">
-        <option value="dd/mm/yy">Day / Month / Year</option>
-        <option value="mm/dd/yy">Month / Day / Year</option>
-        <option value="yy/mm/dd">Year / Month / Day</option>
-      </select>
+        <input id="confirm-delete" class="confirm-delete" type="checkbox"><label for="confirm-delete">Ask for confirmation on delete</label>
 
-      <br><br>
-
-      <input class="confirm-delete" type="checkbox"><label>Ask for confirmation on delete</label>
-
-      <br><br>
-
-      <h2>Sync</h2>
-      <input type="text" class="username" placeholder="Username">
-      <br><br>
-      <label>Reset Nitro</label>
-      <button>Clear Data</button>
+        <br><br>
+        <label>Reset Nitro</label>
+        <button>Clear Data</button>
+      </div>
     </div>
   </section>
 
