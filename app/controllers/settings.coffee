@@ -9,6 +9,7 @@ class Settings extends Spine.Controller
     ".date-format": "dateFormat"
     ".confirm-delete": "confirmDelete"
     ".username": "username"
+    ".night-mode": "nightMode"
 
   events:
     "change input": "save"
@@ -16,6 +17,7 @@ class Settings extends Spine.Controller
     "click .clear-data": "clearData"
     "click": "close"
     "click .tabs li": "tabSwitch"
+    "click .night-mode": "toggleNight"
 
   constructor: ->
     super
@@ -24,6 +26,7 @@ class Settings extends Spine.Controller
     @weekStart.val Setting.get "weekStart"
     @dateFormat.val Setting.get "dateFormat"
     @confirmDelete.prop "checked", Setting.get("confirmDelete")
+    @nightMode.prop "checked", Setting.get("night")
 
   show: =>
     @el.show(0).addClass "show"
@@ -33,6 +36,7 @@ class Settings extends Spine.Controller
     Setting.set "weekStart", @weekStart.val()
     Setting.set "dateFormat", @dateFormat.val()
     Setting.set "confirmDelete",  @confirmDelete.prop "checked"
+    Setting.set "night",  @nightMode.prop "checked"
 
   close: (e) =>
     if $(e.target).hasClass "modal"
@@ -45,6 +49,9 @@ class Settings extends Spine.Controller
     @el.find(".current").removeClass "current"
     # One hell of a line of code, but it switches tabs. I'm amazing.
     @el.find("div." + $(e.target).addClass("current").attr("data-id")).addClass "current"
+
+  toggleNight: (e) =>
+    $("html").toggleClass "dark"
 
   clearData: =>
     @log "Clearing data"
