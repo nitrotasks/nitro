@@ -563,6 +563,10 @@ ul.tasks
 
     & > div
       padding: 25px
+      display: none
+
+      &.current
+        display: block
 
     .tabs
       ul
@@ -579,7 +583,7 @@ ul.tasks
         font-weight: bold
         color: #666;
         cursor: default
-        transition(.15s, background-color, ease)
+        transition(.15s, all, ease)
         background-color: #fff
 
         &:hover
