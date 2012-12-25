@@ -811,12 +811,15 @@ $dark-border = #272727
         text-shadow: 0px 1px 0px #000
 
   .search
-    background: #333
+    background: #333 url("img/search_light.png") no-repeat 7px 5px
     border: 1px solid #111
 
     input
       background: #333
       color: #fff
+
+  .clear-search
+    background: url("img/clear-search_light.png")
 
   .new-task
     background: #2a2a2a
@@ -868,6 +871,21 @@ $dark-border = #272727
     .list
       color: #fff
       border-top: 1px solid #444
+
+      &.current .arrow
+        background: url("img/arrow-left-fade_light.png") no-repeat
+
+      &.inbox
+        background: url("img/inbox_light.png") no-repeat 15px 15px
+
+        &.current
+          background-position: 32px 15px
+
+      &.all
+        background: url('img/all_light.png') no-repeat 15px 14px
+
+        &.current
+          background-position: 32px 14px
 
     .new-list
       background: #333
