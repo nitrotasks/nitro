@@ -552,47 +552,65 @@ ul.tasks
   -webkit-transform: translate3d(0, 0, 0)
   transition(.3s, opacity, ease)
 
+  label
+    color: #222
+    font-size: 15px
+    width: 230px
+    display: inline-block
+    text-align: right
+    padding-right: 10px
+
+  select
+    font-size: 16px
+
+  button
+    font-size: 13px
+
+  hr
+    border: 0
+    border-top: 1px dashed #ddd
+
+   .tabs
+    ul
+      list-style-type: none
+      margin: 0
+      padding: 0
+      font-size: 0
+      border-bottom: 3px solid $green
+    li
+      display: inline-block
+      line-height: 30px
+      font-size: 15px
+      padding: 0 15px
+      font-weight: bold
+      color: #666;
+      cursor: default
+      transition(.15s, all, ease)
+      background-color: #fff
+
+      &:hover
+        background-color: lighten($green, 90%)
+
+      &.current
+        background-color: $green
+        text-shadow: 0 -1px 0 darken($green, 30%)
+        color: #fff
+
   .settings-container
-    width: 600px
+    width: 550px
     abs(15%, auto, auto, 50%)
-    margin-left: -300px
+    margin-left: -275px
     background: #fff
     border: 3px solid $green
     transition(.3s, -webkit-transform, ease)
     -webkit-transform: scale(0.75) translate3d(0, 0, 0)
 
     & > div
-      padding: 25px
+      padding: 35px 25px 30px
       display: none
 
       &.current
         display: block
-
-    .tabs
-      ul
-        list-style-type: none
-        margin: 0
-        padding: 0
-        font-size: 0
-        border-bottom: 3px solid $green
-      li
-        display: inline-block
-        line-height: 30px
-        font-size: 15px
-        padding: 0 15px
-        font-weight: bold
-        color: #666;
-        cursor: default
-        transition(.15s, all, ease)
-        background-color: #fff
-
-        &:hover
-          background-color: lighten($green, 90%)
-
-        &.current
-          background-color: $green
-          text-shadow: 0 -1px 0 darken($green, 30%)
-          color: #fff
 
 
   &.show
