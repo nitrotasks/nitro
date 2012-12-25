@@ -111,8 +111,20 @@ header
 
   .user
     float: left
+    margin-top: 2px
     margin-left: 20px
-    padding: 6px 0 0
+    padding: 3px 10px 1px 3px
+    border: 1px solid transparent
+    border-radius: 3px
+
+    &:hover
+      vbg-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.1))
+      border: 1px solid rgba(0,0,0,0.2)
+
+    &:active
+      vbg-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0.3))
+      border: 1px solid rgba(0,0,0,0.3)
+      box-shadow: 0 1px 5px rgba(0,0,0,0.2) inset
 
     img
       margin-right: 8px
@@ -122,11 +134,9 @@ header
       display: inline-block
       font-size: 13px
       line-height: 30px
+      cursor: default
       color: #333
       text-shadow(0px 1px 0px #fff)
-      text-decoration: none
-      &:hover
-        text-decoration: underline
 
 .search
   position: relative
