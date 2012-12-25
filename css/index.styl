@@ -12,7 +12,7 @@ $light-blue = #1BC1F5
 $green = #9DD071
 $red = #E15556
 
-body
+body, input
   font-family: "Lato", sans-serif
 
 // Clear fix
@@ -98,9 +98,9 @@ header
   abs(0, 0, auto, 0)
   height: 39px
   z-index: 1
-  vbg-gradient(#ebedef, #dfe4e6)
-  box-shadow(0 1px 3px rgba(0,0,0,0.05))
-  border-bottom: 1px solid #BFBFBF
+  vbg-gradient(#eaeaea, #ccc)
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08)
+  border-bottom: 1px solid #aaa
 
   .logo
     float: left
@@ -122,7 +122,7 @@ header
       display: inline-block
       font-size: 13px
       line-height: 30px
-      color: #4B5C66
+      color: #333
       text-shadow(0px 1px 0px #fff)
       text-decoration: none
       &:hover
@@ -135,7 +135,8 @@ header
   padding: 0 20px 0 25px
   margin: 7px 20px 0 0
   border-radius(26px)
-  border: 1px solid #B8C3C9
+  border: 1px solid #aaa
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1) inset
   background: #fff url("img/search.png") no-repeat 7px 5px
 
   input
