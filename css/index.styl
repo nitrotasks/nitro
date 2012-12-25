@@ -785,6 +785,8 @@ ul.tasks
   width: auto !important
 
 // Dark Theme
+$dark-border = #272727
+
 .dark
   body
     background: #333333
@@ -794,11 +796,46 @@ ul.tasks
 
   header
     vbg-gradient(#333, #111)
-    border-bottom: 1px solid #444
+    border-bottom: 1px solid #000
 
     .user .name
       color: #fff
-      text-shadow: 0px 1px 0px black
+      text-shadow: 0px 1px 0px #000
+
+  .search
+    background: #333
+    border: 1px solid #111
+
+    input
+      background: #333
+      color: #fff
+
+  .new-task
+    background: #2a2a2a
+    border: 1px solid #222
+    color: #fff
+
+  .group + .task
+    border-top: 1px solid $dark-border
+
+  .task
+    border: 1px solid $dark-border
+    border-top: 0
+    color: #fff
+
+    &:first-child
+      border-top: 1px solid $dark-border
+
+    &::before
+      border-left: 1px solid $dark-border
+      border-right: 1px solid $dark-border
+
+    &.completed .name
+      color: #666
+
+    .checkbox
+      &::before
+        border: 1px solid #222
 
   .sidebar
     .list
