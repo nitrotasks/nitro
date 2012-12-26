@@ -621,6 +621,29 @@ ul.tasks
         text-shadow: 0 -1px 0 darken($green, 30%)
         color: #fff
 
+  .delete-container
+    width: 400px
+    abs(15%, auto, auto, 50%)
+    margin-left: -225px
+    border: 3px solid $red
+    transition(.3s, -webkit-transform, ease)
+    -webkit-transform: scale(0.75) translate3d(0, 0, 0)
+    background: #fff
+    padding: 25px
+    text-align: center
+    font-size: 16px
+    color: #222
+
+    button
+      border: 2px solid $red
+      background: #fff
+      font-size: 16px
+      color: #444
+      margin-top: 15px
+      text-transform: lowercase
+      padding: 5px 10px
+      font-family: "Lato", sans-serif
+
   .settings-container
     width: 550px
     abs(15%, auto, auto, 50%)
@@ -640,7 +663,7 @@ ul.tasks
 
   &.show
     opacity: 1
-    .settings-container
+    .settings-container, .delete-container
       -webkit-transform: scale(1) translate3d(0, 0, 0)
 
   .about

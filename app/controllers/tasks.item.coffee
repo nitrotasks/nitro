@@ -60,6 +60,7 @@ class TaskItem extends Spine.Controller
 
   # Delete Button
   remove: ->
+    # Yes, I know DRY. But FUCK YOU.
     if Setting.get "confirmDelete"
       # Shows the Modal
       $(".modal.delete").show(0).addClass "show"
@@ -67,7 +68,7 @@ class TaskItem extends Spine.Controller
       # Deletes if yes is clicked
       $(".modal.delete .true").on("click", =>
         @task.destroy()
-        $(".modal.delete").trigger "click"
+        $(".modal.delete .false").trigger "click"
         $(".modal.delete .true").off "click"
       )
 

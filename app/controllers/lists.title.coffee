@@ -50,10 +50,30 @@ class ListTitle extends Spine.Controller
 
     switch e.currentTarget.className
       when "trash"
+        # Yes, I know DRY. But FUCK YOU.
         if Setting.get "confirmDelete"
-          @list.destroy() if window.confirm "DO YALL WANT TO DELET"
+          # Shows the Modal
+          $(".modal.delete").show(0).addClass "show"
+
+          # Deletes if yes is clicked
+          $(".modal.delete .true").on("click", =>
+            @list.destroy()
+            $(".modal.delete .false").trigger "click"
+            $(".modal.delete .true").off "click"
+          )
+
+          # Fancy animates away if not
+          $(".modal.delete").on("click", (e) =>
+            if $(e.target).hasClass("false") or $(e.target).hasClass("modal")
+              $(".modal.delete").removeClass "show"
+              setTimeout ( ->
+                $(".modal.delete").hide 0
+              ), 350
+            $(".modal.delete").off "click"
+          )
         else
           @list.destroy()
+
       when "email" then @log "emailing"
       when "print" then window.print()
       when "share" then @log "sharing"
