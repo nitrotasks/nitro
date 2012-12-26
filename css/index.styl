@@ -544,6 +544,23 @@ ul.tasks
         color: hsl(0,0,60%)
 
 
+.ui-sortable-placeholder
+  height: 28px !important
+  background-color: transparent
+  visibility: visible !important
+  border-left: 0
+  border-right: 0
+
+  &:first-child
+    border-top: 0
+
+  &:last-child
+    border-bottom: 0
+
+  &::before
+    border: 0
+
+
 // --------------------
 //     SETTINGS
 // --------------------
@@ -695,6 +712,12 @@ ul.tasks
       background: url("img/inbox.png") no-repeat 15px 15px
       border-top: 0
 
+      &.ui-state-active
+        background: url("img/inbox.png") no-repeat 15px 15px, #fafafa
+
+        &.current
+          background-position: 32px 15px
+
     // Add All Tasks Icon
     &.all
       background: url("img/all.png") no-repeat 15px 14px
@@ -772,14 +795,14 @@ ul.tasks
 .helper
   display: inline-block
   min-height: 27px
-  min-width: 100px
+  min-width: 80px
   line-height: 27px
   padding: 5px 10px
   background: rgba(#fff, 0.9)
-  border: 1px #ddd solid
-  box-shadow: 0 1px 5px rgba(0,0,0,0.1)
+  border: 1px solid #ddd
   font-size: 15px
   cursor: default
+  overflow: hidden
   width: auto !important
 
 // Dark Theme
