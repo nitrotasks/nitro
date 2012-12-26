@@ -681,10 +681,7 @@ ul.tasks
     border-top: 1px #E6E6E6 solid
     cursor: default
 
-    // Add Inbox Icon
-    &.inbox
-      background: url("img/inbox.png") no-repeat 15px 15px
-      border-top: 0
+    &.inbox, &.all, &.completed
       transition(background, 0.1s, ease)
 
       .name
@@ -693,16 +690,19 @@ ul.tasks
       &.current
         background-position: 32px 15px
 
+    // Add Inbox Icon
+    &.inbox
+      background: url("img/inbox.png") no-repeat 15px 15px
+      border-top: 0
+
     // Add All Tasks Icon
     &.all
       background: url("img/all.png") no-repeat 15px 14px
-      transition(background, 0.1s, ease)
-
-      .name
-        margin-left: 25px
-
       &.current
         background-position: 32px 14px
+
+    &.completed
+      background: url("img/completed.png") no-repeat 15px 15px
 
 
     // List Name
@@ -886,6 +886,12 @@ $dark-border = #272727
 
         &.current
           background-position: 32px 14px
+
+      &.completed
+        background: url('img/completed_light.png') no-repeat 15px 15px
+
+        &.current
+          background-position: 32px 15px
 
     .new-list
       background: #333
