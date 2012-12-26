@@ -61,7 +61,25 @@ class TaskItem extends Spine.Controller
   # Delete Button
   remove: ->
     if Setting.get "confirmDelete"
-      @task.destroy() if window.confirm "DO YALL WANT TO DELET"
+      # Shows the Modal
+      $(".modal.delete").show(0).addClass "show"
+
+      # Deletes if yes is clicked
+      $(".modal.delete .true").on("click", =>
+        @task.destroy()
+        $(".modal.delete").trigger "click"
+        $(".modal.delete .true").off "click"
+      )
+
+      # Fancy animates away if not
+      $(".modal.delete").on("click", (e) =>
+        if $(e.target).hasClass("false") or $(e.target).hasClass("modal")
+          $(".modal.delete").removeClass "show"
+          setTimeout ( ->
+            $(".modal.delete").hide 0
+          ), 350
+        $(".modal.delete").off "click"
+      )
     else
       @task.destroy()
 

@@ -178,7 +178,7 @@ header
 
 .main
   abs(40px, 295px, 0, 0)
-  padding: 0 15px 0 30px
+  padding: 0 15px 40px 30px
   overflow-y: hidden
   overflow-y: auto
 
@@ -266,12 +266,12 @@ header
   &::-moz-placeholder
     color: hsl(0,0,60%)
 
+
 ul.tasks
   width: 100%
   margin: 0
   padding: 0
   margin-top: 20px
-  padding-bottom: 40px
 
 .group
   margin-bottom: 20px
@@ -560,12 +560,11 @@ ul.tasks
   &::before
     border: 0
 
-
 // --------------------
 //     SETTINGS
 // --------------------
 
-.modal.settings
+.modal.settings, .modal.delete
   display: none
   font-size: 14px
   color: hsl(0,0,30%)
