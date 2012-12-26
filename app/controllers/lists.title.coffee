@@ -69,7 +69,7 @@ class ListTitle extends Spine.Controller
               setTimeout ( ->
                 $(".modal.delete").hide 0
               ), 350
-            $(".modal.delete").off "click"
+              $(".modal.delete").off "click"
           )
         else
           @list.destroy()
