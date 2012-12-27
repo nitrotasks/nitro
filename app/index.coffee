@@ -62,6 +62,9 @@ class App extends Spine.Controller
     $.getJSON 'i18n/' + Setting.get("language") + '.json', (dict) =>
       $.i18n.setDictionary(dict)
 
+      # Date picker translation
+      $.getScript('i18n/datepicker/' + Setting.get("language") + '.js') unless Setting.get("language").substring(0,2) is "en"
+
       # Puts the translations in
       $("[data-tPlaceholder]").map ->
         $(this).attr "placeholder", $.i18n._($(this).attr("data-tPlaceholder"))
