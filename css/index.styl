@@ -674,19 +674,24 @@ ul.tasks
     font-size: 16px
     color: #222
 
-    button
+    button.special
       border: 2px solid $red
-      background: #fff
-      font-size: 16px
-      color: #444
-      margin-top: 15px
-      text-transform: lowercase
-      padding: 5px 10px
-      font-family: "Lato", sans-serif
 
       &:active
         background: $red
-        color: #fff
+
+  button.special
+    border: 2px solid #555
+    background: #fff
+    font-size: 16px
+    color: #222
+    margin-top: 15px
+    padding: 8px 15px
+    font-family: "Lato", sans-serif
+
+    &:active
+      background: #555
+      color: #fff
 
   .settings-container
     width: 600px
@@ -707,6 +712,24 @@ ul.tasks
       &.current
         display: block
 
+  .pro
+    text-align: center
+    h2
+      font-size: 32px
+      margin: 15px 0
+    p
+      font-size: 16px
+      max-width: 400px
+      line-height: 1.5
+      margin: 0 auto 5px
+      color: #444
+
+    button.special
+      width: 120px
+      border: 2px solid $dark-blue
+
+      &:active
+        background: $dark-blue
 
   &.show
     opacity: 1
