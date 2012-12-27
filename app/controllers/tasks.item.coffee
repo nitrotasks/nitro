@@ -139,13 +139,13 @@ class TaskItem extends Spine.Controller
   # ----------------------------------------------------------------------------
 
   notesEdit: =>
-    if @notes.text() is "Notes" then @notes.text("")
+    if @notes.text() is $.i18n._("Notes") then @notes.text("")
     @notes.parent().removeClass("placeholder")
 
   notesSave: =>
     text = @notes.html()
     if text is ""
-      @notes.text("Notes")
+      @notes.text($.i18n._("Notes"))
       @notes.parent().addClass("placeholder")
     else
       @task.updateAttribute "notes", text

@@ -45,6 +45,13 @@ class Tasks extends Spine.Controller
 
   addOne: (task) =>
     return unless List.current.id in [task.list, "all"]
+
+    # Translations
+    task.notesplaceholder = $.i18n._("Notes")
+    task.dateplaceholder = $.i18n._("Due Date")
+
+    console.log(task)
+
     @tasks.prepend @template task
     view = new TaskItem
       el: @tasks.find("#task-#{ task.id }")
@@ -113,12 +120,22 @@ class Tasks extends Spine.Controller
         if not completed and task.priority isnt last
           task.group = yes
         last = task.priority
+
+        # Translations
+        task.notesplaceholder = $.i18n._("Notes")
+        task.dateplaceholder = $.i18n._("Due Date")
+
         # Append html
         html = @template(task) + html
 
     else
       for task in tasks
+        # Translations
+        task.notesplaceholder = $.i18n._("Notes")
+        task.dateplaceholder = $.i18n._("Due Date")
+
         html = @template(task) + html
+
     console.timeEnd "sort"
 
     console.time "html"
