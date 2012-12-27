@@ -610,11 +610,10 @@ ul.tasks
       font-weight: bold
       color: #666;
       cursor: default
-      transition(.15s, all, ease)
       background-color: #fff
 
-      &:hover
-        background-color: lighten($green, 90%)
+      &:active
+        background-color: lighten($green, 75%)
 
       &.current
         background-color: $green
@@ -645,6 +644,9 @@ ul.tasks
     a
       color: $dark-blue
       text-decoration: none
+
+      &:hover
+        text-decoration: underline
 
       // The tabs uses .current... again, I'm lazy
       &.selected
