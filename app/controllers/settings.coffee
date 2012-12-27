@@ -28,6 +28,7 @@ class Settings extends Spine.Controller
     @dateFormat.val Setting.get "dateFormat"
     @confirmDelete.prop "checked", Setting.get("confirmDelete")
     @nightMode.prop "checked", Setting.get("night")
+    $("[data-value=" + Setting.get("language") + "]").addClass "selected"
 
   show: =>
     @el.show(0).addClass "show"
