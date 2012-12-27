@@ -83,6 +83,8 @@ class App extends Spine.Controller
           name: "Inbox"
           permanent: yes
 
+      List.find("inbox").updateAttribute("name", $.i18n._("Inbox"))
+
       # Select the first list on load
       @lists.showInbox()
 
