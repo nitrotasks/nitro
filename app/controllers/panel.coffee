@@ -37,6 +37,6 @@ class Panel extends Spine.Controller
     List.trigger "changeList", @originalList
 
   toggleSettings: ->
-    Setting.trigger "toggle"
+    Setting.trigger "show"
 
 module.exports = Panel

@@ -61,7 +61,7 @@ class Lists extends Spine.Controller
   # Show all tasks
   showAllTasks: =>
     List.trigger "changeList",
-      name: "All Tasks"
+      name: $.i18n._("All Tasks")
       id: "all"
       disabled: yes
       permanent: yes
@@ -79,7 +79,7 @@ class Lists extends Spine.Controller
   # Show completed
   showCompleted: =>
     List.trigger "changeList",
-      name: "Completed"
+      name: $.i18n._("Completed")
       id: "completed"
       permanent: yes
       disabled: yes

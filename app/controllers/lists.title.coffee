@@ -8,6 +8,7 @@ class ListTitle extends Spine.Controller
   elements:
     "h1": "listName"
     ".buttons .trash": "deleteButton"
+    ".buttons .sort": "sortButton"
 
   events:
     "keyup h1": "rename"
@@ -25,10 +26,16 @@ class ListTitle extends Spine.Controller
     # Disables contenteditable on noneditable lists
     if @list.permanent
       @listName.removeAttr("contenteditable")
-      @deleteButton.fadeOut(300)
+      @deleteButton.fadeOut(150)
     else
       @listName.attr("contenteditable", true)
-      @deleteButton.fadeIn(300)
+      @deleteButton.fadeIn(150)
+
+    # Er, not sure but it detects complted and all
+    if @list.disabled
+      @sortButton.fadeOut(150)
+    else
+      @sortButton.fadeIn(150)
 
   # This is fired on keyup when a list is renamed
   rename: (e) ->
@@ -43,10 +50,30 @@ class ListTitle extends Spine.Controller
 
     switch e.currentTarget.className
       when "trash"
+        # Yes, I know DRY. But FUCK YOU.
         if Setting.get "confirmDelete"
-          @list.destroy() if window.confirm "DO YALL WANT TO DELET"
+          # Shows the Modal
+          $(".modal.delete").show(0).addClass "show"
+
+          # Deletes if yes is clicked
+          $(".modal.delete .true").on("click", =>
+            @list.destroy()
+            $(".modal.delete .false").trigger "click"
+            $(".modal.delete .true").off "click"
+          )
+
+          # Fancy animates away if not
+          $(".modal.delete").on("click", (e) =>
+            if $(e.target).hasClass("false") or $(e.target).hasClass("modal")
+              $(".modal.delete").removeClass "show"
+              setTimeout ( ->
+                $(".modal.delete").hide 0
+              ), 350
+              $(".modal.delete").off "click"
+          )
         else
           @list.destroy()
+
       when "email" then @log "emailing"
       when "print" then window.print()
       when "share" then @log "sharing"

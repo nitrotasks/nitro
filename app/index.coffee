@@ -38,6 +38,10 @@ class App extends Spine.Controller
     if Setting.count() is 0
       Setting.create()
 
+    # Init settings
+    window.settings = new Settings
+      el: @settings
+
     # Init Auth
     new Auth
       el: @auth
@@ -45,10 +49,6 @@ class App extends Spine.Controller
     # Init panel
     new Panel
       el: @panel
-
-    # Init settings
-    window.settings = new Settings
-      el: @settings
 
     # Init tasks
     @tasks = new Tasks( el: @tasksContainer )
@@ -58,19 +58,35 @@ class App extends Spine.Controller
     new ListTitle
       el: @listTitle
 
-    # Load data for localStorage
-    Task.fetch()
-    List.fetch()
+    # Load translations
+    $.getJSON 'i18n/' + Setting.get("language") + '.json', (dict) =>
+      $.i18n.setDictionary(dict)
 
-    # Create inbox list
-    if not !!List.exists("inbox")
-      List.create
-        id: "inbox"
-        name: "Inbox"
-        permanent: yes
+      # Puts the translations in
+      $("[data-tPlaceholder]").map ->
+        $(this).attr "placeholder", $.i18n._($(this).attr("data-tPlaceholder"))
 
-    # Select the first list on load
-    @lists.showInbox()
+      $("[data-tText]").map ->
+        $(this)._t $(this).attr "data-tText"
+
+      $("[data-tTitle]").map ->
+        $(this).attr "title", $.i18n._($(this).attr("data-tTitle"))
+
+      # Load data for localStorage
+      Task.fetch()
+      List.fetch()
+
+      # Create inbox list
+      if not !!List.exists("inbox")
+        List.create
+          id: "inbox"
+          name: "Inbox"
+          permanent: yes
+
+      List.find("inbox").updateAttribute("name", $.i18n._("Inbox"))
+
+      # Select the first list on load
+      @lists.showInbox()
 
     # Login to sync
     Spine.Sync.login(Setting.first().username)
@@ -82,3 +98,4 @@ class App extends Spine.Controller
         @tasks.collapseAll()
 
 module.exports = App
+

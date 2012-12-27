@@ -18,9 +18,9 @@
 
   <header class="group">
     <div class="logo"></div>
-      <div class="user"><img src="img/temp/avatar.png" alt="George Czabania" /><a href="#" class="name">George Czabania</a></div>
+      <div class="user"><img src="img/temp/avatar.png" alt="George Czabania" /><span class="name">George Czabania</span></div>
       <div class="search">
-        <input type="search" placeholder="Search">
+        <input type="search" data-tPlaceholder="Search">
         <a href="#" class="clear-search"></a>
       </div>
     </div>
@@ -30,15 +30,15 @@
     <div class="title">
       <h1 contenteditable="true">List Name</h1>
       <ul class="buttons">
-        <li><a href="#" class="trash" title="Delete List" style="display: none"></a></li>
-        <li><a href="#" class="email" title="Email List"></a></li>
-        <li><a href="#" class="print" title="Print List"></a></li>
-        <li><a href="#" class="share" title="Share List"></a></li>
-        <li><a href="#" class="sort" title="Toggle Sorting"></a></li>
+        <li><a href="#" class="trash" data-tTitle="Delete List" style="display: none"></a></li>
+        <li><a href="#" class="sort" data-tTitle="Toggle Sorting"></a></li>
+        <li><a href="#" class="email" data-tTitle="Email List"></a></li>
+        <li><a href="#" class="print" data-tTitle="Print List"></a></li>
+        <li><a href="#" class="share" data-tTitle="Share List"></a></li>
       </ul>
     </div>
     <div class="tasks-container">
-      <input type="text" placeholder="What do you need to do?" class="new-task">
+      <input type="text" data-tPlaceholder="What do you need to do?" class="new-task">
       <ul class="tasks"></ul>
     </div>
   </section>
@@ -46,82 +46,167 @@
   <aside class="sidebar">
 
     <div class="title">
-      <h2>Lists</h2>
+      <h2 data-tText="Lists"></h2>
     </div>
 
     <div class="inbox list">
       <div class="arrow"></div>
-      <span class="name">Inbox</span>
+      <span class="name" data-tText="Inbox"></span>
       <span class="count"></span>
     </div>
 
     <div class="all list">
       <div class="arrow"></div>
-      <span class="name">All Tasks</span>
+      <span class="name" data-tText="All Tasks"></span>
       <div class="count"></div>
     </div>
 
     <div class="completed list">
       <div class="arrow"></div>
-      <span class="name">Completed</span>
+      <span class="name" data-tText="Completed"></span>
       <div class="count"></div>
     </div>
 
     <ul class="lists"></ul>
 
-    <input class="new-list" placeholder="New List">
+    <input class="new-list" data-tPlaceholder="New List">
 
   </aside>
 
-  <section class="main settings">
-    <div class="title">
-      <h1>Settings</h1>
+  <section class="modal delete">
+    <div class="delete-container">
+      <span data-tText="Are you sure you want to do that?"></span><br>
+      <button class="true special" data-tText="Yes, delete it"></button>&nbsp;<button class="false special" data-tText="No, keep it"></button>
     </div>
+  </section>
+
+  <section class="modal settings">
     <div class="settings-container">
+      <nav class="tabs">
+        <ul>
+          <li data-id="general" class="current" data-tText="General"></li>
+          <li data-id="account" data-tText="Account"></li>
+          <li data-id="pro" data-tText="Pro"></li>
+          <li data-id="notifications" data-tText="Notifications"></li>
+          <li data-id="language" data-tText="Language"></li>
+          <li data-id="about" data-tText="About"></li>
+        </ul>
+      </nav>
+      <div class="general current">
+        <label for="week-start" data-tText="Week starts on:"></label>
+        <select id="week-start" class="week-start">
+          <option value="1" data-tText="Monday"></option>
+          <option value="0" data-tText="Sunday"></option>
+        </select>
 
-      <h2>General</h2>
+        <br><br>
 
-      <label>Language</label>
-      <select>
-        <option value="english">English (UK)</option>
-      </select>
+        <label for="date-format" data-tText="Date format:"></label>
+        <select id="date-format" class="date-format">
+          <option value="dd/mm/yy" data-tText="Day / Month / Year"></option>
+          <option value="mm/dd/yy" data-tText="Month / Day / Year"></option>
+          <option value="yy/mm/dd" data-tText="Year / Month / Day"></option>
+        </select>
 
-      <br><br>
+        <br><br>
 
-      <label>Week starts on:</label>
-      <select class="week-start">
-        <option value="1">Monday</option>
-        <option value="0">Sunday</option>
-      </select>
+        <label for="confirm-delete" data-tText="Confirm before deleting items:"></label><input id="confirm-delete" class="confirm-delete" type="checkbox">
+        <br><br>
+        <label for="night-mode" data-tText="Night Mode:"></label><input id="night-mode" class="night-mode" type="checkbox">
 
-      <br><br>
-
-      <label>Date format</label>
-      <select class="date-format">
-        <option value="dd/mm/yy">Day / Month / Year</option>
-        <option value="mm/dd/yy">Month / Day / Year</option>
-        <option value="yy/mm/dd">Year / Month / Day</option>
-      </select>
-
-      <br><br>
-
-      <input class="confirm-delete" type="checkbox"><label>Ask for confirmation on delete</label>
-
-      <br><br>
-
-      <label>Search mode</label>
-      <select>
-        <option value="0">Search everywhere</option>
-        <option value="1">Search current list</option>
-      </select>
-
-      <br><br>
-
-      <h2>Sync</h2>
-      <input type="text" class="username" placeholder="Username">
-      <br><br>
-      <label>Reset Nitro</label>
-      <button>Clear Data</button>
+        <br><br><hr><br>
+        <label data-tText="Reset Nitro:"></label>
+        <button data-tText="Clear Data"></button>
+      </div>
+      <div class="account">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat.
+      </div>
+      <div class="pro">
+        <img src="img/pro.png" width="27" height="48">
+        <h2>Go Pro</h2>
+        <p>A pro account unlocks extra awesome features.<br> You'll also get a warm fuzzy feeling.</p>
+        <button class="special">Get Pro</button>&nbsp;&nbsp;<button class="special">Learn More</button>
+      </div>
+      <div class="notifications">
+        Notifications requires Pro. Yall.
+      </div>
+      <div class="language">
+       <table>
+        <thead>
+          <tr>
+            <td data-tText="Language"></td>
+            <td data-tText="Author"></td>
+            <td data-tText="Language"></td>
+            <td data-tText="Author"></td>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><a href="#" data-value="en-us">English</a></td>
+                <td>Caffeinated Code</td>
+                <td><a href="#" data-value="hungarian">Magyar</a></td>
+                <td>József Samu</td>
+            </tr>
+            <tr>
+                <td><a href="#" data-value="en-pi">English (Pirate)</a></td>
+                <td>Caffeinated Code</td>
+                <td><a href="#" data-value="dutch">Nederlands</a></td>
+                <td>Erik Ammerlaan</td>
+            </tr>
+            <tr>
+                <td><a href="#" data-value="german">Deutsch</a></td>
+                <td>Dennis Peteranderl</td>
+                <td><a href="#" data-value="portuguese">Português</a></td>
+                <td>Belenos Govannon</td>
+            </tr>
+            <tr>
+                <td><a href="#" data-value="spanish">Español</a></td>
+                <td>Juande Martos</td>
+                <td><a href="#" data-value="russian">Русский</a></td>
+                <td>Andrej Pryakhin</td>
+            </tr>
+            <tr>
+                <td><a href="#" data-value="basque">Euskara</a></td>
+                <td>Naxo Oyanguren</td>
+                <td><a href="#" data-value="finnish">Suomi</a></td>
+                <td>Rami Selin</td>
+            </tr>
+            <tr>
+                <td><a href="#" data-value="french">Français</a></td>
+                <td>Stanley Holt</td>
+                <td><a href="#" data-value="vietnamese">Tiếng Việt</a></td>
+                <td>Nguyễn Đình Quân</td>
+            </tr>
+            <tr>
+                <td><a href="#" data-value="italian">Italiano</a></td>
+                <td>Luigi Massa</td>
+                <td><a href="#" data-value="arabic">‏العربية‏</a></td>
+                <td>Fouad Hassouneh</td>
+            </tr>
+            <tr>
+                <td><a href="#" data-value="polish">Polski</a></td>
+                <td>Marcin Tydelski</td>
+                <td><a href="#" data-value="chinese">中文(简体)</a></td>
+                <td>tuhaihe</td>
+            </tr>
+            <tr>
+                <td><a href="#" data-value="bulgarian">Български</a></td>
+                <td>Belkin Fahri</td>
+                <td><a href="#" data-value="turkish">Türkçe</a></td>
+                <td>Selim Sırrı Sevgi</td>
+            </tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="about">
+        <img src="img/icon.png" width="128" height="128">
+        <h2>Nitro 2</h2>
+        <p>Copyright &copy; 2012 - 2013 Caffeinated Code<br>
+          <a href="http://nitrotasks.com">nitrotasks.com</a>
+      </div>
     </div>
   </section>
 

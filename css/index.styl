@@ -9,8 +9,10 @@
 $task-color = #d9d9d9
 $dark-blue = #068dd8
 $light-blue = #1BC1F5
+$green = #9DD071
+$red = #E15556
 
-body
+body, input
   font-family: "Lato", sans-serif
 
 // Clear fix
@@ -20,7 +22,7 @@ body
   clear: both
 
 // Lion Scrollbars
-::-webkit-scrollbar
+::-webkit-scrollbar#1f2f6f
   -webkit-appearance: none
   width: 7px
   height: 7px
@@ -65,7 +67,7 @@ body
   100%
     height: 40px
     padding: 5 44px
-    border-top: 1px #E6E6E6 solid
+    border-top: 1px inherit solid
     overflow: hidden
 
 @-webkit-keyframes rev
@@ -96,9 +98,9 @@ header
   abs(0, 0, auto, 0)
   height: 39px
   z-index: 1
-  vbg-gradient(#ebedef, #dfe4e6)
-  box-shadow(0 1px 3px rgba(0,0,0,0.05))
-  border-bottom: 1px solid #BFBFBF
+  vbg-gradient(#eaeaea, #ccc)
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08)
+  border-bottom: 1px solid #aaa
 
   .logo
     float: left
@@ -109,8 +111,20 @@ header
 
   .user
     float: left
+    margin-top: 2px
     margin-left: 20px
-    padding: 6px 0 0
+    padding: 3px 10px 1px 3px
+    border: 1px solid transparent
+    border-radius: 3px
+
+    &:hover
+      vbg-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.1))
+      border: 1px solid rgba(0,0,0,0.2)
+
+    &:active
+      vbg-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0.3))
+      border: 1px solid rgba(0,0,0,0.3)
+      box-shadow: 0 1px 5px rgba(0,0,0,0.2) inset
 
     img
       margin-right: 8px
@@ -120,11 +134,9 @@ header
       display: inline-block
       font-size: 13px
       line-height: 30px
-      color: #4B5C66
-      text-shadow(0px 1px 0px #fff)
-      text-decoration: none
-      &:hover
-        text-decoration: underline
+      cursor: default
+      color: #333
+      text-shadow(0px 1px 0px #fafafa)
 
 .search
   position: relative
@@ -132,15 +144,16 @@ header
   height: 24px
   padding: 0 20px 0 25px
   margin: 7px 20px 0 0
-  border-radius(26px)
-  border: 1px solid #B8C3C9
+  border-radius(5px)
+  border: 1px solid #bbb
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1) inset
   background: #fff url("img/search.png") no-repeat 7px 5px
 
   input
     width: 200px
     border: 0
     height: 18px
-    margin: 3px 0
+    margin: 3px 0 3px 2px
     font-size: 13px
     line-height: 18px
     &:focus
@@ -165,7 +178,7 @@ header
 
 .main
   abs(40px, 295px, 0, 0)
-  padding: 0 15px 0 30px
+  padding: 0 15px 40px 30px
   overflow-y: hidden
   overflow-y: auto
 
@@ -253,12 +266,12 @@ header
   &::-moz-placeholder
     color: hsl(0,0,60%)
 
+
 ul.tasks
   width: 100%
   margin: 0
   padding: 0
   margin-top: 20px
-  margin-bottom: 40px
 
 .group
   margin-bottom: 20px
@@ -303,22 +316,24 @@ ul.tasks
     abs(0, auto, 0, 31px)
 
   &.p3 .priority
-    border-left: 4px solid #E15556
+    border-left: 4px solid $red
 
   &.p2 .priority
-    border-left: 4px solid #9DD071
+    border-left: 4px solid $green
 
   &.p1 .priority
-    border-left: 4px solid #1BC1F5
+    border-left: 4px solid $light-blue
 
   // Priority
   .priority
     abs(-1px, auto, -1px, -1px)
     width: 0
+    transition(150ms, border, ease)
 
   .tag
     color: $dark-blue
     cursor: pointer
+    transition(150ms, color, ease)
 
     &:hover
       text-decoration: underline
@@ -353,6 +368,7 @@ ul.tasks
     white-space: nowrap
     text-overflow: ellipsis
     cursor: default
+    transition(150ms, color, ease)
 
   .input-name
     color: #4c4c4c
@@ -403,13 +419,13 @@ ul.tasks
         border: 1px solid rgba(#000, 0.5)
 
     .low
-      background: #1BC1F5
+      background: $light-blue
 
     .medium
-      background: #9DD071
+      background: $green
 
     .high
-      background: #E15556
+      background: $red
 
   // Date
   //This is so it shows up in the print styles
@@ -438,7 +454,6 @@ ul.tasks
   // Show the notes
   .notes
     background: #FAFAFA
-    // border-top: 1px transparent solid
     line-height: 21px
     outline: none
     height: 0
@@ -529,27 +544,211 @@ ul.tasks
         color: hsl(0,0,60%)
 
 
+.ui-sortable-placeholder
+  height: 28px !important
+  background-color: transparent
+  visibility: visible !important
+  border-left: 0
+  border-right: 0
+
+  &:first-child
+    border-top: 0
+
+  &:last-child
+    border-bottom: 0
+
+  &::before
+    border: 0
+
 // --------------------
 //     SETTINGS
 // --------------------
 
-.main.settings
+.modal.settings, .modal.delete
   display: none
   font-size: 14px
   color: hsl(0,0,30%)
-  background: #fff
+  width: 100%
+  height: 100%
+  background-color: rgba(255,255,255,0.7)
+  opacity: 0
+  z-index: 10
+  position: absolute
+  -webkit-transform: translate3d(0, 0, 0)
+  transition(.3s, opacity, ease)
+
+  label
+    color: #222
+    font-size: 15px
+    width: 265px
+    display: inline-block
+    text-align: right
+    padding-right: 10px
+
+  select
+    font-size: 16px
+
+  button
+    font-size: 13px
+
+  a
+    color: $dark-blue
+    text-decoration: none
+
+    &:hover
+      text-decoration: underline
+
+  hr
+    border: 0
+    border-top: 1px dashed #ddd
+
+  .tabs
+    ul
+      list-style-type: none
+      margin: 0
+      padding: 0
+      font-size: 0
+      border-bottom: 3px solid $green
+    li
+      display: inline-block
+      line-height: 30px
+      font-size: 15px
+      padding: 0 15px
+      font-weight: bold
+      color: #666;
+      cursor: default
+      background-color: #fff
+
+      &:active
+        background-color: lighten($green, 75%)
+
+      &.current
+        background-color: $green
+        text-shadow: 0 -1px 0 darken($green, 30%)
+        color: #fff
+
+  table
+    width: 100%
+    font-size: 15px
+    line-height: 1.4
+    thead
+      font-weight: bold
+      font-size: 18px
+
+      // Too lazy to do it properly
+      tr:last-child
+        color: #444
+        border-bottom: 1px solid #ccc
+
+    tr
+      border-bottom: 1px dotted #ccc
+      color: #666
+
+
+      &:last-child
+        border: 0
+
+    a
+
+      // The tabs uses .current... again, I'm lazy
+      &.selected
+          color: #555
+          font-weight: bold
+
+    td
+      padding: 5px 10px 5px 0
+
+      &:nth-child(2)
+        padding-right: 25px
+
+  .delete-container
+    width: 400px
+    abs(15%, auto, auto, 50%)
+    margin-left: -225px
+    border: 3px solid $red
+    transition(.3s, -webkit-transform, ease)
+    -webkit-transform: scale(0.75) translate3d(0, 0, 0)
+    background: #fff
+    padding: 25px
+    text-align: center
+    font-size: 16px
+    color: #222
+
+    span
+      display: inline-block
+      margin: 5px 0
+
+    button.special
+      border: 2px solid $red
+
+      &:active
+        background: $red
+
+  button.special
+    border: 2px solid #555
+    background: #fff
+    font-size: 16px
+    color: #222
+    margin-top: 15px
+    padding: 8px 15px
+    font-family: "Lato", sans-serif
+
+    &:active
+      background: #555
+      color: #fff
+
+  .settings-container
+    width: 600px
+    abs(15%, auto, auto, 50%)
+    margin-left: -300px
+    background: #fff
+    border: 3px solid $green
+    transition(.3s, -webkit-transform, ease)
+    -webkit-transform: scale(0.75) translate3d(0, 0, 0)
+
+    & > div
+      padding: 35px 25px 30px
+      display: none
+
+      &.language
+        padding: 25px 35px
+
+      &.current
+        display: block
+
+  .pro
+    text-align: center
+    h2
+      font-size: 32px
+      margin: 15px 0
+    p
+      font-size: 16px
+      max-width: 400px
+      line-height: 1.5
+      margin: 0 auto 5px
+      color: #444
+
+    button.special
+      width: 120px
+      border: 2px solid $dark-blue
+
+      &:active
+        background: $dark-blue
 
   &.show
-    display: block
+    opacity: 1
+    .settings-container, .delete-container
+      -webkit-transform: scale(1) translate3d(0, 0, 0)
 
-  .flash
-    display: none
-    border: 1px solid #dcd978
-    background: #fffc92
-    border-radius(5px)
-    padding: 10px
-
-
+  .about
+    text-align: center
+    img
+      border-radius: 20px
+      box-shadow: 0 1px 3px rgba(0,0,0,0.5)
+    h2
+      font-size: 26px
+    a
+      text-decoration: none
 
 
 // --------------------
@@ -594,10 +793,7 @@ ul.tasks
     border-top: 1px #E6E6E6 solid
     cursor: default
 
-    // Add Inbox Icon
-    &.inbox
-      background: url("img/inbox.png") no-repeat 15px 15px
-      border-top: 0
+    &.inbox, &.all, &.completed
       transition(background, 0.1s, ease)
 
       .name
@@ -606,16 +802,25 @@ ul.tasks
       &.current
         background-position: 32px 15px
 
+    // Add Inbox Icon
+    &.inbox
+      background: url("img/inbox.png") no-repeat 15px 15px
+      border-top: 0
+
+      &.ui-state-active
+        background: url("img/inbox.png") no-repeat 15px 15px, #fafafa
+
+        &.current
+          background-position: 32px 15px
+
     // Add All Tasks Icon
     &.all
       background: url("img/all.png") no-repeat 15px 14px
-      transition(background, 0.1s, ease)
-
-      .name
-        margin-left: 25px
-
       &.current
         background-position: 32px 14px
+
+    &.completed
+      background: url("img/completed.png") no-repeat 15px 15px
 
 
     // List Name
@@ -685,41 +890,134 @@ ul.tasks
 .helper
   display: inline-block
   min-height: 27px
-  min-width: 100px
+  min-width: 80px
   line-height: 27px
   padding: 5px 10px
   background: rgba(#fff, 0.9)
-  border: 1px #ddd solid
-  box-shadow: 0 1px 5px rgba(0,0,0,0.1)
+  border: 1px solid #ddd
   font-size: 15px
   cursor: default
+  overflow: hidden
   width: auto !important
 
 // Dark Theme
+$dark-border = #272727
+
 .dark
   body
     background: #333333
 
   .main .title h1, .sidebar .title h2
-    color: $light-blue
+    color: lighten($light-blue, 10%)
 
   header
     vbg-gradient(#333, #111)
-    border-bottom: 1px solid #444
+    border-bottom: 1px solid #000
 
-    .user .name
+    .user
+
+      &:hover
+        vbg-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.05))
+        border: 1px solid #111
+
+      &:active
+        vbg-gradient(rgba(0,0,0,0.05), rgba(0,0,0,0.3))
+        border: 1px solid #000
+
+      .name
+        color: #fff
+        text-shadow: 0px 1px 0px #000
+
+  .search
+    background: #333 url("img/search_light.png") no-repeat 7px 5px
+    border: 1px solid #111
+
+    input
+      background: #333
       color: #fff
-      text-shadow: 0px 1px 0px black
+
+  .clear-search
+    background: url("img/clear-search_light.png")
+
+  .new-task
+    background: #2a2a2a
+    border: 1px solid #222
+    color: #fff
+
+  .group + .task
+    border-top: 1px solid $dark-border
+
+  .task
+    border: 1px solid $dark-border
+    border-top: 0
+    color: #fff
+
+    &:first-child
+      border-top: 1px solid $dark-border
+
+    &::before
+      border-left: 1px solid $dark-border
+      border-right: 1px solid $dark-border
+
+    &.completed .name
+      color: #666
+
+    .notes
+      background: #2a2a2a
+
+    .priority-button
+      border-left: 1px solid $dark-border
+      border-right: 1px solid $dark-border
+
+    .date
+      background: #333
+      color: #fff
+
+    .checkbox
+      &::before
+        border: 1px solid #222
+
+    &.expanded, &.expanded .notes, &.expanded + li
+      border-top: 1px solid $dark-border
+
+    .input-name
+      // Or else we don't get a blinky cursor
+      color: #fff
+      background: #333
 
   .sidebar
     .list
       color: #fff
       border-top: 1px solid #444
 
+      &.current .arrow
+        background: url("img/arrow-left-fade_light.png") no-repeat
+
+      &.inbox
+        background: url("img/inbox_light.png") no-repeat 15px 15px
+
+        &.current
+          background-position: 32px 15px
+
+      &.all
+        background: url('img/all_light.png') no-repeat 15px 14px
+
+        &.current
+          background-position: 32px 14px
+
+      &.completed
+        background: url('img/completed_light.png') no-repeat 15px 15px
+
+        &.current
+          background-position: 32px 15px
+
     .new-list
       background: #333
       color: #fff
       border-top: 1px solid #444
+
+  .modal
+    background-color: rgba(0,0,0,0.4)
 
 
 // jQuery UI

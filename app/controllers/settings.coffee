@@ -8,33 +8,58 @@ class Settings extends Spine.Controller
     ".week-start": "weekStart"
     ".date-format": "dateFormat"
     ".confirm-delete": "confirmDelete"
-    ".search-mode": "searchMode"
     ".username": "username"
+    ".night-mode": "nightMode"
 
   events:
     "change input": "save"
     "change select": "save"
     "click .clear-data": "clearData"
+    "click": "close"
+    "click .tabs li": "tabSwitch"
+    "click .night-mode": "toggleNight"
+    "click .language a": "changeLanguage"
 
   constructor: ->
     super
-    Setting.bind "toggle", @toggle
-    Setting.bind "saved", @showFlash
+    Setting.bind "show", @show
     @username.val Setting.get "username"
     @weekStart.val Setting.get "weekStart"
     @dateFormat.val Setting.get "dateFormat"
     @confirmDelete.prop "checked", Setting.get("confirmDelete")
+    @nightMode.prop "checked", Setting.get("night")
+    $("[data-value=" + Setting.get("language") + "]").addClass "selected"
 
-  toggle: =>
-    @el.toggleClass "show"
+  show: =>
+    @el.show(0).addClass "show"
 
   save: =>
     Setting.set "username", @username.val()
     Setting.set "weekStart", @weekStart.val()
     Setting.set "dateFormat", @dateFormat.val()
     Setting.set "confirmDelete",  @confirmDelete.prop "checked"
+    Setting.set "night",  @nightMode.prop "checked"
+
+  close: (e) =>
+    if $(e.target).hasClass "modal"
+      @el.removeClass "show"
+      setTimeout ( =>
+        @el.hide 0
+      ), 350
+
+  tabSwitch: (e) =>
+    @el.find(".current").removeClass "current"
+    # One hell of a line of code, but it switches tabs. I'm amazing.
+    @el.find("div." + $(e.target).addClass("current").attr("data-id")).addClass "current"
+
+  toggleNight: (e) =>
+    $("html").toggleClass "dark"
 
   clearData: =>
     @log "Clearing data"
+
+  changeLanguage: (e) =>
+    Setting.set "language", $(e.target).attr("data-value")
+    window.location.reload()
 
 module.exports = Settings

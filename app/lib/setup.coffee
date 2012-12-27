@@ -1,6 +1,7 @@
 # require('json2ify')
 # require('es5-shimify')
 require('jqueryify')
+require('lib/jquery.i18n')
 require('lib/jquery-ui')
 require('lib/handlebars')
 require('utils/handlebar-helpers')

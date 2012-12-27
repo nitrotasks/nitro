@@ -60,8 +60,27 @@ class TaskItem extends Spine.Controller
 
   # Delete Button
   remove: ->
+    # Yes, I know DRY. But FUCK YOU.
     if Setting.get "confirmDelete"
-      @task.destroy() if window.confirm "DO YALL WANT TO DELET"
+      # Shows the Modal
+      $(".modal.delete").show(0).addClass "show"
+
+      # Deletes if yes is clicked
+      $(".modal.delete .true").on("click", =>
+        @task.destroy()
+        $(".modal.delete .false").trigger "click"
+        $(".modal.delete .true").off "click"
+      )
+
+      # Fancy animates away if not
+      $(".modal.delete").on("click", (e) =>
+        if $(e.target).hasClass("false") or $(e.target).hasClass("modal")
+          $(".modal.delete").removeClass "show"
+          setTimeout ( ->
+            $(".modal.delete").hide 0
+          ), 350
+          $(".modal.delete").off "click"
+      )
     else
       @task.destroy()
 
@@ -120,13 +139,13 @@ class TaskItem extends Spine.Controller
   # ----------------------------------------------------------------------------
 
   notesEdit: =>
-    if @notes.text() is "Notes" then @notes.text("")
+    if @notes.text() is $.i18n._("Notes") then @notes.text("")
     @notes.parent().removeClass("placeholder")
 
   notesSave: =>
     text = @notes.html()
     if text is ""
-      @notes.text("Notes")
+      @notes.text($.i18n._("Notes"))
       @notes.parent().addClass("placeholder")
     else
       @task.updateAttribute "notes", text
