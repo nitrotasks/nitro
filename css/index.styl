@@ -580,7 +580,7 @@ ul.tasks
   label
     color: #222
     font-size: 15px
-    width: 230px
+    width: 265px
     display: inline-block
     text-align: right
     padding-right: 10px
@@ -621,6 +621,42 @@ ul.tasks
         text-shadow: 0 -1px 0 darken($green, 30%)
         color: #fff
 
+  table
+    width: 100%
+    font-size: 15px
+    line-height: 1.4
+    thead
+      font-weight: bold
+      font-size: 18px
+
+      // Too lazy to do it properly
+      tr:last-child
+        color: #444
+        border-bottom: 1px solid #ccc
+
+    tr
+      border-bottom: 1px dotted #ccc
+      color: #666
+
+
+      &:last-child
+        border: 0
+
+    a
+      color: $dark-blue
+      text-decoration: none
+
+      // The tabs uses .current... again, I'm lazy
+      &.selected
+          color: #555
+          font-weight: bold
+
+    td
+      padding: 5px 10px 5px 0
+
+      &:nth-child(2)
+        padding-right: 25px
+
   .delete-container
     width: 400px
     abs(15%, auto, auto, 50%)
@@ -649,9 +685,9 @@ ul.tasks
         color: #fff
 
   .settings-container
-    width: 550px
+    width: 600px
     abs(15%, auto, auto, 50%)
-    margin-left: -275px
+    margin-left: -300px
     background: #fff
     border: 3px solid $green
     transition(.3s, -webkit-transform, ease)
@@ -660,6 +696,9 @@ ul.tasks
     & > div
       padding: 35px 25px 30px
       display: none
+
+      &.language
+        padding: 25px 35px
 
       &.current
         display: block
