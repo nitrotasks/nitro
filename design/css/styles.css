@@ -1,0 +1,410 @@
+@import url("normalize.css");
+/* line 11, styles.sass */
+body {
+  font-family: "Lucida Grande", "Lucida Sans Unicode", Geneva, sans-serif; }
+
+/* line 15, styles.sass */
+.group:after {
+  content: "";
+  display: table;
+  clear: both; }
+
+/* line 24, styles.sass */
+header {
+  position: absolute;
+  top: 0;
+  bottom: auto;
+  left: 0;
+  right: 0;
+  height: 39px;
+  z-index: 1;
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ebedef), color-stop(100%, #dfe4e6));
+  background: -webkit-linear-gradient(top, #ebedef 0%, #dfe4e6 100%);
+  background: -moz-linear-gradient(top, #ebedef 0%, #dfe4e6 100%);
+  background: -o-linear-gradient(top, #ebedef 0%, #dfe4e6 100%);
+  background: linear-gradient(top, #ebedef 0%, #dfe4e6 100%);
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid #bfbfbf; }
+  /* line 32, styles.sass */
+  header .logo {
+    float: left;
+    margin: 9px 0 0 20px;
+    background: url("../img/logo.png") no-repeat;
+    width: 23px;
+    height: 22px; }
+  /* line 39, styles.sass */
+  header .user {
+    float: left;
+    margin-left: 20px;
+    padding: 6px 0 0; }
+    /* line 44, styles.sass */
+    header .user img {
+      margin-right: 8px;
+      vertical-align: top; }
+    /* line 48, styles.sass */
+    header .user .name {
+      display: inline-block;
+      font-size: 12px;
+      line-height: 28px;
+      color: #4b5c66;
+      text-shadow: 0px 1px 0px white;
+      text-decoration: none; }
+      /* line 55, styles.sass */
+      header .user .name:hover {
+        text-decoration: underline; }
+  /* line 58, styles.sass */
+  header .search {
+    position: relative;
+    float: right;
+    height: 24px;
+    padding: 0 20px 0 25px;
+    margin: 7px 20px 0 0;
+    -webkit-border-radius: 26px;
+    -moz-border-radius: 26px;
+    -ms-border-radius: 26px;
+    -o-border-radius: 26px;
+    border-radius: 26px;
+    border: 1px solid #b8c3c9;
+    background: white url("../img/search.png") no-repeat 7px 5px; }
+    /* line 68, styles.sass */
+    header .search input {
+      width: 200px;
+      border: 0;
+      height: 18px;
+      margin: 3px 0;
+      font-size: 12px;
+      line-height: 18px; }
+      /* line 75, styles.sass */
+      header .search input:focus {
+        outline: none; }
+    /* line 78, styles.sass */
+    header .search .clear-search {
+      display: block;
+      position: absolute;
+      top: 5px;
+      bottom: auto;
+      left: auto;
+      right: 5px;
+      background: url("../img/clear-search.png");
+      opacity: 0.6;
+      width: 14px;
+      height: 14px;
+      -webkit-transition: opacity 0.2s;
+      -moz-transition: opacity 0.2s;
+      -o-transition: opacity 0.2s;
+      transition: opacity 0.2s; }
+      /* line 86, styles.sass */
+      header .search .clear-search:hover {
+        opacity: 1; }
+
+/* line 94, styles.sass */
+.main {
+  position: absolute;
+  top: 40px;
+  bottom: 0px;
+  left: 30px;
+  right: 260px;
+  padding-right: 20px;
+  overflow-y: hidden;
+  overflow-y: auto; }
+  /* line 100, styles.sass */
+  .main .title {
+    border-bottom: 2px #1bc1f5 solid;
+    position: relative;
+    height: 70px;
+    margin: 0 0 20px; }
+    /* line 106, styles.sass */
+    .main .title h1 {
+      font-size: 25px;
+      padding: 0;
+      color: #068dd8;
+      margin: 0;
+      position: absolute;
+      top: auto;
+      bottom: 5px;
+      left: 0;
+      right: auto;
+      border: 1px transparent solid;
+      cursor: default;
+      -webkit-transition: border-color 0.2s;
+      -moz-transition: border-color 0.2s;
+      -o-transition: border-color 0.2s;
+      transition: border-color 0.2s; }
+      /* line 116, styles.sass */
+      .main .title h1[contenteditable=true]:hover {
+        border-color: #999999; }
+    /* line 119, styles.sass */
+    .main .title .buttons {
+      position: absolute;
+      top: auto;
+      bottom: 10px;
+      left: auto;
+      right: 0;
+      font-size: 0; }
+      /* line 123, styles.sass */
+      .main .title .buttons li {
+        display: inline-block;
+        list-style-type: none;
+        margin-left: 10px; }
+        /* line 128, styles.sass */
+        .main .title .buttons li a {
+          display: block;
+          height: 16px;
+          width: 16px;
+          background-repeat: no-repeat; }
+        /* line 134, styles.sass */
+        .main .title .buttons li .email {
+          margin-bottom: -2px;
+          background-image: url("../img/email.png"); }
+        /* line 138, styles.sass */
+        .main .title .buttons li .print {
+          background-image: url("../img/print.png"); }
+        /* line 141, styles.sass */
+        .main .title .buttons li .share {
+          background-image: url("../img/share.png"); }
+  /* line 149, styles.sass */
+  .main .tasks-container .new-task {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px #e6e6e6 solid;
+    height: 28px;
+    padding: 0 0 0 10px;
+    line-height: 18px;
+    font-size: 13px;
+    color: #4d4d4d;
+    -webkit-transition: border-color 0.3s;
+    -moz-transition: border-color 0.3s;
+    -o-transition: border-color 0.3s;
+    transition: border-color 0.3s; }
+    /* line 159, styles.sass */
+    .main .tasks-container .new-task:focus {
+      outline: none;
+      border-color: #1bc1f5; }
+    /* line 162, styles.sass */
+    .main .tasks-container .new-task.placeholder {
+      font-style: italic;
+      color: #999999; }
+  /* line 166, styles.sass */
+  .main .tasks-container ul.tasks {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    margin-top: 20px; }
+    /* line 172, styles.sass */
+    .main .tasks-container ul.tasks li.task {
+      display: block;
+      list-style-type: none;
+      border: 1px #d9d9d9 solid;
+      position: relative;
+      margin-bottom: -1px;
+      font-size: 13px;
+      color: #4c4c4c;
+      line-height: 28px; }
+      /* line 185, styles.sass */
+      .main .tasks-container ul.tasks li.task:before, .main .tasks-container ul.tasks li.task:after {
+        content: "";
+        display: block;
+        background: #e6e6e6;
+        width: 1px; }
+      /* line 190, styles.sass */
+      .main .tasks-container ul.tasks li.task:before {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 31px;
+        right: auto; }
+      /* line 192, styles.sass */
+      .main .tasks-container ul.tasks li.task:after {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 34px;
+        right: auto; }
+      /* line 196, styles.sass */
+      .main .tasks-container ul.tasks li.task .priority {
+        position: absolute;
+        top: -1px;
+        bottom: -1px;
+        left: -1px;
+        right: auto;
+        width: 4px; }
+        /* line 200, styles.sass */
+        .main .tasks-container ul.tasks li.task .priority.high {
+          background: #e15556; }
+        /* line 203, styles.sass */
+        .main .tasks-container ul.tasks li.task .priority.medium {
+          background: #9dd071; }
+        /* line 206, styles.sass */
+        .main .tasks-container ul.tasks li.task .priority.low {
+          background: #1bc1f5; }
+      /* line 210, styles.sass */
+      .main .tasks-container ul.tasks li.task .checkbox {
+        display: inline-block;
+        position: relative;
+        margin: 8px 18px 0 11px;
+        border: 1px #d9d9d9 solid;
+        height: 10px;
+        width: 10px; }
+      /* line 219, styles.sass */
+      .main .tasks-container ul.tasks li.task .name {
+        line-height: 18px;
+        position: absolute;
+        top: 6px;
+        bottom: auto;
+        left: 44px;
+        right: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        -webkit-transition: background 0.2s;
+        -moz-transition: background 0.2s;
+        -o-transition: background 0.2s;
+        transition: background 0.2s; }
+        /* line 227, styles.sass */
+        .main .tasks-container ul.tasks li.task .name:focus {
+          background: whitesmoke;
+          outline: none; }
+      /* line 232, styles.sass */
+      .main .tasks-container ul.tasks li.task .date {
+        font-size: 12px;
+        color: #999999;
+        position: absolute;
+        top: 1px;
+        bottom: auto;
+        left: auto;
+        right: 0;
+        padding: 0 14px 0 5px;
+        background: white; }
+        /* line 239, styles.sass */
+        .main .tasks-container ul.tasks li.task .date:before {
+          content: "";
+          display: inline-block;
+          background: url("../img/calendar.png") no-repeat;
+          width: 10px;
+          height: 10px;
+          margin-right: 5px; }
+      /* line 248, styles.sass */
+      .main .tasks-container ul.tasks li.task.expanded {
+        margin: 5px 0; }
+        /* line 254, styles.sass */
+        .main .tasks-container ul.tasks li.task.expanded .notes {
+          display: block;
+          background: #fafafa;
+          border-top: 1px #e6e6e6 solid;
+          padding: 5px 44px;
+          font-style: italic;
+          min-height: 40px;
+          line-height: 21px; }
+          /* line 264, styles.sass */
+          .main .tasks-container ul.tasks li.task.expanded .notes:focus {
+            outline: none; }
+      /* line 271, styles.sass */
+      .main .tasks-container ul.tasks li.task.completed .checkbox:after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: url("../img/checkmark.png"); }
+      /* line 278, styles.sass */
+      .main .tasks-container ul.tasks li.task.completed .name {
+        text-decoration: line-through;
+        color: #999999; }
+  /* line 283, styles.sass */
+  .main.settings {
+    display: none;
+    font-size: 14px;
+    color: #4d4d4d; }
+
+/* line 295, styles.sass */
+.sidebar {
+  position: absolute;
+  top: 40px;
+  bottom: 0px;
+  left: auto;
+  right: 0;
+  width: 220px;
+  padding-right: 30px;
+  overflow-x: hidden;
+  overflow-y: auto; }
+  /* line 303, styles.sass */
+  .sidebar .title {
+    height: 70px;
+    border-bottom: 2px #1bc1f5 solid;
+    position: relative;
+    margin: 0; }
+    /* line 309, styles.sass */
+    .sidebar .title h2 {
+      color: #068dd8;
+      font-size: 18px;
+      display: block;
+      position: absolute;
+      top: auto;
+      bottom: 6px;
+      left: 15px;
+      right: auto;
+      margin: 0; }
+    /* line 317, styles.sass */
+    .sidebar .title .add-list {
+      border: none;
+      margin: 0;
+      padding: 0;
+      background: none;
+      color: #068dd8;
+      font-weight: bold;
+      font-size: 18px;
+      display: block;
+      position: absolute;
+      top: auto;
+      bottom: 6px;
+      left: auto;
+      right: 15px; }
+  /* line 329, styles.sass */
+  .sidebar ul.lists {
+    margin: 0;
+    padding: 0;
+    font-size: 0; }
+    /* line 334, styles.sass */
+    .sidebar ul.lists li.list {
+      position: relative;
+      list-style-type: none;
+      overflow: hidden;
+      font-size: 14px;
+      color: #4c4c4c;
+      height: 40px;
+      line-height: 40px;
+      border-bottom: 1px #e6e6e6 solid;
+      cursor: default; }
+      /* line 346, styles.sass */
+      .sidebar ul.lists li.list:last-of-type {
+        border-bottom: none; }
+      /* line 350, styles.sass */
+      .sidebar ul.lists li.list[data-id=inbox] {
+        background: url("../img/inbox.png") no-repeat 15px 14px; }
+        /* line 353, styles.sass */
+        .sidebar ul.lists li.list[data-id=inbox] .name {
+          margin-left: 32px; }
+      /* line 358, styles.sass */
+      .sidebar ul.lists li.list .name {
+        display: inline-block;
+        margin-left: 15px; }
+      /* line 363, styles.sass */
+      .sidebar ul.lists li.list .count {
+        display: inline-block;
+        float: right;
+        margin-right: 15px; }
+      /* line 369, styles.sass */
+      .sidebar ul.lists li.list.current {
+        font-weight: bold; }
+        /* line 373, styles.sass */
+        .sidebar ul.lists li.list.current .name:before {
+          content: "";
+          display: inline-block;
+          background: url("../img/arrow-left.png") no-repeat;
+          width: 7px;
+          height: 10px;
+          margin-right: 10px; }

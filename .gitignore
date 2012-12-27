@@ -40,4 +40,6 @@ Thumbs.db
 
 # Misc
 ######################
+/node_modules
 *.sublime-*
+
