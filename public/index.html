@@ -20,7 +20,7 @@
     <div class="logo"></div>
       <div class="user"><img src="img/temp/avatar.png" alt="George Czabania" /><span class="name">George Czabania</span></div>
       <div class="search">
-        <input type="search" placeholder="Search">
+        <input type="search" data-tPlaceholder="Search">
         <a href="#" class="clear-search"></a>
       </div>
     </div>
@@ -31,14 +31,14 @@
       <h1 contenteditable="true">List Name</h1>
       <ul class="buttons">
         <li><a href="#" class="trash" title="Delete List" style="display: none"></a></li>
-        <li><a href="#" class="sort" title="Toggle Sorting"></a></li>
-        <li><a href="#" class="email" title="Email List"></a></li>
-        <li><a href="#" class="print" title="Print List"></a></li>
-        <li><a href="#" class="share" title="Share List"></a></li>
+        <li><a href="#" class="sort" data-tTitle="Toggle Sorting"></a></li>
+        <li><a href="#" class="email" data-tTitle="Email List"></a></li>
+        <li><a href="#" class="print" data-tTitle="Print List"></a></li>
+        <li><a href="#" class="share" data-tTitle="Share List"></a></li>
       </ul>
     </div>
     <div class="tasks-container">
-      <input type="text" placeholder="What do you need to do?" class="new-task">
+      <input type="text" data-tPlaceholder="What do you need to do?" class="new-task">
       <ul class="tasks"></ul>
     </div>
   </section>
@@ -46,37 +46,37 @@
   <aside class="sidebar">
 
     <div class="title">
-      <h2>Lists</h2>
+      <h2 data-tText="Lists"></h2>
     </div>
 
     <div class="inbox list">
       <div class="arrow"></div>
-      <span class="name">Inbox</span>
+      <span class="name" data-tText="Inbox"></span>
       <span class="count"></span>
     </div>
 
     <div class="all list">
       <div class="arrow"></div>
-      <span class="name">All Tasks</span>
+      <span class="name" data-tText="All Tasks"></span>
       <div class="count"></div>
     </div>
 
     <div class="completed list">
       <div class="arrow"></div>
-      <span class="name">Completed</span>
+      <span class="name" data-tText="Completed"></span>
       <div class="count"></div>
     </div>
 
     <ul class="lists"></ul>
 
-    <input class="new-list" placeholder="New List">
+    <input class="new-list" data-tPlaceholder="New List">
 
   </aside>
 
   <section class="modal delete">
     <div class="delete-container">
-      Are you sure you wanna delete yall?<br>
-      <button class="true">Delete</button>&nbsp;<button class="false">Nope</button>
+      <span data-tText="Are you sure you wanna delete yall?"></span><br>
+      <button class="true" data-tText="Delete"></button>&nbsp;<button class="false" data-tText="nope"></button>
     </div>
   </section>
 
