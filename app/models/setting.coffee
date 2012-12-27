@@ -8,6 +8,7 @@ class window.Setting extends Spine.Model
     'weekStart',
     'dateFormat',
     'confirmDelete',
+    'offlineMode',
     'theme'
 
   constructor: ->
