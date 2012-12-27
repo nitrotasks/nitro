@@ -18,6 +18,7 @@ class Settings extends Spine.Controller
     "click": "close"
     "click .tabs li": "tabSwitch"
     "click .night-mode": "toggleNight"
+    "click .language a": "changeLanguage"
 
   constructor: ->
     super
@@ -55,5 +56,9 @@ class Settings extends Spine.Controller
 
   clearData: =>
     @log "Clearing data"
+
+  changeLanguage: (e) =>
+    Setting.set "language", $(e.target).attr("data-value")
+    window.location.reload()
 
 module.exports = Settings

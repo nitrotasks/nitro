@@ -8,7 +8,8 @@ class window.Setting extends Spine.Model
     'weekStart',
     'dateFormat',
     'confirmDelete',
-    'night'
+    'night',
+    'language'
 
   constructor: ->
     super
@@ -18,6 +19,7 @@ class window.Setting extends Spine.Model
     @dateFormat ?= "dd/mm/yy"
     @confirmDelete ?= yes
     @night ?= no
+    @language ?= "en-us"
 
     $('html').addClass 'dark' if @night == yes
 

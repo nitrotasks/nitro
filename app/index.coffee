@@ -58,8 +58,8 @@ class App extends Spine.Controller
     new ListTitle
       el: @listTitle
 
-    # Load Translations
-    $.getJSON 'i18n/pirate.json', (dict) =>
+    # Load translations
+    $.getJSON 'i18n/' + Setting.get("language") + '.json', (dict) =>
       $.i18n.setDictionary(dict)
 
       # Puts the translations in
