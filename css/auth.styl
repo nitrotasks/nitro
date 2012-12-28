@@ -18,35 +18,27 @@
     width: 500px
     margin: 40px auto 0
 
-  .lr-wrap
-    margin-top: 40px
-    font-size: 0
-
-  .left, .right
+  .left
     font-size: 16px
-    width: 250px
+    width: 300px
     display: inline-block
     vertical-align: top
     box-sizing: border-box
 
-  .left
-    padding-right: 12px
-
-  .right
-    padding-left: 12px
+    a
+      display: block
+      border: 2px solid #000
+      box-sizing: border-box
+      width: 100%
 
   h1
     text-align: center
     margin: 0 0 20px 0
 
-  label
-    display: none
-
   input
     color: #4c4c4c
     width: 180px
-    border: 1px #ccc solid
-    margin: 0 0 5px 0
+    border: 2px #ccc solid
     outline: 0
     display: block
     width: 100%
@@ -54,13 +46,43 @@
     padding: 5px 10px 6px
 
     &:focus
-      border-color: #08c
+      border-color: #1BC1F5
 
   button
-    width: 100%
-    height: 30px
+    width: 147px
+    border: 0
+    // border: 2px solid #4D90FE
+    background-color: #068dd8
+    color: #fff
+    font-size: 15px
+    line-height: 1
+    vertical-align: top
+    padding: 10px 0
+    text-shadow: 0 -1px 1px #0072BB
+
+    &.sign-in
+      margin-right: 6px
+
+    &:hover
+      background-color: #0072BB
+      // border-color: #0072BB
+
+
+    &:active
+      box-shadow: 0 0 10px rgba(0,0,0,0.3) inset
+      vbg-gradient(#4D90FE, #0072BB)
 
   p
     font-size: 14px
     text-align: center
 
+#auth-email
+  border-bottom: 0
+
+  &:focus
+    border-bottom: 2px #1BC1F5 solid
+
+    & + input
+      border-top: 0
+#auth-password
+  margin-bottom: 10px
