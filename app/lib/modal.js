@@ -10,10 +10,11 @@
 			setTimeout (function() {
 				self.hide(0);
 			}, 350);
-			this.off("click");
+			this.off("click.modal");
 		} else if (control === "show" || control === undefined && !this.hasClass("show")) {
 			this.show(0).addClass("show");
-			this.on("click", function(e) {
+			// Because I'm an asshole
+			this.on("click.modal", function(e) {
 				if ($(e.target).hasClass("modal")) {
 					// This feels so wrong...
 					self.modal("hide");
