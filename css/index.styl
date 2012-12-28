@@ -661,14 +661,30 @@ ul.tasks
       &:nth-child(2)
         padding-right: 25px
 
-  .delete-container
-    width: 400px
+  button.special
+    border: 2px solid #555
+    background: #fff
+    font-size: 16px
+    color: #222
+    margin-top: 15px
+    padding: 8px 15px
+    font-family: "Lato", sans-serif
+
+    &:active
+      background: #555
+      color: #fff
+
+  & > div
     abs(15%, auto, auto, 50%)
-    margin-left: -225px
-    border: 3px solid $red
     transition(.3s, -webkit-transform, ease)
     -webkit-transform: scale(0.75) translate3d(0, 0, 0)
     background: #fff
+    font-size: 16px
+
+  .delete-container
+    width: 400px
+    margin-left: -228px
+    border: 3px solid $red
     padding: 25px
     text-align: center
     font-size: 16px
@@ -684,27 +700,10 @@ ul.tasks
       &:active
         background: $red
 
-  button.special
-    border: 2px solid #555
-    background: #fff
-    font-size: 16px
-    color: #222
-    margin-top: 15px
-    padding: 8px 15px
-    font-family: "Lato", sans-serif
-
-    &:active
-      background: #555
-      color: #fff
-
   .settings-container
     width: 600px
-    abs(15%, auto, auto, 50%)
-    margin-left: -300px
-    background: #fff
+    margin-left: -303px
     border: 3px solid $green
-    transition(.3s, -webkit-transform, ease)
-    -webkit-transform: scale(0.75) translate3d(0, 0, 0)
 
     & > div
       padding: 35px 25px 30px
@@ -715,6 +714,38 @@ ul.tasks
 
       &.current
         display: block
+
+  .email-container
+    width: 300px
+    margin-left: -178px
+    border: 3px solid $light-blue
+    padding: 25px
+
+    span
+      display: inline-block
+      margin-bottom: 15px
+
+    input
+      width: 212px
+      border: 2px solid $light-blue
+      padding: 5px 8px
+      outline: none
+
+    button
+      color: #444
+      font-size: 14px
+      line-height: 19px
+      vertical-align: top
+      padding: 5px 8px
+      width: 65px
+      background: #fff
+      border: 2px solid $light-blue
+
+      &:active
+        background: $light-blue
+        color: #fff
+
+
 
   .pro
     text-align: center
@@ -737,7 +768,7 @@ ul.tasks
 
   &.show
     opacity: 1
-    .settings-container, .delete-container
+    & > div
       -webkit-transform: scale(1) translate3d(0, 0, 0)
 
   .about

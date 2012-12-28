@@ -65,9 +65,9 @@ class ListTitle extends Spine.Controller
         else
           @list.destroy()
 
-      when "email" then @log "emailing"
+      when "email" then $(".modal.email").modal()
       when "print" then window.print()
-      when "share" then @log "sharing"
+      when "share" then $(".modal.share").modal()
       when "sort"  then Setting.toggleSort()
 
 module.exports = ListTitle
