@@ -64,6 +64,8 @@ class Tasks extends Spine.Controller
 
   render: (list) =>
 
+    @el.removeClass "empty"
+
     console.log ""
 
     console.time "list"
@@ -89,16 +91,20 @@ class Tasks extends Spine.Controller
     , 300
     console.timeEnd "release"
 
+    html = ""
+
     console.time "getTasks"
+    @el.find(".message").remove()
     if list.id is "filter"
       tasks = list.tasks
+      @el.append "<div class='message'>" + $.i18n._("No tasks could be found.") + "</div>"
     else if @list?.tasks
       tasks = (Task.find id for id in @list.tasks)
+      @el.append  "<div class='message'>" + $.i18n._("You haven't added any tasks to this list.") + "</div>"
     else
       tasks = Task.list(@list.id)
+      @el.append  "<div class='message'>" + $.i18n._("There are no tasks in here.") + "</div>"
     console.timeEnd "getTasks"
-
-    html = ""
 
     console.time "toggleSort"
     # If the list is disabled, make sorting default
@@ -170,6 +176,10 @@ class Tasks extends Spine.Controller
           el: @tasks.find("#task-#{ task.id }")
         @items[@items.length] = view
     , 1000
+
+    # Handles Empty List
+    @el.addClass "empty" if tasks.length == 0
+
 
     console.timeEnd "list"
 
