@@ -29,9 +29,9 @@ class Auth extends Spine.Controller
     true
 
   toggleMode: =>
-    @form.removeClass @mode
-    @mode = if @mode is "login" then "sign-up" else "login"
-    @form.addClass @mode
+    # @form.removeClass @mode
+    # @mode = if @mode is "login" then "sign-up" else "login"
+    # @form.addClass @mode
     true
 
   offlineMode: =>

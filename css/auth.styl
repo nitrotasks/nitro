@@ -7,24 +7,33 @@
   background: #fff
   z-index: 100
   // display: none
+  text-align: center
+
+  .icon
+    border-radius: 20px
+    margin-bottom: 20px
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3)
 
   .form
-    width: 200px
-    margin: 100px auto 0
-    border: 1px #ccc solid
-    padding: 20px
+    width: 500px
+    margin: 40px auto 0
 
-    &.sign-up
-      .name,
-        display: block
-      .message.sign-up
-        display: none
+  .lr-wrap
+    margin-top: 40px
+    font-size: 0
 
-    &.login
-      .message.login
-        display: none
-      .name
-        display: none
+  .left, .right
+    font-size: 16px
+    width: 250px
+    display: inline-block
+    vertical-align: top
+    box-sizing: border-box
+
+  .left
+    padding-right: 12px
+
+  .right
+    padding-left: 12px
 
   h1
     text-align: center
@@ -39,13 +48,16 @@
     border: 1px #ccc solid
     margin: 0 0 5px 0
     outline: 0
+    display: block
+    width: 100%
+    box-sizing: border-box
     padding: 5px 10px 6px
 
     &:focus
       border-color: #08c
 
   button
-    width: 200px
+    width: 100%
     height: 30px
 
   p
