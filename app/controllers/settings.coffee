@@ -15,7 +15,6 @@ class Settings extends Spine.Controller
     "change input": "save"
     "change select": "save"
     "click .clear-data": "clearData"
-    "click": "close"
     "click .tabs li": "tabSwitch"
     "click .night-mode": "toggleNight"
     "click .language a": "changeLanguage"
@@ -31,7 +30,7 @@ class Settings extends Spine.Controller
     $("[data-value=" + Setting.get("language") + "]").addClass "selected"
 
   show: =>
-    @el.show(0).addClass "show"
+    @el.modal()
 
   save: =>
     Setting.set "username", @username.val()
@@ -39,13 +38,6 @@ class Settings extends Spine.Controller
     Setting.set "dateFormat", @dateFormat.val()
     Setting.set "confirmDelete",  @confirmDelete.prop "checked"
     Setting.set "night",  @nightMode.prop "checked"
-
-  close: (e) =>
-    if $(e.target).hasClass "modal"
-      @el.removeClass "show"
-      setTimeout ( =>
-        @el.hide 0
-      ), 350
 
   tabSwitch: (e) =>
     @el.find(".current").removeClass "current"
