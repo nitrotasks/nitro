@@ -58,6 +58,7 @@ class Tasks extends Spine.Controller
       task: task
     view.el.addClass("new")
     @items.push view
+    @el.removeClass "empty"
 
   reload: =>
     @render List.current if List.current

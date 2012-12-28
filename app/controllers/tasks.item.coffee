@@ -34,6 +34,7 @@ class TaskItem extends Spine.Controller
     throw "@task required" unless @task
     @task.bind 'update', @update
     @task.bind 'destroy', @release
+    @task.bind 'destroy', @listWarning
     @render()
 
   render: =>
@@ -74,6 +75,9 @@ class TaskItem extends Spine.Controller
       )
     else
       @task.destroy()
+
+  listWarning: ->
+    $('.main.tasks').addClass('empty') if $("ul.tasks").children().length == 0
 
   release: ->
     # Remove model listeners
