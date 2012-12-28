@@ -25,11 +25,12 @@
     vertical-align: top
     box-sizing: border-box
 
-    a
-      display: block
-      border: 2px solid #000
-      box-sizing: border-box
-      width: 100%
+  .service
+    display: inline-block
+    height: 50px
+    margin: 0 5px
+    width: 50px
+    background: #0f0
 
   h1
     text-align: center
@@ -84,6 +85,27 @@
     font-size: 14px
     text-align: center
 
+  .or
+    display: inline-block
+    color: #666
+    margin: 25px 0
+
+    &::before, &::after
+      content: ""
+      display: inline-block
+      height: 1px
+      position: relative
+      top: -4px
+      width: 125px
+
+    &::before
+      hbg-gradient(#fff,#ccc)
+      border-right: 15px solid #fff
+
+    &::after
+      border-left: 15px solid #fff
+      hbg-gradient(#ccc,#fff)
+
 #auth-email
   border-bottom: 0
 
@@ -94,3 +116,18 @@
       border-top: 0
 #auth-password
   margin-bottom: 10px
+
+.offline a
+  width: 100px
+  text-align: center
+  font-size: 13px
+  display: inline-block
+  text-decoration: none
+  color: #888
+  border: 1px solid #ddd
+  padding: 5px 0
+  margin-top: 5px
+
+  &:active
+    background: #ddd
+    color: #666
