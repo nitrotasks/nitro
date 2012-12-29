@@ -37,7 +37,7 @@ class Settings extends Spine.Controller
     $("[data-value=" + Setting.get("language") + "]").addClass "selected"
 
     @log Setting.get("notifications")
-    unless Setting.get("notifications") is true or Setting.isPro() is true
+    unless Setting.get("notifications") is true and Setting.isPro() is true
       @disabler.prop("disabled", true).addClass("disabled")
       @notifyToggle.prop "checked", false
 
