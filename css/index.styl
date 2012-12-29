@@ -1102,6 +1102,25 @@ $dark-border = #272727
   .modal
     background-color: rgba(0,0,0,0.4)
 
+.pro-badge
+  display: inline-block
+  background: #444
+  font-size: 12px
+  padding: 3px 5px 2px
+  border-radius: 3px
+  margin-left: 10px
+  line-height: 1
+  text-transform: uppercase
+  color: #fff
+
+  &.opp
+    display: none
+
+.pro .pro-badge
+  display: none
+
+  &.opp
+    display: inline-block
 
 // jQuery UI
 @import "./jqueryui"

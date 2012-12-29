@@ -37,9 +37,11 @@ class Settings extends Spine.Controller
     $("[data-value=" + Setting.get("language") + "]").addClass "selected"
 
     @log Setting.get("notifications")
-    unless Setting.get("notifications") is true
+    unless Setting.get("notifications") is true or Setting.isPro() is true
       @disabler.prop("disabled", true).addClass("disabled")
       @notifyToggle.prop "checked", false
+
+    $('html').addClass('pro') if Setting.isPro()
 
   show: =>
     @el.modal()
@@ -89,6 +91,8 @@ class Settings extends Spine.Controller
         @disabler.prop("disabled", false).removeClass("disabled")
       else
         @notifyToggle.prop("checked", false)
+        # Because it gets set as true for a stupid reason
+        Setting.set "notifications", false
         @el.modal("hide")
         $('.modal.proventor').modal("show")
     else
