@@ -6,13 +6,11 @@ class Auth extends Spine.Controller
 
   elements:
     ".form": "form"
-    ".name input": "name"
     ".email input": "email"
     ".password input": "password"
 
   events:
     "click button": "buttonClick"
-    "click .message a": "toggleMode"
     "click .offline": "offlineMode"
 
   constructor: ->
@@ -26,12 +24,6 @@ class Auth extends Spine.Controller
     switch @mode
       when "login" then @login data
       when "sign-up" then @register data
-    true
-
-  toggleMode: =>
-    # @form.removeClass @mode
-    # @mode = if @mode is "login" then "sign-up" else "login"
-    # @form.addClass @mode
     true
 
   offlineMode: =>

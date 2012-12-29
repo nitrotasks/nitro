@@ -18,6 +18,7 @@ class Settings extends Spine.Controller
     "click .tabs li": "tabSwitch"
     "click .night-mode": "toggleNight"
     "click .language a": "changeLanguage"
+    "click .login": "login"
 
   constructor: ->
     super
@@ -53,5 +54,9 @@ class Settings extends Spine.Controller
   changeLanguage: (e) =>
     Setting.set "language", $(e.target).attr("data-value")
     window.location.reload()
+
+  login: =>
+    $('.auth').fadeIn(300)
+    @el.modal("hide")
 
 module.exports = Settings
