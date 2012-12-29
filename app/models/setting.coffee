@@ -10,7 +10,9 @@ class window.Setting extends Spine.Model
     'confirmDelete',
     'offlineMode',
     'night',
-    'language'
+    'language',
+    'pro',
+    'notifications'
 
   constructor: ->
     super
@@ -21,6 +23,8 @@ class window.Setting extends Spine.Model
     @confirmDelete ?= yes
     @night ?= no
     @language ?= "en-us"
+    @pro ?= no
+    @notifications ?= no
 
     $('html').addClass 'dark' if @night == yes
 
@@ -45,7 +49,7 @@ class window.Setting extends Spine.Model
 
   # Check is user is pro
   @isPro: ->
-    return true
+    Setting.get "pro"
 
   @toggleSort: ->
     @toggle "sort"

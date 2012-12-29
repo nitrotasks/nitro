@@ -102,6 +102,15 @@
     </div>
   </section>
 
+  <section class="modal proventor">
+    <div class="proventor-container">
+      <img src="img/pro.png" width="27" height="48">
+      <h2 data-tText="You’ll need to go Pro"></h2>
+      <p data-tText="A pro account unlocks this feature and many others."></p> <p data-tText="Take Nitro to the next level."></p>
+      <button class="special" data-tText="Get Pro"></button>&nbsp;&nbsp;<button class="special" data-tText="Learn More"></button>
+    </div>
+  </section>
+
   <section class="modal settings">
     <div class="settings-container">
       <nav class="tabs">
@@ -142,20 +151,20 @@
       </div>
       <div class="account">
         <img src="img/marketingbullshit.png" width="550" height="250">
-        <button class="special login" data-tText="Get Started"></button><span data-tText="Don't worry, all your existing tasks and lists will be safe. After signing in they'll be right here where you left them."</span>
+        <button class="special login" data-tText="Get Started"></button><span data-tText="Don’t worry, all your existing tasks and lists will be safe. After signing in they’ll be right here where you left them."</span>
       </div>
       <div class="pro">
         <img src="img/pro.png" width="27" height="48">
         <h2 data-tText="Go Pro"></h2>
-        <p data-tText="A pro account unlocks extra awesome features."></p> <p data-tText="You'll also get a warm fuzzy feeling."></p>
+        <p data-tText="A pro account unlocks extra awesome features."></p> <p data-tText="You’ll also get a warm fuzzy feeling."></p>
         <button class="special" data-tText="Get Pro"></button>&nbsp;&nbsp;<button class="special" data-tText="Learn More"></button>
       </div>
       <div class="notifications">
-        <label for="notify-toggle" data-tText="Notifications:"></label><input id="notify-toggle" type="checkbox">
+        <label for="notify-toggle" data-tText="Notifications:"></label><input id="notify-toggle" type="checkbox" checked="checked">
         <br><br><hr><br>
-        <label for="notify-email" data-tText="Notify me via Email:"></label><input type="checkbox" id="notify-email"><br><br>
-        <label for="notify-time" data-tText="Remind me at:"></label>
-        <select id="notify-time">
+        <label class="disabler" for="notify-email" data-tText="Notify me via Email:"></label><input class="disabler" type="checkbox" id="notify-email"><br><br>
+        <label class="disabler" for="notify-time" data-tText="Remind me at:"></label>
+        <select class="disabler" id="notify-time">
           <option value="1am" data-tText="1am"></option>
           <option value="2am" data-tText="2am"></option>
           <option value="3am" data-tText="3am"></option>
@@ -181,8 +190,8 @@
           <option value="11pm" data-tText="11pm"></option>
           <option value="12am" data-tText="12am"></option>
         </select><br><br>
-        <label for="notify-regular" data-tText="Send notifications for tasks that are:"></label>
-        <select id="notify-regular">
+        <label class="disabler" for="notify-regular" data-tText="Send notifications for tasks that are:"></label>
+        <select class="disabler" id="notify-regular">
           <option data-tText="Upcoming"></option>
           <option data-tText="Due"></option>
           <option data-tText="Overdue"></option>

@@ -10,6 +10,11 @@ class Settings extends Spine.Controller
     ".confirm-delete": "confirmDelete"
     ".username": "username"
     ".night-mode": "nightMode"
+    "#notify-toggle": "notifyToggle"
+    "#notify-email": "notifyEmail"
+    "#notify-time": "notifyTime"
+    "#notify-regualr": "notifyRegular"
+    ".disabler": "disabler"
 
   events:
     "change input": "save"
@@ -19,6 +24,7 @@ class Settings extends Spine.Controller
     "click .night-mode": "toggleNight"
     "click .language a": "changeLanguage"
     "click .login": "login"
+    "click #notify-toggle": "toggleNotify"
 
   constructor: ->
     super
@@ -30,6 +36,11 @@ class Settings extends Spine.Controller
     @nightMode.prop "checked", Setting.get("night")
     $("[data-value=" + Setting.get("language") + "]").addClass "selected"
 
+    @log Setting.get("notifications")
+    unless Setting.get("notifications") is true
+      @disabler.prop("disabled", true).addClass("disabled")
+      @notifyToggle.prop "checked", false
+
   show: =>
     @el.modal()
 
@@ -39,6 +50,7 @@ class Settings extends Spine.Controller
     Setting.set "dateFormat", @dateFormat.val()
     Setting.set "confirmDelete",  @confirmDelete.prop "checked"
     Setting.set "night",  @nightMode.prop "checked"
+    Setting.set "notifications",  @notifyToggle.prop "checked"
 
   tabSwitch: (e) =>
     @el.find(".current").removeClass "current"
@@ -46,17 +58,43 @@ class Settings extends Spine.Controller
     @el.find("div." + $(e.target).addClass("current").attr("data-id")).addClass "current"
 
   toggleNight: (e) =>
-    $("html").toggleClass "dark"
+    if Setting.isPro()
+      $("html").toggleClass "dark"
+    else
+      @nightMode.prop("checked", false)
+      @el.modal("hide")
+      $(".modal.proventor").modal("show")
+      Setting.set "night", false
 
   clearData: =>
     @log "Clearing data"
 
   changeLanguage: (e) =>
-    Setting.set "language", $(e.target).attr("data-value")
-    window.location.reload()
+    # Pirate Speak is a Pro feature
+    if $(e.target).attr("data-value") is "en-pi" and !Setting.isPro()
+      @el.modal("hide")
+      $(".modal.proventor").modal("show")
+    else
+      Setting.set "language", $(e.target).attr("data-value")
+      window.location.reload()
 
   login: =>
     $('.auth').fadeIn(300)
     @el.modal("hide")
+
+  toggleNotify: =>
+    if @notifyToggle.prop("checked")
+      if Setting.isPro()
+        # Enable Checkboxes
+        @disabler.prop("disabled", false).removeClass("disabled")
+      else
+        @notifyToggle.prop("checked", false)
+        @el.modal("hide")
+        $('.modal.proventor').modal("show")
+    else
+      # Disable Checkboxes
+      @disabler.prop("disabled", true).addClass("disabled")
+
+
 
 module.exports = Settings
