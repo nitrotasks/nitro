@@ -153,7 +153,42 @@
         <button class="special">Get Pro</button>&nbsp;&nbsp;<button class="special">Learn More</button>
       </div>
       <div class="notifications">
-        Notifications requires Pro. Yall.
+        <label for="notify-toggle" data-tText="Notifications:"></label><input id="notify-toggle" type="checkbox">
+        <br><br><hr><br>
+        <label for="notify-email" data-tText="Notify me via Email:"></label><input type="checkbox" id="notify-email"><br><br>
+        <label for="notify-time" data-tText="Remind me at:"></label>
+        <select id="notify-time">
+          <option value="1am" data-tText="1am"></option>
+          <option value="2am" data-tText="2am"></option>
+          <option value="3am" data-tText="3am"></option>
+          <option value="4am" data-tText="4am"></option>
+          <option value="5am" data-tText="5am"></option>
+          <option value="6am" data-tText="6am"></option>
+          <option value="7am" data-tText="7am"></option>
+          <option value="8am" data-tText="8am"></option>
+          <option value="9am" selected data-tText="9am"></option>
+          <option value="10am" data-tText="10am"></option>
+          <option value="11am" data-tText="11am"></option>
+          <option value="12pm" data-tText="12pm"></option>
+          <option value="1pm" data-tText="1pm"></option>
+          <option value="2pm" data-tText="2pm"></option>
+          <option value="3pm" data-tText="3pm"></option>
+          <option value="4pm" data-tText="4pm"></option>
+          <option value="5pm" data-tText="5pm"></option>
+          <option value="6pm" data-tText="6pm"></option>
+          <option value="7pm" data-tText="7pm"></option>
+          <option value="8pm" data-tText="8pm"></option>
+          <option value="9pm" data-tText="9pm"></option>
+          <option value="10pm" data-tText="10pm"></option>
+          <option value="11pm" data-tText="11pm"></option>
+          <option value="12am" data-tText="12am"></option>
+        </select><br><br>
+        <label for="notify-regular" data-tText="Send notifications for tasks that are:"></label>
+        <select id="notify-regular">
+          <option data-tText="Upcoming"></option>
+          <option data-tText="Due"></option>
+          <option data-tText="Overdue"></option>
+        </select>
       </div>
       <div class="language">
        <table>
