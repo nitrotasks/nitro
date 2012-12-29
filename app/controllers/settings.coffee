@@ -41,7 +41,7 @@ class Settings extends Spine.Controller
       @disabler.prop("disabled", true).addClass("disabled")
       @notifyToggle.prop "checked", false
 
-    $('html').addClass('pro') if Setting.isPro()
+    $('html').addClass('proenable') if Setting.isPro()
 
   show: =>
     @el.modal()

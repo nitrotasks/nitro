@@ -674,7 +674,9 @@ ul.tasks
       &:nth-child(2)
         padding-right: 25px
 
-  button.special
+  button.special, a.special
+    display: inline-block
+    text-decoration: none
     border: 2px solid #555
     background: #fff
     font-size: 16px
@@ -682,6 +684,7 @@ ul.tasks
     margin-top: 15px
     padding: 8px 15px
     font-family: "Lato", sans-serif
+    cursor: default
 
     &:active
       background: #555
@@ -802,7 +805,7 @@ ul.tasks
       margin: 0 auto 5px
       color: #444
 
-    button.special
+    .special
       width: 120px
       border: 2px solid $dark-blue
 
@@ -1116,11 +1119,19 @@ $dark-border = #272727
   &.opp
     display: none
 
-.pro .pro-badge
+.proenable .pro-badge
   display: none
 
   &.opp
     display: inline-block
 
+// Just a thankyou
+.ispro
+  display: none
+.proenable
+  .ispro
+    display: block
+  .notpro
+    display: none
 // jQuery UI
 @import "./jqueryui"
