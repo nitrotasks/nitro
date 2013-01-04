@@ -6,11 +6,13 @@ class Auth extends Spine.Controller
 
   elements:
     ".form": "form"
-    ".email input": "email"
-    ".password input": "password"
+    ".auth-name": "name"
+    ".auth-email": "email"
+    ".auth-password": "password"
 
   events:
-    "click button": "buttonClick"
+    "click .sign-in": "buttonSignin"
+    "click .register": "buttonRegister"
     "click .offline": "offlineMode"
 
   constructor: ->
@@ -19,11 +21,12 @@ class Auth extends Spine.Controller
     # If the user is in Offline Mode, then hide the login form
     if Setting.get("offlineMode") then @el.hide()
 
-  buttonClick: =>
-    data = @getData()
-    switch @mode
-      when "login" then @login data
-      when "sign-up" then @register data
+  buttonSignin: =>
+    @login @getData()
+    true
+
+  buttonRegister: =>
+    @register @getData()
     true
 
   offlineMode: =>
@@ -32,15 +35,25 @@ class Auth extends Spine.Controller
     @el.fadeOut(300)
     true
 
-  getData: ->
+  getData: =>
     name: @name.val()
     email: @email.val()
     password: @password.val()
 
   register: (data) ->
-    @log "Signing up", data
+    $.ajax
+      type: "post"
+      url: "http://localhost:5000/api/v0/auth/register"
+      data: data
+      success: (success) ->
+        console.log "Register: ", success
 
   login: (data) ->
-    @log "Logging in", data
+    $.ajax
+      type: "post"
+      url: "http://localhost:5000/api/v0/auth/login"
+      data: data
+      success: (success) ->
+        console.log "Login: ", success
 
 module.exports = Auth
