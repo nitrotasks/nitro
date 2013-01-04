@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"re",
+				"register"
+			],
+			[
+				"button",
+				"buttonRegister"
+			],
+			[
 				"sig",
 				"signupMode"
 			],
@@ -126,10 +134,6 @@
 			[
 				"pro",
 				"profileTemplate"
-			],
-			[
-				"re",
-				"recommended"
 			],
 			[
 				"devi",
@@ -255,7 +259,7 @@
 			"file": "public/index.html",
 			"settings":
 			{
-				"buffer_size": 4230,
+				"buffer_size": 13089,
 				"line_ending": "Unix"
 			}
 		},
@@ -263,18 +267,15 @@
 			"file": "css/auth.styl",
 			"settings":
 			{
-				"buffer_size": 746,
+				"buffer_size": 2274,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "Spine = require \"spine\"\nSetting = require \"models/setting\"\n$ = Spine.$\n\nclass Auth extends Spine.Controller\n\n  elements:\n    \".form\": \"form\"\n    \".name input\": \"name\"\n    \".email input\": \"email\"\n    \".password input\": \"password\"\n\n  events:\n    \"click button\": \"buttonClick\"\n    \"click .message a\": \"toggleMode\"\n    \"click .offline\": \"offlineMode\"\n\n  constructor: ->\n    super\n    @mode = \"login\"\n    # If the user is in Offline Mode, then hide the login form\n    if Setting.get(\"offlineMode\") then @el.hide()\n\n  buttonClick: =>\n    data = @getData()\n    switch @mode\n      when \"login\" then @login data\n      when \"sign-up\" then @register data\n    true\n\n  toggleMode: =>\n    @form.removeClass @mode\n    @mode = if @mode is \"login\" then \"sign-up\" else \"login\"\n    @form.addClass @mode\n    true\n\n  offlineMode: =>\n    @log \"Going into offline mode\"\n    Setting.set \"offlineMode\", true\n    @el.fadeOut(300)\n    true\n\n  getData: ->\n    name: @name.val()\n    email: @email.val()\n    password: @password.val()\n\n  register: (data) ->\n    @log \"Signing up\", data\n    \n\n  login: (data) ->\n    @log \"Logging in\", data\n\nmodule.exports = Auth\n",
 			"file": "app/controllers/auth.coffee",
-			"file_size": 1126,
-			"file_write_time": 1356346803000000,
 			"settings":
 			{
-				"buffer_size": 1131,
+				"buffer_size": 1236,
 				"line_ending": "Unix"
 			}
 		},
@@ -291,7 +292,7 @@
 			"file": "app/index.coffee",
 			"settings":
 			{
-				"buffer_size": 1693,
+				"buffer_size": 2401,
 				"line_ending": "Unix"
 			}
 		},
@@ -299,7 +300,7 @@
 			"file": "app/controllers/tasks.coffee",
 			"settings":
 			{
-				"buffer_size": 5425,
+				"buffer_size": 6276,
 				"line_ending": "Unix"
 			}
 		},
@@ -307,7 +308,7 @@
 			"file": "app/controllers/panel.coffee",
 			"settings":
 			{
-				"buffer_size": 953,
+				"buffer_size": 951,
 				"line_ending": "Unix"
 			}
 		},
@@ -323,7 +324,7 @@
 			"file": "app/models/setting.coffee",
 			"settings":
 			{
-				"buffer_size": 925,
+				"buffer_size": 1036,
 				"line_ending": "Unix"
 			}
 		}
@@ -805,15 +806,15 @@
 					"file": "public/index.html",
 					"settings":
 					{
-						"buffer_size": 4230,
+						"buffer_size": 13089,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4180,
-								4180
+								12513,
+								12513
 							]
 						],
 						"settings":
@@ -911,7 +912,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2414.0,
+						"translation.y": 5032.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -921,15 +922,15 @@
 					"file": "css/auth.styl",
 					"settings":
 					{
-						"buffer_size": 746,
+						"buffer_size": 2274,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								116,
-								116
+								1279,
+								1279
 							]
 						],
 						"settings":
@@ -1027,7 +1028,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1426.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1037,15 +1038,15 @@
 					"file": "app/controllers/auth.coffee",
 					"settings":
 					{
-						"buffer_size": 1131,
+						"buffer_size": 1236,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1059,
-								1059
+								618,
+								618
 							]
 						],
 						"settings":
@@ -1143,7 +1144,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 591.0,
+						"translation.y": 82.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1268,15 +1269,15 @@
 					"file": "app/index.coffee",
 					"settings":
 					{
-						"buffer_size": 1693,
+						"buffer_size": 2401,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								669,
-								669
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1384,15 +1385,15 @@
 					"file": "app/controllers/tasks.coffee",
 					"settings":
 					{
-						"buffer_size": 5425,
+						"buffer_size": 6276,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2959,
-								2959
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1500,7 +1501,7 @@
 					"file": "app/controllers/panel.coffee",
 					"settings":
 					{
-						"buffer_size": 953,
+						"buffer_size": 951,
 						"regions":
 						{
 						},
@@ -1732,15 +1733,15 @@
 					"file": "app/models/setting.coffee",
 					"settings":
 					{
-						"buffer_size": 925,
+						"buffer_size": 1036,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								223,
-								223
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1838,7 +1839,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 397.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -2413,7 +2414,7 @@
 		[
 			[
 				"",
-				"/Volumes/Storage/George/Documents/Github/Nitro v2/nitro v2.sublime-project"
+				"/Volumes/Storage/George/Documents/Github/Nitro-Sync/Nitro Sync.sublime-project"
 			],
 			[
 				"nitro ios",

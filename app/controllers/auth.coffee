@@ -45,15 +45,19 @@ class Auth extends Spine.Controller
       type: "post"
       url: "http://localhost:5000/api/v0/auth/register"
       data: data
-      success: (success) ->
+      success: (success) =>
         console.log "Register: ", success
+        if success is true
+          @el.fadeOut(300)
 
   login: (data) ->
     $.ajax
       type: "post"
       url: "http://localhost:5000/api/v0/auth/login"
       data: data
-      success: (success) ->
+      success: (success) =>
         console.log "Login: ", success
+        if success is true
+          @el.fadeOut(300)
 
 module.exports = Auth
