@@ -17,7 +17,7 @@ class ListItem extends Spine.Controller
     throw "@list required" unless @list
     # Update is bound to something else so we don't keep rewriting the dom
     @list.bind "update", @updateList
-    @list.bind "destroy", @remove
+    @list.bind "kill", @remove
     Task.bind "change", @updateTask
     @list.bind "changeList", @current
 
@@ -57,5 +57,6 @@ class ListItem extends Spine.Controller
       task.destroy()
     # Remove element and bindings
     @release()
+    @list.destroy()
 
 module.exports = ListItem

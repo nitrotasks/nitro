@@ -52,18 +52,18 @@ class ListTitle extends Spine.Controller
       when "trash"
         if Setting.get "confirmDelete"
           $(".modal.delete").modal "show"
-          $(".modal.delete .true").on("click", =>
-            @list.destroy()
+
+          $(".modal.delete .true").on "click", =>
+            @list.trigger "kill"
             $(".modal.delete").modal "hide"
             $(".modal.delete .true").off "click"
-          )
 
-          $(".modal.delete .false").on("click", (e) ->
+          $(".modal.delete .false").on "click", (e) ->
             $(".modal.delete").modal "hide"
             $(".modal.delete .false").off "click"
-          )
+
         else
-          @list.destroy()
+          @list.trigger "kill"
 
       when "email" then $(".modal.email").modal()
       when "print" then window.print()

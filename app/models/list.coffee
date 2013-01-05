@@ -27,7 +27,6 @@ class window.List extends Spine.Model
     index = @tasks.indexOf(task.id)
     if index > -1
       @tasks.splice(index, 1)
-      # This one line of code breaks list deletion. Tell me what it does @GeorgeCzabania
       @save()
 
   # BUG: gets called twice on first run...
