@@ -3,8 +3,6 @@ Model  = Spine.Model
 SocketIo = require('lib/socket.io')
 UpdateAttribute = require('lib/updateAttr')
 
-socket = SocketIo.connect("http://localhost:5000")
-
 
 # ------------------
 # Handle Sync Events
@@ -13,11 +11,40 @@ socket = SocketIo.connect("http://localhost:5000")
 Sync =
 
   # Sync status
-  online: yes
+  online: no
   enabled: yes
 
   # Hold unsynced events
   queue: JSON.parse localStorage.Queue or "[]"
+
+  connect: (id, token, fn) ->
+    @socket = SocketIo.connect("http://localhost:5000")
+
+    # Handle offline modes
+    for event in ['error', 'disconnect', 'connect_failed']
+      @socket.on event, Sync.goOffline
+
+    @socket.on 'connect', =>
+      @online = yes
+      @bindEvents()
+      if fn then fn()
+
+    # Sync unsunk changes
+    # socket.on 'connect', ->
+    #   Sync.sync()
+
+  bindQueue: []
+
+  on: (event, fn) ->
+    if not @online
+      @bindQueue.push [event, fn]
+    else
+      @socket.on event, fn
+
+  bindEvents: ->
+    for item in @bindQueue
+      @socket.on item[0], item[1]
+    bindQueue = []
 
   # Send data to the server using Socket.IO
   emit: (name, args, fn) ->
@@ -29,7 +56,7 @@ Sync =
       return
 
     return unless @enabled
-    socket.emit(name, args, fn)
+    @socket.emit(name, args, fn)
 
   # Go through each item in the queue and send it to the server
   sync: ->
@@ -195,18 +222,6 @@ Sync =
     console.error "NitroSync: Couldn't connect to server"
     Sync.online = no
 
-  # Login to server
-  login: (username) ->
-    socket.emit 'login', username
-
-# Handle offline modes
-for event in ['error', 'disconnect', 'connect_failed']
-  socket.on event, Sync.goOffline
-
-# Sync unsunk changes
-# socket.on 'connect', ->
-#   Sync.sync()
-
 # Just in case you need any default values
 class Base
 
@@ -217,19 +232,19 @@ class Collection extends Base
 
     # Set up bindings for server events
 
-    socket.on 'create', (data) =>
+    Sync.on 'create', (data) =>
       [className, item] = data
       if className is @model.className
         Sync.disable =>
           @model.create item
 
-    socket.on 'update', (data) =>
+    Sync.on 'update', (data) =>
       [className, item] = data
       if className is @model.className
         Sync.disable =>
           @model.find(item.id).updateAttributes(item)
 
-    socket.on 'destroy', (data) =>
+    Sync.on 'destroy', (data) =>
       [className, id] = data
       if className is @model.className
         Sync.disable =>

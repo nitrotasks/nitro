@@ -17,6 +17,8 @@ Panel     = require "controllers/panel"
 Settings  = require "controllers/settings"
 Auth      = require "controllers/auth"
 
+Cookies = require "utils/cookies"
+
 class App extends Spine.Controller
 
   elements:
@@ -92,7 +94,16 @@ class App extends Spine.Controller
       @lists.showInbox()
 
     # Login to sync
-    Spine.Sync.login(Setting.first().username)
+    token = Cookies.getItem("token")
+    uid = Cookies.getItem("uid")
+
+    if token? and uid?
+      Spine.Sync.connect uid, token, ->
+        Setting.trigger "login"
+
+    Setting.bind "haveToken", (data) ->
+      Spine.Sync.connect data[0], data[1], ->
+        Setting.trigger "login"
 
   collapseAllOnEsc: (e) =>
     if e.which is Keys.ESCAPE
