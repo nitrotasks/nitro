@@ -186,6 +186,11 @@ class Tasks extends Spine.Controller
 
     console.log ""
 
+    # Focuses Thing
+    setTimeout =>
+      @input.focus()
+    , 500
+
 
   new: (e) ->
     val = @input.val()
