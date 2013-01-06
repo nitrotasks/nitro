@@ -29,9 +29,10 @@ class Tasks extends Spine.Controller
     List.bind "changeList", @render
     Setting.bind "changeSort", @render
 
+    # I'm not sure how this works. Silly jQUery UI
     $("body").on "mouseover", ".main .task", ->
 
-      if Setting.sortMode() and not $(this).hasClass("ui-draggable")
+      if Setting.sortMode() and not $(this).hasClass("ui-draggable") and not List.current.disabled
 
         $(this).draggable
           distance: 10
@@ -85,16 +86,19 @@ class Tasks extends Spine.Controller
 
   render: (list) =>
 
-    # Fix sortable / draggable
-    if Setting.sortMode()
-      @el.find(".expanded").draggable({ disabled: false })
-    else
-      @el.find(".expanded").parent().sortable({ disabled: false })
-
     @el.removeClass "empty"
 
     # Update current list if the list is changed
     @list = list if list
+
+    #Something
+    if @list.disabled
+        $(@el[1]).sortable({ disabled: true })
+    else
+      if not Setting.sortMode()
+        $(@el[1]).sortable({ disabled: false })
+
+
 
     # Disable task input box
     if @list.disabled then @input.hide() else @input.show()
@@ -194,10 +198,11 @@ class Tasks extends Spine.Controller
   # ----------------------------------------------------------------------------
 
   collapseAll: ->
-    if Setting.sortMode()
-      @el.find(".expanded").draggable({ disabled: false })
-    else
-      @el.find(".expanded").parent().sortable({ disabled: false })
+    if !List.current.disabled
+      if Setting.sortMode()
+        @el.find(".expanded").draggable({ disabled: false })
+      else
+        @el.find(".expanded").parent().sortable({ disabled: false })
 
     @el.find(".expanded")
       .removeClass("expanded")
