@@ -158,6 +158,10 @@ class Tasks extends Spine.Controller
     # Handles Empty List
     @el.addClass "empty" if tasks.length == 0
 
+    # Focuses Thing
+    setTimeout =>
+      @input.focus()
+    , 500
 
   new: (e) ->
     val = @input.val()
