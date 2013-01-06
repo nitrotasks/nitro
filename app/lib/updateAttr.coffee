@@ -38,6 +38,7 @@ AttributeTracking =
         old = @getAttributesSnapshot(model)[key]
         unless _.isEqual(old, value)
           model.trigger "updateAttr", key, value, old
+          model.trigger "update:#{key}", value
       @setAttributesSnapshot(model)
 
     @extend ClassMethods

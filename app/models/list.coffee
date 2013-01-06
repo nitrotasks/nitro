@@ -22,12 +22,17 @@ class window.List extends Spine.Model
       @tasks.push(task.id)
       @save()
 
-  removeTask: (task) =>
-    return unless task.list is @id
+  removeTask: (task, force) =>
+    return unless force or task.list is @id
     index = @tasks.indexOf(task.id)
     if index > -1
       @tasks.splice(index, 1)
       @save()
+
+  moveTask: (task, newList) =>
+    task.updateAttribute "list", newList.id
+    newList.addTask task
+    @removeTask task, "force"
 
   # BUG: gets called twice on first run...
   updateTask: (task, attr, val, old) =>

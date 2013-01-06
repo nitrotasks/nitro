@@ -17,6 +17,7 @@ class ListItem extends Spine.Controller
     throw "@list required" unless @list
     # Update is bound to something else so we don't keep rewriting the dom
     @list.bind "update", @updateList
+    @list.bind "update:tasks", @updateListCount
     @list.bind "kill", @remove
     Task.bind "change", @updateTask
     @list.bind "changeList", @current
@@ -37,7 +38,10 @@ class ListItem extends Spine.Controller
   updateTask: (task) =>
     # Only update if the task was in the list or current list
     if task.list is @list.id or @list.eql(List.current)
-      @count.text Task.active(@list.id).length
+      @updateListCount()
+
+  updateListCount: =>
+    @count.text Task.active(@list.id).length
 
   updateList: (list) =>
     # Called when a list name is updated

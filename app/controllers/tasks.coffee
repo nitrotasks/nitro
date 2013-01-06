@@ -43,6 +43,24 @@ class Tasks extends Spine.Controller
             $("body").append(element)
             $("[data-id=#{ id }]")
 
+    self = @
+    $(this.el[1]).sortable
+      distance: 10
+      scroll: false
+      cursorAt:
+        top: 15
+        left: 30
+      helper: (event, task) ->
+        id = $(task).attr("id")
+        element = "<div data-id=\"#{ id }\" class=\"helper\">#{ $(task).find('.name').text() }</div>"
+        $("body").append(element)
+        $("[data-id=#{ id }]")
+      update: ( event, ui ) ->
+        arr = []
+        $(this).children().each (index) ->
+          arr.unshift $(this).attr('id').slice(5)
+        self.list.setOrder arr
+
   addOne: (task) =>
     return unless List.current.id in [task.list, "all"]
 
@@ -67,20 +85,11 @@ class Tasks extends Spine.Controller
 
     @el.removeClass "empty"
 
-    console.log ""
-
-    console.time "list"
-
-    console.time "start"
-
     # Update current list if the list is changed
     @list = list if list
 
     # Disable task input box
     if @list.disabled then @input.hide() else @input.show()
-    console.timeEnd "start"
-
-    console.time "release"
 
     oldItems = @items.slice(0)
     @items = []
@@ -90,11 +99,9 @@ class Tasks extends Spine.Controller
       for item in oldItems
         item.release()
     , 300
-    console.timeEnd "release"
 
     html = ""
 
-    console.time "getTasks"
     @el.find(".message").remove()
     if list.id is "filter"
       tasks = list.tasks
@@ -105,14 +112,9 @@ class Tasks extends Spine.Controller
     else
       tasks = Task.list(@list.id)
       @el.append  "<div class='message'>" + $.i18n._("There are no tasks in here.") + "</div>"
-    console.timeEnd "getTasks"
 
-    console.time "toggleSort"
-    # If the list is disabled, make sorting default
-    Setting.toggleSort() if @list.disabled and !Setting.sortMode()
-    console.timeEnd "toggleSort"
 
-    console.time "sort"
+
     # Sorting tasks
     if Setting.sortMode()
       tasks = Task.sort(tasks)
@@ -143,32 +145,7 @@ class Tasks extends Spine.Controller
 
         html = @template(task) + html
 
-    console.timeEnd "sort"
-
-    console.time "html"
     @tasks[0].innerHTML = html
-    console.timeEnd "html"
-
-    console.time "sortable"
-    if not @list.disabled
-      self = @
-      $(this.el[1]).sortable
-        distance: 10
-        scroll: false
-        cursorAt:
-          top: 15
-          left: 30
-        helper: (event, task) ->
-          id = $(task).attr("id")
-          element = "<div data-id=\"#{ id }\" class=\"helper\">#{ $(task).find('.name').text() }</div>"
-          $("body").append(element)
-          $("[data-id=#{ id }]")
-        update: ( event, ui ) ->
-          arr = []
-          $(this).children().each (index) ->
-            arr.unshift $(this).attr('id').slice(5)
-          self.list.setOrder arr
-    console.timeEnd "sortable"
 
     setTimeout =>
       for task in tasks
@@ -180,11 +157,6 @@ class Tasks extends Spine.Controller
 
     # Handles Empty List
     @el.addClass "empty" if tasks.length == 0
-
-
-    console.timeEnd "list"
-
-    console.log ""
 
 
   new: (e) ->
