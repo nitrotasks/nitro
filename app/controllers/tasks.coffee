@@ -85,6 +85,12 @@ class Tasks extends Spine.Controller
 
   render: (list) =>
 
+    # Fix sortable / draggable
+    if Setting.sortMode()
+      @el.find(".expanded").draggable({ disabled: false })
+    else
+      @el.find(".expanded").parent().sortable({ disabled: false })
+
     @el.removeClass "empty"
 
     # Update current list if the list is changed
