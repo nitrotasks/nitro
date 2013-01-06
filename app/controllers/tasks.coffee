@@ -14,6 +14,8 @@ class Tasks extends Spine.Controller
     "input.new-task": "input"
 
   events:
+    # "mouseover": "scrollbars"
+    "scroll": "scrollbars"
     "keydown input.new-task": "new"
     "click": "collapseAllOnClick"
 
@@ -206,5 +208,15 @@ class Tasks extends Spine.Controller
     # if e.target.nodeName in ["SECTION", "INPUT", "H1", "A"] or $(e.target).hasClass("title") or $(e.target).hasClass("tasks-container")
     if e.target.className is "main tasks"
       @collapseAll()
+
+  scrollbars: (e) =>
+    target = $(e.currentTarget)
+    target.addClass("show")
+
+    clearTimeout(@scrollbarTimeout)
+    @scrollbarTimeout = setTimeout ->
+      target.removeClass("show")
+    , 1000
+
 
 module.exports = Tasks

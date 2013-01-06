@@ -21,21 +21,6 @@ body, input
   display: table
   clear: both
 
-// Lion Scrollbars
-::-webkit-scrollbar#1f2f6f
-  -webkit-appearance: none
-  width: 7px
-  height: 7px
-
-::-webkit-scrollbar-track
-  // Don't let the scrollbar touch the sides
-  margin: 5px 0
-
-::-webkit-scrollbar-thumb
-  border-radius: 4px
-  background-color: rgba(#000, 0.4)
-  box-shadow: 0 0 1px rgba(#000, 0.4)
-
 // --------------------
 //     ANIMATIONS
 // --------------------
@@ -177,10 +162,30 @@ header
 
 
 .main
-  abs(40px, 295px, 0, 0)
-  padding: 0 15px 40px 30px
-  overflow-y: hidden
-  overflow-y: auto
+  abs(40px, 293px, 0, 0)
+  padding: 0 13px 40px 30px
+  overflow-y: scroll
+
+  &.show::-webkit-scrollbar-thumb
+      background: rgba(0,0,0,0.2);
+
+  &::-webkit-scrollbar
+    width: 8px
+
+  &::-webkit-scrollbar-thumb
+      background: transparent;
+      border-radius: 10px;
+      -webkit-transition: 300ms ease background;
+      // border-top: 15px solid #fff
+      // border-bottom: 15px solid #fff
+
+      &:active:hover
+        background: rgba(0,0,0,0.4)
+
+      &:hover
+        background: rgba(0,0,0,0.2);
+
+
 
   .title
     border-bottom: 2px $light-blue solid
