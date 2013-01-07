@@ -52,6 +52,65 @@ class window.Task extends Spine.Model
         if not item.name?.match(regex) then matches = no
       return matches
 
+  @prettyDate: (date) ->
+    # Create Date
+    now = new Date()
+    difference = 0
+    oneDay = 86400000; # 1000*60*60*24 - one day in milliseconds
+
+    # Find difference between days
+    difference = Math.ceil((date.getTime() - now.getTime()) / oneDay)
+
+    words = ''
+    className = ''
+
+    ###
+
+      Difference
+      ==  5: "5 days left"
+      ==  1: "Due tomorrow"
+      ==  0: "Due today"
+      == -1: "Due yesterday"
+      == -5: "5 days overdue"
+
+    ###
+
+    # Show difference nicely
+    if difference is -1
+      # Yesterday
+      words = 'dueYesterday'
+      className = 'overdue'
+
+    else if difference < -1
+      # Overdue
+
+      # Make sure the difference is a positive number
+      difference = Math.abs difference
+      words = "Overdue " + difference
+      className = 'overdue'
+
+    else if difference is 0
+      # Due Today
+      words = 'dueToday'
+      className = 'due'
+
+    else if difference is 1
+      # Due Tomorrow
+      words = 'due tomorrow'
+      className = 'soon'
+
+    else if difference < 15
+      # Due in the next 15 days
+      words = 'daysLeft' + difference
+
+    else
+      words = date.toString()
+
+    {
+      words: words
+      className: className
+    }
+
   @tag: (tag) ->
     return [] unless tag
     tag = tag.toLowerCase()
