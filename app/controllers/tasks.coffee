@@ -186,6 +186,8 @@ class Tasks extends Spine.Controller
         name: val
         list: @list?.id
         completed: false
+        notes: ""
+        date: ""
         priority: (->
           if val.indexOf("#high") >= 0 then return 3
           if val.indexOf("#medium") >= 0 then return 2
