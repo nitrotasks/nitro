@@ -53,6 +53,22 @@ class window.Task extends Spine.Model
       return matches
 
   @prettyDate: (date) ->
+    # This needs to be translated properly
+    month = [
+      $.i18n._ "Jan"
+      $.i18n._ "Feb"
+      $.i18n._ "Mar"
+      $.i18n._ "Apr"
+      $.i18n._ "May"
+      $.i18n._ "Jun"
+      $.i18n._ "Jul"
+      $.i18n._ "Aug"
+      $.i18n._ "Sep"
+      $.i18n._ "Oct"
+      $.i18n._ "Nov"
+      $.i18n._ "Dec"
+    ]
+
     # Create Date
     now = new Date()
     difference = 0
@@ -78,7 +94,7 @@ class window.Task extends Spine.Model
     # Show difference nicely
     if difference is -1
       # Yesterday
-      words = 'dueYesterday'
+      words = $.i18n._ 'due yesterday'
       className = 'overdue'
 
     else if difference < -1
@@ -86,25 +102,25 @@ class window.Task extends Spine.Model
 
       # Make sure the difference is a positive number
       difference = Math.abs difference
-      words = "Overdue " + difference
+      words = difference + $.i18n._ "days overdue"
       className = 'overdue'
 
     else if difference is 0
       # Due Today
-      words = 'dueToday'
+      words = $.i18n._ 'due today'
       className = 'due'
 
     else if difference is 1
       # Due Tomorrow
-      words = 'due tomorrow'
+      words = $.i18n._ 'due tomorrow'
       className = 'soon'
 
     else if difference < 15
       # Due in the next 15 days
-      words = 'daysLeft' + difference
+      words = difference + " days left"
 
     else
-      words = date.toString()
+      words = month[date.getMonth()] + " " + date.getDate()
 
     {
       words: words
