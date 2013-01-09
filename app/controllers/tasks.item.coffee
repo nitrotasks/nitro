@@ -150,17 +150,18 @@ class TaskItem extends Spine.Controller
   # DATES
   # ----------------------------------------------------------------------------
   datesSave: =>
-    @log @date.datepicker("getDate")
-    @task.updateAttribute "date", @date.datepicker("getDate").getTime()
 
-    @time.text Task.prettyDate(new Date(@task.date)).words
-    # @time.attr "class", Task.prettyDate(new Date(@task.date)).class
-
-    # Disables Shizz
     if @date.val().length > 0
+      @task.updateAttribute "date", @date.datepicker("getDate").getTime()
       @el.find("img").css('display', 'inline-block')
+
+      # Pretty Dates Engine
+      @time.text Task.prettyDate(new Date(@task.date)).words
+      @time.attr "class", Task.prettyDate(new Date(@task.date)).class
     else
+      @task.updateAttribute "date", ""
       @el.find("img").removeAttr('style')
+      @time.text ""
 
   # ----------------------------------------------------------------------------
   # TAGS
