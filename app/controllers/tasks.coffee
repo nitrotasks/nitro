@@ -143,8 +143,10 @@ class Tasks extends Spine.Controller
         last = task.priority
 
         # Translations
-        task.notesplaceholder = $.i18n._("Notes")
-        task.dateplaceholder = $.i18n._("Due Date")
+        task.notesplaceholder = $.i18n._ "Notes"
+        task.dateplaceholder = $.i18n._ "Due Date"
+
+        task.dateValue = Task.prettyDate(new Date(task.date)).words
 
         # Append html
         html = @template(task) + html

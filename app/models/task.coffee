@@ -102,7 +102,7 @@ class window.Task extends Spine.Model
 
       # Make sure the difference is a positive number
       difference = Math.abs difference
-      words = difference + $.i18n._ "days overdue"
+      words = difference + " " + $.i18n._ "days overdue"
       className = 'overdue'
 
     else if difference is 0
