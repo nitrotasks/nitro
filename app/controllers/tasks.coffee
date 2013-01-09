@@ -147,6 +147,7 @@ class Tasks extends Spine.Controller
         task.dateplaceholder = $.i18n._ "Due Date"
 
         task.dateValue = Task.prettyDate(new Date(task.date)).words
+        task.dateClass = Task.prettyDate(new Date(task.date)).className
 
         # Append html
         html = @template(task) + html
