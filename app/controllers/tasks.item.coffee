@@ -149,7 +149,7 @@ class TaskItem extends Spine.Controller
   # DATES
   # ----------------------------------------------------------------------------
   datesSave: =>
-    @task.updateAttribute "date", new Date(@date.val()).getTime()
+    @task.updateAttribute "date", @date.datepicker("getDate").getTime()
 
     # Disables Shizz
     if @date.val().length > 0
