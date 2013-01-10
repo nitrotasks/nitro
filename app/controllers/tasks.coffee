@@ -7,7 +7,10 @@ Keys     = require("utils/keys")
 
 class Tasks extends Spine.Controller
 
-  template: Handlebars.compile require('views/task')
+  template: (->
+    require('views/task')
+    Handlebars.templates['task']
+  )()
 
   elements:
     "ul.tasks": "tasks"
@@ -71,8 +74,6 @@ class Tasks extends Spine.Controller
     task.notesplaceholder = $.i18n._("Notes")
     task.dateplaceholder = $.i18n._("Due Date")
 
-    console.log(task)
-
     @tasks.prepend @template task
     view = new TaskItem
       el: @tasks.find("#task-#{ task.id }")
@@ -98,8 +99,6 @@ class Tasks extends Spine.Controller
       if not Setting.sortMode()
         $(@el[1]).sortable({ disabled: false })
 
-
-
     # Disable task input box
     if @list.disabled then @input.hide() else @input.show()
 
@@ -115,8 +114,8 @@ class Tasks extends Spine.Controller
     html = ""
 
     @el.find(".message").remove()
-    if list.id is "filter"
-      tasks = list.tasks
+    if @list.id is "filter"
+      tasks = @list.tasks
       @el.append "<div class='message'>" + $.i18n._("No tasks could be found.") + "</div>"
     else if @list?.tasks
       tasks = (Task.find id for id in @list.tasks)

@@ -3,7 +3,10 @@ Task  = require("models/task")
 List  = require("models/list")
 
 class ListItem extends Spine.Controller
-  template: Handlebars.compile require("views/list")
+  template: ( ->
+    require("views/list")
+    Handlebars.templates['list']
+  )()
 
   elements:
     '.name': 'name'
