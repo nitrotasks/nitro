@@ -1,0 +1,15 @@
+{
+  "name": "Nitro",
+  "version": "2.0",
+  "manifest_version": 2,
+  "offline_enabled": true,
+  "app": {
+    "launch": {
+      "local_path": "index.html"
+    }
+  },
+  "permissions": [
+    "unlimitedStorage",
+    "http://*/*"
+  ]
+}
