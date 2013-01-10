@@ -11,6 +11,7 @@ class TaskItem extends Spine.Controller
     '.input-name': 'inputName'
     '.date': 'date'
     '.notes .inner': 'notes'
+    'time': 'time'
 
   events:
     'click .delete': 'remove'
@@ -149,15 +150,18 @@ class TaskItem extends Spine.Controller
   # DATES
   # ----------------------------------------------------------------------------
   datesSave: =>
-    @task.updateAttribute "date", new Date(@date.val()).getTime()
 
-    # Disables Shizz
     if @date.val().length > 0
+      @task.updateAttribute "date", @date.datepicker("getDate").getTime()
       @el.find("img").css('display', 'inline-block')
-      @date.css('display', 'inline-block')
+
+      # Pretty Dates Engine
+      @time.text Task.prettyDate(new Date(@task.date)).words
+      @time.attr "class", Task.prettyDate(new Date(@task.date)).className
     else
+      @task.updateAttribute "date", ""
       @el.find("img").removeAttr('style')
-      @date.removeAttr('style')
+      @time.text ""
 
   # ----------------------------------------------------------------------------
   # TAGS

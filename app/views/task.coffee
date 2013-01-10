@@ -6,9 +6,9 @@ module.exports = """
   <input type="text" class="input-name">
   <div class="right-controls">
     {{#if date}}
-    <img style="display: inline-block" src="img/calendar.png"><input style="display: inline-block" class="date" placeholder="{{ dateplaceholder }}" value="{{date}}">
+    <img width="10" height="10" style="display: inline-block" src="img/calendar.png"><time class="{{dateClass}}">{{dateValue}}</time><input class="date" placeholder="{{ dateplaceholder }}" value="{{date}}">
     {{else}}
-    <img src="img/calendar.png"><input class="date" placeholder="{{ dateplaceholder }}" value="">
+    <img width="10" height="10" src="img/calendar.png"><time></time><input class="date" placeholder="{{ dateplaceholder }}" value="">
     {{/if }}
     <div class="priority-button">
       <div data-id="1" class="low"></div>

@@ -21,21 +21,6 @@ body, input
   display: table
   clear: both
 
-// Lion Scrollbars
-::-webkit-scrollbar#1f2f6f
-  -webkit-appearance: none
-  width: 7px
-  height: 7px
-
-::-webkit-scrollbar-track
-  // Don't let the scrollbar touch the sides
-  margin: 5px 0
-
-::-webkit-scrollbar-thumb
-  border-radius: 4px
-  background-color: rgba(#000, 0.4)
-  box-shadow: 0 0 1px rgba(#000, 0.4)
-
 // --------------------
 //     ANIMATIONS
 // --------------------
@@ -148,6 +133,7 @@ header
   border: 1px solid #bbb
   box-shadow: 0 1px 3px rgba(0,0,0,0.1) inset
   background: #fff url("img/search.png") no-repeat 7px 5px
+  background-size: 15px 15px;
 
   input
     width: 200px
@@ -163,6 +149,7 @@ header
   display: block
   abs(5px, 5px, auto, auto)
   background: url("img/clear-search.png")
+  background-size: 14px 14px;
   opacity: 0.6
   width: 14px
   height: 14px
@@ -177,10 +164,30 @@ header
 
 
 .main
-  abs(40px, 295px, 0, 0)
-  padding: 0 15px 40px 30px
-  overflow-y: hidden
-  overflow-y: auto
+  abs(40px, 293px, 0, 0)
+  padding: 0 13px 40px 30px
+  overflow-y: scroll
+
+  &.show::-webkit-scrollbar-thumb
+      background: rgba(0,0,0,0.2);
+
+  &::-webkit-scrollbar
+    width: 8px
+
+  &::-webkit-scrollbar-thumb
+      background: transparent;
+      border-radius: 10px;
+      -webkit-transition: 300ms ease background;
+      // border-top: 15px solid #fff
+      // border-bottom: 15px solid #fff
+
+      &:active:hover
+        background: rgba(0,0,0,0.4)
+
+      &:hover
+        background: rgba(0,0,0,0.2);
+
+
 
   .title
     border-bottom: 2px $light-blue solid
@@ -447,6 +454,17 @@ ul.tasks
     padding: 9px 0
     display: none
 
+  time
+    font-size: 13px
+    padding: 0 10px
+    color: #999
+
+    &.soon
+      color: $dark-blue
+
+    &.overdue, &.due
+      color: $red
+
   .date
     height: 28px
     line-height: 20px
@@ -500,7 +518,7 @@ ul.tasks
     .date, .delete, .priority-button, img
       display: inline-block
 
-    .name
+    .name, time
       display: none
 
     .input-name
@@ -892,6 +910,7 @@ ul.tasks
     &.inbox
       background: url("img/inbox.png") no-repeat 15px 15px
       border-top: 0
+      background-size: 12px 12px;
 
       &.ui-state-active
         background: url("img/inbox.png") no-repeat 15px 15px, #fafafa
@@ -902,11 +921,14 @@ ul.tasks
     // Add All Tasks Icon
     &.all
       background: url("img/all.png") no-repeat 15px 14px
+      background-size: 12px 11px;
+
       &.current
         background-position: 32px 14px
 
     &.completed
       background: url("img/completed.png") no-repeat 15px 15px
+      background-size: 13px 10px;
 
 
     // List Name
@@ -1017,6 +1039,7 @@ $dark-border = #272727
   .search
     background: #333 url("img/search_light.png") no-repeat 7px 5px
     border: 1px solid #111
+    background-size: 15px 15px;
 
     input
       background: #333
@@ -1024,6 +1047,7 @@ $dark-border = #272727
 
   .clear-search
     background: url("img/clear-search_light.png")
+    background-size: 14px 14px;
 
   .new-task
     background: #2a2a2a
@@ -1077,25 +1101,16 @@ $dark-border = #272727
       border-top: 1px solid #444
 
       &.current .arrow
-        background: url("img/arrow-left-fade_light.png") no-repeat
+        background-image: url("img/arrow-left-fade_light.png")
 
       &.inbox
-        background: url("img/inbox_light.png") no-repeat 15px 15px
-
-        &.current
-          background-position: 32px 15px
+        background-image: url("img/inbox_light.png")
 
       &.all
-        background: url('img/all_light.png') no-repeat 15px 14px
-
-        &.current
-          background-position: 32px 14px
+        background-image: url('img/all_light.png')
 
       &.completed
-        background: url('img/completed_light.png') no-repeat 15px 15px
-
-        &.current
-          background-position: 32px 15px
+        background-image: url('img/completed_light.png')
 
     .new-list
       background: #333

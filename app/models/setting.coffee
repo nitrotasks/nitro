@@ -7,6 +7,7 @@ class window.Setting extends Spine.Model
     'username',
     'weekStart',
     'dateFormat',
+    'completedDuration',
     'confirmDelete',
     'offlineMode',
     'night',
@@ -20,6 +21,7 @@ class window.Setting extends Spine.Model
     @username ?= "username"
     @weekStart ?= "1"
     @dateFormat ?= "dd/mm/yy"
+    @completedDuration ?= "day"
     @confirmDelete ?= yes
     @night ?= no
     @language ?= "en-us"

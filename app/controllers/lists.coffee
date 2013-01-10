@@ -36,8 +36,8 @@ class Lists extends Spine.Controller
       hoverClass: "ui-state-active"
       tolerance: "pointer"
       drop: (event, ui) =>
-        task = Task.find ui.draggable.attr("id").slice(5)
-        task.updateAttribute("list", "inbox")
+        movedTask = Task.find(ui.draggable.attr("id").slice(5))
+        List.current.moveTask(movedTask, List.find("inbox"))
 
   new: (e) ->
     val = @input.val()

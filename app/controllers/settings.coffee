@@ -7,6 +7,7 @@ class Settings extends Spine.Controller
     ".language": "language"
     ".week-start": "weekStart"
     ".date-format": "dateFormat"
+    ".completed-duration": "completedDuration"
     ".confirm-delete": "confirmDelete"
     ".username": "username"
     ".night-mode": "nightMode"
@@ -32,6 +33,7 @@ class Settings extends Spine.Controller
     @username.val Setting.get "username"
     @weekStart.val Setting.get "weekStart"
     @dateFormat.val Setting.get "dateFormat"
+    @completedDuration.val Setting.get "completedDuration"
     @confirmDelete.prop "checked", Setting.get("confirmDelete")
     @nightMode.prop "checked", Setting.get("night")
     $("[data-value=" + Setting.get("language") + "]").addClass "selected"
@@ -50,6 +52,7 @@ class Settings extends Spine.Controller
     Setting.set "username", @username.val()
     Setting.set "weekStart", @weekStart.val()
     Setting.set "dateFormat", @dateFormat.val()
+    Setting.set "completedDuration", @completedDuration.val()
     Setting.set "confirmDelete",  @confirmDelete.prop "checked"
     Setting.set "night",  @nightMode.prop "checked"
     Setting.set "notifications",  @notifyToggle.prop "checked"
