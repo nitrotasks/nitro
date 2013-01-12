@@ -76,7 +76,7 @@ class Settings extends Spine.Controller
     localStorage.clear()
     Cookies.removeItem("uid")
     Cookies.removeItem("token")
-
+    document.location.reload()
 
   changeLanguage: (e) =>
     # Pirate Speak is a Pro feature
