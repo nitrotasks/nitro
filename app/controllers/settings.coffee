@@ -1,5 +1,6 @@
 Spine = require("spine")
 Setting = require("models/setting")
+Cookies = require("utils/cookies")
 
 class Settings extends Spine.Controller
 
@@ -38,7 +39,6 @@ class Settings extends Spine.Controller
     @nightMode.prop "checked", Setting.get("night")
     $("[data-value=" + Setting.get("language") + "]").addClass "selected"
 
-    @log Setting.get("notifications")
     unless Setting.get("notifications") is true and Setting.isPro() is true
       @disabler.prop("disabled", true).addClass("disabled")
       @notifyToggle.prop "checked", false
@@ -73,6 +73,10 @@ class Settings extends Spine.Controller
 
   clearData: =>
     @log "Clearing data"
+    localStorage.clear()
+    Cookies.removeItem("uid")
+    Cookies.removeItem("token")
+    document.location.reload()
 
   changeLanguage: (e) =>
     # Pirate Speak is a Pro feature
