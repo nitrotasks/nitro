@@ -13,7 +13,10 @@ class window.Setting extends Spine.Model
     'night',
     'language',
     'pro',
-    'notifications'
+    'notifications',
+    'notifyEmail',
+    'notifyTime',
+    'notifyRegular'
 
   constructor: ->
     super

@@ -43,6 +43,10 @@ class Settings extends Spine.Controller
       @disabler.prop("disabled", true).addClass("disabled")
       @notifyToggle.prop "checked", false
 
+    @notifyEmail.prop "checked", Setting.get "notifyEmail"
+    @notifyTime.val Setting.get "notifyTime"
+    @notifyRegular.val Setting.get "notifyRegular"
+
     $('html').addClass('proenable') if Setting.isPro()
 
   show: =>
@@ -56,6 +60,9 @@ class Settings extends Spine.Controller
     Setting.set "confirmDelete",  @confirmDelete.prop "checked"
     Setting.set "night",  @nightMode.prop "checked"
     Setting.set "notifications",  @notifyToggle.prop "checked"
+    Setting.set "notifyEmail",  @notifyEmail.prop "checked"
+    Setting.set "notifyTime",  @notifyTime.val()
+    Setting.set "notifyRegular",  @notifyRegular.val()
 
   tabSwitch: (e) =>
     @el.find(".current").removeClass "current"
