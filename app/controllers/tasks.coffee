@@ -24,6 +24,7 @@ class Tasks extends Spine.Controller
 
   # Store currently loaded tasks
   items: []
+  timers: {}
 
   constructor: ->
     super
@@ -87,6 +88,8 @@ class Tasks extends Spine.Controller
 
   render: (list) =>
 
+    if @timers.bindTasks? then clearTimeout @timers.bindTasks
+
     @el.removeClass "empty"
 
     # Update current list if the list is changed
@@ -109,7 +112,7 @@ class Tasks extends Spine.Controller
     setTimeout ->
       for item in oldItems
         item.release()
-    , 300
+    , 100
 
     html = ""
 
@@ -161,21 +164,19 @@ class Tasks extends Spine.Controller
 
     @tasks[0].innerHTML = html
 
-    setTimeout =>
+    @timers.bindTasks = setTimeout =>
       for task in tasks
         view = new TaskItem
           task: task
           el: @tasks.find("#task-#{ task.id }")
         @items[@items.length] = view
-    , 1000
+    , 300
 
     # Handles Empty List
     @el.addClass "empty" if tasks.length == 0
 
     # Focuses Thing
-    setTimeout =>
-      @input.focus()
-    , 500
+    @input.focus()
 
   new: (e) ->
     val = @input.val()
