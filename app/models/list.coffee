@@ -14,34 +14,45 @@ class window.List extends Spine.Model
     @tasks ?= []
     Task.bind "create", @addTask
     Task.bind "destroy", @removeTask
-    Task.bind "updateAttr", @updateTask
+    Task.bind "update:id", @updateTask
 
+  # ----------
+  # Task Order
+  # ----------
+
+  # Add a task to a list
   addTask: (task) =>
     return unless task.list is @id
     if @tasks.indexOf(task.id) < 0
       @tasks.push(task.id)
-      @save()
+      @save
+        sync: off # Don't emit event to server
 
-  removeTask: (task, force) =>
-    return unless force or task.list is @id
+  # Remove a task from a list
+  removeTask: (task, options) =>
+    return unless options.forceUpdate or task.list is @id
     index = @tasks.indexOf(task.id)
     if index > -1
       @tasks.splice(index, 1)
-      @save()
+      @save
+        sync: off # Don't emit event to server
 
-  moveTask: (task, newList) =>
-    task.updateAttribute "list", newList.id
-    newList.addTask task
-    @removeTask task, "force"
-
-  # BUG: gets called twice on first run...
-  updateTask: (task, attr, val, old) =>
-    return unless attr in ["id"]
+  # Change clientID to serverID
+  updateTask: (task, val, old) =>
+    return unless task.list is @id
     index = @tasks.indexOf(old)
     if index > -1
       @tasks[index] = val
-      @save()
+      @save
+        sync: off # Don't emit event to server
 
+  # Move a task from one list to another
+  moveTask: (task, newList) =>
+    task.updateAttribute "list", newList.id
+    newList.addTask task
+    @removeTask task, forceUpdate: yes
+
+  # Change order (used for sorting tasks)
   setOrder: (tasks) =>
     console.log "Setting order: ", tasks
     @updateAttribute("tasks", tasks)

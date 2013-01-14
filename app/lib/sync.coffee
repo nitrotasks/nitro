@@ -3,12 +3,14 @@ Model  = Spine.Model
 SocketIo = require('lib/socket.io')
 UpdateAttribute = require('lib/updateAttr')
 
-
 # ------------------
 # Handle Sync Events
 # ------------------
 
 Sync =
+
+  # Hold registered models
+  models: {}
 
   # Sync status
   online: no
@@ -27,11 +29,8 @@ Sync =
     @socket.on 'connect', =>
       @online = yes
       @bindEvents()
+      @sync()
       if fn then fn()
-
-    # Sync unsunk changes
-    # socket.on 'connect', ->
-    #   Sync.sync()
 
   bindQueue: []
 
@@ -64,7 +63,10 @@ Sync =
     # Send queue to server
     @emit 'sync', @queue, (records) =>
       # Update records
-      console.log records
+      [tasks, lists] = records
+      console.log tasks, lists
+      @models.Task.refresh(tasks)
+      @models.List.refresh(lists)
       @queue = []
       @saveQueue()
     true
@@ -230,21 +232,27 @@ class Collection extends Base
 
   constructor: (@model) ->
 
+    # Register with sync
+    Sync.models[@model.className] = @model
+
     # Set up bindings for server events
 
     Sync.on 'create', (data) =>
+      console.log "(Sync) create ->", data
       [className, item] = data
       if className is @model.className
         Sync.disable =>
           @model.create item
 
     Sync.on 'update', (data) =>
+      console.log "(Sync) update ->", data
       [className, item] = data
       if className is @model.className
         Sync.disable =>
           @model.find(item.id).updateAttributes(item)
 
     Sync.on 'destroy', (data) =>
+      console.log "(Sync) delete ->", data
       [className, id] = data
       if className is @model.className
         Sync.disable =>
@@ -282,11 +290,12 @@ class Singleton extends Base
       Sync.disable =>
         @record.changeID(id)
 
-  update: (model, key, val, old) =>
+  update: (model, key, val, old, options) =>
     return if key is "id" # We don't need to update on ID changes
     item =
       id: @record.id
     item[key] = val
+    console.log "(Sync)", item
     Sync.emit 'update', [@model.className, item]
 
   destroy: (params, options) ->
@@ -324,10 +333,11 @@ Model.Sync =
     # Update events are handled by syncUpdate
     return if type is "update"
     @saveLocal()
-    return if options.sync is false
+    return if options.sync is off
     record.sync()[type](options.sync, options)
 
-  syncUpdate: (record) ->
+  syncUpdate: (record, key, value, old, options) ->
+    return if options.sync is off
     record.sync().update.apply(this, arguments)
 
   loadLocal: ->

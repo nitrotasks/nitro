@@ -12,7 +12,13 @@ ClassMethods =
 
   # Clone model
   setAttributesSnapshot: (model) ->
-    @_attributesSnapshots[model.cid] = model.toJSON()
+    data = model.toJSON()
+    # Clone arrays
+    for k, v of data
+      if v instanceof Array
+        data[k] = v.slice(0)
+    @_attributesSnapshots[model.cid] = data
+
 
   # Return clone
   getAttributesSnapshot: (model) ->
@@ -33,12 +39,12 @@ AttributeTracking =
       else
         @setAttributesSnapshot(models)
 
-    @bind 'update', (model) =>
+    @bind 'update', (model, options) =>
       for key, value of model.attributes()
         old = @getAttributesSnapshot(model)[key]
         unless _.isEqual(old, value)
-          model.trigger "updateAttr", key, value, old
-          model.trigger "update:#{key}", value
+          model.trigger "updateAttr", key, value, old, options
+          model.trigger "update:#{key}", value, old, options
       @setAttributesSnapshot(model)
 
     @extend ClassMethods
