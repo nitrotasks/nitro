@@ -13,7 +13,10 @@ class window.Setting extends Spine.Model
     'night',
     'language',
     'pro',
-    'notifications'
+    'notifications',
+    'notifyEmail',
+    'notifyTime',
+    'notifyRegular'
 
   constructor: ->
     super
@@ -27,6 +30,9 @@ class window.Setting extends Spine.Model
     @language ?= "en-us"
     @pro ?= no
     @notifications ?= no
+    @notifyEmail ?= no
+    @notifyTime ?= 9
+    @notifyRegular ?= "upcoming"
 
     $('html').addClass 'dark' if @night == yes
 

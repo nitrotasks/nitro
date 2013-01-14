@@ -15,7 +15,7 @@ class Settings extends Spine.Controller
     "#notify-toggle": "notifyToggle"
     "#notify-email": "notifyEmail"
     "#notify-time": "notifyTime"
-    "#notify-regualr": "notifyRegular"
+    "#notify-regular": "notifyRegular"
     ".disabler": "disabler"
 
   events:
@@ -43,7 +43,13 @@ class Settings extends Spine.Controller
       @disabler.prop("disabled", true).addClass("disabled")
       @notifyToggle.prop "checked", false
 
+    @notifyEmail.prop "checked", Setting.get "notifyEmail"
+    @notifyTime.val Setting.get "notifyTime"
+    @notifyRegular.val Setting.get "notifyRegular"
+
     $('html').addClass('proenable') if Setting.isPro()
+
+    @setupNotifications()
 
   show: =>
     @el.modal()
@@ -56,6 +62,15 @@ class Settings extends Spine.Controller
     Setting.set "confirmDelete",  @confirmDelete.prop "checked"
     Setting.set "night",  @nightMode.prop "checked"
     Setting.set "notifications",  @notifyToggle.prop "checked"
+    Setting.set "notifyEmail",  @notifyEmail.prop "checked"
+    Setting.set "notifyTime",  @notifyTime.val()
+    Setting.set "notifyRegular",  @notifyRegular.val()
+
+    # Clear Notify Timeout
+    try
+      clearTimeout(settings.notifyTimeout)
+
+    @setupNotifications()
 
   tabSwitch: (e) =>
     @el.find(".current").removeClass "current"
@@ -70,6 +85,34 @@ class Settings extends Spine.Controller
       @el.modal("hide")
       $(".modal.proventor").modal("show")
       Setting.set "night", false
+
+  setupNotifications: =>
+    if Setting.get("notifications") is true and Setting.isPro() is true
+
+      now = new Date()
+      notifyTime= new Date()
+
+      notifyTime.setHours(Setting.get("notifyTime"))
+      notifyTime.setMinutes(0)
+      notifyTime.setSeconds(0)
+
+      # If the time has passed, increment a day
+      if notifyTime.getTime() - now.getTime() < 0
+        notifyTime.setDate(notifyTime.getDate() + 1)
+
+      @log "Notifying at: " + notifyTime
+
+      self = this
+
+      @notifyTimeout = setTimeout ->
+
+        notification = window.webkitNotifications.createNotification(
+          'img/icon.png',
+          'Nitro Tasks',
+          'You have tasks due'
+        ).show()
+        self.setupNotifications()
+      , notifyTime.getTime() - now.getTime()
 
   clearData: =>
     @log "Clearing data"
@@ -95,7 +138,16 @@ class Settings extends Spine.Controller
     if @notifyToggle.prop("checked")
       if Setting.isPro()
         # Enable Checkboxes
-        @disabler.prop("disabled", false).removeClass("disabled")
+        window.webkitNotifications.requestPermission ->
+          console.log("Hello")
+          if window.webkitNotifications.checkPermission() is 0
+            console.log("Hello")
+            $(".disabler").prop("disabled", false).removeClass("disabled")
+
+          else
+            Setting.set "notifications", false
+            alert "You'll need to open your browser settings and allow notifications for app.nitrotasks.com"
+
       else
         @notifyToggle.prop("checked", false)
         # Because it gets set as true for a stupid reason
