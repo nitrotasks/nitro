@@ -22,6 +22,7 @@ class Settings extends Spine.Controller
     "change input": "save"
     "change select": "save"
     "click .clear-data": "clearData"
+    "click .logout": "logout"
     "click .tabs li": "tabSwitch"
     "click .night-mode": "toggleNight"
     "click .language a": "changeLanguage"
@@ -114,12 +115,15 @@ class Settings extends Spine.Controller
         self.setupNotifications()
       , notifyTime.getTime() - now.getTime()
 
-  clearData: =>
-    @log "Clearing data"
-    localStorage.clear()
+  logout: ->
     Cookies.removeItem("uid")
     Cookies.removeItem("token")
     document.location.reload()
+
+  clearData: =>
+    @log "Clearing data"
+    localStorage.clear()
+    @logout()
 
   changeLanguage: (e) =>
     # Pirate Speak is a Pro feature

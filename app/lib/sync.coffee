@@ -59,14 +59,16 @@ Sync =
 
   # Go through each item in the queue and send it to the server
   sync: ->
+    return no unless @queue.length
     console.log "Going to run sync"
+    console.log "Queue:", @queue
     # Send queue to server
-    @emit 'sync', @queue, (records) =>
+    @emit 'sync', @queue, ([tasks, lists]) =>
       # Update records
-      [tasks, lists] = records
-      console.log tasks, lists
-      @models.Task.refresh(tasks)
-      @models.List.refresh(lists)
+      console.log "Lists:", lists
+      @models.List.refresh(lists, clear: true)
+      console.log "Tasks:", tasks
+      @models.Task.refresh(tasks, clear: true)
       @queue = []
       @saveQueue()
     true
@@ -327,7 +329,7 @@ Model.Sync =
 
   syncFetch: () ->
     @loadLocal()
-    @sync().fetch(arguments...)
+    @sync()#.fetch(arguments...)
 
   syncChange: (record, type, options = {}) ->
     # Update events are handled by syncUpdate

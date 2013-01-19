@@ -57,4 +57,15 @@ class window.List extends Spine.Model
     console.log "Setting order: ", tasks
     @updateAttribute("tasks", tasks)
 
+
+# Is this the best way to do this?
+List.bind "refresh", ->
+  return unless List.current?
+  if List.exists(List.current.id)
+    console.log "Updating List.current"
+    List.current = List.find(List.current.id)
+  else
+    console.log "Changing List.current to inbox"
+    List.current = List.find("inbox")
+
 module.exports = List
