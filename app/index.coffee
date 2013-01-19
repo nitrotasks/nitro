@@ -28,9 +28,13 @@ class App extends Spine.Controller
     'header': 'panel'
     '.settings': 'settings'
     '.auth': 'auth'
+    ".tour": 'tour'
+    ".tour .image": 'tourImage'
 
   events:
     "keyup": "handleShortcut"
+    "click .tour .close": "closeTour"
+    "click .tour .learn": "nextTourSlide"
 
   constructor: ->
     super
@@ -104,6 +108,18 @@ class App extends Spine.Controller
     Setting.bind "haveToken", (data) ->
       Spine.Sync.connect data[0], data[1], ->
         Setting.trigger "login"
+
+  nextTourSlide: =>
+    pos = @tourImage.css "background-position-x"
+    if pos is "0%"
+      @tourImage.css "background-position-x", "-650px"
+
+      # Makes sure that the animation isn't in progress
+    else if pos.substring(pos.length-2, pos.length) is "px" and (parseInt(pos.substring(0, pos.length-2)) - 650) % 650 is 0
+      @tourImage.css "background-position-x", (parseInt(pos.substring(0, pos.length-2)) - 650) + "px"
+
+  closeTour: =>
+    @tour.modal("hide")
 
   handleShortcut: (e) =>
     focusedInputs = $ ":focus"
