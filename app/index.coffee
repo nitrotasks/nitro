@@ -30,7 +30,7 @@ class App extends Spine.Controller
     '.auth': 'auth'
 
   events:
-    "keydown": "collapseAllOnEsc"
+    "keyup": "handleShortcut"
 
   constructor: ->
     super
@@ -105,11 +105,59 @@ class App extends Spine.Controller
       Spine.Sync.connect data[0], data[1], ->
         Setting.trigger "login"
 
-  collapseAllOnEsc: (e) =>
+  handleShortcut: (e) =>
+    focusedInputs = $ ":focus"
+
+    # Collapses or Blurs
     if e.which is Keys.ESCAPE
-      focusedInputs = $ "div:focus"
       if focusedInputs.length is 0
         @tasks.collapseAll()
+      else
+        focusedInputs.blur()
+    else
+      # Handles keyboard shortcuts
+      if focusedInputs.length is 0
+
+        # New Task
+        if e.which is 78
+          $(".new-task").focus().val("")
+
+        # New List
+        else if e.which is 76
+          $(".new-list").focus().val("")
+
+        # Search
+        else if e.which is 70
+          $(".search input").focus().val("")
+
+        # Print
+        else if e.which is 80
+          $(".buttons .print").trigger("click")
+
+        # Settings
+        else if e.which is 188
+          $(".user").trigger("click")
+
+        # Go to the prev list
+        else if e.which is 75
+          if $(".sidebar .current").prev().length is 0
+            # Go to completed
+            $(".sidebar .completed").trigger("click")
+          else
+            $(".sidebar .current").prev().trigger("click")
+            # Cancel the Focus if shortcut is used
+            $(".new-task").blur()
+
+        # Go to the next list
+        else if e.which is 74
+          if $(".sidebar .current").next().hasClass("lists")
+            # Go to first list
+            $($(".sidebar .lists").children()[0]).trigger("click")
+            $(".new-task").blur()
+          else
+            $(".sidebar .current").next().trigger("click")
+            $(".new-task").blur()
+
 
 module.exports = App
 
