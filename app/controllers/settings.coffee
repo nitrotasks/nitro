@@ -88,32 +88,33 @@ class Settings extends Spine.Controller
       Setting.set "night", false
 
   setupNotifications: =>
-    if Setting.get("notifications") is true and Setting.isPro() is true
+    if Setting.get("notifications") and Setting.isPro()
 
-      now = new Date()
-      notifyTime= new Date()
+      now = Date.now()
+      notifyTime = new Date()
+      hour = Setting.get("notifyTime")
 
-      notifyTime.setHours(Setting.get("notifyTime"))
-      notifyTime.setMinutes(0)
+      notifyTime.setHours(hour)
+      notifyTime.setMinutes(8)
       notifyTime.setSeconds(0)
+      notifyTime.setMilliseconds(0)
+      notifyTime = notifyTime.getTime()
 
       # If the time has passed, increment a day
-      if notifyTime.getTime() - now.getTime() < 0
-        notifyTime.setDate(notifyTime.getDate() + 1)
+      if notifyTime - now < 0
+        notifyTime += 86400000
 
-      @log "Notifying at: " + notifyTime
+      @log "Notifying in: #{ (notifyTime - now)/1000 } seconds"
 
-      self = this
-
-      @notifyTimeout = setTimeout ->
-
+      @notifyTimeout = setTimeout =>
+        console.log "Running notify!"
         notification = window.webkitNotifications.createNotification(
           'img/icon.png',
           'Nitro Tasks',
           'You have tasks due'
         ).show()
-        self.setupNotifications()
-      , notifyTime.getTime() - now.getTime()
+        @setupNotifications()
+      , notifyTime - now
 
   logout: ->
     Cookies.removeItem("uid")
