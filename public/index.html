@@ -160,8 +160,18 @@
         <button data-tText="Logout" class="logout"></button>
       </div>
       <div class="account">
+        <div class="signedin">
+          <label>Name: </label><input type="text" value="Jono Cooper"><button>Change Password</button><br>
+          <label>Email: </label><input type="text" disabled value="jono@jonocooper.com"><button>Change Email</button><br><br><hr><br>
+          <label>Pro Subscription: </label>3 days left<br><br><hr><br>
+          <div class="center">
+            <button class="renew">Renew Pro Subscription</button><button>Delete Account</button>
+          </div>
+        </div>
+        <div class="signedout">
         <img src="img/marketingbullshit.png" width="550" height="250">
         <button class="special login" data-tText="Get Started"></button><span data-tText="Don’t worry, all your existing tasks and lists will be safe. After signing in they’ll be right here where you left them."</span>
+        </div>
       </div>
       <div class="pro">
         <img src="img/pro.png" width="27" height="48">
