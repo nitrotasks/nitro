@@ -122,9 +122,19 @@ class Settings extends Spine.Controller
     document.location.reload()
 
   clearData: =>
-    @log "Clearing data"
-    localStorage.clear()
-    @logout()
+    $(".modal.settings").modal "hide"
+    $(".modal.delete").modal "show"
+    $(".modal.delete .true").on("click", =>
+      localStorage.clear()
+      @logout()
+      $(".modal.delete").modal "hide"
+      $(".modal.delete .true").off "click"
+    )
+
+    $(".modal.delete .false").on("click", (e) ->
+      $(".modal.delete").modal "hide"
+      $(".modal.delete .false").off "click"
+    )
 
   changeLanguage: (e) =>
     # Pirate Speak is a Pro feature
