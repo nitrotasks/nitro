@@ -119,6 +119,7 @@ class Settings extends Spine.Controller
   logout: ->
     Cookies.removeItem("uid")
     Cookies.removeItem("token")
+    Setting.set("offlineMode","true")
     document.location.reload()
 
   clearData: =>

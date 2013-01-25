@@ -43,8 +43,8 @@ class Auth extends Spine.Controller
     password: @password.val()
 
   saveToken: (id, token) ->
-    Cookies.setItem "uid", id
-    Cookies.setItem "token", token
+    Cookies.setItem "uid", id, null, null, ".herokuapp.com"
+    Cookies.setItem "token", token, null, null, ".herokuapp.com"
     Setting.trigger "haveToken", [id, token]
 
   startApp: =>
@@ -53,11 +53,11 @@ class Auth extends Spine.Controller
   register: (data) ->
     $.ajax
       type: "post"
-      url: "http://localhost:5000/api/v0/auth/register"
+      url: "http://nitro-sync-v2.herokuapp.com/api/v0/register"
       data: data
-      dataType: "json"
       success: (data) =>
-        @saveToken(data[0], data[1])
+        console.log data
+        # @saveToken(data[0], data[1])
       error: (xhr, status, msg) =>
         @error "signup", xhr.responseText
 
@@ -65,11 +65,13 @@ class Auth extends Spine.Controller
     console.log "logging into server"
     $.ajax
       type: "post"
-      url: "http://localhost:5000/api/v0/auth/login"
+      url: "http://nitro-sync-v2.herokuapp.com/api/v0/login"
       data: data
       dataType: "json"
       success: (data) =>
-        @saveToken(data[0], data[1])
+        console.log arguments
+        Setting.trigger "haveToken", data
+        # @saveToken(data[0], data[1])
       error: (xhr, status, msg) =>
         @error "login", xhr.responseText
 
