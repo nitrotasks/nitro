@@ -10,10 +10,14 @@ class Auth extends Spine.Controller
     ".auth-name": "name"
     ".auth-email": "email"
     ".auth-password": "password"
+    ".sign-in": "signIn"
+    ".register": "register"
+    ".note": "note"
 
   events:
     "click .sign-in": "buttonSignin"
     "click .register": "buttonRegister"
+    "click .sign-up": "buttonSignup"
     "click .offline": "offlineMode"
 
   constructor: ->
@@ -26,6 +30,16 @@ class Auth extends Spine.Controller
   buttonSignin: =>
     @login @getData()
     true
+
+  buttonSignup: =>
+    @name.toggle()
+    @register.toggle()
+    @signIn.toggle()
+
+    if @note.hasClass("registerSlide")
+      @note.removeClass("registerSlide").html 'Don\'t have an account? <a href="#" class="sign-up">Sign up</a> for free.'
+    else
+      @note.addClass("registerSlide").html "Already have an account? <a href='#' class='sign-up'>Sign in</a>."
 
   buttonRegister: =>
     @register @getData()

@@ -36,6 +36,12 @@
     text-align: center
     margin: 0 0 25px 0
 
+  .bullshit
+    width: 400px
+    margin: 0 auto 25px
+    font-size: 17px
+    color: #333
+
   input
     color: #4c4c4c
     width: 180px
@@ -49,8 +55,19 @@
     &:focus
       border-color: #1BC1F5
 
+  .note, .note a
+    margin-bottom: 0
+    color: #777
+
+  .note a
+    text-decoration: none
+    color: #555
+
+    &:hover
+      text-decoration: underline
+
   button
-    width: 147px
+    width: 100%
     border: 0
     // border: 2px solid #4D90FE
     background-color: #068dd8
@@ -62,7 +79,6 @@
     text-shadow: 0 -1px 1px #0072BB
 
     &.sign-in
-      margin-right: 6px
       text-shadow: 0 -1px 1px #1D943B
       background: #35AA47
 
@@ -71,6 +87,9 @@
 
       &:active
         vbg-gradient(#35AA47,#1D943B)
+
+    &.register
+      display: none
 
     &:hover
       background-color: #0072BB
@@ -116,6 +135,10 @@
         border-top: 0
 
   .auth-password
+    margin-bottom: 15px
+
+  .auth-name
+    display: none
     margin-bottom: 15px
 
   .offline a
