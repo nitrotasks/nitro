@@ -102,8 +102,8 @@ class App extends Spine.Controller
     token = Setting.get("token")
 
     if uid? and token?
-      Spine.Sync.connect ->
-        Setting.trigger uid, token, "login"
+      Spine.Sync.connect uid, token, ->
+        Setting.trigger "login"
 
     Setting.bind "haveToken", (data) ->
       Spine.Sync.connect data[0], data[1], ->
