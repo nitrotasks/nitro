@@ -37,7 +37,7 @@ class Auth extends Spine.Controller
     @signIn.toggle()
 
     if @note.hasClass("registerSlide")
-      @note.removeClass("registerSlide").html 'Don\'t have an account? <a href="#" class="sign-up">Sign up</a> for free.'
+      @note.removeClass("registerSlide").html 'Don\'t have an account? <a href="#" class="sign-up">Sign up for free</a>.'
     else
       @note.addClass("registerSlide").html "Already have an account? <a href='#' class='sign-up'>Sign in</a>."
 
