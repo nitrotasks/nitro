@@ -16,7 +16,9 @@ class window.Setting extends Spine.Model
     'notifications',
     'notifyEmail',
     'notifyTime',
-    'notifyRegular'
+    'notifyRegular',
+    'uid',
+    'token'
 
   constructor: ->
     super

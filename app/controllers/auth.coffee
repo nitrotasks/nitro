@@ -10,8 +10,8 @@ class Auth extends Spine.Controller
     ".auth-name": "name"
     ".auth-email": "email"
     ".auth-password": "password"
-    ".sign-in": "signIn"
-    ".register": "register"
+    ".sign-in": "signInBtn"
+    ".register": "registerBtn"
     ".note": "note"
 
   events:
@@ -33,8 +33,8 @@ class Auth extends Spine.Controller
 
   buttonSignup: =>
     @name.toggle()
-    @register.toggle()
-    @signIn.toggle()
+    @registerBtn.toggle()
+    @signInBtn.toggle()
 
     if @note.hasClass("registerSlide")
       @email.focus()
@@ -44,6 +44,7 @@ class Auth extends Spine.Controller
       @note.addClass("registerSlide").html "Already have an account? <a href='#' class='sign-up'>Sign in</a>."
 
   buttonRegister: =>
+    console.log @
     @register @getData()
     true
 
@@ -59,8 +60,8 @@ class Auth extends Spine.Controller
     password: @password.val()
 
   saveToken: (id, token) ->
-    Cookies.setItem "uid", id, null, null, ".herokuapp.com"
-    Cookies.setItem "token", token, null, null, ".herokuapp.com"
+    Setting.set("uid", id)
+    Setting.set("token", token)
     Setting.trigger "haveToken", [id, token]
 
   startApp: =>
@@ -85,9 +86,7 @@ class Auth extends Spine.Controller
       data: data
       dataType: "json"
       success: (data) =>
-        console.log arguments
-        Setting.trigger "haveToken", data
-        # @saveToken(data[0], data[1])
+        @saveToken(data[0], data[1])
       error: (xhr, status, msg) =>
         @error "login", xhr.responseText
 

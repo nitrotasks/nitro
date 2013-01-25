@@ -98,12 +98,12 @@ class App extends Spine.Controller
       @lists.showInbox()
 
     # Login to sync
-    token = Cookies.getItem("token")
-    uid = Cookies.getItem("uid")
+    uid = Setting.get("uid")
+    token = Setting.get("token")
 
-    if token? and uid?
+    if uid? and token?
       Spine.Sync.connect ->
-        Setting.trigger "login"
+        Setting.trigger uid, token, "login"
 
     Setting.bind "haveToken", (data) ->
       Spine.Sync.connect data[0], data[1], ->
