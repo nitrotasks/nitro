@@ -116,10 +116,10 @@ class Settings extends Spine.Controller
         @setupNotifications()
       , notifyTime - now
 
-  logout: ->
+  logout: (e) ->
+    if e? then Setting.set("offlineMode","true")
     Cookies.removeItem("uid")
     Cookies.removeItem("token")
-    Setting.set("offlineMode","true")
     document.location.reload()
 
   clearData: =>
