@@ -102,7 +102,7 @@ class App extends Spine.Controller
     uid = Cookies.getItem("uid")
 
     if token? and uid?
-      Spine.Sync.connect uid, token, ->
+      Spine.Sync.connect ->
         Setting.trigger "login"
 
     Setting.bind "haveToken", (data) ->

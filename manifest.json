@@ -11,6 +11,7 @@
     }
   },
   "permissions": [
+    "cookies",
     "unlimitedStorage",
     "http://app.nitrotasks.com/"
   ],

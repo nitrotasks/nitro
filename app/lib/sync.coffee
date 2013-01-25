@@ -19,8 +19,8 @@ Sync =
   # Hold unsynced events
   queue: JSON.parse localStorage.Queue or "[]"
 
-  connect: (id, token, fn) ->
-    @socket = SocketIo.connect("http://localhost:5000")
+  connect: (fn) ->
+    @socket = SocketIo.connect("http://nitro-sync-v2.herokuapp.com:80")
 
     # Handle offline modes
     for event in ['error', 'disconnect', 'connect_failed']
