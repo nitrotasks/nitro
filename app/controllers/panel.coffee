@@ -16,7 +16,7 @@ class Panel extends Spine.Controller
     "click .user": "toggleSettings"
 
   constructor: ->
-    $(".user img").attr("src", "http://www.gravatar.com/avatar/" + md5("jono@jonocooper.com"))
+    Setting.bind "login", @personal
     super
 
   search: =>
@@ -32,6 +32,10 @@ class Panel extends Spine.Controller
         tasks: Task.filter(query)
         disabled: yes
         permanent: yes
+
+  personal: =>
+    $(".user img").attr("src", "http://www.gravatar.com/avatar/" + md5(Setting.get("user_email").toLowerCase()))
+    $(".user .name").text(Setting.get("user_name"))
 
   clearSearch: =>
     @searchInput.val("").focus()
