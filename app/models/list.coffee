@@ -59,10 +59,14 @@ class window.List extends Spine.Model
 
   # pulls all completed tasks out of list order
   moveCompleted: =>
+    order = @tasks.slice(0)
+
     for task in @tasks
-      # sometimes comes out as undefined. cbf debugging
-      if task and Task.find(task).completed is true
-        @removeTask Task.find(task), forceUpdate: yes
+      if Task.find(task).completed is true
+        order.splice(order.indexOf(task), 1)
+
+    # Does it after loop is finished.
+    @updateAttribute("tasks", order)
 
 
 # Is this the best way to do this?

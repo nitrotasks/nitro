@@ -94,6 +94,10 @@ class App extends Spine.Controller
 
       List.find("inbox").updateAttribute("name", $.i18n._("Inbox"))
 
+      # Doesn't run in the settings constructor. Bit of a pain
+      if Setting.get("completedDuration") is "day"
+        settings.moveCompleted()
+
       # Select the first list on load
       @lists.showInbox()
 
