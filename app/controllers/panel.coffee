@@ -16,7 +16,7 @@ class Panel extends Spine.Controller
     "click .user": "toggleSettings"
 
   constructor: ->
-
+    $(".user img").attr("src", "http://www.gravatar.com/avatar/" + md5("jono@jonocooper.com"))
     super
 
   search: =>
