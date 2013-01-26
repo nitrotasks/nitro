@@ -57,6 +57,13 @@ class window.List extends Spine.Model
     console.log "Setting order: ", tasks
     @updateAttribute("tasks", tasks)
 
+  # pulls all completed tasks out of list order
+  moveCompleted: =>
+    for task in @tasks
+      # sometimes comes out as undefined. cbf debugging
+      if task and Task.find(task).completed is true
+        @removeTask Task.find(task), forceUpdate: yes
+
 
 # Is this the best way to do this?
 List.bind "refresh", ->

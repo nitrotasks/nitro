@@ -90,6 +90,10 @@ class Settings extends Spine.Controller
 
     @setupNotifications()
 
+  moveCompleted: =>
+    for list in List.all()
+      list.moveCompleted()
+
   tabSwitch: (e) =>
     @el.find(".current").removeClass "current"
     # One hell of a line of code, but it switches tabs. I'm amazing.
