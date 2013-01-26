@@ -17,12 +17,14 @@ class Settings extends Spine.Controller
     "#notify-time": "notifyTime"
     "#notify-regular": "notifyRegular"
     ".disabler": "disabler"
+    ".clear-data": "clearDataButton"
+    ".clear-data-label": "clearDataLabel"
 
   events:
     "change input": "save"
     "change select": "save"
     "click .clear-data": "clearData"
-    "click .logout": "logout"
+    # "click .logout": "logout"
     "click .tabs li": "tabSwitch"
     "click .night-mode": "toggleNight"
     "click .language a": "changeLanguage"
@@ -61,6 +63,11 @@ class Settings extends Spine.Controller
 
     $(".account .user-name").val(Setting.get("user_name"))
     $(".account .user-email").val(Setting.get("user_email"))
+
+    @clearDataLabel.hide()
+    @clearDataButton.text $.i18n._("Logout")
+
+    $(".clearWrapper").css("text-align", "center")
 
   show: =>
     @el.modal()
@@ -133,19 +140,23 @@ class Settings extends Spine.Controller
     document.location.reload()
 
   clearData: =>
-    $(".modal.settings").modal "hide"
-    $(".modal.delete").modal "show"
-    $(".modal.delete .true").on("click", =>
+    if Setting.get("token")
       localStorage.clear()
       @logout()
-      $(".modal.delete").modal "hide"
-      $(".modal.delete .true").off "click"
-    )
+    else
+      $(".modal.settings").modal "hide"
+      $(".modal.delete").modal "show"
+      $(".modal.delete .true").on("click", =>
+        localStorage.clear()
+        @logout()
+        $(".modal.delete").modal "hide"
+        $(".modal.delete .true").off "click"
+      )
 
-    $(".modal.delete .false").on("click", (e) ->
-      $(".modal.delete").modal "hide"
-      $(".modal.delete .false").off "click"
-    )
+      $(".modal.delete .false").on("click", (e) ->
+        $(".modal.delete").modal "hide"
+        $(".modal.delete .false").off "click"
+      )
 
   changeLanguage: (e) =>
     # Pirate Speak is a Pro feature
