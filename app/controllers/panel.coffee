@@ -16,6 +16,7 @@ class Panel extends Spine.Controller
     "click .user": "toggleSettings"
 
   constructor: ->
+
     super
 
   search: =>

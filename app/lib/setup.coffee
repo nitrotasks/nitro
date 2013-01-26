@@ -3,6 +3,7 @@
 require('jqueryify')
 require('lib/jquery.i18n')
 require('lib/modal')
+require('lib/md5')
 require('lib/jquery-ui')
 require('lib/handlebars')
 require('utils/handlebar-helpers')
