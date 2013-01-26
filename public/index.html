@@ -115,15 +115,15 @@
     <div class="settings-container">
       <nav class="tabs">
         <ul>
-          <li data-id="general" class="current" data-tText="General"></li>
-          <li data-id="account" data-tText="Account"></li>
+          <li data-id="general" data-tText="General"></li>
+          <li data-id="account" class="current" data-tText="Account"></li>
           <li data-id="pro" data-tText="Pro"></li>
           <li data-id="notifications" data-tText="Notifications"></li>
           <li data-id="language" data-tText="Language"></li>
           <li data-id="about" data-tText="About"></li>
         </ul>
       </nav>
-      <div class="general current">
+      <div class="general">
         <label for="week-start" data-tText="Week starts on:"></label>
         <select id="week-start" class="week-start">
           <option value="1" data-tText="Monday"></option>
@@ -159,10 +159,10 @@
         <button data-tText="Clear Data" class="clear-data"></button>
         <button data-tText="Logout" class="logout"></button>
       </div>
-      <div class="account">
+      <div class="account current">
         <div class="signedin">
-          <label>Name: </label><input type="text" value="Jono Cooper"><button>Change Password</button><br>
-          <label>Email: </label><input type="text" disabled value="jono@jonocooper.com"><button>Change Email</button><br><br><hr><br>
+          <label>Name: </label><input type="text" class="user-name"><button>Change Password</button><br>
+          <label>Email: </label><input type="text" disabled class="user-email"><button>Change Email</button><br><br><hr><br>
           <label>Pro Subscription: </label>3 days left<br><br><hr><br>
           <div class="center">
             <button class="renew">Renew Pro Subscription</button><button>Delete Account</button>

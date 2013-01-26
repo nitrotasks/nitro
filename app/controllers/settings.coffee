@@ -32,6 +32,8 @@ class Settings extends Spine.Controller
   constructor: ->
     super
     Setting.bind "show", @show
+    Setting.bind "login", @account
+
     @username.val Setting.get "username"
     @weekStart.val Setting.get "weekStart"
     @dateFormat.val Setting.get "dateFormat"
@@ -51,6 +53,14 @@ class Settings extends Spine.Controller
     $('html').addClass('proenable') if Setting.isPro()
 
     @setupNotifications()
+
+  account: =>
+    # Show the proper account thing
+    $(".account .signedout").hide()
+    $(".account .signedin").show()
+
+    $(".account .user-name").val(Setting.get("user_name"))
+    $(".account .user-email").val(Setting.get("user_email"))
 
   show: =>
     @el.modal()

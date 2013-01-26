@@ -89,6 +89,9 @@ class Auth extends Spine.Controller
         @saveToken(uid, token)
         Setting.set("user_name", name)
         Setting.set("user_email", email)
+
+        # In case it's been set
+        Setting.set "offlineMode", false
       error: (xhr, status, msg) =>
         @error "login", xhr.responseText
 
