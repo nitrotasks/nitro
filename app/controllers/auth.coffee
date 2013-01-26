@@ -85,8 +85,10 @@ class Auth extends Spine.Controller
       url: "http://nitro-sync-v2.herokuapp.com/api/v0/login"
       data: data
       dataType: "json"
-      success: (data) =>
-        @saveToken(data[0], data[1])
+      success: ([uid, token, email, name]) =>
+        @saveToken(uid, token)
+        Setting.set("user_name", name)
+        Setting.set("user_email", email)
       error: (xhr, status, msg) =>
         @error "login", xhr.responseText
 
