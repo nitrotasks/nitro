@@ -157,9 +157,11 @@ header
     }
 }
 
+// We're dropping this for the Web Version
 .search
   vertical-align: top
-  display: inline-block
+  // display: inline-block
+  display: none
   position: relative
   // float: right
   height: 24px
@@ -958,6 +960,31 @@ ul.tasks
       display: block
       abs(auto, auto, 6px, 15px)
       margin: 0
+
+    img
+      abs(auto, 15px, 9px, auto)
+
+    input
+      background: url(img/search_blue.png) no-repeat
+      padding-left: 22px
+      background-position: 0 50%
+      background-size: 15px
+      border: 0
+      outline: 0
+      abs(auto, auto, 6px, 15px)
+
+    .completed
+      bottom: 10px
+      opacity: 0.7
+
+      &:active
+        opacity: 1
+
+    div
+      transition(300ms, ease, opacity)
+
+    .hide
+      opacity: 0
 
   // Lists
   ul.lists

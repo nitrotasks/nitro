@@ -19,6 +19,7 @@ class Lists extends Spine.Controller
 
   events:
     "keyup input": "new"
+    "click .title img": "searchToggle"
     "click .list.all": "showAllTasks"
     "click .list.inbox": "showInbox"
     "click .list.completed": "showCompleted"
@@ -39,12 +40,29 @@ class Lists extends Spine.Controller
         movedTask = Task.find(ui.draggable.attr("id").slice(5))
         List.current.moveTask(movedTask, List.find("inbox"))
 
+  searchToggle: (e) ->
+    $(".sidebar .searchToggle, .sidebar .normal").toggleClass("hide")
+
+    if $(".sidebar .normal").hasClass("hide")
+      $(".sidebar .title input").val("").focus()
+    else
+      $("header .search input").val("").trigger "keyup"
+
   new: (e) ->
     val = @input.val()
-    if e.which is Keys.ENTER and val
-      list = List.create name: val
-      List.trigger "changeList", list
-      @input.val ""
+
+    # Handles correct box
+    if $(e.currentTarget).hasClass("searcher")
+      $("header .search input").val(val).trigger "keyup"
+
+      # Overides the other function thingy
+      if val.length is 0
+        $(e.currentTarget).focus()
+    else
+      if e.which is Keys.ENTER and val
+        list = List.create name: val
+        List.trigger "changeList", list
+        @input.val ""
 
   addOne: (list) =>
     return if list.id is "inbox"

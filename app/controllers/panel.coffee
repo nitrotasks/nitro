@@ -39,7 +39,7 @@ class Panel extends Spine.Controller
     $(".user .name").text(Setting.get("user_name"))
 
   clearSearch: =>
-    @searchInput.val("").focus()
+    # @searchInput.val("").focus()
     List.trigger "changeList", @originalList
 
   toggleAccount: ->
