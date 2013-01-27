@@ -15,7 +15,7 @@
         <input type="search" data-tPlaceholder="Search">
         <a href="#" class="clear-search"></a>
       </div>
-    <div class="settings"><span>|</span><img width="14" src="img/settings.png"></div>
+    <div class="settingsButton"><span>|</span><img width="14" src="img/settings.png"></div>
     <div class="user"><img width="28" src="img/icon.png" height="28"><span class="name" data-tText="Sign Up to Sync"></span><span class="pro-badge opp">pro</span></div>
 
   </header>
@@ -116,15 +116,15 @@
     <div class="settings-container">
       <nav class="tabs">
         <ul>
-          <li data-id="general" data-tText="General"></li>
-          <li data-id="account" class="current" data-tText="Account"></li>
+          <li data-id="general" class="current" data-tText="General"></li>
+          <li data-id="account" data-tText="Account"></li>
           <li data-id="pro" data-tText="Pro"></li>
           <li data-id="notifications" data-tText="Notifications"></li>
           <li data-id="language" data-tText="Language"></li>
           <li data-id="about" data-tText="About"></li>
         </ul>
       </nav>
-      <div class="general">
+      <div class="general current">
         <label for="week-start" data-tText="Week starts on:"></label>
         <select id="week-start" class="week-start">
           <option value="1" data-tText="Monday"></option>
@@ -161,7 +161,7 @@
           <button data-tText="Clear Data" class="clear-data"></button>
         </div>
       </div>
-      <div class="account current">
+      <div class="account">
         <div class="signedin">
           <label>Name: </label><input type="text" class="user-name"><button>Change Password</button><br>
           <label>Email: </label><input type="text" disabled class="user-email"><button>Change Email</button><br><br><hr><br>

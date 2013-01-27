@@ -13,7 +13,8 @@ class Panel extends Spine.Controller
   events:
     "keyup .search input": "search"
     "click .search a": "clearSearch"
-    "click .user": "toggleSettings"
+    "click .user": "toggleAccount"
+    "click .settingsButton img": "toggleSettings"
 
   constructor: ->
     Setting.bind "login", @personal
@@ -41,7 +42,12 @@ class Panel extends Spine.Controller
     @searchInput.val("").focus()
     List.trigger "changeList", @originalList
 
+  toggleAccount: ->
+    $(".settings-container li")[1].click()
+    Setting.trigger "show"
+
   toggleSettings: ->
+    $(".settings-container li")[0].click()
     Setting.trigger "show"
 
 module.exports = Panel

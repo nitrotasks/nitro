@@ -130,7 +130,7 @@ header
       color: #333
       text-shadow(0px 1px 0px #fafafa)
 
-  .settings
+  .settingsButton
     display: inline-block
     float: right
     vertical-align: top
@@ -143,8 +143,11 @@ header
       padding-right: 5px
 
     img
-      vertical-align: top;
-      margin: 14px 14px 0 5px;
+      vertical-align: top
+      margin: 14px 14px 0 5px
+
+      &:active
+        opacity: 0.5
 
 // Retina Logo
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
