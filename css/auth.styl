@@ -32,7 +32,7 @@
     width: 50px
     border-radius: 4px
     box-shadow: 0 1px 0px #CCC
-    background: #0f0
+    // background: #0f0
     background-size: 50px 50px
 
     &.dropbox
@@ -81,6 +81,22 @@
 
     &:hover
       text-decoration: underline
+
+  .error
+    font-size: 13px
+    color: #E15556
+    font-weight: bold
+
+    a
+      text-decoration: none
+      color: darken(#E15556, 10%)
+
+      &:hover
+        text-decoration: underline
+
+    &.populated
+      display: inline-block
+      margin-bottom: 20px
 
   button
     width: 100%

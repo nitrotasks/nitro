@@ -13,6 +13,7 @@ class Auth extends Spine.Controller
     ".sign-in": "signInBtn"
     ".register": "registerBtn"
     ".note": "note"
+    ".error": "errorElem"
 
   events:
     "click .sign-in": "buttonSignin"
@@ -28,8 +29,11 @@ class Auth extends Spine.Controller
     if Setting.get("offlineMode") then @el.hide()
 
   buttonSignin: =>
-    @login @getData()
-    true
+    if @email.val() is "" or @password.val() is ""
+      @errorElem.addClass("populated").text "Please fill out all fields"
+    else
+      @login @getData()
+      true
 
   buttonSignup: =>
     @name.toggle()
@@ -44,9 +48,11 @@ class Auth extends Spine.Controller
       @note.addClass("registerSlide").html "Already have an account? <a href='#' class='sign-up'>Sign in</a>."
 
   buttonRegister: =>
-    console.log @
-    @register @getData()
-    true
+    if @email.val() is "" or @password.val() is "" or @name.val() is ""
+      @errorElem.addClass("populated").text "Please fill out all fields"
+    else
+      @register @getData()
+      true
 
   offlineMode: =>
     @log "Going into offline mode"
@@ -97,5 +103,12 @@ class Auth extends Spine.Controller
 
   error: (type, err) ->
     console.log "(#{type}): #{err}"
+    @errorElem.addClass "populated"
+    if err is "err_bad_pass"
+      @errorElem.html "Incorrect email or password. <a href='#'>Forgot?</a>"
+    else if err is "err_old_email"
+      @errorElem.text "Account already in use"
+    else
+      @errorElem.text "#{err}"
 
 module.exports = Auth
