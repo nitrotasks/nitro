@@ -32,6 +32,7 @@ class Auth extends Spine.Controller
     if @email.val() is "" or @password.val() is ""
       @errorElem.addClass("populated").text "Please fill out all fields"
     else
+      @signInBtn.addClass "ajax"
       @login @getData()
       true
 
@@ -51,6 +52,7 @@ class Auth extends Spine.Controller
     if @email.val() is "" or @password.val() is "" or @name.val() is ""
       @errorElem.addClass("populated").text "Please fill out all fields"
     else
+      @registerBtn.addClass "ajax"
       @register @getData()
       true
 
@@ -81,6 +83,12 @@ class Auth extends Spine.Controller
       success: (data) =>
         console.log data
         # @saveToken(data[0], data[1])
+
+        @signInBtn.removeClass "ajax"
+        @registerBtn.removeClass "ajax"
+
+        # Add Message in Here....
+
       error: (xhr, status, msg) =>
         @error "signup", xhr.responseText
 
@@ -96,12 +104,18 @@ class Auth extends Spine.Controller
         Setting.set("user_name", name)
         Setting.set("user_email", email)
 
+        @signInBtn.removeClass "ajax"
+        @registerBtn.removeClass "ajax"
+
         # In case it's been set
         Setting.set "offlineMode", false
       error: (xhr, status, msg) =>
         @error "login", xhr.responseText
 
   error: (type, err) ->
+    @signInBtn.removeClass "ajax"
+    @registerBtn.removeClass "ajax"
+
     console.log "(#{type}): #{err}"
     @errorElem.addClass "populated"
     if err is "err_bad_pass"

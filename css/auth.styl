@@ -108,6 +108,7 @@
     line-height: 1
     vertical-align: top
     padding: 10px 0
+    position: relative
     text-shadow: 0 -1px 1px #0072BB
 
     &.sign-in
@@ -126,6 +127,18 @@
     &:hover
       background-color: #0072BB
       // border-color: #0072BB
+
+    &.ajax
+      &::after
+        content: " "
+        position: absolute
+        display: inline-block
+        right: -24px
+        width: 16px
+        height: 16px
+        background-image: url(img/loader.gif)
+        background-repeat: no-repeat
+        background-size: 16px
 
 
     &:active
