@@ -35,7 +35,7 @@ class Panel extends Spine.Controller
         permanent: yes
 
   personal: =>
-    $(".user img").attr("src", "http://www.gravatar.com/avatar/" + md5(Setting.get("user_email").toLowerCase()))
+    $(".user img").show().attr("src", "http://www.gravatar.com/avatar/" + md5(Setting.get("user_email").toLowerCase()))
     $(".user .name").text(Setting.get("user_name"))
 
   clearSearch: =>
