@@ -86,13 +86,22 @@ class TaskItem extends Spine.Controller
     @task.unbind 'destroy', @release
     super
 
-  toggleStatus: ->
-    # Does not work in completed list
-    if List.current.id isnt "completed"
+  toggleStatus: =>
+      # Does not work in completed list
       @task.completed = !@task.completed
       @task.save()
 
-      if Setting.get("completedDuration") is "instant"
+      if List.current.id is "completed"
+
+        # Clones List
+        order = List.find(@task.list).tasks.slice(0)
+
+        # Checks if it hasn't been moved
+        if order.indexOf(@task.id) is -1
+          order.push(@task.id)
+          List.find(@task.list).updateAttribute("tasks", order)
+
+      else if Setting.get("completedDuration") is "instant"
         settings.moveCompleted()
         @el.remove()
 
