@@ -87,7 +87,10 @@ class Auth extends Spine.Controller
         @signInBtn.removeClass "ajax"
         @registerBtn.removeClass "ajax"
 
-        # Add Message in Here....
+        # User Message
+        $(".auth .sign-up").trigger("click")
+        $(".auth .note").text "Thanks for signing up! We've sent you a confirmation email."
+
 
       error: (xhr, status, msg) =>
         @error "signup", xhr.responseText
@@ -119,7 +122,7 @@ class Auth extends Spine.Controller
     console.log "(#{type}): #{err}"
     @errorElem.addClass "populated"
     if err is "err_bad_pass"
-      @errorElem.html "Incorrect email or password. <a href='#'>Forgot?</a>"
+      @errorElem.html "Incorrect email or password. <a href='http://nitro-sync-v2.herokuapp.com/api/v0/auth/forgot'>Forgot?</a>"
     else if err is "err_old_email"
       @errorElem.text "Account already in use"
     else
