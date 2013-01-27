@@ -87,8 +87,14 @@ class TaskItem extends Spine.Controller
     super
 
   toggleStatus: ->
-    @task.completed = !@task.completed
-    @task.save()
+    # Does not work in completed list
+    if List.current.id isnt "completed"
+      @task.completed = !@task.completed
+      @task.save()
+
+      if Setting.get("completedDuration") is "instant"
+        settings.moveCompleted()
+        @el.remove()
 
   expand: (e) ->
     if not @el.hasClass("expanded") and e.target.className isnt "checkbox"
