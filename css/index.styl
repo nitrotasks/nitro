@@ -88,11 +88,13 @@ header
   border-bottom: 1px solid #aaa
 
   .logo
-    float: left
-    margin: 9px 0 0 20px
-    background: url("img/logo.png") no-repeat
-    width: 23px
-    height: 22px
+    position: absolute
+    height: 40px
+    width: 83px
+    background-image: url(img/logo.png)
+    background-size: 83px 40px
+    left: 50%
+    margin-left: -62px
 
   .user
     float: left
@@ -126,6 +128,13 @@ header
       cursor: default
       color: #333
       text-shadow(0px 1px 0px #fafafa)
+
+// Retina Logo
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    header .logo {
+      background-image: url("img/logo@2x.png");
+    }
+}
 
 .search
   position: relative
