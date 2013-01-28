@@ -75,11 +75,15 @@ body, input
     opacity: 1
     -webkit-transform: scale3d(1, 1, 1) translate3d(0,0,0)
 
+p, h1, h2, h3
+  cursor: default
+
 // --------------------
 //     HEADER
 // --------------------
 
 header
+  user-select(none)
   abs(0, 0, auto, 0)
   height: 39px
   z-index: 1
@@ -646,6 +650,7 @@ ul.tasks
   position: absolute
   -webkit-transform: translate3d(0, 0, 0)
   transition(.3s, opacity, ease)
+  user-select(none)
 
   label
     color: #222
