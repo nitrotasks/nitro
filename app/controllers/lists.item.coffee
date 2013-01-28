@@ -14,6 +14,7 @@ class ListItem extends Spine.Controller
 
   events:
     'click': 'click'
+    'touchend': 'click'
 
   constructor: ->
     super

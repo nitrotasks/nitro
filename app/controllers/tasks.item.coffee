@@ -19,8 +19,14 @@ class TaskItem extends Spine.Controller
     'click .checkbox': 'toggleStatus'
     'click .tag': 'tagClick'
 
+    'touchend .delete': 'remove'
+    'touchend .priority-button div': 'setPriority'
+    'touchend .checkbox': 'toggleStatus'
+    'touchend .tag': 'tagClick'
+
     # Editing the actual task
     'click': 'expand'
+    'touchend': 'expand'
     'blur .input-name': 'endEdit'
     'keypress .input-name': 'endEditOnEnter'
 
@@ -64,15 +70,15 @@ class TaskItem extends Spine.Controller
   remove: ->
     if Setting.get "confirmDelete"
       $(".modal.delete").modal "show"
-      $(".modal.delete .true").on("click", =>
+      $(".modal.delete .true").on("click, touchend", =>
         @task.destroy()
         $(".modal.delete").modal "hide"
-        $(".modal.delete .true").off "click"
+        $(".modal.delete .true").off "click, touchend"
       )
 
-      $(".modal.delete .false").on("click", (e) ->
+      $(".modal.delete .false").on("click, touchend", (e) ->
         $(".modal.delete").modal "hide"
-        $(".modal.delete .false").off "click"
+        $(".modal.delete .false").off "click, touchend"
       )
     else
       @task.destroy()

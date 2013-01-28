@@ -31,6 +31,12 @@ class Settings extends Spine.Controller
     "click .login": "login"
     "click #notify-toggle": "toggleNotify"
 
+    "touchend .tabs li": "tabSwitch"
+    "touchend .night-mode": "toggleNight"
+    "touchend .language a": "changeLanguage"
+    "touchend .login": "login"
+    "touchend #notify-toggle": "toggleNotify"
+
   constructor: ->
     super
     Setting.bind "show", @show

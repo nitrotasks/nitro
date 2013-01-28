@@ -233,6 +233,7 @@ header
   abs(40px, 293px, 0, 0)
   padding: 0 13px 40px 30px
   overflow-y: scroll
+  -webkit-tap-highlight-color: rgba(0,0,0,0)
 
   &.show::-webkit-scrollbar-thumb
       background: rgba(0,0,0,0.2);
@@ -347,13 +348,15 @@ ul.tasks
   margin: 0
   padding: 0
   margin-top: 20px
+  -webkit-tap-highlight-color: rgba(0,0,0,0)
 
 .message
   display: none
   text-align: center
-  padding-top: 10%
+  padding-top: 80px
   color: #888
   font-size: 18px
+  user-select(none)
   background: url(img/notasks.png) no-repeat 50%
   background-size: 48px 30px
 
@@ -385,6 +388,7 @@ ul.tasks
   border-top: 0
   transition(.15s, ease, margin)
   -webkit-transform: translate3d(0,0,0)
+  -webkit-tap-highlight-color: rgba(0,0,0,0)
 
   &.new
     -webkit-animation: new-task 1 ease 150ms
@@ -677,6 +681,7 @@ ul.tasks
   -webkit-transform: translate3d(0, 0, 0)
   transition(.3s, opacity, ease)
   user-select(none)
+  -webkit-tap-highlight-color: rgba(0,0,0,0)
 
   label
     color: #222
@@ -1025,6 +1030,7 @@ ul.tasks
     font-size: 0
 
   .list
+    user-select(none)
     position: relative
     list-style-type: none
     overflow: hidden

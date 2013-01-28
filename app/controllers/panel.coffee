@@ -15,6 +15,8 @@ class Panel extends Spine.Controller
     "click .search a": "clearSearch"
     "click .user": "toggleAccount"
     "click .settingsButton img": "toggleSettings"
+    "touchend .user": "toggleAccount"
+    "touchend .settingsButton": "toggleSettings"
 
   constructor: ->
     Setting.bind "login", @personal
