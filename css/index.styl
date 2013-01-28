@@ -12,6 +12,19 @@ $light-blue = #1BC1F5
 $green = #9DD071
 $red = #E15556
 
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url(lato.woff) format('woff');
+}
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lato Bold'), local('Lato-Bold'), url(lato_bold.woff) format('woff');
+}
+
 body, input
   font-family: "Lato", sans-serif
 
@@ -84,6 +97,10 @@ img
   -ms-user-drag: none
   user-drag: none
   user-select(none)
+
+html, body
+  height: 100%
+  overflow: hidden
 
 // --------------------
 //     HEADER
@@ -308,6 +325,8 @@ header
   font-size: 14px
   color: hsl(0,0,30%)
   transition(border-color 0.3s)
+  -webkit-appearance: none
+  border-radius: 0
 
   &:focus
     outline: none
@@ -953,6 +972,7 @@ ul.tasks
 // --------------------
 
 .sidebar
+  -webkit-tap-highlight-color:rgba(0,0,0,0);
   abs(40px, 0, 0px, auto)
   width: 250px
   padding-right: 30px
@@ -1013,6 +1033,7 @@ ul.tasks
     height: 40px
     line-height: 40px
     border-top: 1px #E6E6E6 solid
+    -webkit-transform: translate3d(0px,0px,0px)
     cursor: default
 
     &.inbox, &.all, &.completed
@@ -1053,7 +1074,7 @@ ul.tasks
     .name
       display: inline-block
       margin-left: 5px
-      transition(0.1s, left, ease)
+      transition(0.1s, -webkit-transform, ease)
       text-overflow: ellipsis
       width: 150px
       white-space: nowrap
@@ -1079,7 +1100,10 @@ ul.tasks
       font-weight: bold
 
       .name
-        left: 25px
+        -webkit-transform: translate3d(20px,0px,0px)
+        -moz-transform: translate3d(20px,0px,0px)
+        -ms-transform: translate3d(20px,0px,0px)
+        transform: translate3d(20px,0px,0px)
 
       .arrow
         background: url("img/arrow-left-fade.png") no-repeat
@@ -1091,6 +1115,8 @@ ul.tasks
       background: #fafafa
 
   .new-list
+    -webkit-appearance: none
+    border-radius: 0
     width: 100%
     box-sizing: border-box
     border: 0

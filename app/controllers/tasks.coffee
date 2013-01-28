@@ -175,8 +175,8 @@ class Tasks extends Spine.Controller
     # Handles Empty List
     @el.addClass "empty" if tasks.length == 0
 
-    # Focuses Thing
-    @input.focus()
+    # Focuses Thing if not on a touchscreen (virtual keyboard)
+    @input.focus() if !is_touch_device()
 
   new: (e) ->
     val = @input.val()

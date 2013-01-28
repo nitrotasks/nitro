@@ -6,6 +6,7 @@ require('lib/modal')
 require('lib/md5')
 require('lib/jquery-ui')
 require('lib/handlebars')
+require('lib/touch')
 require('utils/handlebar-helpers')
 
 require('spine')

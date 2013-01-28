@@ -40,6 +40,7 @@ class Auth extends Spine.Controller
     @name.toggle()
     @registerBtn.toggle()
     @signInBtn.toggle()
+    @errorElem.removeClass("populated").text ""
 
     if @note.hasClass("registerSlide")
       @email.focus()
@@ -91,6 +92,8 @@ class Auth extends Spine.Controller
         $(".auth .sign-up").trigger("click")
         $(".auth .note").text "Thanks for signing up! We've sent you a confirmation email."
 
+        @errorElem.removeClass("populated").text ""
+
 
       error: (xhr, status, msg) =>
         @error "signup", xhr.responseText
@@ -109,6 +112,8 @@ class Auth extends Spine.Controller
 
         @signInBtn.removeClass "ajax"
         @registerBtn.removeClass "ajax"
+
+        @errorElem.removeClass("populated").text ""
 
         # In case it's been set
         Setting.set "offlineMode", false

@@ -23,6 +23,9 @@ class Lists extends Spine.Controller
     "click .list.all": "showAllTasks"
     "click .list.inbox": "showInbox"
     "click .list.completed": "showCompleted"
+    "touchstart .list.all": "showAllTasks"
+    "touchstart .list.inbox": "showInbox"
+    "touchstart .list.completed": "showCompleted"
 
   constructor: ->
     super
