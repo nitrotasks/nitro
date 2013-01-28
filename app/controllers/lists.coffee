@@ -49,20 +49,20 @@ class Lists extends Spine.Controller
       $("header .search input").val("").trigger "keyup"
 
   new: (e) ->
-    val = @input.val()
 
     # Handles correct box
     if $(e.currentTarget).hasClass("searcher")
-      $("header .search input").val(val).trigger "keyup"
+      $("header .search input").val($(e.currentTarget).val()).trigger "keyup"
 
       # Overides the other function thingy
       if val.length is 0
         $(e.currentTarget).focus()
     else
-      if e.which is Keys.ENTER and val
-        list = List.create name: val
+      if e.which is Keys.ENTER and $(e.currentTarget).val()
+        console.log " helloo"
+        list = List.create name: $(e.currentTarget).val()
         List.trigger "changeList", list
-        @input.val ""
+        $(e.currentTarget).val ""
 
   addOne: (list) =>
     return if list.id is "inbox"
