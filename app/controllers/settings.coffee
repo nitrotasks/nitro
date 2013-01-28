@@ -156,16 +156,16 @@ class Settings extends Spine.Controller
     else
       $(".modal.settings").modal "hide"
       $(".modal.delete").modal "show"
-      $(".modal.delete .true").on("click", =>
+      $(".modal.delete .true").on("click touchend", =>
         localStorage.clear()
         @logout()
         $(".modal.delete").modal "hide"
-        $(".modal.delete .true").off "click"
+        $(".modal.delete .true").off "click touchend"
       )
 
-      $(".modal.delete .false").on("click", (e) ->
+      $(".modal.delete .false").on("click touchend", (e) ->
         $(".modal.delete").modal "hide"
-        $(".modal.delete .false").off "click"
+        $(".modal.delete .false").off "click touchend"
       )
 
   changeLanguage: (e) =>

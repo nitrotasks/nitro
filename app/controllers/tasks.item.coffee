@@ -70,15 +70,15 @@ class TaskItem extends Spine.Controller
   remove: ->
     if Setting.get "confirmDelete"
       $(".modal.delete").modal "show"
-      $(".modal.delete .true").on("click, touchend", =>
+      $(".modal.delete .true").on("click touchend", =>
         @task.destroy()
         $(".modal.delete").modal "hide"
-        $(".modal.delete .true").off "click, touchend"
+        $(".modal.delete .true").off "click touchend"
       )
 
-      $(".modal.delete .false").on("click, touchend", (e) ->
+      $(".modal.delete .false").on("click touchend", (e) ->
         $(".modal.delete").modal "hide"
-        $(".modal.delete .false").off "click, touchend"
+        $(".modal.delete .false").off "click touchend"
       )
     else
       @task.destroy()
