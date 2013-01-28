@@ -21,5 +21,10 @@
     "Toggle Sorting": "Mix it up",
     "Email List": "Blabber t' yer mates",
     "Print List": "Scribble on parchment",
-    "Share List": "Share with yer crew"
+    "Share List": "Share with yer crew",
+
+    "Where should the tasks be sent?": "Whar ye tasks be cast?",
+    "Email": "Ship",
+    "Send": "Cast"
+
 }
