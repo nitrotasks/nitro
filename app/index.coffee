@@ -156,7 +156,7 @@ class App extends Spine.Controller
 
         # Settings
         else if e.which is 188
-          $(".user").trigger("click")
+          $(".settingsButton img").trigger("click")
 
         # Go to the prev list
         else if e.which is 75
