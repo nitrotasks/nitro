@@ -1,6 +1,3 @@
 module.exports =
-  server: "localhost:5000"
-  sync: "localhost:5000"
-
-# nitro-sync-v2.herokuapp.com:80
-# nitro-sync-v2.herokuapp.com
+  server: "nitro-sync-v2.herokuapp.com" #"localhost:5000"
+  sync: "nitro-sync-v2.herokuapp.com:80" #"localhost:5000"
