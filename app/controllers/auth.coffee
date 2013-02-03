@@ -175,7 +175,7 @@ class Auth extends Spine.Controller
                 data:
                   token: access.oauth_token
                   secret: access.oauth_token_secret
-                success: ([uid, token, name, email]) =>
+                success: ([uid, token, email, name]) =>
                   @saveToken(uid, token)
                   Setting.set("user_name", name)
                   Setting.set("user_email", email)
