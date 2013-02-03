@@ -171,9 +171,15 @@ header
       text-shadow(0px 1px 0px #fafafa)
       padding-right: 5px
 
-    img
+    .img
       vertical-align: top
       margin: 14px 14px 0 5px
+      background-image: url("img/settings.png")
+      width: 14px
+      height: 14px
+      display: inline-block
+      padding-right: 0
+      background-size: 14px
 
       &:active
         opacity: 0.5
@@ -1172,6 +1178,12 @@ $dark-border = #272727
     vbg-gradient(#333, #111)
     border-bottom: 1px solid #000
 
+    .logo
+      background-image: url(img/logo_light.png)
+
+    .settingsButton .img
+      background-image: url("img/settings_light.png")
+
     .user
 
       &:hover
@@ -1298,6 +1310,13 @@ $dark-border = #272727
     display: block
   .notpro
     display: none
+
+// Retina Logo
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .dark header .logo {
+      background-image: url("img/logo_light@2x.png");
+    }
+}
 
 @media screen and (max-width: 600px)
   aside.sidebar

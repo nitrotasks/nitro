@@ -64,6 +64,10 @@ class Auth extends Spine.Controller
     @log "Going into offline mode"
     Setting.set "offlineMode", true
     @startApp()
+
+    # Make default tasks
+    Task.default()
+
     true
 
   getData: =>
@@ -97,6 +101,8 @@ class Auth extends Spine.Controller
 
         @errorElem.removeClass("populated").text ""
 
+        if Setting.get("offlineMode") is false
+          Task.default()
 
       error: (xhr, status, msg) =>
         @error "signup", xhr.responseText

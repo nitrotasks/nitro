@@ -14,7 +14,7 @@ class Panel extends Spine.Controller
     "keyup .search input": "search"
     "click .search a": "clearSearch"
     "click .user": "toggleAccount"
-    "click .settingsButton img": "toggleSettings"
+    "click .settingsButton .img": "toggleSettings"
     "touchend .user": "toggleAccount"
     "touchend .settingsButton": "toggleSettings"
 
