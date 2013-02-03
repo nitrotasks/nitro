@@ -63,12 +63,21 @@ module.exports = [
     "id": "c-12"
   },
   {
+    "name": "Follow @consindo on Twitter for news and updates!",
+    "date": "",
+    "notes": "",
+    "completed": false,
+    "priority": 1,
+    "list": "inbox",
+    "id": "c-12"
+  },
+  {
     "name": "Thanks for checking out Nitro! We hope you enjoy it as much as we did creating it.",
     "date": "",
     "notes": "",
     "completed": false,
     "priority": 1,
     "list": "inbox",
-    "id": "c-14"
+    "id": "c-16"
   }
 ]
