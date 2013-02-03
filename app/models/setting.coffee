@@ -20,7 +20,8 @@ class window.Setting extends Spine.Model
     'uid',
     'token',
     'user_name',
-    'user_email'
+    'user_email',
+    'oauth'
 
   constructor: ->
     super
@@ -46,7 +47,7 @@ class window.Setting extends Spine.Model
   # Setting.set("theme", "dark")
   @set: (key, value) =>
     @first().updateAttribute key, value
-    value
+    return value
 
   @toggle: (key) =>
     @set key, !@get(key)
@@ -55,6 +56,10 @@ class window.Setting extends Spine.Model
   # Setting.get("theme")
   @get: (key) =>
     @first()[key]
+
+  @delete: (key) =>
+    @set(key, null)
+    return true
 
   @sortMode: =>
     @get "sort"

@@ -1,6 +1,7 @@
 Spine = require "spine"
 Setting = require "models/setting"
 Cookies = require "utils/cookies"
+CONFIG = require "utils/conf"
 $ = Spine.$
 
 class Auth extends Spine.Controller
@@ -20,6 +21,7 @@ class Auth extends Spine.Controller
     "click .register": "buttonRegister"
     "click .sign-up": "buttonSignup"
     "click .offline": "offlineMode"
+    "click .service.dropbox": "dropboxLogin"
 
   constructor: ->
     super
@@ -27,6 +29,7 @@ class Auth extends Spine.Controller
     Setting.bind "login", @startApp
     # If the user is in Offline Mode, then hide the login form
     if Setting.get("offlineMode") then @el.hide()
+    @handleOauth()
 
   buttonSignin: =>
     if @email.val() is "" or @password.val() is ""
@@ -79,7 +82,7 @@ class Auth extends Spine.Controller
   register: (data) ->
     $.ajax
       type: "post"
-      url: "http://nitro-sync-v2.herokuapp.com/api/v0/register"
+      url: "http://#{CONFIG.server}/api/v0/register"
       data: data
       success: (data) =>
         console.log data
@@ -102,7 +105,7 @@ class Auth extends Spine.Controller
     console.log "logging into server"
     $.ajax
       type: "post"
-      url: "http://nitro-sync-v2.herokuapp.com/api/v0/login"
+      url: "http://#{CONFIG.server}/api/v0/login"
       data: data
       dataType: "json"
       success: ([uid, token, email, name]) =>
@@ -127,10 +130,51 @@ class Auth extends Spine.Controller
     console.log "(#{type}): #{err}"
     @errorElem.addClass "populated"
     if err is "err_bad_pass"
-      @errorElem.html "Incorrect email or password. <a href='http://nitro-sync-v2.herokuapp.com/api/v0/auth/forgot'>Forgot?</a>"
+      @errorElem.html "Incorrect email or password. <a href='http://#{CONFIG.server}/api/v0/auth/forgot'>Forgot?</a>"
     else if err is "err_old_email"
       @errorElem.text "Account already in use"
     else
       @errorElem.text "#{err}"
+
+  dropboxLogin: =>
+    $.ajax
+      type: "get"
+      url: "http://#{CONFIG.server}/api/v0/dropbox/request"
+      data:
+        url: location.href
+      success: (request) =>
+        Setting.set "oauth"
+          service: "dropbox"
+          token: request.oauth_token
+          secret: request.oauth_token_secret
+        location.href = request.authorize_url
+
+  handleOauth: =>
+    oauth = Setting.get("oauth")
+    if oauth?
+      console.log oauth
+      switch oauth.service
+        when "dropbox"
+          $.ajax
+            type: "post"
+            url: "http://#{CONFIG.server}/api/v0/dropbox/access"
+            data:
+              token: oauth.token
+              secret: oauth.secret
+            success: (access) =>
+              console.log access
+              $.ajax
+                type: "post"
+                url: "http://#{CONFIG.server}/api/v0/dropbox/login"
+                data:
+                  token: access.oauth_token
+                  secret: access.oauth_token_secret
+                success: ([uid, token, name, email]) =>
+                  @saveToken(uid, token)
+                  Setting.set("user_name", name)
+                  Setting.set("user_email", email)
+                fail: ->
+                  console.log arguments
+      Setting.delete("oauth")
 
 module.exports = Auth

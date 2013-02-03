@@ -2,6 +2,7 @@ Spine  = @Spine or require('spine')
 Model  = Spine.Model
 SocketIo = require('lib/socket.io')
 UpdateAttribute = require('lib/updateAttr')
+CONFIG = require("utils/conf")
 
 # ------------------
 # Handle Sync Events
@@ -20,7 +21,7 @@ Sync =
   queue: JSON.parse localStorage.Queue or "[]"
 
   connect: (uid, token, fn) ->
-    @socket = SocketIo.connect("http://nitro-sync-v2.herokuapp.com:80/?token=#{token}&uid=#{uid}")
+    @socket = SocketIo.connect("http://#{CONFIG.sync}/?token=#{token}&uid=#{uid}")
 
     # Handle offline modes
     for event in ['error', 'disconnect', 'connect_failed']
