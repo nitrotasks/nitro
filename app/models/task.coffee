@@ -29,6 +29,12 @@ class window.Task extends Spine.Model
     @all().filter (task) ->
         task.list is listId
 
+  @default: ->
+    if @all().length is 0
+
+      List.refresh require "models/default_lists"
+      @refresh require "models/default_tasks"
+
   @sort: (tasks) =>
     sorted = tasks.sort (a, b) ->
       # If logged, move to bottom
