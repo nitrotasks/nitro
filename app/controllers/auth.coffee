@@ -21,7 +21,7 @@ class Auth extends Spine.Controller
     "click .register": "buttonRegister"
     "click .sign-up": "buttonSignup"
     "click .offline": "offlineMode"
-    "click .service.dropbox": "dropboxLogin"
+    "click .service": "oauthLogin"
 
   constructor: ->
     super
@@ -86,7 +86,7 @@ class Auth extends Spine.Controller
   register: (data) ->
     $.ajax
       type: "post"
-      url: "http://#{CONFIG.server}/api/v0/register"
+      url: "http://#{CONFIG.server}/api/register"
       data: data
       success: (data) =>
         console.log data
@@ -111,7 +111,7 @@ class Auth extends Spine.Controller
     console.log "logging into server"
     $.ajax
       type: "post"
-      url: "http://#{CONFIG.server}/api/v0/login"
+      url: "http://#{CONFIG.server}/api/login"
       data: data
       dataType: "json"
       success: ([uid, token, email, name]) =>
@@ -136,51 +136,57 @@ class Auth extends Spine.Controller
     console.log "(#{type}): #{err}"
     @errorElem.addClass "populated"
     if err is "err_bad_pass"
-      @errorElem.html "Incorrect email or password. <a href='http://#{CONFIG.server}/api/v0/auth/forgot'>Forgot?</a>"
+      @errorElem.html "Incorrect email or password. <a href='http://#{CONFIG.server}/api/auth/forgot'>Forgot?</a>"
     else if err is "err_old_email"
       @errorElem.text "Account already in use"
     else
       @errorElem.text "#{err}"
 
-  dropboxLogin: =>
+  oauthLogin: (e) =>
+    service =  e.target.attributes["data-service"]?.value
+    return unless service in ["dropbox", "ubuntu"]
     $.ajax
-      type: "get"
-      url: "http://#{CONFIG.server}/api/v0/dropbox/request"
+      type: "post"
+      url: "http://#{CONFIG.server}/api/oauth/request"
       data:
-        url: location.href
+        service: service
       success: (request) =>
         Setting.set "oauth"
-          service: "dropbox"
+          service: service
           token: request.oauth_token
           secret: request.oauth_token_secret
         location.href = request.authorize_url
 
   handleOauth: =>
     oauth = Setting.get("oauth")
-    if oauth?
-      console.log oauth
-      switch oauth.service
-        when "dropbox"
-          $.ajax
-            type: "post"
-            url: "http://#{CONFIG.server}/api/v0/dropbox/access"
-            data:
-              token: oauth.token
-              secret: oauth.secret
-            success: (access) =>
-              console.log access
-              $.ajax
-                type: "post"
-                url: "http://#{CONFIG.server}/api/v0/dropbox/login"
-                data:
-                  token: access.oauth_token
-                  secret: access.oauth_token_secret
-                success: ([uid, token, email, name]) =>
-                  @saveToken(uid, token)
-                  Setting.set("user_name", name)
-                  Setting.set("user_email", email)
-                fail: ->
-                  console.log arguments
-      Setting.delete("oauth")
+    return unless oauth?
+
+    token = oauth.token
+    secret = oauth.secret
+    service = oauth.service
+    Setting.delete("oauth")
+
+    $.ajax
+      type: "post"
+      url: "http://#{CONFIG.server}/api/oauth/access"
+      data:
+        service: service
+        token: token
+        secret: secret
+      success: (access) =>
+        console.log access
+        $.ajax
+          type: "post"
+          url: "http://#{CONFIG.server}/api/oauth/login"
+          data:
+            service: service
+            token: access.oauth_token
+            secret: access.oauth_token_secret
+          success: ([uid, token, email, name]) =>
+            @saveToken(uid, token)
+            Setting.set("user_name", name)
+            Setting.set("user_email", email)
+          fail: ->
+            console.log arguments
 
 module.exports = Auth
