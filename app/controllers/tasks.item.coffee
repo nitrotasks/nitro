@@ -2,6 +2,7 @@ Spine   = require('spine')
 List    = require('models/list')
 Setting = require("models/setting")
 Keys    = require("utils/keys")
+Modal   = require("controllers/modal")
 $       = Spine.$
 
 class TaskItem extends Spine.Controller
@@ -68,20 +69,7 @@ class TaskItem extends Spine.Controller
 
   # Delete Button
   remove: ->
-    if Setting.get "confirmDelete"
-      $(".modal.delete").modal "show"
-      $(".modal.delete .true").on("click touchend", =>
-        @task.destroy()
-        $(".modal.delete").modal "hide"
-        $(".modal.delete .true").off "click touchend"
-      )
-
-      $(".modal.delete .false").on("click touchend", (e) ->
-        $(".modal.delete").modal "hide"
-        $(".modal.delete .false").off "click touchend"
-      )
-    else
-      @task.destroy()
+    Modal.get("trashTask").run(@task)
 
   listWarning: ->
     $('.main.tasks').addClass('empty') if $("ul.tasks").children().length == 0

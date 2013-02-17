@@ -23,41 +23,6 @@ class Modal extends Spine.Controller
 		@el.off("click.modal, touchend.modal")
 
 
-# Used for deleting the current list
-class TrashList extends Modal
-	events:
-		"click .true": "delete"
-		"click .false": "close"
-
-	run: =>
-		if Setting.get "confirmDelete"
-		  @show()
-		else
-		  @delete()
-
-	delete: =>
-		List.current.trigger("kill")
-		@hide()
-
-	close: =>
-		@hide()
-
-
-# Used for emailing a list
-class EmailList extends Modal
-
-	events:
-		"click button": "submit"
-		"keyup input": "keyup"
-
-	keyup: (e) =>
-		if e.keyCode is Keys.ENTER
-			@submit()
-
-	submit: =>
-		console.log "submitted"
-
-
 # Stores a reference to each modal, so we can fetch them from other files
 modals = []
 
@@ -70,11 +35,59 @@ module.exports =
 	# Bind the modals
 	init: ->
 
-		modals["trash"] = new TrashList
+
+		# Deleting a task
+		modals["trashTask"] = new Modal
+			el: $(".modal.delete")
+			events:
+				"click .true": "delete"
+				"click .false": "hide"
+
+			run: (@task) ->
+				if Setting.get("confirmDelete")
+					@show()
+				else
+					@delete()
+
+			delete: ->
+				@task?.destroy()
+				@hide()
+
+		# Deleting a list
+		modals["trashList"] = new Modal
 			el: $(".modal.delete")
 
-	  modals["email"] = new EmailList
+			events:
+				"click .true": "delete"
+				"click .false": "hide"
+
+			run: ->
+				if Setting.get "confirmDelete"
+				  @show()
+				else
+				  @delete()
+
+			delete: ->
+				List.current.trigger("kill")
+				@hide()
+
+
+
+		# Emailing a list
+	  modals["email"] = new Modal
 	  	el: $(".modal.email")
 
+	  	events:
+	  		"click button": "submit"
+	  		"keyup input": "keyup"
+
+	  	keyup: (e) ->
+	  		if e.keyCode is Keys.ENTER
+	  			@hide()
+
+	  	submit: ->
+	  		console.log "submitted"
+
+	  # Sharing a list
 	  modals["share"] = new Modal
 	  	el: $(".modal.share")
