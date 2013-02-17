@@ -16,20 +16,21 @@ ListTitle = require "controllers/lists.title"
 Panel     = require "controllers/panel"
 Settings  = require "controllers/settings"
 Auth      = require "controllers/auth"
+Modal     = require "controllers/modal"
 
 Cookies = require "utils/cookies"
 
 class App extends Spine.Controller
 
   elements:
-    '.tasks': 'tasksContainer'
-    '.sidebar': 'listsContainer'
-    '.tasks .title': 'listTitle'
-    'header': 'panel'
-    '.settings': 'settings'
-    '.auth': 'auth'
-    ".tour": 'tour'
-    ".tour .image": 'tourImage'
+    ".tasks": "tasksContainer"
+    ".sidebar": "listsContainer"
+    ".tasks .title": "listTitle"
+    "header": "panel"
+    ".settings": "settings"
+    ".auth": "auth"
+    ".tour": "tour"
+    ".tour .image": "tourImage"
 
   events:
     "keyup": "handleShortcut"
@@ -64,12 +65,15 @@ class App extends Spine.Controller
     new ListTitle
       el: @listTitle
 
+    # Init Modals
+    Modal.init()
+
     # Load translations
-    $.getJSON 'i18n/' + Setting.get("language") + '.json', (dict) =>
+    $.getJSON "i18n/" + Setting.get("language") + ".json", (dict) =>
       $.i18n.setDictionary(dict)
 
       # Date picker translation
-      $.getScript('i18n/datepicker/' + Setting.get("language") + '.js') unless Setting.get("language").substring(0,2) is "en"
+      $.getScript("i18n/datepicker/" + Setting.get("language") + ".js") unless Setting.get("language").substring(0,2) is "en"
 
       # Puts the translations in
       $("[data-tPlaceholder]").map ->
@@ -94,7 +98,7 @@ class App extends Spine.Controller
 
       List.find("inbox").updateAttribute("name", $.i18n._("Inbox"))
 
-      # Doesn't run in the settings constructor. Bit of a pain
+      # Doesn"t run in the settings constructor. Bit of a pain
       if Setting.get("completedDuration") is "day"
         settings.moveCompleted()
 
@@ -118,7 +122,7 @@ class App extends Spine.Controller
     if pos is "0%"
       @tourImage.css "background-position-x", "-650px"
 
-      # Makes sure that the animation isn't in progress
+      # Makes sure that the animation isn"t in progress
     else if pos.substring(pos.length-2, pos.length) is "px" and (parseInt(pos.substring(0, pos.length-2)) - 650) % 650 is 0
       @tourImage.css "background-position-x", (parseInt(pos.substring(0, pos.length-2)) - 650) + "px"
 

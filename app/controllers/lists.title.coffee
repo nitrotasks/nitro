@@ -2,6 +2,7 @@ Spine = require('spine')
 List  = require("models/list")
 Setting = require("models/setting")
 Keys  = require("utils/keys")
+Modal = require("controllers/modal")
 
 class ListTitle extends Spine.Controller
 
@@ -50,25 +51,10 @@ class ListTitle extends Spine.Controller
   menuClick: (e)->
 
     switch e.currentTarget.className
-      when "trash"
-        if Setting.get "confirmDelete"
-          $(".modal.delete").modal "show"
-
-          $(".modal.delete .true").on "click touchend", =>
-            @list.trigger "kill"
-            $(".modal.delete").modal "hide"
-            $(".modal.delete .true").off "click touchend"
-
-          $(".modal.delete .false").on "click touchend", (e) ->
-            $(".modal.delete").modal "hide"
-            $(".modal.delete .false").off "click touchend"
-
-        else
-          @list.trigger "kill"
-
-      when "email" then $(".modal.email").modal()
+      when "trash" then Modal.get("trash").run()
+      when "email" then Modal.get("email").show()
       when "print" then window.print()
-      when "share" then $(".modal.share").modal()
+      when "share" then Modal.get("share").show()
       when "sort"  then Setting.toggleSort()
 
 module.exports = ListTitle
