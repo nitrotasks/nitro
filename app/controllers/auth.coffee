@@ -90,6 +90,8 @@ class Auth extends Spine.Controller
       data: data
       success: (data) =>
         console.log data
+        # Makes debugging easy
+        if Array.isArray(data) then window.open(data[0])
         # @saveToken(data[0], data[1])
 
         @signInBtn.removeClass "ajax"
@@ -108,7 +110,6 @@ class Auth extends Spine.Controller
         @error "signup", xhr.responseText
 
   login: (data) ->
-    console.log "logging into server"
     $.ajax
       type: "post"
       url: "http://#{CONFIG.server}/api/login"
