@@ -23,11 +23,9 @@ class Lists extends Spine.Controller
     "click .list.all": "showAllTasks"
     "click .list.inbox": "showInbox"
     "click .list.completed": "showCompleted"
-    "touchend .list.all": "showAllTasks"
-    "touchend .list.inbox": "showInbox"
-    "touchend .list.completed": "showCompleted"
 
   constructor: ->
+    Spine.touchify(@events)
     super
     List.bind "create", @addOne
     List.bind "refresh", @addAll
@@ -62,7 +60,6 @@ class Lists extends Spine.Controller
         $(e.currentTarget).focus()
     else
       if e.which is Keys.ENTER and $(e.currentTarget).val()
-        console.log " helloo"
         list = List.create name: $(e.currentTarget).val()
         List.trigger "changeList", list
         $(e.currentTarget).val ""

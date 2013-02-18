@@ -24,6 +24,7 @@ class Auth extends Spine.Controller
     "click .service": "oauthLogin"
 
   constructor: ->
+    Spine.touchify(@events)
     super
     @mode = "login"
     Setting.bind "login", @startApp

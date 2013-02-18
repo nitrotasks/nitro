@@ -14,9 +14,9 @@ class ListItem extends Spine.Controller
 
   events:
     'click': 'click'
-    'touchend': 'click'
 
   constructor: ->
+    Spine.touchify(@events)
     super
     throw "@list required" unless @list
     # Update is bound to something else so we don't keep rewriting the dom

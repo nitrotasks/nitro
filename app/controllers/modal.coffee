@@ -4,6 +4,10 @@ Keys = require('utils/keys')
 # The base Modal class
 class Modal extends Spine.Controller
 
+	constructor: (opts) ->
+		Spine.touchify(opts.events)
+		super
+
 	state: off
 
 	show: ->

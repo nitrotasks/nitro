@@ -15,9 +15,9 @@ class ListTitle extends Spine.Controller
     "keyup h1": "rename"
     "keypress h1": "preventer"
     "click .buttons a": "menuClick"
-    "touchend .buttons a": "menuClick"
 
   constructor: ->
+    Spine.touchify(@events)
     super
     List.bind "changeList", @render
 
@@ -51,7 +51,7 @@ class ListTitle extends Spine.Controller
   menuClick: (e)->
 
     switch e.currentTarget.className
-      when "trash" then Modal.get("trash").run()
+      when "trash" then Modal.get("trashList").run()
       when "email" then Modal.get("email").show()
       when "print" then window.print()
       when "share" then Modal.get("share").show()

@@ -20,14 +20,8 @@ class TaskItem extends Spine.Controller
     'click .checkbox': 'toggleStatus'
     'click .tag': 'tagClick'
 
-    'touchend .delete': 'remove'
-    'touchend .priority-button div': 'setPriority'
-    'touchend .checkbox': 'toggleStatus'
-    'touchend .tag': 'tagClick'
-
     # Editing the actual task
     'click': 'expand'
-    'touchend': 'expand'
     'blur .input-name': 'endEdit'
     'keypress .input-name': 'endEditOnEnter'
 
@@ -38,6 +32,7 @@ class TaskItem extends Spine.Controller
 
 
   constructor: ->
+    Spine.touchify(@events)
     super
     throw "@task required" unless @task
     @task.bind 'update', @update

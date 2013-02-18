@@ -27,6 +27,7 @@ class Tasks extends Spine.Controller
   timers: {}
 
   constructor: ->
+    Spine.touchify(@events)
     super
     Task.bind "create", @addOne
     Task.bind "refresh", @reload
