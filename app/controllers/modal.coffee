@@ -1,5 +1,7 @@
 Spine = require('spine')
 Keys = require('utils/keys')
+CONFIG = require("utils/conf")
+$ = Spine.$
 
 # The base Modal class
 class Modal extends Spine.Controller
@@ -14,16 +16,20 @@ class Modal extends Spine.Controller
 		return unless @state is off
 		@state = on
 		@el.show(0).addClass("show")
+		if @onShow then @onShow()
 		setTimeout ( =>
 			@el.on "click.modal, touchend.modal", (event) =>
-				if event.target.className.indexOf("modal") >= 0 then @hide()
+				if event.target.className.indexOf("modal") >= 0 then  @hide()
 		), 500
 
 	hide: ->
 		return unless @state is on
 		@state = off
 		@el.removeClass("show")
-		setTimeout ( => @el.hide(0) ), 350
+		setTimeout ( =>
+			@el.hide(0)
+			if @onHide then @onHide()
+		), 350
 		@el.off("click.modal, touchend.modal")
 
 
@@ -81,16 +87,29 @@ module.exports =
 	  modals["email"] = new Modal
 	  	el: $(".modal.email")
 
+	  	elements:
+	  		"input": "input"
+
 	  	events:
 	  		"click button": "submit"
 	  		"keyup input": "keyup"
 
 	  	keyup: (e) ->
-	  		if e.keyCode is Keys.ENTER
-	  			@hide()
+	  		if e.keyCode is Keys.ENTER then @submit()
 
 	  	submit: ->
-	  		console.log "submitted"
+	  		email = @input.val()
+	  		return unless email.match(/.+@.+\..+/)
+	  		uid = require("models/setting").get("uid")
+	  		listId = require("models/list").current.id
+	  		Spine.Sync.emit("emailList", [uid, listId, email])
+	  		@hide()
+
+	  	onShow: ->
+	  		@input.focus()
+
+	  	onHide: ->
+	  		@input.val("")
 
 	  # Sharing a list
 	  modals["share"] = new Modal

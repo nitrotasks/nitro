@@ -10,4 +10,9 @@ jono =
   server: "192.168.0.106:5000"
   sync: "192.168.0.106:5000"
 
-module.exports = localhost
+
+active = localhost
+
+active.EMAIL_LIST = "http://#{active.server}/api/email"
+
+module.exports = active
