@@ -4,6 +4,7 @@ List     = require("models/list")
 Setting  = require("models/setting")
 TaskItem = require("controllers/tasks.item")
 Keys     = require("utils/keys")
+dateDetector = require("utils/date")
 
 class Tasks extends Spine.Controller
 
@@ -191,7 +192,7 @@ class Tasks extends Spine.Controller
         list: @list?.id
         completed: false
         notes: ""
-        date: ""
+        date: dateDetector.parse(val)
         priority: (->
           if val.indexOf("#high") >= 0 then return 3
           if val.indexOf("#medium") >= 0 then return 2
