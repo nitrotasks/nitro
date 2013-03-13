@@ -60,7 +60,7 @@ Sync =
 
   # Go through each item in the queue and send it to the server
   sync: ->
-    return no unless @queue.length
+    # return no unless @queue.length
     console.log "Going to run sync"
     console.log "Queue:", @queue
     # Send queue to server
