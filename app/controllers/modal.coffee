@@ -45,10 +45,9 @@ module.exports =
 	# Bind the modals
 	init: ->
 
-
 		# Deleting a task
 		modals["trashTask"] = new Modal
-			el: $(".modal.delete")
+			el: $(".modal.delete-task")
 			events:
 				"click .true": "delete"
 				"click .false": "hide"
@@ -63,54 +62,54 @@ module.exports =
 				@task?.destroy()
 				@hide()
 
-		# Deleting a list
-		modals["trashList"] = new Modal
-			el: $(".modal.delete")
 
-			events:
-				"click .true": "delete"
-				"click .false": "hide"
+			# Deleting a list
+			modals["trashList"] = new Modal
+				el: $(".modal.delete-list")
+				events:
+					"click .true": "delete"
+					"click .false": "hide"
 
-			run: ->
-				if Setting.get "confirmDelete"
-				  @show()
-				else
-				  @delete()
+				run: ->
+					if Setting.get "confirmDelete"
+					  @show()
+					else
+					  @delete()
 
-			delete: ->
-				List.current.trigger("kill")
-				@hide()
+				delete: ->
+					List.current.trigger("kill")
+					@hide()
 
 
 
-		# Emailing a list
-	  modals["email"] = new Modal
-	  	el: $(".modal.email")
+			# Emailing a list
+		  modals["email"] = new Modal
+		  	el: $(".modal.email")
 
-	  	elements:
-	  		"input": "input"
+		  	elements:
+		  		"input": "input"
 
-	  	events:
-	  		"click button": "submit"
-	  		"keyup input": "keyup"
+		  	events:
+		  		"click button": "submit"
+		  		"keyup input": "keyup"
 
-	  	keyup: (e) ->
-	  		if e.keyCode is Keys.ENTER then @submit()
+		  	keyup: (e) ->
+		  		if e.keyCode is Keys.ENTER then @submit()
 
-	  	submit: ->
-	  		email = @input.val()
-	  		return unless email.match(/.+@.+\..+/)
-	  		uid = require("models/setting").get("uid")
-	  		listId = require("models/list").current.id
-	  		Spine.Sync.emit("emailList", [uid, listId, email])
-	  		@hide()
+		  	submit: ->
+		  		email = @input.val()
+		  		return unless email.match(/.+@.+\..+/)
+		  		uid = require("models/setting").get("uid")
+		  		listId = require("models/list").current.id
+		  		Spine.Sync.emit("emailList", [uid, listId, email])
+		  		@hide()
 
-	  	onShow: ->
-	  		@input.focus()
+		  	onShow: ->
+		  		@input.focus()
 
-	  	onHide: ->
-	  		@input.val("")
+		  	onHide: ->
+		  		@input.val("")
 
-	  # Sharing a list
-	  modals["share"] = new Modal
-	  	el: $(".modal.share")
+		  # Sharing a list
+		  modals["share"] = new Modal
+		  	el: $(".modal.share")
