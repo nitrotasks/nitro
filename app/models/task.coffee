@@ -100,7 +100,7 @@ class window.Task extends Spine.Model
     # Show difference nicely
     if difference is -1
       # Yesterday
-      words = $.i18n._ 'due yesterday'
+      words = $.i18n._ 'yesterday'
       className = 'overdue'
 
     else if difference < -1
@@ -108,22 +108,22 @@ class window.Task extends Spine.Model
 
       # Make sure the difference is a positive number
       difference = Math.abs difference
-      words = difference + " " + $.i18n._ "days overdue"
+      words = difference + " " + $.i18n._ "days ago"
       className = 'overdue'
 
     else if difference is 0
       # Due Today
-      words = $.i18n._ 'due today'
+      words = $.i18n._ 'today'
       className = 'due'
 
     else if difference is 1
       # Due Tomorrow
-      words = $.i18n._ 'due tomorrow'
+      words = $.i18n._ 'tomorrow'
       className = 'soon'
 
     else if difference < 15
       # Due in the next 15 days
-      words = difference + " days left"
+      words = "in " + difference + " days"
 
     else
       words = month[date.getMonth()] + " " + date.getDate()
