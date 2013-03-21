@@ -153,7 +153,7 @@ class Auth extends Spine.Controller
       data:
         service: service
       success: (request) =>
-        Setting.set "oauth"
+        Setting.set "oauth",
           service: service
           token: request.oauth_token
           secret: request.oauth_token_secret
