@@ -223,6 +223,13 @@ Sync =
     # Save queue to localstorage
     localStorage.Queue = JSON.stringify @queue
 
+  exportData: (keys=["tasks", "lists"]) ->
+    # Export local data to JSON
+    output = {}
+    for className, model of @models
+      output[className] = model.toJSON()
+    JSON.stringify(output)
+
   goOffline: ->
     console.error "NitroSync: Couldn't connect to server"
     Sync.online = no

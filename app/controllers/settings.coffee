@@ -24,7 +24,7 @@ class Settings extends Spine.Controller
     "change input": "save"
     "change select": "save"
     "click .clear-data": "clearData"
-    # "click .logout": "logout"
+    "click .export-data": "exportData"
     "click .tabs li": "tabSwitch"
     "click .night-mode": "toggleNight"
     "click .language a": "changeLanguage"
@@ -162,6 +162,9 @@ class Settings extends Spine.Controller
         $(".modal.delete").modal "hide"
         $(".modal.delete .false").off "click touchend"
       )
+
+  exportData: ->
+    prompt "Copy the text and save it somewhere:", Spine.Sync.exportData()
 
   changeLanguage: (e) =>
     # Pirate Speak is a Pro feature
