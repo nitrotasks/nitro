@@ -9,8 +9,7 @@ module.exports = [
       "c-8",
       "c-10",
       "c-12",
-      "c-14",
-      "c-16"
+      "c-14"
     ],
     "permanent": true,
     "id": "inbox"

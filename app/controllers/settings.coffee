@@ -1,6 +1,7 @@
 Spine = require("spine")
 Setting = require("models/setting")
 Cookies = require("utils/cookies")
+Task = require("models/task")
 
 class Settings extends Spine.Controller
 
@@ -128,13 +129,34 @@ class Settings extends Spine.Controller
 
       @log "Notifying in: #{ (notifyTime - now)/1000 } seconds"
 
+      # console.log Task.all
+
       @notifyTimeout = setTimeout =>
-        console.log "Running notify!"
-        notification = window.webkitNotifications.createNotification(
-          'img/icon.png',
-          'Nitro Tasks',
-          'You have tasks due'
-        ).show()
+        dueNumber = 0
+        upcomingNumber = 0
+
+        for task in Task.all()
+          if task.date isnt "" and task.date isnt false and !task.completed
+            # Number of Tasks that have due dates
+            upcomingNumber++
+            # Number of Tasks that are due
+            if new Date(task.date) - new Date() < 0
+              dueNumber++
+
+        console.log {due: dueNumber, upcoming: upcomingNumber}
+
+        if Setting.get("notifyRegular") is "upcoming"
+          notification = window.webkitNotifications.createNotification(
+            'img/icon.png',
+            'Nitro Tasks',
+            'You have ' + upcomingNumber + ' tasks upcoming'
+          ).show()
+        else
+          notification = window.webkitNotifications.createNotification(
+            'img/icon.png',
+            'Nitro Tasks',
+            'You have ' + dueNumber + ' tasks due'
+          ).show()
         @setupNotifications()
       , notifyTime - now
 
