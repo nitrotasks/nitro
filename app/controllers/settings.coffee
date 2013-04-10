@@ -186,7 +186,12 @@ class Settings extends Spine.Controller
       )
 
   exportData: ->
-    prompt "Copy the text and save it somewhere:", Spine.Sync.exportData()
+    @el.modal("hide")
+    $('.modal.export').modal("show")
+    $('.modal.export textarea').val Spine.Sync.exportData()
+    $('.modal.export .false').click ->
+      $('.modal.export').modal("hide")
+      $(@).off("click")
 
   changeLanguage: (e) =>
     # Pirate Speak is a Pro feature

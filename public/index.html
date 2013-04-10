@@ -30,7 +30,7 @@
         <li><a href="#" class="sort" data-tTitle="Toggle Sorting"></a></li>
         <li><a href="#" class="email" data-tTitle="Email List"></a></li>
         <li><a href="#" class="print" data-tTitle="Print List"></a></li>
-        <li><a href="#" class="share" data-tTitle="Share List"></a></li>
+        <!-- <li><a href="#" class="share" data-tTitle="Share List"></a></li> -->
       </ul>
     </div>
     <div class="tasks-container">
@@ -87,6 +87,16 @@
     <div class="delete-container">
       <span data-tText="Are you sure you want to do that?"></span><br>
       <button class="true special" data-tText="Yes, delete it"></button>&nbsp;<button class="false special" data-tText="No, keep it"></button>
+    </div>
+  </section>
+
+  <section class="modal export">
+    <div class="export-container">
+      <span data-tText="Copy the data below and keep it in a safe place. To restore from a backup, simply replace the data and use the import button."></span><br>
+      <textarea></textarea><br>
+      <div class="btncontainer">
+        <button class="true special" data-tText="Import"></button>&nbsp;<button class="false special" data-tText="Close"></button>
+      </div>
     </div>
   </section>
 
@@ -175,7 +185,7 @@
         <div class="clearWrapper">
           <label data-tText="Reset Nitro:" class="clear-data-label"></label>
           <button data-tText="Clear Data" class="clear-data"></button>
-          <button data-tText="Export Data" class="export-data"></button>
+          <button data-tText="Import / Export Data" class="export-data"></button>
         </div>
       </div>
       <div class="account">
