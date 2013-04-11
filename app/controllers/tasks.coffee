@@ -155,6 +155,8 @@ class Tasks extends Spine.Controller
         task.dateValue = Task.prettyDate(new Date(task.date)).words
         task.dateClass = Task.prettyDate(new Date(task.date)).className
 
+        task.listName = List.find(task.list).name if list.id is "all"
+
         # Append html
         html = @template(task) + html
 

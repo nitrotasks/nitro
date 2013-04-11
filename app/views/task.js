@@ -49,6 +49,16 @@ function program7(depth0,data) {
 function program9(depth0,data) {
   
   var buffer = "", stack1, foundHelper;
+  buffer += "\n    <span class=\"listName\">";
+  foundHelper = helpers.listName;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
+  else { stack1 = depth0.listName; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
+  buffer += escapeExpression(stack1) + "</span>\n    ";
+  return buffer;}
+
+function program11(depth0,data) {
+  
+  var buffer = "", stack1, foundHelper;
   buffer += "\n    <div class=\"notes\"><div class=\"inner\" contenteditable=\"true\">";
   foundHelper = helpers.notes;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
@@ -57,7 +67,7 @@ function program9(depth0,data) {
   buffer += "</div></div>\n  ";
   return buffer;}
 
-function program11(depth0,data) {
+function program13(depth0,data) {
   
   var buffer = "", stack1, foundHelper;
   buffer += "\n    <div class=\"notes placeholder\"><div class=\"inner\" contenteditable=\"true\">";
@@ -91,9 +101,13 @@ function program11(depth0,data) {
   stack1 = depth0.date;
   stack1 = helpers['if'].call(depth0, stack1, {hash:{},inverse:self.program(7, program7, data),fn:self.program(5, program5, data)});
   if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n    ";
+  stack1 = depth0.listName;
+  stack1 = helpers['if'].call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(9, program9, data)});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n    <div class=\"priority-button\">\n      <div data-id=\"1\" class=\"low\"></div>\n      <div data-id=\"2\" class=\"medium\"></div>\n      <div data-id=\"3\" class=\"high\"></div>\n    </div>\n    <div class=\"delete\"></div>\n  </div>\n  ";
   stack1 = depth0.notes;
-  stack1 = helpers['if'].call(depth0, stack1, {hash:{},inverse:self.program(11, program11, data),fn:self.program(9, program9, data)});
+  stack1 = helpers['if'].call(depth0, stack1, {hash:{},inverse:self.program(13, program13, data),fn:self.program(11, program11, data)});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n</li>\n";
   return buffer;});

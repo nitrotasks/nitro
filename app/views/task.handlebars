@@ -9,6 +9,9 @@
     {{else}}
     <img width="10" height="10" src="img/calendar.png"><time></time><input class="date" placeholder="{{ dateplaceholder }}" value="">
     {{/if }}
+    {{#if listName }}
+    <span class="listName">{{ listName }}</span>
+    {{/if}}
     <div class="priority-button">
       <div data-id="1" class="low"></div>
       <div data-id="2" class="medium"></div>

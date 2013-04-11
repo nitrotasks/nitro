@@ -562,6 +562,15 @@ ul.tasks
     &.overdue, &.due
       color: $red
 
+  .listName
+    font-size: 13px;
+    padding-right: 10px;
+    color: #777;
+    opacity: 0.8
+    background: url("img/all_light.png") no-repeat 5px 50%;
+    background-size: 12px 11px;
+    padding-left: 25px;
+
   .date
     height: 28px
     line-height: 20px
@@ -615,7 +624,8 @@ ul.tasks
     .date, .delete, .priority-button, img
       display: inline-block
 
-    .name, time
+    // Hide List Name
+    .name, time, .listName
       display: none
 
     .input-name
