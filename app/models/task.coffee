@@ -31,7 +31,6 @@ class window.Task extends Spine.Model
 
   @default: ->
     if Task.all().length is 0
-      console.log("SHI")
       List.refresh require "models/default_lists"
       @refresh require "models/default_tasks"
 

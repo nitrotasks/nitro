@@ -189,7 +189,9 @@ class Settings extends Spine.Controller
     @el.modal("hide")
     $('.modal.export').modal("show")
     $('.modal.export textarea').val Spine.Sync.exportData()
-    $('.modal.export .false').click ->
+
+    $('.modal.export button').click ->
+      Spine.Sync.importData($('.modal.export textarea').val()) if $(@).hasClass("true")
       $('.modal.export').modal("hide")
       $(@).off("click")
 

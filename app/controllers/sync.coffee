@@ -230,6 +230,11 @@ Sync =
       output[className] = model.toJSON()
     JSON.stringify(output)
 
+  importData: (obj) ->
+    input = JSON.parse(obj)
+    for className, model of @models
+      model.refresh(input[className])
+
   goOffline: ->
     console.error "NitroSync: Couldn't connect to server"
     Sync.online = no
