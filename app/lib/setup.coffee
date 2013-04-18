@@ -1,5 +1,6 @@
 # require('json2ify')
 # require('es5-shimify')
+require('lib/modernizr')
 require('jqueryify')
 require('lib/jquery.i18n')
 require('lib/modal')
