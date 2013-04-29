@@ -1,6 +1,6 @@
 <li id="task-{{ id }}" class="task {{#if group}}group{{/if}} {{#if completed }}completed{{/if}} p{{ priority }}">
   <div class="priority"></div>
-  <div class="checkbox"></div>
+  <div class="checkbox" title="{{ checkboxalttext }}"></div>
   <div class="name">{{addTags name }}</div>
   <input type="text" class="input-name">
   <div class="right-controls">
@@ -13,9 +13,9 @@
     <span class="listName">{{ listName }}</span>
     {{/if}}
     <div class="priority-button">
-      <div data-id="1" class="low"></div>
-      <div data-id="2" class="medium"></div>
-      <div data-id="3" class="high"></div>
+      <div data-id="1" title="{{ lowalttext }}" class="low"></div>
+      <div data-id="2" title="{{ mediumalttext }}" class="medium"></div>
+      <div data-id="3" title="{{ highalttext }}" class="high"></div>
     </div>
     <div class="delete"></div>
   </div>

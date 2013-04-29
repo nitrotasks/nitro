@@ -76,6 +76,11 @@ class Tasks extends Spine.Controller
     # Translations
     task.notesplaceholder = $.i18n._("Notes")
     task.dateplaceholder = $.i18n._("Due Date")
+    task.checkboxalttext = $.i18n._ "Mark as completed"
+    task.lowalttext = $.i18n._ "Set priority to low"
+    task.mediumalttext = $.i18n._ "Set priority to medium"
+    task.highalttext = $.i18n._ "Set priority to high"
+
     task.dateValue = Task.prettyDate(new Date(task.date)).words
     task.dateClass = Task.prettyDate(new Date(task.date)).className
 
@@ -151,6 +156,10 @@ class Tasks extends Spine.Controller
         # Translations
         task.notesplaceholder = $.i18n._ "Notes"
         task.dateplaceholder = $.i18n._ "Due Date"
+        task.checkboxalttext = $.i18n._ "Mark as completed"
+        task.lowalttext = $.i18n._ "Set priority to low"
+        task.mediumalttext = $.i18n._ "Set priority to medium"
+        task.highalttext = $.i18n._ "Set priority to high"
 
         task.dateValue = Task.prettyDate(new Date(task.date)).words
         task.dateClass = Task.prettyDate(new Date(task.date)).className

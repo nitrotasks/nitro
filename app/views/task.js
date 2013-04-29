@@ -93,7 +93,11 @@ function program13(depth0,data) {
   foundHelper = helpers.priority;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
   else { stack1 = depth0.priority; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
-  buffer += escapeExpression(stack1) + "\">\n  <div class=\"priority\"></div>\n  <div class=\"checkbox\"></div>\n  <div class=\"name\">";
+  buffer += escapeExpression(stack1) + "\">\n  <div class=\"priority\"></div>\n  <div class=\"checkbox\" title=\"";
+  foundHelper = helpers.checkboxalttext;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
+  else { stack1 = depth0.checkboxalttext; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
+  buffer += escapeExpression(stack1) + "\"></div>\n  <div class=\"name\">";
   stack1 = depth0.name;
   foundHelper = helpers.addTags;
   stack1 = foundHelper ? foundHelper.call(depth0, stack1, {hash:{}}) : helperMissing.call(depth0, "addTags", stack1, {hash:{}});
@@ -105,7 +109,19 @@ function program13(depth0,data) {
   stack1 = depth0.listName;
   stack1 = helpers['if'].call(depth0, stack1, {hash:{},inverse:self.noop,fn:self.program(9, program9, data)});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n    <div class=\"priority-button\">\n      <div data-id=\"1\" class=\"low\"></div>\n      <div data-id=\"2\" class=\"medium\"></div>\n      <div data-id=\"3\" class=\"high\"></div>\n    </div>\n    <div class=\"delete\"></div>\n  </div>\n  ";
+  buffer += "\n    <div class=\"priority-button\">\n      <div data-id=\"1\" title=\"";
+  foundHelper = helpers.lowalttext;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
+  else { stack1 = depth0.lowalttext; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
+  buffer += escapeExpression(stack1) + "\" class=\"low\"></div>\n      <div data-id=\"2\" title=\"";
+  foundHelper = helpers.mediumalttext;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
+  else { stack1 = depth0.mediumalttext; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
+  buffer += escapeExpression(stack1) + "\" class=\"medium\"></div>\n      <div data-id=\"3\" title=\"";
+  foundHelper = helpers.highalttext;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{}}); }
+  else { stack1 = depth0.highalttext; stack1 = typeof stack1 === functionType ? stack1() : stack1; }
+  buffer += escapeExpression(stack1) + "\" class=\"high\"></div>\n    </div>\n    <div class=\"delete\"></div>\n  </div>\n  ";
   stack1 = depth0.notes;
   stack1 = helpers['if'].call(depth0, stack1, {hash:{},inverse:self.program(13, program13, data),fn:self.program(11, program11, data)});
   if(stack1 || stack1 === 0) { buffer += stack1; }
