@@ -1,6 +1,6 @@
 server =
-  server: "ec2-107-22-18-125.compute-1.amazonaws.com"
-  sync: "ec2-107-22-18-125.compute-1.amazonaws.com:80"
+  server: "sync.nitrotasks.com"
+  sync: "sync.nitrotasks.com:80"
 
 localhost =
   server: "localhost:8080"
