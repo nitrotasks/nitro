@@ -6,6 +6,10 @@ ec2 =
   server: "ec2-107-22-18-125.compute-1.amazonaws.com"
   sync: "ec2-107-22-18-125.compute-1.amazonaws.com:80"
 
+beta =
+  server: "sync.nitrotasks.com"
+  sync: "sync.nitrotasks.com:80"
+
 localhost =
   server: "localhost:5000"
   sync: "localhost:5000"
@@ -15,6 +19,6 @@ jono =
   sync: "192.168.0.106:5000"
 
 
-active = ec2
+active = beta
 active.EMAIL_LIST = "http://#{active.server}/api/email"
 module.exports = active
