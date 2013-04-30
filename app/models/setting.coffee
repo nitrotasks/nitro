@@ -31,7 +31,7 @@ class window.Setting extends Spine.Model
     @confirmDelete ?= yes
     @night ?= no
     @language ?= "en-us"
-    @pro ?= no
+    @pro ?= 0
     @notifications ?= no
     @notifyEmail ?= no
     @notifyTime ?= 9
@@ -64,7 +64,10 @@ class window.Setting extends Spine.Model
 
   # Check is user is pro
   @isPro: ->
-    Setting.get "pro"
+    if Setting.get("pro") is 1
+      return true
+    else
+      return false
 
   @toggleSort: ->
     @toggle "sort"

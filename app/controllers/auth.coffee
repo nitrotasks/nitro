@@ -124,10 +124,12 @@ class Auth extends Spine.Controller
       url: "http://#{CONFIG.server}/login"
       data: data
       dataType: "json"
-      success: ([uid, token, email, name]) =>
+      success: ([uid, token, email, name, pro]) =>
         @saveToken(uid, token)
         Setting.set("user_name", name)
         Setting.set("user_email", email)
+        console.log "pro"
+        Setting.set("pro", pro)
 
         @signInBtn.removeClass "ajax"
         @registerBtn.removeClass "ajax"
