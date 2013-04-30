@@ -4,7 +4,6 @@ List = require('models/list')
 class window.Setting extends Spine.Model
   @configure 'Setting',
     'sort',
-    'username',
     'weekStart',
     'dateFormat',
     'completedDuration',
@@ -26,7 +25,6 @@ class window.Setting extends Spine.Model
   constructor: ->
     super
     @sort ?= yes
-    @username ?= "username"
     @weekStart ?= "1"
     @dateFormat ?= "dd/mm/yy"
     @completedDuration ?= "day"
