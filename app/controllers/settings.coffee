@@ -31,6 +31,7 @@ class Settings extends Spine.Controller
     "click .language a": "changeLanguage"
     "click .login": "login"
     "click #notify-toggle": "toggleNotify"
+    "click button.probtn": "proUpgrade"
 
   constructor: ->
     Spine.touchify(@events)
@@ -70,6 +71,9 @@ class Settings extends Spine.Controller
     @clearDataButton.text $.i18n._("Logout")
 
     $(".clearWrapper").css("text-align", "center")
+
+  proUpgrade: =>
+    location.href = "http://nitrotasks.com/pro?uid=" + Setting.get("uid")
 
   show: =>
     @el.modal()
