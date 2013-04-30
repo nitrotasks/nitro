@@ -1,6 +1,6 @@
 server =
   server: "sync.nitrotasks.com"
-  sync: "sync.nitrotasks.com:80"
+  sync: "sync.nitrotasks.com:443"
 
 localhost =
   server: "localhost:8080"
