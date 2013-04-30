@@ -2059,13 +2059,72 @@ ul.tasks {
     background-image: url("img/logo_light@2x.png");
   }
 }
+@media (-webkit-min-device-pixel-ratio: 2) and (max-width: 600px), (min-resolution: 192dpi) and (max-width: 600px) {
+  header .logo {
+    background: url("img/hamburger.png") no-repeat 0 9px;
+    background-size: 27px 21px;
+  }
+}
 @media screen and (max-width: 600px) {
+  header .logo {
+    background: url("img/hamburger.png") no-repeat 0 9px;
+    background-size: 27px 21px;
+    margin-left: 15px;
+  }
   aside.sidebar {
     display: none;
+    width: 100%;
+    padding: 0 20px;
+    background: #fff;
+    box-sizing: border-box;
+    top: 30px;
+  }
+  aside.sidebar .title h2 {
+    font-size: 26px;
+    left: 0;
+  }
+  aside.sidebar .title img {
+    display: none;
+  }
+  aside.sidebar .new-list {
+    padding-left: 5px;
+  }
+  aside.sidebar .list.all,
+  aside.sidebar .list.inbox,
+  aside.sidebar .list.completed {
+    background-position: 5px !important;
+  }
+  aside.sidebar .list .name {
+    left: 0;
+  }
+  aside.sidebar .list .count {
+    margin-right: 10px;
+  }
+  aside.sidebar .list.current {
+    font-weight: normal;
+  }
+  aside.sidebar .list.current .arrow {
+    display: none;
+  }
+  aside.sidebar .list.current .name {
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    -o-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+  aside.sidebar.show {
+    display: block;
   }
   .main {
     right: 0;
     padding: 0 13px 40px 20px;
+  }
+  .main .title {
+    height: 60px;
   }
 }
 .ui-helper-hidden {

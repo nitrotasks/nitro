@@ -11,6 +11,7 @@ class Panel extends Spine.Controller
     ".search a": "clearSearchButton"
 
   events:
+    "click .logo": "showMenu"
     "keyup .search input": "search"
     "click .search a": "clearSearch"
     "click .user": "toggleAccount"
@@ -20,6 +21,9 @@ class Panel extends Spine.Controller
     Spine.touchify(@events)
     super
     Setting.bind "login", @personal
+
+  showMenu: =>
+    $(".sidebar").toggleClass("show")
 
   search: =>
     if List.current.id isnt "filter"

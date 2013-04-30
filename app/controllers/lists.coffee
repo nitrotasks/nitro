@@ -74,6 +74,7 @@ class Lists extends Spine.Controller
     List.each(@addOne)
 
   change: (list) =>
+    $(".sidebar").removeClass("show")
     List.current = list
 
   # Show all tasks
