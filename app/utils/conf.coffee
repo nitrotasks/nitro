@@ -4,7 +4,7 @@ server =
 
 localhost =
   server: "localhost:8080"
-  sync: "localhost:8080"
+  sync: "localhost:4000"
 
 active = server
 active.EMAIL_LIST = "http://#{active.server}/email"
