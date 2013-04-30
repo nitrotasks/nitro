@@ -95,7 +95,7 @@ class Auth extends Spine.Controller
   register: (data) ->
     $.ajax
       type: "post"
-      url: "http://#{CONFIG.server}/api/register"
+      url: "http://#{CONFIG.server}/register"
       data: data
       success: (data) =>
         console.log data
@@ -121,7 +121,7 @@ class Auth extends Spine.Controller
   login: (data) ->
     $.ajax
       type: "post"
-      url: "http://#{CONFIG.server}/api/login"
+      url: "http://#{CONFIG.server}/login"
       data: data
       dataType: "json"
       success: ([uid, token, email, name]) =>
@@ -146,7 +146,7 @@ class Auth extends Spine.Controller
     console.log "(#{type}): #{err}"
     @errorElem.addClass "populated"
     if err is "err_bad_pass"
-      @errorElem.html "Incorrect email or password. <a href='http://#{CONFIG.server}/api/auth/forgot'>Forgot?</a>"
+      @errorElem.html "Incorrect email or password. <a href='http://#{CONFIG.server}/auth/forgot'>Forgot?</a>"
     else if err is "err_old_email"
       @errorElem.text "Account already in use"
     else
@@ -157,7 +157,7 @@ class Auth extends Spine.Controller
     return unless service in ["dropbox", "ubuntu"]
     $.ajax
       type: "post"
-      url: "http://#{CONFIG.server}/api/oauth/request"
+      url: "http://#{CONFIG.server}/oauth/request"
       data:
         service: service
       success: (request) =>
@@ -178,7 +178,7 @@ class Auth extends Spine.Controller
 
     $.ajax
       type: "post"
-      url: "http://#{CONFIG.server}/api/oauth/access"
+      url: "http://#{CONFIG.server}/oauth/access"
       data:
         service: service
         token: token
@@ -187,7 +187,7 @@ class Auth extends Spine.Controller
         console.log access
         $.ajax
           type: "post"
-          url: "http://#{CONFIG.server}/api/oauth/login"
+          url: "http://#{CONFIG.server}/oauth/login"
           data:
             service: service
             token: access.oauth_token
