@@ -222,7 +222,7 @@ table {
   box-shadow: 0 1px 3px rgba(0,0,0,0.30);
 }
 .auth .form {
-  width: 500px;
+  max-width: 500px;
   margin: 50px auto 40px;
 }
 .auth .left {
@@ -263,7 +263,7 @@ table {
   margin: 0 0 25px 0;
 }
 .auth .bullshit {
-  width: 400px;
+  max-width: 400px;
   margin: 0 auto 25px;
   font-size: 16px;
   line-height: 1.5;
