@@ -937,13 +937,16 @@ header .settingsButton .img:active {
   outline: none;
   border-color: #1bc1f5;
 }
-.new-task::input-placeholder {
+.new-task:input-placeholder {
+  color: #999;
+}
+.new-task:-ms-input-placeholder {
   color: #999;
 }
 .new-task::-webkit-input-placeholder {
   color: #999;
 }
-.new-task::-moz-placeholder {
+.new-task:-moz-placeholder {
   color: #999;
 }
 ul.tasks {
@@ -1878,13 +1881,16 @@ ul.tasks {
   outline: none;
   font-style: normal;
 }
-.sidebar .new-list::input-placeholder {
+.sidebar .new-list:input-placeholder {
+  color: #999;
+}
+.sidebar .new-list:-ms-input-placeholder {
   color: #999;
 }
 .sidebar .new-list::-webkit-input-placeholder {
   color: #999;
 }
-.sidebar .new-list::-moz-placeholder {
+.sidebar .new-list:-moz-placeholder {
   color: #999;
 }
 .helper {
@@ -2083,7 +2089,8 @@ ul.tasks {
     font-size: 26px;
     left: 0;
   }
-  aside.sidebar .title img {
+  aside.sidebar .title img,
+  aside.sidebar .title .searchToggle {
     display: none;
   }
   aside.sidebar .new-list {

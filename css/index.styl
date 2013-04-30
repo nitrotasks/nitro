@@ -467,13 +467,16 @@ header
     outline: none
     border-color: #1bc1f5
 
-  &::input-placeholder
+  &:input-placeholder
+    color: hsl(0,0,60%)
+
+  &:-ms-input-placeholder
     color: hsl(0,0,60%)
 
   &::-webkit-input-placeholder
     color: hsl(0,0,60%)
 
-  &::-moz-placeholder
+  &:-moz-placeholder
     color: hsl(0,0,60%)
 
 
@@ -1335,13 +1338,16 @@ ul.tasks
       outline: none
       font-style: normal
 
-    &::input-placeholder
+    &:input-placeholder
+      color: hsl(0,0,60%)
+
+    &:-ms-input-placeholder
       color: hsl(0,0,60%)
 
     &::-webkit-input-placeholder
       color: hsl(0,0,60%)
 
-    &::-moz-placeholder
+    &:-moz-placeholder
       color: hsl(0,0,60%)
 
 .helper
@@ -1533,7 +1539,7 @@ $dark-border = #272727
       font-size: 26px
       left: 0
 
-    .title img
+    .title img, .title .searchToggle
       display: none
 
     .new-list
