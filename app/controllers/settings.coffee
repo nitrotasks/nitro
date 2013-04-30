@@ -97,9 +97,12 @@ class Settings extends Spine.Controller
       list.moveCompleted()
 
   tabSwitch: (e) =>
-    @el.find(".current").removeClass "current"
-    # One hell of a line of code, but it switches tabs. I'm amazing.
-    @el.find("div." + $(e.target).addClass("current").attr("data-id")).addClass "current"
+    if $(e.target).hasClass("close")
+      @el.modal("hide")
+    else
+      @el.find(".current").removeClass "current"
+      # One hell of a line of code, but it switches tabs. I'm amazing
+      @el.find("div." + $(e.target).addClass("current").attr("data-id")).addClass "current"
 
   toggleNight: (e) =>
     if Setting.isPro()
