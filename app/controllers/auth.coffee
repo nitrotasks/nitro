@@ -22,6 +22,7 @@ class Auth extends Spine.Controller
     "click .sign-up": "buttonSignup"
     "click .offline": "offlineMode"
     "click .service": "oauthLogin"
+    "keydown input": "enterKey"
 
   constructor: ->
     Spine.touchify(@events)
@@ -31,6 +32,13 @@ class Auth extends Spine.Controller
     # If the user is in Offline Mode, then hide the login form
     if Setting.get("offlineMode") then @el.hide()
     @handleOauth()
+
+  enterKey: (e) =>
+    if e.keyCode is 13
+      if $(".sign-in").is(":visible")
+        @buttonSignin()
+      else
+        @buttonRegister()
 
   buttonSignin: =>
     if @email.val() is "" or @password.val() is ""
