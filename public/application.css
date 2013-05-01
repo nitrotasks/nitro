@@ -1343,10 +1343,10 @@ ul.tasks {
   padding-right: 10px;
 }
 .modal select {
-  font-size: 16px;
+  font-size: 14px;
 }
 .modal button {
-  font-size: 13px;
+  font-size: 14px;
 }
 .modal a {
   color: #068dd8;
@@ -2033,12 +2033,12 @@ ul.tasks {
   display: inline-block;
   background: #444;
   font-size: 12px;
-  padding: 3px 5px 2px;
+  padding: 0px 5px;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
   margin-left: 10px;
-  line-height: 1;
+  line-height: 17px;
   text-transform: uppercase;
   color: #fff;
 }
