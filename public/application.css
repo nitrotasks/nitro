@@ -1343,10 +1343,10 @@ ul.tasks {
   padding-right: 10px;
 }
 .modal select {
-  font-size: 14px;
+  font-size: 16px;
 }
 .modal button {
-  font-size: 14px;
+  font-size: 13px;
 }
 .modal a {
   color: #068dd8;
@@ -1379,6 +1379,7 @@ ul.tasks {
 .modal .tabs li.close {
   float: right;
   border-left: 3px solid #9dd071;
+  padding: 0 10px;
 }
 .modal .tabs li:active {
   background-color: #e7f3dc;
