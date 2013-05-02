@@ -218,7 +218,7 @@ ul.tasks{width:100%;margin:0;padding:0;margin-top:20px;-webkit-tap-highlight-col
 .modal hr{border:0;border-top:1px dashed #ddd}
 .modal .tabs ul{list-style-type:none;margin:0;padding:0;font-size:0;border-bottom:3px solid #9dd071}
 .modal .tabs li{display:inline-block;line-height:30px;font-size:15px;padding:0 15px;font-weight:bold;color:#666;cursor:default;background-color:#fff;}
-.modal .tabs li.close{float:right;border-left:3px solid #9dd071}
+.modal .tabs li.close{float:right;border-left:3px solid #9dd071;padding:0 10px}
 .modal .tabs li:active{background-color:#e7f3dc}
 .modal .tabs li.current{background-color:#9dd071;-moz-text-shadow:0 -1px 0 #6ca938;-webkit-text-shadow:0 -1px 0 #6ca938;text-shadow:0 -1px 0 #6ca938;color:#fff}
 .modal table{width:100%;font-size:15px;line-height:1.4;}
@@ -343,7 +343,7 @@ ul.tasks{width:100%;margin:0;padding:0;margin-top:20px;-webkit-tap-highlight-col
 .dark .sidebar .list.completed{background-image:url("img/completed_light.png")}
 .dark .sidebar .new-list{background:#333;color:#fff;border-top:1px solid #444}
 .dark .modal{background-color:rgba(0,0,0,0.4)}
-.pro-badge{display:inline-block;background:#444;font-size:12px;padding:3px 5px 2px;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;margin-left:10px;line-height:1;text-transform:uppercase;color:#fff;}
+.pro-badge{display:inline-block;background:#444;font-size:12px;padding:0 5px;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;margin-left:10px;line-height:17px;text-transform:uppercase;color:#fff;}
 .pro-badge.opp{display:none}
 .proenable .pro-badge{display:none;}
 .proenable .pro-badge.opp{display:inline-block}
