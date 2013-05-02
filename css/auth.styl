@@ -1,9 +1,6 @@
 // ----------------------------------------------------------------------------
 // Layout
 // ----------------------------------------------------------------------------
-.web .desktopcontainer, .desktop .webcontainer {
-  display: none
-}
 
 .auth
   user-select(none)
@@ -16,9 +13,9 @@
   z-index: 100
   overflow-y: auto
   -webkit-overflow-scrolling: touch;
+  text-align: center
 
-  .desktopcontainer
-    text-align: center
+  .container
     max-width: 500px
     margin: 50px auto 40px
 
@@ -257,165 +254,3 @@
 
   //   &.skydrive
   //     background-image: url("img/skydrive.png")
-
-
-// WEB STUFF.
-#web_header {
-  position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  height: 50px;
-  background: rgba(0,0,0,0.8);
-  z-index: 10;
-
-  .inner {
-    max-width: 1080px;
-    padding: 0 20px;
-    position: relative;
-    margin: 0 auto;
-  }
-
-  h1 {
-    color: #fff;
-    margin: 0;
-    line-height: 50px;
-    font-size: 1.8em;
-    display: inline-block;
-    background-image: url("../img/glyph_dark.png");
-    background-repeat: no-repeat;
-    background-size: 16px;
-    background-position: 0 50%;
-    text-indent: 24px;
-  }
-
-  nav {
-    position: absolute;
-    right: 15px;
-    display: inline-block;
-
-    ul {
-      margin: 0;
-    }
-
-    li {
-      margin-left: 1em;
-      display: inline-block;
-    }
-    a {
-      line-height: 50px;
-      font-weight: bold;
-      text-decoration: none;
-      color: #fff;
-      padding: 0.5em;
-    }
-
-    .signin {
-      padding: 0 7px;
-      color: #FFF;
-      background-color: #1570a6;
-      -webkit-transition: all 500ms ease;
-      -moz-transition: all 500ms ease;
-      -ms-transition: all 500ms ease;
-      -o-transition: all 500ms ease;
-      transition: all 500ms ease;
-
-      a {
-        line-height: 30px;
-      }
-
-      &:hover {
-        background-color: #083047;
-        color: #fff;
-        text-decoration: none;
-      }
-    }
-  }
-}
-
-#web_top {
-  background-image: url(../img/topback.jpg);
-  height: 600px;
-  text-align: center;
-  background-size: cover;
-  color: #fff;
-
-  h1 {
-    padding-top: 100px;
-    font-weight: 300;
-    font-size: 4.3em;
-    margin: 0;
-  }
-
-  h2 {
-    font-weight: 300;
-  }
-
-  img {
-    vertical-align: top;
-    margin-top: 5px;
-    margin-right: 2px;
-  }
-}
-
-#web_features {
-  max-width: 1080px;
-  margin: 0 auto 0;
-  padding-top: 25px;
-  font-size: 0;
-  text-align: center;
-  top: -50px;
-  position: relative;
-
-  .inner {
-    position: relative;
-    top: 50px;
-  }
-
-  .inner > div {
-    font-size: 16px;
-    width: 310px;
-    display: inline-block;
-    padding: 0 25px;
-    line-height: 1.5;
-    margin-bottom: 25px;
-  }
-}
-
-#web_apps {
-  padding: 50px 0 0;
-  background-color: #293137;
-  color: #fff;
-  font-size: 0;
-
-  .inner {
-    max-width: 1030px;
-    margin: 0 auto;
-    padding: 0 25px;
-  }
-
-  .left {
-    font-size: 16px;
-    width: 55%;
-    display: inline-block;
-    vertical-align: top;
-  }
-
-  .right {
-    font-size: 16px;
-    margin-left: 5%;
-    width: 40%;
-    display: inline-block;
-    vertical-align: middle;
-    height: 300px;
-    background-image: url(../img/iphone.png);
-    background-size: 83%;
-    background-repeat: no-repeat;
-    background-position: 50% 0;
-  }
-
-  h2 {
-    margin-top: 0.7em;
-    font-size: 2em;
-  }
-}
