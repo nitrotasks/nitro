@@ -1,3 +1,7 @@
+// ----------------------------------------------------------------------------
+// Layout
+// ----------------------------------------------------------------------------
+
 .auth
   user-select(none)
   position: fixed
@@ -9,19 +13,13 @@
   z-index: 100
   overflow-y: auto
   -webkit-overflow-scrolling: touch;
-  // display: none
   text-align: center
 
-  .icon
-    border-radius: 20px
-    margin-bottom: 20px
-    box-shadow: 0 1px 3px rgba(0,0,0,0.3)
-
-  .form
+  .container
     max-width: 500px
     margin: 50px auto 40px
 
-  .left
+  .form
     font-size: 16px
     width: 260px
     display: inline-block
@@ -29,27 +27,15 @@
     box-sizing: border-box
     -moz-box-sizing: border-box
 
-  .service
-    display: inline-block
-    height: 50px
-    margin: 0 5px
-    width: 50px
-    border-radius: 4px
-    box-shadow: 0 1px 0px #CCC
-    // background: #0f0
-    background-size: 50px 50px
 
-    &.dropbox
-      background-image: url("img/dropbox.png")
+  // --------------------------------------------------------------------------
+  // OBJECTS INSIDE CONTAINER
+  // --------------------------------------------------------------------------
 
-    &.ubuntu
-      background-image: url("img/ubuntuone.png")
-
-    &.google
-      background-image: url("img/googledrive.png")
-
-    &.skydrive
-      background-image: url("img/skydrive.png")
+  .icon
+    border-radius: 20px
+    margin-bottom: 20px
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3)
 
   h1
     text-align: center
@@ -61,6 +47,122 @@
     font-size: 16px
     line-height: 1.5
     color: #444
+
+  .note, .note a
+    margin-bottom: 0
+    color: #777
+
+  .note a
+    text-decoration: none
+    color: #555
+
+    &:hover
+      text-decoration: underline
+
+  .note-success
+    display: none
+
+  .error
+    font-size: 13px
+    color: #E15556
+    font-weight: bold
+
+    &.populated
+      display: inline-block
+      margin-top: 20px
+
+    a
+      text-decoration: none
+      color: darken(#E15556, 10%)
+
+      &:hover
+        text-decoration: underline
+
+  p
+    font-size: 14px
+    text-align: center
+
+
+  // --------------------------------------------------------------------------
+  // MODES
+  // --------------------------------------------------------------------------
+
+  .mode-login
+    .register,
+    .auth-name,
+    .note-register
+      display: none
+
+  .mode-register
+    .login,
+    .note-login
+      display: none
+
+  .ajax
+    button::after
+      content: " "
+      position: absolute
+      display: inline-block
+      right: -24px
+      width: 16px
+      height: 16px
+      background-image: url(img/loader.gif)
+      background-repeat: no-repeat
+      background-size: 16px
+
+
+  // --------------------------------------------------------------------------
+  // BUTTONS
+  // --------------------------------------------------------------------------
+
+  button
+    width: 100%
+    border: 0
+    background-color: #068dd8
+    color: #fff
+    font-size: 15px
+    line-height: 1
+    vertical-align: top
+    padding: 10px 0
+    position: relative
+    text-shadow: 0 -1px 1px #0072BB
+    cursor: pointer
+
+    &:active
+      box-shadow: inset 0 1px 8px rgba(0, 0, 0, 0.25)
+      vbg-gradient(#4D90FE, #0072BB)
+
+    &.login
+      text-shadow: 0 -1px 1px #1D943B
+      background: #35AA47
+
+      &:hover
+        background-color: #1D943B
+
+      &:active
+        vbg-gradient(#35AA47,#1D943B)
+
+    &:hover
+      background-color: #0072BB
+
+  .offline a
+    width: 100px
+    text-align: center
+    font-size: 13px
+    display: inline-block
+    text-decoration: none
+    color: #888
+    border: 1px solid #ddd
+    padding: 5px 0
+    margin-top: 10px
+
+    &:active
+      background: #ddd
+      color: #666
+
+  // --------------------------------------------------------------------------
+  // TEXT INPUTS
+  // --------------------------------------------------------------------------
 
   input
     border-radius: 0
@@ -76,105 +178,6 @@
 
     &:focus
       border-color: #1BC1F5
-
-  .note, .note a
-    margin-bottom: 0
-    color: #777
-
-  .note a
-    text-decoration: none
-    color: #555
-
-    &:hover
-      text-decoration: underline
-
-  .error
-    font-size: 13px
-    color: #E15556
-    font-weight: bold
-
-    a
-      text-decoration: none
-      color: darken(#E15556, 10%)
-
-      &:hover
-        text-decoration: underline
-
-    &.populated
-      display: inline-block
-      margin-bottom: 20px
-
-  button
-    width: 100%
-    border: 0
-    // border: 2px solid #4D90FE
-    background-color: #068dd8
-    color: #fff
-    font-size: 15px
-    line-height: 1
-    vertical-align: top
-    padding: 10px 0
-    position: relative
-    text-shadow: 0 -1px 1px #0072BB
-
-    &.sign-in
-      text-shadow: 0 -1px 1px #1D943B
-      background: #35AA47
-
-      &:hover
-        background-color: #1D943B
-
-      &:active
-        vbg-gradient(#35AA47,#1D943B)
-
-    &.register
-      display: none
-
-    &:hover
-      background-color: #0072BB
-      // border-color: #0072BB
-
-    &.ajax
-      &::after
-        content: " "
-        position: absolute
-        display: inline-block
-        right: -24px
-        width: 16px
-        height: 16px
-        background-image: url(img/loader.gif)
-        background-repeat: no-repeat
-        background-size: 16px
-
-
-    &:active
-      box-shadow: inset 0 1px 8px rgba(0, 0, 0, 0.25)
-      vbg-gradient(#4D90FE, #0072BB)
-
-  p
-    font-size: 14px
-    text-align: center
-
-  .or
-    display: inline-block
-    color: #666
-    margin: 25px 0
-
-    &::before, &::after
-      content: ""
-      display: inline-block
-      height: 1px
-      position: relative
-      top: -4px
-      width: 105px
-
-    &::before
-      hbg-gradient(#fff,#ccc)
-      border-right: 15px solid #fff
-
-    &::after
-      border-left: 15px solid #fff
-      hbg-gradient(#ccc,#fff)
 
   .auth-email
     border-bottom: 0
@@ -197,24 +200,57 @@
     padding-left:32px
 
   .auth-name
-    display: none
     margin-bottom: 15px
     background-image: url("img/user.png")
     background-size: 16px
     background-position: 9px 50%
     padding-left:32px
 
-  .offline a
-    width: 100px
-    text-align: center
-    font-size: 13px
-    display: inline-block
-    text-decoration: none
-    color: #888
-    border: 1px solid #ddd
-    padding: 5px 0
-    margin-top: 10px
 
-    &:active
-      background: #ddd
-      color: #666
+
+  // --------------------------------------------------------------------------
+  // DEAD CODE
+  // --------------------------------------------------------------------------
+
+  // .or
+  //   display: inline-block
+  //   color: #666
+  //   margin: 25px 0
+
+  //   &::before, &::after
+  //     content: ""
+  //     display: inline-block
+  //     height: 1px
+  //     position: relative
+  //     top: -4px
+  //     width: 105px
+
+  //   &::before
+  //     hbg-gradient(#fff,#ccc)
+  //     border-right: 15px solid #fff
+
+  //   &::after
+  //     border-left: 15px solid #fff
+  //     hbg-gradient(#ccc,#fff)
+
+  // .service
+  //   display: inline-block
+  //   height: 50px
+  //   margin: 0 5px
+  //   width: 50px
+  //   border-radius: 4px
+  //   box-shadow: 0 1px 0px #CCC
+  //   // background: #0f0
+  //   background-size: 50px 50px
+
+  //   &.dropbox
+  //     background-image: url("img/dropbox.png")
+
+  //   &.ubuntu
+  //     background-image: url("img/ubuntuone.png")
+
+  //   &.google
+  //     background-image: url("img/googledrive.png")
+
+  //   &.skydrive
+  //     background-image: url("img/skydrive.png")

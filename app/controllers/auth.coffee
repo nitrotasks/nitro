@@ -1,185 +1,192 @@
-Spine = require "spine"
-Setting = require "models/setting"
-Cookies = require "utils/cookies"
-CONFIG = require "utils/conf"
+Spine = require 'spine'
+Setting = require 'models/setting'
+Cookies = require 'utils/cookies'
+CONFIG = require 'utils/conf'
 $ = Spine.$
 
 class Auth extends Spine.Controller
 
   elements:
-    ".form": "form"
-    ".auth-name": "name"
-    ".auth-email": "email"
-    ".auth-password": "password"
-    ".sign-in": "signInBtn"
-    ".register": "registerBtn"
-    ".note": "note"
-    ".error": "errorElem"
+    '.form': 'form'
+    '.auth-name': 'name'
+    '.auth-email': 'email'
+    '.auth-password': 'password'
+    '.login': 'loginBtn'
+    '.register': 'registerBtn'
+    '.note-login': 'loginNote'
+    '.note-register': 'registerNote'
+    '.note-success': 'successNote'
+    '.error': 'errorNote'
 
   events:
-    "click .sign-in": "buttonSignin"
-    "click .register": "buttonRegister"
-    "click .sign-up": "buttonSignup"
-    "click .offline": "offlineMode"
-    "click .service": "oauthLogin"
-    "keydown input": "enterKey"
+    'click .login': 'buttonLogin'
+    'click .register': 'buttonRegister'
+    'click .switch-mode': 'switchMode'
+    'click .offline': 'offlineMode'
+    'click .service': 'oauthLogin'
+    'keydown input': 'enterKey'
 
   constructor: ->
     Spine.touchify(@events)
     super
-    @mode = "login"
-    Setting.bind "login", @startApp
+
+    # True  = login
+    # False = register
+    @mode = true
+
+    Setting.bind('login', @startApp)
     # If the user is in Offline Mode, then hide the login form
-    if Setting.get("offlineMode") then @el.hide()
+    if Setting.get('offlineMode') then @el.hide()
     @handleOauth()
 
   enterKey: (e) =>
     if e.keyCode is 13
-      if $(".sign-in").is(":visible")
-        @buttonSignin()
+      if @mode
+        @buttonLogin()
       else
         @buttonRegister()
 
-  buttonSignin: =>
-    if @email.val() is "" or @password.val() is ""
-      @errorElem.addClass("populated").text "Please fill out all fields"
+  buttonLogin: =>
+    # Check for empty fields
+    if @email.val() is '' or @password.val() is ''
+      @errorNote.addClass('populated').text('Please fill out all fields')
     else
-      @signInBtn.addClass "ajax"
+      @form.addClass('ajax')
       @login @getData()
-      true
-
-  buttonSignup: =>
-    @name.toggle()
-    @registerBtn.toggle()
-    @signInBtn.toggle()
-    @errorElem.removeClass("populated").text ""
-
-    if @note.hasClass("registerSlide")
-      @email.focus()
-      @note.removeClass("registerSlide").html 'Don\'t have an account? <a href="#" class="sign-up">Sign up for free</a>.'
-    else
-      @name.focus()
-      @note.addClass("registerSlide").html "Already have an account? <a href='#' class='sign-up'>Sign in</a>."
+    return true
 
   buttonRegister: =>
-    if @email.val() is "" or @password.val() is "" or @name.val() is ""
-      @errorElem.addClass("populated").text "Please fill out all fields"
+    # Check for empty fields
+    if @email.val() is '' or @password.val() is '' or @name.val() is ''
+      @errorNote.addClass('populated').text 'Please fill out all fields'
     else
-      @registerBtn.addClass "ajax"
+      @form.addClass('ajax')
       @register @getData()
-      true
+    return true
+
+  switchMode: (mode) =>
+
+    if mode not instanceof Boolean then mode = !@mode
+    @mode = mode
+
+    @form.toggleClass('mode-login', @mode)
+    @form.toggleClass('mode-register', !@mode)
+    @errorNote.removeClass('populated').empty()
+
+    if @mode
+      @email.focus()
+    else
+      @name.focus()
+
 
   offlineMode: =>
-    @log "Going into offline mode"
-    Setting.set "offlineMode", true
+    @log('Going into offline mode')
+    Setting.set('offlineMode', true)
     @startApp()
 
     # Make default tasks
+    # TODO: This should be part of @startApp() right?
     Task.default()
 
-    true
+    return true
 
+  # Retrieve login form data
   getData: =>
+    console.log @mode
+
     name: @name.val()
     email: @email.val()
     password: @password.val()
 
   saveToken: (id, token) ->
-    Setting.set("uid", id)
-    Setting.set("token", token)
-    Setting.trigger "haveToken", [id, token]
+    Setting.set('uid', id)
+    Setting.set('token', token)
+    Setting.trigger 'haveToken', [id, token]
 
   startApp: =>
     @el.fadeOut(300)
 
   register: (data) ->
     $.ajax
-      type: "post"
+      type: 'post'
       url: "http://#{CONFIG.server}/register"
       data: data
       success: (data) =>
-        console.log data
-        # Makes debugging easy
-        if Array.isArray(data) then window.open(data[0])
-        # @saveToken(data[0], data[1])
 
-        @signInBtn.removeClass "ajax"
-        @registerBtn.removeClass "ajax"
+        @form.removeClass('ajax')
 
         # User Message
-        $(".auth .sign-up").trigger("click")
-        $(".auth .note").text "Thanks for signing up! We've sent you a confirmation email."
+        @switchMode(true)
+        @successNote.show()
 
-        @errorElem.removeClass("populated").text ""
+        @errorNote.removeClass("populated").empty()
 
-        if Setting.get("offlineMode") is false
+        if Setting.get('offlineMode') is false
           Task.default()
 
       error: (xhr, status, msg) =>
-        @error "signup", xhr.responseText
+        @error 'signup', xhr.responseText
 
   login: (data) ->
     $.ajax
-      type: "post"
+      type: 'post'
       url: "http://#{CONFIG.server}/login"
       data: data
-      dataType: "json"
+      dataType: 'json'
       success: ([uid, token, email, name, pro]) =>
         @saveToken(uid, token)
-        Setting.set("user_name", name)
-        Setting.set("user_email", email)
-        console.log "pro"
-        Setting.set("pro", pro)
+        Setting.set('user_name', name)
+        Setting.set('user_email', email)
+        Setting.set('pro', pro)
 
-        @signInBtn.removeClass "ajax"
-        @registerBtn.removeClass "ajax"
+        @form.removeClass('ajax')
 
-        @errorElem.removeClass("populated").text ""
+        @errorNote.removeClass('populated').empty()
 
         # In case it's been set
-        Setting.set "offlineMode", false
+        Setting.set 'offlineMode', false
+
       error: (xhr, status, msg) =>
-        @error "login", xhr.responseText
+        @error 'login', xhr.responseText
 
   error: (type, err) ->
-    @signInBtn.removeClass "ajax"
-    @registerBtn.removeClass "ajax"
+    @form.removeClass('ajax')
 
     console.log "(#{type}): #{err}"
-    @errorElem.addClass "populated"
-    if err is "err_bad_pass"
-      @errorElem.html "Incorrect email or password. <a href='http://#{CONFIG.server}/auth/forgot'>Forgot?</a>"
-    else if err is "err_old_email"
-      @errorElem.text "Account already in use"
+    @errorNote.addClass 'populated'
+    if err is 'err_bad_pass'
+      @errorNote.html "Incorrect email or password. <a href=\"http://#{CONFIG.server}/auth/forgot\">Forgot?</a>"
+    else if err is 'err_old_email'
+      @errorNote.text 'Account already in use'
     else
-      @errorElem.text "#{err}"
+      @errorNote.text "#{err}"
 
   oauthLogin: (e) =>
-    service =  e.target.attributes["data-service"]?.value
-    return unless service in ["dropbox", "ubuntu"]
+    service =  e.target.attributes['data-service']?.value
+    return unless service in ['dropbox', 'ubuntu']
     $.ajax
-      type: "post"
+      type: 'post'
       url: "http://#{CONFIG.server}/oauth/request"
       data:
         service: service
       success: (request) =>
-        Setting.set "oauth",
+        Setting.set 'oauth',
           service: service
           token: request.oauth_token
           secret: request.oauth_token_secret
         location.href = request.authorize_url
 
   handleOauth: =>
-    oauth = Setting.get("oauth")
+    oauth = Setting.get('oauth')
     return unless oauth?
 
     token = oauth.token
     secret = oauth.secret
     service = oauth.service
-    Setting.delete("oauth")
+    Setting.delete('oauth')
 
     $.ajax
-      type: "post"
+      type: 'post'
       url: "http://#{CONFIG.server}/oauth/access"
       data:
         service: service
@@ -188,7 +195,7 @@ class Auth extends Spine.Controller
       success: (access) =>
         console.log access
         $.ajax
-          type: "post"
+          type: 'post'
           url: "http://#{CONFIG.server}/oauth/login"
           data:
             service: service
@@ -196,8 +203,8 @@ class Auth extends Spine.Controller
             secret: access.oauth_token_secret
           success: ([uid, token, email, name]) =>
             @saveToken(uid, token)
-            Setting.set("user_name", name)
-            Setting.set("user_email", email)
+            Setting.set('user_name', name)
+            Setting.set('user_email', email)
           fail: ->
             console.log arguments
 
