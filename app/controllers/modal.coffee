@@ -19,7 +19,7 @@ class Modal extends Spine.Controller
 		if @onShow then @onShow()
 		setTimeout ( =>
 			@el.on "click.modal, touchend.modal", (event) =>
-				if event.target.className.indexOf("modal") >= 0 then  @hide()
+				if event.target.className.indexOf("modal") >= 0 then@hide()
 		), 500
 
 	hide: ->
@@ -72,9 +72,9 @@ module.exports =
 
 				run: ->
 					if Setting.get "confirmDelete"
-					  @show()
+						@show()
 					else
-					  @delete()
+						@delete()
 
 				delete: ->
 					List.current.trigger("kill")
@@ -83,33 +83,37 @@ module.exports =
 
 
 			# Emailing a list
-		  modals["email"] = new Modal
-		  	el: $(".modal.email")
+		modals["email"] = new Modal
+			el: $(".modal.email")
 
-		  	elements:
-		  		"input": "input"
+			elements:
+				"input": "input"
 
-		  	events:
-		  		"click button": "submit"
-		  		"keyup input": "keyup"
+			events:
+				"click button": "submit"
+				"keyup input": "keyup"
 
-		  	keyup: (e) ->
-		  		if e.keyCode is Keys.ENTER then @submit()
+			keyup: (e) ->
+				if e.keyCode is Keys.ENTER then @submit()
 
-		  	submit: ->
-		  		email = @input.val()
-		  		return unless email.match(/.+@.+\..+/)
-		  		uid = require("models/setting").get("uid")
-		  		listId = require("models/list").current.id
-		  		Spine.Sync.emit("emailList", [uid, listId, email])
-		  		@hide()
+			submit: ->
+				if Setting.isPro()
+					email = @input.val()
+					return unless email.match(/.+@.+\..+/)
+					uid = require("models/setting").get("uid")
+					listId = require("models/list").current.id
+					Spine.Sync.emit("emailList", [uid, listId, email])
+				else
+					$(".modal.proventor").modal("show")
 
-		  	onShow: ->
-		  		@input.focus()
+				@hide()
 
-		  	onHide: ->
-		  		@input.val("")
+			onShow: ->
+				@input.focus()
 
-		  # Sharing a list
-		  modals["share"] = new Modal
-		  	el: $(".modal.share")
+			onHide: ->
+				@input.val("")
+
+		# Sharing a list
+		modals["share"] = new Modal
+			el: $(".modal.share")
