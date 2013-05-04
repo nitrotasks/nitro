@@ -613,6 +613,26 @@ body {
   height: 100%;
   overflow: hidden;
 }
+.mac header {
+  background: #eee;
+  -webkit-linear-gradient: none;
+  border-bottom: 1px solid #ccc;
+  -moz-box-shadow: 0 0 0 #000;
+  -webkit-box-shadow: 0 0 0 #000;
+  box-shadow: 0 0 0 #000;
+}
+.mac .user img {
+  -moz-box-shadow: 0 0 0px #000;
+  -webkit-box-shadow: 0 0 0px #000;
+  box-shadow: 0 0 0px #000;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  border: 0;
+}
+.mac .settingsButton {
+  display: none;
+}
 header {
   -webkit-user-select: none;
   -moz-user-select: none;
