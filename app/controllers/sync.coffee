@@ -87,6 +87,13 @@ Sync =
     else
       do callback
 
+  # Fetch the user info from the server
+  updateInfo: ->
+    @emit 'info', null, (info) ->
+      Setting.set('user_name', info.name)
+      Setting.set('user_email', info.email)
+      Setting.set('pro', info.pro)
+
   # Check an event, and if it is a model update add it to the queue
   # TODO: Add optimization for duplicate events with timestamps
   addToQueue: (name, args) ->
