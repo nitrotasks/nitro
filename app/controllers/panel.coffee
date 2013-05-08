@@ -7,6 +7,8 @@ Settings = require("controllers/settings")
 class Panel extends Spine.Controller
 
   elements:
+    '.user img': 'avatar'
+    '.user .name': 'name'
     ".search input": "searchInput"
     ".search a": "clearSearchButton"
 
@@ -20,7 +22,13 @@ class Panel extends Spine.Controller
   constructor: ->
     Spine.touchify(@events)
     super
-    Setting.bind "login", @personal
+
+    Setting.bind 'update:user_name', @setName
+    Setting.bind 'update:user_email', @setAvatar
+
+    Setting.bind "login", =>
+      @setName()
+      @setAvatar()
 
   showMenu: =>
     $(".sidebar").toggleClass("show")
@@ -39,9 +47,15 @@ class Panel extends Spine.Controller
         disabled: yes
         permanent: yes
 
-  personal: =>
-    $(".user img").show().attr("src", "http://www.gravatar.com/avatar/" + md5(Setting.get("user_email").toLowerCase()))
-    $(".user .name").text(Setting.get("user_name"))
+  setName: =>
+    name = Setting.get('user_name')
+    @name.text(name)
+
+  setAvatar: =>
+    email = Setting.get('user_email').toLowerCase()
+    id = md5(email)
+    link = "http://www.gravatar.com/avatar/#{ id }"
+    @avatar.show().attr('src', link)
 
   clearSearch: =>
     # @searchInput.val("").focus()

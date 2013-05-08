@@ -65,19 +65,12 @@ class Auth extends Spine.Controller
     return true
 
   switchMode: (mode) =>
-
-    if mode not instanceof Boolean then mode = !@mode
+    if typeof(mode) isnt 'boolean' then mode = !@mode
     @mode = mode
-
     @form.toggleClass('mode-login', @mode)
     @form.toggleClass('mode-register', !@mode)
     @errorNote.removeClass('populated').empty()
-
-    if @mode
-      @email.focus()
-    else
-      @name.focus()
-
+    if @mode then @email.focus() else @name.focus()
 
   offlineMode: =>
     @log('Going into offline mode')

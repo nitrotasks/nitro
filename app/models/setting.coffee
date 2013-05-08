@@ -1,5 +1,6 @@
 Spine = require('spine')
 List = require('models/list')
+UpdateAttribute = require('lib/updateAttr')
 
 class window.Setting extends Spine.Model
   @configure 'Setting',
@@ -40,6 +41,7 @@ class window.Setting extends Spine.Model
     $('html').addClass 'dark' if @night == yes
 
   @extend @Local
+  @extend UpdateAttribute
 
   # Change a setting
   # Setting.set("theme", "dark")

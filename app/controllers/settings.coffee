@@ -1,37 +1,39 @@
-Spine = require("spine")
-Setting = require("models/setting")
-Cookies = require("utils/cookies")
-Task = require("models/task")
+Spine = require('spine')
+Setting = require('models/setting')
+Cookies = require('utils/cookies')
+Task = require('models/task')
 
 class Settings extends Spine.Controller
 
   elements:
-    ".language": "language"
-    ".week-start": "weekStart"
-    ".date-format": "dateFormat"
-    ".completed-duration": "completedDuration"
-    ".confirm-delete": "confirmDelete"
-    ".username": "username"
-    ".night-mode": "nightMode"
-    "#notify-toggle": "notifyToggle"
-    "#notify-email": "notifyEmail"
-    "#notify-time": "notifyTime"
-    "#notify-regular": "notifyRegular"
-    ".disabler": "disabler"
-    ".clear-data": "clearDataButton"
-    ".clear-data-label": "clearDataLabel"
+    ".disabler"           : "disabler"
+    ".language"           : "language"
+    ".username"           : "username"
+    ".clear-data"         : "clearDataButton"
+    ".week-start"         : "weekStart"
+    ".date-format"        : "dateFormat"
+    ".night-mode"         : "nightMode"
+    "#notify-time"        : "notifyTime"
+    "#notify-email"       : "notifyEmail"
+    "#notify-toggle"      : "notifyToggle"
+    "#notify-regular"     : "notifyRegular"
+    ".confirm-delete"     : "confirmDelete"
+    ".completed-duration" : "completedDuration"
+    ".clear-data-label"   : "clearDataLabel"
 
   events:
-    "change input": "save"
-    "change select": "save"
-    "click .clear-data": "clearData"
-    "click .export-data": "exportData"
-    "click .tabs li": "tabSwitch"
-    "click .night-mode": "toggleNight"
-    "click .language a": "changeLanguage"
-    "click .login": "login"
-    "click #notify-toggle": "toggleNotify"
-    "click button.probtn": "proUpgrade"
+    "click .login"         : "login"
+    "change input"         : "save"
+    "change select"        : "save"
+    "click .tabs li"       : "tabSwitch"
+    "click .clear-data"    : "clearData"
+    "click .night-mode"    : "toggleNight"
+    "click .language a"    : "changeLanguage"
+    "click .export-data"   : "exportData"
+    "click button.probtn"  : "proUpgrade"
+    "click #notify-toggle" : "toggleNotify"
+
+
 
   constructor: ->
     Spine.touchify(@events)
@@ -39,8 +41,6 @@ class Settings extends Spine.Controller
     Setting.bind "show", @show
     Setting.bind "login", @account
 
-    @username.val Setting.get "username"
-    @weekStart.val Setting.get "weekStart"
     @dateFormat.val Setting.get "dateFormat"
     @completedDuration.val Setting.get "completedDuration"
     @confirmDelete.prop "checked", Setting.get("confirmDelete")
