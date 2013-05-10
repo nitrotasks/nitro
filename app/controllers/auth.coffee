@@ -148,7 +148,7 @@ class Auth extends Spine.Controller
     console.log "(#{type}): #{err}"
     @errorNote.addClass 'populated'
     if err is 'err_bad_pass'
-      @errorNote.html "Incorrect email or password. <a href=\"http://#{CONFIG.server}/auth/forgot\">Forgot?</a>"
+      @errorNote.html "Incorrect email or password. <a href=\"http://#{CONFIG.server}/forgot\">Forgot?</a>"
     else if err is 'err_old_email'
       @errorNote.text 'Account already in use'
     else
