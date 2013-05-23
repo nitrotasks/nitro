@@ -108,11 +108,6 @@ class App extends Spine.Controller
     token = Setting.get('token')
 
     # Handle offline mode
-    Setting.bind 'offline', =>
-      console.log 'We are offline'
-      @auth.el.hide()
-      @loadingScreen.hide()
-
     if Setting.get('noAccount') then Setting.trigger('offline')
 
     if uid? and token?

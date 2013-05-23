@@ -6,6 +6,7 @@ class LoadingScreen extends Spine.Controller
 
   constructor: ->
     super
+    Setting.bind('offline', @hide)
 
   hide: =>
     @el.fadeOut(300)

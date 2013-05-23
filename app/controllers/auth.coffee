@@ -34,6 +34,9 @@ class Auth extends Spine.Controller
     # False = register
     @mode = true
 
+    Setting.bind 'offline', =>
+      @el.hide()
+
     Setting.bind 'login', =>
       @el.fadeOut(300)
       @form.removeClass('ajax')
