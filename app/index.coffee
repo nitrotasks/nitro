@@ -18,8 +18,6 @@ Settings  = require "controllers/settings"
 Auth      = require "controllers/auth"
 Modal     = require "controllers/modal"
 
-Cookies = require "utils/cookies"
-
 class App extends Spine.Controller
 
   elements:
