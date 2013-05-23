@@ -35,6 +35,10 @@ class Auth extends Spine.Controller
     @mode = true
 
     Setting.bind('login', @startApp)
+
+    Setting.bind 'login', =>
+      @form.removeClass('ajax')
+
     # If the user is in Offline Mode, then hide the login form
     if Setting.get('offlineMode') then @el.hide()
     @handleOauth()
@@ -121,6 +125,7 @@ class Auth extends Spine.Controller
         @error 'signup', xhr.responseText
 
   login: (data) ->
+    @errorNote.empty().removeClass('populated')
     $.ajax
       type: 'post'
       url: "http://#{CONFIG.server}/login"
@@ -131,8 +136,6 @@ class Auth extends Spine.Controller
         Setting.set('user_name', name)
         Setting.set('user_email', email)
         Setting.set('pro', pro)
-
-        @form.removeClass('ajax')
 
         @errorNote.removeClass('populated').empty()
 
