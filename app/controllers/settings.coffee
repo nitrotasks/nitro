@@ -55,8 +55,6 @@ class Settings extends Spine.Controller
     @notifyTime.val Setting.get "notifyTime"
     @notifyRegular.val Setting.get "notifyRegular"
 
-    $('html').addClass('proenable') if Setting.isPro()
-
     @setupNotifications()
 
   account: =>

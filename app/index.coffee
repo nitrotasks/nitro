@@ -110,6 +110,10 @@ class App extends Spine.Controller
     # Handle offline mode
     if Setting.get('noAccount') then Setting.trigger('offline')
 
+    setPro = -> $('html').toggleClass('proenable', Setting.isPro())
+    Setting.on 'update:pro', setPro
+    setPro()
+
     if uid? and token?
       @auth.el.hide()
       Spine.Sync.connect uid, token, =>
