@@ -22,7 +22,7 @@ class Auth extends Spine.Controller
     'click .login': 'buttonLogin'
     'click .register': 'buttonRegister'
     'click .switch-mode': 'switchMode'
-    'click .offline': 'offlineMode'
+    'click .offline': 'noAccount'
     'click .service': 'oauthLogin'
     'keydown input': 'enterKey'
 
@@ -34,13 +34,10 @@ class Auth extends Spine.Controller
     # False = register
     @mode = true
 
-    Setting.bind('login', @startApp)
-
     Setting.bind 'login', =>
+      @el.fadeOut(300)
       @form.removeClass('ajax')
 
-    # If the user is in Offline Mode, then hide the login form
-    if Setting.get('offlineMode') then @el.hide()
     @handleOauth()
 
   enterKey: (e) =>
@@ -76,10 +73,9 @@ class Auth extends Spine.Controller
     @errorNote.removeClass('populated').empty()
     if @mode then @email.focus() else @name.focus()
 
-  offlineMode: =>
-    @log('Going into offline mode')
-    Setting.set('offlineMode', true)
-    @startApp()
+  noAccount: =>
+    Setting.set('noAccount', true)
+    Setting.trigger('offline')
 
     # Make default tasks
     # TODO: This should be part of @startApp() right?
@@ -100,9 +96,6 @@ class Auth extends Spine.Controller
     Setting.set('token', token)
     Setting.trigger 'haveToken', [id, token]
 
-  startApp: =>
-    @el.fadeOut(300)
-
   register: (data) ->
     $.ajax
       type: 'post'
@@ -118,7 +111,7 @@ class Auth extends Spine.Controller
 
         @errorNote.removeClass("populated").empty()
 
-        if Setting.get('offlineMode') is false
+        if Setting.get('noAccount') is false
           Task.default()
 
       error: (xhr, status, msg) =>
@@ -140,9 +133,10 @@ class Auth extends Spine.Controller
         @errorNote.removeClass('populated').empty()
 
         # In case it's been set
-        Setting.set 'offlineMode', false
+        Setting.set 'noAccount', false
 
       error: (xhr, status, msg) =>
+        console.log 'Could not login'
         @error 'login', xhr.responseText
 
   error: (type, err) ->

@@ -49,7 +49,7 @@ class App extends Spine.Controller
     @auth = new Auth( el: @auth )
 
     # Init panel
-    new Panel( el: @panel )
+    @panel = new Panel( el: @panel )
 
     # Init tasks
     @tasks = new Tasks( el: @tasksContainer )
@@ -107,6 +107,14 @@ class App extends Spine.Controller
     uid = Setting.get('uid')
     token = Setting.get('token')
 
+    # Handle offline mode
+    Setting.bind 'offline', =>
+      console.log 'We are offline'
+      @auth.el.hide()
+      @loadingScreen.hide()
+
+    if Setting.get('noAccount') then Setting.trigger('offline')
+
     if uid? and token?
       @auth.el.hide()
       Spine.Sync.connect uid, token, =>
@@ -118,6 +126,7 @@ class App extends Spine.Controller
     Setting.bind 'haveToken', (data) ->
       Spine.Sync.connect data[0], data[1], ->
         Setting.trigger 'login'
+
 
   handleShortcut: (e) =>
     Keys.handleKey(e.which)

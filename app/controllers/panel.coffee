@@ -25,6 +25,7 @@ class Panel extends Spine.Controller
 
     Setting.bind 'update:user_name', @setName
     Setting.bind 'update:user_email', @setAvatar
+    Setting.bind 'offline', @offline
 
     Setting.bind "login", =>
       @setName()
@@ -47,8 +48,8 @@ class Panel extends Spine.Controller
         disabled: yes
         permanent: yes
 
-  setName: =>
-    name = Setting.get('user_name')
+  setName: (name) =>
+    name ?= Setting.get('user_name')
     @name.text(name)
 
   setAvatar: =>
@@ -56,6 +57,12 @@ class Panel extends Spine.Controller
     id = md5(email)
     link = "http://www.gravatar.com/avatar/#{ id }"
     @avatar.show().attr('src', link)
+
+  offline: =>
+    return unless not Setting.get('noAccount')
+    name = Setting.get('user_name')
+    console.log 'Name', name
+    @setName("#{ name } - Offline")
 
   clearSearch: =>
     # @searchInput.val("").focus()

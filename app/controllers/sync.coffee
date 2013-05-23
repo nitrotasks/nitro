@@ -244,6 +244,7 @@ Sync =
 
   goOffline: ->
     console.error "NitroSync: Couldn't connect to server"
+    Setting.trigger('offline')
     Sync.online = no
 
 # Just in case you need any default values

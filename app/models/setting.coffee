@@ -9,7 +9,7 @@ class window.Setting extends Spine.Model
     'dateFormat',
     'completedDuration',
     'confirmDelete',
-    'offlineMode',
+    'noAccount',
     'night',
     'language',
     'pro',
@@ -37,6 +37,7 @@ class window.Setting extends Spine.Model
     @notifyEmail ?= no
     @notifyTime ?= 9
     @notifyRegular ?= "upcoming"
+    @noAccount ?= false
 
     $('html').addClass 'dark' if @night == yes
 
