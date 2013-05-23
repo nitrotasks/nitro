@@ -46,7 +46,7 @@ class App extends Spine.Controller
     window.settings = new Settings( el: @settings )
 
     # Init Auth
-    new Auth( el: @auth )
+    @auth = new Auth( el: @auth )
 
     # Init panel
     new Panel( el: @panel )
@@ -108,6 +108,7 @@ class App extends Spine.Controller
     token = Setting.get('token')
 
     if uid? and token?
+      @auth.el.hide()
       Spine.Sync.connect uid, token, =>
         @loadingScreen.hide()
         Setting.trigger 'login'

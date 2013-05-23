@@ -8,9 +8,11 @@ class LoadingScreen extends Spine.Controller
     super
 
   hide: =>
-    @el.addClass('hidden')
+    @el.fadeOut(300)
+    # @el.addClass('hidden')
 
   show: =>
-    @el.removeClass('hidden')
+    @el.fadeIn(300)
+    # @el.removeClass('hidden')
 
 module.exports = LoadingScreen
