@@ -1,3 +1,10 @@
+@-webkit-keyframes colorpulse
+  0%
+    background: #419dfa
+  50%
+    background: #2d6dad
+  100%
+    background: #419dfa
 
 .loading-screen
   top: 0
@@ -11,20 +18,24 @@
   &.hidden
     display: none
 
-
   .text
+    text-align: center
+    padding: 25px
+    height: 150px
+    width: 150px
+    margin-top: 0;
     position: absolute
     left: 50%
-    top: 50%
+    top: 25%
     margin-left: -100px
-    margin-top: -25px
-    height: 50px
-    width: 200px
-    background: #eee
     text-align: center
-    line-height: 50px
-    border-radius: 2px
-    color: #333
+    line-height: 30px
+    color: #444
+
+  img
+    width: 27px
+    -webkit-animation: 800ms colorpulse ease infinite
+    background: #419dfa
 
 
 
