@@ -400,6 +400,34 @@ table {
   background-position: 9px 50%;
   padding-left: 32px;
 }
+.loading-screen {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  background: #fff;
+  z-index: 200;
+}
+.loading-screen.hidden {
+  display: none;
+}
+.loading-screen .text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -100px;
+  margin-top: -25px;
+  height: 50px;
+  width: 200px;
+  background: #eee;
+  text-align: center;
+  line-height: 50px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  color: #333;
+}
 @font-face {
   font-family: 'Lato';
   font-style: normal;

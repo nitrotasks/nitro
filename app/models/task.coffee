@@ -40,8 +40,16 @@ class window.Task extends Spine.Model
       if a.completed is b.completed
         diff = a.priority - b.priority
         if diff is 0
-          # If the priorities are the same then sort by name
-          b.name.localeCompare(a.name)
+          # If the priorities are the same then sort by date, then by name
+          newA = if a.date is false then Infinity else a.date
+          newB = if b.date is false then Infinity else b.date
+
+          diff = newB - newA
+
+          # Infinity - Infinity is NaN
+          if isNaN(diff)
+            b.name.localeCompare(a.name)
+          else diff
         else diff
       else if a.completed and not b.completed then -1
       else if not a.completed and b.completed then 1
