@@ -41,8 +41,8 @@ class window.Task extends Spine.Model
         diff = a.priority - b.priority
         if diff is 0
           # If the priorities are the same then sort by date, then by name
-          newA = if a.date is false then Infinity else a.date
-          newB = if b.date is false then Infinity else b.date
+          newA = if a.date is false or a.date is "" then Infinity else a.date
+          newB = if b.date is false or b.date is "" then Infinity else b.date
 
           diff = newB - newA
 
