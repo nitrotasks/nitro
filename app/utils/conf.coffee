@@ -1,10 +1,10 @@
 server =
-  server: "sync.nitrotasks/api"
-  sync: "sync.nitrotasks.com/sockets"
+  server: "sync.nitrotasks:443/api"
+  sync: "sync.nitrotasks.com:443"
 
 localhost =
-  server: "localhost:8080/api"
-  sync: "localhost:8080/sockets"
+  server: "localhost:443/api"
+  sync: "localhost:443"
 
 active = server
 active.EMAIL_LIST = "http://#{active.server}/email"
