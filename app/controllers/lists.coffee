@@ -108,7 +108,10 @@ class Lists extends Spine.Controller
 
   updateAll: =>
     @allCount.text Task.active().length
-    @inboxCount.text Task.active("inbox").length
     @completedCount.text Task.completed().length
+
+    # Updates Counts for all other lists
+    for list in List.all()
+      list.trigger("update:tasks")
 
 module.exports = Lists
