@@ -88,7 +88,7 @@ class App extends Spine.Controller
       List.fetch()
 
       # Create inbox list
-      if List.exists('inbox') is false
+      if not List.exists('inbox')?
         List.create
           id: 'inbox'
           name: 'Inbox'

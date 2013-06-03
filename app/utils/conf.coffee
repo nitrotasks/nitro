@@ -1,5 +1,5 @@
 server =
-  server: "sync.nitrotasks:443/api"
+  server: "sync.nitrotasks.com:443/api"
   sync: "sync.nitrotasks.com:443"
 
 localhost =

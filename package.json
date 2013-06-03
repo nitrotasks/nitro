@@ -2,10 +2,9 @@
   "name": "app",
   "version": "0.0.1",
   "dependencies": {
-    "underscore": "1.4.4",
-    "serveup": "~0.0.5",
-    "hem": "~0.2.9",
+    "hem": "~0.3.x",
+    "underscore": "1.4.x",
     "jqueryify": "~1.9.1",
-    "spine": "~1.0.9"
+    "spine": "~1.1.x"
   }
 }

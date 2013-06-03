@@ -34,7 +34,7 @@ class window.Task extends Spine.Model
       List.refresh require "models/default_lists"
       @refresh require "models/default_tasks"
 
-  @sort: (tasks) =>
+  @sortTasks: (tasks) =>
     sorted = tasks.sort (a, b) ->
       # If logged, move to bottom
       if a.completed is b.completed

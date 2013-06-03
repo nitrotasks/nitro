@@ -1,9 +1,28 @@
 {
-  "dependencies": [
-    "underscore/index",
-    "jqueryify",
-    "spine",
-    "spine/lib/local"
+  "server": {
+    "port"  : 9294
+  },
+
+  "routes": [
+    { ""        : "./public" },
+    { "/test"    : "./test/public" }
   ],
-  "libs": []
+
+  "packages": {
+    "nitro": {
+      "libs"    : [],
+      "modules" : [
+        "underscore/index",
+        "jqueryify",
+        "spine",
+        "spine/lib/local"
+      ],
+      "paths"  : ["./app"],
+      "target" : "./public/application.js"
+    },
+    "css": {
+      "paths"  : "./css",
+      "target" : "./public/application.css"
+    }
+  }
 }
