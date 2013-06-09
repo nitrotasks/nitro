@@ -107,6 +107,7 @@ class Lists extends Spine.Controller
     true
 
   updateAll: =>
+    @inboxCount.text Task.active("inbox").length
     @allCount.text Task.active().length
     @completedCount.text Task.completed().length
 
