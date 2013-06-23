@@ -18,13 +18,13 @@ $red = #E15556
   font-family: 'Lato';
   font-style: normal;
   font-weight: 400;
-  src: local('Lato Regular'), local('Lato-Regular'), url(lato.woff) format('woff');
+  src: local('Lato Regular'), local('Lato-Regular'), url(lato.woff2) format('woff2'), url(lato.woff) format('woff');
 }
 @font-face {
   font-family: 'Lato';
   font-style: normal;
   font-weight: 700;
-  src: local('Lato Bold'), local('Lato-Bold'), url(lato_bold.woff) format('woff');
+  src: local('Lato Bold'), local('Lato-Bold'), url(lato_bold.woff2) format('woff2'), url(lato_bold.woff) format('woff');
 }
 
 body
@@ -260,7 +260,7 @@ header
       border-radius: 3px
       box-sizing: border-box
       -moz-box-sizing: border-box
-      box-shadow: 0 1px 1px #fff
+      box-shadow: 0 1px 1px #eee
       border: 1px solid rgba(0,0,0,0.7)
       vertical-align: top
       display: none
@@ -271,7 +271,7 @@ header
       line-height: 30px
       cursor: default
       color: #333
-      text-shadow(0px 1px 0px #fafafa)
+      text-shadow(0px 1px 0px #f6f6f6)
 
   .settingsButton
     display: inline-block
