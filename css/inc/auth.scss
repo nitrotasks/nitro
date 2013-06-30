@@ -1,0 +1,242 @@
+@import "../mixin";
+
+// ----------------------------------------------------------------------------
+// Layout
+// ----------------------------------------------------------------------------
+
+.auth {
+  @include user-select(none);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  z-index: 100;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  text-align: center;
+  .container {
+    max-width: 500px;
+    margin: 50px auto 40px;
+  }
+  .form {
+    font-size: 16px;
+    width: 260px;
+    display: inline-block;
+    vertical-align: top;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+  }
+  // --------------------------------------------------------------------------
+  // OBJECTS INSIDE CONTAINER
+  // --------------------------------------------------------------------------
+  .icon {
+    margin-bottom: 20px;
+  }
+  h1 {
+    text-align: center;
+    margin: 0 0 25px 0;
+  }
+  .bullshit {
+    max-width: 400px;
+    margin: 0 auto 25px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #444444;
+  }
+  .note, .note a {
+    margin-bottom: 0;
+    color: #777777;
+  }
+  .note a {
+    text-decoration: none;
+    color: #555555;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  .note-success {
+    display: none;
+  }
+  .error {
+    font-size: 13px;
+    color: #e15556;
+    font-weight: bold;
+    &.populated {
+      display: inline-block;
+      margin-top: 20px;
+    }
+    a {
+      text-decoration: none;
+      color: darken(#e15556, 10%);
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  p {
+    font-size: 14px;
+    text-align: center;
+  }
+  // --------------------------------------------------------------------------
+  // MODES
+  // --------------------------------------------------------------------------
+  .mode-login {
+    .register,
+    .auth-name,
+    .note-register {
+      display: none;
+    }
+  }
+  .mode-register {
+    .login,
+    .note-login {
+      display: none;
+    }
+  }
+  .ajax {
+    button::after {
+      content: " ";
+      position: absolute;
+      display: inline-block;
+      right: -24px;
+      width: 16px;
+      height: 16px;
+      background-image: url(img/loader.gif);
+      background-repeat: no-repeat;
+      background-size: 16px;
+    }
+  }
+  // --------------------------------------------------------------------------
+  // BUTTONS
+  // --------------------------------------------------------------------------
+  button {
+    width: 100%;
+    border: 0;
+    background-color: #068dd8;
+    color: white;
+    font-size: 15px;
+    line-height: 1;
+    vertical-align: top;
+    padding: 10px 0;
+    position: relative;
+    text-shadow: 0 -1px 1px #0072bb;
+    cursor: pointer;
+    &:active {
+      box-shadow: inset 0 1px 8px rgba(0, 0, 0, 0.25);
+      @include vbg-gradient(#4D90FE, #0072BB);
+    }
+    &.login {
+      text-shadow: 0 -1px 1px #1d943b;
+      background: #35aa47;
+      &:hover {
+        background-color: #1d943b;
+      }
+      &:active {
+        @include vbg-gradient(#35AA47,#1D943B);
+      }
+    }
+    &:hover {
+      background-color: #0072bb;
+    }
+  }
+  .offline a {
+    width: 258px;
+    text-align: center;
+    font-size: 13px;
+    display: inline-block;
+    text-decoration: none;
+    color: #888888;
+    border: 1px solid #dddddd;
+    padding: 5px 0;
+    margin-top: 10px;
+    &:active {
+      background: #dddddd;
+      color: #666666;
+    }
+  }
+  // --------------------------------------------------------------------------
+  // TEXT INPUTS
+  // --------------------------------------------------------------------------
+  input {
+    border-radius: 0;
+    color: #4c4c4c;
+    width: 100%;
+    border: 1px #cccccc solid;
+    outline: 0;
+    background-repeat: no-repeat;
+    display: block;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    padding: 5px 10px 6px;
+    &:focus {
+      border-color: #1bc1f5;
+    }
+  }
+  .auth-email {
+    border-bottom: 0;
+    background-image: url("img/emaillogin.png");
+    background-size: 18px;
+    background-position: 8px 50%;
+    padding-left: 32px;
+
+    &:focus {
+      border-bottom: 1px #1bc1f5 solid;
+      & + input {
+        border-top: 0;
+      }
+    }
+  }
+  .auth-password {
+    margin-bottom: 15px;
+    background-image: url("img/password.png");
+    background-size: 16px;
+    background-position: 9px 50%;
+    padding-left: 32px;
+  }
+  .auth-name {
+    margin-bottom: 15px;
+    background-image: url("img/user.png");
+    background-size: 16px;
+    background-position: 9px 50%;
+    padding-left: 32px;
+  }
+  // --------------------------------------------------------------------------
+  // DEAD CODE
+  // --------------------------------------------------------------------------
+  // .or
+  //   display: inline-block
+  //   color: #666
+  //   margin: 25px 0
+  //   &::before, &::after
+  //     content: ""
+  //     display: inline-block
+  //     height: 1px
+  //     position: relative
+  //     top: -4px
+  //     width: 105px
+  //   &::before
+  //     hbg-gradient(#fff,#ccc)
+  //     border-right: 15px solid #fff
+  //   &::after
+  //     border-left: 15px solid #fff
+  //     hbg-gradient(#ccc,#fff)
+  // .service
+  //   display: inline-block
+  //   height: 50px
+  //   margin: 0 5px
+  //   width: 50px
+  //   border-radius: 4px
+  //   box-shadow: 0 1px 0px #CCC
+  //   // background: #0f0
+  //   background-size: 50px 50px
+  //   &.dropbox
+  //     background-image: url("img/dropbox.png")
+  //   &.ubuntu
+  //     background-image: url("img/ubuntuone.png")
+  //   &.google
+  //     background-image: url("img/googledrive.png")
+  //   &.skydrive
+  //     background-image: url("img/skydrive.png")
+}

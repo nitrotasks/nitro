@@ -11,7 +11,7 @@ task 'server', 'Start server', ->
   coffeeify = './node_modules/caching-coffeeify/index.js'
 
   # Configuration
-  input = 'public/init.js'
+  input = 'app/init.coffee'
   output = 'public/application.js'
 
   args = ['-v', '-t', coffeeify, input, '-o', output]
@@ -40,3 +40,26 @@ task 'server', 'Start server', ->
 
   server.listen 9294
 
+
+
+option '-w', '--watch', 'Watch the folder for changes'
+
+task 'build', 'Start server', ->
+  
+  # Modules
+  watchify = './node_modules/watchify/bin/cmd.js'
+  browserify = './node_modules/browserify/bin/cmd.js'
+  coffeeify = './node_modules/caching-coffeeify/index.js'
+
+  # Configuration
+  input = 'public/init.js'
+  output = 'public/application.js'
+
+  args = ['-v', '-t', coffeeify, input, '-o', output]
+  
+  # Start browserify
+  terminal = spawn(watchify, args)
+  terminal.stdout.on 'data', (data) -> console.log(data.toString())
+  terminal.stderr.on 'data', (data) -> console.log(data.toString())
+  terminal.on 'error', (data) -> console.log(data.toString())
+  terminal.on 'close', (data) -> console.log(data.toString())
