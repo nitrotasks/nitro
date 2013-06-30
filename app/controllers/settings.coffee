@@ -152,6 +152,9 @@ class Settings extends Spine.Controller
         @nameInput.val(Setting.get("user_name"))
         @emailInput.val(Setting.get("user_email"))
 
+    else if $(e.target).hasClass("language")
+      $(".tabs li[data-id=language]").trigger("click")
+
   saveField: (e) ->
     # Hides Button
     $(e.target).hide()
