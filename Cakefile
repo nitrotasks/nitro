@@ -1,9 +1,17 @@
-
-{spawn} = require 'child_process'
+{spawn, exec} = require 'child_process'
+node_static = require 'node-static'
 http = require 'http'
 fs = require 'fs'
 
-task 'server', 'Start server', ->
+option '-p', '--port [port]', 'Set port for cake server'
+option '-w', '--watch', 'Watch the folder for changes'
+
+
+
+task 'server', 'Start server', (options) ->
+
+  # Set port
+  port = options.port or 9294
   
   # Modules
   watchify = './node_modules/watchify/bin/cmd.js'
@@ -24,27 +32,20 @@ task 'server', 'Start server', ->
   terminal.on 'close', (data) -> console.log(data.toString())
   
   # Run http server on localhost:9294
+  file= new(node_static.Server)('./public')
+
   server = http.createServer (req, res) ->
 
-    # Load index.html by default
-    if req.url is '/' then req.url = '/index.html'
+    req.addListener( 'end', ->
+      file.serve(req, res)
+    ).resume()
 
-    # Return file
-    fs.readFile __dirname + '/public' + req.url, (err, data) ->
-      if err?
-        res.writeHead 404
-        res.end JSON.stringify err
-        return
-      res.writeHead 200
-      res.end data
+  server.listen port
 
-  server.listen 9294
+  console.log 'Server started on ' + port
 
 
-
-option '-w', '--watch', 'Watch the folder for changes'
-
-task 'build', 'Start server', ->
+task 'build', 'Start server', (options) ->
   
   # Modules
   watchify = './node_modules/watchify/bin/cmd.js'
@@ -52,14 +53,36 @@ task 'build', 'Start server', ->
   coffeeify = './node_modules/caching-coffeeify/index.js'
 
   # Configuration
-  input = 'public/init.js'
+  input = 'app/init.coffee'
   output = 'public/application.js'
-
+  
+  # Arguments
   args = ['-v', '-t', coffeeify, input, '-o', output]
   
+  # Build or Watch
+  if options.watch
+    cmd = watchify
+  else
+    cmd = browserify
+  
   # Start browserify
-  terminal = spawn(watchify, args)
+  terminal = spawn(cmd, args)
   terminal.stdout.on 'data', (data) -> console.log(data.toString())
   terminal.stderr.on 'data', (data) -> console.log(data.toString())
   terminal.on 'error', (data) -> console.log(data.toString())
   terminal.on 'close', (data) -> console.log(data.toString())
+
+
+task 'minify', 'Minify application.js', ->
+
+  uglify = './node_modules/uglify-js/bin/uglifyjs'
+
+  # Config
+  input = './application/application.js'
+  output = './application.min.js'
+
+  command = "#{ uglify } #{ input } -c -m -o #{ output }"
+
+  exec command, (err, stdout, stderr) ->
+    throw err if err
+    console.log stdout + stderr

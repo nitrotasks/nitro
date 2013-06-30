@@ -713,17 +713,16 @@
       "outputAbbreviatedPath" : "\/app\/utils\/cookies-ck.js",
       "fileType" : 64
     },
-    "\/app\/lib\/updateAttr.coffee" : {
-      "ignoreWasSetByUser" : 1,
-      "ignore" : 1,
+    "\/public\/img\/logo_light@2x.png" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/app\/lib\/updateAttr.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/app\/lib\/updateAttr.js",
-      "outputStyle" : 0,
-      "fileType" : 32
+      "inputAbbreviatedPath" : "\/public\/img\/logo_light@2x.png",
+      "processed" : 0,
+      "outputAbbreviatedPath" : "\/public\/img\/logo_light@2x.png",
+      "initialSize" : 7724,
+      "fileType" : 8192
     },
     "\/css\/inc\/auth.scss" : {
       "ignoreWasSetByUser" : 0,
@@ -737,16 +736,17 @@
       "fileType" : 4,
       "debugStyle" : 0
     },
-    "\/public\/img\/logo_light@2x.png" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
+    "\/app\/lib\/updateAttr.coffee" : {
+      "ignoreWasSetByUser" : 1,
+      "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/public\/img\/logo_light@2x.png",
-      "processed" : 0,
-      "outputAbbreviatedPath" : "\/public\/img\/logo_light@2x.png",
-      "initialSize" : 7724,
-      "fileType" : 8192
+      "inputAbbreviatedPath" : "\/app\/lib\/updateAttr.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/app\/lib\/updateAttr.js",
+      "outputStyle" : 0,
+      "fileType" : 32
     },
     "\/app\/lib\/socket.io.js" : {
       "ignoreWasSetByUser" : 1,
@@ -962,17 +962,6 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
-    "\/app\/lib\/jquery.i18n.js" : {
-      "ignoreWasSetByUser" : 1,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/app\/lib\/jquery.i18n.js",
-      "outputStyle" : 1,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/app\/lib\/jquery.i18n-ck.js",
-      "fileType" : 64
-    },
     "\/public\/img\/trashcan_grey.png" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
@@ -995,6 +984,17 @@
       "outputAbbreviatedPath" : "\/app\/models\/list.js",
       "outputStyle" : 0,
       "fileType" : 32
+    },
+    "\/app\/lib\/jquery.i18n.js" : {
+      "ignoreWasSetByUser" : 1,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/app\/lib\/jquery.i18n.js",
+      "outputStyle" : 1,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/app\/lib\/jquery.i18n-ck.js",
+      "fileType" : 64
     },
     "\/app\/lib\/jquery-ui.js" : {
       "ignoreWasSetByUser" : 1,
