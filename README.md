@@ -14,7 +14,7 @@ Nitro 2 is written in [CoffeeScript](http://coffeescript.org/) and uses the [Spi
 
     cake server
 
-You should be open up [http://localhost:9294](http://localhost:9294) and be using Nitro 2.
+You should now open up [http://localhost:9294](http://localhost:9294) and be using Nitro 2.
 
 ### Build Nitro ###
     

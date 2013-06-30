@@ -702,17 +702,16 @@
       "initialSize" : 6088,
       "fileType" : 8192
     },
-    "\/app\/lib\/updateAttr.coffee" : {
+    "\/app\/utils\/cookies.js" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/app\/lib\/updateAttr.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/app\/lib\/updateAttr.js",
-      "outputStyle" : 0,
-      "fileType" : 32
+      "inputAbbreviatedPath" : "\/app\/utils\/cookies.js",
+      "outputStyle" : 1,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/app\/utils\/cookies-ck.js",
+      "fileType" : 64
     },
     "\/public\/img\/logo_light@2x.png" : {
       "ignoreWasSetByUser" : 0,
@@ -737,6 +736,18 @@
       "fileType" : 4,
       "debugStyle" : 0
     },
+    "\/app\/lib\/updateAttr.coffee" : {
+      "ignoreWasSetByUser" : 1,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/app\/lib\/updateAttr.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/app\/lib\/updateAttr.js",
+      "outputStyle" : 0,
+      "fileType" : 32
+    },
     "\/app\/lib\/socket.io.js" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
@@ -746,17 +757,6 @@
       "outputStyle" : 1,
       "syntaxCheckerStyle" : 0,
       "outputAbbreviatedPath" : "\/app\/lib\/socket.io-ck.js",
-      "fileType" : 64
-    },
-    "\/app\/utils\/cookies.js" : {
-      "ignoreWasSetByUser" : 1,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/app\/utils\/cookies.js",
-      "outputStyle" : 1,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/app\/utils\/cookies-ck.js",
       "fileType" : 64
     },
     "\/app\/utils\/keys.coffee" : {

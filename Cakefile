@@ -2,7 +2,14 @@
 http = require 'http'
 fs = require 'fs'
 
-task 'server', 'Start server', ->
+option '-p', '--port [port]', 'Set port for cake server'
+option '-w', '--watch', 'Watch the folder for changes'
+
+
+task 'server', 'Start server', (options) ->
+
+  # Set port
+  port = options.port or 9294
   
   # Modules
   watchify = './node_modules/watchify/bin/cmd.js'
@@ -37,11 +44,10 @@ task 'server', 'Start server', ->
       res.writeHead 200
       res.end data
 
-  server.listen 9294
+  server.listen port
 
+  console.log 'Server started on ' + port
 
-
-option '-w', '--watch', 'Watch the folder for changes'
 
 task 'build', 'Start server', (options) ->
   
