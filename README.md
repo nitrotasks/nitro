@@ -18,10 +18,14 @@ You should be open up [http://localhost:9294](http://localhost:9294) and be usin
 
 ### Build Nitro ###
     
+Use these commands to compile and minify the app into the public folder.
+
     # Build once
     cake build
     
     # Build and watch
     cake -w build
 
-This will compile and minify the app into the public folder.
+    # Minify application.js
+    cake minify
+

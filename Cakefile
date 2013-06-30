@@ -1,5 +1,4 @@
-
-{spawn} = require 'child_process'
+{spawn, exec} = require 'child_process'
 http = require 'http'
 fs = require 'fs'
 
@@ -70,3 +69,18 @@ task 'build', 'Start server', (options) ->
   terminal.stderr.on 'data', (data) -> console.log(data.toString())
   terminal.on 'error', (data) -> console.log(data.toString())
   terminal.on 'close', (data) -> console.log(data.toString())
+
+
+task 'minify', 'Minify application.js', ->
+
+  uglify = './node_modules/uglify-js/bin/uglifyjs'
+
+  # Config
+  input = './application/application.js'
+  output = './application.min.js'
+
+  command = "#{ uglify } #{ input } -c -m -o #{ output }"
+
+  exec command, (err, stdout, stderr) ->
+    throw err if err
+    console.log stdout + stderr

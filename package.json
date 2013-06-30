@@ -9,6 +9,7 @@
   "devDependencies": {
     "browserify": "*",
     "caching-coffeeify": "*",
-    "watchify": "*"
+    "watchify": "*",
+    "uglify-js": "*"
   }
 }
