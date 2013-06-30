@@ -65,6 +65,9 @@ class Settings extends Spine.Controller
     $(".account .user-name").val(Setting.get("user_name"))
     $(".account .user-email").val(Setting.get("user_email"))
 
+    # Forgive Me
+    $(".account .user-language").val($(".language [data-value=" + Setting.get("language") + "]").text())
+
     @clearDataLabel.hide()
     @clearDataButton.text $.i18n._("Logout")
 

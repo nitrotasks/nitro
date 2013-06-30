@@ -13,6 +13,7 @@ $dark-blue = #068dd8
 $light-blue = #1BC1F5
 $green = #9DD071
 $red = #E15556
+$font = "Lato", sans-serif
 
 @font-face {
   font-family: 'Lato';
@@ -31,7 +32,7 @@ body
   background: #fff
 
 body, input
-  font-family: "Lato", sans-serif
+  font-family: $font
 
 // Clear fix
 .group:after
@@ -935,7 +936,7 @@ ul.tasks
     color: #222
     margin-top: 15px
     padding: 8px 15px
-    font-family: "Lato", sans-serif
+    font-family: $font
     cursor: default
 
     &:active
@@ -1089,16 +1090,32 @@ ul.tasks
       display: none
 
     label
-      width: 140px
+      width: 170px
+      font-weight: bold
+      color: #4c4c4c
+
+      &::after
+        content: ":"
 
     .center
       text-align: center
 
     button
       margin-left: 5px
+      background: #fff
+      border: 0
+      font-family: $font
+      color: $dark-blue
+      cursor: pointer;
+
+      &:hover
+        text-decoration: underline
 
     input
+      width: 220px
+      color: #444
       box-shadow: none
+      border: 0
       padding: 2px 5px
       margin-bottom: 5px
 
