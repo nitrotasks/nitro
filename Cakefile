@@ -1,9 +1,11 @@
 {spawn, exec} = require 'child_process'
+node_static = require 'node-static'
 http = require 'http'
 fs = require 'fs'
 
 option '-p', '--port [port]', 'Set port for cake server'
 option '-w', '--watch', 'Watch the folder for changes'
+
 
 
 task 'server', 'Start server', (options) ->
@@ -30,19 +32,13 @@ task 'server', 'Start server', (options) ->
   terminal.on 'close', (data) -> console.log(data.toString())
   
   # Run http server on localhost:9294
+  file= new(node_static.Server)('./public')
+
   server = http.createServer (req, res) ->
 
-    # Load index.html by default
-    if req.url is '/' then req.url = '/index.html'
-
-    # Return file
-    fs.readFile __dirname + '/public' + req.url, (err, data) ->
-      if err?
-        res.writeHead 404
-        res.end JSON.stringify err
-        return
-      res.writeHead 200
-      res.end data
+    req.addListener( 'end', ->
+      file.serve(req, res)
+    ).resume()
 
   server.listen port
 

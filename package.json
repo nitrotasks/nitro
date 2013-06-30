@@ -10,6 +10,7 @@
     "browserify": "*",
     "caching-coffeeify": "*",
     "watchify": "*",
-    "uglify-js": "*"
+    "uglify-js": "*",
+    "node-static": "*"
   }
 }
