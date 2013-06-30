@@ -17,7 +17,11 @@ Nitro 2 is written in [CoffeeScript](http://coffeescript.org/) and uses the [Spi
 You should be open up [http://localhost:9294](http://localhost:9294) and be using Nitro 2.
 
 ### Build Nitro ###
-
+    
+    # Build once
     cake build
+    
+    # Build and watch
+    cake -w build
 
 This will compile and minify the app into the public folder.

@@ -44,7 +44,7 @@ task 'server', 'Start server', ->
 
 option '-w', '--watch', 'Watch the folder for changes'
 
-task 'build', 'Start server', ->
+task 'build', 'Start server', (options) ->
   
   # Modules
   watchify = './node_modules/watchify/bin/cmd.js'
@@ -52,13 +52,20 @@ task 'build', 'Start server', ->
   coffeeify = './node_modules/caching-coffeeify/index.js'
 
   # Configuration
-  input = 'public/init.js'
+  input = 'app/init.coffee'
   output = 'public/application.js'
-
+  
+  # Arguments
   args = ['-v', '-t', coffeeify, input, '-o', output]
   
+  # Build or Watch
+  if options.watch
+    cmd = watchify
+  else
+    cmd = browserify
+  
   # Start browserify
-  terminal = spawn(watchify, args)
+  terminal = spawn(cmd, args)
   terminal.stdout.on 'data', (data) -> console.log(data.toString())
   terminal.stderr.on 'data', (data) -> console.log(data.toString())
   terminal.on 'error', (data) -> console.log(data.toString())
