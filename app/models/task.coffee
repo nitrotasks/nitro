@@ -1,4 +1,4 @@
-Spine = require('spine')
+Spine = require 'spine'
 
 class window.Task extends Spine.Model
 
@@ -31,8 +31,8 @@ class window.Task extends Spine.Model
 
   @default: ->
     if Task.all().length is 0
-      List.refresh require "models/default_lists"
-      @refresh require "models/default_tasks"
+      List.refresh require './default_lists.js'
+      @refresh require './default_tasks.js'
 
   @sortTasks: (tasks) =>
     sorted = tasks.sort (a, b) ->

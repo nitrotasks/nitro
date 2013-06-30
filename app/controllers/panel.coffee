@@ -1,8 +1,13 @@
-Spine = require('spine')
-List = require("models/list")
-Task = require("models/task")
-Setting = require("models/setting")
-Settings = require("controllers/settings")
+# Spine
+Spine    = require 'spine'
+
+# Controllers
+Settings = require './settings.coffee'
+
+# Modals
+List     = require '../models/list.coffee'
+Task     = require '../models/task.coffee'
+Setting  = require '../models/setting.coffee'
 
 class Panel extends Spine.Controller
 

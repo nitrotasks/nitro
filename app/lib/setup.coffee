@@ -1,20 +1,19 @@
-# require('json2ify')
-# require('es5-shimify')
-require('lib/modernizr')
-require('jqueryify')
-require('lib/jquery.i18n')
-require('lib/modal')
-require('lib/md5')
-require('lib/jquery-ui')
-require('lib/handlebars')
-require('lib/touch')
-require('utils/handlebar-helpers')
+# NPM Libs
+require 'jqueryify'
 
-require('spine')
-require('spine/lib/local')
-require('controllers/sync')
-require('controllers/modal')
-require('utils/touchify')
-# require('spine/lib/ajax')
-# require('spine/lib/manager')
-# require('spine/lib/route')
+# Browser Libs
+# require './modernizr'
+require './jquery.i18n'
+require './modal'
+require './md5'
+require './jquery-ui'
+# require './handlebars'
+require './touch'
+require '../utils/handlebar-helpers.coffee'
+
+# Spine
+require 'spine'
+require 'spine/lib/local'
+require '../controllers/sync.coffee'
+require '../controllers/modal.coffee'
+require '../utils/touchify.coffee'

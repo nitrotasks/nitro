@@ -1,9 +1,19 @@
-Spine    = require("spine")
-List     = require("models/list")
-Task     = require("models/task")
-ListItem = require("controllers/lists.item")
-Keys     = require("utils/keys")
+# Dependencies
+
+## Spine
+Spine    = require 'spine'
 $        = Spine.$
+
+## Controllers
+ListItem = require './lists.item.coffee'
+
+## Models
+List     = require '../models/list.coffee'
+Task     = require '../models/task.coffee'
+
+## Utils
+Keys     = require '../utils/keys.coffee'
+
 
 class Lists extends Spine.Controller
 

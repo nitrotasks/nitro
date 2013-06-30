@@ -1,7 +1,7 @@
 Spine = require 'spine'
-Setting = require 'models/setting'
-Cookies = require 'utils/cookies'
-CONFIG = require 'utils/conf'
+Setting = require '../models/setting.coffee'
+Cookies = require '../utils/cookies.js'
+CONFIG = require '../utils/conf.coffee'
 $ = Spine.$
 
 class Auth extends Spine.Controller

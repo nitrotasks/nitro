@@ -1,9 +1,17 @@
-Spine   = require('spine')
-List    = require('models/list')
-Setting = require("models/setting")
-Keys    = require("utils/keys")
-Modal   = require("controllers/modal")
+# Spine
+Spine   = require 'spine'
 $       = Spine.$
+
+# Controllers
+Modal   = require './modal.coffee'
+
+# Models
+List    = require '../models/list.coffee'
+Setting = require '../models/setting.coffee'
+
+# Utils
+Keys    = require '../utils/keys.coffee'
+
 
 class TaskItem extends Spine.Controller
 

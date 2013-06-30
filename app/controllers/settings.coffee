@@ -1,7 +1,13 @@
-Spine = require('spine')
-Setting = require('models/setting')
-Cookies = require('utils/cookies')
-Task = require('models/task')
+# Spine
+Spine   = require 'spine'
+
+# Modals
+Setting = require '../models/setting.coffee'
+Task    = require '../models/task.coffee'
+
+# Utils
+Cookies = require '../utils/cookies.js'
+
 
 class Settings extends Spine.Controller
 
