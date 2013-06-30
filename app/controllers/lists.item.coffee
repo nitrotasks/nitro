@@ -1,10 +1,13 @@
-Spine = require("spine")
-Task  = require("models/task")
-List  = require("models/list")
+# Spine
+Spine = require 'spine'
+
+# Models
+Task  = require '../models/task.coffee'
+List  = require '../models/list.coffee'
 
 class ListItem extends Spine.Controller
   template: ( ->
-    require("views/list")
+    require '../views/list.js'
     Handlebars.templates['list']
   )()
 

@@ -1,8 +1,13 @@
-Spine  = @Spine or require('spine')
-Model  = Spine.Model
-SocketIo = require('lib/socket.io')
-UpdateAttribute = require('lib/updateAttr')
-CONFIG = require("utils/conf")
+# Spine
+Spine           = require 'spine'
+Model           = Spine.Model
+
+# Socket.IO
+SocketIo        = require '../lib/socket.io.js'
+UpdateAttribute = require '../lib/updateAttr.coffee'
+
+# Utils
+CONFIG          = require '../utils/conf.coffee'
 
 # ------------------
 # Handle Sync Events

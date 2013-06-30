@@ -11,5 +11,8 @@
   "permissions": [
     "unlimitedStorage",
     "http://*/*"
-  ]
+  ],
+  "icons": {
+    "256": "img/icon.png"
+  }
 }

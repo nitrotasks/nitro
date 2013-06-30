@@ -1,6 +1,12 @@
-Spine = require('spine')
-List = require('models/list')
-UpdateAttribute = require('lib/updateAttr')
+# Spine
+Spine           = require 'spine'
+
+# Models
+List            = require './list.coffee'
+
+# Utils
+UpdateAttribute = require '../lib/updateAttr.coffee'
+
 
 class window.Setting extends Spine.Model
   @configure 'Setting',

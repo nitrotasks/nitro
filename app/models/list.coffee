@@ -1,5 +1,8 @@
-Spine = require('spine')
-Task = require('models/task')
+# Spine
+Spine = require 'spine'
+
+# Models
+Task  = require './task.coffee'
 
 class window.List extends Spine.Model
   @configure 'List', 'name', 'tasks', 'permanent'

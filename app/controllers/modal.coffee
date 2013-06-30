@@ -1,7 +1,10 @@
-Spine = require('spine')
-Keys = require('utils/keys')
-CONFIG = require("utils/conf")
-$ = Spine.$
+# Spine
+Spine  = require 'spine'
+$      = Spine.$
+
+# Utils
+Keys   = require '../utils/keys.coffee'
+CONFIG = require '../utils/conf.coffee'
 
 # The base Modal class
 class Modal extends Spine.Controller
@@ -100,8 +103,8 @@ module.exports =
 				if Setting.isPro()
 					email = @input.val()
 					return unless email.match(/.+@.+\..+/)
-					uid = require("models/setting").get("uid")
-					listId = require("models/list").current.id
+					uid = require('../models/setting.coffee').get("uid")
+					listId = require('../models/list.coffee').current.id
 					Spine.Sync.emit("emailList", [uid, listId, email])
 				else
 					$(".modal.proventor").modal("show")

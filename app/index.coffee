@@ -1,23 +1,23 @@
-require 'lib/setup'
+require './lib/setup.coffee'
 Spine = require 'spine'
 
 # Helpers
-Keys = require 'utils/keys'
+Keys = require './utils/keys.coffee'
 
 # Models
-Task    = require 'models/task'
-List    = require 'models/list'
-Setting = require 'models/setting'
+Task    = require './models/task.coffee'
+List    = require './models/list.coffee'
+Setting = require './models/setting.coffee'
 
 # Controllers
-Tasks         = require 'controllers/tasks'
-Lists         = require 'controllers/lists'
-ListTitle     = require 'controllers/lists.title'
-Panel         = require 'controllers/panel'
-Settings      = require 'controllers/settings'
-Auth          = require 'controllers/auth'
-Modal         = require 'controllers/modal'
-LoadingScreen = require 'controllers/loadingScreen'
+Tasks         = require './controllers/tasks.coffee'
+Lists         = require './controllers/lists.coffee'
+ListTitle     = require './controllers/lists.title.coffee'
+Panel         = require './controllers/panel.coffee'
+Settings      = require './controllers/settings.coffee'
+Auth          = require './controllers/auth.coffee'
+Modal         = require './controllers/modal.coffee'
+LoadingScreen = require './controllers/loadingScreen.coffee'
 
 class App extends Spine.Controller
 

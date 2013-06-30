@@ -2,9 +2,13 @@
   "name": "app",
   "version": "0.0.1",
   "dependencies": {
-    "hem": "~0.3.x",
     "underscore": "1.4.x",
     "jqueryify": "~1.9.1",
     "spine": "~1.1.x"
+  },
+  "devDependencies": {
+    "browserify": "*",
+    "caching-coffeeify": "*",
+    "watchify": "*"
   }
 }

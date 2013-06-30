@@ -1,15 +1,23 @@
-Spine    = require("spine")
-Task     = require("models/task")
-List     = require("models/list")
-Setting  = require("models/setting")
-TaskItem = require("controllers/tasks.item")
-Keys     = require("utils/keys")
-dateDetector = require("utils/date")
+# Spine
+Spine        = require 'spine'
+
+# Controllers
+TaskItem     = require './tasks.item.coffee'
+
+# Modals
+Task         = require '../models/task.coffee'
+List         = require '../models/list.coffee'
+Setting      = require '../models/setting.coffee'
+
+# Utils
+Keys         = require '../utils/keys.coffee'
+dateDetector = require '../utils/date.coffee'
+
 
 class Tasks extends Spine.Controller
 
   template: (->
-    require('views/task')
+    require '../views/task.js'
     Handlebars.templates['task']
   )()
 
