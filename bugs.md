@@ -12,8 +12,5 @@
 ## Bugs
 
 - Import needs to sync to server
-- List deletion is unstable
 - Server randomly deletes user data
 - Pro features are toggled on/off rather than blocked
-
-
