@@ -12,34 +12,36 @@ Cookies = require '../utils/cookies.js'
 class Settings extends Spine.Controller
 
   elements:
-    ".disabler"           : "disabler"
-    ".language"           : "language"
-    ".username"           : "username"
-    ".clear-data"         : "clearDataButton"
-    ".week-start"         : "weekStart"
-    ".date-format"        : "dateFormat"
-    ".night-mode"         : "nightMode"
-    "#notify-time"        : "notifyTime"
-    "#notify-email"       : "notifyEmail"
-    "#notify-toggle"      : "notifyToggle"
-    "#notify-regular"     : "notifyRegular"
-    ".confirm-delete"     : "confirmDelete"
-    ".completed-duration" : "completedDuration"
-    ".clear-data-label"   : "clearDataLabel"
+    '.disabler'           : 'disabler'
+    '.language'           : 'language'
+    '.username'           : 'username'
+    '.clear-data'         : 'clearDataButton'
+    '.week-start'         : 'weekStart'
+    '.date-format'        : 'dateFormat'
+    '.night-mode'         : 'nightMode'
+    '#notify-time'        : 'notifyTime'
+    '#notify-email'       : 'notifyEmail'
+    '#notify-toggle'      : 'notifyToggle'
+    '#notify-regular'     : 'notifyRegular'
+    '.confirm-delete'     : 'confirmDelete'
+    '.completed-duration' : 'completedDuration'
+    '.clear-data-label'   : 'clearDataLabel'
+    '.user-name'          : 'nameInput'
+    '.user-email'         : 'emailInput'
 
   events:
-    "click .login"         : "login"
-    "change input"         : "save"
-    "change select"        : "save"
-    "click .tabs li"       : "tabSwitch"
-    "click .clear-data"    : "clearData"
-    "click .night-mode"    : "toggleNight"
-    "click .language a"    : "changeLanguage"
-    "click .export-data"   : "exportData"
-    "click button.probtn"  : "proUpgrade"
-    "click #notify-toggle" : "toggleNotify"
-
-
+    'click .login'         : 'login'
+    'change input'         : 'save'
+    'change select'        : 'save'
+    'click .tabs li'       : 'tabSwitch'
+    'click .clear-data'    : 'clearData'
+    'click .night-mode'    : 'toggleNight'
+    'click .language a'    : 'changeLanguage'
+    'click .export-data'   : 'exportData'
+    'click button.probtn'  : 'proUpgrade'
+    'click #notify-toggle' : 'toggleNotify'
+    'click .edit'          : 'editField'
+    'click .save'          : 'saveField'
 
   constructor: ->
     Spine.touchify(@events)
@@ -68,8 +70,8 @@ class Settings extends Spine.Controller
     $(".account .signedout").hide()
     $(".account .signedin").show()
 
-    $(".account .user-name").val(Setting.get("user_name"))
-    $(".account .user-email").val(Setting.get("user_email"))
+    @nameInput.val(Setting.get("user_name"))
+    @emailInput.val(Setting.get("user_email"))
 
     # Forgive Me
     $(".account .user-language").val($(".language [data-value=" + Setting.get("language") + "]").text())
@@ -123,6 +125,45 @@ class Settings extends Spine.Controller
       @el.modal("hide")
       $(".modal.proventor").modal("show")
       Setting.set "night", false
+
+  #FFFFUCKIT.
+  editField: (e) ->
+    if $(e.target).hasClass("name") or $(e.target).hasClass("email")
+      text = $(e.target).text()
+      @nameInput.prop("disabled", true)
+      @emailInput.prop("disabled", true)
+      $(e.target).parent().find(".save").hide()
+      $(e.target).parent().find(".edit").text($.i18n._("Edit"))
+
+      $(e.target).text(text)
+
+      if $(e.target).text() is $.i18n._("Edit")
+        $(e.target).text($.i18n._("Cancel"))
+
+        if $(e.target).hasClass("name")
+          $(e.target).parent().find(".name.save").show()
+          @nameInput.prop("disabled", false).focus()
+        else if $(e.target).hasClass("email")
+          $(e.target).parent().find(".email.save").show()
+          @emailInput.prop("disabled", false).focus()
+      else
+        $(e.target).parent().find("button.save").hide()
+        $(e.target).text($.i18n._("Edit"))
+        @nameInput.val(Setting.get("user_name"))
+        @emailInput.val(Setting.get("user_email"))
+
+    else if $(e.target).hasClass("language")
+      $(".tabs li[data-id=language]").trigger("click")
+
+  saveField: (e) ->
+    # Hides Button
+    $(e.target).hide()
+
+    Setting.set("user_name", @nameInput.val())
+    Setting.set("user_email", @emailInput.val())
+    @nameInput.prop("disabled", true)
+    @emailInput.prop("disabled", true)
+    $(e.target).parent().find("button.edit").text($.i18n._("Edit"))
 
   setupNotifications: =>
     if Setting.get("notifications") and Setting.isPro()

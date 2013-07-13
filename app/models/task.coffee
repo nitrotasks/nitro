@@ -53,6 +53,7 @@ class window.Task extends Spine.Model
         else diff
       else if a.completed and not b.completed then -1
       else if not a.completed and b.completed then 1
+      else a.completed - b.completed
 
   @filter: (query) ->
     return all() unless query

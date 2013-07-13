@@ -64,8 +64,11 @@ class ListItem extends Spine.Controller
   remove: =>
     # Delete all tasks
     for task in Task.list(@list.id)
-      task.destroy
-        sync: no
+      if task.completed isnt false
+        task.updateAttribute('list', 'inbox')
+      else
+        task.destroy
+          sync: no
     # Remove element and bindings
     @release()
     @list.destroy()

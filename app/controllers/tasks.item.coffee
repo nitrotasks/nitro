@@ -85,7 +85,11 @@ class TaskItem extends Spine.Controller
 
   toggleStatus: =>
       # Does not work in completed list
-      @task.completed = !@task.completed
+      if @task.completed is false
+        @task.completed = new Date().getTime()
+      else
+        @task.completed = false
+
       @task.save()
 
       if List.current.id is "completed"

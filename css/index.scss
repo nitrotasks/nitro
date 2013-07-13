@@ -1189,6 +1189,9 @@ ul.tasks {
       font-family: $font;
       color: $dark-blue;
       cursor: pointer;
+      &.save {
+        display: none;
+      }
       &:hover {
         text-decoration: underline;
       }
@@ -1196,10 +1199,12 @@ ul.tasks {
     input {
       width: 220px;
       color: #444444;
-      box-shadow: none;
-      border: 0;
       padding: 2px 5px;
       margin-bottom: 5px;
+      &[disabled] {
+        border-color: transparent;
+        box-shadow: none;
+      }
     }
     span {
       display: inline-block;

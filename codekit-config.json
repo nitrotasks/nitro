@@ -158,16 +158,17 @@
       "initialSize" : 2845,
       "fileType" : 8192
     },
-    "\/public\/i18n\/datepicker\/de.js" : {
-      "ignoreWasSetByUser" : 1,
+    "\/css\/print.scss" : {
+      "ignoreWasSetByUser" : 0,
       "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/public\/i18n\/datepicker\/de.js",
-      "outputStyle" : 1,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/public\/i18n\/datepicker\/de-ck.js",
-      "fileType" : 64
+      "inputAbbreviatedPath" : "\/css\/print.scss",
+      "outputStyle" : 0,
+      "shouldRunBless" : 0,
+      "outputAbbreviatedPath" : "\/css\/print.css",
+      "fileType" : 4,
+      "debugStyle" : 0
     },
     "\/public\/img\/checkmark.png" : {
       "ignoreWasSetByUser" : 0,
@@ -180,6 +181,17 @@
       "initialSize" : 290,
       "fileType" : 8192
     },
+    "\/public\/i18n\/datepicker\/de.js" : {
+      "ignoreWasSetByUser" : 1,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/public\/i18n\/datepicker\/de.js",
+      "outputStyle" : 1,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/public\/i18n\/datepicker\/de-ck.js",
+      "fileType" : 64
+    },
     "\/public\/img\/password.png" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
@@ -190,18 +202,6 @@
       "outputAbbreviatedPath" : "\/public\/img\/password.png",
       "initialSize" : 3481,
       "fileType" : 8192
-    },
-    "\/css\/print.scss" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/css\/print.scss",
-      "outputStyle" : 0,
-      "shouldRunBless" : 0,
-      "outputAbbreviatedPath" : "\/css\/print.css",
-      "fileType" : 4,
-      "debugStyle" : 0
     },
     "\/public\/img\/hamburger.png" : {
       "ignoreWasSetByUser" : 0,
@@ -227,7 +227,7 @@
     },
     "\/css\/inc\/loading-screen.scss" : {
       "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
+      "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
       "inputAbbreviatedPath" : "\/css\/inc\/loading-screen.scss",
@@ -382,17 +382,16 @@
       "initialSize" : 3049,
       "fileType" : 8192
     },
-    "\/app\/lib\/setup.coffee" : {
-      "ignoreWasSetByUser" : 1,
-      "ignore" : 1,
+    "\/public\/img\/logo@2x.png" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/app\/lib\/setup.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/app\/lib\/setup.js",
-      "outputStyle" : 0,
-      "fileType" : 32
+      "inputAbbreviatedPath" : "\/public\/img\/logo@2x.png",
+      "processed" : 0,
+      "outputAbbreviatedPath" : "\/public\/img\/logo@2x.png",
+      "initialSize" : 7681,
+      "fileType" : 8192
     },
     "\/public\/img\/inbox.png" : {
       "ignoreWasSetByUser" : 0,
@@ -417,20 +416,21 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
-    "\/public\/img\/logo@2x.png" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
+    "\/app\/lib\/setup.coffee" : {
+      "ignoreWasSetByUser" : 1,
+      "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/public\/img\/logo@2x.png",
-      "processed" : 0,
-      "outputAbbreviatedPath" : "\/public\/img\/logo@2x.png",
-      "initialSize" : 7681,
-      "fileType" : 8192
+      "inputAbbreviatedPath" : "\/app\/lib\/setup.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/app\/lib\/setup.js",
+      "outputStyle" : 0,
+      "fileType" : 32
     },
     "\/css\/mixin.scss" : {
       "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
+      "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
       "inputAbbreviatedPath" : "\/css\/mixin.scss",
@@ -522,17 +522,6 @@
       "outputAbbreviatedPath" : "\/public\/i18n\/datepicker\/fr-ck.js",
       "fileType" : 64
     },
-    "\/public\/img\/notasks.png" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/public\/img\/notasks.png",
-      "processed" : 0,
-      "outputAbbreviatedPath" : "\/public\/img\/notasks.png",
-      "initialSize" : 3414,
-      "fileType" : 8192
-    },
     "\/app\/controllers\/modal.coffee" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
@@ -545,9 +534,20 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
-    "\/public\/index.html" : {
+    "\/public\/img\/notasks.png" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/public\/img\/notasks.png",
+      "processed" : 0,
+      "outputAbbreviatedPath" : "\/public\/img\/notasks.png",
+      "initialSize" : 3414,
+      "fileType" : 8192
+    },
+    "\/public\/index.html" : {
+      "ignoreWasSetByUser" : 1,
+      "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
       "inputAbbreviatedPath" : "\/public\/index.html",
@@ -567,7 +567,7 @@
     },
     "\/css\/jqueryui.scss" : {
       "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
+      "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
       "inputAbbreviatedPath" : "\/css\/jqueryui.scss",
@@ -713,29 +713,6 @@
       "outputAbbreviatedPath" : "\/app\/utils\/cookies-ck.js",
       "fileType" : 64
     },
-    "\/public\/img\/logo_light@2x.png" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/public\/img\/logo_light@2x.png",
-      "processed" : 0,
-      "outputAbbreviatedPath" : "\/public\/img\/logo_light@2x.png",
-      "initialSize" : 7724,
-      "fileType" : 8192
-    },
-    "\/css\/inc\/auth.scss" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/css\/inc\/auth.scss",
-      "outputStyle" : 0,
-      "shouldRunBless" : 0,
-      "outputAbbreviatedPath" : "\/css\/css\/auth.css",
-      "fileType" : 4,
-      "debugStyle" : 0
-    },
     "\/app\/lib\/updateAttr.coffee" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
@@ -748,6 +725,18 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
+    "\/css\/inc\/auth.scss" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/css\/inc\/auth.scss",
+      "outputStyle" : 0,
+      "shouldRunBless" : 0,
+      "outputAbbreviatedPath" : "\/css\/css\/auth.css",
+      "fileType" : 4,
+      "debugStyle" : 0
+    },
     "\/app\/lib\/socket.io.js" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
@@ -758,6 +747,17 @@
       "syntaxCheckerStyle" : 0,
       "outputAbbreviatedPath" : "\/app\/lib\/socket.io-ck.js",
       "fileType" : 64
+    },
+    "\/public\/img\/logo_light@2x.png" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/public\/img\/logo_light@2x.png",
+      "processed" : 0,
+      "outputAbbreviatedPath" : "\/public\/img\/logo_light@2x.png",
+      "initialSize" : 7724,
+      "fileType" : 8192
     },
     "\/app\/utils\/keys.coffee" : {
       "ignoreWasSetByUser" : 1,
@@ -929,7 +929,7 @@
     },
     "\/css\/normalize.scss" : {
       "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
+      "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
       "inputAbbreviatedPath" : "\/css\/normalize.scss",

@@ -65,7 +65,7 @@ class window.List extends Spine.Model
     order = @tasks.slice(0)
 
     for task in @tasks
-      if Task.find(task).completed is true
+      if Task.find(task).completed isnt false
         order.splice(order.indexOf(task), 1)
 
     # Does it after loop is finished.
