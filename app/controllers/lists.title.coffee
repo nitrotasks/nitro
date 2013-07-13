@@ -63,6 +63,6 @@ class ListTitle extends Spine.Controller
       when "email" then Modal.get("email").show()
       when "print" then window.print()
       when "share" then Modal.get("share").show()
-      when "sort"  then Setting.toggleSort()
+      when "sort"  then Setting.toggle('sort')
 
 module.exports = ListTitle

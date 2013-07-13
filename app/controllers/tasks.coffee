@@ -41,7 +41,7 @@ class Tasks extends Spine.Controller
     Task.bind "create", @addOne
     Task.bind "refresh", @reload
     List.bind "changeList", @render
-    Setting.bind "changeSort", @render
+    Setting.bind "update:sort", @render
 
     # I'm not sure how this works. Silly jQUery UI
     $("body").on "mouseover", ".main .task", ->
@@ -110,7 +110,8 @@ class Tasks extends Spine.Controller
     @el.removeClass "empty"
 
     # Update current list if the list is changed
-    @list = list if list
+    if list instanceof List
+      @list = list
 
     #Something
     if @list.disabled
