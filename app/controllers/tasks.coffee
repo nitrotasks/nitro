@@ -147,7 +147,7 @@ class Tasks extends Spine.Controller
 
 
     # Sorting tasks
-    if list.id == "all" or Setting.sortMode()
+    if list.id == "all" or list.id == "completed" or Setting.sortMode()
       tasks = Task.sortTasks(tasks)
       last = tasks[0]?.priority
       completed = tasks[0]?.completed
