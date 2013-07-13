@@ -6,6 +6,6 @@ localhost =
   server: "localhost:443/api"
   sync: "localhost:443"
 
-active = server
+active = localhost
 active.EMAIL_LIST = "http://#{active.server}/email"
 module.exports = active
