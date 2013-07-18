@@ -110,8 +110,7 @@ class Tasks extends Spine.Controller
     @el.removeClass "empty"
 
     # Update current list if the list is changed
-    if list instanceof List
-      @list = list
+    @list = list if list
 
     #Something
     if @list.disabled
