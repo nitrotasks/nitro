@@ -181,9 +181,18 @@ class Tasks extends Spine.Controller
 
     else
       for task in tasks
-        # Translations
-        task.notesplaceholder = $.i18n._("Notes")
-        task.dateplaceholder = $.i18n._("Due Date")
+        # DRY, MUCH. SORRY WORLD :(
+        task.notesplaceholder = $.i18n._ "Notes"
+        task.dateplaceholder = $.i18n._ "Due Date"
+        task.checkboxalttext = $.i18n._ "Mark as completed"
+        task.lowalttext = $.i18n._ "Set priority to low"
+        task.mediumalttext = $.i18n._ "Set priority to medium"
+        task.highalttext = $.i18n._ "Set priority to high"
+
+        task.dateValue = Task.prettyDate(new Date(task.date)).words
+        task.dateClass = Task.prettyDate(new Date(task.date)).className
+
+        task.listName = List.find(task.list).name if list.id is "all"
 
         html = @template(task) + html
 
