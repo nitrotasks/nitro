@@ -3,9 +3,11 @@ server =
   sync: "sync.nitrotasks.com:443"
 
 localhost =
-  server: "localhost:443/api"
-  sync: "localhost:443"
+  server: "localhost:8080/api"
+  sync: "localhost:8080"
 
+# Set active server
 active = server
+
 active.EMAIL_LIST = "http://#{active.server}/email"
 module.exports = active
