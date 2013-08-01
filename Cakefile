@@ -49,6 +49,7 @@ task 'server', 'Start server', (options) ->
 
   # Compile files
   compileCoffee(options)
+  compileSass(options)
 
   # Start Server
   port = options.port or 9294
