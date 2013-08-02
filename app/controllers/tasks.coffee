@@ -41,7 +41,7 @@ class Tasks extends Spine.Controller
     Task.bind "create", @addOne
     Task.bind "refresh", @reload
     List.bind "changeList", @render
-    Setting.bind "changeSort", @render
+    Setting.bind "update:sort", @render
 
     # I'm not sure how this works. Silly jQUery UI
     $("body").on "mouseover", ".main .task", ->
@@ -110,7 +110,9 @@ class Tasks extends Spine.Controller
     @el.removeClass "empty"
 
     # Update current list if the list is changed
-    @list = list if list
+    # hackery hack for completed & all. fuckit, we're shipping
+    if list instanceof List or list.id is "all" or list.id is "completed"
+      @list = list
 
     #Something
     if @list.disabled
@@ -179,9 +181,18 @@ class Tasks extends Spine.Controller
 
     else
       for task in tasks
-        # Translations
-        task.notesplaceholder = $.i18n._("Notes")
-        task.dateplaceholder = $.i18n._("Due Date")
+        # DRY, MUCH. SORRY WORLD :(
+        task.notesplaceholder = $.i18n._ "Notes"
+        task.dateplaceholder = $.i18n._ "Due Date"
+        task.checkboxalttext = $.i18n._ "Mark as completed"
+        task.lowalttext = $.i18n._ "Set priority to low"
+        task.mediumalttext = $.i18n._ "Set priority to medium"
+        task.highalttext = $.i18n._ "Set priority to high"
+
+        task.dateValue = Task.prettyDate(new Date(task.date)).words
+        task.dateClass = Task.prettyDate(new Date(task.date)).className
+
+        task.listName = List.find(task.list).name if list.id is "all"
 
         html = @template(task) + html
 

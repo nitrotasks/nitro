@@ -3,86 +3,67 @@ node_static = require 'node-static'
 http = require 'http'
 fs = require 'fs'
 
+# Modules
+WATCHIFY   = './node_modules/watchify/bin/cmd.js'
+BROWSERIFY = './node_modules/browserify/bin/cmd.js'
+COFFEEIFY  = './node_modules/caching-coffeeify/index.js'
+UGLIFY     = './node_modules/uglify-js/bin/uglifyjs'
+SASS_COMPILER = 'sass'
+
+# Configuration
+INPUT  = 'app/init.coffee'
+OUTPUT = 'public/application.js'
+SASS   = 'css/index.scss'
+CSS    = 'public/application.css'
+
+# Options
 option '-p', '--port [port]', 'Set port for cake server'
 option '-w', '--watch', 'Watch the folder for changes'
 
-
-
-task 'server', 'Start server', (options) ->
-
-  # Set port
-  port = options.port or 9294
-  
-  # Modules
-  watchify = './node_modules/watchify/bin/cmd.js'
-  browserify = './node_modules/browserify/bin/cmd.js'
-  coffeeify = './node_modules/caching-coffeeify/index.js'
-
-  # Configuration
-  input = 'app/init.coffee'
-  output = 'public/application.js'
-
-  args = ['-v', '-t', coffeeify, input, '-o', output]
-  
-  # Start browserify
-  terminal = spawn(watchify, args)
-  terminal.stdout.on 'data', (data) -> console.log(data.toString())
-  terminal.stderr.on 'data', (data) -> console.log(data.toString())
-  terminal.on 'error', (data) -> console.log(data.toString())
-  terminal.on 'close', (data) -> console.log(data.toString())
-  
-  # Run http server on localhost:9294
-  file= new(node_static.Server)('./public')
-
-  server = http.createServer (req, res) ->
-
-    req.addListener( 'end', ->
-      file.serve(req, res)
-    ).resume()
-
-  server.listen port
-
-  console.log 'Server started on ' + port
-
-
-task 'build', 'Start server', (options) ->
-  
-  # Modules
-  watchify = './node_modules/watchify/bin/cmd.js'
-  browserify = './node_modules/browserify/bin/cmd.js'
-  coffeeify = './node_modules/caching-coffeeify/index.js'
-
-  # Configuration
-  input = 'app/init.coffee'
-  output = 'public/application.js'
-  
-  # Arguments
-  args = ['-v', '-t', coffeeify, input, '-o', output]
-  
-  # Build or Watch
-  if options.watch
-    cmd = watchify
-  else
-    cmd = browserify
-  
-  # Start browserify
+# Functions
+run = (cmd, args) ->
   terminal = spawn(cmd, args)
   terminal.stdout.on 'data', (data) -> console.log(data.toString())
   terminal.stderr.on 'data', (data) -> console.log(data.toString())
   terminal.on 'error', (data) -> console.log(data.toString())
-  terminal.on 'close', (data) -> console.log(data.toString())
 
+compileCoffee = (options={}) ->
+  args = ['-t', COFFEEIFY, INPUT, '-o', OUTPUT]
+  if options.watch
+    args.unshift('-v')
+    run(WATCHIFY, args)
+  else
+    run(BROWSERIFY, args)
 
-task 'minify', 'Minify application.js', ->
+compileSass = (options={}) ->
+  args = [SASS + ':' + CSS]
+  if options.watch then args.unshift('--watch')
+  run(SASS_COMPILER, args)
 
-  uglify = './node_modules/uglify-js/bin/uglifyjs'
+minifyApp = ->
+  args = [OUTPUT, '-c', '-m', '-o', OUTPUT]
+  run(UGLIFY, args)
 
-  # Config
-  input = './application/application.js'
-  output = './application.min.js'
+# Tasks
+task 'server', 'Start server', (options) ->
 
-  command = "#{ uglify } #{ input } -c -m -o #{ output }"
+  # Compile files
+  compileCoffee(options)
+  compileSass(options)
 
-  exec command, (err, stdout, stderr) ->
-    throw err if err
-    console.log stdout + stderr
+  # Start Server
+  port = options.port or 9294
+  file= new(node_static.Server)('./public')
+  server = http.createServer (req, res) ->
+    req.addListener( 'end', ->
+      file.serve(req, res)
+    ).resume()
+  server.listen(port)
+
+  console.log 'Server started on ' + port
+
+task 'build', 'Compile CoffeeScript and SASS', (options) ->
+  compileCoffee(options)
+  compileSass(options)
+
+task 'minify', 'Minify application.js', minifyApp

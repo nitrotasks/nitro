@@ -7,7 +7,6 @@ List            = require './list.coffee'
 # Utils
 UpdateAttribute = require '../lib/updateAttr.coffee'
 
-
 class window.Setting extends Spine.Model
   @configure 'Setting',
     'sort',
@@ -31,19 +30,21 @@ class window.Setting extends Spine.Model
 
   constructor: ->
     super
-    @sort ?= yes
-    @weekStart ?= "1"
-    @dateFormat ?= "dd/mm/yy"
-    @completedDuration ?= "day"
-    @confirmDelete ?= yes
-    @night ?= no
-    @language ?= "en-us"
-    @pro ?= 0
-    @notifications ?= no
-    @notifyEmail ?= no
-    @notifyTime ?= 9
-    @notifyRegular ?= "upcoming"
-    @noAccount ?= false
+
+    # Set default settings
+    @pro               ?= 0
+    @sort              ?= yes
+    @night             ?= no
+    @language          ?= 'en-us'
+    @weekStart         ?= "1"
+    @noAccount         ?= false
+    @dateFormat        ?= 'dd/mm/yy'
+    @notifyTime        ?= 9
+    @notifyEmail       ?= no
+    @confirmDelete     ?= yes
+    @notifyRegular     ?= 'upcoming'
+    @notifications     ?= no
+    @completedDuration ?= 'day'
 
     $('html').addClass 'dark' if @night == yes
 
@@ -52,35 +53,27 @@ class window.Setting extends Spine.Model
   @extend UpdateAttribute
 
   # Change a setting
-  # Setting.set("theme", "dark")
   @set: (key, value) =>
     @first().updateAttribute key, value
     return value
 
+  # Easy way to toggle a setting
   @toggle: (key) =>
     @set key, !@get(key)
 
   # Get a setting
-  # Setting.get("theme")
   @get: (key) =>
     @first()[key]
-
+  
+  # Delete a setting
   @delete: (key) =>
     @set(key, null)
     return true
 
-  @sortMode: =>
-    @get "sort"
+  # Why do we even have this?
+  @sortMode: => @get('sort')
 
   # Check is user is pro
-  @isPro: ->
-    if Setting.get("pro") is 1
-      return true
-    else
-      return false
-
-  @toggleSort: ->
-    @toggle "sort"
-    @trigger "changeSort", List.current
+  @isPro: -> Setting.get('pro') is 1
 
 module.exports = Setting
