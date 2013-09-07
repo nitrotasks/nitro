@@ -8,7 +8,7 @@ WATCHIFY   = './node_modules/watchify/bin/cmd.js'
 BROWSERIFY = './node_modules/browserify/bin/cmd.js'
 COFFEEIFY  = './node_modules/caching-coffeeify/index.js'
 UGLIFY     = './node_modules/uglify-js/bin/uglifyjs'
-SASS_COMPILER = 'sass'
+SASS_COMPILER = './node_modules/node-sass/bin/node-sass'
 
 # Configuration
 INPUT  = 'app/init.coffee'
@@ -36,7 +36,7 @@ compileCoffee = (options={}) ->
     run(BROWSERIFY, args)
 
 compileSass = (options={}) ->
-  args = [SASS + ':' + CSS]
+  args = [SASS, CSS]
   if options.watch then args.unshift('--watch')
   run(SASS_COMPILER, args)
 

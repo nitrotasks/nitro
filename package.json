@@ -11,6 +11,7 @@
     "caching-coffeeify": "*",
     "watchify": "*",
     "uglify-js": "*",
-    "node-static": "*"
+    "node-static": "*",
+    "node-sass": "*"
   }
 }
