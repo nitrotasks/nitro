@@ -20,7 +20,7 @@ function program3(depth0,data) {
 function program5(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\n    <img width=\"10\" height=\"10\" style=\"display: inline-block\" src=\"img/calendar.png\"><time class=\"";
+  buffer += "\n    <img width=\"10\" height=\"10\" src=\"img/calendar.png\"><time class=\"";
   if (stack1 = helpers.dateClass) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.dateClass; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
