@@ -626,20 +626,14 @@ ul.tasks {
   &:before {
     @include abs(0, auto, 0, 31px);
   }
-  &.p3 .priority {
+  &.p3 .checkbox {
     border-left: 4px solid $red;
   }
-  &.p2 .priority {
+  &.p2 .checkbox {
     border-left: 4px solid $green;
   }
-  &.p1 .priority {
+  &.p1 .checkbox {
     border-left: 4px solid $light-blue;
-  }
-  // Priority
-  .priority {
-    @include abs(-1px, auto, -1px, -1px);
-    width: 0;
-    @include transition(150ms, border, ease);
   }
   .tag {
     color: $dark-blue;
@@ -653,16 +647,17 @@ ul.tasks {
   .checkbox {
     display: inline-block;
     position: relative;
-    margin: 0 0 0 4px;
-    width: 28px;
-    height: 28px;
     // Not sure why, but there is a large space underneath
-    margin-bottom: -9px;
+    margin-bottom: -11px;
+    width: 28px;
+    height: 30px;
+    top: -1px;
+    left: -1px;
     &:before {
       display: block;
       content: "";
-      top: 8px;
-      left: 7px;
+      top: 9px;
+      left: 8px;
       position: absolute;
       border: 1px #d9d9d9 solid;
       height: 10px;
@@ -861,13 +856,13 @@ ul.tasks {
       content: "";
       display: block;
       position: absolute;
-      top: 9px;
-      left: 8px;
+      top: 10px;
+      left: 9px;
       width: 10px;
       height: 10px;
       background: url("img/checkmark.png") no-repeat;
     }
-    .priority {
+    .checkbox {
       border-left: 4px solid #cccccc;
     }
     // Strikethrough task name

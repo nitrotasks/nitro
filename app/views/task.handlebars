@@ -1,5 +1,4 @@
 <li id="task-{{ id }}" class="task {{#if group}}group{{/if}} {{#if completed }}completed{{/if}} p{{ priority }}">
-  <div class="priority"></div>
   <div class="checkbox" title="{{ checkboxalttext }}"></div>
   <div class="name">{{addTags name }}</div>
   <input type="text" class="input-name">
@@ -20,7 +19,7 @@
     <div class="delete"></div>
   </div>
   {{#if notes }}
-    <div class="notes"><div class="inner" contenteditable="true">{{{notes}}</div></div>
+    <div class="notes"><div class="inner" contenteditable="true">{{{notes}}}</div></div>
   {{else}}
     <div class="notes placeholder"><div class="inner" contenteditable="true">{{ notesplaceholder }}</div></div>
   {{/if }}
