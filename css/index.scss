@@ -558,6 +558,11 @@ ul.tasks {
   padding: 0;
   margin-top: 20px;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-transition: 200ms opacity ease;
+
+  &.loading {
+    opacity: 0;
+  }
 }
 
 .message {
