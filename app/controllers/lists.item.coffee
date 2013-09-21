@@ -6,10 +6,7 @@ Task  = require '../models/task.coffee'
 List  = require '../models/list.coffee'
 
 class ListItem extends Spine.Controller
-  template: ( ->
-    require '../views/list.js'
-    Handlebars.templates['list']
-  )()
+  template: require '../views/list'
 
   elements:
     '.name': 'name'

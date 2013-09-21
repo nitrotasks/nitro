@@ -4,9 +4,7 @@ http = require 'http'
 fs = require 'fs'
 
 # Modules
-WATCHIFY   = './node_modules/watchify/bin/cmd.js'
-BROWSERIFY = './node_modules/browserify/bin/cmd.js'
-COFFEEIFY  = './node_modules/caching-coffeeify/index.js'
+SCRUNCH    = 'scrunch'
 UGLIFY     = './node_modules/uglify-js/bin/uglifyjs'
 SASS_COMPILER = './node_modules/node-sass/bin/node-sass'
 
@@ -28,12 +26,10 @@ run = (cmd, args) ->
   terminal.on 'error', (data) -> console.log(data.toString())
 
 compileCoffee = (options={}) ->
-  args = ['-t', COFFEEIFY, INPUT, '-o', OUTPUT]
+  args = [INPUT, '--out', OUTPUT, '--compile']
   if options.watch
-    args.unshift('-v')
-    run(WATCHIFY, args)
-  else
-    run(BROWSERIFY, args)
+    args.unshift('--watch')
+  run(SCRUNCH, args)
 
 compileSass = (options={}) ->
   args = [SASS, CSS]

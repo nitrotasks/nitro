@@ -16,10 +16,7 @@ dateDetector = require '../utils/date.coffee'
 
 class Tasks extends Spine.Controller
 
-  template: (->
-    require '../views/task.js'
-    Handlebars.templates['task']
-  )()
+  template: require '../views/task'
 
   elements:
     "ul.tasks": "tasks"
