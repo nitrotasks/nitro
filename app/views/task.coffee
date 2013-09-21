@@ -13,7 +13,6 @@ module.exports = (data) ->
     } #{
       if data.completed then "completed" else ""
     } p#{ data.priority }">
-      <div class="priority"></div>
       <div class="checkbox" title="#{ data.checkboxalttext }"></div>
       <div class="name">#{ addTags data.name }</div>
       <input type="text" class="input-name">

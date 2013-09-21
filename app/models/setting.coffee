@@ -48,7 +48,8 @@ class window.Setting extends Spine.Model
 
     $('html').addClass 'dark' if @night == yes
 
-  @extend @Local
+  @extend @Sync
+  @include @Sync
   @extend UpdateAttribute
 
   # Change a setting

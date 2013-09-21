@@ -65,7 +65,12 @@ class window.List extends Spine.Model
     order = @tasks.slice(0)
 
     for task in @tasks
-      if Task.find(task).completed isnt false
+      try
+        # Shouldn't fail if the task isn't in the list
+        if Task.find(task).completed isnt false
+          order.splice(order.indexOf(task), 1)
+      catch err
+        # We pull the task out of the list anyway
         order.splice(order.indexOf(task), 1)
 
     # Does it after loop is finished.

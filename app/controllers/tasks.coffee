@@ -193,7 +193,13 @@ class Tasks extends Spine.Controller
 
         html = @template(task) + html
 
-    @tasks[0].innerHTML = html
+    @tasks.addClass("loading")
+    @tasks[0].innerHTML = ""
+
+    setTimeout =>
+      @tasks[0].innerHTML = html
+      @tasks.removeClass("loading")
+    , 150
 
     @timers.bindTasks = setTimeout =>
       for task in tasks
@@ -201,7 +207,7 @@ class Tasks extends Spine.Controller
           task: task
           el: @tasks.find("#task-#{ task.id }")
         @items[@items.length] = view
-    , 300
+    , 400
 
     # Handles Empty List
     @el.addClass "empty" if tasks.length == 0
