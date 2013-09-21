@@ -28,12 +28,12 @@ run = (cmd, args) ->
 compileCoffee = (options={}) ->
   args = [INPUT, '--out', OUTPUT, '--compile']
   if options.watch
-    args.unshift('--watch')
+    args.push('--watch')
   run(SCRUNCH, args)
 
 compileSass = (options={}) ->
   args = [SASS, CSS]
-  if options.watch then args.unshift('--watch')
+  if options.watch then args.unshift('--watch', 'css')
   run(SASS_COMPILER, args)
 
 minifyApp = ->
