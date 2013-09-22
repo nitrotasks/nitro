@@ -4,7 +4,7 @@ http = require 'http'
 fs = require 'fs'
 
 # Modules
-SCRUNCH    = 'scrunch'
+SCRUNCH    = './node_modules/coffee-scrunch/bin/scrunch.js'
 UGLIFY     = './node_modules/uglify-js/bin/uglifyjs'
 SASS_COMPILER = './node_modules/node-sass/bin/node-sass'
 
