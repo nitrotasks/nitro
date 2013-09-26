@@ -51,6 +51,7 @@ class window.List extends Spine.Model
 
   # Move a task from one list to another
   moveTask: (task, newList) =>
+    if @id == newList.id then return
     task.updateAttribute "list", newList.id
     newList.addTask task
     @removeTask task, forceUpdate: yes
