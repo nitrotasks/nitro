@@ -7,7 +7,7 @@ localhost =
   sync: "localhost:8080"
 
 # Set active server
-active = localhost
+active = server
 
 active.EMAIL_LIST = "http://#{active.server}/email"
 module.exports = active
