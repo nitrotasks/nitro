@@ -190,7 +190,11 @@
         <div class="signedin">
           <label data-tText="Name"></label> <input type="text" disabled class="user-name"><button class="save name" data-tText="Save"></button><button class="edit name" data-tText="Edit"></button><br>
           <label data-tText="Email"></label> <input type="text" disabled class="user-email"><button class="save email" data-tText="Save"></button><button class="edit email" data-tText="Edit"></button><br>
-          <label data-tText="Password"></label> <input type="password" disabled class="user-password" value="YouThoughtWeWereStupid"><button class="edit password" data-tText="Edit"></button><br>
+          <form id="passwordreset" method="post" action="">
+          <!-- Hidden Input so it gets submitted with the form -->
+          <input type="hidden" name="email" class="user-email">
+          <label data-tText="Password"></label><input type="password" disabled class="user-password" value="YouThoughtWeWereStupid"> <button type="submit" class="edit password" data-tText="Edit"></button>
+          </form>
           <label data-tText="Language"></label> <input type="text" disabled class="user-language"><button class="edit language" data-tText="Edit"></button><br>
         </div>
         <div class="signedout">
