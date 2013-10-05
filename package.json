@@ -7,7 +7,7 @@
     "spine"          : "~1.1.x"
   },
   "devDependencies"  : {
-    "coffee-scrunch" : "0.0.9",
+    "coffee-scrunch" : ">=0.1.0",
     "uglify-js"      : "*",
     "node-static"    : "*",
     "node-sass"      : "*"
