@@ -1,4 +1,4 @@
-module.exports = [
+[
   {
     "name": "Welcome to Nitro!",
     "date": "",

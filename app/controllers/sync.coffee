@@ -1,13 +1,6 @@
-# Spine
-Spine           = require 'spine'
-Model           = Spine.Model
-
-# Socket.IO
-SocketIo        = require '../lib/socket.io.js'
-UpdateAttribute = require '../lib/updateAttr.coffee'
-
-# Utils
-CONFIG          = require '../utils/conf.coffee'
+Base = require 'base'
+SocketIo = require '../lib/socket.io.js'
+CONFIG  = require '../utils/conf.coffee'
 
 # ------------------
 # Handle Sync Events
@@ -23,10 +16,10 @@ Sync =
   enabled: yes
 
   # Hold unsynced events
-  queue: JSON.parse localStorage.Queue or "[]"
+  queue: JSON.parse localStorage.Queue or '[]'
 
   connect: (uid, token, fn) ->
-    @socket = SocketIo.connect("http://#{CONFIG.sync}/?token=#{token}&uid=#{uid}")
+    @socket = SocketIo.connect("http://#{ CONFIG.sync }/?token=#{  token  }&uid=#{ uid }")
 
     # Handle offline modes
     for event in ['error', 'disconnect', 'connect_failed']
@@ -66,14 +59,14 @@ Sync =
   # Go through each item in the queue and send it to the server
   sync: ->
     # return no unless @queue.length
-    console.log "Going to run sync"
-    console.log "Queue:", @queue
+    console.log 'Going to run sync'
+    console.log 'Queue:', @queue
     # Send queue to server
     @emit 'sync', @queue, ([tasks, lists]) =>
       # Update records
-      console.log "Lists:", lists
+      console.log 'Lists:', lists
       @models.List.refresh(lists, clear: true)
-      console.log "Tasks:", tasks
+      console.log 'Tasks:', tasks
       @models.Task.refresh(tasks, clear: true)
       @queue = []
       @saveQueue()
@@ -102,12 +95,12 @@ Sync =
   # Check an event, and if it is a model update add it to the queue
   # TODO: Add optimization for duplicate events with timestamps
   addToQueue: (name, args) ->
-    if name in ["create", "update", "destroy"]
+    if name in ['create', 'update', 'destroy']
       now = Date.now()
-      if name is "update"
+      if name is 'update'
         time = {}
         for own key of args[1]
-          continue if key is "id"
+          continue if key is 'id'
           time[key] = now
       else
         time = now
@@ -127,8 +120,8 @@ Sync =
     for event in @queue
       [type, [className, model], time] = event
       switch type
-        when "create", "update" then item = model
-        when "destroy" then item = {id: model}
+        when 'create', 'update' then item = model
+        when 'destroy' then item = {id: model}
 
       if not models.hasOwnProperty className
         models[className] = {}
@@ -151,7 +144,7 @@ Sync =
             b: 0
 
           for x, i in [a,b]
-            if typeof x[2] is "object"
+            if typeof x[2] is 'object'
               times = []
               times.push time for key, time of x[2]
               value = Math.max.apply @, times
@@ -177,11 +170,11 @@ Sync =
           event = events[index]
           type = event[0]
           switch type
-            when "create"
+            when 'create'
               section.create = event
-            when "update"
+            when 'update'
               section.update.unshift event
-            when "destroy"
+            when 'destroy'
               section.destroy = event
 
         # Merge update and destroy events
@@ -198,7 +191,7 @@ Sync =
           for own key, value of model
             if value isnt lastUpdate[key]
               lastUpdate[key] = value
-              timestamps[key] = time[key] unless key is "id"
+              timestamps[key] = time[key] unless key is 'id'
 
         # Merge create and update events
         if section.create and not section.destroy and section.update.length
@@ -221,7 +214,7 @@ Sync =
 
           # Add update event(s)
           if section.update.length
-            queue.push ["update", [className, lastUpdate], timestamps]
+            queue.push ['update', [className, lastUpdate], timestamps]
 
           # Add destroy events
           queue.push section.destroy if section.destroy
@@ -235,7 +228,7 @@ Sync =
     # Save queue to localstorage
     localStorage.Queue = JSON.stringify @queue
 
-  exportData: (keys=["tasks", "lists"]) ->
+  exportData: (keys=['tasks', 'lists']) ->
     # Export local data to JSON
     output = {}
     for className, model of @models
@@ -248,15 +241,12 @@ Sync =
       model.refresh(input[className])
 
   goOffline: ->
-    console.error "NitroSync: Couldn't connect to server"
+    console.error 'NitroSync: Couldn\'t connect to server'
     Setting.trigger('offline')
     Sync.online = no
 
-# Just in case you need any default values
-class Base
-
 # Control all records in the model
-class Collection extends Base
+class Collection
 
   constructor: (@model) ->
 
@@ -266,21 +256,21 @@ class Collection extends Base
     # Set up bindings for server events
 
     Sync.on 'create', (data) =>
-      console.log "(Sync) create ->", data
+      console.log '(Sync) create ->', data
       [className, item] = data
       if className is @model.className
         Sync.disable =>
           @model.create item
 
     Sync.on 'update', (data) =>
-      console.log "(Sync) update ->", data
+      console.log '(Sync) update ->', data
       [className, item] = data
       if className is @model.className
         Sync.disable =>
           @model.find(item.id).updateAttributes(item)
 
     Sync.on 'destroy', (data) =>
-      console.log "(Sync) delete ->", data
+      console.log '(Sync) delete ->', data
       [className, id] = data
       if className is @model.className
         Sync.disable =>
@@ -308,7 +298,7 @@ class Collection extends Base
 # Control a single record
 # -----------------------
 
-class Singleton extends Base
+class Singleton
 
   constructor: (@record) ->
     @model = @record.constructor
@@ -319,11 +309,11 @@ class Singleton extends Base
         @record.changeID(id)
 
   update: (model, key, val, old, options) =>
-    return if key is "id" # We don't need to update on ID changes
+    return if key is 'id' # We don't need to update on ID changes
     item =
       id: @record.id
     item[key] = val
-    console.log "(Sync)", item
+    console.log '(Sync)', item
     Sync.emit 'update', [@model.className, item]
 
   destroy: (params, options) ->
@@ -340,15 +330,14 @@ Extend =
 # Extend Model
 # ------------
 
-Model.Sync =
+Sync.core =
   extended: ->
-    @fetch @syncFetch
-    @bind "change", @syncChange
-    @bind "updateAttr", @syncUpdate
-    @bind "refresh update", @saveLocal
+    @on 'fetch', @syncFetch
+    @bind 'change', @syncChange
+    @bind 'updateAttr', @syncUpdate
+    @bind 'refresh update', @saveLocal
 
     @extend Extend
-    @extend UpdateAttribute
     @include Include
 
   # Private
@@ -359,7 +348,7 @@ Model.Sync =
 
   syncChange: (record, type, options = {}) ->
     # Update events are handled by syncUpdate
-    return if type is "update"
+    return if type is 'update'
     @saveLocal()
     return if options.sync is off
     record.sync()[type](options.sync, options)
@@ -377,19 +366,4 @@ Model.Sync =
     localStorage[@className] = result
 
 
-# ------------
-# Sync Methods
-# ------------
-
-Model.Sync.Methods =
-  extended: ->
-    @extend Extend
-    @include Include
-
-
-# -------
-# Globals
-# -------
-
-Spine.Sync = Sync
-module?.exports = Sync
+module.exports = Sync

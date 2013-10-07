@@ -1,84 +1,85 @@
-# Spine
-Spine    = require 'spine'
+# Base
+Base = require 'base'
 
 # Controllers
 Settings = require './settings.coffee'
 
-# Modals
+# Models
 List     = require '../models/list.coffee'
 Task     = require '../models/task.coffee'
-Setting  = require '../models/setting.coffee'
+setting  = require '../models/setting.coffee'
 
-class Panel extends Spine.Controller
+
+class Panel extends Base.Controller
 
   elements:
     '.user img': 'avatar'
     '.user .name': 'name'
-    ".search input": "searchInput"
-    ".search a": "clearSearchButton"
+    '.search input': 'searchInput'
+    '.search a': 'clearSearchButton'
+    '.sidebar': 'sidebar'
 
   events:
-    "click .logo": "showMenu"
-    "keyup .search input": "search"
-    "click .search a": "clearSearch"
-    "click .user": "toggleAccount"
-    "click .settingsButton .img": "toggleSettings"
+    'click .logo': 'toggleMenu'
+    'keyup .search input': 'search'
+    'click .search a': 'clearSearch'
+    'click .user': 'toggleAccount'
+    'click .settingsButton .img': 'toggleSettings'
 
   constructor: ->
-    Spine.touchify(@events)
+    # Spine.touchify(@events)
     super
 
-    Setting.bind 'update:user_name', @setName
-    Setting.bind 'update:user_email', @setAvatar
-    Setting.bind 'offline', @offline
+    setting.on 'change:userName',   @setName
+    setting.on 'change:userEmail',  @setAvatar
+    setting.on 'offline',           @offline
 
-    Setting.bind "login", =>
+    setting.on 'login', =>
       @setName()
       @setAvatar()
 
-  showMenu: =>
-    $(".sidebar").toggleClass("show")
+  toggleMenu: (onOff) =>
+    @sidebar.toggleClass('show', onOff)
 
   search: =>
-    if List.current.id isnt "filter"
+    if List.current.id isnt 'filter'
       @originalList = List.current
     query = @searchInput.val()
     if query.length is 0
       @clearSearch()
     else
-      List.trigger "changeList",
+      List.trigger 'change:current',
         name: "Results for: #{ query }"
-        id: "filter"
-        tasks: Task.filter(query)
+        id: 'filter'
+        tasks: Task.search(query)
         disabled: yes
         permanent: yes
 
-  setName: (name) =>
-    name ?= Setting.get('user_name')
+  setName: (name = setting.userName) =>
     @name.text(name)
 
   setAvatar: =>
-    email = Setting.get('user_email').toLowerCase()
+    email = setting.userEmail.toLowerCase()
     id = md5(email)
     link = "http://www.gravatar.com/avatar/#{ id }"
     @avatar.show().attr('src', link)
 
   offline: =>
-    return unless not Setting.get('noAccount')
-    name = Setting.get('user_name')
+    return unless not setting.noAccount
+    name = setting.userName
     console.log 'Name', name
     @setName("#{ name } - Offline")
 
   clearSearch: =>
-    # @searchInput.val("").focus()
-    List.trigger "changeList", @originalList
+    # @searchInput.val('').focus()
+    List.trigger 'change:current', @originalList
 
   toggleAccount: ->
-    $(".settings-container li")[1].click()
-    Setting.trigger "show"
+    $('.settings-container li')[1].click()
+    setting.trigger 'show'
 
   toggleSettings: ->
-    $(".settings-container li")[0].click()
-    Setting.trigger "show"
+    $('.settings-container li')[0].click()
+    setting.trigger 'show'
 
 module.exports = Panel

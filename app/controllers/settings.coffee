@@ -1,16 +1,16 @@
-# Spine
-Spine   = require 'spine'
+# Base
+Base   = require 'base'
 
-# Modals
-Setting = require '../models/setting.coffee'
-Task    = require '../models/task.coffee'
+# Models
+Task    = require '../models/task'
+List    = require '../models/list'
+setting = require '../models/setting'
 
 # Utils
-Cookies = require '../utils/cookies.js'
-CONFIG  = require '../utils/conf.coffee'
+Cookies = require '../utils/cookies'
+CONFIG  = require '../utils/conf'
 
-
-class Settings extends Spine.Controller
+class Settings extends Base.Controller
 
   elements:
     '.disabler'           : 'disabler'
@@ -27,7 +27,7 @@ class Settings extends Spine.Controller
     '.confirm-delete'     : 'confirmDelete'
     '.completed-duration' : 'completedDuration'
     '.clear-data-label'   : 'clearDataLabel'
-    "#passwordreset"      : 'passwordreset'
+    '#passwordreset'      : 'passwordreset'
     '.user-name'          : 'nameInput'
     '.user-email'         : 'emailInput'
 
@@ -46,61 +46,68 @@ class Settings extends Spine.Controller
     'click .save'          : 'saveField'
 
   constructor: ->
-    Spine.touchify(@events)
+    # Spine.touchify(@events)
+
     super
-    Setting.bind "show", @show
-    Setting.bind "login", @account
 
-    @dateFormat.val Setting.get "dateFormat"
-    @completedDuration.val Setting.get "completedDuration"
-    @confirmDelete.prop "checked", Setting.get("confirmDelete")
-    @nightMode.prop "checked", Setting.get("night")
-    $("[data-value=" + Setting.get("language") + "]").addClass "selected"
+    setting.on 'show',  @show
+    setting.on 'login', @account
 
-    unless Setting.get("notifications") is true and Setting.isPro() is true
-      @disabler.prop("disabled", true).addClass("disabled")
-      @notifyToggle.prop "checked", false
+    @dateFormat.val         setting.dateFormat
+    @completedDuration.val  setting.completedDuration
+    @confirmDelete.prop     'checked', setting.confirmDelete
+    @nightMode.prop         'checked', setting.night
 
-    @notifyEmail.prop "checked", Setting.get "notifyEmail"
-    @notifyTime.val Setting.get "notifyTime"
-    @notifyRegular.val Setting.get "notifyRegular"
+    @setLanguage()
+
+    unless setting.notifications is true and setting.isPro() is true
+      @disabler.prop('disabled', true).addClass('disabled')
+      @notifyToggle.prop 'checked', false
+
+    @notifyEmail.prop 'checked', setting.notifyEmail
+    @notifyTime.val setting.notifyTime
+    @notifyRegular.val setting.notifyRegular
 
     @setupNotifications()
 
+  # Highlight the current language
+  setLanguage: (language = setting.language) =>
+    $("[data-value=#{ language }").addClass('selected')
+
   account: =>
     # Show the proper account thing
-    $(".account .signedout").hide()
-    $(".account .signedin").show()
+    $('.account .signedout').hide()
+    $('.account .signedin').show()
 
-    @passwordreset.attr("action", "http://" + CONFIG.server + "/forgot")
-    @nameInput.val(Setting.get("user_name"))
-    @emailInput.val(Setting.get("user_email"))
+    @passwordreset.attr('action', 'http://' + CONFIG.server + '/forgot')
+    @nameInput.val(setting.user_name)
+    @emailInput.val(setting.user_email)
 
     # Forgive Me
-    $(".account .user-language").val($(".language [data-value=" + Setting.get("language") + "]").text())
+    $('.account .user-language').val($('.language [data-value=' + setting.language + ']').text())
 
     @clearDataLabel.hide()
-    @clearDataButton.text $.i18n._("Logout")
+    @clearDataButton.text $.i18n._('Logout')
 
-    $(".clearWrapper").css("text-align", "center")
+    $('.clearWrapper').css('text-align', 'center')
 
   proUpgrade: =>
-    location.href = "http://nitrotasks.com/pro?uid=" + Setting.get("uid")
+    location.href = 'http://nitrotasks.com/pro?uid=' + setting.uid
 
   show: =>
     @el.modal()
 
   save: =>
-    Setting.set "username", @username.val()
-    Setting.set "weekStart", @weekStart.val()
-    Setting.set "dateFormat", @dateFormat.val()
-    Setting.set "completedDuration", @completedDuration.val()
-    Setting.set "confirmDelete",  @confirmDelete.prop "checked"
-    Setting.set "night",  @nightMode.prop "checked"
-    Setting.set "notifications",  @notifyToggle.prop "checked"
-    Setting.set "notifyEmail",  @notifyEmail.prop "checked"
-    Setting.set "notifyTime",  @notifyTime.val()
-    Setting.set "notifyRegular",  @notifyRegular.val()
+    setting.username = @username.val()
+    setting.weekStart = @weekStart.val()
+    setting.dateFormat = @dateFormat.val()
+    setting.completedDuration = @completedDuration.val()
+    setting.confirmDelete =  @confirmDelete.prop 'checked'
+    setting.night =  @nightMode.prop 'checked'
+    setting.notifications =  @notifyToggle.prop 'checked'
+    setting.notifyEmail =  @notifyEmail.prop 'checked'
+    setting.notifyTime =  @notifyTime.val()
+    setting.notifyRegular =  @notifyRegular.val()
 
     # Clear Notify Timeout
     try
@@ -109,71 +116,71 @@ class Settings extends Spine.Controller
     @setupNotifications()
 
   moveCompleted: =>
-    for list in List.all()
+    List.forEach (list) ->
       list.moveCompleted()
 
   tabSwitch: (e) =>
-    if $(e.target).hasClass("close")
-      @el.modal("hide")
+    if $(e.target).hasClass('close')
+      @el.modal('hide')
     else
-      @el.find(".current").removeClass "current"
+      @el.find('.current').removeClass 'current'
       # One hell of a line of code, but it switches tabs. I'm amazing
-      @el.find("div." + $(e.target).addClass("current").attr("data-id")).addClass "current"
+      @el.find('div.' + $(e.target).addClass('current').attr('data-id')).addClass 'current'
 
   toggleNight: (e) =>
-    if Setting.isPro()
-      $("html").toggleClass "dark"
+    if setting.isPro()
+      $('html').toggleClass 'dark'
     else
-      @nightMode.prop("checked", false)
-      @el.modal("hide")
-      $(".modal.proventor").modal("show")
-      Setting.set "night", false
+      @nightMode.prop('checked', false)
+      @el.modal('hide')
+      $('.modal.proventor').modal('show')
+      setting.night = false
 
   #FFFFUCKIT.
   editField: (e) ->
-    if $(e.target).hasClass("name") or $(e.target).hasClass("email")
+    if $(e.target).hasClass('name') or $(e.target).hasClass('email')
       text = $(e.target).text()
-      @nameInput.prop("disabled", true)
-      @emailInput.prop("disabled", true)
-      $(e.target).parent().find(".save").hide()
-      $(e.target).parent().find(".edit").text($.i18n._("Edit"))
+      @nameInput.prop('disabled', true)
+      @emailInput.prop('disabled', true)
+      $(e.target).parent().find('.save').hide()
+      $(e.target).parent().find('.edit').text($.i18n._('Edit'))
 
       $(e.target).text(text)
 
-      if $(e.target).text() is $.i18n._("Edit")
-        $(e.target).text($.i18n._("Cancel"))
+      if $(e.target).text() is $.i18n._('Edit')
+        $(e.target).text($.i18n._('Cancel'))
 
-        if $(e.target).hasClass("name")
-          $(e.target).parent().find(".name.save").show()
-          @nameInput.prop("disabled", false).focus()
-        else if $(e.target).hasClass("email")
-          $(e.target).parent().find(".email.save").show()
-          @emailInput.prop("disabled", false).focus()
+        if $(e.target).hasClass('name')
+          $(e.target).parent().find('.name.save').show()
+          @nameInput.prop('disabled', false).focus()
+        else if $(e.target).hasClass('email')
+          $(e.target).parent().find('.email.save').show()
+          @emailInput.prop('disabled', false).focus()
       else
-        $(e.target).parent().find("button.save").hide()
-        $(e.target).text($.i18n._("Edit"))
-        @nameInput.val(Setting.get("user_name"))
-        @emailInput.val(Setting.get("user_email"))
+        $(e.target).parent().find('button.save').hide()
+        $(e.target).text($.i18n._('Edit'))
+        @nameInput.val(setting.user_name)
+        @emailInput.val(setting.user_email)
 
-    else if $(e.target).hasClass("language")
-      $(".tabs li[data-id=language]").trigger("click")
+    else if $(e.target).hasClass('language')
+      $('.tabs li[data-id=language]').trigger('click')
 
   saveField: (e) ->
     # Hides Button
     $(e.target).hide()
 
-    Setting.set("user_name", @nameInput.val())
-    Setting.set("user_email", @emailInput.val())
-    @nameInput.prop("disabled", true)
-    @emailInput.prop("disabled", true)
-    $(e.target).parent().find("button.edit").text($.i18n._("Edit"))
+    setting.userName = @nameInput.val()
+    setting.userEmail = @emailInput.val()
+    @nameInput.prop('disabled', true)
+    @emailInput.prop('disabled', true)
+    $(e.target).parent().find('button.edit').text($.i18n._('Edit'))
 
   setupNotifications: =>
-    if Setting.get("notifications") and Setting.isPro()
+    if setting.notifications and setting.isPro()
 
       now = Date.now()
       notifyTime = new Date()
-      hour = Setting.get("notifyTime")
+      hour = setting.notifyTime
 
       notifyTime.setHours(hour)
       notifyTime.setMinutes(8)
@@ -185,7 +192,7 @@ class Settings extends Spine.Controller
       if notifyTime - now < 0
         notifyTime += 86400000
 
-      @log "Notifying in: #{ (notifyTime - now)/1000 } seconds"
+      @log "Notifying in: #{ ( notifyTime - now ) / 1000 } seconds"
 
       # console.log Task.all
 
@@ -194,7 +201,7 @@ class Settings extends Spine.Controller
         upcomingNumber = 0
 
         for task in Task.all()
-          if task.date isnt "" and task.date isnt false and !task.completed
+          if task.date isnt '' and task.date isnt false and !task.completed
             # Number of Tasks that have due dates
             upcomingNumber++
             # Number of Tasks that are due
@@ -203,7 +210,7 @@ class Settings extends Spine.Controller
 
         console.log {due: dueNumber, upcoming: upcomingNumber}
 
-        if Setting.get("notifyRegular") is "upcoming"
+        if setting.notifyRegular is 'upcoming'
           notification = window.webkitNotifications.createNotification(
             'img/icon.png',
             'Nitro Tasks',
@@ -219,76 +226,74 @@ class Settings extends Spine.Controller
       , notifyTime - now
 
   logout: (e) ->
-    Cookies.removeItem("uid")
-    Cookies.removeItem("token")
+    Cookies.removeItem('uid')
+    Cookies.removeItem('token')
     document.location.reload()
 
   clearData: =>
-    if Setting.get("token")
+    if setting.token
       localStorage.clear()
       @logout()
     else
-      $(".modal.settings").modal "hide"
-      $(".modal.delete").modal "show"
-      $(".modal.delete .true").on("click touchend", =>
+      $('.modal.settings').modal 'hide'
+      $('.modal.delete').modal 'show'
+      $('.modal.delete .true').on('click touchend', =>
         localStorage.clear()
         @logout()
-        $(".modal.delete").modal "hide"
-        $(".modal.delete .true").off "click touchend"
+        $('.modal.delete').modal 'hide'
+        $('.modal.delete .true').off 'click touchend'
       )
 
-      $(".modal.delete .false").on("click touchend", (e) ->
-        $(".modal.delete").modal "hide"
-        $(".modal.delete .false").off "click touchend"
+      $('.modal.delete .false').on('click touchend', (e) ->
+        $('.modal.delete').modal 'hide'
+        $('.modal.delete .false').off 'click touchend'
       )
 
   exportData: ->
-    @el.modal("hide")
-    $('.modal.export').modal("show")
+    @el.modal('hide')
+    $('.modal.export').modal('show')
     $('.modal.export textarea').val Spine.Sync.exportData()
 
     $('.modal.export button').click ->
-      Spine.Sync.importData($('.modal.export textarea').val()) if $(@).hasClass("true")
-      $('.modal.export').modal("hide")
-      $(@).off("click")
+      Spine.Sync.importData($('.modal.export textarea').val()) if $(@).hasClass('true')
+      $('.modal.export').modal('hide')
+      $(@).off('click')
 
   changeLanguage: (e) =>
     # Pirate Speak is a Pro feature
-    if $(e.target).attr("data-value") is "en-pi" and !Setting.isPro()
-      @el.modal("hide")
-      $(".modal.proventor").modal("show")
+    if $(e.target).attr('data-value') is 'en-pi' and !setting.isPro()
+      @el.modal('hide')
+      $('.modal.proventor').modal('show')
     else
-      Setting.set "language", $(e.target).attr("data-value")
+      setting.language = $(e.target).attr('data-value')
       window.location.reload()
 
   login: =>
     $('.auth').fadeIn(300)
-    @el.modal("hide")
+    @el.modal('hide')
 
   toggleNotify: =>
-    if @notifyToggle.prop("checked")
-      if Setting.isPro()
+    if @notifyToggle.prop('checked')
+      if setting.isPro()
         # Enable Checkboxes
         window.webkitNotifications.requestPermission ->
-          console.log("Hello")
+          console.log('Hello')
           if window.webkitNotifications.checkPermission() is 0
-            console.log("Hello")
-            $(".disabler").prop("disabled", false).removeClass("disabled")
+            console.log('Hello')
+            $('.disabler').prop('disabled', false).removeClass('disabled')
 
           else
-            Setting.set "notifications", false
-            alert "You'll need to open your browser settings and allow notifications for app.nitrotasks.com"
+            setting.notifications = false
+            alert 'You\'ll need to open your browser settings and allow notifications for app.nitrotasks.com'
 
       else
-        @notifyToggle.prop("checked", false)
+        @notifyToggle.prop('checked', false)
         # Because it gets set as true for a stupid reason
-        Setting.set "notifications", false
-        @el.modal("hide")
-        $('.modal.proventor').modal("show")
+        setting.notifications = false
+        @el.modal('hide')
+        $('.modal.proventor').modal('show')
     else
       # Disable Checkboxes
-      @disabler.prop("disabled", true).addClass("disabled")
-
-
+      @disabler.prop('disabled', true).addClass('disabled')
 
 module.exports = Settings

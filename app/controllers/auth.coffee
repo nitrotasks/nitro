@@ -1,10 +1,11 @@
-Spine = require 'spine'
-Setting = require '../models/setting.coffee'
-Cookies = require '../utils/cookies.js'
-CONFIG = require '../utils/conf.coffee'
-$ = Spine.$
+Base    = require 'base'
+$       = require 'jqueryify'
+Task    = require '../models/task'
+setting = require '../models/setting'
+Cookies = require '../utils/cookies'
+CONFIG  = require '../utils/conf'
 
-class Auth extends Spine.Controller
+class Auth extends Base.Controller
 
   elements:
     '.form': 'form'
@@ -27,17 +28,17 @@ class Auth extends Spine.Controller
     'keydown input': 'enterKey'
 
   constructor: ->
-    Spine.touchify(@events)
+    # Spine.touchify(@events)
     super
 
     # True  = login
     # False = register
     @mode = true
 
-    Setting.bind 'offline', =>
+    setting.on 'offline', =>
       @el.hide()
 
-    Setting.bind 'login', =>
+    setting.on 'login', =>
       @el.fadeOut(300)
       @form.removeClass('ajax')
 
@@ -77,8 +78,8 @@ class Auth extends Spine.Controller
     if @mode then @email.focus() else @name.focus()
 
   noAccount: =>
-    Setting.set('noAccount', true)
-    Setting.trigger('offline')
+    setting.noAccount = true
+    setting.trigger('offline')
 
     # Make default tasks
     # TODO: This should be part of @startApp() right?
@@ -95,9 +96,9 @@ class Auth extends Spine.Controller
     password: @password.val()
 
   saveToken: (id, token) ->
-    Setting.set('uid', id)
-    Setting.set('token', token)
-    Setting.trigger 'haveToken', [id, token]
+    setting.uid = id
+    setting.token = token
+    setting.trigger 'haveToken', [id, token]
 
   register: (data) ->
     $.ajax
@@ -114,7 +115,7 @@ class Auth extends Spine.Controller
 
         @errorNote.removeClass("populated").empty()
 
-        if Setting.get('noAccount') is false
+        if setting.noAccount is false
           Task.default()
 
       error: (xhr, status, msg) =>
@@ -129,14 +130,14 @@ class Auth extends Spine.Controller
       dataType: 'json'
       success: ([uid, token, email, name, pro]) =>
         @saveToken(uid, token)
-        Setting.set('user_name', name)
-        Setting.set('user_email', email)
-        Setting.set('pro', pro)
+        setting.user_name = name
+        setting.user_email = email
+        setting.pro = pro
 
         @errorNote.removeClass('populated').empty()
 
         # In case it's been set
-        Setting.set 'noAccount', false
+        setting.set 'noAccount', false
 
       error: (xhr, status, msg) =>
         console.log 'Could not login'
@@ -163,20 +164,20 @@ class Auth extends Spine.Controller
       data:
         service: service
       success: (request) =>
-        Setting.set 'oauth',
+        setting.set 'oauth',
           service: service
           token: request.oauth_token
           secret: request.oauth_token_secret
         location.href = request.authorize_url
 
   handleOauth: =>
-    oauth = Setting.get('oauth')
+    oauth = setting.oauth
     return unless oauth?
 
     token = oauth.token
     secret = oauth.secret
     service = oauth.service
-    Setting.delete('oauth')
+    setting.delete('oauth')
 
     $.ajax
       type: 'post'
@@ -196,8 +197,8 @@ class Auth extends Spine.Controller
             secret: access.oauth_token_secret
           success: ([uid, token, email, name]) =>
             @saveToken(uid, token)
-            Setting.set('user_name', name)
-            Setting.set('user_email', email)
+            setting.userName = name
+            setting.userEmail = email
           fail: ->
             console.log arguments
 

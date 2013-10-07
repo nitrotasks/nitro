@@ -1,16 +1,15 @@
-# Spine
-Spine  = require 'spine'
-$      = Spine.$
-
-# Utils
-Keys   = require '../utils/keys.coffee'
-CONFIG = require '../utils/conf.coffee'
+Base    = require 'base'
+$       = require 'jqueryify'
+Keys    = require '../utils/keys.coffee'
+CONFIG  = require '../utils/conf.coffee'
+setting = require '../models/setting'
+Sync    = require '../controllers/sync'
 
 # The base Modal class
-class Modal extends Spine.Controller
+class Modal extends Base.Controller
 
 	constructor: (opts) ->
-		Spine.touchify(opts.events)
+		# Spine.touchify(opts.events)
 		super
 
 	state: off
@@ -18,22 +17,22 @@ class Modal extends Spine.Controller
 	show: ->
 		return unless @state is off
 		@state = on
-		@el.show(0).addClass("show")
+		@el.show(0).addClass('show')
 		if @onShow then @onShow()
 		setTimeout ( =>
-			@el.on "click.modal, touchend.modal", (event) =>
-				if event.target.className.indexOf("modal") >= 0 then@hide()
+			@el.on 'click.modal, touchend.modal', (event) =>
+				if event.target.className.indexOf('modal') >= 0 then@hide()
 		), 500
 
 	hide: ->
 		return unless @state is on
 		@state = off
-		@el.removeClass("show")
+		@el.removeClass('show')
 		setTimeout ( =>
 			@el.hide(0)
 			if @onHide then @onHide()
 		), 350
-		@el.off("click.modal, touchend.modal")
+		@el.off('click.modal, touchend.modal')
 
 
 # Stores a reference to each modal, so we can fetch them from other files
@@ -49,14 +48,14 @@ module.exports =
 	init: ->
 
 		# Deleting a task
-		modals["trashTask"] = new Modal
-			el: $(".modal.delete-task")
+		modals['trashTask'] = new Modal
+			el: $('.modal.delete-task')
 			events:
-				"click .true": "delete"
-				"click .false": "hide"
+				'click .true': 'delete'
+				'click .false': 'hide'
 
 			run: (@task) ->
-				if Setting.get("confirmDelete")
+				if setting.confirmDelete
 					@show()
 				else
 					@delete()
@@ -67,47 +66,47 @@ module.exports =
 
 
 			# Deleting a list
-			modals["trashList"] = new Modal
-				el: $(".modal.delete-list")
+			modals['trashList'] = new Modal
+				el: $('.modal.delete-list')
 				events:
-					"click .true": "delete"
-					"click .false": "hide"
+					'click .true': 'delete'
+					'click .false': 'hide'
 
 				run: ->
-					if Setting.get "confirmDelete"
+					if setting.confirmDelete
 						@show()
 					else
 						@delete()
 
 				delete: ->
-					List.current.trigger("kill")
+					List.current.trigger('kill')
 					@hide()
 
 
 
 			# Emailing a list
-		modals["email"] = new Modal
-			el: $(".modal.email")
+		modals['email'] = new Modal
+			el: $('.modal.email')
 
 			elements:
-				"input": "input"
+				'input': 'input'
 
 			events:
-				"click button": "submit"
-				"keyup input": "keyup"
+				'click button': 'submit'
+				'keyup input': 'keyup'
 
 			keyup: (e) ->
 				if e.keyCode is Keys.ENTER then @submit()
 
 			submit: ->
-				if Setting.isPro()
+				if setting.isPro()
 					email = @input.val()
 					return unless email.match(/.+@.+\..+/)
-					uid = require('../models/setting.coffee').get("uid")
+					uid = require('../models/setting.coffee').get('uid')
 					listId = require('../models/list.coffee').current.id
-					Spine.Sync.emit("emailList", [uid, listId, email])
+					Sync.emit('emailList', [uid, listId, email])
 				else
-					$(".modal.proventor").modal("show")
+					$('.modal.proventor').modal('show')
 
 				@hide()
 
@@ -115,8 +114,8 @@ module.exports =
 				@input.focus()
 
 			onHide: ->
-				@input.val("")
+				@input.val('')
 
 		# Sharing a list
-		modals["share"] = new Modal
-			el: $(".modal.share")
+		modals['share'] = new Modal
+			el: $('.modal.share')

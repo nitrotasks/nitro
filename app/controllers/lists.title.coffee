@@ -1,5 +1,5 @@
-# Spine
-Spine   = require 'spine'
+# Base
+Base   = require 'base'
 
 # Controllers
 Modal   = require './modal.coffee'
@@ -12,22 +12,22 @@ Setting = require '../models/setting.coffee'
 Keys    = require '../utils/keys.coffee'
 
 
-class ListTitle extends Spine.Controller
+class ListTitle extends Base.Controller
 
   elements:
-    "h1": "listName"
-    ".buttons .trash": "deleteButton"
-    ".buttons .sort": "sortButton"
+    'h1': 'listName'
+    '.buttons .trash': 'deleteButton'
+    '.buttons .sort': 'sortButton'
 
   events:
-    "keyup h1": "rename"
-    "keypress h1": "preventer"
-    "click .buttons a": "menuClick"
+    'keyup h1': 'rename'
+    'keypress h1': 'preventer'
+    'click .buttons a': 'menuClick'
 
   constructor: ->
-    Spine.touchify(@events)
+    # Spine.touchify(@events)
     super
-    List.bind "changeList", @render
+    List.on 'change:current', @render
 
   # Display listname
   render: (@list) =>
@@ -35,10 +35,10 @@ class ListTitle extends Spine.Controller
 
     # Disables contenteditable on noneditable lists
     if @list.permanent
-      @listName.removeAttr("contenteditable")
+      @listName.removeAttr('contenteditable')
       @deleteButton.fadeOut(150)
     else
-      @listName.attr("contenteditable", true)
+      @listName.attr('contenteditable', true)
       @deleteButton.fadeIn(150)
 
     # Er, not sure but it detects complted and all
@@ -49,7 +49,7 @@ class ListTitle extends Spine.Controller
 
   # This is fired on keyup when a list is renamed
   rename: (e) ->
-    List.current.updateAttribute("name", @listName.text())
+    List.current.updateAttribute('name', @listName.text())
 
   # Prevents the enter key
   preventer: (e) ->
@@ -59,10 +59,10 @@ class ListTitle extends Spine.Controller
   menuClick: (e)->
 
     switch e.currentTarget.className
-      when "trash" then Modal.get("trashList").run()
-      when "email" then Modal.get("email").show()
-      when "print" then window.print()
-      when "share" then Modal.get("share").show()
-      when "sort"  then Setting.toggle('sort')
+      when 'trash' then Modal.get('trashList').run()
+      when 'email' then Modal.get('email').show()
+      when 'print' then window.print()
+      when 'share' then Modal.get('share').show()
+      when 'sort'  then Setting.toggle('sort')
 
 module.exports = ListTitle

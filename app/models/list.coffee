@@ -1,91 +1,56 @@
-# Spine
-Spine = require 'spine'
+Base = require 'base'
+Sync = require '../controllers/sync'
+Task = require './task'
 
-# Models
-Task  = require './task.coffee'
+class List extends Base.Model
 
-class window.List extends Spine.Model
-  @configure 'List', 'name', 'tasks', 'permanent'
+  defaults:
+    id: null
+    name: ''
+    permanent: null
 
-  @extend @Sync
-  @include @Sync
+  @extend Sync.core
 
+  # Reference active list
+  # Should proabably be in a controller
   @current: null
 
   constructor: ->
     super
-    @tasks ?= []
-    Task.bind "create", @addTask
-    Task.bind "destroy", @removeTask
-    Task.bind "update:id", @updateTask
 
-  # ----------
-  # Task Order
-  # ----------
-
-  # Add a task to a list
-  addTask: (task) =>
-    return unless task.list is @id
-    if @tasks.indexOf(task.id) < 0
-      @tasks.push(task.id)
-      @save
-        sync: off # Don't emit event to server
-
-  # Remove a task from a list
-  removeTask: (task, options) =>
-    return unless options.forceUpdate or task.list is @id
-    index = @tasks.indexOf(task.id)
-    if index > -1
-      @tasks.splice(index, 1)
-      @save
-        sync: off # Don't emit event to server
-
-  # Change clientID to serverID
-  updateTask: (task, val, old) =>
-    return unless task.list is @id
-    index = @tasks.indexOf(old)
-    if index > -1
-      @tasks[index] = val
-      @save
-        sync: off # Don't emit event to server
+    # Create a new task collection
+    @tasks = new Task.constructor()
 
   # Move a task from one list to another
-  moveTask: (task, newList) =>
-    if @id == newList.id then return
-    task.updateAttribute "list", newList.id
-    newList.addTask task
-    @removeTask task, forceUpdate: yes
+  # - task (Task) : The task to move
+  # - list (List) : The list to move the task to
+  moveTask: (task, list) =>
+    if @id == list.id then return
+    task.list = list.id
+    list.tasks.add task
+    @tasks.remove task
 
-  # Change order (used for sorting tasks)
-  setOrder: (tasks) =>
-    console.log "Setting order: ", tasks
-    @updateAttribute("tasks", tasks)
-
-  # pulls all completed tasks out of list order
+  # Remove completed tasks from list
   moveCompleted: =>
-    order = @tasks.slice(0)
+    @tasks.refresh(@tasks.active(), true)
 
-    for task in @tasks
-      try
-        # Shouldn't fail if the task isn't in the list
-        if Task.find(task).completed isnt false
-          order.splice(order.indexOf(task), 1)
-      catch err
-        # We pull the task out of the list anyway
-        order.splice(order.indexOf(task), 1)
+class ListCollection extends Base.Collection
 
-    # Does it after loop is finished.
-    @updateAttribute("tasks", order)
+  model: List
 
+  constructor: ->
+    super
+
+module.exports = new ListCollection()
 
 # Is this the best way to do this?
-List.bind "refresh", ->
+# Nope. Like I said, put it in a controller.
+module.exports.on 'refresh', ->
   return unless List.current?
   if List.exists(List.current.id)
-    console.log "Updating List.current"
-    List.current = List.find(List.current.id)
+    console.log 'Updating List.current'
+    List.current = List.get(List.current.id)
   else
-    console.log "Changing List.current to inbox"
-    List.current = List.find("inbox")
+    console.log 'Changing List.current to inbox'
+    List.current = List.get('inbox')
 
-module.exports = List

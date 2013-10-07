@@ -1,11 +1,11 @@
-# Spine
-Spine = require 'spine'
+# Base
+Base = require 'base'
 
 # Models
 Task  = require '../models/task.coffee'
 List  = require '../models/list.coffee'
 
-class ListItem extends Spine.Controller
+class ListItem extends Base.Controller
   template: require '../views/list'
 
   elements:
@@ -16,7 +16,7 @@ class ListItem extends Spine.Controller
     'click': 'click'
 
   constructor: ->
-    Spine.touchify(@events)
+    # Spine.touchify(@events)
     super
     throw "@list required" unless @list
     # Update is bound to something else so we don't keep rewriting the dom
@@ -24,7 +24,7 @@ class ListItem extends Spine.Controller
     @list.bind "update:tasks", @updateListCount
     @list.bind "kill", @remove
     Task.bind "change", @updateTask
-    @list.bind "changeList", @current
+    @list.bind "change:current", @current
 
   render: =>
     @list.count = Task.active(@list.id).length
@@ -33,7 +33,7 @@ class ListItem extends Spine.Controller
       hoverClass: "ui-state-active"
       tolerance: "pointer"
       drop: (event, ui) =>
-        movedTask = Task.find(ui.draggable.attr("id").slice(5))
+        movedTask = Task.get(ui.draggable.attr("id").slice(5))
         List.current.moveTask(movedTask, @list)
     @current()
     @
@@ -51,7 +51,7 @@ class ListItem extends Spine.Controller
     @name.text list.name
 
   click: ->
-    List.trigger "changeList", @list
+    List.trigger "change:current", @list
 
   current: =>
     if List.current?.id is @list.id

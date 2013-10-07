@@ -2,9 +2,8 @@
   "name": "app",
   "version": "0.0.1",
   "dependencies": {
-    "underscore"     : "1.4.x",
     "jqueryify"      : "~1.9.1",
-    "spine"          : "~1.1.x"
+    "base"           : "git://github.com/stayradiated/Base.git#master"
   },
   "devDependencies"  : {
     "coffee-scrunch" : ">=0.1.0",

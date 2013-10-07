@@ -1,12 +1,12 @@
 
-Spine = require 'spine'
-$ = Spine.$
+Base = require 'base'
+setting = require '../models/setting'
 
-class LoadingScreen extends Spine.Controller
+class LoadingScreen extends Base.Controller
 
   constructor: ->
     super
-    Setting.bind('offline', @hide)
+    setting.on 'offline', @hide
 
   hide: =>
     @el.fadeOut(300)

@@ -1,5 +1,5 @@
 require './lib/setup.coffee'
-Spine = require 'spine'
+Base = require 'base'
 
 # Helpers
 Keys = require './utils/keys.coffee'
@@ -7,26 +7,27 @@ Keys = require './utils/keys.coffee'
 # Models
 Task    = require './models/task.coffee'
 List    = require './models/list.coffee'
-Setting = require './models/setting.coffee'
+setting = require './models/setting.coffee'
 
 # Controllers
 Tasks         = require './controllers/tasks.coffee'
 Lists         = require './controllers/lists.coffee'
 ListTitle     = require './controllers/lists.title.coffee'
 Panel         = require './controllers/panel.coffee'
-Settings      = require './controllers/settings.coffee'
+Settings      = require './controllers/Settings.coffee'
 Auth          = require './controllers/auth.coffee'
 Modal         = require './controllers/modal.coffee'
 LoadingScreen = require './controllers/loadingScreen.coffee'
+Sync          = require './controllers/sync.coffee'
 
-class App extends Spine.Controller
+class App extends Base.Controller
 
   elements:
     '.tasks': 'tasksContainer'
     '.sidebar': 'listsContainer'
     '.tasks .title': 'listTitle'
     'header': 'panel'
-    '.settings': 'settings'
+    '.Settings': 'Settings'
     '.auth': 'auth'
     '.tour': 'tour'
     '.tour .image': 'tourImage'
@@ -38,12 +39,11 @@ class App extends Spine.Controller
   constructor: ->
     super
 
-    # Load settings
-    Setting.fetch()
-    if Setting.count() is 0 then Setting.create()
+    # Load Settings
+    setting.trigger 'fetch'
 
-    # Init settings
-    window.settings = new Settings( el: @settings )
+    # Init Settings
+    Settings = new Settings( el: @Settings )
 
     # Init Auth
     @auth = new Auth( el: @auth )
@@ -65,7 +65,7 @@ class App extends Spine.Controller
     Modal.init()
 
     # Load translations
-    language = Setting.get('language')
+    language = setting.language
     $.getJSON "i18n/#{ language }.json", (dict) =>
       $.i18n.setDictionary(dict)
 
@@ -84,47 +84,47 @@ class App extends Spine.Controller
         $(this).attr 'title', $.i18n._($(this).attr('data-tTitle'))
 
       # Load data for localStorage
-      Task.fetch()
-      List.fetch()
+      Task.trigger 'fetch'
+      List.trigger 'fetch'
 
       # Create inbox list
-      if not List.exists('inbox')?
+      if not List.exists('inbox')
         List.create
           id: 'inbox'
           name: 'Inbox'
           permanent: yes
 
-      List.find('inbox').updateAttribute('name', $.i18n._('Inbox'))
+      List.get('inbox').name = $.i18n._('Inbox')
 
-      # Doesn't run in the settings constructor. Bit of a pain
-      if Setting.get('completedDuration') is 'day'
-        settings.moveCompleted()
+      # Doesn't run in the Settings constructor. Bit of a pain
+      if setting.completedDuration is 'day'
+        Settings.moveCompleted()
 
       # Select the first list on load
       @lists.showInbox()
 
     # Login to sync
-    uid = Setting.get('uid')
-    token = Setting.get('token')
+    uid = setting.uid
+    token = setting.token
 
     # Handle offline mode
-    if Setting.get('noAccount') then Setting.trigger('offline')
+    if setting.noAccount then setting.trigger('offline')
 
-    setPro = -> $('html').toggleClass('proenable', Setting.isPro())
-    Setting.on 'update:pro', setPro
+    setPro = -> $('html').toggleClass('proenable', setting.isPro())
+    setting.on 'change:pro', setPro
     setPro()
 
     if uid? and token?
       @auth.el.hide()
-      Spine.Sync.connect uid, token, =>
+      Sync.connect uid, token, =>
         @loadingScreen.hide()
-        Setting.trigger 'login'
+        setting.trigger 'login'
     else
       @loadingScreen.hide()
 
-    Setting.bind 'haveToken', (data) ->
-      Spine.Sync.connect data[0], data[1], ->
-        Setting.trigger 'login'
+    setting.on 'haveToken', (data) ->
+      Sync.connect data[0], data[1], ->
+        setting.trigger 'login'
 
 
   handleShortcut: (e) =>

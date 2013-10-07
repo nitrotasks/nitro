@@ -1,6 +1,8 @@
-jQuery  = require("jqueryify")
-exports = this
-jQuery ->
-  App = require './index.coffee'
+$ = require("jqueryify")
+App = require './index.coffee'
+
+$ ->
   exports.app = new App
     el: $('body')
+
+exports = this
