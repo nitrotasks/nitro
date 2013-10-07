@@ -1,5 +1,5 @@
 @media print {
-  header.group, aside.sidebar, .main .tasks-container input.new-task {
+  header.group, aside.sidebar, .main .tasks-container input.new-task, .buttons {
     display: none !important;
   }
   section.main {

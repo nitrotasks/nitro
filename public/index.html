@@ -5,13 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Nitro</title>
   <link rel="stylesheet" href="application.css" type="text/css" charset="utf-8">
-
-  <!-- TODO: Figure out how to add the runtime to application.js -->
-  <script src="handlebars.js"></script>
-  <script src="modernizr.js"></script>
-
+  <link rel="stylesheet" href="jqueryui.css" type="text/css" charset="utf-8">
   <script src="application.js" type="text/javascript" charset="utf-8"></script>
-  <!-- <script src="init.js" type="text/javascript" charset="utf&#45;8"></script> -->
+
 </head>
 <body>
   <header class="group">
@@ -31,7 +27,7 @@
       <ul class="buttons">
         <li><a href="#" class="trash" data-tTitle="Delete List" style="display: none"></a></li>
         <li><a href="#" class="sort" data-tTitle="Toggle Sorting"></a></li>
-        <li><a href="#" class="email" data-tTitle="Email List"></a></li>
+        <!-- <li><a href="#" class="email" data-tTitle="Email List"></a></li> -->
         <li><a href="#" class="print" data-tTitle="Print List"></a></li>
         <!-- <li><a href="#" class="share" data-tTitle="Share List"></a></li> -->
       </ul>
@@ -145,8 +141,8 @@
         <ul>
           <li data-id="general" class="current" data-tText="General"></li>
           <li data-id="account" data-tText="Account"></li>
-          <li data-id="pro" data-tText="Pro"></li>
-          <li data-id="notifications" data-tText="Notifications"></li>
+          <!-- <li data-id="pro" data-tText="Pro"></li> -->
+          <!-- <li data-id="notifications" data-tText="Notifications"></li> -->
           <li data-id="language" data-tText="Language"></li>
           <li data-id="about" data-tText="About"></li>
           <li class="close">&#10005;</li>
@@ -181,7 +177,7 @@
 
         <label for="confirm-delete" data-tText="Confirm before deleting items:"></label><input id="confirm-delete" class="confirm-delete" type="checkbox">
         <br><br>
-        <label for="night-mode" data-tText="Night Mode:"></label><input id="night-mode" class="night-mode" type="checkbox"><span class="pro-badge">pro</span>
+        <!-- <label for="night-mode" data-tText="Night Mode:"></label><input id="night-mode" class="night-mode" type="checkbox"><span class="pro-badge">pro</span> -->
 
         <br><br><hr><br>
         <div class="clearWrapper">
@@ -194,7 +190,11 @@
         <div class="signedin">
           <label data-tText="Name"></label> <input type="text" disabled class="user-name"><button class="save name" data-tText="Save"></button><button class="edit name" data-tText="Edit"></button><br>
           <label data-tText="Email"></label> <input type="text" disabled class="user-email"><button class="save email" data-tText="Save"></button><button class="edit email" data-tText="Edit"></button><br>
-          <label data-tText="Password"></label> <input type="password" disabled class="user-password" value="YouThoughtWeWereStupid"><button class="edit password" data-tText="Edit"></button><br>
+          <form id="passwordreset" method="post" action="">
+          <!-- Hidden Input so it gets submitted with the form -->
+          <input type="hidden" name="email" class="user-email">
+          <label data-tText="Password"></label><input type="password" disabled class="user-password" value="YouThoughtWeWereStupid"> <button type="submit" class="edit password" data-tText="Edit"></button>
+          </form>
           <label data-tText="Language"></label> <input type="text" disabled class="user-language"><button class="edit language" data-tText="Edit"></button><br>
         </div>
         <div class="signedout">
@@ -266,8 +266,10 @@
             <tr>
               <td><a href="#" data-value="en-us">English (US)</a></td>
               <td>Caffeinated Code</td>
-              <td><a href="#" data-value="en-pi">English (Pirate)</a><span class="pro-badge">pro</span></td>
-              <td>Caffeinated Code</td>
+              <td><a href="#" data-value="es-ES">Español</a></td>
+              <td>Alex Caldera</td>
+              <!-- <td><a href="#" data-value="en-pi">English (Pirate)</a><span class="pro-badge">pro</span></td>
+              <td>Caffeinated Code</td> -->
             </tr>
             <tr>
               <td><a href="#" data-value="bn-IN">বাংলা</a></td>
@@ -278,8 +280,6 @@
             <tr>
               <td><a href="#" data-value="nl">Nederlands</a></td>
               <td>Maarten Hogendoorn</td>
-              <td><a href="#" data-value="es-ES">Español</a></td>
-              <td>Alex Caldera</td>
             </tr>
         </tbody>
       </table>

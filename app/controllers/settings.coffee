@@ -7,6 +7,7 @@ Task    = require '../models/task.coffee'
 
 # Utils
 Cookies = require '../utils/cookies.js'
+CONFIG  = require '../utils/conf.coffee'
 
 
 class Settings extends Spine.Controller
@@ -26,6 +27,7 @@ class Settings extends Spine.Controller
     '.confirm-delete'     : 'confirmDelete'
     '.completed-duration' : 'completedDuration'
     '.clear-data-label'   : 'clearDataLabel'
+    "#passwordreset"      : 'passwordreset'
     '.user-name'          : 'nameInput'
     '.user-email'         : 'emailInput'
 
@@ -70,6 +72,7 @@ class Settings extends Spine.Controller
     $(".account .signedout").hide()
     $(".account .signedin").show()
 
+    @passwordreset.attr("action", "http://" + CONFIG.server + "/forgot")
     @nameInput.val(Setting.get("user_name"))
     @emailInput.val(Setting.get("user_email"))
 

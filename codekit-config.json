@@ -1,6 +1,6 @@
 {
   "CodeKitInfo" : "This is a CodeKit project configuration file. It is designed to sync project settings across multiple machines. Modifying the contents of this file can be a poor life decision if you don't know what you're doing. This file is not useful unless accompanied by the project that created it in CodeKit. For more information, see: http:\/\/incident57.com\/codekit",
-  "creatorBuild" : "8300",
+  "creatorBuild" : "8317",
   "files" : {
     "\/public\/img\/search.png" : {
       "ignoreWasSetByUser" : 0,
@@ -382,16 +382,17 @@
       "initialSize" : 3049,
       "fileType" : 8192
     },
-    "\/public\/img\/logo@2x.png" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
+    "\/app\/lib\/setup.coffee" : {
+      "ignoreWasSetByUser" : 1,
+      "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/public\/img\/logo@2x.png",
-      "processed" : 0,
-      "outputAbbreviatedPath" : "\/public\/img\/logo@2x.png",
-      "initialSize" : 7681,
-      "fileType" : 8192
+      "inputAbbreviatedPath" : "\/app\/lib\/setup.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/app\/lib\/setup.js",
+      "outputStyle" : 0,
+      "fileType" : 32
     },
     "\/public\/img\/inbox.png" : {
       "ignoreWasSetByUser" : 0,
@@ -416,17 +417,16 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
-    "\/app\/lib\/setup.coffee" : {
-      "ignoreWasSetByUser" : 1,
-      "ignore" : 1,
+    "\/public\/img\/logo@2x.png" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/app\/lib\/setup.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/app\/lib\/setup.js",
-      "outputStyle" : 0,
-      "fileType" : 32
+      "inputAbbreviatedPath" : "\/public\/img\/logo@2x.png",
+      "processed" : 0,
+      "outputAbbreviatedPath" : "\/public\/img\/logo@2x.png",
+      "initialSize" : 7681,
+      "fileType" : 8192
     },
     "\/css\/mixin.scss" : {
       "ignoreWasSetByUser" : 0,
@@ -565,18 +565,6 @@
       "outputAbbreviatedPath" : "\/app\/models\/default_tasks-ck.js",
       "fileType" : 64
     },
-    "\/css\/jqueryui.scss" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/css\/jqueryui.scss",
-      "outputStyle" : 0,
-      "shouldRunBless" : 0,
-      "outputAbbreviatedPath" : "\/css\/jqueryui.css",
-      "fileType" : 4,
-      "debugStyle" : 0
-    },
     "\/app\/models\/task.coffee" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
@@ -611,6 +599,15 @@
       "outputAbbreviatedPath" : "\/app\/controllers\/lists.title.js",
       "outputStyle" : 0,
       "fileType" : 32
+    },
+    "\/public\/jqueryui.css" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/public\/jqueryui.css",
+      "outputAbbreviatedPath" : "No Output Path",
+      "fileType" : 16
     },
     "\/app\/lib\/handlebars.js" : {
       "ignoreWasSetByUser" : 1,
@@ -1026,7 +1023,10 @@
     "sassAutoOutputPathStyle" : 2,
     "stylusAutoOutputPathReplace2" : "css",
     "lessAutoOutputPathStyle" : 2,
+    "lessIECompatibility" : 1,
     "genericWebpageFileExtensionsString" : "html, htm, shtml, shtm, xhtml, php, jsp, asp, aspx, erb, ctp",
+    "lessStrictUnits" : 0,
+    "lessStrictMath" : 0,
     "coffeeMinifyOutput" : 0,
     "javascriptOutputSuffix" : "-ck",
     "jadeOutputStyle" : 0,
@@ -1175,6 +1175,7 @@
     "jadeCompileDebug" : 1,
     "slimRailsCompatible" : 0,
     "kitAutoOutputPathReplace2" : "",
+    "lessRelativeURLS" : 0,
     "lessDebugStyle" : 0,
     "javascriptAutoOutputPathRelativePath" : "",
     "slimAutoOutputPathStyle" : 0
