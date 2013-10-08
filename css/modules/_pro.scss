@@ -1,0 +1,35 @@
+.pro-badge {
+  display: inline-block;
+  background: #444444;
+  font-size: 12px;
+  padding: 0px 5px;
+  border-radius: 3px;
+  margin-left: 10px;
+  line-height: 17px;
+  text-transform: uppercase;
+  color: white;
+  &.opp {
+    display: none;
+  }
+}
+
+.proenable .pro-badge {
+  display: none;
+  &.opp {
+    display: inline-block;
+  }
+}
+
+// Just a thankyou
+.ispro {
+  display: none;
+}
+
+.proenable {
+  .ispro {
+    display: block;
+  }
+  .notpro {
+    display: none;
+  }
+}

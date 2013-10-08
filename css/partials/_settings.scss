@@ -1,55 +1,20 @@
 
-.modals {
+.modal.settings {
 
-  // display: none;
-  // opacity: 0;
+  width: 600px;
+  margin-left: -303px;
+  border: 3px solid $green;
 
-  background-color: rgba(255, 255, 255, 0.7);
-  z-index: 10;
-  @include abs(0, 0, 0, 0);
-  @include transition(.3s, opacity, ease);
-  @include user-select(none);
-  -webkit-transform: translate3d(0, 0, 0);
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-}
-
-.modal {
-
-  display: none;
-  z-index: 11;
-
-  background: #fff;
-  font-size: 16px;
-  color: #222222;
-
-  @include abs(200px, auto, auto, 50%);
-  width: 400px;
-  margin-left: -228px;
-
-  border: 3px solid $red;
-  padding: 25px;
-  text-align: center;
-
-  span {
-    display: inline-block;
-    margin: 5px 0;
-  }
-
-  button.special {
-    border: 2px solid $red;
-    &:active {
-      background: $red;
+  & > div {
+    padding: 35px 25px 30px;
+    display: none;
+    &.language {
+      padding: 25px 35px;
+    }
+    &.current {
+      display: block;
     }
   }
-
-}
-
-// TEMP
-.modal.settings {
-  display: block;
-}
-
-.settings {
 
   label {
     color: #222222;
@@ -120,6 +85,7 @@
     width: 100%;
     font-size: 15px;
     line-height: 1.4;
+
     thead {
       font-weight: bold;
       font-size: 18px;
@@ -129,6 +95,7 @@
         border-bottom: 1px solid #cccccc;
       }
     }
+
     tr {
       border-bottom: 1px dotted #cccccc;
       color: #666666;
@@ -136,10 +103,12 @@
         border: 0;
       }
     }
+
     a.selected {
       color: #555555;
       font-weight: bold;
     }
+
     td {
       padding: 5px 10px 5px 0;
       &:nth-child(2) {
@@ -148,146 +117,11 @@
     }
   }
 
-  & > div {
-    @include abs(15%, auto, auto, 50%);
-    @include transition(.3s, -webkit-transform, ease);
-    -webkit-transform: scale(0.75) translate3d(0, 0, 0);
-    background: white;
-    font-size: 16px;
+  .disabled {
+    color: #888888;
   }
 
-  .delete-container {
-    width: 400px;
-    margin-left: -228px;
-    border: 3px solid $red;
-    padding: 25px;
-    text-align: center;
-    font-size: 16px;
-    color: #222222;
-    span {
-      display: inline-block;
-      margin: 5px 0;
-    }
-    button.special {
-      border: 2px solid $red;
-      &:active {
-        background: $red;
-      }
-    }
-  }
-
-  .tour-container {
-    width: 650px;
-    height: 354px;
-    padding: 25px;
-    margin-left: -353px;
-    border: 3px solid $dark-blue;
-    text-align: right;
-    .image {
-      width: 650px;
-      height: 300px;
-      background-image: url(../img/tour.png);
-      @include transition(.3s, background-position, ease);
-    }
-    button {
-      border: 2px solid $dark-blue;
-      &:active {
-        background: $dark-blue;
-      }
-    }
-  }
-
-  .settings-container {
-    width: 600px;
-    margin-left: -303px;
-    border: 3px solid $green;
-    & > div {
-      padding: 35px 25px 30px;
-      display: none;
-      &.language {
-        padding: 25px 35px;
-      }
-      &.current {
-        display: block;
-      }
-    }
-  }
-
-  .share-container {
-    width: 550px;
-    padding: 25px;
-    margin-left: -300px;
-    border: 3px solid $dark-blue;
-  }
-
-  .export-container {
-    width: 450px;
-    padding: 25px;
-    margin-left: -250px;
-    border: 3px solid $dark-blue;
-    color: #333333;
-    textarea {
-      min-height: 100px;
-      margin: 20px 0 5px;
-      width: 100%;
-      box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      color: #444444;
-      font-family: "Source Code Pro", "Consolas", monospace;
-      font-size: 11px;
-      resize: vertical;
-    }
-
-    .btncontainer {
-      text-align: center;
-      button {
-        background: white;
-        border: 2px solid $dark-blue;
-        &:active {
-          background: $dark-blue;
-          color: white;
-        }
-      }
-    }
-  }
-  .email-container {
-    width: 300px;
-    margin-left: -178px;
-    border: 3px solid $light-blue;
-    padding: 25px;
-    span.struct {
-      display: inline-block;
-      margin-bottom: 15px;
-      color: #444444;
-    }
-    .tip {
-      display: inline-block;
-      margin: 15px 0 0;
-      font-size: 13px;
-      color: #666666;
-    }
-    input {
-      width: 212px;
-      border: 2px solid $light-blue;
-      padding: 5px 8px;
-      outline: none;
-    }
-    button {
-      color: #444444;
-      font-size: 14px;
-      line-height: 19px;
-      vertical-align: top;
-      padding: 5px 8px;
-      width: 65px;
-      background: white;
-      border: 2px solid $light-blue;
-      &:active {
-        background: $light-blue;
-        color: white;
-      }
-    }
-  }
-  .settings-container > .account {
+  .account {
     padding-top: 25px;
     .special {
       margin-top: 15px;
@@ -342,56 +176,6 @@
       width: 410px;
       margin-top: 16px;
       margin-left: 20px;
-    }
-  }
-  .pro, .proventor-container {
-    text-align: center;
-    h2 {
-      font-size: 32px;
-      margin: 15px 0;
-    }
-    p {
-      font-size: 16px;
-      max-width: 400px;
-      line-height: 1.5;
-      margin: 0 auto 5px;
-      color: #444444;
-    }
-    .special {
-      width: 120px;
-      border: 2px solid $dark-blue;
-      &:active {
-        background: $dark-blue;
-      }
-    }
-  }
-  .proventor-container {
-    border: 3px solid $dark-blue;
-    width: 500px;
-    padding: 25px;
-    margin-left: -275px;
-  }
-  .disabled {
-    color: #888888;
-  }
-  &.show {
-    opacity: 1;
-    & > div {
-      -webkit-transform: scale(1) translate3d(0, 0, 0);
-    }
-  }
-  .about {
-    text-align: center;
-    h2 {
-      font-size: 26px;
-    }
-    a {
-      text-decoration: none;
-    }
-    .grey {
-      margin-top: 25px;
-      color: #888888;
-      font-size: 13px;
     }
   }
 }

@@ -2,6 +2,17 @@
   "CodeKitInfo" : "This is a CodeKit project configuration file. It is designed to sync project settings across multiple machines. Modifying the contents of this file can be a poor life decision if you don't know what you're doing. This file is not useful unless accompanied by the project that created it in CodeKit. For more information, see: http:\/\/incident57.com\/codekit",
   "creatorBuild" : "8326",
   "files" : {
+    "\/public\/img\/search.png" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/public\/img\/search.png",
+      "processed" : 1,
+      "outputAbbreviatedPath" : "\/public\/img\/search.png",
+      "initialSize" : 3314,
+      "fileType" : 8192
+    },
     "\/css\/partials\/_main.scss" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -13,17 +24,6 @@
       "outputAbbreviatedPath" : "\/public\/css\/_main.css",
       "fileType" : 4,
       "debugStyle" : 0
-    },
-    "\/public\/img\/search.png" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/public\/img\/search.png",
-      "processed" : 1,
-      "outputAbbreviatedPath" : "\/public\/img\/search.png",
-      "initialSize" : 3314,
-      "fileType" : 8192
     },
     "\/public\/img\/search_blue.png" : {
       "ignoreWasSetByUser" : 0,
@@ -47,6 +47,17 @@
       "initialSize" : 3313,
       "fileType" : 8192
     },
+    "\/app\/languages\/datepicker\/fr.js" : {
+      "ignoreWasSetByUser" : 1,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/app\/languages\/datepicker\/fr.js",
+      "outputStyle" : 1,
+      "syntaxCheckerStyle" : 1,
+      "outputAbbreviatedPath" : "\/app\/languages\/datepicker\/fr.min.js",
+      "fileType" : 64
+    },
     "\/css\/modules\/_animations.scss" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -58,17 +69,6 @@
       "outputAbbreviatedPath" : "\/public\/css\/_animations.css",
       "fileType" : 4,
       "debugStyle" : 0
-    },
-    "\/app\/languages\/datepicker\/fr.js" : {
-      "ignoreWasSetByUser" : 1,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/app\/languages\/datepicker\/fr.js",
-      "outputStyle" : 1,
-      "syntaxCheckerStyle" : 1,
-      "outputAbbreviatedPath" : "\/app\/languages\/datepicker\/fr.min.js",
-      "fileType" : 64
     },
     "\/public\/img\/arrow-left-fade_light.png" : {
       "ignoreWasSetByUser" : 0,
@@ -127,17 +127,16 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
-    "\/app\/utils\/prettydate.coffee" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
+    "\/app\/libs\/touch.js" : {
+      "ignoreWasSetByUser" : 1,
+      "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/app\/utils\/prettydate.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/app\/utils\/prettydate.js",
-      "outputStyle" : 0,
-      "fileType" : 32
+      "inputAbbreviatedPath" : "\/app\/libs\/touch.js",
+      "outputStyle" : 1,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/app\/libs\/touch.min.js",
+      "fileType" : 64
     },
     "\/public\/img\/skydrive.png" : {
       "ignoreWasSetByUser" : 0,
@@ -150,16 +149,17 @@
       "initialSize" : 4785,
       "fileType" : 8192
     },
-    "\/app\/libs\/touch.js" : {
-      "ignoreWasSetByUser" : 1,
-      "ignore" : 1,
+    "\/app\/utils\/prettydate.coffee" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/app\/libs\/touch.js",
-      "outputStyle" : 1,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/app\/libs\/touch.min.js",
-      "fileType" : 64
+      "inputAbbreviatedPath" : "\/app\/utils\/prettydate.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/app\/utils\/prettydate.js",
+      "outputStyle" : 0,
+      "fileType" : 32
     },
     "\/app\/controllers\/tasks.item.coffee" : {
       "ignoreWasSetByUser" : 1,
@@ -377,6 +377,18 @@
       "fileType" : 4,
       "debugStyle" : 0
     },
+    "\/app\/utils\/conf.coffee" : {
+      "ignoreWasSetByUser" : 1,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/app\/utils\/conf.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/app\/utils\/conf.js",
+      "outputStyle" : 0,
+      "fileType" : 32
+    },
     "\/public\/img\/emaillogin.png" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
@@ -399,18 +411,6 @@
       "outputAbbreviatedPath" : "\/public\/js\/app.min.min.js",
       "fileType" : 64
     },
-    "\/app\/models\/setting.coffee" : {
-      "ignoreWasSetByUser" : 1,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/app\/models\/setting.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/app\/models\/setting.js",
-      "outputStyle" : 0,
-      "fileType" : 32
-    },
     "\/app\/controllers\/lists.item.coffee" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
@@ -423,15 +423,15 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
-    "\/public\/img\/logo@2x.png" : {
+    "\/public\/img\/inbox.png" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/public\/img\/logo@2x.png",
+      "inputAbbreviatedPath" : "\/public\/img\/inbox.png",
       "processed" : 1,
-      "outputAbbreviatedPath" : "\/public\/img\/logo@2x.png",
-      "initialSize" : 7681,
+      "outputAbbreviatedPath" : "\/public\/img\/inbox.png",
+      "initialSize" : 2961,
       "fileType" : 8192
     },
     "\/css\/partials\/_auth.scss" : {
@@ -482,16 +482,17 @@
       "fileType" : 4,
       "debugStyle" : 0
     },
-    "\/public\/img\/inbox.png" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
+    "\/app\/models\/setting.coffee" : {
+      "ignoreWasSetByUser" : 1,
+      "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/public\/img\/inbox.png",
-      "processed" : 1,
-      "outputAbbreviatedPath" : "\/public\/img\/inbox.png",
-      "initialSize" : 2961,
-      "fileType" : 8192
+      "inputAbbreviatedPath" : "\/app\/models\/setting.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/app\/models\/setting.js",
+      "outputStyle" : 0,
+      "fileType" : 32
     },
     "\/app\/controllers\/auth.coffee" : {
       "ignoreWasSetByUser" : 1,
@@ -516,6 +517,17 @@
       "initialSize" : 2961,
       "fileType" : 8192
     },
+    "\/public\/img\/logo@2x.png" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/public\/img\/logo@2x.png",
+      "processed" : 1,
+      "outputAbbreviatedPath" : "\/public\/img\/logo@2x.png",
+      "initialSize" : 7681,
+      "fileType" : 8192
+    },
     "\/app\/utils\/touchify.coffee" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
@@ -525,18 +537,6 @@
       "checkOutputStyle" : 0,
       "minifyOutput" : 0,
       "outputAbbreviatedPath" : "\/app\/utils\/touchify.js",
-      "outputStyle" : 0,
-      "fileType" : 32
-    },
-    "\/app\/utils\/conf.coffee" : {
-      "ignoreWasSetByUser" : 1,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/app\/utils\/conf.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/app\/utils\/conf.js",
       "outputStyle" : 0,
       "fileType" : 32
     },
@@ -552,6 +552,18 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
+    "\/app\/controllers\/settings.coffee" : {
+      "ignoreWasSetByUser" : 1,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/app\/controllers\/settings.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/app\/controllers\/settings.js",
+      "outputStyle" : 0,
+      "fileType" : 32
+    },
     "\/app\/libs\/md5.js" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
@@ -561,6 +573,17 @@
       "outputStyle" : 1,
       "syntaxCheckerStyle" : 0,
       "outputAbbreviatedPath" : "\/app\/libs\/md5.min.js",
+      "fileType" : 64
+    },
+    "\/app\/libs\/jquery-ui.js" : {
+      "ignoreWasSetByUser" : 1,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/app\/libs\/jquery-ui.js",
+      "outputStyle" : 1,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/app\/libs\/jquery-ui.min.js",
       "fileType" : 64
     },
     "\/css\/partials\/_settings.scss" : {
@@ -574,29 +597,6 @@
       "outputAbbreviatedPath" : "\/public\/css\/_settings.css",
       "fileType" : 4,
       "debugStyle" : 0
-    },
-    "\/app\/libs\/jquery-ui.js" : {
-      "ignoreWasSetByUser" : 1,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/app\/libs\/jquery-ui.js",
-      "outputStyle" : 1,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/app\/libs\/jquery-ui.min.js",
-      "fileType" : 64
-    },
-    "\/app\/controllers\/settings.coffee" : {
-      "ignoreWasSetByUser" : 1,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/app\/controllers\/settings.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/app\/controllers\/settings.js",
-      "outputStyle" : 0,
-      "fileType" : 32
     },
     "\/public\/img\/notasks.png" : {
       "ignoreWasSetByUser" : 0,
@@ -633,14 +633,17 @@
       "fileType" : 4,
       "debugStyle" : 0
     },
-    "\/public\/index.html" : {
+    "\/app\/views\/list.coffee" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/public\/index.html",
-      "outputAbbreviatedPath" : "No Output Path",
-      "fileType" : 2048
+      "inputAbbreviatedPath" : "\/app\/views\/list.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/app\/views\/list.js",
+      "outputStyle" : 0,
+      "fileType" : 32
     },
     "\/css\/vendor\/_jqueryui.scss" : {
       "ignoreWasSetByUser" : 0,
@@ -654,17 +657,26 @@
       "fileType" : 4,
       "debugStyle" : 0
     },
-    "\/app\/views\/list.coffee" : {
+    "\/css\/partials\/_modals.scss" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/css\/partials\/_modals.scss",
+      "outputStyle" : 0,
+      "shouldRunBless" : 0,
+      "outputAbbreviatedPath" : "\/public\/css\/_modals.css",
+      "fileType" : 4,
+      "debugStyle" : 0
+    },
+    "\/public\/index.html" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/app\/views\/list.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/app\/views\/list.js",
-      "outputStyle" : 0,
-      "fileType" : 32
+      "inputAbbreviatedPath" : "\/public\/index.html",
+      "outputAbbreviatedPath" : "No Output Path",
+      "fileType" : 2048
     },
     "\/css\/modules\/_dark.scss" : {
       "ignoreWasSetByUser" : 0,
@@ -885,18 +897,6 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
-    "\/css\/modules\/_clearfix.scss" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/css\/modules\/_clearfix.scss",
-      "outputStyle" : 0,
-      "shouldRunBless" : 0,
-      "outputAbbreviatedPath" : "\/public\/css\/_clearfix.css",
-      "fileType" : 4,
-      "debugStyle" : 0
-    },
     "\/app\/utils\/keys.coffee" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
@@ -909,16 +909,29 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
-    "\/app\/libs\/modal.js" : {
+    "\/css\/modules\/_clearfix.scss" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/css\/modules\/_clearfix.scss",
+      "outputStyle" : 0,
+      "shouldRunBless" : 0,
+      "outputAbbreviatedPath" : "\/public\/css\/_clearfix.css",
+      "fileType" : 4,
+      "debugStyle" : 0
+    },
+    "\/app\/controllers\/search.coffee" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/app\/libs\/modal.js",
-      "outputStyle" : 1,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/app\/libs\/modal.min.js",
-      "fileType" : 64
+      "inputAbbreviatedPath" : "\/app\/controllers\/search.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/app\/controllers\/search.js",
+      "outputStyle" : 0,
+      "fileType" : 32
     },
     "\/css\/modules\/_vars.scss" : {
       "ignoreWasSetByUser" : 0,
@@ -944,17 +957,16 @@
       "fileType" : 4,
       "debugStyle" : 0
     },
-    "\/app\/controllers\/search.coffee" : {
+    "\/app\/libs\/modal.js" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/app\/controllers\/search.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/app\/controllers\/search.js",
-      "outputStyle" : 0,
-      "fileType" : 32
+      "inputAbbreviatedPath" : "\/app\/libs\/modal.js",
+      "outputStyle" : 1,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/app\/libs\/modal.min.js",
+      "fileType" : 64
     },
     "\/public\/img\/all.png" : {
       "ignoreWasSetByUser" : 0,
@@ -1046,6 +1058,17 @@
       "initialSize" : 3998,
       "fileType" : 8192
     },
+    "\/public\/img\/icon.png" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/public\/img\/icon.png",
+      "processed" : 1,
+      "outputAbbreviatedPath" : "\/public\/img\/icon.png",
+      "initialSize" : 35340,
+      "fileType" : 8192
+    },
     "\/css\/screen.scss" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
@@ -1058,28 +1081,6 @@
       "fileType" : 4,
       "debugStyle" : 0
     },
-    "\/public\/img\/icon.png" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/public\/img\/icon.png",
-      "processed" : 1,
-      "outputAbbreviatedPath" : "\/public\/img\/icon.png",
-      "initialSize" : 35340,
-      "fileType" : 8192
-    },
-    "\/public\/img\/pro.png" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/public\/img\/pro.png",
-      "processed" : 1,
-      "outputAbbreviatedPath" : "\/public\/img\/pro.png",
-      "initialSize" : 1592,
-      "fileType" : 8192
-    },
     "\/css\/modules\/_buttons.scss" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -1091,6 +1092,17 @@
       "outputAbbreviatedPath" : "\/public\/css\/_buttons.css",
       "fileType" : 4,
       "debugStyle" : 0
+    },
+    "\/public\/img\/pro.png" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/public\/img\/pro.png",
+      "processed" : 1,
+      "outputAbbreviatedPath" : "\/public\/img\/pro.png",
+      "initialSize" : 1592,
+      "fileType" : 8192
     },
     "\/css\/mixins\/_all_mixins.scss" : {
       "ignoreWasSetByUser" : 0,
@@ -1115,17 +1127,6 @@
       "outputAbbreviatedPath" : "\/public\/css\/_loading.css",
       "fileType" : 4,
       "debugStyle" : 0
-    },
-    "\/public\/img\/hamburger@2x.png" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/public\/img\/hamburger@2x.png",
-      "processed" : 1,
-      "outputAbbreviatedPath" : "\/public\/img\/hamburger@2x.png",
-      "initialSize" : 6379,
-      "fileType" : 8192
     },
     "\/css\/partials\/_task.scss" : {
       "ignoreWasSetByUser" : 0,
@@ -1182,6 +1183,17 @@
       "outputAbbreviatedPath" : "\/app\/models\/list.js",
       "outputStyle" : 0,
       "fileType" : 32
+    },
+    "\/public\/img\/hamburger@2x.png" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/public\/img\/hamburger@2x.png",
+      "processed" : 1,
+      "outputAbbreviatedPath" : "\/public\/img\/hamburger@2x.png",
+      "initialSize" : 6379,
+      "fileType" : 8192
     }
   },
   "manualImportLinks" : [

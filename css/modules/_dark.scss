@@ -11,6 +11,9 @@
     border-bottom: 1px solid black;
     .logo {
       background-image: url(../img/logo_light.png);
+      @include breakpoint(retina) {
+        background-image: url("../img/logo_light@2x.png");
+      }
     }
     .openSettings {
       background-image: url("../img/settings_light.png");

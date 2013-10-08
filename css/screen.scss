@@ -16,6 +16,7 @@
 @import "./modules/_misc";
 @import "./modules/_mobile";
 @import "./modules/_print";
+@import "./modules/_pro";
 @import "./modules/_type";
 
 // Partials
@@ -23,6 +24,7 @@
 @import "./partials/_header";
 @import "./partials/_loading";
 @import "./partials/_main";
+@import "./partials/_modals";
 @import "./partials/_settings";
 @import "./partials/_sidebar";
 @import "./partials/_task";
@@ -93,55 +95,5 @@
   cursor: default;
   overflow: hidden;
   width: auto !important;
-}
-
-.pro-badge {
-  display: inline-block;
-  background: #444444;
-  font-size: 12px;
-  padding: 0px 5px;
-  border-radius: 3px;
-  margin-left: 10px;
-  line-height: 17px;
-  text-transform: uppercase;
-  color: white;
-  &.opp {
-    display: none;
-  }
-}
-
-.proenable .pro-badge {
-  display: none;
-  &.opp {
-    display: inline-block;
-  }
-}
-
-// Just a thankyou
-.ispro {
-  display: none;
-}
-
-.proenable {
-  .ispro {
-    display: block;
-  }
-  .notpro {
-    display: none;
-  }
-}
-
-// Retina Logo
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-  .dark header .logo {
-    background-image: url("../img/logo_light@2x.png");
-  }
-}
-
-@media (-webkit-min-device-pixel-ratio: 2) and (max-width: 600px), (min-resolution: 192dpi) and (max-width: 600px) {
-  header .logo {
-    background: url("../img/hamburger.png") no-repeat 0 9px;
-    background-size: 27px 21px;
-  }
 }
 

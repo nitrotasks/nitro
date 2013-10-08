@@ -29,6 +29,11 @@ header {
     @include breakpoint(retina) {
       background-image: url("../img/logo@2x.png");
     }
+    
+    @include breakpoint(mobile) {
+      background: url("../img/hamburger.png") no-repeat 0 9px;
+      background-size: 27px 21px;
+    }
 
   }
 
