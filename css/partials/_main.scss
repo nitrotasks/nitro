@@ -1,0 +1,53 @@
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+.main {
+  @include abs(40px, 293px, 0, 0);
+  padding: 0 13px 40px 30px;
+  overflow-y: scroll;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  &.show::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+  }
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 10px;
+    -webkit-transition: 300ms ease background;
+    &:active:hover {
+      background: rgba(0, 0, 0, 0.4);
+    }
+    &:hover {
+      background: rgba(0, 0, 0, 0.2);
+    }
+  }
+  .title {
+    border-bottom: 2px $light-blue solid;
+    position: relative;
+    height: 70px;
+    margin: 0 0 20px;
+    h1 {
+      font-size: 26px;
+      padding: 0;
+      color: $dark-blue;
+      margin: 0;
+      @include abs(auto, auto, 5px, 0);
+      border: 1px transparent solid;
+      cursor: default;
+      @include transition(0.2s, border-color);
+      outline: 0;
+      &[contenteditable=true]:hover {
+        border-color: #999999;
+        cursor: text;
+      }
+      &[contenteditable=true]:focus {
+        border-color: #999999;
+      }
+    }
+  }
+}

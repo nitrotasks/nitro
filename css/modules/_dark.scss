@@ -1,0 +1,120 @@
+
+.dark {
+  body {
+    background: #333333;
+  }
+  .main .title h1, .sidebar .title h2 {
+    color: lighten($light-blue, 10%);
+  }
+  header {
+    @include vbg-gradient(#333, #111);
+    border-bottom: 1px solid black;
+    .logo {
+      background-image: url(../img/logo_light.png);
+    }
+    .openSettings {
+      background-image: url("../img/settings_light.png");
+    }
+    .user {
+      &:hover {
+        @include vbg-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.05));
+        border: 1px solid #111111;
+      }
+      &:active {
+        @include vbg-gradient(rgba(0,0,0,0.05), rgba(0,0,0,0.3));
+        border: 1px solid black;
+      }
+      .name {
+        color: white;
+        text-shadow: 0px 1px 0px black;
+      }
+    }
+  }
+  .search {
+    background: #333333 url("../img/search_light.png") no-repeat 7px 5px;
+    border: 1px solid #111111;
+    background-size: 15px 15px;
+    input {
+      background: #333333;
+      color: white;
+    }
+  }
+  .clear-search {
+    background: url("../img/clear-search_light.png");
+    background-size: 14px 14px;
+  }
+  .new-task {
+    background: #2a2a2a;
+    border: 1px solid #222222;
+    color: white;
+  }
+  .group + .task {
+    border-top: 1px solid $dark-border;
+  }
+  .task {
+    border: 1px solid $dark-border;
+    border-top: 0;
+    color: white;
+    &:first-child {
+      border-top: 1px solid $dark-border;
+    }
+    &::before {
+      border-left: 1px solid $dark-border;
+      border-right: 1px solid $dark-border;
+    }
+    &.completed .name {
+      color: #666666;
+    }
+    .notes {
+      background: #2a2a2a;
+    }
+    .priority-button {
+      border-left: 1px solid $dark-border;
+      border-right: 1px solid $dark-border;
+    }
+    .date {
+      background: #333333;
+      color: white;
+    }
+    .checkbox {
+      &::before {
+        border: 1px solid #222222;
+      }
+    }
+    &.expanded, &.expanded .notes, &.expanded + li {
+      border-top: 1px solid $dark-border;
+    }
+    .input-name {
+      // Or else we don't get a blinky cursor
+      color: white;
+      background: #333333;
+    }
+  }
+  .sidebar {
+    .list {
+      color: white;
+      border-top: 1px solid #444444;
+      &.current .arrow {
+        background-image: url("../img/arrow-left-fade_light.png");
+      }
+      &.inbox {
+        background-image: url("../img/inbox_light.png");
+      }
+      &.all {
+        background-image: url("../img/all_light.png");
+      }
+      &.completed {
+        background-image: url("../img/completed_light.png");
+      }
+    }
+    .new-list {
+      background: #333333;
+      color: white;
+      border-top: 1px solid #444444;
+    }
+  }
+  .modal {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+}
+

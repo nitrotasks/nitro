@@ -1,0 +1,11 @@
+p, h1, h2, h3 {
+  cursor: default;
+}
+
+img {
+  -webkit-user-drag: none;
+  -moz-user-drag: none;
+  -ms-user-drag: none;
+  user-drag: none;
+  @include user-select(none);
+}

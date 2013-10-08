@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Nitro</title>
   <link rel="stylesheet" href="css/screen.css" type="text/css" charset="utf-8">
-  <link rel="stylesheet" href="css/jqueryui.css" type="text/css" charset="utf-8">
   <script src="js/app.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
@@ -39,7 +38,7 @@
   <section class="main tasks">
     <div class="title">
       <h1 contenteditable="true">List Name</h1>
-      <ul class="buttons">
+      <ul class="list-buttons">
         <li class="l trash hidden" title="Delete List"></li>
         <li class="l sort" title="Toggle Sorting"></li>
         <li class="l print" title="Print List"></li>
@@ -97,347 +96,349 @@
   =============================================================================
   -->
 
-  <div class="modal-overlay"></div>
+  <div class="modals">
 
-  <section class="modal delete-task">
-    <p class="t">Are you sure you want to do that?</p>
-    <div class="buttons">
-      <button class="t true special">Yes, delete it</button>
-      <button class="t false special">No, keep it</button>
-    </div>
-  </section>
-
-  <section class="modal delete-list">
-    <p class="t">Are you sure you want to do that?</p>
-    <div class="buttons">
-      <button class="t true special">Yes, delete it</button>
-      <button class="t false special">No, keep it</button>
-    </button>
-  </section>
-
-  <section class="modal delete">
-    <p class="t">Are you sure you want to do that?</p>
-    <div class="buttons">
-      <button class="t true special">Yes, delete it</button>
-      <button class="false special">No, keep it</button>
-    </div>
-  </section>
-
-  <section class="modal export">
-    <p class="t">Copy the data below and keep it in a safe place. To restore from a backup, simply replace the data and use the import button.</p>
-    <textarea></textarea>
-    <div class="buttons">
-      <button class="t true special">Import</button>
-      <button class="t false special">Close</button>
-    </div>
-  </section>
-
-  <section class="modal email">
-    <p class="t struct">Where should the tasks be sent?</p><p class="pro-badge">pro</p>
-    <input class="p" type="text" placeholder="Email">
-    <div class="buttons">
-      <button class="t">Send</button>
-    </div>
-    <!--
-    <span class="tip">
-      <strong class="t">Pro Tip:</strong>
-      <span class="t">You can also create a shared list.</span>
-    </span>
-    -->
-  </section>
-
-  <section class="modal share">
-  </section>
-
-  <section class="modal tour">
-    <!-- TODO: Replace with an actual image -->
-    <div class="image"></div>
-    <div class="buttons">
-      <button class="t special close">Close</button>
-      <button class="t special learn">Next</button>
-    </div>
-  </section>
-
-  <section class="modal proventor">
-    <img src="img/pro.png" width="27" height="48" alt="">
-    <h2 class="t">You’ll need to go Pro</h2>
-    <p class="t">A pro account unlocks this feature and many others.</p>
-    <p class="t">Take Nitro to the next level.</p>
-    <div class="buttons">
-      <button class="t special">Get Pro</button>
-      <button class="t special">Learn More</button>
-    </div>
-  </section>
-
-  <!--
-  =============================================================================
-    S E T T I N G S
-  =============================================================================
-  -->
-
-  <section class="modal settings">
-
-    <!--
-      Tabs
-    -->
-
-    <nav class="tabs">
-      <ul>
-        <li data-id="general" class="t current">General</li>
-        <li data-id="account" class="t">Account</li>
-        <!--
-        <li data-id="pro" class="t">Pro</li>
-        <li data-id="notifications" class="t">Notifications</li>
-        -->
-        <li data-id="language" class="t">Language</li>
-        <li data-id="about" class="t">About</li>
-        <li class="close">&#10005;</li>
-      </ul>
-    </nav>
-
-    <!--
-      General Settings
-    -->
-
-    <div class="general current">
-
-      <div class="control">
-        <label for="input-week-start" class="t">Week starts on:</label>
-        <select id="input-week-start" class="week-start">
-          <option value="1" class="t">Monday</option>
-          <option value="0" class="t">Sunday</option>
-        </select>
+    <section class="modal delete-task">
+      <p class="t">Are you sure you want to do that?</p>
+      <div class="buttons">
+        <button class="t true special">Yes, delete it</button>
+        <button class="t false special">No, keep it</button>
       </div>
+    </section>
 
-      <div class="control">
-        <label for="input-date-format" class="t">Date format:</label>
-        <select id="input-date-format" class="date-format">
-          <option value="dd/mm/yy" class="t">Day / Month / Year</option>
-          <option value="mm/dd/yy" class="t">Month / Day / Year</option>
-          <option value="yy/mm/dd" class="t">Year / Month / Day</option>
-        </select>
+    <section class="modal delete-list">
+      <p class="t">Are you sure you want to do that?</p>
+      <div class="buttons">
+        <button class="t true special">Yes, delete it</button>
+        <button class="t false special">No, keep it</button>
       </div>
+    </section>
 
-      <div class="control">
-        <label for="input-completed-duration" class="t">Move to Completed:</label>
-        <select id="input-completed-duration" class="completed-duration">
-          <option value="instant" class="t">Instantly</option>
-          <option value="day" class="t">On App Launch</option>
-          <option value="manual" class="t">Never</option>
-        </select>
+    <section class="modal delete">
+      <p class="t">Are you sure you want to do that?</p>
+      <div class="buttons">
+        <button class="t true special">Yes, delete it</button>
+        <button class="false special">No, keep it</button>
       </div>
+    </section>
 
-      <div class="control">
-        <label for="input-confirm-delete" class="t">Confirm before deleting items:</label>
-        <input id="input-confirm-delete" class="confirm-delete" type="checkbox">
+    <section class="modal export">
+      <p class="t">Copy the data below and keep it in a safe place. To restore from a backup, simply replace the data and use the import button.</p>
+      <textarea></textarea>
+      <div class="buttons">
+        <button class="t true special">Import</button>
+        <button class="t false special">Close</button>
       </div>
+    </section>
 
-      <div class="control">
-        <label for="input-night-mode" class="t">Night Mode:</label>
-        <input id="input-night-mode" class="night-mode" type="checkbox">
-        <span class="pro-badge">pro</span>
+    <section class="modal email">
+      <p class="t struct">Where should the tasks be sent?</p><p class="pro-badge">pro</p>
+      <input class="p" type="text" placeholder="Email">
+      <div class="buttons">
+        <button class="t">Send</button>
       </div>
+      <!--
+      <span class="tip">
+        <strong class="t">Pro Tip:</strong>
+        <span class="t">You can also create a shared list.</span>
+      </span>
+      -->
+    </section>
 
-      <hr>
+    <section class="modal share">
+    </section>
 
-      <div class="control">
-        <label class="t clear-data-label">Reset Nitro:</label>
-        <button class="t clear-data">Clear Data</button>
-        <button class="t export-data">Import / Export Data</button>
+    <section class="modal tour">
+      <!-- TODO: Replace with an actual image -->
+      <div class="image"></div>
+      <div class="buttons">
+        <button class="t special close">Close</button>
+        <button class="t special learn">Next</button>
       </div>
+    </section>
 
-    </div>
-
-    <!--
-      Account
-    -->
-
-    <div class="account">
-
-      <div class="controls">
-
-        <div class="control">
-          <label class="t">Name</label>
-          <input type="text" disabled class="user-name">
-          <button class="t save name">Save</button>
-          <button class="t edit name">Edit</button>
-        </div>
-
-        <div class="control">
-          <label class="t">Email</label>
-          <input type="text" disabled class="user-email">
-          <button class="t save email">Save</button>
-          <button class="t edit email">Edit</button>
-        </div>
-
-        <form method="post" action="">
-          <input type="hidden" name="email" class="user-email">
-          <label class="t">Password</label>
-          <input type="password" disabled class="user-password" value="hunter22">
-          <button type="submit" class="edit password">Edit</button>
-        </form>
-
-        <div class="control">
-          <label class="t">Language</label>
-          <input type="text" disabled class="user-language">
-          <button class="t edit language">Edit</button>
-        </div>
-
-      </div>
-
-      <div class="get-started">
-        <img src="img/marketingbullshit.png" width="550" height="250" alt="">
-        <button class="t special login">Get Started</button>
-        <span class="t">Don’t worry, all your existing tasks and lists will be safe. After signing in they’ll be right here where you left them.</span>
-      </div>
-
-    </div>
-
-    <!--
-      Pro Features
-    -->
-
-    <div class="pro">
-
+    <section class="modal proventor">
       <img src="img/pro.png" width="27" height="48" alt="">
-
-      <div class="not-pro">
-        <h2 class="t">Go Pro</h2>
-        <p class="t">A pro account unlocks extra awesome features.</p>
-        <p class="t">You’ll also get a warm fuzzy feeling.</p>
-        <div class="buttons">
-          <button class="t probtn special">Get Pro</button>
-          <button class="t probtn special">Learn More</button>
-        </div>
+      <h2 class="t">You’ll need to go Pro</h2>
+      <p class="t">A pro account unlocks this feature and many others.</p>
+      <p class="t">Take Nitro to the next level.</p>
+      <div class="buttons">
+        <button class="t special">Get Pro</button>
+        <button class="t special">Learn More</button>
       </div>
-
-      <div class="is-pro">
-        <h2 class="t">You're Pro</h2>
-        <p class="t">Thanks for purchasing a Pro Upgrade. You’re awesome.</p>
-        <p class="t">As promised, you’ve unlocked extra features.</p>
-        <a class="t special" href="mailto:pro@nitrotasks.com">Priority Support</a>
-        <a class="t special" href="#">Email to Nitro</a>
-      </div>
-
-    </div>
+    </section>
 
     <!--
-      Notifications
+    =============================================================================
+      S E T T I N G S
+    =============================================================================
     -->
 
-    <div class="notifications">
-
-      <div class="control">
-        <label for="input-notify-toggle" class="t">Notifications:</label>
-        <input id="input-notify-toggle" type="checkbox" checked="checked">
-        <span class="pro-badge">pro</span>
-      </div>
-
-      <hr>
+    <section class="modal settings">
 
       <!--
-      <div class="control">
-        <label class="disabler" for="notify-email" class="t">Notify me via Email:</label>
-        <input class="disabler" type="checkbox" id="notify-email">
-      </div>
+        Tabs
       -->
 
-      <div class="control">
-        <label class="t disabler" for="notify-time">Remind me at:</label>
-        <select class="disabler" id="notify-time">
-          <option value="1" class="t">1am</option>
-          <option value="2" class="t">2am</option>
-          <option value="3" class="t">3am</option>
-          <option value="4" class="t">4am</option>
-          <option value="5" class="t">5am</option>
-          <option value="6" class="t">6am</option>
-          <option value="7" class="t">7am</option>
-          <option value="8" class="t">8am</option>
-          <option selected value="9" class="t">9am</option>
-          <option value="10" class="t">10am</option>
-          <option value="11" class="t">11am</option>
-          <option value="12" class="t">12pm</option>
-          <option value="13" class="t">1pm</option>
-          <option value="14" class="t">2pm</option>
-          <option value="15" class="t">3pm</option>
-          <option value="16" class="t">4pm</option>
-          <option value="17" class="t">5pm</option>
-          <option value="18" class="t">6pm</option>
-          <option value="19" class="t">7pm</option>
-          <option value="20" class="t">8pm</option>
-          <option value="21" class="t">9pm</option>
-          <option value="22" class="t">10pm</option>
-          <option value="23" class="t">11pm</option>
-          <option value="0" class="t">12am</option>
-        </select><br><br>
+      <nav class="tabs">
+        <ul>
+          <li data-id="general" class="t current">General</li>
+          <li data-id="account" class="t">Account</li>
+          <!--
+          <li data-id="pro" class="t">Pro</li>
+          <li data-id="notifications" class="t">Notifications</li>
+          -->
+          <li data-id="language" class="t">Language</li>
+          <li data-id="about" class="t">About</li>
+          <li class="close">&#10005;</li>
+        </ul>
+      </nav>
+
+      <!--
+        General Settings
+      -->
+
+      <div class="general current">
+
+        <div class="control">
+          <label for="input-week-start" class="t">Week starts on:</label>
+          <select id="input-week-start" class="week-start">
+            <option value="1" class="t">Monday</option>
+            <option value="0" class="t">Sunday</option>
+          </select>
+        </div>
+
+        <div class="control">
+          <label for="input-date-format" class="t">Date format:</label>
+          <select id="input-date-format" class="date-format">
+            <option value="dd/mm/yy" class="t">Day / Month / Year</option>
+            <option value="mm/dd/yy" class="t">Month / Day / Year</option>
+            <option value="yy/mm/dd" class="t">Year / Month / Day</option>
+          </select>
+        </div>
+
+        <div class="control">
+          <label for="input-completed-duration" class="t">Move to Completed:</label>
+          <select id="input-completed-duration" class="completed-duration">
+            <option value="instant" class="t">Instantly</option>
+            <option value="day" class="t">On App Launch</option>
+            <option value="manual" class="t">Never</option>
+          </select>
+        </div>
+
+        <div class="control">
+          <label for="input-confirm-delete" class="t">Confirm before deleting items:</label>
+          <input id="input-confirm-delete" class="confirm-delete" type="checkbox">
+        </div>
+
+        <div class="control">
+          <label for="input-night-mode" class="t">Night Mode:</label>
+          <input id="input-night-mode" class="night-mode" type="checkbox">
+          <span class="pro-badge">pro</span>
+        </div>
+
+        <hr>
+
+        <div class="control">
+          <label class="t clear-data-label">Reset Nitro:</label>
+          <button class="t clear-data">Clear Data</button>
+          <button class="t export-data">Import / Export Data</button>
+        </div>
+
       </div>
 
-      <div class="control">
-        <label class="t disabler" for="notify-regular">Send notifications for tasks that are:</label>
-        <select class="disabler" id="notify-regular">
-          <option value="upcoming" class="t">Upcoming</option>
-          <option value="due" class="t">Due</option>
-        </select>
+      <!--
+        Account
+      -->
+
+      <div class="account">
+
+        <div class="controls">
+
+          <div class="control">
+            <label class="t">Name</label>
+            <input type="text" disabled class="user-name">
+            <button class="t save name">Save</button>
+            <button class="t edit name">Edit</button>
+          </div>
+
+          <div class="control">
+            <label class="t">Email</label>
+            <input type="text" disabled class="user-email">
+            <button class="t save email">Save</button>
+            <button class="t edit email">Edit</button>
+          </div>
+
+          <form method="post" action="">
+            <input type="hidden" name="email" class="user-email">
+            <label class="t">Password</label>
+            <input type="password" disabled class="user-password" value="hunter22">
+            <button type="submit" class="edit password">Edit</button>
+          </form>
+
+          <div class="control">
+            <label class="t">Language</label>
+            <input type="text" disabled class="user-language">
+            <button class="t edit language">Edit</button>
+          </div>
+
+        </div>
+
+        <div class="get-started">
+          <img src="img/marketingbullshit.png" width="550" height="250" alt="">
+          <button class="t special login">Get Started</button>
+          <span class="t">Don’t worry, all your existing tasks and lists will be safe. After signing in they’ll be right here where you left them.</span>
+        </div>
+
       </div>
 
-    </div>
+      <!--
+        Pro Features
+      -->
 
-    <!--
-      Language
-    -->
+      <div class="pro">
 
-    <div class="language">
+        <img src="img/pro.png" width="27" height="48" alt="">
 
-      <table>
-        <thead>
-          <tr>
-            <td class="t">Language</td>
-            <td class="t">Author</td>
-            <td class="t">Language</td>
-            <td class="t">Author</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><a href="#" data-value="en-us">English (US)</a></td>
-            <td>Caffeinated Code</td>
-            <td><a href="#" data-value="es-ES">Español</a></td>
-            <td>Alex Caldera</td>
-            <td><a href="#" data-value="en-pi">English (Pirate)</a></td>
-            <td>Caffeinated Code</td>
-          </tr>
-          <tr>
-            <td><a href="#" data-value="bn-IN">বাংলা</a></td>
-            <td>Archisman Panigrahi</td>
-            <td><a href="#" data-value="bg">Български</a></td>
-            <td>Belkin Fahri</td>
-          </tr>
-          <tr>
-            <td><a href="#" data-value="nl">Nederlands</a></td>
-            <td>Maarten Hogendoorn</td>
-          </tr>
-        </tbody>
-      </table>
+        <div class="not-pro">
+          <h2 class="t">Go Pro</h2>
+          <p class="t">A pro account unlocks extra awesome features.</p>
+          <p class="t">You’ll also get a warm fuzzy feeling.</p>
+          <div class="buttons">
+            <button class="t probtn special">Get Pro</button>
+            <button class="t probtn special">Learn More</button>
+          </div>
+        </div>
 
-      <hr>
+        <div class="is-pro">
+          <h2 class="t">You're Pro</h2>
+          <p class="t">Thanks for purchasing a Pro Upgrade. You’re awesome.</p>
+          <p class="t">As promised, you’ve unlocked extra features.</p>
+          <a class="t special" href="mailto:pro@nitrotasks.com">Priority Support</a>
+          <a class="t special" href="#">Email to Nitro</a>
+        </div>
 
-      <p>We're always on the lookout for translations and you can help out by <a href="http://nitrotasks.com/translate">translating Nitro 2</a>.</p>
+      </div>
 
-    </div>
+      <!--
+        Notifications
+      -->
 
-    <!--
-      About
-    -->
+      <div class="notifications">
 
-    <div class="about">
-      <img src="img/icon.png" width="128" height="128" alt="">
-      <h2>Nitro 2</h2>
-      <p>Copyright &copy; 2012 - 2013 Caffeinated Code</p>
-      <a href="http://nitrotasks.com">nitrotasks.com</a>
-      <p class="grey">Made in New Zealand</p>
-    </div>
+        <div class="control">
+          <label for="input-notify-toggle" class="t">Notifications:</label>
+          <input id="input-notify-toggle" type="checkbox" checked="checked">
+          <span class="pro-badge">pro</span>
+        </div>
 
-  </section>
+        <hr>
+
+        <!--
+        <div class="control">
+          <label class="disabler" for="notify-email" class="t">Notify me via Email:</label>
+          <input class="disabler" type="checkbox" id="notify-email">
+        </div>
+        -->
+
+        <div class="control">
+          <label class="t disabler" for="notify-time">Remind me at:</label>
+          <select class="disabler" id="notify-time">
+            <option value="1" class="t">1am</option>
+            <option value="2" class="t">2am</option>
+            <option value="3" class="t">3am</option>
+            <option value="4" class="t">4am</option>
+            <option value="5" class="t">5am</option>
+            <option value="6" class="t">6am</option>
+            <option value="7" class="t">7am</option>
+            <option value="8" class="t">8am</option>
+            <option selected value="9" class="t">9am</option>
+            <option value="10" class="t">10am</option>
+            <option value="11" class="t">11am</option>
+            <option value="12" class="t">12pm</option>
+            <option value="13" class="t">1pm</option>
+            <option value="14" class="t">2pm</option>
+            <option value="15" class="t">3pm</option>
+            <option value="16" class="t">4pm</option>
+            <option value="17" class="t">5pm</option>
+            <option value="18" class="t">6pm</option>
+            <option value="19" class="t">7pm</option>
+            <option value="20" class="t">8pm</option>
+            <option value="21" class="t">9pm</option>
+            <option value="22" class="t">10pm</option>
+            <option value="23" class="t">11pm</option>
+            <option value="0" class="t">12am</option>
+          </select><br><br>
+        </div>
+
+        <div class="control">
+          <label class="t disabler" for="notify-regular">Send notifications for tasks that are:</label>
+          <select class="disabler" id="notify-regular">
+            <option value="upcoming" class="t">Upcoming</option>
+            <option value="due" class="t">Due</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!--
+        Language
+      -->
+
+      <div class="language">
+
+        <table>
+          <thead>
+            <tr>
+              <td class="t">Language</td>
+              <td class="t">Author</td>
+              <td class="t">Language</td>
+              <td class="t">Author</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href="#" data-value="en-us">English (US)</a></td>
+              <td>Caffeinated Code</td>
+              <td><a href="#" data-value="es-ES">Español</a></td>
+              <td>Alex Caldera</td>
+              <td><a href="#" data-value="en-pi">English (Pirate)</a></td>
+              <td>Caffeinated Code</td>
+            </tr>
+            <tr>
+              <td><a href="#" data-value="bn-IN">বাংলা</a></td>
+              <td>Archisman Panigrahi</td>
+              <td><a href="#" data-value="bg">Български</a></td>
+              <td>Belkin Fahri</td>
+            </tr>
+            <tr>
+              <td><a href="#" data-value="nl">Nederlands</a></td>
+              <td>Maarten Hogendoorn</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <hr>
+
+        <p>We're always on the lookout for translations and you can help out by <a href="http://nitrotasks.com/translate">translating Nitro 2</a>.</p>
+
+      </div>
+
+      <!--
+        About
+      -->
+
+      <div class="about">
+        <img src="img/icon.png" width="128" height="128" alt="">
+        <h2>Nitro 2</h2>
+        <p>Copyright &copy; 2012 - 2013 Caffeinated Code</p>
+        <a href="http://nitrotasks.com">nitrotasks.com</a>
+        <p class="grey">Made in New Zealand</p>
+      </div>
+
+    </section>
+
+  </div>
 
   <!--
   =============================================================================

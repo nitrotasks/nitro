@@ -1,0 +1,59 @@
+
+@media screen and (max-width: 600px) {
+  header .logo {
+    background: url("../img/hamburger.png") no-repeat 0 9px;
+    background-size: 27px 21px;
+    margin-left: 15px;
+  }
+  aside.sidebar {
+    display: none;
+    width: 100%;
+    padding: 0 20px;
+    background: white;
+    box-sizing: border-box;
+    top: 30px;
+    .title h2 {
+      font-size: 26px;
+      left: 0;
+    }
+    .title img, .title .searchToggle {
+      display: none;
+    }
+    .new-list {
+      padding-left: 5px;
+    }
+    .list {
+      &.all, &.inbox, &.completed {
+        background-position: 5px !important;
+      }
+      .name {
+        left: 0;
+      }
+      .count {
+        margin-right: 10px;
+      }
+      &.current {
+        font-weight: normal;
+        .arrow {
+          display: none;
+        }
+        .name {
+          -webkit-transform: translate3d(0, 0, 0);
+          -moz-transform: translate3d(0, 0, 0);
+          -ms-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+        }
+      }
+    }
+    &.show {
+      display: block;
+    }
+  }
+  .main {
+    right: 0;
+    padding: 0 13px 40px 20px;
+    .title {
+      height: 60px;
+    }
+  }
+}

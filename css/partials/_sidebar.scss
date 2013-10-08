@@ -1,0 +1,185 @@
+
+/*
+ * SIDEBAR
+ */
+
+.sidebar {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  @include abs(40px, 0, 0px, auto);
+  width: 250px;
+  padding-right: 30px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  // Sidebar title
+  .title {
+    height: 70px;
+    border-bottom: 2px $light-blue solid;
+    position: relative;
+    margin: 0;
+    h2 {
+      color: $dark-blue;
+      font-size: 20px;
+      display: block;
+      @include abs(auto, auto, 6px, 15px);
+      margin: 0;
+    }
+    img {
+      @include abs(auto, 15px, 9px, auto);
+    }
+    input {
+      background: url(../img/search_blue.png) no-repeat;
+      padding-left: 22px;
+      background-position: 0 50%;
+      background-size: 15px;
+      border: 0;
+      outline: 0;
+      @include abs(auto, auto, 6px, 15px);
+    }
+    .completed {
+      bottom: 10px;
+      opacity: 0.7;
+      &:active {
+        opacity: 1;
+      }
+    }
+    div {
+      @include transition(300ms, ease, opacity);
+    }
+    .hide {
+      opacity: 0;
+    }
+  }
+  // Lists
+  ul.lists {
+    margin: 0;
+    padding: 0;
+    font-size: 0;
+  }
+  .list {
+    @include user-select(none);
+    position: relative;
+    list-style-type: none;
+    overflow: hidden;
+    font-size: 15px;
+    color: #4c4c4c;
+    height: 40px;
+    line-height: 40px;
+    border-top: 1px #e6e6e6 solid;
+    -webkit-transform: translate3d(0px, 0px, 0px);
+    cursor: default;
+    &.inbox, &.all, &.completed {
+      @include transition(background, 0.1s, ease);
+      .name {
+        margin-left: 25px;
+      }
+      &.current {
+        background-position: 32px 15px;
+      }
+    }
+    // Add Inbox Icon
+    &.inbox {
+      background: url("../img/inbox.png") no-repeat 15px 15px;
+      border-top: 0;
+      background-size: 12px 12px;
+      &.ui-state-active {
+        background: url("../img/inbox.png") no-repeat 15px 15px, #fafafa;
+        &.current {
+          background-position: 32px 15px;
+        }
+      }
+    }
+    // Add All Tasks Icon
+    &.all {
+      background: url("../img/all.png") no-repeat 15px 14px;
+      background-size: 12px 11px;
+      &.current {
+        background-position: 32px 14px;
+      }
+    }
+    &.completed {
+      background: url("../img/completed.png") no-repeat 15px 15px;
+      background-size: 13px 10px;
+    }
+    // List Name
+    .name {
+      display: inline-block;
+      margin-left: 5px;
+      text-overflow: ellipsis;
+      width: 150px;
+      white-space: nowrap;
+      overflow: hidden;
+      @include abs(auto, 45px, auto, 10px);
+      // George's mixins suck.
+      -webkit-transition: -webkit-transform 0.1s ease;
+      -moz-transition: -moz-transform 0.1s ease;
+      -ms-transition: -ms-transform 0.1s ea se;
+      transition: transform 0.1s ease;
+    }
+    .arrow {
+      display: inline-block;
+      margin-top: 10px;
+      width: 7px;
+      height: 10px;
+      position: relative;
+      left: 15px;
+    }
+    // Number of Tasks
+    .count {
+      display: inline-block;
+      float: right;
+      margin-right: 15px;
+    }
+    // Currently Selected Task
+    &.current {
+      font-weight: bold;
+      .name {
+        -webkit-transform: translate3d(20px, 0px, 0px);
+        -moz-transform: translate3d(20px, 0px, 0px);
+        -ms-transform: translate3d(20px, 0px, 0px);
+        transform: translate3d(20px, 0px, 0px);
+      }
+      .arrow {
+        background: url("../img/arrow-left-fade.png") no-repeat;
+        -webkit-animation: 200ms steps(10, end) fade-out 1;
+        -moz-animation: 200ms steps(10, end) fade-out 1;
+        -ms-animation: 200ms steps(10, end) fade-out 1;
+        animation: 200ms steps(10, end) fade-out 1;
+      }
+    }
+    // jQuery UI Hover state
+    &.ui-state-active {
+      background: #fafafa;
+    }
+  }
+  .new-list {
+    -webkit-appearance: none;
+    border-radius: 0;
+    width: 100%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    border: 0;
+    border-top: 1px #e6e6e6 solid;
+    height: 40px;
+    padding: 0 0 0 15px;
+    font-size: 15px;
+    color: hsl(0, 0, 30%);
+    @include transition(border-color 0.3s);
+    &:focus {
+      outline: none;
+      font-style: normal;
+    }
+    &:input-placeholder {
+      color: hsl(0, 0, 60%);
+    }
+    &:-ms-input-placeholder {
+      color: hsl(0, 0, 60%);
+    }
+    &::-webkit-input-placeholder {
+      color: hsl(0, 0, 60%);
+    }
+    &:-moz-placeholder {
+      color: hsl(0, 0, 60%);
+    }
+  }
+}
+

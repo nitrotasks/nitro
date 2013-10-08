@@ -1,4 +1,3 @@
-/* Fuck the people that made this - let's roll it ourselves */
 
 /* Layout helpers
 ----------------------------------*/
@@ -11,7 +10,6 @@
 .ui-helper-zfix { width: 100%; height: 100%; top: 0; left: 0; position: absolute; opacity: 0; filter:Alpha(Opacity=0); }
 
 
-
 /* Interaction Cues
 ----------------------------------*/
 .ui-state-disabled { cursor: default !important; }
@@ -22,6 +20,7 @@
 
 /* states and images */
 .ui-icon { display: block; text-indent: -99999px; overflow: hidden; background-repeat: no-repeat; }
+
 
 /* Misc visuals
 ----------------------------------*/
@@ -71,6 +70,7 @@
 .ui-datepicker-rtl .ui-datepicker-group { float:right; }
 .ui-datepicker-rtl .ui-datepicker-group-last .ui-datepicker-header { border-right-width:0; border-left-width:1px; }
 .ui-datepicker-rtl .ui-datepicker-group-middle .ui-datepicker-header { border-right-width:0; border-left-width:1px; }
+
 
 /* Component containers
 ----------------------------------*/
