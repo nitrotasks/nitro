@@ -8,12 +8,12 @@ fs      = require 'fs'
 # Configuration
 config =
   js:
-    input:  'app/init.coffee'
-    output: 'public/js/app.js'
-    min:    'public/js/app.min.js'
+    input:  'source/scripts/init.coffee'
+    output: 'app/js/app.js'
+    min:    'app/js/app.min.js'
   css:
-    input:  'css/screen.scss'
-    output: 'public/css/screen.css'
+    input:  'source/stylesheets/screen.scss'
+    output: 'app/css/screen.css'
 
 # Options
 option '-p', '--port [port]', 'Set port for cake server'

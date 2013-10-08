@@ -35,7 +35,7 @@
     [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/init.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/init.coffee
         */
 
         'jqueryify': 1,
@@ -8893,7 +8893,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/controllers/app.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/controllers/app.coffee
         */
 
         '../libs/libs': 3,
@@ -9032,7 +9032,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/libs/libs.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/libs/libs.coffee
         */
 
         './modal': 4,
@@ -9051,7 +9051,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/libs/modal.js
+          /Users/Admin/Projects/Nitro/source/scripts/libs/modal.js
         */
 
       }, function(require, module, exports) {
@@ -9087,7 +9087,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/libs/jquery-ui.js
+          /Users/Admin/Projects/Nitro/source/scripts/libs/jquery-ui.js
         */
 
       }, function(require, module, exports) {
@@ -14134,7 +14134,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/libs/touch.js
+          /Users/Admin/Projects/Nitro/source/scripts/libs/touch.js
         */
 
       }, function(require, module, exports) {
@@ -14730,7 +14730,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/utils/touchify.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/utils/touchify.coffee
         */
 
         'base': 7
@@ -14762,7 +14762,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/utils/keys.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/utils/keys.coffee
         */
 
       }, function(require, module, exports) {
@@ -14860,7 +14860,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/utils/translate.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/utils/translate.coffee
         */
 
         'jqueryify': 1,
@@ -14958,7 +14958,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/models/setting.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/models/setting.coffee
         */
 
         'base': 7,
@@ -15011,7 +15011,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/controllers/sync.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/controllers/sync.coffee
         */
 
         'base': 7,
@@ -15463,7 +15463,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/libs/socket.io.js
+          /Users/Admin/Projects/Nitro/source/scripts/libs/socket.io.js
         */
 
       }, function(require, module, exports) {
@@ -15473,7 +15473,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/utils/conf.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/utils/conf.coffee
         */
 
       }, function(require, module, exports) {
@@ -15493,7 +15493,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/utils/event.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/utils/event.coffee
         */
 
         'base': 7
@@ -15505,7 +15505,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/languages/languages.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/languages/languages.coffee
         */
 
         './bg.json': 17,
@@ -15527,7 +15527,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/languages/bg.json
+          /Users/Admin/Projects/Nitro/source/scripts/languages/bg.json
         */
 
       }, function(require, module, exports) {
@@ -15660,7 +15660,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/languages/bn-IN.json
+          /Users/Admin/Projects/Nitro/source/scripts/languages/bn-IN.json
         */
 
       }, function(require, module, exports) {
@@ -15793,7 +15793,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/languages/en-pi.json
+          /Users/Admin/Projects/Nitro/source/scripts/languages/en-pi.json
         */
 
       }, function(require, module, exports) {
@@ -15824,7 +15824,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/languages/en-us.json
+          /Users/Admin/Projects/Nitro/source/scripts/languages/en-us.json
         */
 
       }, function(require, module, exports) {
@@ -15835,7 +15835,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/languages/es-ES.json
+          /Users/Admin/Projects/Nitro/source/scripts/languages/es-ES.json
         */
 
       }, function(require, module, exports) {
@@ -15968,7 +15968,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/languages/nl.json
+          /Users/Admin/Projects/Nitro/source/scripts/languages/nl.json
         */
 
       }, function(require, module, exports) {
@@ -16101,7 +16101,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/models/task.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/models/task.coffee
         */
 
         'base': 7,
@@ -16251,7 +16251,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/models/list.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/models/list.coffee
         */
 
         'base': 7,
@@ -16333,7 +16333,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/models/default/list.json
+          /Users/Admin/Projects/Nitro/source/scripts/models/default/list.json
         */
 
       }, function(require, module, exports) {
@@ -16349,7 +16349,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/models/default/task.json
+          /Users/Admin/Projects/Nitro/source/scripts/models/default/task.json
         */
 
       }, function(require, module, exports) {
@@ -16424,7 +16424,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/controllers/tasks.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/controllers/tasks.coffee
         */
 
         'base': 7,
@@ -16732,7 +16732,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/controllers/tasks.item.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/controllers/tasks.item.coffee
         */
 
         'base': 7,
@@ -16937,7 +16937,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/controllers/modal.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/controllers/modal.coffee
         */
 
         'base': 7,
@@ -17095,7 +17095,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/utils/date.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/utils/date.coffee
         */
 
       }, function(require, module, exports) {
@@ -17214,7 +17214,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/views/tasks.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/views/tasks.coffee
         */
 
         '../utils/translate': 10
@@ -17237,7 +17237,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/views/task.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/views/task.coffee
         */
 
         '../utils/prettydate': 33,
@@ -17270,7 +17270,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/utils/prettydate.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/utils/prettydate.coffee
         */
 
         '../utils/translate': 10
@@ -17327,7 +17327,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/controllers/lists.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/controllers/lists.coffee
         */
 
         'base': 7,
@@ -17471,7 +17471,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/controllers/lists.item.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/controllers/lists.item.coffee
         */
 
         'base': 7,
@@ -17583,7 +17583,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/views/list.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/views/list.coffee
         */
 
       }, function(require, module, exports) {
@@ -17594,7 +17594,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/controllers/lists.title.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/controllers/lists.title.coffee
         */
 
         'base': 7,
@@ -17680,7 +17680,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/controllers/panel.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/controllers/panel.coffee
         */
 
         'base': 7,
@@ -17782,7 +17782,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/controllers/settings.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/controllers/settings.coffee
         */
 
         'base': 7,
@@ -18121,7 +18121,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/libs/cookies.js
+          /Users/Admin/Projects/Nitro/source/scripts/libs/cookies.js
         */
 
       }, function(require, module, exports) {
@@ -18185,7 +18185,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/controllers/search.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/controllers/search.coffee
         */
 
         '../controllers/lists': 34,
@@ -18239,7 +18239,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/controllers/Settings.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/controllers/Settings.coffee
         */
 
         'base': 7,
@@ -18578,7 +18578,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/controllers/auth.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/controllers/auth.coffee
         */
 
         'base': 7,
@@ -18844,7 +18844,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/app/controllers/loadingScreen.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/controllers/loadingScreen.coffee
         */
 
         'base': 7,
