@@ -26,7 +26,7 @@ run = (cmd, args) ->
   terminal.on 'error', (data) -> console.log(data.toString())
 
 compileCoffee = (options={}) ->
-  args = [INPUT, '--out', OUTPUT, '--compile']
+  args = [INPUT, '-o', OUTPUT, '--compile']
   if options.watch
     args.push('--watch')
   run(SCRUNCH, args)
