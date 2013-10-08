@@ -75,3 +75,49 @@ ul.tasks {
     opacity: 0;
   }
 }
+
+/*
+ * MESSAGES
+ */
+
+.message {
+  display: none;
+  text-align: center;
+  padding-top: 80px;
+  color: #888888;
+  font-size: 18px;
+  @include user-select(none);
+  background: url(../img/notasks.png) no-repeat 50%;
+  background-size: 48px 30px;
+}
+
+.empty {
+  .message {
+    display: block;
+  }
+}
+
+/*
+ * GROUPS OF TASKS
+ */
+
+.group {
+  margin-bottom: 20px;
+  & + .task {
+    border-top: 1px $task-color solid;
+  }
+}
+
+/*
+ * SEPERATOR
+ */
+
+.seperator {
+  list-style-type: none;
+  height: 20px;
+  &+ li {
+    border-top: 1px $task-color solid;
+  }
+}
+
+

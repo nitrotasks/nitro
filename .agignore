@@ -1,3 +1,5 @@
-public/js
-public/css
-app/libs
+app/js
+app/css
+app/img
+source/scripts/libs
+source/stylesheets/vendor

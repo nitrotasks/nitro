@@ -7,6 +7,7 @@ fs      = require 'fs'
 
 # Configuration
 config =
+  public: 'app'
   js:
     input:  'source/scripts/init.coffee'
     output: 'app/js/app.js'
@@ -59,7 +60,7 @@ task 'server', 'Start server', (options) ->
 
   # Start Server
   port = options.port or 9294
-  file= new(server.Server)('./public')
+  file= new(server.Server)(config.public)
   server = http.createServer (req, res) ->
     req.addListener( 'end', ->
       file.serve(req, res)

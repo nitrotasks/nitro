@@ -1,0 +1,32 @@
+
+.ui-sortable-placeholder {
+  height: 28px !important;
+  background-color: transparent;
+  visibility: visible !important;
+  border-left: 0;
+  border-right: 0;
+  &:first-child {
+    border-top: 0;
+  }
+  &:last-child {
+    border-bottom: 0;
+  }
+  &::before {
+    border: 0;
+  }
+}
+
+.helper {
+  display: inline-block;
+  min-height: 27px;
+  min-width: 80px;
+  line-height: 27px;
+  padding: 5px 10px;
+  background: rgba(white, 0.9);
+  border: 1px solid #dddddd;
+  font-size: 15px;
+  cursor: default;
+  overflow: hidden;
+  width: auto !important;
+}
+

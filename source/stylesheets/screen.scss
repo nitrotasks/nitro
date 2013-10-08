@@ -17,6 +17,7 @@
 @import "./modules/_mobile";
 @import "./modules/_print";
 @import "./modules/_pro";
+@import "./modules/_sortable";
 @import "./modules/_type";
 
 // Partials
@@ -29,71 +30,3 @@
 @import "./partials/_sidebar";
 @import "./partials/_task";
 @import "./partials/_tasks";
-
-.no-cssscrollbar .main {
-  overflow-y: auto;
-}
-
-.message {
-  display: none;
-  text-align: center;
-  padding-top: 80px;
-  color: #888888;
-  font-size: 18px;
-  @include user-select(none);
-  background: url(../img/notasks.png) no-repeat 50%;
-  background-size: 48px 30px;
-}
-
-.empty {
-  .message {
-    display: block;
-  }
-}
-
-.group {
-  margin-bottom: 20px;
-  & + .task {
-    border-top: 1px $task-color solid;
-  }
-}
-
-.seperator {
-  list-style-type: none;
-  height: 20px;
-  &+ li {
-    border-top: 1px $task-color solid;
-  }
-}
-
-.ui-sortable-placeholder {
-  height: 28px !important;
-  background-color: transparent;
-  visibility: visible !important;
-  border-left: 0;
-  border-right: 0;
-  &:first-child {
-    border-top: 0;
-  }
-  &:last-child {
-    border-bottom: 0;
-  }
-  &::before {
-    border: 0;
-  }
-}
-
-.helper {
-  display: inline-block;
-  min-height: 27px;
-  min-width: 80px;
-  line-height: 27px;
-  padding: 5px 10px;
-  background: rgba(white, 0.9);
-  border: 1px solid #dddddd;
-  font-size: 15px;
-  cursor: default;
-  overflow: hidden;
-  width: auto !important;
-}
-
