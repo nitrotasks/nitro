@@ -19,7 +19,7 @@ $font: "Lato", sans-serif;
   font-family: "Lato";
   font-style: normal;
   font-weight: 400;
-  src: local("Lato Regular"), local("Lato-Regular"), url(lato.woff2) format("woff2"), url(lato.woff) format("woff");
+  src: local("Lato Regular"), local("Lato-Regular"), url(../fonts/lato.woff2) format("woff2"), url(../fonts/lato.woff) format("woff");
 }
 
 
@@ -27,7 +27,7 @@ $font: "Lato", sans-serif;
   font-family: "Lato";
   font-style: normal;
   font-weight: 700;
-  src: local("Lato Bold"), local("Lato-Bold"), url(lato_bold.woff2) format("woff2"), url(lato_bold.woff) format("woff");
+  src: local("Lato Bold"), local("Lato-Bold"), url(../fonts/lato_bold.woff2) format("woff2"), url(../fonts/lato_bold.woff) format("woff");
 }
 
 
@@ -307,7 +307,7 @@ header {
   .logo {
     height: 40px;
     width: 83px;
-    background-image: url(img/logo.png);
+    background-image: url(../img/logo.png);
     background-size: 83px 40px;
     margin-left: 15px;
     display: inline-block;
@@ -349,54 +349,56 @@ header {
       @include text-shadow(0px 1px 0px #f6f6f6);
     }
   }
-  .settingsButton {
+
+  // .seperator {
+  //   float: right;
+  //   line-height: 40px;
+  //   color: #aaaaaa;
+  //   @include text-shadow(0px 1px 0px #fafafa);
+  //   padding-right: 5px;
+  // }
+
+  .openSettings {
     display: inline-block;
     float: right;
     vertical-align: top;
     margin-right: 10px;
-    span {
-      line-height: 40px;
-      color: #aaaaaa;
-      @include text-shadow(0px 1px 0px #fafafa);
-      padding-right: 5px;
+
+    vertical-align: top;
+    margin: 14px 14px 0 5px;
+    background-image: url("../img/settings.png");
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    padding-right: 0;
+    background-size: 14px;
+
+    &:active {
+      opacity: 0.5;
     }
-    .img {
-      vertical-align: top;
-      margin: 14px 14px 0 5px;
-      background-image: url("img/settings.png");
-      width: 14px;
-      height: 14px;
-      display: inline-block;
-      padding-right: 0;
-      background-size: 14px;
-      &:active {
-        opacity: 0.5;
-      }
-    }
+
   }
 }
 
 // Retina Logo
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   header .logo {
-    background-image: url("img/logo@2x.png");
+    background-image: url("../img/logo@2x.png");
   }
 }
 
-// We're dropping this for the Web Version
 .search {
   vertical-align: top;
-  // display: inline-block
-  display: none;
+  display: inline-block;
   position: relative;
-  // float: right
+  float: right;
   height: 24px;
   padding: 0 5px 0 25px;
   margin: 7px 0 0 18px;
   @include border-radius(4px);
   border: 1px solid #bbbbbb;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) inset;
-  background: white url("img/search.png") no-repeat 7px 5px;
+  background: white url("../img/search.png") no-repeat 7px 5px;
   background-size: 15px 15px;
   input {
     width: 200px;
@@ -414,7 +416,7 @@ header {
 .clear-search {
   display: none;
   @include abs(5px, 5px, auto, auto);
-  background: url("img/clear-search.png");
+  background: url("../img/clear-search.png");
   background-size: 14px 14px;
   opacity: 0.6;
   width: 14px;
@@ -501,21 +503,21 @@ header {
 // List title
 .title {
   .trash {
-    background-image: url("img/sprite_list.png");
+    background-image: url("../img/sprite_list.png");
     background-position: -16px 0;
   }
   .email {
-    background-image: url("img/sprite_list.png");
+    background-image: url("../img/sprite_list.png");
   }
   .print {
-    background-image: url("img/sprite_list.png");
+    background-image: url("../img/sprite_list.png");
     background-position: -48px 0;
   }
   .share {
-    background-image: url("img/share.png");
+    background-image: url("../img/share.png");
   }
   .sort {
-    background-image: url("img/sprite_list.png");
+    background-image: url("../img/sprite_list.png");
     background-position: -32px 0;
   }
 }
@@ -572,7 +574,7 @@ ul.tasks {
   color: #888888;
   font-size: 18px;
   @include user-select(none);
-  background: url(img/notasks.png) no-repeat 50%;
+  background: url(../img/notasks.png) no-repeat 50%;
   background-size: 48px 30px;
 }
 
@@ -697,7 +699,7 @@ ul.tasks {
   // Trash Can
   .delete {
     display: none;
-    background: url("img/trashcan_grey.png") 50% 50% no-repeat;
+    background: url("../img/trashcan_grey.png") 50% 50% no-repeat;
     width: 25px;
     height: 29px;
     padding: 0 5px;
@@ -757,7 +759,7 @@ ul.tasks {
     font-size: 13px;
     padding-right: 10px;
     color: #999;
-    background: url("img/all_light.png") no-repeat 5px 50%;
+    background: url("../img/all_light.png") no-repeat 5px 50%;
     background-size: 12px 11px;
     padding-left: 25px;
   }
@@ -864,7 +866,7 @@ ul.tasks {
       left: 9px;
       width: 10px;
       height: 10px;
-      background: url("img/checkmark.png") no-repeat;
+      background: url("../img/checkmark.png") no-repeat;
     }
     .checkbox, .notes {
       border-left: 4px solid #cccccc;
@@ -1060,7 +1062,7 @@ ul.tasks {
     .image {
       width: 650px;
       height: 300px;
-      background-image: url(img/tour.png);
+      background-image: url(../img/tour.png);
       @include transition(.3s, background-position, ease);
     }
     button {
@@ -1294,7 +1296,7 @@ ul.tasks {
       @include abs(auto, 15px, 9px, auto);
     }
     input {
-      background: url(img/search_blue.png) no-repeat;
+      background: url(../img/search_blue.png) no-repeat;
       padding-left: 22px;
       background-position: 0 50%;
       background-size: 15px;
@@ -1345,11 +1347,11 @@ ul.tasks {
     }
     // Add Inbox Icon
     &.inbox {
-      background: url("img/inbox.png") no-repeat 15px 15px;
+      background: url("../img/inbox.png") no-repeat 15px 15px;
       border-top: 0;
       background-size: 12px 12px;
       &.ui-state-active {
-        background: url("img/inbox.png") no-repeat 15px 15px, #fafafa;
+        background: url("../img/inbox.png") no-repeat 15px 15px, #fafafa;
         &.current {
           background-position: 32px 15px;
         }
@@ -1357,14 +1359,14 @@ ul.tasks {
     }
     // Add All Tasks Icon
     &.all {
-      background: url("img/all.png") no-repeat 15px 14px;
+      background: url("../img/all.png") no-repeat 15px 14px;
       background-size: 12px 11px;
       &.current {
         background-position: 32px 14px;
       }
     }
     &.completed {
-      background: url("img/completed.png") no-repeat 15px 15px;
+      background: url("../img/completed.png") no-repeat 15px 15px;
       background-size: 13px 10px;
     }
     // List Name
@@ -1406,7 +1408,7 @@ ul.tasks {
         transform: translate3d(20px, 0px, 0px);
       }
       .arrow {
-        background: url("img/arrow-left-fade.png") no-repeat;
+        background: url("../img/arrow-left-fade.png") no-repeat;
         -webkit-animation: 200ms steps(10, end) fade-out 1;
         -moz-animation: 200ms steps(10, end) fade-out 1;
         -ms-animation: 200ms steps(10, end) fade-out 1;
@@ -1478,10 +1480,10 @@ $dark-border: #272727;
     @include vbg-gradient(#333, #111);
     border-bottom: 1px solid black;
     .logo {
-      background-image: url(img/logo_light.png);
+      background-image: url(../img/logo_light.png);
     }
-    .settingsButton .img {
-      background-image: url("img/settings_light.png");
+    .openSettings {
+      background-image: url("../img/settings_light.png");
     }
     .user {
       &:hover {
@@ -1499,7 +1501,7 @@ $dark-border: #272727;
     }
   }
   .search {
-    background: #333333 url("img/search_light.png") no-repeat 7px 5px;
+    background: #333333 url("../img/search_light.png") no-repeat 7px 5px;
     border: 1px solid #111111;
     background-size: 15px 15px;
     input {
@@ -1508,7 +1510,7 @@ $dark-border: #272727;
     }
   }
   .clear-search {
-    background: url("img/clear-search_light.png");
+    background: url("../img/clear-search_light.png");
     background-size: 14px 14px;
   }
   .new-task {
@@ -1563,16 +1565,16 @@ $dark-border: #272727;
       color: white;
       border-top: 1px solid #444444;
       &.current .arrow {
-        background-image: url("img/arrow-left-fade_light.png");
+        background-image: url("../img/arrow-left-fade_light.png");
       }
       &.inbox {
-        background-image: url("img/inbox_light.png");
+        background-image: url("../img/inbox_light.png");
       }
       &.all {
-        background-image: url("img/all_light.png");
+        background-image: url("../img/all_light.png");
       }
       &.completed {
-        background-image: url("img/completed_light.png");
+        background-image: url("../img/completed_light.png");
       }
     }
     .new-list {
@@ -1625,20 +1627,20 @@ $dark-border: #272727;
 // Retina Logo
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   .dark header .logo {
-    background-image: url("img/logo_light@2x.png");
+    background-image: url("../img/logo_light@2x.png");
   }
 }
 
 @media (-webkit-min-device-pixel-ratio: 2) and (max-width: 600px), (min-resolution: 192dpi) and (max-width: 600px) {
   header .logo {
-    background: url("img/hamburger.png") no-repeat 0 9px;
+    background: url("../img/hamburger.png") no-repeat 0 9px;
     background-size: 27px 21px;
   }
 }
 
 @media screen and (max-width: 600px) {
   header .logo {
-    background: url("img/hamburger.png") no-repeat 0 9px;
+    background: url("../img/hamburger.png") no-repeat 0 9px;
     background-size: 27px 21px;
     margin-left: 15px;
   }

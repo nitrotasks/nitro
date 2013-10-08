@@ -41,6 +41,11 @@ class ListCollection extends Base.Collection
   constructor: ->
     super
 
+  # Set the current list 
+  open: (list) =>
+    @currrent = list
+    @trigger 'change:current', list
+
 module.exports = new ListCollection()
 
 # Is this the best way to do this?

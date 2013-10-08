@@ -7,7 +7,8 @@ List    = require '../models/list'
 setting = require '../models/setting'
 
 # Utils
-Cookies = require '../utils/cookies'
+Cookies = require '../libs/cookies'
+Event   = require '../utils/event'
 CONFIG  = require '../utils/conf'
 
 class Settings extends Base.Controller
@@ -46,44 +47,52 @@ class Settings extends Base.Controller
     'click .save'          : 'saveField'
 
   constructor: ->
-    # Spine.touchify(@events)
-
+    Base.touchify(@events)
     super
 
-    setting.on 'show',  @show
-    setting.on 'login', @account
+    @listen Event,
+      'settings:show': @show
+      'login': @account
 
-    @dateFormat.val         setting.dateFormat
-    @completedDuration.val  setting.completedDuration
-    @confirmDelete.prop     'checked', setting.confirmDelete
-    @nightMode.prop         'checked', setting.night
-
+    @loadSettings()
     @setLanguage()
 
-    unless setting.notifications is true and setting.isPro() is true
-      @disabler.prop('disabled', true).addClass('disabled')
-      @notifyToggle.prop 'checked', false
-
-    @notifyEmail.prop 'checked', setting.notifyEmail
-    @notifyTime.val setting.notifyTime
-    @notifyRegular.val setting.notifyRegular
-
+    # unless setting.notifications and setting.isPro()
+    @disableNotifications()
     @setupNotifications()
+
+  # Fill in the form values
+  loadSettings: =>
+    @dateFormat.val         setting.dateFormat
+    @completedDuration.val  setting.completedDuration
+    @notifyTime.val         setting.notifyTime
+    @notifyRegular.val      setting.notifyRegular
+    @confirmDelete.prop     'checked', setting.confirmDelete
+    @nightMode.prop         'checked', setting.night
+    @notifyEmail.prop       'checked', setting.notifyEmail
 
   # Highlight the current language
   setLanguage: (language = setting.language) =>
     $("[data-value=#{ language }").addClass('selected')
 
+  # Disable notifications
+  disableNotifications: =>
+    @disabler.prop('disabled', true).addClass('disabled')
+    @notifyToggle.prop 'checked', false
+
+  # TODO: What does this do?
+  # Happens when you login
   account: =>
+
     # Show the proper account thing
     $('.account .signedout').hide()
     $('.account .signedin').show()
 
     @passwordreset.attr('action', 'http://' + CONFIG.server + '/forgot')
-    @nameInput.val(setting.user_name)
-    @emailInput.val(setting.user_email)
+    @nameInput.val(setting.userName)
+    @emailInput.val(setting.userEmail)
 
-    # Forgive Me
+    # Forgive Me. No.
     $('.account .user-language').val($('.language [data-value=' + setting.language + ']').text())
 
     @clearDataLabel.hide()

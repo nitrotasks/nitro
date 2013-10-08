@@ -1,5 +1,5 @@
 Base = require 'base'
-SocketIo = require '../lib/socket.io.js'
+SocketIo = require '../libs/socket.io.js'
 CONFIG  = require '../utils/conf.coffee'
 
 # ------------------

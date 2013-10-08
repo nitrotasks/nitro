@@ -2,16 +2,20 @@
 Base        = require 'base'
 
 # Controllers
-TaskItem     = require './tasks.item.coffee'
+TaskItem     = require './tasks.item'
 
 # Models
-Task         = require '../models/task.coffee'
-List         = require '../models/list.coffee'
-Setting      = require '../models/setting.coffee'
+Task         = require '../models/task'
+List         = require '../models/list'
+Setting      = require '../models/setting'
 
 # Utils
-Keys         = require '../utils/keys.coffee'
-dateDetector = require '../utils/date.coffee'
+Keys         = require '../utils/keys'
+dateDetector = require '../utils/date'
+translate    = require '../utils/translate'
+
+# Views
+view         = require '../views/tasks'
 
 
 class Tasks extends Base.Controller
@@ -87,17 +91,6 @@ class Tasks extends Base.Controller
   addOne: (task) =>
     return unless List.current.id in [task.list, 'all']
 
-    # Translations
-    # TODO: Only do this once, maybe mix it into the template?
-    task.notesplaceholder = $.i18n._ 'Notes'
-    task.dateplaceholder  = $.i18n._ 'Due Date'
-    task.checkboxalttext  = $.i18n._ 'Mark as completed'
-    task.lowalttext       = $.i18n._ 'Set priority to low'
-    task.mediumalttext    = $.i18n._ 'Set priority to medium'
-    task.highalttext      = $.i18n._ 'Set priority to high'
-    task.dateValue = Task.prettyDate(new Date(task.date)).words
-    task.dateClass = Task.prettyDate(new Date(task.date)).className
-
     # Add task to DOM
     @tasks.prepend @template task
 
@@ -157,25 +150,23 @@ class Tasks extends Base.Controller
 
     html = ''
 
-    # TODO: Why? At the very least, cache it in elements
+    # Remove old message
     @el.find('.message').remove()
-
-    # TODO: Move HTML into a view
 
     # Special list
     if @list.id is 'filter'
       tasks = @list.tasks
-      @el.append '<div class="message">' + $.i18n._('No tasks could be found.') + '</div>'
+      @el.append view.special
 
     # Standard list
     else if @list?.tasks
       tasks = @list.tasks
-      @el.append  '<div class="message">' + $.i18n._('You haven\'t added any tasks to this list.') + '</div>'
+      @el.append view.standard
 
     # Empty list
     else
       tasks = Task.list(@list.id)
-      @el.append  '<div class="message">' + $.i18n._('There are no tasks in here.') + '</div>'
+      @el.append view.empty
 
     # Sorting tasks
     if list.id in ['all', 'completed'] or Setting.sort
@@ -288,7 +279,7 @@ class Tasks extends Base.Controller
   # ------------
 
   collapseAll: ->
-    if !List.current.disabled
+    if not List.current.disabled
       if Setting.sort
         @el.find('.expanded').draggable({ disabled: false })
       else

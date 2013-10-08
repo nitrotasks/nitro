@@ -1,55 +1,65 @@
-{spawn, exec} = require 'child_process'
-node_static = require 'node-static'
-http = require 'http'
-fs = require 'fs'
-
-# Modules
-SCRUNCH    = './node_modules/coffee-scrunch/bin/scrunch.js'
-UGLIFY     = './node_modules/uglify-js/bin/uglifyjs'
-SASS_COMPILER = './node_modules/node-sass/bin/node-sass'
+sass    = require 'node-sass'
+Scrunch = require 'coffee-scrunch'
+uglify  = require 'uglify-js'
+server  = require 'node-static'
+http    = require 'http'
+fs      = require 'fs'
 
 # Configuration
-INPUT  = 'app/init.coffee'
-OUTPUT = 'public/application.js'
-SASS   = 'css/index.scss'
-CSS    = 'public/application.css'
+config =
+  js:
+    input:  'app/init.coffee'
+    output: 'public/js/app.js'
+    min:    'public/js/app.min.js'
+  css:
+    input:  'css/screen.scss'
+    output: 'public/css/screen.css'
 
 # Options
 option '-p', '--port [port]', 'Set port for cake server'
 option '-w', '--watch', 'Watch the folder for changes'
 
-# Functions
-run = (cmd, args) ->
-  terminal = spawn(cmd, args)
-  terminal.stdout.on 'data', (data) -> console.log(data.toString())
-  terminal.stderr.on 'data', (data) -> console.log(data.toString())
-  terminal.on 'error', (data) -> console.log(data.toString())
+compile =
 
-compileCoffee = (options={}) ->
-  args = [INPUT, '-o', OUTPUT, '--compile']
-  if options.watch
-    args.push('--watch')
-  run(SCRUNCH, args)
+  coffee: (options={}) ->
 
-compileSass = (options={}) ->
-  args = [SASS, CSS]
-  if options.watch then args.unshift('--watch', 'css')
-  run(SASS_COMPILER, args)
+    scrunch = new Scrunch
+      path: config.js.input
+      compile: true
+      watch: options.watch
 
-minifyApp = ->
-  args = [OUTPUT, '-c', '-m', '-o', OUTPUT]
-  run(UGLIFY, args)
+    scrunch.vent.on 'init', ->
+      scrunch.scrunch()
+
+    scrunch.vent.on 'scrunch', (data) ->
+      console.log '[JS] Writing'
+      fs.writeFile config.js.output, data
+
+    scrunch.init()
+
+  sass: (options={}) ->
+    sass.render
+      file: config.css.input
+      success: (css) ->
+        fs.writeFile config.css.output, css
+        console.log '[SCSS] Done'
+      error: ->
+        console.log '[SCSS] [ERROR]', arguments
+
+  minify: ->
+    js = uglify.minify(config.js.output).code
+    fs.writeFile config.js.min, js
 
 # Tasks
 task 'server', 'Start server', (options) ->
 
   # Compile files
-  compileCoffee(options)
-  compileSass(options)
+  compile.coffee(options)
+  compile.sass(options)
 
   # Start Server
   port = options.port or 9294
-  file= new(node_static.Server)('./public')
+  file= new(server.Server)('./public')
   server = http.createServer (req, res) ->
     req.addListener( 'end', ->
       file.serve(req, res)
@@ -59,7 +69,7 @@ task 'server', 'Start server', (options) ->
   console.log 'Server started on ' + port
 
 task 'build', 'Compile CoffeeScript and SASS', (options) ->
-  compileCoffee(options)
-  compileSass(options)
+  compile.coffee(options)
+  compile.sass(options)
 
-task 'minify', 'Minify application.js', minifyApp
+task 'minify', 'Minify application.js', compile.minify

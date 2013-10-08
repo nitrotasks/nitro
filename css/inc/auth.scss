@@ -103,7 +103,7 @@
       right: -24px;
       width: 16px;
       height: 16px;
-      background-image: url(img/loader.gif);
+      background-image: url(../img/loader.gif);
       background-repeat: no-repeat;
       background-size: 16px;
     }
@@ -176,7 +176,7 @@
   }
   .auth-email {
     border-bottom: 0;
-    background-image: url("img/emaillogin.png");
+    background-image: url("../img/emaillogin.png");
     background-size: 18px;
     background-position: 8px 50%;
     padding-left: 32px;
@@ -190,14 +190,14 @@
   }
   .auth-password {
     margin-bottom: 15px;
-    background-image: url("img/password.png");
+    background-image: url("../img/password.png");
     background-size: 16px;
     background-position: 9px 50%;
     padding-left: 32px;
   }
   .auth-name {
     margin-bottom: 15px;
-    background-image: url("img/user.png");
+    background-image: url("../img/user.png");
     background-size: 16px;
     background-position: 9px 50%;
     padding-left: 32px;
@@ -232,11 +232,11 @@
   //   // background: #0f0
   //   background-size: 50px 50px
   //   &.dropbox
-  //     background-image: url("img/dropbox.png")
+  //     background-image: url("../img/dropbox.png")
   //   &.ubuntu
-  //     background-image: url("img/ubuntuone.png")
+  //     background-image: url("../img/ubuntuone.png")
   //   &.google
-  //     background-image: url("img/googledrive.png")
+  //     background-image: url("../img/googledrive.png")
   //   &.skydrive
-  //     background-image: url("img/skydrive.png")
+  //     background-image: url("../img/skydrive.png")
 }

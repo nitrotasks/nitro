@@ -8,31 +8,31 @@ Sync    = require '../controllers/sync'
 # The base Modal class
 class Modal extends Base.Controller
 
-	constructor: (opts) ->
-		# Spine.touchify(opts.events)
-		super
+  constructor: (opts) ->
+    Base.touchify(opts.events)
+    super
 
-	state: off
+  state: off
 
-	show: ->
-		return unless @state is off
-		@state = on
-		@el.show(0).addClass('show')
-		if @onShow then @onShow()
-		setTimeout ( =>
-			@el.on 'click.modal, touchend.modal', (event) =>
-				if event.target.className.indexOf('modal') >= 0 then@hide()
-		), 500
+  show: ->
+    return unless @state is off
+    @state = on
+    @el.show(0).addClass('show')
+    if @onShow then @onShow()
+    setTimeout ( =>
+      @el.on 'click.modal, touchend.modal', (event) =>
+        if event.target.className.indexOf('modal') >= 0 then@hide()
+    ), 500
 
-	hide: ->
-		return unless @state is on
-		@state = off
-		@el.removeClass('show')
-		setTimeout ( =>
-			@el.hide(0)
-			if @onHide then @onHide()
-		), 350
-		@el.off('click.modal, touchend.modal')
+  hide: ->
+    return unless @state is on
+    @state = off
+    @el.removeClass('show')
+    setTimeout ( =>
+      @el.hide(0)
+      if @onHide then @onHide()
+    ), 350
+    @el.off('click.modal, touchend.modal')
 
 
 # Stores a reference to each modal, so we can fetch them from other files
@@ -40,82 +40,80 @@ modals = []
 
 module.exports =
 
-	# Return a modal
-	get: (name) ->
-		return modals[name]
+  # Return a modal
+  get: (name) ->
+    return modals[name]
 
-	# Bind the modals
-	init: ->
+  # Bind the modals
+  init: ->
 
-		# Deleting a task
-		modals['trashTask'] = new Modal
-			el: $('.modal.delete-task')
-			events:
-				'click .true': 'delete'
-				'click .false': 'hide'
+    # Deleting a task
+    modals['trashTask'] = new Modal
+      el: $('.modal.delete-task')
+      events:
+        'click .true': 'delete'
+        'click .false': 'hide'
 
-			run: (@task) ->
-				if setting.confirmDelete
-					@show()
-				else
-					@delete()
+      run: (@task) ->
+        if setting.confirmDelete
+          @show()
+        else
+          @delete()
 
-			delete: ->
-				@task?.destroy()
-				@hide()
-
-
-			# Deleting a list
-			modals['trashList'] = new Modal
-				el: $('.modal.delete-list')
-				events:
-					'click .true': 'delete'
-					'click .false': 'hide'
-
-				run: ->
-					if setting.confirmDelete
-						@show()
-					else
-						@delete()
-
-				delete: ->
-					List.current.trigger('kill')
-					@hide()
+      delete: ->
+        @task?.destroy()
+        @hide()
 
 
+    # Deleting a list
+    modals['trashList'] = new Modal
+      el: $('.modal.delete-list')
+      events:
+        'click .true': 'delete'
+        'click .false': 'hide'
 
-			# Emailing a list
-		modals['email'] = new Modal
-			el: $('.modal.email')
+      run: ->
+        if setting.confirmDelete
+          @show()
+        else
+          @delete()
 
-			elements:
-				'input': 'input'
+      delete: ->
+        List.current.trigger('kill')
+        @hide()
 
-			events:
-				'click button': 'submit'
-				'keyup input': 'keyup'
+    # Emailing a list
+    modals['email'] = new Modal
+      el: $('.modal.email')
 
-			keyup: (e) ->
-				if e.keyCode is Keys.ENTER then @submit()
+      elements:
+        'input': 'input'
 
-			submit: ->
-				if setting.isPro()
-					email = @input.val()
-					return unless email.match(/.+@.+\..+/)
-					uid = require('../models/setting.coffee').get('uid')
-					listId = require('../models/list.coffee').current.id
-					Sync.emit('emailList', [uid, listId, email])
-				else
-					$('.modal.proventor').modal('show')
+      events:
+        'click button': 'submit'
+        'keyup input': 'keyup'
 
-				@hide()
+      keyup: (e) ->
+        if e.keyCode is Keys.ENTER then @submit()
 
-			onShow: ->
-				@input.focus()
+      submit: ->
+        if setting.isPro()
+          email = @input.val()
+          return unless email.match(/.+@.+\..+/)
+          uid = require('../models/setting.coffee').get('uid')
+          listId = require('../models/list.coffee').current.id
+          Sync.emit('emailList', [uid, listId, email])
+        else
+          $('.modal.proventor').modal('show')
 
-			onHide: ->
-				@input.val('')
+        @hide()
 
-		# Sharing a list
-		modals['share'] = new Modal
-			el: $('.modal.share')
+      onShow: ->
+        @input.focus()
+
+      onHide: ->
+        @input.val('')
+
+    # Sharing a list
+    modals['share'] = new Modal
+      el: $('.modal.share')

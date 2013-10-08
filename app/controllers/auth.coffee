@@ -2,7 +2,7 @@ Base    = require 'base'
 $       = require 'jqueryify'
 Task    = require '../models/task'
 setting = require '../models/setting'
-Cookies = require '../utils/cookies'
+Cookies = require '../libs/cookies'
 CONFIG  = require '../utils/conf'
 
 class Auth extends Base.Controller

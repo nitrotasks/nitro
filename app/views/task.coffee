@@ -1,4 +1,19 @@
-addTags = (text) ->
+date = require '../utils/prettydate'
+translate = require '../utils/translate'
+
+text = {}
+
+translate.ready ->
+
+  text = translate
+    notes:     'Notes'
+    date:      'Due Date'
+    checkbox:  'Mark as completed'
+    low:       'Set priority to low'
+    medium:    'Set priority to medium'
+    high:      'Set priority to high'
+
+tags = (text) ->
   return unless text
   return text
     .replace(/&/g, "&amp;")
@@ -6,35 +21,47 @@ addTags = (text) ->
     .replace(/>/g, "&gt;")
     .replace(/#(\S+)/g, ' <span class="tag">#$1</span>')
 
-module.exports = (data) ->
+module.exports = (task) ->
   """
-    <li id="task-#{ data.id }" class="task #{
-      if data.group then "group" else ""
-    } #{
-      if data.completed then "completed" else ""
-    } p#{ data.priority }">
-      <div class="checkbox" title="#{ data.checkboxalttext }"></div>
-      <div class="name">#{ addTags data.name }</div>
+    <li id="task-#{ task.id }" class="task#{
+      if task.group then ' group' else ''
+    }#{
+      if task.completed then ' completed' else ''
+    } p#{ task.priority }">
+      <div class="checkbox" title="#{ text.checkbox }"></div>
+      <div class="name">#{ tags task.name }</div>
       <input type="text" class="input-name">
-      <div class="right-controls"> #{
-        if data.date
-          "<img width=\"10\" height=\"10\" style=\"display: inline-block\" src=\"img/calendar.png\"><time class=\"#{ data.dateClass }\">#{ data.dateValue }</time><input class=\"date\" placeholder=\"#{ data.dateplaceholder }\" value=\"#{ data.date }\">"
+      <div class="right-controls">#{
+        if task.date
+          "<img width='10' height='10' style='display: inline-block' src='img/calendar.png'>
+          <time class='#{ date(task).class }'>#{ date(task).value }</time>
+          <input class='date' placeholder='#{ text.date }' value='#{ task.date }'>"
         else
-          "<img width=\"10\" height=\"10\" src=\"img/calendar.png\"><time></time><input class=\"date\" placeholder=\"#{ data.dateplaceholder }\" value=\"\">"
-        } #{
-        if data.listName then "<span class=\"listName\">#{ data.listName }</span>" else ""
-        } <div class="priority-button">
-          <div data-id="1" title="#{ data.lowalttext }" class="low"></div>
-          <div data-id="2" title="#{ data.mediumalttext }" class="medium"></div>
-          <div data-id="3" title="#{ data.highalttext }" class="high"></div>
+          "<img width='10' height='10' src='img/calendar.png'>
+          <time></time>
+          <input class='date' placeholder='#{ text.date }' value=''>"
+      }#{
+        if task.listName
+          "<span class='listName'>#{ task.listName }</span>"
+        else
+          ""
+        }
+        <div class="priority-button">
+          <div data-id="1" title="#{ text.low }" class="low"></div>
+          <div data-id="2" title="#{ text.medium }" class="medium"></div>
+          <div data-id="3" title="#{ text.high }" class="high"></div>
         </div>
         <div class="delete"></div>
       </div>
       #{
-        if data.notes
-          "<div class=\"notes\"><div class=\"inner\" contenteditable=\"true\">#{ data.notes }</div></div>"
+        if task.notes
+          "<div class='notes'>
+            <div class='inner' contenteditable='true'>#{ task.notes }</div>
+          </div>"
         else
-          "<div class=\"notes placeholder\"><div class=\"inner\" contenteditable=\"true\">#{ data.notesplaceholder }</div></div>"
+          "<div class='notes placeholder'>
+            <div class='inner' contenteditable='true'>#{ text.notes }</div>
+           </div>"
       }
     </li>
   """

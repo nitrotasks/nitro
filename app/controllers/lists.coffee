@@ -17,7 +17,7 @@ class Lists extends Base.Controller
 
   elements:
     'ul': 'lists'
-    'input': 'input'
+    '.new-list': 'newListInput'
     '.list.all': 'all'
     '.list.inbox': 'inbox'
     '.list.completed': 'completed'
@@ -26,8 +26,7 @@ class Lists extends Base.Controller
     '.list.completed .count': 'completedCount'
 
   events:
-    'keyup input': 'new'
-    'click .title img': 'searchToggle'
+    'keyup .new-list': 'createNew'
     'click .list.all': 'showAllTasks'
     'click .list.inbox': 'showInbox'
     'click .list.completed': 'showCompleted'
@@ -35,6 +34,7 @@ class Lists extends Base.Controller
   constructor: ->
     Base.touchify(@events)
     super
+
     @listen List,
       'create':         @addOne
       'destroy':        @showInbox
@@ -50,28 +50,13 @@ class Lists extends Base.Controller
         movedTask = Task.get(ui.draggable.attr('id').slice(5))
         List.current.moveTask(movedTask, List.get('inbox'))
 
-  searchToggle: (e) ->
-    $('.sidebar .searchToggle, .sidebar .normal').toggleClass('hide')
-
-    if $('.sidebar .normal').hasClass('hide')
-      $('.sidebar .title input').val('').focus()
-    else
-      $('header .search input').val('').trigger 'keyup'
-
-  new: (e) ->
-
-    # Handles correct box
-    if $(e.currentTarget).hasClass('searcher')
-      $('header .search input').val($(e.currentTarget).val()).trigger 'keyup'
-
-      # Overides the other function thingy
-      if val.length is 0
-        $(e.currentTarget).focus()
-    else
-      if e.which is Keys.ENTER and $(e.currentTarget).val()
-        list = List.create name: $(e.currentTarget).val()
-        List.trigger 'change:current', list
-        $(e.currentTarget).val ''
+  # Create a new list
+  createNew: (e) ->
+    if e.which is Keys.ENTER and @newListInput.val()
+      list = List.create
+        name: @newListInput.val()
+      List.open(list)
+      @newListInput.val('')
 
   addOne: (list) =>
     return if list.id is 'inbox'
