@@ -1,11 +1,63 @@
 
+button.disabled {
+  pointer-events: none;
+}
+
+%core-button {
+  cursor: pointer;
+  padding: 0;
+  line-height: 34px;
+  font-size: 15px;
+  border: 0;
+}
+
+%thick-button {
+  @extend %core-button;
+}
+
+%thin-button {
+  @extend %core-button;
+  background: $white;
+  border: 1px solid $mid-grey;
+  color: $half-grey;
+
+  @include transition(
+    background-color 0.1s
+  );
+
+  &:hover {
+    background: $light-grey;
+  }
+
+  &:active {
+    background: $mid-grey;
+    color: $dark-grey;
+  }
+
+}
+
+@mixin button-bg ($bgcolor) {
+
+  background: $bgcolor;
+  @include transition(background-color 0.1s);
+
+  &:active {
+    background: darken($bgcolor, 6);
+  }
+
+  &.disabled, &:hover {
+    background: lighten($bgcolor, 6);
+  }
+
+}
+
 /*
  * BUTTONS
  */
 
 .list-buttons {
 
-  @include abs(auto, 0, 10px, auto);
+  @include pos(auto, 0, 10px, auto);
   font-size: 0;
   text-align: right;
 

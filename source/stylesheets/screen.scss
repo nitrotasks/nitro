@@ -5,6 +5,8 @@
 // Mixins
 @import "./mixins/_all_mixins";
 @import "./mixins/_breakpoints";
+@import "./mixins/_pos";
+@import "./mixins/_smooth_scroll";
 
 // Modules
 @import "./modules/_vars";
@@ -13,11 +15,13 @@
 @import "./modules/_clearfix";
 @import "./modules/_dark";
 @import "./modules/_fonts";
+@import "./modules/_inputs";
 @import "./modules/_misc";
 @import "./modules/_mobile";
 @import "./modules/_print";
 @import "./modules/_pro";
 @import "./modules/_sortable";
+@import "./modules/_spinner";
 @import "./modules/_type";
 
 // Partials

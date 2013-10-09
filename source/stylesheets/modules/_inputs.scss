@@ -1,0 +1,12 @@
+%thin-input {
+  color: $dark-grey;
+  border: 1px $mid-grey solid;
+  outline: 0;
+  @extend %border-box;
+  padding: 7px 10px 8px;
+
+  &:focus {
+    border-color: $light-blue;
+  }
+
+}

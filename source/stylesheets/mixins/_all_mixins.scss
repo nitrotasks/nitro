@@ -6,14 +6,6 @@
   user-select: $select;
 }
 
-@mixin abs($top: auto, $right: auto, $bottom: auto, $left: auto) {
-  position: absolute;
-  top: $top;
-  bottom: $bottom;
-  left: $left;
-  right: $right;
-}
-
 @mixin border-radius($arguments) {
   -moz-border-radius: $arguments;
   -webkit-border-radius: $arguments;
@@ -80,16 +72,16 @@
   -moz-box-align: stretch;
 }
 
-@mixin border-box() {
+%border-box {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 
-@mixin transition($s: 0.3s, $o: opacity, $t: linear) {
-  -webkit-transition: $s $o $t;
-  -moz-transition: $s $o $t;
-  transition: $s $o $t;
+@mixin transition($args...) {
+  -webkit-transition: $args;
+  -moz-transition: $args;
+  transition: $args;
 }
 
 @mixin ellipsis() {

@@ -39,7 +39,7 @@
     border-left: 1px solid #e6e6e6;
     border-right: 1px solid #e6e6e6;
     width: 2px;
-    @include abs(0, auto, 0, 31px);
+    @include pos(0, auto, 0, 31px);
   }
 
   &.p3 .checkbox, &.p3 .notes {
@@ -87,7 +87,7 @@
   // Task Name
   .name {
     line-height: 18px;
-    @include abs(6px, 0, auto, 44px);
+    @include pos(6px, 0, auto, 44px);
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -97,7 +97,7 @@
 
   .input-name {
     color: #4c4c4c;
-    @include abs(6px, 0, auto, 44px);
+    @include pos(6px, 0, auto, 44px);
     @include transition(0.2s, background);
     display: none;
     border: none;
@@ -107,7 +107,7 @@
 
   // Buttons
   .right-controls {
-    @include abs(0, 0, auto, auto);
+    @include pos(0, 0, auto, auto);
     text-align: right;
     font-size: 0;
   }
@@ -286,9 +286,7 @@
     .checkbox:after {
       content: "";
       display: block;
-      position: absolute;
-      top: 10px;
-      left: 9px;
+      @include pos(10px, auto, auto, 9px);
       width: 10px;
       height: 10px;
       background: url("../img/checkmark.png") no-repeat;

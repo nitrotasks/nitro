@@ -5,7 +5,7 @@ html, body {
 }
 
 .main {
-  @include abs(40px, 293px, 0, 0);
+  @include pos(40px, 293px, 0, 0);
   padding: 0 13px 40px 30px;
   overflow-y: scroll;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -36,7 +36,7 @@ html, body {
       padding: 0;
       color: $dark-blue;
       margin: 0;
-      @include abs(auto, auto, 5px, 0);
+      @include pos(auto, auto, 5px, 0);
       border: 1px transparent solid;
       cursor: default;
       @include transition(0.2s, border-color);

@@ -5,7 +5,7 @@
 
 .sidebar {
   -webkit-tap-highlight-color: rgba(0,0,0,0);
-  @include abs(40px, 0, 0px, auto);
+  @include pos(40px, 0, 0px, auto);
   width: 250px;
   padding-right: 30px;
   overflow-x: hidden;
@@ -20,11 +20,11 @@
       color: $dark-blue;
       font-size: 20px;
       display: block;
-      @include abs(auto, auto, 6px, 15px);
+      @include pos(auto, auto, 6px, 15px);
       margin: 0;
     }
     img {
-      @include abs(auto, 15px, 9px, auto);
+      @include pos(auto, 15px, 9px, auto);
     }
     input {
       background: url(../img/search_blue.png) no-repeat;
@@ -33,7 +33,7 @@
       background-size: 15px;
       border: 0;
       outline: 0;
-      @include abs(auto, auto, 6px, 15px);
+      @include pos(auto, auto, 6px, 15px);
     }
     .completed {
       bottom: 10px;
@@ -108,7 +108,7 @@
       width: 150px;
       white-space: nowrap;
       overflow: hidden;
-      @include abs(auto, 45px, auto, 10px);
+      @include pos(auto, 45px, auto, 10px);
       // George's mixins suck.
       -webkit-transition: -webkit-transform 0.1s ease;
       -moz-transition: -moz-transform 0.1s ease;

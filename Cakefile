@@ -27,6 +27,7 @@ compile =
     scrunch = new Scrunch
       path: config.js.input
       compile: true
+      verbose: false
       watch: options.watch
 
     scrunch.vent.on 'init', ->
@@ -73,4 +74,6 @@ task 'build', 'Compile CoffeeScript and SASS', (options) ->
   compile.coffee(options)
   compile.sass(options)
 
+task 'sass', 'Compile only SASS files', compile.sass
+task 'coffee', 'Compile only coffee files', compile.coffee
 task 'minify', 'Minify application.js', compile.minify

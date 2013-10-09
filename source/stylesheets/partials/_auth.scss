@@ -1,183 +1,205 @@
+
 // ----------------------------------------------------------------------------
-// Layout
+//    # AUTH
 // ----------------------------------------------------------------------------
 
 .auth {
-  @include user-select(none);
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: white;
-  z-index: 100;
+
+  // White background fill
+  @include pos(0, 0, 0, 0, fixed);
+  background: $light-grey;
+  z-index: $z-auth;
+
+  // Scrolling in case the screen is too small
   overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  text-align: center;
-  .container {
-    max-width: 500px;
+  @extend %smoothScroll;
+
+  $container-width: 620px;
+  $contents-margin: 10px;
+
+  /* Container to position content in the center of the page */
+  .group {
+    width: $container-width + $contents-margin;
     margin: 50px auto 40px;
+    padding: 30px;
+    border: 1px solid $mid-grey;
+    background: $white;
   }
+
+  // --------------------------------------------------------------------------
+  //    ## ABOUT SECTION
+  // --------------------------------------------------------------------------
+
+  .about {
+    width: $container-width / 2;
+    float: left;
+    margin-right: $contents-margin;
+
+    img {
+      display: inline-block;
+    }
+
+    h1 {
+      display: inline-block;
+      vertical-align: top;
+      margin: 0 20px;
+      line-height: 128px;
+    }
+
+    p {
+      max-width: 400px;
+      margin: 0 auto 25px;
+      font-size: 16px;
+      line-height: 1.5;
+      color: #444444;
+    }
+
+  }
+
+  // --------------------------------------------------------------------------
+  //    ## LOGIN FORM
+  // --------------------------------------------------------------------------
+
   .form {
     font-size: 16px;
-    width: 260px;
+    float: right;
+    width: $container-width / 2;
     display: inline-block;
     vertical-align: top;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
   }
+
   // --------------------------------------------------------------------------
-  // OBJECTS INSIDE CONTAINER
+  //    ## MODES
   // --------------------------------------------------------------------------
-  .icon {
-    margin-bottom: 20px;
-  }
-  h1 {
-    text-align: center;
-    margin: 0 0 25px 0;
-  }
-  .bullshit {
-    max-width: 400px;
-    margin: 0 auto 25px;
-    font-size: 16px;
-    line-height: 1.5;
-    color: #444444;
-  }
-  .note, .note a {
-    margin-bottom: 0;
-    color: #777777;
-  }
-  .note a {
-    text-decoration: none;
-    color: #555555;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-  .note-success {
-    display: none;
-  }
-  .error {
-    font-size: 13px;
-    color: #e15556;
-    font-weight: bold;
-    &.populated {
-      display: inline-block;
-      margin-top: 20px;
-    }
-    a {
-      text-decoration: none;
-      color: darken(#e15556, 10%);
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
-  p {
-    font-size: 14px;
-    text-align: center;
-  }
-  // --------------------------------------------------------------------------
-  // MODES
-  // --------------------------------------------------------------------------
-  .mode-login {
+
+  &.login {
     .register,
     .auth-name,
     .note-register {
       display: none;
     }
   }
-  .mode-register {
+
+  &.register {
     .login,
     .note-login {
       display: none;
     }
   }
-  .ajax {
-    button::after {
-      content: " ";
-      position: absolute;
-      display: inline-block;
-      right: -24px;
-      width: 16px;
-      height: 16px;
-      background-image: url(../img/loader.gif);
-      background-repeat: no-repeat;
-      background-size: 16px;
+
+
+  // --------------------------------------------------------------------------
+  //    ## MESSAGES
+  // --------------------------------------------------------------------------
+
+  p {
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .note {
+    margin-bottom: 10px;
+    color: #777777;
+    a {
+      text-decoration: none;
+      color: #555555;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
+
+  .note-success {
+    display: none;
+  }
+
+  .error {
+    font-size: 13px;
+    color: #e15556;
+    font-weight: bold;
+
+    &.populated {
+      display: inline-block;
+      margin-top: 20px;
+    }
+
+    a {
+      text-decoration: none;
+      color: darken(#e15556, 10%);
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+    }
+  }
+
   // --------------------------------------------------------------------------
-  // BUTTONS
+  //    ## SPINNER
   // --------------------------------------------------------------------------
+
+  button.register,
+  button.login {
+    @include spinner(4px, 7px, 34px);
+  }
+
+
+  // --------------------------------------------------------------------------
+  //    ## BUTTONS
+  // --------------------------------------------------------------------------
+
   button {
     width: 100%;
-    border: 0;
-    background-color: #068dd8;
-    color: white;
-    font-size: 15px;
-    line-height: 1;
     vertical-align: top;
-    padding: 10px 0;
     position: relative;
-    text-shadow: 0 -1px 1px #0072bb;
-    cursor: pointer;
-    &:active {
-      box-shadow: inset 0 1px 8px rgba(0, 0, 0, 0.25);
-      @include vbg-gradient(#4D90FE, #0072BB);
-    }
-    &.login {
-      text-shadow: 0 -1px 1px #1d943b;
-      background: #35aa47;
-      &:hover {
-        background-color: #1d943b;
-      }
-      &:active {
-        @include vbg-gradient(#35AA47,#1D943B);
-      }
-    }
-    &:hover {
-      background-color: #0072bb;
-    }
+    overflow: hidden;
   }
-  .offline a {
-    width: 258px;
-    text-align: center;
+
+  button.login,
+  button.register {
+    @extend %thick-button;
+    color: $white;
+  }
+
+  button.login {
+    @include button-bg($dark-green);
+    @include text-shadow(0 -1px 1px darken($dark-green, 10));
+  }
+
+  button.register {
+    @include button-bg($dark-blue);
+    @include text-shadow(0 -1px 1px darken($dark-blue, 10));
+  }
+
+  button.offline {
+    @extend %thin-button;
     font-size: 13px;
-    display: inline-block;
-    text-decoration: none;
-    color: #888888;
-    border: 1px solid #dddddd;
-    padding: 5px 0;
-    margin-top: 10px;
-    &:active {
-      background: #dddddd;
-      color: #666666;
-    }
   }
+
   // --------------------------------------------------------------------------
-  // TEXT INPUTS
+  //    ## TEXT INPUTS
   // --------------------------------------------------------------------------
-  input {
-    border-radius: 0;
-    color: #4c4c4c;
+
+  .auth-name, .auth-password, .auth-email {
     width: 100%;
-    border: 1px #cccccc solid;
-    outline: 0;
+    margin-bottom: 15px;
+    padding-left: 32px;
+    background-size: 16px;
+    background-size: 16px;
+    background-position: 9px 50%;
     background-repeat: no-repeat;
-    display: block;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    padding: 5px 10px 6px;
-    &:focus {
-      border-color: #1bc1f5;
-    }
+    @extend %thin-input;
   }
+
   .auth-email {
-    border-bottom: 0;
     background-image: url("../img/emaillogin.png");
     background-size: 18px;
     background-position: 8px 50%;
-    padding-left: 32px;
+    border-bottom: 0;
+    margin-bottom: 0;
 
     &:focus {
       border-bottom: 1px #1bc1f5 solid;
@@ -186,55 +208,13 @@
       }
     }
   }
+
   .auth-password {
-    margin-bottom: 15px;
     background-image: url("../img/password.png");
-    background-size: 16px;
-    background-position: 9px 50%;
-    padding-left: 32px;
   }
+
   .auth-name {
-    margin-bottom: 15px;
     background-image: url("../img/user.png");
-    background-size: 16px;
-    background-position: 9px 50%;
-    padding-left: 32px;
   }
-  // --------------------------------------------------------------------------
-  // DEAD CODE
-  // --------------------------------------------------------------------------
-  // .or
-  //   display: inline-block
-  //   color: #666
-  //   margin: 25px 0
-  //   &::before, &::after
-  //     content: ""
-  //     display: inline-block
-  //     height: 1px
-  //     position: relative
-  //     top: -4px
-  //     width: 105px
-  //   &::before
-  //     hbg-gradient(#fff,#ccc)
-  //     border-right: 15px solid #fff
-  //   &::after
-  //     border-left: 15px solid #fff
-  //     hbg-gradient(#ccc,#fff)
-  // .service
-  //   display: inline-block
-  //   height: 50px
-  //   margin: 0 5px
-  //   width: 50px
-  //   border-radius: 4px
-  //   box-shadow: 0 1px 0px #CCC
-  //   // background: #0f0
-  //   background-size: 50px 50px
-  //   &.dropbox
-  //     background-image: url("../img/dropbox.png")
-  //   &.ubuntu
-  //     background-image: url("../img/ubuntuone.png")
-  //   &.google
-  //     background-image: url("../img/googledrive.png")
-  //   &.skydrive
-  //     background-image: url("../img/skydrive.png")
+
 }

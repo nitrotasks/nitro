@@ -17881,7 +17881,7 @@
             if (language == null) {
               language = setting.language;
             }
-            return $("[data-value=" + language).addClass('selected');
+            return $("[data-value=" + language + "]").addClass('selected');
           };
 
           Settings.prototype.disableNotifications = function() {
@@ -18338,7 +18338,7 @@
             if (language == null) {
               language = setting.language;
             }
-            return $("[data-value=" + language).addClass('selected');
+            return $("[data-value=" + language + "]").addClass('selected');
           };
 
           Settings.prototype.disableNotifications = function() {
@@ -18588,11 +18588,11 @@
         '../libs/cookies': 40,
         '../utils/conf': 14
       }, function(require, module, exports) {
-        var $, Auth, Base, CONFIG, Cookies, Task, setting;
+        var $, Auth, Base, CONFIG, Cookies, Setting, Task;
         Base = require('base');
         $ = require('jqueryify');
         Task = require('../models/task');
-        setting = require('../models/setting');
+        Setting = require('../models/setting');
         Cookies = require('../libs/cookies');
         CONFIG = require('../utils/conf');
         Auth = (function(_super) {
@@ -18603,6 +18603,7 @@
             '.auth-name': 'name',
             '.auth-email': 'email',
             '.auth-password': 'password',
+            'button': 'buttons',
             '.login': 'loginBtn',
             '.register': 'registerBtn',
             '.note-login': 'loginNote',
@@ -18621,7 +18622,6 @@
           };
 
           function Auth() {
-            this.handleOauth = __bind(this.handleOauth, this);
             this.oauthLogin = __bind(this.oauthLogin, this);
             this.getData = __bind(this.getData, this);
             this.noAccount = __bind(this.noAccount, this);
@@ -18629,18 +18629,24 @@
             this.buttonRegister = __bind(this.buttonRegister, this);
             this.buttonLogin = __bind(this.buttonLogin, this);
             this.enterKey = __bind(this.enterKey, this);
-            var _this = this;
+            this.show = __bind(this.show, this);
+            this.hide = __bind(this.hide, this);
+            Base.touchify(this.events);
             Auth.__super__.constructor.apply(this, arguments);
             this.mode = true;
-            setting.on('offline', function() {
-              return _this.el.hide();
+            this.listen(Setting, {
+              'offline login': this.hide
             });
-            setting.on('login', function() {
-              _this.el.fadeOut(300);
-              return _this.form.removeClass('ajax');
-            });
-            this.handleOauth();
           }
+
+          Auth.prototype.hide = function() {
+            this.el.fadeOut(300);
+            return this.buttons.removeClass('active');
+          };
+
+          Auth.prototype.show = function() {
+            return this.el.fadeIn(300);
+          };
 
           Auth.prototype.enterKey = function(e) {
             if (e.keyCode === 13) {
@@ -18653,6 +18659,8 @@
           };
 
           Auth.prototype.buttonLogin = function() {
+            this.loginBtn.toggleClass('disabled active');
+            return true;
             if (this.email.val() === '' || this.password.val() === '') {
               this.errorNote.addClass('populated').text('Please fill out all fields');
             } else {
@@ -18663,6 +18671,8 @@
           };
 
           Auth.prototype.buttonRegister = function() {
+            this.registerBtn.toggleClass('disabled active');
+            return true;
             if (this.email.val() === '' || this.password.val() === '' || this.name.val() === '') {
               this.errorNote.addClass('populated').text('Please fill out all fields');
             } else {
@@ -18688,8 +18698,8 @@
           };
 
           Auth.prototype.noAccount = function() {
-            setting.noAccount = true;
-            setting.trigger('offline');
+            Setting.noAccount = true;
+            Setting.trigger('offline');
             Task["default"]();
             return true;
           };
@@ -18704,9 +18714,9 @@
           };
 
           Auth.prototype.saveToken = function(id, token) {
-            setting.uid = id;
-            setting.token = token;
-            return setting.trigger('haveToken', [id, token]);
+            Setting.uid = id;
+            Setting.token = token;
+            return Setting.trigger('haveToken', [id, token]);
           };
 
           Auth.prototype.register = function(data) {
@@ -18720,7 +18730,7 @@
                 _this.switchMode(true);
                 _this.successNote.show();
                 _this.errorNote.removeClass("populated").empty();
-                if (setting.noAccount === false) {
+                if (Setting.noAccount === false) {
                   return Task["default"]();
                 }
               },
@@ -18742,11 +18752,11 @@
                 var email, name, pro, token, uid;
                 uid = _arg[0], token = _arg[1], email = _arg[2], name = _arg[3], pro = _arg[4];
                 _this.saveToken(uid, token);
-                setting.user_name = name;
-                setting.user_email = email;
-                setting.pro = pro;
+                Setting.user_name = name;
+                Setting.user_email = email;
+                Setting.pro = pro;
                 _this.errorNote.removeClass('populated').empty();
-                return setting.set('noAccount', false);
+                return Setting.set('noAccount', false);
               },
               error: function(xhr, status, msg) {
                 console.log('Could not login');
@@ -18782,56 +18792,12 @@
                 service: service
               },
               success: function(request) {
-                setting.set('oauth', {
+                Setting.set('oauth', {
                   service: service,
                   token: request.oauth_token,
                   secret: request.oauth_token_secret
                 });
                 return location.href = request.authorize_url;
-              }
-            });
-          };
-
-          Auth.prototype.handleOauth = function() {
-            var oauth, secret, service, token,
-              _this = this;
-            oauth = setting.oauth;
-            if (oauth == null) {
-              return;
-            }
-            token = oauth.token;
-            secret = oauth.secret;
-            service = oauth.service;
-            setting["delete"]('oauth');
-            return $.ajax({
-              type: 'post',
-              url: "http://" + CONFIG.server + "/oauth/access",
-              data: {
-                service: service,
-                token: token,
-                secret: secret
-              },
-              success: function(access) {
-                console.log(access);
-                return $.ajax({
-                  type: 'post',
-                  url: "http://" + CONFIG.server + "/oauth/login",
-                  data: {
-                    service: service,
-                    token: access.oauth_token,
-                    secret: access.oauth_token_secret
-                  },
-                  success: function(_arg) {
-                    var email, name, token, uid;
-                    uid = _arg[0], token = _arg[1], email = _arg[2], name = _arg[3];
-                    _this.saveToken(uid, token);
-                    setting.userName = name;
-                    return setting.userEmail = email;
-                  },
-                  fail: function() {
-                    return console.log(arguments);
-                  }
-                });
               }
             });
           };

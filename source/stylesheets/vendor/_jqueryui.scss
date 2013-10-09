@@ -1,5 +1,3 @@
-/* filter:Alpha attributes are not supported by node-sass */
-
 /* Layout helpers
 ----------------------------------*/
 .ui-helper-hidden { display: none; }
@@ -8,7 +6,7 @@
 .ui-helper-clearfix:before, .ui-helper-clearfix:after { content: ""; display: table; }
 .ui-helper-clearfix:after { clear: both; }
 .ui-helper-clearfix { zoom: 1; }
-.ui-helper-zfix { width: 100%; height: 100%; top: 0; left: 0; position: absolute; opacity: 0; /* filter:Alpha(Opacity=0);*/ }
+.ui-helper-zfix { width: 100%; height: 100%; top: 0; left: 0; position: absolute; opacity: 0; filter:unquote("Alpha(Opacity=0)"); }
 
 
 /* Interaction Cues
@@ -123,8 +121,8 @@
 .ui-state-error a, .ui-widget-content .ui-state-error a, .ui-widget-header .ui-state-error a { color: #ffffff; }
 .ui-state-error-text, .ui-widget-content .ui-state-error-text, .ui-widget-header .ui-state-error-text { color: #ffffff; }
 .ui-priority-primary, .ui-widget-content .ui-priority-primary, .ui-widget-header .ui-priority-primary { font-weight: bold; }
-.ui-priority-secondary, .ui-widget-content .ui-priority-secondary,  .ui-widget-header .ui-priority-secondary { opacity: .7; /* filter:Alpha(Opacity=70);*/ font-weight: normal; }
-/* .ui-state-disabled .ui-icon { filter:Alpha(Opacity=35); } For IE8 - See #6059 */
+.ui-priority-secondary, .ui-widget-content .ui-priority-secondary,  .ui-widget-header .ui-priority-secondary { opacity: .7; filter:unquote("Alpha(Opacity=70)"); font-weight: normal; }
+.ui-state-disabled .ui-icon { filter:unquote("Alpha(Opacity=35)"); } /* For IE8 - See #6059 */ 
 
 /* Icons
 ----------------------------------*/
@@ -140,5 +138,5 @@
 ----------------------------------*/
 
 /* Overlays */
-.ui-widget-overlay { background: #666666 url(images/ui-bg_diagonals-thick_20_666666_40x40.png) 50% 50% repeat; opacity: .5; /*filter:Alpha(Opacity=50); */ }
-.ui-widget-shadow { margin: -5px 0 0 -5px; padding: 5px; background: #000000 url(images/ui-bg_flat_10_000000_40x100.png) 50% 50% repeat-x; opacity: .2; /* filter:Alpha(Opacity=20); */ -moz-border-radius: 5px; -khtml-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }
+.ui-widget-overlay { background: #666666 url(images/ui-bg_diagonals-thick_20_666666_40x40.png) 50% 50% repeat; opacity: .5; filter:unquote("Alpha(Opacity=50)"); }
+.ui-widget-shadow { margin: -5px 0 0 -5px; padding: 5px; background: #000000 url(images/ui-bg_flat_10_000000_40x100.png) 50% 50% repeat-x; opacity: .2; filter:unquote("Alpha(Opacity=20)"); -moz-border-radius: 5px; -khtml-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }

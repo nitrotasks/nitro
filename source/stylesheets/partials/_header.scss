@@ -11,7 +11,7 @@
 header {
 
   @include user-select(none);
-  @include abs(0, 0, auto, 0);
+  @include pos(0, 0, auto, 0);
   height: 39px;
   z-index: 1;
   @include vbg-gradient(#eaeaea, #ccc);
@@ -138,7 +138,7 @@ header {
 
 .clear-search {
   display: none;
-  @include abs(5px, 5px, auto, auto);
+  @include pos(5px, 5px);
   background: url("../img/clear-search.png");
   background-size: 14px 14px;
   opacity: 0.6;
