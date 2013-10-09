@@ -1,123 +1,91 @@
 # Load librariess
-libs = require '../libs/libs'
+libs = require '../vendor/libs'
 
 # Base
 Base = require 'base'
-require '../utils/touchify'
+Base.touchify = require '../utils/touchify'
+$ = require 'jqueryify'
 
 # Utilities
 Keys      = require '../utils/keys'
 translate = require '../utils/translate'
+Event     = require '../utils/event'
 
 # Models
 Task    = require '../models/task'
 List    = require '../models/list'
-setting = require '../models/setting'
+Setting = require '../models/setting'
 
 # Controllers
-Tasks         = require '../controllers/tasks'
-Lists         = require '../controllers/lists'
-ListTitle     = require '../controllers/lists.title'
-Panel         = require '../controllers/panel'
-Settings      = require '../controllers/Settings'
+# Tasks         = require # '../controllers/tasks'
+# Lists         = require # '../controllers/lists'
+# ListTitle     = require # '../controllers/lists.title'
+# Panel         = require # '../controllers/panel'
+# Settings      = require # '../controllers/Settings'
+# Modal         = require # '../controllers/modal'
+# Sync          = require # '../controllers/sync'
+# Pro           = require # '../controllers/pro'
 Auth          = require '../controllers/auth'
-Modal         = require '../controllers/modal'
-LoadingScreen = require '../controllers/loadingScreen'
-Sync          = require '../controllers/sync'
 
-class App extends Base.Controller
+# Views
+Keys          = require '../views/keys'
+LoadingScreen = require '../views/loadingScreen'
 
-  elements:
-    '.tasks': 'tasksContainer'
-    '.sidebar': 'listsContainer'
-    '.tasks .title': 'listTitle'
-    'header': 'panel'
-    '.settings': 'Settings'
-    '.auth': 'auth'
-    '.tour': 'tour'
-    '.tour .image': 'tourImage'
-    '.loading-screen': 'loadingScreen'
-
-  events:
-    'keyup': 'handleShortcut'
+class App
 
   constructor: ->
-    super
 
     # Load Settings
-    setting.trigger 'fetch'
+    Setting.trigger 'fetch'
 
     # Init Settings
-    Settings = new Settings
-      el: @Settings
+    # Settings = new Settings
 
     # Load translations
     translate.init()
 
-    # Init Auth
-    @auth = new Auth( el: @auth )
+    # Load controllers
+    @auth = new Auth()
+    # @panel = new Panel()
+    # @tasks = new Tasks()
+    # @lists = new Lists()
+    # @title = new ListTitle()
+    new LoadingScreen()
 
-    # Init panel
-    @panel = new Panel( el: @panel )
-
-    # Init tasks
-    @tasks = new Tasks( el: @tasksContainer )
-
-    # Init lists
-    @lists = new Lists( el: @listsContainer )
-    new ListTitle( el: @listTitle )
-
-    # Transform loadingScreen into something we can hide and show
-    @loadingScreen = new LoadingScreen( el: @loadingScreen )
+    # Load views
+    @keys = new Keys
+      el: $('body')
 
     # Init Modals
-    Modal.init()
+    # Modal.init()
 
+    # Load data from disk
     Task.trigger 'fetch'
     List.trigger 'fetch'
 
-    # Create inbox list
-    if not List.exists('inbox')
+    # Make sure inbox list exists
+    # TODO: Move somewhere elese
+    if List.exists('inbox') is false
       List.create
         id: 'inbox'
-        name: 'Inbox'
+        name: translate 'Inbox'
         permanent: yes
 
-    List.get('inbox').name = translate('Inbox')
-
     # Doesn't run in the Settings constructor. Bit of a pain
-    if setting.completedDuration is 'day'
-      Settings.moveCompleted()
+    # TODO: Move somewhere else?
+    # if Setting.completedDuration is 'day'
+      # Settings.moveCompleted()
 
     # Select the first list on load
-    @lists.showInbox()
+    # @lists.showInbox()
 
     # Login to sync
-    uid = setting.uid
-    token = setting.token
-
-    # Handle offline mode
-    if setting.noAccount then setting.trigger('offline')
-
-    setPro = -> $('html').toggleClass('proenable', setting.isPro())
-    setting.on 'change:pro', setPro
-    setPro()
-
-    if uid? and token?
-      @auth.el.hide()
-      Sync.connect uid, token, =>
-        @loadingScreen.hide()
-        setting.trigger 'login'
+    if Setting.loggedin
+      Sync.connect(Setting.uid, Setting.token)
     else
-      @loadingScreen.hide()
+      Event.trigger 'app:offline'
 
-    setting.on 'haveToken', (data) ->
-      Sync.connect data[0], data[1], ->
-        setting.trigger 'login'
-
-
-  handleShortcut: (e) =>
-    Keys.handleKey(e.which)
+    Event.trigger 'app:ready'
 
 module.exports = App
 

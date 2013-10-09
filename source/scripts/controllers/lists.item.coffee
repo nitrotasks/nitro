@@ -2,8 +2,8 @@
 Base = require 'base'
 
 # Models
-Task  = require '../models/task.coffee'
-List  = require '../models/list.coffee'
+Task  = require '../models/task'
+List  = require '../models/list'
 
 class ListItem extends Base.Controller
   template: require '../views/list'

@@ -3,14 +3,14 @@ Base    = require 'base'
 $       = require 'jqueryify'
 
 # Controllers
-Modal   = require './modal.coffee'
+# './modal'
 
 # Models
-List    = require '../models/list.coffee'
-setting = require '../models/setting.coffee'
+List    = require '../models/list'
+setting = require '../models/setting'
 
 # Utils
-Keys    = require '../utils/keys.coffee'
+Keys    = require '../utils/keys'
 
 
 class TaskItem extends Base.Controller

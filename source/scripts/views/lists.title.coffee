@@ -2,14 +2,14 @@
 Base   = require 'base'
 
 # Controllers
-Modal   = require './modal.coffee'
+Modal   = require './modal'
 
 # Models
-List    = require '../models/list.coffee'
-Setting = require '../models/setting.coffee'
+List    = require '../models/list'
+Setting = require '../models/setting'
 
 # Utils
-Keys    = require '../utils/keys.coffee'
+Keys    = require '../utils/keys'
 
 
 class ListTitle extends Base.Controller

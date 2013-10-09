@@ -1,6 +1,10 @@
-Base = require 'base'
-SocketIo = require '../libs/socket.io.js'
-CONFIG  = require '../utils/conf.coffee'
+Base     = require 'base'
+SocketIo = require '../vendor/socket.io.js'
+Event    = require '../utils/event'
+config   = require '../utils/conf'
+
+# TODO: Where should we put this?
+# Event.on 'auth:token', Sync.connnect
 
 # ------------------
 # Handle Sync Events
@@ -19,16 +23,18 @@ Sync =
   queue: JSON.parse localStorage.Queue or '[]'
 
   connect: (uid, token, fn) ->
-    @socket = SocketIo.connect("http://#{ CONFIG.sync }/?token=#{  token  }&uid=#{ uid }")
+    @socket = SocketIo.connect("http://#{ config.sync }/?token=#{  token  }&uid=#{ uid }")
 
     # Handle offline modes
     for event in ['error', 'disconnect', 'connect_failed']
+      Event.trigger 'sync:disconnected'
       @socket.on event, Sync.goOffline
 
     @socket.on 'connect', =>
       @online = yes
       @bindEvents()
       @sync()
+      Event.trigger 'sync:connected'
       if fn then fn()
 
   bindQueue: []

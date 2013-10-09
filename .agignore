@@ -3,3 +3,7 @@ app/css
 app/img
 source/scripts/libs
 source/stylesheets/vendor
+codekit-config.json
+Cakefile
+package.json
+README.md

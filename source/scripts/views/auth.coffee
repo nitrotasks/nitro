@@ -1,14 +1,12 @@
 Base    = require 'base'
-$       = require 'jqueryify'
-Task    = require '../models/task'
 Setting = require '../models/setting'
-Cookies = require '../libs/cookies'
-CONFIG  = require '../utils/conf'
 
 class Auth extends Base.Controller
 
+  template: require '../templates/auth'
+
   elements:
-    
+
     # Form
     '.form':           'form'
     '.auth-name':      'name'
@@ -27,23 +25,28 @@ class Auth extends Base.Controller
     '.error':          'errorNote'
 
   events:
-    'click .login':        'login'
-    'click .register':     'register'
+    'click .login':        'submit'
+    'click .register':     'submit'
     'click .switch-mode':  'switchMode'
-    'click .offline':      'noAccount'
-    'click .service':      'oauthLogin'
-    'keydown input':       'enterKey'
+    'click .offline':      'skipAuth'
+    'keydown input':       'keydown'
 
   constructor: ->
     Base.touchify(@events)
     super
 
-    # True  = login
-    # False = register
-    @mode = true
+    @el = $('.auth')
+    @bind()
+
+    @mode = 'login'
 
     @listen Setting,
       'offline login': @hide
+
+    @on 'register:success', =>
+      @spinner(off)
+      @setMode('login')
+      @hideError()
 
   # Hide login screen
   hide: =>
@@ -54,134 +57,47 @@ class Auth extends Base.Controller
   show: =>
     @el.fadeIn(300)
 
-  enterKey: (e) =>
-    if e.keyCode is 13
-      if @mode
-        @buttonLogin()
-      else
-        @buttonRegister()
+  # Submit form on enter
+  keydown: (e) =>
+    if e.keyCode is 13 then @submit()
 
-  buttonLogin: =>
-    @loginBtn.toggleClass('disabled active')
-    return true
-    # Check for empty fields
-    if @email.val() is '' or @password.val() is ''
-      @errorNote.addClass('populated').text('Please fill out all fields')
+  # Submit the form data
+  submit: =>
+    if @valid
+      @spinner true
+      switch @mode
+        when 'login' then @trigger 'login', @email.val(), @password.val()
+        when 'register' then @trigger 'register', @email.va(), @password.val(), @name.val()
+
+  # Check if the form is valid
+  valid: =>
+    if @mode
+      valid = @email.val().length and @password.va().length
     else
-      @form.addClass('ajax')
-      @login @getData()
-    return true
+      valid = @email.val().length and @password.val().length and @name.val().length
+    if not valid
+      @error('Please  fill out all fields')
+    return valid
 
-  buttonRegister: =>
-    @registerBtn.toggleClass('disabled active')
-    return true
-    # Check for empty fields
-    if @email.val() is '' or @password.val() is '' or @name.val() is ''
-      @errorNote.addClass('populated').text 'Please fill out all fields'
-    else
-      @form.addClass('ajax')
-      @register @getData()
-    return true
+  # Switch form between login and register modes
+  switchMode: (@mode) =>
+    @el.toggleClass 'login', @mode is 'login'
+    @hideError()
+    switch @mode
+      when 'login' then @email.focus()
+      when 'register' then @name.focus()
 
-  switchMode: (mode) =>
-    if typeof(mode) isnt 'boolean' then mode = !@mode
-    @mode = mode
-    @form.toggleClass('mode-login', @mode)
-    @form.toggleClass('mode-register', !@mode)
-    @errorNote.removeClass('populated').empty()
-    if @mode then @email.focus() else @name.focus()
+  hideError: =>
+    @errorMessage
+      .removeClass 'populated'
+      .empty()
 
-  noAccount: =>
-    Setting.noAccount = true
-    Setting.trigger('offline')
+  showError: (type, message) ->
+    @errorNote
+      .addClass 'populated'
+      .html @template message
 
-    # Make default tasks
-    # TODO: This should be part of @startApp() right?
-    Task.default()
-
-    return true
-
-  # Retrieve login form data
-  getData: =>
-    console.log @mode
-
-    name: @name.val()
-    email: @email.val()
-    password: @password.val()
-
-  saveToken: (id, token) ->
-    Setting.uid = id
-    Setting.token = token
-    Setting.trigger 'haveToken', [id, token]
-
-  register: (data) ->
-    $.ajax
-      type: 'post'
-      url: "http://#{CONFIG.server}/register"
-      data: data
-      success: (data) =>
-
-        @form.removeClass('ajax')
-
-        # User Message
-        @switchMode(true)
-        @successNote.show()
-
-        @errorNote.removeClass("populated").empty()
-
-        if Setting.noAccount is false
-          Task.default()
-
-      error: (xhr, status, msg) =>
-        @error 'signup', xhr.responseText
-
-  login: (data) ->
-    @errorNote.empty().removeClass('populated')
-    $.ajax
-      type: 'post'
-      url: "http://#{CONFIG.server}/login"
-      data: data
-      dataType: 'json'
-      success: ([uid, token, email, name, pro]) =>
-        @saveToken(uid, token)
-        Setting.user_name = name
-        Setting.user_email = email
-        Setting.pro = pro
-
-        @errorNote.removeClass('populated').empty()
-
-        # In case it's been set
-        Setting.set 'noAccount', false
-
-      error: (xhr, status, msg) =>
-        console.log 'Could not login'
-        @error 'login', xhr.responseText
-
-  error: (type, err) ->
-    @form.removeClass('ajax')
-
-    console.log "(#{type}): #{err}"
-    @errorNote.addClass 'populated'
-    if err is 'err_bad_pass'
-      @errorNote.html "Incorrect email or password. <a href=\"http://#{CONFIG.server}/forgot\">Forgot?</a>"
-    else if err is 'err_old_email'
-      @errorNote.text 'Account already in use'
-    else
-      @errorNote.text "#{err}"
-
-  oauthLogin: (e) =>
-    service =  e.target.attributes['data-service']?.value
-    return unless service in ['dropbox', 'ubuntu']
-    $.ajax
-      type: 'post'
-      url: "http://#{CONFIG.server}/oauth/request"
-      data:
-        service: service
-      success: (request) =>
-        Setting.set 'oauth',
-          service: service
-          token: request.oauth_token
-          secret: request.oauth_token_secret
-        location.href = request.authorize_url
+  spinner: (status) ->
+    @buttons.toggleClass('active', status)
 
 module.exports = Auth

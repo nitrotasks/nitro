@@ -1,7 +1,5 @@
 $   = require 'jqueryify'
-App = require './controllers/app.coffee'
+App = require './controllers/app'
 
-$ ->
-  new App
-    el: $('body')
+$ -> new App()
 

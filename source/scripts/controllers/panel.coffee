@@ -32,13 +32,16 @@ class Panel extends Base.Controller
     new Search
       el: @search
 
-    @listen Setting,
-      'change:userName':   @setName
-      'change:userEmail':  @setAvatar
-      'offline':           @offline
-      'login': =>
-        @setName()
-        @setAvatar()
+    @listen [
+      Setting,
+        'change:userName': @setName
+        'change:userEmail': @setAvatar
+      Event,
+        'app:offline': @offline
+        'app:login': =>
+          @setName()
+          @setAvatar()
+    ]
 
   toggleMenu: (onOff) =>
     @sidebar.toggleClass('show', onOff)
@@ -55,7 +58,6 @@ class Panel extends Base.Controller
   offline: =>
     return unless not Setting.noAccount
     name = Setting.userName
-    console.log 'Name', name
     @setName("#{ name } - Offline")
 
   toggleAccount: ->

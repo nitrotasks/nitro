@@ -1,6 +1,6 @@
 Base = require 'base'
 SocketIo = require '../libs/socket.io.js'
-CONFIG  = require '../utils/conf.coffee'
+CONFIG  = require '../utils/conf'
 
 # ------------------
 # Handle Sync Events

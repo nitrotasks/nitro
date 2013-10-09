@@ -1,7 +1,6 @@
 Base    = require 'base'
 $       = require 'jqueryify'
-Keys    = require '../utils/keys.coffee'
-CONFIG  = require '../utils/conf.coffee'
+Keys    = require '../utils/keys'
 setting = require '../models/setting'
 Sync    = require '../controllers/sync'
 
@@ -100,8 +99,8 @@ module.exports =
         if setting.isPro()
           email = @input.val()
           return unless email.match(/.+@.+\..+/)
-          uid = require('../models/setting.coffee').get('uid')
-          listId = require('../models/list.coffee').current.id
+          uid = require('../models/setting').get('uid')
+          listId = require('../models/list').current.id
           Sync.emit('emailList', [uid, listId, email])
         else
           $('.modal.proventor').modal('show')

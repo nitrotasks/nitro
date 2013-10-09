@@ -39,15 +39,13 @@
         */
 
         'jqueryify': 1,
-        './controllers/app.coffee': 2
+        './controllers/app': 2
       }, function(require, module, exports) {
         var $, App;
         $ = require('jqueryify');
-        App = require('./controllers/app.coffee');
+        App = require('./controllers/app');
         return $(function() {
-          return new App({
-            el: $('body')
-          });
+          return new App();
         });
       }
     ], [
@@ -8896,143 +8894,69 @@
           /Users/Admin/Projects/Nitro/source/scripts/controllers/app.coffee
         */
 
-        '../libs/libs': 3,
+        '../vendor/libs': 3,
         'base': 7,
         '../utils/touchify': 8,
+        'jqueryify': 1,
         '../utils/keys': 9,
         '../utils/translate': 10,
+        '../utils/event': 14,
         '../models/task': 23,
         '../models/list': 24,
         '../models/setting': 11,
-        '../controllers/tasks': 27,
-        '../controllers/lists': 34,
-        '../controllers/lists.title': 37,
-        '../controllers/panel': 38,
-        '../controllers/Settings': 42,
-        '../controllers/auth': 43,
-        '../controllers/modal': 29,
-        '../controllers/loadingScreen': 44,
-        '../controllers/sync': 12
+        '../controllers/auth': 27,
+        '../views/keys': 30,
+        '../views/loadingScreen': 31
       }, function(require, module, exports) {
-        var App, Auth, Base, Keys, List, ListTitle, Lists, LoadingScreen, Modal, Panel, Settings, Sync, Task, Tasks, libs, setting, translate;
-        libs = require('../libs/libs');
+        var $, App, Auth, Base, Event, Keys, List, LoadingScreen, Setting, Task, libs, translate;
+        libs = require('../vendor/libs');
         Base = require('base');
-        require('../utils/touchify');
+        Base.touchify = require('../utils/touchify');
+        $ = require('jqueryify');
         Keys = require('../utils/keys');
         translate = require('../utils/translate');
+        Event = require('../utils/event');
         Task = require('../models/task');
         List = require('../models/list');
-        setting = require('../models/setting');
-        Tasks = require('../controllers/tasks');
-        Lists = require('../controllers/lists');
-        ListTitle = require('../controllers/lists.title');
-        Panel = require('../controllers/panel');
-        Settings = require('../controllers/Settings');
+        Setting = require('../models/setting');
         Auth = require('../controllers/auth');
-        Modal = require('../controllers/modal');
-        LoadingScreen = require('../controllers/loadingScreen');
-        Sync = require('../controllers/sync');
-        App = (function(_super) {
-          __extends(App, _super);
-
-          App.prototype.elements = {
-            '.tasks': 'tasksContainer',
-            '.sidebar': 'listsContainer',
-            '.tasks .title': 'listTitle',
-            'header': 'panel',
-            '.settings': 'Settings',
-            '.auth': 'auth',
-            '.tour': 'tour',
-            '.tour .image': 'tourImage',
-            '.loading-screen': 'loadingScreen'
-          };
-
-          App.prototype.events = {
-            'keyup': 'handleShortcut'
-          };
-
+        Keys = require('../views/keys');
+        LoadingScreen = require('../views/loadingScreen');
+        App = (function() {
           function App() {
-            this.handleShortcut = __bind(this.handleShortcut, this);
-            var setPro, token, uid,
-              _this = this;
-            App.__super__.constructor.apply(this, arguments);
-            setting.trigger('fetch');
-            Settings = new Settings({
-              el: this.Settings
-            });
+            Setting.trigger('fetch');
             translate.init();
-            this.auth = new Auth({
-              el: this.auth
+            this.auth = new Auth();
+            new LoadingScreen();
+            this.keys = new Keys({
+              el: $('body')
             });
-            this.panel = new Panel({
-              el: this.panel
-            });
-            this.tasks = new Tasks({
-              el: this.tasksContainer
-            });
-            this.lists = new Lists({
-              el: this.listsContainer
-            });
-            new ListTitle({
-              el: this.listTitle
-            });
-            this.loadingScreen = new LoadingScreen({
-              el: this.loadingScreen
-            });
-            Modal.init();
             Task.trigger('fetch');
             List.trigger('fetch');
-            if (!List.exists('inbox')) {
+            if (List.exists('inbox') === false) {
               List.create({
                 id: 'inbox',
-                name: 'Inbox',
+                name: translate('Inbox'),
                 permanent: true
               });
             }
-            List.get('inbox').name = translate('Inbox');
-            if (setting.completedDuration === 'day') {
-              Settings.moveCompleted();
-            }
-            this.lists.showInbox();
-            uid = setting.uid;
-            token = setting.token;
-            if (setting.noAccount) {
-              setting.trigger('offline');
-            }
-            setPro = function() {
-              return $('html').toggleClass('proenable', setting.isPro());
-            };
-            setting.on('change:pro', setPro);
-            setPro();
-            if ((uid != null) && (token != null)) {
-              this.auth.el.hide();
-              Sync.connect(uid, token, function() {
-                _this.loadingScreen.hide();
-                return setting.trigger('login');
-              });
+            if (Setting.loggedin) {
+              Sync.connect(Setting.uid, Setting.token);
             } else {
-              this.loadingScreen.hide();
+              Event.trigger('app:offline');
             }
-            setting.on('haveToken', function(data) {
-              return Sync.connect(data[0], data[1], function() {
-                return setting.trigger('login');
-              });
-            });
+            Event.trigger('app:ready');
           }
-
-          App.prototype.handleShortcut = function(e) {
-            return Keys.handleKey(e.which);
-          };
 
           return App;
 
-        })(Base.Controller);
+        })();
         return module.exports = App;
       }
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/libs/libs.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/vendor/libs.coffee
         */
 
         './modal': 4,
@@ -9051,7 +8975,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/libs/modal.js
+          /Users/Admin/Projects/Nitro/source/scripts/vendor/modal.js
         */
 
       }, function(require, module, exports) {
@@ -9087,7 +9011,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/libs/jquery-ui.js
+          /Users/Admin/Projects/Nitro/source/scripts/vendor/jquery-ui.js
         */
 
       }, function(require, module, exports) {
@@ -14134,7 +14058,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/libs/touch.js
+          /Users/Admin/Projects/Nitro/source/scripts/vendor/touch.js
         */
 
       }, function(require, module, exports) {
@@ -14762,100 +14686,57 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/utils/keys.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/utils/keys.json
         */
 
       }, function(require, module, exports) {
-        var Keys;
-        Keys = {
-          'ENTER': 13,
-          'ESCAPE': 27,
-          'LEFT': 37,
-          'UP': 38,
-          'RIGHT': 39,
-          'DOWN': 40,
-          '0': 48,
-          '1': 49,
-          '2': 50,
-          '3': 51,
-          '4': 52,
-          '5': 53,
-          '6': 54,
-          '7': 55,
-          '8': 56,
-          '9': 57,
-          'A': 65,
-          'B': 66,
-          'C': 67,
-          'D': 68,
-          'E': 69,
-          'F': 70,
-          'G': 71,
-          'H': 72,
-          'I': 73,
-          'J': 74,
-          'K': 75,
-          'L': 76,
-          'M': 77,
-          'N': 78,
-          'O': 79,
-          'P': 80,
-          'Q': 81,
-          'R': 82,
-          'S': 83,
-          'T': 84,
-          'U': 85,
-          'V': 86,
-          'W': 87,
-          'X': 88,
-          'Y': 89,
-          'Z': 90,
-          'COMMA': 188,
-          'DASH': 189,
-          'PERIOD': 190,
-          handleKey: function(keyCode) {
-            var focusedInputs;
-            focusedInputs = $(':focus');
-            if (focusedInputs.length > 0) {
-              switch (keyCode) {
-                case Keys.ESCAPE:
-                  return focusedInputs.blur();
-              }
-            } else {
-              switch (keyCode) {
-                case Keys.ESCAPE:
-                  return this.tasks.collapseAll();
-                case Keys.N:
-                  return $('.new-task').focus().val('');
-                case Keys.L:
-                  return $('.new-list').focus().val('');
-                case Keys.F:
-                  return $('.search input').focus().val('');
-                case Keys.P:
-                  return $('.buttons .print').trigger('click');
-                case Keys.COMMA:
-                  return $('.settingsButton img').trigger('click');
-                case Keys.K:
-                  if ($('.sidebar .current').prev().length === 0) {
-                    return $('.sidebar .completed').trigger('click');
-                  } else {
-                    $('.sidebar .current').prev().trigger('click');
-                    return $('.new-task').blur();
-                  }
-                  break;
-                case Keys.J:
-                  if ($('.sidebar .current').next().hasClass('lists')) {
-                    $($('.sidebar .lists').children()[0]).trigger('click');
-                    return $('.new-task').blur();
-                  } else {
-                    $('.sidebar .current').next().trigger('click');
-                    return $('.new-task').blur();
-                  }
-              }
-            }
-          }
+        return module.exports = {
+          "enter": 13,
+          "escape": 27,
+          "left": 37,
+          "up": 38,
+          "right": 39,
+          "down": 40,
+          "0": 48,
+          "1": 49,
+          "2": 50,
+          "3": 51,
+          "4": 52,
+          "5": 53,
+          "6": 54,
+          "7": 55,
+          "8": 56,
+          "9": 57,
+          "a": 65,
+          "b": 66,
+          "c": 67,
+          "d": 68,
+          "e": 69,
+          "f": 70,
+          "g": 71,
+          "h": 72,
+          "i": 73,
+          "j": 74,
+          "k": 75,
+          "l": 76,
+          "m": 77,
+          "n": 78,
+          "o": 79,
+          "p": 80,
+          "q": 81,
+          "r": 82,
+          "s": 83,
+          "t": 84,
+          "u": 85,
+          "v": 86,
+          "w": 87,
+          "x": 88,
+          "y": 89,
+          "z": 90,
+          "comma": 188,
+          "dash": 189,
+          "period": 190
         };
-        return module.exports = Keys;
       }
     ], [
       {
@@ -14865,7 +14746,7 @@
 
         'jqueryify': 1,
         '../models/setting': 11,
-        '../utils/event': 15,
+        '../utils/event': 14,
         '../languages/languages': 16
       }, function(require, module, exports) {
         var $, Event, Setting, Translate, languages, translate;
@@ -14971,42 +14852,33 @@
           __extends(Setting, _super);
 
           Setting.prototype.defaults = {
-            pro: 0,
-            sort: true,
-            night: false,
-            language: 'en-us',
-            weekStart: '1',
-            noAccount: false,
-            dateFormat: 'dd/mm/yy',
-            notifyTime: 9,
-            notifyEmail: false,
-            confirmDelete: true,
-            notifyRegular: 'upcoming',
-            notifications: false,
-            completedDuration: 'day',
+            pro: false,
+            loggedin: false,
             uid: null,
             token: null,
             userName: null,
             userEmail: null,
-            oauth: null
+            sort: true,
+            night: false,
+            language: 'en-us',
+            weekStart: '1',
+            dateFormat: 'dd/mm/yy',
+            confirmDelete: true,
+            completedDuration: 'day',
+            notifyTime: 9,
+            notifyEmail: false,
+            notifyRegular: 'upcoming',
+            notifications: false
           };
 
           function Setting() {
             Setting.__super__.constructor.apply(this, arguments);
-            if (this.night === true) {
-              $('html').addClass('dark');
-            }
           }
-
-          Setting.prototype.isPro = function() {
-            return this.pro !== 0;
-          };
 
           return Setting;
 
         })(Base.Model);
-        module.exports = new Setting();
-        return window.SETTING = module.exports;
+        return module.exports = new Setting();
       }
     ], [
       {
@@ -15015,13 +14887,15 @@
         */
 
         'base': 7,
-        '../libs/socket.io.js': 13,
-        '../utils/conf.coffee': 14
+        '../vendor/socket.io.js': 13,
+        '../utils/event': 14,
+        '../utils/conf': 15
       }, function(require, module, exports) {
-        var Base, CONFIG, Collection, Extend, Include, Singleton, SocketIo, Sync;
+        var Base, Collection, Event, Extend, Include, Singleton, SocketIo, Sync, config;
         Base = require('base');
-        SocketIo = require('../libs/socket.io.js');
-        CONFIG = require('../utils/conf.coffee');
+        SocketIo = require('../vendor/socket.io.js');
+        Event = require('../utils/event');
+        config = require('../utils/conf');
         Sync = {
           models: {},
           online: false,
@@ -15030,16 +14904,18 @@
           connect: function(uid, token, fn) {
             var event, _i, _len, _ref,
               _this = this;
-            this.socket = SocketIo.connect("http://" + CONFIG.sync + "/?token=" + token + "&uid=" + uid);
+            this.socket = SocketIo.connect("http://" + config.sync + "/?token=" + token + "&uid=" + uid);
             _ref = ['error', 'disconnect', 'connect_failed'];
             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
               event = _ref[_i];
+              Event.trigger('sync:disconnected');
               this.socket.on(event, Sync.goOffline);
             }
             return this.socket.on('connect', function() {
               _this.online = true;
               _this.bindEvents();
               _this.sync();
+              Event.trigger('sync:connected');
               if (fn) {
                 return fn();
               }
@@ -15463,32 +15339,12 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/libs/socket.io.js
+          /Users/Admin/Projects/Nitro/source/scripts/vendor/socket.io.js
         */
 
       }, function(require, module, exports) {
         /*! Socket.IO.min.js build:0.9.11, production. Copyright(c) 2011 LearnBoost <dev@learnboost.com> MIT Licensed */
       var io="undefined"==typeof module?{}:module.exports;(function(){(function(a,b){var c=a;c.version="0.9.11",c.protocol=1,c.transports=[],c.j=[],c.sockets={},c.connect=function(a,d){var e=c.util.parseUri(a),f,g;b&&b.location&&(e.protocol=e.protocol||b.location.protocol.slice(0,-1),e.host=e.host||(b.document?b.document.domain:b.location.hostname),e.port=e.port||b.location.port),f=c.util.uniqueUri(e);var h={host:e.host,secure:"https"==e.protocol,port:e.port||("https"==e.protocol?443:80),query:e.query||""};c.util.merge(h,d);if(h["force new connection"]||!c.sockets[f])g=new c.Socket(h);return!h["force new connection"]&&g&&(c.sockets[f]=g),g=g||c.sockets[f],g.of(e.path.length>1?e.path:"")}})("object"==typeof module?module.exports:this.io={},this),function(a,b){var c=a.util={},d=/^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/,e=["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"];c.parseUri=function(a){var b=d.exec(a||""),c={},f=14;while(f--)c[e[f]]=b[f]||"";return c},c.uniqueUri=function(a){var c=a.protocol,d=a.host,e=a.port;return"document"in b?(d=d||document.domain,e=e||(c=="https"&&document.location.protocol!=="https:"?443:document.location.port)):(d=d||"localhost",!e&&c=="https"&&(e=443)),(c||"http")+"://"+d+":"+(e||80)},c.query=function(a,b){var d=c.chunkQuery(a||""),e=[];c.merge(d,c.chunkQuery(b||""));for(var f in d)d.hasOwnProperty(f)&&e.push(f+"="+d[f]);return e.length?"?"+e.join("&"):""},c.chunkQuery=function(a){var b={},c=a.split("&"),d=0,e=c.length,f;for(;d<e;++d)f=c[d].split("="),f[0]&&(b[f[0]]=f[1]);return b};var f=!1;c.load=function(a){if("document"in b&&document.readyState==="complete"||f)return a();c.on(b,"load",a,!1)},c.on=function(a,b,c,d){a.attachEvent?a.attachEvent("on"+b,c):a.addEventListener&&a.addEventListener(b,c,d)},c.request=function(a){if(a&&"undefined"!=typeof XDomainRequest&&!c.ua.hasCORS)return new XDomainRequest;if("undefined"!=typeof XMLHttpRequest&&(!a||c.ua.hasCORS))return new XMLHttpRequest;if(!a)try{return new(window[["Active"].concat("Object").join("X")])("Microsoft.XMLHTTP")}catch(b){}return null},"undefined"!=typeof window&&c.load(function(){f=!0}),c.defer=function(a){if(!c.ua.webkit||"undefined"!=typeof importScripts)return a();c.load(function(){setTimeout(a,100)})},c.merge=function(b,d,e,f){var g=f||[],h=typeof e=="undefined"?2:e,i;for(i in d)d.hasOwnProperty(i)&&c.indexOf(g,i)<0&&(typeof b[i]!="object"||!h?(b[i]=d[i],g.push(d[i])):c.merge(b[i],d[i],h-1,g));return b},c.mixin=function(a,b){c.merge(a.prototype,b.prototype)},c.inherit=function(a,b){function c(){}c.prototype=b.prototype,a.prototype=new c},c.isArray=Array.isArray||function(a){return Object.prototype.toString.call(a)==="[object Array]"},c.intersect=function(a,b){var d=[],e=a.length>b.length?a:b,f=a.length>b.length?b:a;for(var g=0,h=f.length;g<h;g++)~c.indexOf(e,f[g])&&d.push(f[g]);return d},c.indexOf=function(a,b,c){for(var d=a.length,c=c<0?c+d<0?0:c+d:c||0;c<d&&a[c]!==b;c++);return d<=c?-1:c},c.toArray=function(a){var b=[];for(var c=0,d=a.length;c<d;c++)b.push(a[c]);return b},c.ua={},c.ua.hasCORS="undefined"!=typeof XMLHttpRequest&&function(){try{var a=new XMLHttpRequest}catch(b){return!1}return a.withCredentials!=undefined}(),c.ua.webkit="undefined"!=typeof navigator&&/webkit/i.test(navigator.userAgent),c.ua.iDevice="undefined"!=typeof navigator&&/iPad|iPhone|iPod/i.test(navigator.userAgent)}("undefined"!=typeof io?io:module.exports,this),function(a,b){function c(){}a.EventEmitter=c,c.prototype.on=function(a,c){return this.$events||(this.$events={}),this.$events[a]?b.util.isArray(this.$events[a])?this.$events[a].push(c):this.$events[a]=[this.$events[a],c]:this.$events[a]=c,this},c.prototype.addListener=c.prototype.on,c.prototype.once=function(a,b){function d(){c.removeListener(a,d),b.apply(this,arguments)}var c=this;return d.listener=b,this.on(a,d),this},c.prototype.removeListener=function(a,c){if(this.$events&&this.$events[a]){var d=this.$events[a];if(b.util.isArray(d)){var e=-1;for(var f=0,g=d.length;f<g;f++)if(d[f]===c||d[f].listener&&d[f].listener===c){e=f;break}if(e<0)return this;d.splice(e,1),d.length||delete this.$events[a]}else(d===c||d.listener&&d.listener===c)&&delete this.$events[a]}return this},c.prototype.removeAllListeners=function(a){return a===undefined?(this.$events={},this):(this.$events&&this.$events[a]&&(this.$events[a]=null),this)},c.prototype.listeners=function(a){return this.$events||(this.$events={}),this.$events[a]||(this.$events[a]=[]),b.util.isArray(this.$events[a])||(this.$events[a]=[this.$events[a]]),this.$events[a]},c.prototype.emit=function(a){if(!this.$events)return!1;var c=this.$events[a];if(!c)return!1;var d=Array.prototype.slice.call(arguments,1);if("function"==typeof c)c.apply(this,d);else{if(!b.util.isArray(c))return!1;var e=c.slice();for(var f=0,g=e.length;f<g;f++)e[f].apply(this,d)}return!0}}("undefined"!=typeof io?io:module.exports,"undefined"!=typeof io?io:module.parent.exports),function(exports,nativeJSON){function f(a){return a<10?"0"+a:a}function date(a,b){return isFinite(a.valueOf())?a.getUTCFullYear()+"-"+f(a.getUTCMonth()+1)+"-"+f(a.getUTCDate())+"T"+f(a.getUTCHours())+":"+f(a.getUTCMinutes())+":"+f(a.getUTCSeconds())+"Z":null}function quote(a){return escapable.lastIndex=0,escapable.test(a)?'"'+a.replace(escapable,function(a){var b=meta[a];return typeof b=="string"?b:"\\u"+("0000"+a.charCodeAt(0).toString(16)).slice(-4)})+'"':'"'+a+'"'}function str(a,b){var c,d,e,f,g=gap,h,i=b[a];i instanceof Date&&(i=date(a)),typeof rep=="function"&&(i=rep.call(b,a,i));switch(typeof i){case"string":return quote(i);case"number":return isFinite(i)?String(i):"null";case"boolean":case"null":return String(i);case"object":if(!i)return"null";gap+=indent,h=[];if(Object.prototype.toString.apply(i)==="[object Array]"){f=i.length;for(c=0;c<f;c+=1)h[c]=str(c,i)||"null";return e=h.length===0?"[]":gap?"[\n"+gap+h.join(",\n"+gap)+"\n"+g+"]":"["+h.join(",")+"]",gap=g,e}if(rep&&typeof rep=="object"){f=rep.length;for(c=0;c<f;c+=1)typeof rep[c]=="string"&&(d=rep[c],e=str(d,i),e&&h.push(quote(d)+(gap?": ":":")+e))}else for(d in i)Object.prototype.hasOwnProperty.call(i,d)&&(e=str(d,i),e&&h.push(quote(d)+(gap?": ":":")+e));return e=h.length===0?"{}":gap?"{\n"+gap+h.join(",\n"+gap)+"\n"+g+"}":"{"+h.join(",")+"}",gap=g,e}}"use strict";if(nativeJSON&&nativeJSON.parse)return exports.JSON={parse:nativeJSON.parse,stringify:nativeJSON.stringify};var JSON=exports.JSON={},cx=/[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,escapable=/[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,gap,indent,meta={"\b":"\\b","\t":"\\t","\n":"\\n","\f":"\\f","\r":"\\r",'"':'\\"',"\\":"\\\\"},rep;JSON.stringify=function(a,b,c){var d;gap="",indent="";if(typeof c=="number")for(d=0;d<c;d+=1)indent+=" ";else typeof c=="string"&&(indent=c);rep=b;if(!b||typeof b=="function"||typeof b=="object"&&typeof b.length=="number")return str("",{"":a});throw new Error("JSON.stringify")},JSON.parse=function(text,reviver){function walk(a,b){var c,d,e=a[b];if(e&&typeof e=="object")for(c in e)Object.prototype.hasOwnProperty.call(e,c)&&(d=walk(e,c),d!==undefined?e[c]=d:delete e[c]);return reviver.call(a,b,e)}var j;text=String(text),cx.lastIndex=0,cx.test(text)&&(text=text.replace(cx,function(a){return"\\u"+("0000"+a.charCodeAt(0).toString(16)).slice(-4)}));if(/^[\],:{}\s]*$/.test(text.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g,"@").replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,"]").replace(/(?:^|:|,)(?:\s*\[)+/g,"")))return j=eval("("+text+")"),typeof reviver=="function"?walk({"":j},""):j;throw new SyntaxError("JSON.parse")}}("undefined"!=typeof io?io:module.exports,typeof JSON!="undefined"?JSON:undefined),function(a,b){var c=a.parser={},d=c.packets=["disconnect","connect","heartbeat","message","json","event","ack","error","noop"],e=c.reasons=["transport not supported","client not handshaken","unauthorized"],f=c.advice=["reconnect"],g=b.JSON,h=b.util.indexOf;c.encodePacket=function(a){var b=h(d,a.type),c=a.id||"",i=a.endpoint||"",j=a.ack,k=null;switch(a.type){case"error":var l=a.reason?h(e,a.reason):"",m=a.advice?h(f,a.advice):"";if(l!==""||m!=="")k=l+(m!==""?"+"+m:"");break;case"message":a.data!==""&&(k=a.data);break;case"event":var n={name:a.name};a.args&&a.args.length&&(n.args=a.args),k=g.stringify(n);break;case"json":k=g.stringify(a.data);break;case"connect":a.qs&&(k=a.qs);break;case"ack":k=a.ackId+(a.args&&a.args.length?"+"+g.stringify(a.args):"")}var o=[b,c+(j=="data"?"+":""),i];return k!==null&&k!==undefined&&o.push(k),o.join(":")},c.encodePayload=function(a){var b="";if(a.length==1)return a[0];for(var c=0,d=a.length;c<d;c++){var e=a[c];b+="\ufffd"+e.length+"\ufffd"+a[c]}return b};var i=/([^:]+):([0-9]+)?(\+)?:([^:]+)?:?([\s\S]*)?/;c.decodePacket=function(a){var b=a.match(i);if(!b)return{};var c=b[2]||"",a=b[5]||"",h={type:d[b[1]],endpoint:b[4]||""};c&&(h.id=c,b[3]?h.ack="data":h.ack=!0);switch(h.type){case"error":var b=a.split("+");h.reason=e[b[0]]||"",h.advice=f[b[1]]||"";break;case"message":h.data=a||"";break;case"event":try{var j=g.parse(a);h.name=j.name,h.args=j.args}catch(k){}h.args=h.args||[];break;case"json":try{h.data=g.parse(a)}catch(k){}break;case"connect":h.qs=a||"";break;case"ack":var b=a.match(/^([0-9]+)(\+)?(.*)/);if(b){h.ackId=b[1],h.args=[];if(b[3])try{h.args=b[3]?g.parse(b[3]):[]}catch(k){}}break;case"disconnect":case"heartbeat":}return h},c.decodePayload=function(a){if(a.charAt(0)=="\ufffd"){var b=[];for(var d=1,e="";d<a.length;d++)a.charAt(d)=="\ufffd"?(b.push(c.decodePacket(a.substr(d+1).substr(0,e))),d+=Number(e)+1,e=""):e+=a.charAt(d);return b}return[c.decodePacket(a)]}}("undefined"!=typeof io?io:module.exports,"undefined"!=typeof io?io:module.parent.exports),function(a,b){function c(a,b){this.socket=a,this.sessid=b}a.Transport=c,b.util.mixin(c,b.EventEmitter),c.prototype.heartbeats=function(){return!0},c.prototype.onData=function(a){this.clearCloseTimeout(),(this.socket.connected||this.socket.connecting||this.socket.reconnecting)&&this.setCloseTimeout();if(a!==""){var c=b.parser.decodePayload(a);if(c&&c.length)for(var d=0,e=c.length;d<e;d++)this.onPacket(c[d])}return this},c.prototype.onPacket=function(a){return this.socket.setHeartbeatTimeout(),a.type=="heartbeat"?this.onHeartbeat():(a.type=="connect"&&a.endpoint==""&&this.onConnect(),a.type=="error"&&a.advice=="reconnect"&&(this.isOpen=!1),this.socket.onPacket(a),this)},c.prototype.setCloseTimeout=function(){if(!this.closeTimeout){var a=this;this.closeTimeout=setTimeout(function(){a.onDisconnect()},this.socket.closeTimeout)}},c.prototype.onDisconnect=function(){return this.isOpen&&this.close(),this.clearTimeouts(),this.socket.onDisconnect(),this},c.prototype.onConnect=function(){return this.socket.onConnect(),this},c.prototype.clearCloseTimeout=function(){this.closeTimeout&&(clearTimeout(this.closeTimeout),this.closeTimeout=null)},c.prototype.clearTimeouts=function(){this.clearCloseTimeout(),this.reopenTimeout&&clearTimeout(this.reopenTimeout)},c.prototype.packet=function(a){this.send(b.parser.encodePacket(a))},c.prototype.onHeartbeat=function(a){this.packet({type:"heartbeat"})},c.prototype.onOpen=function(){this.isOpen=!0,this.clearCloseTimeout(),this.socket.onOpen()},c.prototype.onClose=function(){var a=this;this.isOpen=!1,this.socket.onClose(),this.onDisconnect()},c.prototype.prepareUrl=function(){var a=this.socket.options;return this.scheme()+"://"+a.host+":"+a.port+"/"+a.resource+"/"+b.protocol+"/"+this.name+"/"+this.sessid},c.prototype.ready=function(a,b){b.call(this)}}("undefined"!=typeof io?io:module.exports,"undefined"!=typeof io?io:module.parent.exports),function(a,b,c){function d(a){this.options={port:80,secure:!1,document:"document"in c?document:!1,resource:"socket.io",transports:b.transports,"connect timeout":1e4,"try multiple transports":!0,reconnect:!0,"reconnection delay":500,"reconnection limit":Infinity,"reopen delay":3e3,"max reconnection attempts":10,"sync disconnect on unload":!1,"auto connect":!0,"flash policy port":10843,manualFlush:!1},b.util.merge(this.options,a),this.connected=!1,this.open=!1,this.connecting=!1,this.reconnecting=!1,this.namespaces={},this.buffer=[],this.doBuffer=!1;if(this.options["sync disconnect on unload"]&&(!this.isXDomain()||b.util.ua.hasCORS)){var d=this;b.util.on(c,"beforeunload",function(){d.disconnectSync()},!1)}this.options["auto connect"]&&this.connect()}function e(){}a.Socket=d,b.util.mixin(d,b.EventEmitter),d.prototype.of=function(a){return this.namespaces[a]||(this.namespaces[a]=new b.SocketNamespace(this,a),a!==""&&this.namespaces[a].packet({type:"connect"})),this.namespaces[a]},d.prototype.publish=function(){this.emit.apply(this,arguments);var a;for(var b in this.namespaces)this.namespaces.hasOwnProperty(b)&&(a=this.of(b),a.$emit.apply(a,arguments))},d.prototype.handshake=function(a){function f(b){b instanceof Error?(c.connecting=!1,c.onError(b.message)):a.apply(null,b.split(":"))}var c=this,d=this.options,g=["http"+(d.secure?"s":"")+":/",d.host+":"+d.port,d.resource,b.protocol,b.util.query(this.options.query,"t="+ +(new Date))].join("/");if(this.isXDomain()&&!b.util.ua.hasCORS){var h=document.getElementsByTagName("script")[0],i=document.createElement("script");i.src=g+"&jsonp="+b.j.length,h.parentNode.insertBefore(i,h),b.j.push(function(a){f(a),i.parentNode.removeChild(i)})}else{var j=b.util.request();j.open("GET",g,!0),this.isXDomain()&&(j.withCredentials=!0),j.onreadystatechange=function(){j.readyState==4&&(j.onreadystatechange=e,j.status==200?f(j.responseText):j.status==403?c.onError(j.responseText):(c.connecting=!1,!c.reconnecting&&c.onError(j.responseText)))},j.send(null)}},d.prototype.getTransport=function(a){var c=a||this.transports,d;for(var e=0,f;f=c[e];e++)if(b.Transport[f]&&b.Transport[f].check(this)&&(!this.isXDomain()||b.Transport[f].xdomainCheck(this)))return new b.Transport[f](this,this.sessionid);return null},d.prototype.connect=function(a){if(this.connecting)return this;var c=this;return c.connecting=!0,this.handshake(function(d,e,f,g){function h(a){c.transport&&c.transport.clearTimeouts(),c.transport=c.getTransport(a);if(!c.transport)return c.publish("connect_failed");c.transport.ready(c,function(){c.connecting=!0,c.publish("connecting",c.transport.name),c.transport.open(),c.options["connect timeout"]&&(c.connectTimeoutTimer=setTimeout(function(){if(!c.connected){c.connecting=!1;if(c.options["try multiple transports"]){var a=c.transports;while(a.length>0&&a.splice(0,1)[0]!=c.transport.name);a.length?h(a):c.publish("connect_failed")}}},c.options["connect timeout"]))})}c.sessionid=d,c.closeTimeout=f*1e3,c.heartbeatTimeout=e*1e3,c.transports||(c.transports=c.origTransports=g?b.util.intersect(g.split(","),c.options.transports):c.options.transports),c.setHeartbeatTimeout(),h(c.transports),c.once("connect",function(){clearTimeout(c.connectTimeoutTimer),a&&typeof a=="function"&&a()})}),this},d.prototype.setHeartbeatTimeout=function(){clearTimeout(this.heartbeatTimeoutTimer);if(this.transport&&!this.transport.heartbeats())return;var a=this;this.heartbeatTimeoutTimer=setTimeout(function(){a.transport.onClose()},this.heartbeatTimeout)},d.prototype.packet=function(a){return this.connected&&!this.doBuffer?this.transport.packet(a):this.buffer.push(a),this},d.prototype.setBuffer=function(a){this.doBuffer=a,!a&&this.connected&&this.buffer.length&&(this.options.manualFlush||this.flushBuffer())},d.prototype.flushBuffer=function(){this.transport.payload(this.buffer),this.buffer=[]},d.prototype.disconnect=function(){if(this.connected||this.connecting)this.open&&this.of("").packet({type:"disconnect"}),this.onDisconnect("booted");return this},d.prototype.disconnectSync=function(){var a=b.util.request(),c=["http"+(this.options.secure?"s":"")+":/",this.options.host+":"+this.options.port,this.options.resource,b.protocol,"",this.sessionid].join("/")+"/?disconnect=1";a.open("GET",c,!1),a.send(null),this.onDisconnect("booted")},d.prototype.isXDomain=function(){var a=c.location.port||("https:"==c.location.protocol?443:80);return this.options.host!==c.location.hostname||this.options.port!=a},d.prototype.onConnect=function(){this.connected||(this.connected=!0,this.connecting=!1,this.doBuffer||this.setBuffer(!1),this.emit("connect"))},d.prototype.onOpen=function(){this.open=!0},d.prototype.onClose=function(){this.open=!1,clearTimeout(this.heartbeatTimeoutTimer)},d.prototype.onPacket=function(a){this.of(a.endpoint).onPacket(a)},d.prototype.onError=function(a){a&&a.advice&&a.advice==="reconnect"&&(this.connected||this.connecting)&&(this.disconnect(),this.options.reconnect&&this.reconnect()),this.publish("error",a&&a.reason?a.reason:a)},d.prototype.onDisconnect=function(a){var b=this.connected,c=this.connecting;this.connected=!1,this.connecting=!1,this.open=!1;if(b||c)this.transport.close(),this.transport.clearTimeouts(),b&&(this.publish("disconnect",a),"booted"!=a&&this.options.reconnect&&!this.reconnecting&&this.reconnect())},d.prototype.reconnect=function(){function e(){if(a.connected){for(var b in a.namespaces)a.namespaces.hasOwnProperty(b)&&""!==b&&a.namespaces[b].packet({type:"connect"});a.publish("reconnect",a.transport.name,a.reconnectionAttempts)}clearTimeout(a.reconnectionTimer),a.removeListener("connect_failed",f),a.removeListener("connect",f),a.reconnecting=!1,delete a.reconnectionAttempts,delete a.reconnectionDelay,delete a.reconnectionTimer,delete a.redoTransports,a.options["try multiple transports"]=c}function f(){if(!a.reconnecting)return;if(a.connected)return e();if(a.connecting&&a.reconnecting)return a.reconnectionTimer=setTimeout(f,1e3);a.reconnectionAttempts++>=b?a.redoTransports?(a.publish("reconnect_failed"),e()):(a.on("connect_failed",f),a.options["try multiple transports"]=!0,a.transports=a.origTransports,a.transport=a.getTransport(),a.redoTransports=!0,a.connect()):(a.reconnectionDelay<d&&(a.reconnectionDelay*=2),a.connect(),a.publish("reconnecting",a.reconnectionDelay,a.reconnectionAttempts),a.reconnectionTimer=setTimeout(f,a.reconnectionDelay))}this.reconnecting=!0,this.reconnectionAttempts=0,this.reconnectionDelay=this.options["reconnection delay"];var a=this,b=this.options["max reconnection attempts"],c=this.options["try multiple transports"],d=this.options["reconnection limit"];this.options["try multiple transports"]=!1,this.reconnectionTimer=setTimeout(f,this.reconnectionDelay),this.on("connect",f)}}("undefined"!=typeof io?io:module.exports,"undefined"!=typeof io?io:module.parent.exports,this),function(a,b){function c(a,b){this.socket=a,this.name=b||"",this.flags={},this.json=new d(this,"json"),this.ackPackets=0,this.acks={}}function d(a,b){this.namespace=a,this.name=b}a.SocketNamespace=c,b.util.mixin(c,b.EventEmitter),c.prototype.$emit=b.EventEmitter.prototype.emit,c.prototype.of=function(){return this.socket.of.apply(this.socket,arguments)},c.prototype.packet=function(a){return a.endpoint=this.name,this.socket.packet(a),this.flags={},this},c.prototype.send=function(a,b){var c={type:this.flags.json?"json":"message",data:a};return"function"==typeof b&&(c.id=++this.ackPackets,c.ack=!0,this.acks[c.id]=b),this.packet(c)},c.prototype.emit=function(a){var b=Array.prototype.slice.call(arguments,1),c=b[b.length-1],d={type:"event",name:a};return"function"==typeof c&&(d.id=++this.ackPackets,d.ack="data",this.acks[d.id]=c,b=b.slice(0,b.length-1)),d.args=b,this.packet(d)},c.prototype.disconnect=function(){return this.name===""?this.socket.disconnect():(this.packet({type:"disconnect"}),this.$emit("disconnect")),this},c.prototype.onPacket=function(a){function d(){c.packet({type:"ack",args:b.util.toArray(arguments),ackId:a.id})}var c=this;switch(a.type){case"connect":this.$emit("connect");break;case"disconnect":this.name===""?this.socket.onDisconnect(a.reason||"booted"):this.$emit("disconnect",a.reason);break;case"message":case"json":var e=["message",a.data];a.ack=="data"?e.push(d):a.ack&&this.packet({type:"ack",ackId:a.id}),this.$emit.apply(this,e);break;case"event":var e=[a.name].concat(a.args);a.ack=="data"&&e.push(d),this.$emit.apply(this,e);break;case"ack":this.acks[a.ackId]&&(this.acks[a.ackId].apply(this,a.args),delete this.acks[a.ackId]);break;case"error":a.advice?this.socket.onError(a):a.reason=="unauthorized"?this.$emit("connect_failed",a.reason):this.$emit("error",a.reason)}},d.prototype.send=function(){this.namespace.flags[this.name]=!0,this.namespace.send.apply(this.namespace,arguments)},d.prototype.emit=function(){this.namespace.flags[this.name]=!0,this.namespace.emit.apply(this.namespace,arguments)}}("undefined"!=typeof io?io:module.exports,"undefined"!=typeof io?io:module.parent.exports),function(a,b,c){function d(a){b.Transport.apply(this,arguments)}a.websocket=d,b.util.inherit(d,b.Transport),d.prototype.name="websocket",d.prototype.open=function(){var a=b.util.query(this.socket.options.query),d=this,e;return e||(e=c.MozWebSocket||c.WebSocket),this.websocket=new e(this.prepareUrl()+a),this.websocket.onopen=function(){d.onOpen(),d.socket.setBuffer(!1)},this.websocket.onmessage=function(a){d.onData(a.data)},this.websocket.onclose=function(){d.onClose(),d.socket.setBuffer(!0)},this.websocket.onerror=function(a){d.onError(a)},this},b.util.ua.iDevice?d.prototype.send=function(a){var b=this;return setTimeout(function(){b.websocket.send(a)},0),this}:d.prototype.send=function(a){return this.websocket.send(a),this},d.prototype.payload=function(a){for(var b=0,c=a.length;b<c;b++)this.packet(a[b]);return this},d.prototype.close=function(){return this.websocket.close(),this},d.prototype.onError=function(a){this.socket.onError(a)},d.prototype.scheme=function(){return this.socket.options.secure?"wss":"ws"},d.check=function(){return"WebSocket"in c&&!("__addTask"in WebSocket)||"MozWebSocket"in c},d.xdomainCheck=function(){return!0},b.transports.push("websocket")}("undefined"!=typeof io?io.Transport:module.exports,"undefined"!=typeof io?io:module.parent.exports,this),function(a,b){function c(){b.Transport.websocket.apply(this,arguments)}a.flashsocket=c,b.util.inherit(c,b.Transport.websocket),c.prototype.name="flashsocket",c.prototype.open=function(){var a=this,c=arguments;return WebSocket.__addTask(function(){b.Transport.websocket.prototype.open.apply(a,c)}),this},c.prototype.send=function(){var a=this,c=arguments;return WebSocket.__addTask(function(){b.Transport.websocket.prototype.send.apply(a,c)}),this},c.prototype.close=function(){return WebSocket.__tasks.length=0,b.Transport.websocket.prototype.close.call(this),this},c.prototype.ready=function(a,d){function e(){var b=a.options,e=b["flash policy port"],g=["http"+(b.secure?"s":"")+":/",b.host+":"+b.port,b.resource,"static/flashsocket","WebSocketMain"+(a.isXDomain()?"Insecure":"")+".swf"];c.loaded||(typeof WEB_SOCKET_SWF_LOCATION=="undefined"&&(WEB_SOCKET_SWF_LOCATION=g.join("/")),e!==843&&WebSocket.loadFlashPolicyFile("xmlsocket://"+b.host+":"+e),WebSocket.__initialize(),c.loaded=!0),d.call(f)}var f=this;if(document.body)return e();b.util.load(e)},c.check=function(){return typeof WebSocket!="undefined"&&"__initialize"in WebSocket&&!!swfobject?swfobject.getFlashPlayerVersion().major>=10:!1},c.xdomainCheck=function(){return!0},typeof window!="undefined"&&(WEB_SOCKET_DISABLE_AUTO_INITIALIZATION=!0),b.transports.push("flashsocket")}("undefined"!=typeof io?io.Transport:module.exports,"undefined"!=typeof io?io:module.parent.exports);if("undefined"!=typeof window)var swfobject=function(){function A(){if(t)return;try{var a=i.getElementsByTagName("body")[0].appendChild(Q("span"));a.parentNode.removeChild(a)}catch(b){return}t=!0;var c=l.length;for(var d=0;d<c;d++)l[d]()}function B(a){t?a():l[l.length]=a}function C(b){if(typeof h.addEventListener!=a)h.addEventListener("load",b,!1);else if(typeof i.addEventListener!=a)i.addEventListener("load",b,!1);else if(typeof h.attachEvent!=a)R(h,"onload",b);else if(typeof h.onload=="function"){var c=h.onload;h.onload=function(){c(),b()}}else h.onload=b}function D(){k?E():F()}function E(){var c=i.getElementsByTagName("body")[0],d=Q(b);d.setAttribute("type",e);var f=c.appendChild(d);if(f){var g=0;(function(){if(typeof f.GetVariable!=a){var b=f.GetVariable("$version");b&&(b=b.split(" ")[1].split(","),y.pv=[parseInt(b[0],10),parseInt(b[1],10),parseInt(b[2],10)])}else if(g<10){g++,setTimeout(arguments.callee,10);return}c.removeChild(d),f=null,F()})()}else F()}function F(){var b=m.length;if(b>0)for(var c=0;c<b;c++){var d=m[c].id,e=m[c].callbackFn,f={success:!1,id:d};if(y.pv[0]>0){var g=P(d);if(g)if(S(m[c].swfVersion)&&!(y.wk&&y.wk<312))U(d,!0),e&&(f.success=!0,f.ref=G(d),e(f));else if(m[c].expressInstall&&H()){var h={};h.data=m[c].expressInstall,h.width=g.getAttribute("width")||"0",h.height=g.getAttribute("height")||"0",g.getAttribute("class")&&(h.styleclass=g.getAttribute("class")),g.getAttribute("align")&&(h.align=g.getAttribute("align"));var i={},j=g.getElementsByTagName("param"),k=j.length;for(var l=0;l<k;l++)j[l].getAttribute("name").toLowerCase()!="movie"&&(i[j[l].getAttribute("name")]=j[l].getAttribute("value"));I(h,i,d,e)}else J(g),e&&e(f)}else{U(d,!0);if(e){var n=G(d);n&&typeof n.SetVariable!=a&&(f.success=!0,f.ref=n),e(f)}}}}function G(c){var d=null,e=P(c);if(e&&e.nodeName=="OBJECT")if(typeof e.SetVariable!=a)d=e;else{var f=e.getElementsByTagName(b)[0];f&&(d=f)}return d}function H(){return!u&&S("6.0.65")&&(y.win||y.mac)&&!(y.wk&&y.wk<312)}function I(b,c,d,e){u=!0,r=e||null,s={success:!1,id:d};var g=P(d);if(g){g.nodeName=="OBJECT"?(p=K(g),q=null):(p=g,q=d),b.id=f;if(typeof b.width==a||!/%$/.test(b.width)&&parseInt(b.width,10)<310)b.width="310";if(typeof b.height==a||!/%$/.test(b.height)&&parseInt(b.height,10)<137)b.height="137";i.title=i.title.slice(0,47)+" - Flash Player Installation";var j=y.ie&&y.win?["Active"].concat("").join("X"):"PlugIn",k="MMredirectURL="+h.location.toString().replace(/&/g,"%26")+"&MMplayerType="+j+"&MMdoctitle="+i.title;typeof c.flashvars!=a?c.flashvars+="&"+k:c.flashvars=k;if(y.ie&&y.win&&g.readyState!=4){var l=Q("div");d+="SWFObjectNew",l.setAttribute("id",d),g.parentNode.insertBefore(l,g),g.style.display="none",function(){g.readyState==4?g.parentNode.removeChild(g):setTimeout(arguments.callee,10)}()}L(b,c,d)}}function J(a){if(y.ie&&y.win&&a.readyState!=4){var b=Q("div");a.parentNode.insertBefore(b,a),b.parentNode.replaceChild(K(a),b),a.style.display="none",function(){a.readyState==4?a.parentNode.removeChild(a):setTimeout(arguments.callee,10)}()}else a.parentNode.replaceChild(K(a),a)}function K(a){var c=Q("div");if(y.win&&y.ie)c.innerHTML=a.innerHTML;else{var d=a.getElementsByTagName(b)[0];if(d){var e=d.childNodes;if(e){var f=e.length;for(var g=0;g<f;g++)(e[g].nodeType!=1||e[g].nodeName!="PARAM")&&e[g].nodeType!=8&&c.appendChild(e[g].cloneNode(!0))}}}return c}function L(c,d,f){var g,h=P(f);if(y.wk&&y.wk<312)return g;if(h){typeof c.id==a&&(c.id=f);if(y.ie&&y.win){var i="";for(var j in c)c[j]!=Object.prototype[j]&&(j.toLowerCase()=="data"?d.movie=c[j]:j.toLowerCase()=="styleclass"?i+=' class="'+c[j]+'"':j.toLowerCase()!="classid"&&(i+=" "+j+'="'+c[j]+'"'));var k="";for(var l in d)d[l]!=Object.prototype[l]&&(k+='<param name="'+l+'" value="'+d[l]+'" />');h.outerHTML='<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"'+i+">"+k+"</object>",n[n.length]=c.id,g=P(c.id)}else{var m=Q(b);m.setAttribute("type",e);for(var o in c)c[o]!=Object.prototype[o]&&(o.toLowerCase()=="styleclass"?m.setAttribute("class",c[o]):o.toLowerCase()!="classid"&&m.setAttribute(o,c[o]));for(var p in d)d[p]!=Object.prototype[p]&&p.toLowerCase()!="movie"&&M(m,p,d[p]);h.parentNode.replaceChild(m,h),g=m}}return g}function M(a,b,c){var d=Q("param");d.setAttribute("name",b),d.setAttribute("value",c),a.appendChild(d)}function N(a){var b=P(a);b&&b.nodeName=="OBJECT"&&(y.ie&&y.win?(b.style.display="none",function(){b.readyState==4?O(a):setTimeout(arguments.callee,10)}()):b.parentNode.removeChild(b))}function O(a){var b=P(a);if(b){for(var c in b)typeof b[c]=="function"&&(b[c]=null);b.parentNode.removeChild(b)}}function P(a){var b=null;try{b=i.getElementById(a)}catch(c){}return b}function Q(a){return i.createElement(a)}function R(a,b,c){a.attachEvent(b,c),o[o.length]=[a,b,c]}function S(a){var b=y.pv,c=a.split(".");return c[0]=parseInt(c[0],10),c[1]=parseInt(c[1],10)||0,c[2]=parseInt(c[2],10)||0,b[0]>c[0]||b[0]==c[0]&&b[1]>c[1]||b[0]==c[0]&&b[1]==c[1]&&b[2]>=c[2]?!0:!1}function T(c,d,e,f){if(y.ie&&y.mac)return;var g=i.getElementsByTagName("head")[0];if(!g)return;var h=e&&typeof e=="string"?e:"screen";f&&(v=null,w=null);if(!v||w!=h){var j=Q("style");j.setAttribute("type","text/css"),j.setAttribute("media",h),v=g.appendChild(j),y.ie&&y.win&&typeof i.styleSheets!=a&&i.styleSheets.length>0&&(v=i.styleSheets[i.styleSheets.length-1]),w=h}y.ie&&y.win?v&&typeof v.addRule==b&&v.addRule(c,d):v&&typeof i.createTextNode!=a&&v.appendChild(i.createTextNode(c+" {"+d+"}"))}function U(a,b){if(!x)return;var c=b?"visible":"hidden";t&&P(a)?P(a).style.visibility=c:T("#"+a,"visibility:"+c)}function V(b){var c=/[\\\"<>\.;]/,d=c.exec(b)!=null;return d&&typeof encodeURIComponent!=a?encodeURIComponent(b):b}var a="undefined",b="object",c="Shockwave Flash",d="ShockwaveFlash.ShockwaveFlash",e="application/x-shockwave-flash",f="SWFObjectExprInst",g="onreadystatechange",h=window,i=document,j=navigator,k=!1,l=[D],m=[],n=[],o=[],p,q,r,s,t=!1,u=!1,v,w,x=!0,y=function(){var f=typeof i.getElementById!=a&&typeof i.getElementsByTagName!=a&&typeof i.createElement!=a,g=j.userAgent.toLowerCase(),l=j.platform.toLowerCase(),m=l?/win/.test(l):/win/.test(g),n=l?/mac/.test(l):/mac/.test(g),o=/webkit/.test(g)?parseFloat(g.replace(/^.*webkit\/(\d+(\.\d+)?).*$/,"$1")):!1,p=!1,q=[0,0,0],r=null;if(typeof j.plugins!=a&&typeof j.plugins[c]==b)r=j.plugins[c].description,r&&(typeof j.mimeTypes==a||!j.mimeTypes[e]||!!j.mimeTypes[e].enabledPlugin)&&(k=!0,p=!1,r=r.replace(/^.*\s+(\S+\s+\S+$)/,"$1"),q[0]=parseInt(r.replace(/^(.*)\..*$/,"$1"),10),q[1]=parseInt(r.replace(/^.*\.(.*)\s.*$/,"$1"),10),q[2]=/[a-zA-Z]/.test(r)?parseInt(r.replace(/^.*[a-zA-Z]+(.*)$/,"$1"),10):0);else if(typeof h[["Active"].concat("Object").join("X")]!=a)try{var s=new(window[["Active"].concat("Object").join("X")])(d);s&&(r=s.GetVariable("$version"),r&&(p=!0,r=r.split(" ")[1].split(","),q=[parseInt(r[0],10),parseInt(r[1],10),parseInt(r[2],10)]))}catch(t){}return{w3:f,pv:q,wk:o,ie:p,win:m,mac:n}}(),z=function(){if(!y.w3)return;(typeof i.readyState!=a&&i.readyState=="complete"||typeof i.readyState==a&&(i.getElementsByTagName("body")[0]||i.body))&&A(),t||(typeof i.addEventListener!=a&&i.addEventListener("DOMContentLoaded",A,!1),y.ie&&y.win&&(i.attachEvent(g,function(){i.readyState=="complete"&&(i.detachEvent(g,arguments.callee),A())}),h==top&&function(){if(t)return;try{i.documentElement.doScroll("left")}catch(a){setTimeout(arguments.callee,0);return}A()}()),y.wk&&function(){if(t)return;if(!/loaded|complete/.test(i.readyState)){setTimeout(arguments.callee,0);return}A()}(),C(A))}(),W=function(){y.ie&&y.win&&window.attachEvent("onunload",function(){var a=o.length;for(var b=0;b<a;b++)o[b][0].detachEvent(o[b][1],o[b][2]);var c=n.length;for(var d=0;d<c;d++)N(n[d]);for(var e in y)y[e]=null;y=null;for(var f in swfobject)swfobject[f]=null;swfobject=null})}();return{registerObject:function(a,b,c,d){if(y.w3&&a&&b){var e={};e.id=a,e.swfVersion=b,e.expressInstall=c,e.callbackFn=d,m[m.length]=e,U(a,!1)}else d&&d({success:!1,id:a})},getObjectById:function(a){if(y.w3)return G(a)},embedSWF:function(c,d,e,f,g,h,i,j,k,l){var m={success:!1,id:d};y.w3&&!(y.wk&&y.wk<312)&&c&&d&&e&&f&&g?(U(d,!1),B(function(){e+="",f+="";var n={};if(k&&typeof k===b)for(var o in k)n[o]=k[o];n.data=c,n.width=e,n.height=f;var p={};if(j&&typeof j===b)for(var q in j)p[q]=j[q];if(i&&typeof i===b)for(var r in i)typeof p.flashvars!=a?p.flashvars+="&"+r+"="+i[r]:p.flashvars=r+"="+i[r];if(S(g)){var s=L(n,p,d);n.id==d&&U(d,!0),m.success=!0,m.ref=s}else{if(h&&H()){n.data=h,I(n,p,d,l);return}U(d,!0)}l&&l(m)})):l&&l(m)},switchOffAutoHideShow:function(){x=!1},ua:y,getFlashPlayerVersion:function(){return{major:y.pv[0],minor:y.pv[1],release:y.pv[2]}},hasFlashPlayerVersion:S,createSWF:function(a,b,c){return y.w3?L(a,b,c):undefined},showExpressInstall:function(a,b,c,d){y.w3&&H()&&I(a,b,c,d)},removeSWF:function(a){y.w3&&N(a)},createCSS:function(a,b,c,d){y.w3&&T(a,b,c,d)},addDomLoadEvent:B,addLoadEvent:C,getQueryParamValue:function(a){var b=i.location.search||i.location.hash;if(b){/\?/.test(b)&&(b=b.split("?")[1]);if(a==null)return V(b);var c=b.split("&");for(var d=0;d<c.length;d++)if(c[d].substring(0,c[d].indexOf("="))==a)return V(c[d].substring(c[d].indexOf("=")+1))}return""},expressInstallCallback:function(){if(u){var a=P(f);a&&p&&(a.parentNode.replaceChild(p,a),q&&(U(q,!0),y.ie&&y.win&&(p.style.display="block")),r&&r(s)),u=!1}}}}();(function(){if("undefined"==typeof window||window.WebSocket)return;var a=window.console;if(!a||!a.log||!a.error)a={log:function(){},error:function(){}};if(!swfobject.hasFlashPlayerVersion("10.0.0")){a.error("Flash Player >= 10.0.0 is required.");return}location.protocol=="file:"&&a.error("WARNING: web-socket-js doesn't work in file:///... URL unless you set Flash Security Settings properly. Open the page via Web server i.e. http://..."),WebSocket=function(a,b,c,d,e){var f=this;f.__id=WebSocket.__nextId++,WebSocket.__instances[f.__id]=f,f.readyState=WebSocket.CONNECTING,f.bufferedAmount=0,f.__events={},b?typeof b=="string"&&(b=[b]):b=[],setTimeout(function(){WebSocket.__addTask(function(){WebSocket.__flash.create(f.__id,a,b,c||null,d||0,e||null)})},0)},WebSocket.prototype.send=function(a){if(this.readyState==WebSocket.CONNECTING)throw"INVALID_STATE_ERR: Web Socket connection has not been established";var b=WebSocket.__flash.send(this.__id,encodeURIComponent(a));return b<0?!0:(this.bufferedAmount+=b,!1)},WebSocket.prototype.close=function(){if(this.readyState==WebSocket.CLOSED||this.readyState==WebSocket.CLOSING)return;this.readyState=WebSocket.CLOSING,WebSocket.__flash.close(this.__id)},WebSocket.prototype.addEventListener=function(a,b,c){a in this.__events||(this.__events[a]=[]),this.__events[a].push(b)},WebSocket.prototype.removeEventListener=function(a,b,c){if(!(a in this.__events))return;var d=this.__events[a];for(var e=d.length-1;e>=0;--e)if(d[e]===b){d.splice(e,1);break}},WebSocket.prototype.dispatchEvent=function(a){var b=this.__events[a.type]||[];for(var c=0;c<b.length;++c)b[c](a);var d=this["on"+a.type];d&&d(a)},WebSocket.prototype.__handleEvent=function(a){"readyState"in a&&(this.readyState=a.readyState),"protocol"in a&&(this.protocol=a.protocol);var b;if(a.type=="open"||a.type=="error")b=this.__createSimpleEvent(a.type);else if(a.type=="close")b=this.__createSimpleEvent("close");else{if(a.type!="message")throw"unknown event type: "+a.type;var c=decodeURIComponent(a.message);b=this.__createMessageEvent("message",c)}this.dispatchEvent(b)},WebSocket.prototype.__createSimpleEvent=function(a){if(document.createEvent&&window.Event){var b=document.createEvent("Event");return b.initEvent(a,!1,!1),b}return{type:a,bubbles:!1,cancelable:!1}},WebSocket.prototype.__createMessageEvent=function(a,b){if(document.createEvent&&window.MessageEvent&&!window.opera){var c=document.createEvent("MessageEvent");return c.initMessageEvent("message",!1,!1,b,null,null,window,null),c}return{type:a,data:b,bubbles:!1,cancelable:!1}},WebSocket.CONNECTING=0,WebSocket.OPEN=1,WebSocket.CLOSING=2,WebSocket.CLOSED=3,WebSocket.__flash=null,WebSocket.__instances={},WebSocket.__tasks=[],WebSocket.__nextId=0,WebSocket.loadFlashPolicyFile=function(a){WebSocket.__addTask(function(){WebSocket.__flash.loadManualPolicyFile(a)})},WebSocket.__initialize=function(){if(WebSocket.__flash)return;WebSocket.__swfLocation&&(window.WEB_SOCKET_SWF_LOCATION=WebSocket.__swfLocation);if(!window.WEB_SOCKET_SWF_LOCATION){a.error("[WebSocket] set WEB_SOCKET_SWF_LOCATION to location of WebSocketMain.swf");return}var b=document.createElement("div");b.id="webSocketContainer",b.style.position="absolute",WebSocket.__isFlashLite()?(b.style.left="0px",b.style.top="0px"):(b.style.left="-100px",b.style.top="-100px");var c=document.createElement("div");c.id="webSocketFlash",b.appendChild(c),document.body.appendChild(b),swfobject.embedSWF(WEB_SOCKET_SWF_LOCATION,"webSocketFlash","1","1","10.0.0",null,null,{hasPriority:!0,swliveconnect:!0,allowScriptAccess:"always"},null,function(b){b.success||a.error("[WebSocket] swfobject.embedSWF failed")})},WebSocket.__onFlashInitialized=function(){setTimeout(function(){WebSocket.__flash=document.getElementById("webSocketFlash"),WebSocket.__flash.setCallerUrl(location.href),WebSocket.__flash.setDebug(!!window.WEB_SOCKET_DEBUG);for(var a=0;a<WebSocket.__tasks.length;++a)WebSocket.__tasks[a]();WebSocket.__tasks=[]},0)},WebSocket.__onFlashEvent=function(){return setTimeout(function(){try{var b=WebSocket.__flash.receiveEvents();for(var c=0;c<b.length;++c)WebSocket.__instances[b[c].webSocketId].__handleEvent(b[c])}catch(d){a.error(d)}},0),!0},WebSocket.__log=function(b){a.log(decodeURIComponent(b))},WebSocket.__error=function(b){a.error(decodeURIComponent(b))},WebSocket.__addTask=function(a){WebSocket.__flash?a():WebSocket.__tasks.push(a)},WebSocket.__isFlashLite=function(){if(!window.navigator||!window.navigator.mimeTypes)return!1;var a=window.navigator.mimeTypes["application/x-shockwave-flash"];return!a||!a.enabledPlugin||!a.enabledPlugin.filename?!1:a.enabledPlugin.filename.match(/flashlite/i)?!0:!1},window.WEB_SOCKET_DISABLE_AUTO_INITIALIZATION||(window.addEventListener?window.addEventListener("load",function(){WebSocket.__initialize()},!1):window.attachEvent("onload",function(){WebSocket.__initialize()}))})(),function(a,b,c){function d(a){if(!a)return;b.Transport.apply(this,arguments),this.sendBuffer=[]}function e(){}a.XHR=d,b.util.inherit(d,b.Transport),d.prototype.open=function(){return this.socket.setBuffer(!1),this.onOpen(),this.get(),this.setCloseTimeout(),this},d.prototype.payload=function(a){var c=[];for(var d=0,e=a.length;d<e;d++)c.push(b.parser.encodePacket(a[d]));this.send(b.parser.encodePayload(c))},d.prototype.send=function(a){return this.post(a),this},d.prototype.post=function(a){function d(){this.readyState==4&&(this.onreadystatechange=e,b.posting=!1,this.status==200?b.socket.setBuffer(!1):b.onClose())}function f(){this.onload=e,b.socket.setBuffer(!1)}var b=this;this.socket.setBuffer(!0),this.sendXHR=this.request("POST"),c.XDomainRequest&&this.sendXHR instanceof XDomainRequest?this.sendXHR.onload=this.sendXHR.onerror=f:this.sendXHR.onreadystatechange=d,this.sendXHR.send(a)},d.prototype.close=function(){return this.onClose(),this},d.prototype.request=function(a){var c=b.util.request(this.socket.isXDomain()),d=b.util.query(this.socket.options.query,"t="+ +(new Date));c.open(a||"GET",this.prepareUrl()+d,!0);if(a=="POST")try{c.setRequestHeader?c.setRequestHeader("Content-type","text/plain;charset=UTF-8"):c.contentType="text/plain"}catch(e){}return c},d.prototype.scheme=function(){return this.socket.options.secure?"https":"http"},d.check=function(a,d){try{var e=b.util.request(d),f=c.XDomainRequest&&e instanceof XDomainRequest,g=a&&a.options&&a.options.secure?"https:":"http:",h=c.location&&g!=c.location.protocol;if(e&&(!f||!h))return!0}catch(i){}return!1},d.xdomainCheck=function(a){return d.check(a,!0)}}("undefined"!=typeof io?io.Transport:module.exports,"undefined"!=typeof io?io:module.parent.exports,this),function(a,b){function c(a){b.Transport.XHR.apply(this,arguments)}a.htmlfile=c,b.util.inherit(c,b.Transport.XHR),c.prototype.name="htmlfile",c.prototype.get=function(){this.doc=new(window[["Active"].concat("Object").join("X")])("htmlfile"),this.doc.open(),this.doc.write("<html></html>"),this.doc.close(),this.doc.parentWindow.s=this;var a=this.doc.createElement("div");a.className="socketio",this.doc.body.appendChild(a),this.iframe=this.doc.createElement("iframe"),a.appendChild(this.iframe);var c=this,d=b.util.query(this.socket.options.query,"t="+ +(new Date));this.iframe.src=this.prepareUrl()+d,b.util.on(window,"unload",function(){c.destroy()})},c.prototype._=function(a,b){this.onData(a);try{var c=b.getElementsByTagName("script")[0];c.parentNode.removeChild(c)}catch(d){}},c.prototype.destroy=function(){if(this.iframe){try{this.iframe.src="about:blank"}catch(a){}this.doc=null,this.iframe.parentNode.removeChild(this.iframe),this.iframe=null,CollectGarbage()}},c.prototype.close=function(){return this.destroy(),b.Transport.XHR.prototype.close.call(this)},c.check=function(a){if(typeof window!="undefined"&&["Active"].concat("Object").join("X")in window)try{var c=new(window[["Active"].concat("Object").join("X")])("htmlfile");return c&&b.Transport.XHR.check(a)}catch(d){}return!1},c.xdomainCheck=function(){return!1},b.transports.push("htmlfile")}("undefined"!=typeof io?io.Transport:module.exports,"undefined"!=typeof io?io:module.parent.exports),function(a,b,c){function d(){b.Transport.XHR.apply(this,arguments)}function e(){}a["xhr-polling"]=d,b.util.inherit(d,b.Transport.XHR),b.util.merge(d,b.Transport.XHR),d.prototype.name="xhr-polling",d.prototype.heartbeats=function(){return!1},d.prototype.open=function(){var a=this;return b.Transport.XHR.prototype.open.call(a),!1},d.prototype.get=function(){function b(){this.readyState==4&&(this.onreadystatechange=e,this.status==200?(a.onData(this.responseText),a.get()):a.onClose())}function d(){this.onload=e,this.onerror=e,a.retryCounter=1,a.onData(this.responseText),a.get()}function f(){a.retryCounter++,!a.retryCounter||a.retryCounter>3?a.onClose():a.get()}if(!this.isOpen)return;var a=this;this.xhr=this.request(),c.XDomainRequest&&this.xhr instanceof XDomainRequest?(this.xhr.onload=d,this.xhr.onerror=f):this.xhr.onreadystatechange=b,this.xhr.send(null)},d.prototype.onClose=function(){b.Transport.XHR.prototype.onClose.call(this);if(this.xhr){this.xhr.onreadystatechange=this.xhr.onload=this.xhr.onerror=e;try{this.xhr.abort()}catch(a){}this.xhr=null}},d.prototype.ready=function(a,c){var d=this;b.util.defer(function(){c.call(d)})},b.transports.push("xhr-polling")}("undefined"!=typeof io?io.Transport:module.exports,"undefined"!=typeof io?io:module.parent.exports,this),function(a,b,c){function e(a){b.Transport["xhr-polling"].apply(this,arguments),this.index=b.j.length;var c=this;b.j.push(function(a){c._(a)})}var d=c.document&&"MozAppearance"in c.document.documentElement.style;a["jsonp-polling"]=e,b.util.inherit(e,b.Transport["xhr-polling"]),e.prototype.name="jsonp-polling",e.prototype.post=function(a){function i(){j(),c.socket.setBuffer(!1)}function j(){c.iframe&&c.form.removeChild(c.iframe);try{h=document.createElement('<iframe name="'+c.iframeId+'">')}catch(a){h=document.createElement("iframe"),h.name=c.iframeId}h.id=c.iframeId,c.form.appendChild(h),c.iframe=h}var c=this,d=b.util.query(this.socket.options.query,"t="+ +(new Date)+"&i="+this.index);if(!this.form){var e=document.createElement("form"),f=document.createElement("textarea"),g=this.iframeId="socketio_iframe_"+this.index,h;e.className="socketio",e.style.position="absolute",e.style.top="0px",e.style.left="0px",e.style.display="none",e.target=g,e.method="POST",e.setAttribute("accept-charset","utf-8"),f.name="d",e.appendChild(f),document.body.appendChild(e),this.form=e,this.area=f}this.form.action=this.prepareUrl()+d,j(),this.area.value=b.JSON.stringify(a);try{this.form.submit()}catch(k){}this.iframe.attachEvent?h.onreadystatechange=function(){c.iframe.readyState=="complete"&&i()}:this.iframe.onload=i,this.socket.setBuffer(!0)},e.prototype.get=function(){var a=this,c=document.createElement("script"),e=b.util.query(this.socket.options.query,"t="+ +(new Date)+"&i="+this.index);this.script&&(this.script.parentNode.removeChild(this.script),this.script=null),c.async=!0,c.src=this.prepareUrl()+e,c.onerror=function(){a.onClose()};var f=document.getElementsByTagName("script")[0];f.parentNode.insertBefore(c,f),this.script=c,d&&setTimeout(function(){var a=document.createElement("iframe");document.body.appendChild(a),document.body.removeChild(a)},100)},e.prototype._=function(a){return this.onData(a),this.isOpen&&this.get(),this},e.prototype.ready=function(a,c){var e=this;if(!d)return c.call(this);b.util.load(function(){c.call(e)})},e.check=function(){return"document"in c},e.xdomainCheck=function(){return!0},b.transports.push("jsonp-polling")}("undefined"!=typeof io?io.Transport:module.exports,"undefined"!=typeof io?io:module.parent.exports,this),typeof define=="function"&&define.amd&&define([],function(){return io})})();
-      }
-    ], [
-      {
-        /*
-          /Users/Admin/Projects/Nitro/source/scripts/utils/conf.coffee
-        */
-
-      }, function(require, module, exports) {
-        var active, localhost, server;
-        server = {
-          server: 'sync.nitrotasks.com:443/api',
-          sync: 'sync.nitrotasks.com:443'
-        };
-        localhost = {
-          server: 'localhost:8080/api',
-          sync: 'localhost:8080'
-        };
-        active = server;
-        active.EMAIL_LIST = "http://" + active.server + "/email";
-        return module.exports = active;
       }
     ], [
       {
@@ -15501,6 +15357,25 @@
         var Base;
         Base = require('base');
         return module.exports = new Base.Event();
+      }
+    ], [
+      {
+        /*
+          /Users/Admin/Projects/Nitro/source/scripts/utils/conf.coffee
+        */
+
+      }, function(require, module, exports) {
+        var active, servers;
+        servers = {
+          official: 'sync.nitrotasks.com:443',
+          localhost: 'localhost:8080'
+        };
+        active = servers.official;
+        return module.exports = {
+          sync: active,
+          server: active + '/api',
+          email: active + '/email'
+        };
       }
     ], [
       {
@@ -16424,2179 +16299,94 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/controllers/tasks.coffee
-        */
-
-        'base': 7,
-        './tasks.item': 28,
-        '../models/task': 23,
-        '../models/list': 24,
-        '../models/setting': 11,
-        '../utils/keys': 9,
-        '../utils/date': 30,
-        '../utils/translate': 10,
-        '../views/tasks': 31,
-        '../views/task': 32
-      }, function(require, module, exports) {
-        var Base, Keys, List, Setting, Task, TaskItem, Tasks, dateDetector, translate, view;
-        Base = require('base');
-        TaskItem = require('./tasks.item');
-        Task = require('../models/task');
-        List = require('../models/list');
-        Setting = require('../models/setting');
-        Keys = require('../utils/keys');
-        dateDetector = require('../utils/date');
-        translate = require('../utils/translate');
-        view = require('../views/tasks');
-        Tasks = (function(_super) {
-          __extends(Tasks, _super);
-
-          Tasks.prototype.template = require('../views/task');
-
-          Tasks.prototype.elements = {
-            'ul.tasks': 'tasks',
-            'input.new-task': 'input'
-          };
-
-          Tasks.prototype.events = {
-            'scroll': 'scrollbars',
-            'keydown input.new-task': 'createNew',
-            'click': 'collapseAllOnClick'
-          };
-
-          Tasks.prototype.items = [];
-
-          Tasks.prototype.timers = {};
-
-          function Tasks() {
-            this.scrollbars = __bind(this.scrollbars, this);
-            this.collapseAllOnClick = __bind(this.collapseAllOnClick, this);
-            this.createNew = __bind(this.createNew, this);
-            this.render = __bind(this.render, this);
-            this.reload = __bind(this.reload, this);
-            this.addOne = __bind(this.addOne, this);
-            var self;
-            Base.touchify(this.events);
-            Tasks.__super__.constructor.apply(this, arguments);
-            this.listen([
-              Task, {
-                'create:model': this.addOne,
-                'refresh': this.reload
-              }, List, {
-                'change:current': this.render
-              }, Setting, {
-                'change:sort': this.render
-              }
-            ]);
-            $('body').on('mouseover', '.main .task', function() {
-              if (Setting.sort && !$(this).hasClass('ui-draggable') && !List.current.disabled) {
-                return $(this).draggable({
-                  distance: 10,
-                  scroll: false,
-                  cursorAt: {
-                    top: 15,
-                    left: 30
-                  },
-                  helper: function(event, task) {
-                    var element, id;
-                    id = $(task).attr('id');
-                    element = "<div data-id=\'" + id + "\' class=\'helper\'>" + ($(this).find('.name').text()) + "</div>";
-                    $('body').append(element);
-                    return $("[data-id=" + id + "]");
-                  }
-                });
-              }
-            });
-            self = this;
-            $(this.el[1]).sortable({
-              distance: 10,
-              scroll: false,
-              cursorAt: {
-                top: 15,
-                left: 30
-              },
-              helper: function(event, task) {
-                var element, id;
-                id = $(task).attr('id');
-                element = "<div data-id=\'" + id + "\' class=\'helper\'>" + ($(task).find('.name').text()) + "</div>";
-                $('body').append(element);
-                return $("[data-id=" + id + "]");
-              },
-              update: function(event, ui) {
-                var arr;
-                arr = [];
-                $(this).children().each(function(index) {
-                  return arr.unshift($(this).attr('id').slice(5));
-                });
-                return self.list.updateAttribute('tasks', arr);
-              }
-            });
-          }
-
-          Tasks.prototype.addOne = function(task) {
-            var _ref;
-            if ((_ref = List.current.id) !== task.list && _ref !== 'all') {
-              return;
-            }
-            this.tasks.prepend(this.template(task));
-            view = new TaskItem({
-              el: this.tasks.find('#task-' + task.id),
-              task: task
-            });
-            view.el.addClass('new');
-            this.items.push(view);
-            return this.el.removeClass('empty');
-          };
-
-          Tasks.prototype.reload = function() {
-            if (List.current) {
-              return this.render(List.current);
-            }
-          };
-
-          Tasks.prototype.render = function(list) {
-            var completed, html, last, oldItems, task, tasks, _i, _j, _len, _len1, _ref, _ref1, _ref2, _ref3,
-              _this = this;
-            if (this.timers.bindTasks != null) {
-              clearTimeout(this.timers.bindTasks);
-            }
-            this.el.removeClass('empty');
-            if (list instanceof List.model || list.id === 'all' || list.id === 'completed') {
-              this.list = list;
-            }
-            if (this.list.disabled) {
-              $(this.el[1]).sortable({
-                disabled: true
-              });
-            } else {
-              if (!Setting.sort) {
-                $(this.el[1]).sortable({
-                  disabled: false
-                });
-              }
-            }
-            if (this.list.disabled) {
-              this.input.hide();
-            } else {
-              this.input.show();
-            }
-            oldItems = this.items.slice(0);
-            this.items = [];
-            setTimeout(function() {
-              var item, _i, _len, _results;
-              _results = [];
-              for (_i = 0, _len = oldItems.length; _i < _len; _i++) {
-                item = oldItems[_i];
-                _results.push(item.release());
-              }
-              return _results;
-            }, 100);
-            html = '';
-            this.el.find('.message').remove();
-            if (this.list.id === 'filter') {
-              tasks = this.list.tasks;
-              this.el.append(view.special);
-            } else if ((_ref = this.list) != null ? _ref.tasks : void 0) {
-              tasks = this.list.tasks;
-              this.el.append(view.standard);
-            } else {
-              tasks = Task.list(this.list.id);
-              this.el.append(view.empty);
-            }
-            if (((_ref1 = list.id) === 'all' || _ref1 === 'completed') || Setting.sort) {
-              tasks = Task.sortTasks(tasks);
-              last = (_ref2 = tasks[0]) != null ? _ref2.priority : void 0;
-              completed = (_ref3 = tasks[0]) != null ? _ref3.completed : void 0;
-              for (_i = 0, _len = tasks.length; _i < _len; _i++) {
-                task = tasks[_i];
-                if (completed && !task.completed) {
-                  completed = false;
-                  task.group = true;
-                }
-                if (!completed && task.priority !== last) {
-                  task.group = true;
-                }
-                last = task.priority;
-                task.notesplaceholder = $.i18n._('Notes');
-                task.dateplaceholder = $.i18n._('Due Date');
-                task.checkboxalttext = $.i18n._('Mark as completed');
-                task.lowalttext = $.i18n._('Set priority to low');
-                task.mediumalttext = $.i18n._('Set priority to medium');
-                task.highalttext = $.i18n._('Set priority to high');
-                task.dateValue = Task.prettyDate(new Date(task.date)).words;
-                task.dateClass = Task.prettyDate(new Date(task.date)).className;
-                if (list.id === 'all') {
-                  task.listName = List.get(task.list).name;
-                }
-                html = this.template(task) + html;
-              }
-            } else {
-              for (_j = 0, _len1 = tasks.length; _j < _len1; _j++) {
-                task = tasks[_j];
-                task.notesplaceholder = $.i18n._('Notes');
-                task.dateplaceholder = $.i18n._('Due Date');
-                task.checkboxalttext = $.i18n._('Mark as completed');
-                task.lowalttext = $.i18n._('Set priority to low');
-                task.mediumalttext = $.i18n._('Set priority to medium');
-                task.highalttext = $.i18n._('Set priority to high');
-                task.dateValue = Task.prettyDate(new Date(task.date)).words;
-                task.dateClass = Task.prettyDate(new Date(task.date)).className;
-                if (list.id === 'all') {
-                  task.listName = List.get(task.list).name;
-                }
-                html = this.template(task) + html;
-              }
-            }
-            this.tasks.addClass('loading');
-            this.tasks[0].innerHTML = '';
-            setTimeout(function() {
-              _this.tasks[0].innerHTML = html;
-              return _this.tasks.removeClass('loading');
-            }, 150);
-            this.timers.bindTasks = setTimeout(function() {
-              var _k, _len2, _results;
-              _results = [];
-              for (_k = 0, _len2 = tasks.length; _k < _len2; _k++) {
-                task = tasks[_k];
-                view = new TaskItem({
-                  task: task,
-                  el: _this.tasks.find("#task-" + task.id)
-                });
-                _results.push(_this.items[_this.items.length] = view);
-              }
-              return _results;
-            }, 400);
-            if (tasks.length === 0) {
-              this.el.addClass('empty');
-            }
-            if (!is_touch_device()) {
-              return this.input.focus();
-            }
-          };
-
-          Tasks.prototype.createNew = function(e) {
-            var task, val, _ref;
-            val = this.input.val();
-            if (e.which === Keys.ENTER && val) {
-              if (Setting.sort) {
-                if ($('.main .tasks .seperator').length === 0) {
-                  $('.main .tasks').prepend('<li class="seperator"></li>');
-                }
-              }
-              task = Task.create({
-                name: val,
-                list: (_ref = this.list) != null ? _ref.id : void 0,
-                date: dateDetector.parse(val)
-              });
-              List.current.tasks.add(task);
-              return this.input.val('');
-            }
-          };
-
-          Tasks.prototype.collapseAll = function() {
-            if (!List.current.disabled) {
-              if (Setting.sort) {
-                this.el.find('.expanded').draggable({
-                  disabled: false
-                });
-              } else {
-                this.el.find('.expanded').parent().sortable({
-                  disabled: false
-                });
-              }
-            }
-            return this.el.find('.expanded').removeClass('expanded').find('.name').blur().attr('contenteditable', false).parent().find('.notes').removeClass('auto');
-          };
-
-          Tasks.prototype.collapseAllOnClick = function(e) {
-            if (e.target.className === 'main tasks') {
-              return this.collapseAll();
-            }
-          };
-
-          Tasks.prototype.scrollbars = function(e) {
-            var target;
-            target = $(e.currentTarget);
-            target.addClass('show');
-            clearTimeout(this.scrollbarTimeout);
-            return this.scrollbarTimeout = setTimeout(function() {
-              return target.removeClass('show');
-            }, 1000);
-          };
-
-          return Tasks;
-
-        })(Base.Controller);
-        return module.exports = Tasks;
-      }
-    ], [
-      {
-        /*
-          /Users/Admin/Projects/Nitro/source/scripts/controllers/tasks.item.coffee
-        */
-
-        'base': 7,
-        'jqueryify': 1,
-        './modal.coffee': 29,
-        '../models/list.coffee': 24,
-        '../models/setting.coffee': 11,
-        '../utils/keys.coffee': 9
-      }, function(require, module, exports) {
-        var $, Base, Keys, List, Modal, TaskItem, setting;
-        Base = require('base');
-        $ = require('jqueryify');
-        Modal = require('./modal.coffee');
-        List = require('../models/list.coffee');
-        setting = require('../models/setting.coffee');
-        Keys = require('../utils/keys.coffee');
-        TaskItem = (function(_super) {
-          __extends(TaskItem, _super);
-
-          TaskItem.prototype.elements = {
-            '.name': 'name',
-            '.input-name': 'inputName',
-            '.date': 'date',
-            '.notes .inner': 'notes',
-            'time': 'time'
-          };
-
-          TaskItem.prototype.events = {
-            'click .delete': 'remove',
-            'click .priority-button div': 'setPriority',
-            'click .checkbox': 'toggleStatus',
-            'click .tag': 'tagClick',
-            'click': 'expand',
-            'blur .input-name': 'endEdit',
-            'keypress .input-name': 'endEditOnEnter',
-            'focus .notes': 'notesEdit',
-            'blur .notes': 'notesSave',
-            'change .date': 'datesSave'
-          };
-
-          function TaskItem() {
-            this.tagClick = __bind(this.tagClick, this);
-            this.datesSave = __bind(this.datesSave, this);
-            this.notesSave = __bind(this.notesSave, this);
-            this.notesEdit = __bind(this.notesEdit, this);
-            this.endEditOnEnter = __bind(this.endEditOnEnter, this);
-            this.expand = __bind(this.expand, this);
-            this.toggleStatus = __bind(this.toggleStatus, this);
-            this.change = __bind(this.change, this);
-            this.render = __bind(this.render, this);
-            Base.touchify(this.events);
-            TaskItem.__super__.constructor.apply(this, arguments);
-            if (!this.task) {
-              throw '@task required';
-            }
-            this.listen(this.task, {
-              'change': this.change,
-              'destroy': this.unbind,
-              'destroy': this.listWarning
-            });
-            this.render();
-          }
-
-          TaskItem.prototype.render = function() {
-            this.date.datepicker({
-              firstDay: setting.weekStart,
-              dateFormat: setting.dateFormat
-            });
-            if (this.task.date) {
-              return this.date.datepicker('setDate', new Date(this.task.date));
-            }
-          };
-
-          TaskItem.prototype.change = function(task) {
-            if (List.current.id !== 'all' && List.current.id !== 'filter' && task.list !== List.current.id) {
-              this.release();
-            }
-            this.el.toggleClass('completed', this.task.completed);
-            this.name.html(this.task.name.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/#(\w+)/g, ' <span class="tag">#$1</span>'));
-            return this.el.removeClass('p0 p1 p2 p3').addClass('p' + this.task.priority);
-          };
-
-          TaskItem.prototype.remove = function() {
-            return Modal.get('trashTask').run(this.task);
-          };
-
-          TaskItem.prototype.listWarning = function() {
-            if ($('ul.tasks').children().length === 0) {
-              return $('.main.tasks').addClass('empty');
-            }
-          };
-
-          TaskItem.prototype.toggleStatus = function() {
-            var order;
-            if (this.task.completed === false) {
-              this.task.completed = new Date().getTime();
-            } else {
-              this.task.completed = false;
-            }
-            if (List.current.id === 'completed') {
-              order = List.get(this.task.list).tasks.slice(0);
-              if (order.indexOf(this.task.id) === -1) {
-                order.push(this.task.id);
-                return List.get(this.task.list).tasks = order;
-              }
-            } else if (setting.completedDuration === 'instant') {
-              settings.moveCompleted();
-              return this.el.remove();
-            }
-          };
-
-          TaskItem.prototype.expand = function(e) {
-            var notes,
-              _this = this;
-            if (!this.el.hasClass('expanded') && e.target.className !== 'checkbox') {
-              this.el.parent().find('.expanded').removeClass('expanded');
-              this.inputName.val(this.task.name);
-              this.el.addClass('expanded animout');
-              this.el.draggable({
-                disabled: true
-              });
-              this.el.parent().sortable({
-                disabled: true
-              });
-              notes = this.notes.parent();
-              return setTimeout((function() {
-                return notes.addClass('auto');
-              }), 300);
-            }
-          };
-
-          TaskItem.prototype.setPriority = function(e) {
-            var priority;
-            priority = $(e.target).data('id');
-            return this.task.updateAttribute('priority', priority);
-          };
-
-          TaskItem.prototype.endEdit = function() {
-            var val;
-            val = this.inputName.val();
-            if (val) {
-              return this.task.updateAttribute('name', val);
-            } else {
-              return this.task.destroy();
-            }
-          };
-
-          TaskItem.prototype.endEditOnEnter = function(e) {
-            if (e.which === Keys.ENTER) {
-              e.preventDefault();
-              return this.inputName.blur();
-            }
-          };
-
-          TaskItem.prototype.notesEdit = function() {
-            if (this.notes.text() === $.i18n._('Notes')) {
-              this.notes.text('');
-            }
-            return this.notes.parent().removeClass('placeholder');
-          };
-
-          TaskItem.prototype.notesSave = function() {
-            var text;
-            text = this.notes.html();
-            if (text === '') {
-              this.notes.text($.i18n._('Notes'));
-              return this.notes.parent().addClass('placeholder');
-            } else {
-              return this.task.updateAttribute('notes', text);
-            }
-          };
-
-          TaskItem.prototype.datesSave = function() {
-            if (this.date.val().length > 0) {
-              this.task.updateAttribute('date', this.date.datepicker('getDate').getTime());
-              this.el.find('img').css('display', 'inline-block');
-              this.time.text(Task.prettyDate(new Date(this.task.date)).words);
-              return this.time.attr('class', Task.prettyDate(new Date(this.task.date)).className);
-            } else {
-              this.task.updateAttribute('date', '');
-              this.el.find('img').removeAttr('style');
-              return this.time.text('');
-            }
-          };
-
-          TaskItem.prototype.tagClick = function(e) {
-            e.stopPropagation();
-            return List.trigger('change:current', {
-              name: 'Tagged with ' + $(e.currentTarget).text(),
-              id: 'filter',
-              tasks: Task.tag($(e.currentTarget).text().substr(1)),
-              disabled: true,
-              permanent: true
-            });
-          };
-
-          return TaskItem;
-
-        })(Base.Controller);
-        return module.exports = TaskItem;
-      }
-    ], [
-      {
-        /*
-          /Users/Admin/Projects/Nitro/source/scripts/controllers/modal.coffee
-        */
-
-        'base': 7,
-        'jqueryify': 1,
-        '../utils/keys.coffee': 9,
-        '../utils/conf.coffee': 14,
-        '../models/setting': 11,
-        '../controllers/sync': 12,
-        '../models/setting.coffee': 11,
-        '../models/list.coffee': 24
-      }, function(require, module, exports) {
-        var $, Base, CONFIG, Keys, Modal, Sync, modals, setting;
-        Base = require('base');
-        $ = require('jqueryify');
-        Keys = require('../utils/keys.coffee');
-        CONFIG = require('../utils/conf.coffee');
-        setting = require('../models/setting');
-        Sync = require('../controllers/sync');
-        Modal = (function(_super) {
-          __extends(Modal, _super);
-
-          function Modal(opts) {
-            Base.touchify(opts.events);
-            Modal.__super__.constructor.apply(this, arguments);
-          }
-
-          Modal.prototype.state = false;
-
-          Modal.prototype.show = function() {
-            var _this = this;
-            if (this.state !== false) {
-              return;
-            }
-            this.state = true;
-            this.el.show(0).addClass('show');
-            if (this.onShow) {
-              this.onShow();
-            }
-            return setTimeout((function() {
-              return _this.el.on('click.modal, touchend.modal', function(event) {
-                if (event.target.className.indexOf('modal') >= 0) {
-                  return _this.hide();
-                }
-              });
-            }), 500);
-          };
-
-          Modal.prototype.hide = function() {
-            var _this = this;
-            if (this.state !== true) {
-              return;
-            }
-            this.state = false;
-            this.el.removeClass('show');
-            setTimeout((function() {
-              _this.el.hide(0);
-              if (_this.onHide) {
-                return _this.onHide();
-              }
-            }), 350);
-            return this.el.off('click.modal, touchend.modal');
-          };
-
-          return Modal;
-
-        })(Base.Controller);
-        modals = [];
-        return module.exports = {
-          get: function(name) {
-            return modals[name];
-          },
-          init: function() {
-            modals['trashTask'] = new Modal({
-              el: $('.modal.delete-task'),
-              events: {
-                'click .true': 'delete',
-                'click .false': 'hide'
-              },
-              run: function(task) {
-                this.task = task;
-                if (setting.confirmDelete) {
-                  return this.show();
-                } else {
-                  return this["delete"]();
-                }
-              },
-              "delete": function() {
-                var _ref;
-                if ((_ref = this.task) != null) {
-                  _ref.destroy();
-                }
-                return this.hide();
-              }
-            });
-            modals['trashList'] = new Modal({
-              el: $('.modal.delete-list'),
-              events: {
-                'click .true': 'delete',
-                'click .false': 'hide'
-              },
-              run: function() {
-                if (setting.confirmDelete) {
-                  return this.show();
-                } else {
-                  return this["delete"]();
-                }
-              },
-              "delete": function() {
-                List.current.trigger('kill');
-                return this.hide();
-              }
-            });
-            modals['email'] = new Modal({
-              el: $('.modal.email'),
-              elements: {
-                'input': 'input'
-              },
-              events: {
-                'click button': 'submit',
-                'keyup input': 'keyup'
-              },
-              keyup: function(e) {
-                if (e.keyCode === Keys.ENTER) {
-                  return this.submit();
-                }
-              },
-              submit: function() {
-                var email, listId, uid;
-                if (setting.isPro()) {
-                  email = this.input.val();
-                  if (!email.match(/.+@.+\..+/)) {
-                    return;
-                  }
-                  uid = require('../models/setting.coffee').get('uid');
-                  listId = require('../models/list.coffee').current.id;
-                  Sync.emit('emailList', [uid, listId, email]);
-                } else {
-                  $('.modal.proventor').modal('show');
-                }
-                return this.hide();
-              },
-              onShow: function() {
-                return this.input.focus();
-              },
-              onHide: function() {
-                return this.input.val('');
-              }
-            });
-            return modals['share'] = new Modal({
-              el: $('.modal.share')
-            });
-          }
-        };
-      }
-    ], [
-      {
-        /*
-          /Users/Admin/Projects/Nitro/source/scripts/utils/date.coffee
-        */
-
-      }, function(require, module, exports) {
-        /*
-        
-          Nitro Date
-          ==========
-        
-          Reads a sentence and figures out a date for it.
-        
-          Written by George Czabania in February 2013.
-        */
-
-        var Now, api, dateParser, defineTrigger, removeTrigger, triggers;
-        Now = (function() {
-          function Now() {
-            this.time = new Date();
-            this.setup();
-          }
-
-          Now.prototype.setup = function() {
-            this.day = this.time.getDate();
-            this.weekDay = this.time.getDay();
-            this.month = this.time.getMonth() + 1;
-            return this.year = this.time.getFullYear();
-          };
-
-          Now.prototype.print = function(gap) {
-            if (gap == null) {
-              gap = "/";
-            }
-            return "" + this.day + gap + this.month + gap + this.year;
-          };
-
-          Now.prototype.value = function() {
-            return this.time.getTime();
-          };
-
-          Now.prototype.increment = function(key, value) {
-            switch (key) {
-              case "day":
-                this.time.setDate(this.day + value);
-                break;
-              case "month":
-                this.time.setMonth(--value);
-                break;
-              case "year":
-                this.time.setYear(year);
-                break;
-              default:
-                return false;
-            }
-            this.setup();
-            return true;
-          };
-
-          return Now;
-
-        })();
-        triggers = {};
-        defineTrigger = function(trigger, fn) {
-          var regexp;
-          regexp = new RegExp(trigger, "i");
-          return triggers[trigger] = {
-            regexp: regexp,
-            fn: fn
-          };
-        };
-        removeTrigger = function(trigger) {
-          return delete triggers[trigger];
-        };
-        dateParser = function(text) {
-          var date, match, obj, trigger;
-          for (trigger in triggers) {
-            obj = triggers[trigger];
-            if (match = text.match(obj.regexp)) {
-              date = obj.fn(new Now(), match);
-              return (date != null ? date.value() : void 0) || false;
-            }
-          }
-          return false;
-        };
-        defineTrigger("today", function(now) {
-          return now;
-        });
-        defineTrigger("tomorrow", function(now) {
-          now.increment("day", 1);
-          return now;
-        });
-        defineTrigger("a week", function(now) {
-          now.increment("day", 7);
-          return now;
-        });
-        defineTrigger("next week", function(now) {
-          now.increment("day", 8 - now.time.getDay());
-          return now;
-        });
-        defineTrigger("(monday|tuesday|wednesday|thursday|friday|saturday|sunday)", function(now, match) {
-          var date, days, diff;
-          days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
-          date = days.indexOf(match[0].toLowerCase());
-          diff = date - now.weekDay;
-          now.increment("day", diff);
-          if (diff <= 0) {
-            now.increment("day", 7);
-          }
-          return now;
-        });
-        api = {
-          parse: dateParser,
-          define: defineTrigger,
-          remove: removeTrigger
-        };
-        return module != null ? module.exports = api : void 0;
-      }
-    ], [
-      {
-        /*
-          /Users/Admin/Projects/Nitro/source/scripts/views/tasks.coffee
-        */
-
-        '../utils/translate': 10
-      }, function(require, module, exports) {
-        var mex, translate;
-        translate = require('../utils/translate');
-        mex = module.exports = {};
-        return translate.ready(function() {
-          var tls;
-          tls = {
-            special: translate('No tasks could be found.'),
-            standard: translate('You haven\'t added any tasks to this list.'),
-            empty: translate('There are no tasks in here.')
-          };
-          mex.special = "<div class=\"message\">" + tls.special + "</div>";
-          mex.standard = "<div class=\"message\">" + tls.standard + "</div>";
-          return mex.empty = "<div class=\"message\">" + tls.empty + "</div>";
-        });
-      }
-    ], [
-      {
-        /*
-          /Users/Admin/Projects/Nitro/source/scripts/views/task.coffee
-        */
-
-        '../utils/prettydate': 33,
-        '../utils/translate': 10
-      }, function(require, module, exports) {
-        var date, tags, text, translate;
-        date = require('../utils/prettydate');
-        translate = require('../utils/translate');
-        text = {};
-        translate.ready(function() {
-          return text = translate({
-            notes: 'Notes',
-            date: 'Due Date',
-            checkbox: 'Mark as completed',
-            low: 'Set priority to low',
-            medium: 'Set priority to medium',
-            high: 'Set priority to high'
-          });
-        });
-        tags = function(text) {
-          if (!text) {
-            return;
-          }
-          return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/#(\S+)/g, ' <span class="tag">#$1</span>');
-        };
-        return module.exports = function(task) {
-          return "<li id=\"task-" + task.id + "\" class=\"task" + (task.group ? ' group' : '') + (task.completed ? ' completed' : '') + " p" + task.priority + "\">\n  <div class=\"checkbox\" title=\"" + text.checkbox + "\"></div>\n  <div class=\"name\">" + (tags(task.name)) + "</div>\n  <input type=\"text\" class=\"input-name\">\n  <div class=\"right-controls\">" + (task.date ? "<img width='10' height='10' style='display: inline-block' src='img/calendar.png'>      <time class='" + (date(task)["class"]) + "'>" + (date(task).value) + "</time>      <input class='date' placeholder='" + text.date + "' value='" + task.date + "'>" : "<img width='10' height='10' src='img/calendar.png'>      <time></time>      <input class='date' placeholder='" + text.date + "' value=''>") + (task.listName ? "<span class='listName'>" + task.listName + "</span>" : "") + "\n    <div class=\"priority-button\">\n      <div data-id=\"1\" title=\"" + text.low + "\" class=\"low\"></div>\n      <div data-id=\"2\" title=\"" + text.medium + "\" class=\"medium\"></div>\n      <div data-id=\"3\" title=\"" + text.high + "\" class=\"high\"></div>\n    </div>\n    <div class=\"delete\"></div>\n  </div>\n  " + (task.notes ? "<div class='notes'>        <div class='inner' contenteditable='true'>" + task.notes + "</div>      </div>" : "<div class='notes placeholder'>        <div class='inner' contenteditable='true'>" + text.notes + "</div>       </div>") + "\n</li>";
-        };
-      }
-    ], [
-      {
-        /*
-          /Users/Admin/Projects/Nitro/source/scripts/utils/prettydate.coffee
-        */
-
-        '../utils/translate': 10
-      }, function(require, module, exports) {
-        var translate;
-        translate = require('../utils/translate');
-        return module.exports = function(date) {
-          var className, difference, month, now, oneDay, words;
-          month = [];
-          translate.ready(function() {
-            month = translate(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
-            return console.log(month);
-          });
-          now = new Date();
-          difference = 0;
-          oneDay = 86400000;
-          difference = Math.ceil((date.getTime() - now.getTime()) / oneDay);
-          words = '';
-          className = '';
-          /*
-                
-            Difference
-            ==  5: '5 days left'
-            ==  1: 'Due tomorrow'
-            ==  0: 'Due today'
-            == -1: 'Due yesterday'
-            == -5: '5 days overdue'
-          */
-
-          if (difference === -1) {
-            words = $.i18n._('yesterday');
-            className = 'overdue';
-          } else if (difference < -1) {
-            difference = Math.abs(difference);
-            words = difference + ' ' + $.i18n._('days ago');
-            className = 'overdue';
-          } else if (difference === 0) {
-            words = $.i18n._('today');
-            className = 'due';
-          } else if (difference === 1) {
-            words = $.i18n._('tomorrow');
-            className = 'soon';
-          } else if (difference < 15) {
-            words = 'in ' + difference + ' days';
-          } else {
-            words = month[date.getMonth()] + ' ' + date.getDate();
-          }
-          return {
-            words: words,
-            className: className
-          };
-        };
-      }
-    ], [
-      {
-        /*
-          /Users/Admin/Projects/Nitro/source/scripts/controllers/lists.coffee
-        */
-
-        'base': 7,
-        'jqueryify': 1,
-        './lists.item.coffee': 35,
-        '../models/list.coffee': 24,
-        '../models/task.coffee': 23,
-        '../utils/keys.coffee': 9
-      }, function(require, module, exports) {
-        var $, Base, Keys, List, ListItem, Lists, Task;
-        Base = require('base');
-        $ = require('jqueryify');
-        ListItem = require('./lists.item.coffee');
-        List = require('../models/list.coffee');
-        Task = require('../models/task.coffee');
-        Keys = require('../utils/keys.coffee');
-        Lists = (function(_super) {
-          __extends(Lists, _super);
-
-          Lists.prototype.elements = {
-            'ul': 'lists',
-            '.new-list': 'newListInput',
-            '.list.all': 'all',
-            '.list.inbox': 'inbox',
-            '.list.completed': 'completed',
-            '.list.all .count': 'allCount',
-            '.list.inbox .count': 'inboxCount',
-            '.list.completed .count': 'completedCount'
-          };
-
-          Lists.prototype.events = {
-            'keyup .new-list': 'createNew',
-            'click .list.all': 'showAllTasks',
-            'click .list.inbox': 'showInbox',
-            'click .list.completed': 'showCompleted'
-          };
-
-          function Lists() {
-            this.updateAll = __bind(this.updateAll, this);
-            this.showCompleted = __bind(this.showCompleted, this);
-            this.showInbox = __bind(this.showInbox, this);
-            this.showAllTasks = __bind(this.showAllTasks, this);
-            this.change = __bind(this.change, this);
-            this.addAll = __bind(this.addAll, this);
-            this.addOne = __bind(this.addOne, this);
-            var _this = this;
-            Base.touchify(this.events);
-            Lists.__super__.constructor.apply(this, arguments);
-            this.listen(List, {
-              'create': this.addOne,
-              'destroy': this.showInbox,
-              'refresh': this.addAll,
-              'change:current': this.change,
-              'refresh change': this.updateAll
-            });
-            this.inbox.droppable({
-              hoverClass: 'ui-state-active',
-              tolerance: 'pointer',
-              drop: function(event, ui) {
-                var movedTask;
-                movedTask = Task.get(ui.draggable.attr('id').slice(5));
-                return List.current.moveTask(movedTask, List.get('inbox'));
-              }
-            });
-          }
-
-          Lists.prototype.createNew = function(e) {
-            var list;
-            if (e.which === Keys.ENTER && this.newListInput.val()) {
-              list = List.create({
-                name: this.newListInput.val()
-              });
-              List.open(list);
-              return this.newListInput.val('');
-            }
-          };
-
-          Lists.prototype.addOne = function(list) {
-            var listItem;
-            if (list.id === 'inbox') {
-              return;
-            }
-            listItem = new ListItem({
-              list: list
-            });
-            return this.lists.append(listItem.render().el);
-          };
-
-          Lists.prototype.addAll = function() {
-            this.lists.empty();
-            return List.forEach(this.addOne);
-          };
-
-          Lists.prototype.change = function(list) {
-            $('.sidebar').removeClass('show');
-            return List.current = list;
-          };
-
-          Lists.prototype.showAllTasks = function() {
-            List.trigger('change:current', {
-              name: $.i18n._('All Tasks'),
-              id: 'all',
-              disabled: true,
-              permanent: true
-            });
-            this.el.find('.current').removeClass('current');
-            this.all.addClass('current');
-          };
-
-          Lists.prototype.showInbox = function() {
-            List.trigger('change:current', List.get('inbox'));
-            this.el.find('.current').removeClass('current');
-            this.inbox.addClass('current');
-          };
-
-          Lists.prototype.showCompleted = function() {
-            List.trigger('change:current', {
-              name: $.i18n._('Completed'),
-              id: 'completed',
-              permanent: true,
-              disabled: true
-            });
-            this.el.find('.current').removeClass('current');
-            this.completed.addClass('current');
-          };
-
-          Lists.prototype.updateAll = function() {
-            this.inboxCount.text(Task.active('inbox').length);
-            this.allCount.text(Task.active().length);
-            this.completedCount.text(Task.completed().length);
-            return List.forEach(function(list) {
-              return list.trigger('update:tasks');
-            });
-          };
-
-          return Lists;
-
-        })(Base.Controller);
-        return module.exports = Lists;
-      }
-    ], [
-      {
-        /*
-          /Users/Admin/Projects/Nitro/source/scripts/controllers/lists.item.coffee
-        */
-
-        'base': 7,
-        '../models/task.coffee': 23,
-        '../models/list.coffee': 24,
-        '../views/list': 36
-      }, function(require, module, exports) {
-        var Base, List, ListItem, Task;
-        Base = require('base');
-        Task = require('../models/task.coffee');
-        List = require('../models/list.coffee');
-        ListItem = (function(_super) {
-          __extends(ListItem, _super);
-
-          ListItem.prototype.template = require('../views/list');
-
-          ListItem.prototype.elements = {
-            '.name': 'name',
-            '.count': 'count'
-          };
-
-          ListItem.prototype.events = {
-            'click': 'click'
-          };
-
-          function ListItem() {
-            this.remove = __bind(this.remove, this);
-            this.current = __bind(this.current, this);
-            this.updateList = __bind(this.updateList, this);
-            this.updateListCount = __bind(this.updateListCount, this);
-            this.updateTask = __bind(this.updateTask, this);
-            this.render = __bind(this.render, this);
-            ListItem.__super__.constructor.apply(this, arguments);
-            if (!this.list) {
-              throw "@list required";
-            }
-            this.list.bind("update", this.updateList);
-            this.list.bind("update:tasks", this.updateListCount);
-            this.list.bind("kill", this.remove);
-            Task.bind("change", this.updateTask);
-            this.list.bind("change:current", this.current);
-          }
-
-          ListItem.prototype.render = function() {
-            var _this = this;
-            this.list.count = Task.active(this.list.id).length;
-            this.replace(this.template(this.list));
-            this.el.droppable({
-              hoverClass: "ui-state-active",
-              tolerance: "pointer",
-              drop: function(event, ui) {
-                var movedTask;
-                movedTask = Task.get(ui.draggable.attr("id").slice(5));
-                return List.current.moveTask(movedTask, _this.list);
-              }
-            });
-            this.current();
-            return this;
-          };
-
-          ListItem.prototype.updateTask = function(task) {
-            if (task.list === this.list.id || this.list.eql(List.current)) {
-              return this.updateListCount();
-            }
-          };
-
-          ListItem.prototype.updateListCount = function() {
-            return this.count.text(Task.active(this.list.id).length);
-          };
-
-          ListItem.prototype.updateList = function(list) {
-            return this.name.text(list.name);
-          };
-
-          ListItem.prototype.click = function() {
-            return List.trigger("change:current", this.list);
-          };
-
-          ListItem.prototype.current = function() {
-            var _ref;
-            if (((_ref = List.current) != null ? _ref.id : void 0) === this.list.id) {
-              this.el.parent().parent().find(".current").removeClass("current");
-              return this.el.addClass("current");
-            }
-          };
-
-          ListItem.prototype.remove = function() {
-            var task, _i, _len, _ref;
-            _ref = Task.list(this.list.id);
-            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-              task = _ref[_i];
-              if (task.completed !== false) {
-                task.updateAttribute('list', 'inbox');
-              } else {
-                task.destroy({
-                  sync: false
-                });
-              }
-            }
-            this.release();
-            return this.list.destroy();
-          };
-
-          return ListItem;
-
-        })(Base.Controller);
-        return module.exports = ListItem;
-      }
-    ], [
-      {
-        /*
-          /Users/Admin/Projects/Nitro/source/scripts/views/list.coffee
-        */
-
-      }, function(require, module, exports) {
-        return module.exports = function(data) {
-          return "<li data-item=\"" + data.id + "\" class=\"list\">\n  <div class=\"arrow\"></div>\n  <div class=\"name\">" + data.name + "</div>\n  <div class=\"count\">" + data.count + "</div>\n</li>";
-        };
-      }
-    ], [
-      {
-        /*
-          /Users/Admin/Projects/Nitro/source/scripts/controllers/lists.title.coffee
-        */
-
-        'base': 7,
-        './modal.coffee': 29,
-        '../models/list.coffee': 24,
-        '../models/setting.coffee': 11,
-        '../utils/keys.coffee': 9
-      }, function(require, module, exports) {
-        var Base, Keys, List, ListTitle, Modal, Setting;
-        Base = require('base');
-        Modal = require('./modal.coffee');
-        List = require('../models/list.coffee');
-        Setting = require('../models/setting.coffee');
-        Keys = require('../utils/keys.coffee');
-        ListTitle = (function(_super) {
-          __extends(ListTitle, _super);
-
-          ListTitle.prototype.elements = {
-            'h1': 'listName',
-            '.buttons .trash': 'deleteButton',
-            '.buttons .sort': 'sortButton'
-          };
-
-          ListTitle.prototype.events = {
-            'keyup h1': 'rename',
-            'keypress h1': 'preventer',
-            'click .buttons a': 'menuClick'
-          };
-
-          function ListTitle() {
-            this.render = __bind(this.render, this);
-            ListTitle.__super__.constructor.apply(this, arguments);
-            List.on('change:current', this.render);
-          }
-
-          ListTitle.prototype.render = function(list) {
-            this.list = list;
-            this.listName.text(this.list.name);
-            if (this.list.permanent) {
-              this.listName.removeAttr('contenteditable');
-              this.deleteButton.fadeOut(150);
-            } else {
-              this.listName.attr('contenteditable', true);
-              this.deleteButton.fadeIn(150);
-            }
-            if (this.list.disabled) {
-              return this.sortButton.fadeOut(150);
-            } else {
-              return this.sortButton.fadeIn(150);
-            }
-          };
-
-          ListTitle.prototype.rename = function(e) {
-            return List.current.updateAttribute('name', this.listName.text());
-          };
-
-          ListTitle.prototype.preventer = function(e) {
-            if (e.which === Keys.ENTER) {
-              return e.preventDefault();
-            }
-          };
-
-          ListTitle.prototype.menuClick = function(e) {
-            switch (e.currentTarget.className) {
-              case 'trash':
-                return Modal.get('trashList').run();
-              case 'email':
-                return Modal.get('email').show();
-              case 'print':
-                return window.print();
-              case 'share':
-                return Modal.get('share').show();
-              case 'sort':
-                return Setting.toggle('sort');
-            }
-          };
-
-          return ListTitle;
-
-        })(Base.Controller);
-        return module.exports = ListTitle;
-      }
-    ], [
-      {
-        /*
-          /Users/Admin/Projects/Nitro/source/scripts/controllers/panel.coffee
-        */
-
-        'base': 7,
-        '../controllers/settings': 39,
-        '../controllers/search': 41,
-        '../models/list': 24,
-        '../models/task': 23,
-        '../models/setting': 11,
-        '../utils/event': 15
-      }, function(require, module, exports) {
-        var Base, Event, List, Panel, Search, Setting, Settings, Task;
-        Base = require('base');
-        Settings = require('../controllers/settings');
-        Search = require('../controllers/search');
-        List = require('../models/list');
-        Task = require('../models/task');
-        Setting = require('../models/setting');
-        Event = require('../utils/event');
-        Panel = (function(_super) {
-          __extends(Panel, _super);
-
-          Panel.prototype.elements = {
-            '.search': 'search',
-            '.user img': 'avatar',
-            '.user .name': 'name',
-            '.sidebar': 'sidebar'
-          };
-
-          Panel.prototype.events = {
-            'click .logo': 'toggleMenu',
-            'click .user': 'toggleAccount',
-            'click .openSettings': 'openSettings'
-          };
-
-          function Panel() {
-            this.offline = __bind(this.offline, this);
-            this.setAvatar = __bind(this.setAvatar, this);
-            this.setName = __bind(this.setName, this);
-            this.toggleMenu = __bind(this.toggleMenu, this);
-            var _this = this;
-            Base.touchify(this.events);
-            Panel.__super__.constructor.apply(this, arguments);
-            new Search({
-              el: this.search
-            });
-            this.listen(Setting, {
-              'change:userName': this.setName,
-              'change:userEmail': this.setAvatar,
-              'offline': this.offline,
-              'login': function() {
-                _this.setName();
-                return _this.setAvatar();
-              }
-            });
-          }
-
-          Panel.prototype.toggleMenu = function(onOff) {
-            return this.sidebar.toggleClass('show', onOff);
-          };
-
-          Panel.prototype.setName = function(name) {
-            if (name == null) {
-              name = setting.userName;
-            }
-            return this.name.text(name);
-          };
-
-          Panel.prototype.setAvatar = function() {
-            var email, id, link;
-            email = Setting.userEmail.toLowerCase();
-            id = md5(email);
-            link = "http://www.gravatar.com/avatar/" + id;
-            return this.avatar.show().attr('src', link);
-          };
-
-          Panel.prototype.offline = function() {
-            var name;
-            if (!!Setting.noAccount) {
-              return;
-            }
-            name = Setting.userName;
-            console.log('Name', name);
-            return this.setName("" + name + " - Offline");
-          };
-
-          Panel.prototype.toggleAccount = function() {
-            return Event.trigger('settings:show');
-          };
-
-          Panel.prototype.openSettings = function() {
-            return Event.trigger('settings:show');
-          };
-
-          return Panel;
-
-        })(Base.Controller);
-        return module.exports = Panel;
-      }
-    ], [
-      {
-        /*
-          /Users/Admin/Projects/Nitro/source/scripts/controllers/settings.coffee
-        */
-
-        'base': 7,
-        '../models/task': 23,
-        '../models/list': 24,
-        '../models/setting': 11,
-        '../libs/cookies': 40,
-        '../utils/event': 15,
-        '../utils/conf': 14
-      }, function(require, module, exports) {
-        var Base, CONFIG, Cookies, Event, List, Settings, Task, setting;
-        Base = require('base');
-        Task = require('../models/task');
-        List = require('../models/list');
-        setting = require('../models/setting');
-        Cookies = require('../libs/cookies');
-        Event = require('../utils/event');
-        CONFIG = require('../utils/conf');
-        Settings = (function(_super) {
-          __extends(Settings, _super);
-
-          Settings.prototype.elements = {
-            '.disabler': 'disabler',
-            '.language': 'language',
-            '.username': 'username',
-            '.clear-data': 'clearDataButton',
-            '.week-start': 'weekStart',
-            '.date-format': 'dateFormat',
-            '.night-mode': 'nightMode',
-            '#notify-time': 'notifyTime',
-            '#notify-email': 'notifyEmail',
-            '#notify-toggle': 'notifyToggle',
-            '#notify-regular': 'notifyRegular',
-            '.confirm-delete': 'confirmDelete',
-            '.completed-duration': 'completedDuration',
-            '.clear-data-label': 'clearDataLabel',
-            '#passwordreset': 'passwordreset',
-            '.user-name': 'nameInput',
-            '.user-email': 'emailInput'
-          };
-
-          Settings.prototype.events = {
-            'click .login': 'login',
-            'change input': 'save',
-            'change select': 'save',
-            'click .tabs li': 'tabSwitch',
-            'click .clear-data': 'clearData',
-            'click .night-mode': 'toggleNight',
-            'click .language a': 'changeLanguage',
-            'click .export-data': 'exportData',
-            'click button.probtn': 'proUpgrade',
-            'click #notify-toggle': 'toggleNotify',
-            'click .edit': 'editField',
-            'click .save': 'saveField'
-          };
-
-          function Settings() {
-            this.toggleNotify = __bind(this.toggleNotify, this);
-            this.login = __bind(this.login, this);
-            this.changeLanguage = __bind(this.changeLanguage, this);
-            this.clearData = __bind(this.clearData, this);
-            this.setupNotifications = __bind(this.setupNotifications, this);
-            this.toggleNight = __bind(this.toggleNight, this);
-            this.tabSwitch = __bind(this.tabSwitch, this);
-            this.moveCompleted = __bind(this.moveCompleted, this);
-            this.save = __bind(this.save, this);
-            this.show = __bind(this.show, this);
-            this.proUpgrade = __bind(this.proUpgrade, this);
-            this.account = __bind(this.account, this);
-            this.disableNotifications = __bind(this.disableNotifications, this);
-            this.setLanguage = __bind(this.setLanguage, this);
-            this.loadSettings = __bind(this.loadSettings, this);
-            Base.touchify(this.events);
-            Settings.__super__.constructor.apply(this, arguments);
-            this.listen(Event, {
-              'settings:show': this.show,
-              'login': this.account
-            });
-            this.loadSettings();
-            this.setLanguage();
-            this.disableNotifications();
-            this.setupNotifications();
-          }
-
-          Settings.prototype.loadSettings = function() {
-            this.dateFormat.val(setting.dateFormat);
-            this.completedDuration.val(setting.completedDuration);
-            this.notifyTime.val(setting.notifyTime);
-            this.notifyRegular.val(setting.notifyRegular);
-            this.confirmDelete.prop('checked', setting.confirmDelete);
-            this.nightMode.prop('checked', setting.night);
-            return this.notifyEmail.prop('checked', setting.notifyEmail);
-          };
-
-          Settings.prototype.setLanguage = function(language) {
-            if (language == null) {
-              language = setting.language;
-            }
-            return $("[data-value=" + language + "]").addClass('selected');
-          };
-
-          Settings.prototype.disableNotifications = function() {
-            this.disabler.prop('disabled', true).addClass('disabled');
-            return this.notifyToggle.prop('checked', false);
-          };
-
-          Settings.prototype.account = function() {
-            $('.account .signedout').hide();
-            $('.account .signedin').show();
-            this.passwordreset.attr('action', 'http://' + CONFIG.server + '/forgot');
-            this.nameInput.val(setting.userName);
-            this.emailInput.val(setting.userEmail);
-            $('.account .user-language').val($('.language [data-value=' + setting.language + ']').text());
-            this.clearDataLabel.hide();
-            this.clearDataButton.text($.i18n._('Logout'));
-            return $('.clearWrapper').css('text-align', 'center');
-          };
-
-          Settings.prototype.proUpgrade = function() {
-            return location.href = 'http://nitrotasks.com/pro?uid=' + setting.uid;
-          };
-
-          Settings.prototype.show = function() {
-            return this.el.modal();
-          };
-
-          Settings.prototype.save = function() {
-            setting.username = this.username.val();
-            setting.weekStart = this.weekStart.val();
-            setting.dateFormat = this.dateFormat.val();
-            setting.completedDuration = this.completedDuration.val();
-            setting.confirmDelete = this.confirmDelete.prop('checked');
-            setting.night = this.nightMode.prop('checked');
-            setting.notifications = this.notifyToggle.prop('checked');
-            setting.notifyEmail = this.notifyEmail.prop('checked');
-            setting.notifyTime = this.notifyTime.val();
-            setting.notifyRegular = this.notifyRegular.val();
-            try {
-              clearTimeout(settings.notifyTimeout);
-            } catch (_error) {}
-            return this.setupNotifications();
-          };
-
-          Settings.prototype.moveCompleted = function() {
-            return List.forEach(function(list) {
-              return list.moveCompleted();
-            });
-          };
-
-          Settings.prototype.tabSwitch = function(e) {
-            if ($(e.target).hasClass('close')) {
-              return this.el.modal('hide');
-            } else {
-              this.el.find('.current').removeClass('current');
-              return this.el.find('div.' + $(e.target).addClass('current').attr('data-id')).addClass('current');
-            }
-          };
-
-          Settings.prototype.toggleNight = function(e) {
-            if (setting.isPro()) {
-              return $('html').toggleClass('dark');
-            } else {
-              this.nightMode.prop('checked', false);
-              this.el.modal('hide');
-              $('.modal.proventor').modal('show');
-              return setting.night = false;
-            }
-          };
-
-          Settings.prototype.editField = function(e) {
-            var text;
-            if ($(e.target).hasClass('name') || $(e.target).hasClass('email')) {
-              text = $(e.target).text();
-              this.nameInput.prop('disabled', true);
-              this.emailInput.prop('disabled', true);
-              $(e.target).parent().find('.save').hide();
-              $(e.target).parent().find('.edit').text($.i18n._('Edit'));
-              $(e.target).text(text);
-              if ($(e.target).text() === $.i18n._('Edit')) {
-                $(e.target).text($.i18n._('Cancel'));
-                if ($(e.target).hasClass('name')) {
-                  $(e.target).parent().find('.name.save').show();
-                  return this.nameInput.prop('disabled', false).focus();
-                } else if ($(e.target).hasClass('email')) {
-                  $(e.target).parent().find('.email.save').show();
-                  return this.emailInput.prop('disabled', false).focus();
-                }
-              } else {
-                $(e.target).parent().find('button.save').hide();
-                $(e.target).text($.i18n._('Edit'));
-                this.nameInput.val(setting.user_name);
-                return this.emailInput.val(setting.user_email);
-              }
-            } else if ($(e.target).hasClass('language')) {
-              return $('.tabs li[data-id=language]').trigger('click');
-            }
-          };
-
-          Settings.prototype.saveField = function(e) {
-            $(e.target).hide();
-            setting.userName = this.nameInput.val();
-            setting.userEmail = this.emailInput.val();
-            this.nameInput.prop('disabled', true);
-            this.emailInput.prop('disabled', true);
-            return $(e.target).parent().find('button.edit').text($.i18n._('Edit'));
-          };
-
-          Settings.prototype.setupNotifications = function() {
-            var hour, notifyTime, now,
-              _this = this;
-            if (setting.notifications && setting.isPro()) {
-              now = Date.now();
-              notifyTime = new Date();
-              hour = setting.notifyTime;
-              notifyTime.setHours(hour);
-              notifyTime.setMinutes(8);
-              notifyTime.setSeconds(0);
-              notifyTime.setMilliseconds(0);
-              notifyTime = notifyTime.getTime();
-              if (notifyTime - now < 0) {
-                notifyTime += 86400000;
-              }
-              this.log("Notifying in: " + ((notifyTime - now) / 1000) + " seconds");
-              return this.notifyTimeout = setTimeout(function() {
-                var dueNumber, notification, task, upcomingNumber, _i, _len, _ref;
-                dueNumber = 0;
-                upcomingNumber = 0;
-                _ref = Task.all();
-                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-                  task = _ref[_i];
-                  if (task.date !== '' && task.date !== false && !task.completed) {
-                    upcomingNumber++;
-                    if (new Date(task.date) - new Date() < 0) {
-                      dueNumber++;
-                    }
-                  }
-                }
-                console.log({
-                  due: dueNumber,
-                  upcoming: upcomingNumber
-                });
-                if (setting.notifyRegular === 'upcoming') {
-                  notification = window.webkitNotifications.createNotification('img/icon.png', 'Nitro Tasks', 'You have ' + upcomingNumber + ' tasks upcoming').show();
-                } else {
-                  notification = window.webkitNotifications.createNotification('img/icon.png', 'Nitro Tasks', 'You have ' + dueNumber + ' tasks due').show();
-                }
-                return _this.setupNotifications();
-              }, notifyTime - now);
-            }
-          };
-
-          Settings.prototype.logout = function(e) {
-            Cookies.removeItem('uid');
-            Cookies.removeItem('token');
-            return document.location.reload();
-          };
-
-          Settings.prototype.clearData = function() {
-            var _this = this;
-            if (setting.token) {
-              localStorage.clear();
-              return this.logout();
-            } else {
-              $('.modal.settings').modal('hide');
-              $('.modal.delete').modal('show');
-              $('.modal.delete .true').on('click touchend', function() {
-                localStorage.clear();
-                _this.logout();
-                $('.modal.delete').modal('hide');
-                return $('.modal.delete .true').off('click touchend');
-              });
-              return $('.modal.delete .false').on('click touchend', function(e) {
-                $('.modal.delete').modal('hide');
-                return $('.modal.delete .false').off('click touchend');
-              });
-            }
-          };
-
-          Settings.prototype.exportData = function() {
-            this.el.modal('hide');
-            $('.modal.export').modal('show');
-            $('.modal.export textarea').val(Spine.Sync.exportData());
-            return $('.modal.export button').click(function() {
-              if ($(this).hasClass('true')) {
-                Spine.Sync.importData($('.modal.export textarea').val());
-              }
-              $('.modal.export').modal('hide');
-              return $(this).off('click');
-            });
-          };
-
-          Settings.prototype.changeLanguage = function(e) {
-            if ($(e.target).attr('data-value') === 'en-pi' && !setting.isPro()) {
-              this.el.modal('hide');
-              return $('.modal.proventor').modal('show');
-            } else {
-              setting.language = $(e.target).attr('data-value');
-              return window.location.reload();
-            }
-          };
-
-          Settings.prototype.login = function() {
-            $('.auth').fadeIn(300);
-            return this.el.modal('hide');
-          };
-
-          Settings.prototype.toggleNotify = function() {
-            if (this.notifyToggle.prop('checked')) {
-              if (setting.isPro()) {
-                return window.webkitNotifications.requestPermission(function() {
-                  console.log('Hello');
-                  if (window.webkitNotifications.checkPermission() === 0) {
-                    console.log('Hello');
-                    return $('.disabler').prop('disabled', false).removeClass('disabled');
-                  } else {
-                    setting.notifications = false;
-                    return alert('You\'ll need to open your browser settings and allow notifications for app.nitrotasks.com');
-                  }
-                });
-              } else {
-                this.notifyToggle.prop('checked', false);
-                setting.notifications = false;
-                this.el.modal('hide');
-                return $('.modal.proventor').modal('show');
-              }
-            } else {
-              return this.disabler.prop('disabled', true).addClass('disabled');
-            }
-          };
-
-          return Settings;
-
-        })(Base.Controller);
-        return module.exports = Settings;
-      }
-    ], [
-      {
-        /*
-          /Users/Admin/Projects/Nitro/source/scripts/libs/cookies.js
-        */
-
-      }, function(require, module, exports) {
-         /* |*|
-       |*|  :: cookies.js ::
-       |*|
-       |*|  A complete cookies reader/writer framework with full unicode support.
-       |*|
-       |*|  https://developer.mozilla.org/en-US/docs/DOM/document.cookie
-       |*|
-       |*|  Syntaxes:
-       |*|
-       |*|  * docCookies.setItem(name, value[, end[, path[, domain[, secure]]]])
-       |*|  * docCookies.getItem(name)
-       |*|  * docCookies.removeItem(name[, path])
-       |*|  * docCookies.hasItem(name)
-       |*|  * docCookies.keys()
-       |*|
-       \*/
-      
-      var docCookies = {
-        getItem: function (sKey) {
-          if (!sKey || !this.hasItem(sKey)) { return null; }
-          return unescape(document.cookie.replace(new RegExp("(?:^|.*;\\s*)" + escape(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*((?:[^;](?!;))*[^;]?).*"), "$1"));
-        },
-        setItem: function (sKey, sValue, vEnd, sPath, sDomain, bSecure) {
-          if (!sKey || /^(?:expires|max\-age|path|domain|secure)$/i.test(sKey)) { return; }
-          var sExpires = "";
-          if (vEnd) {
-            switch (vEnd.constructor) {
-              case Number:
-                sExpires = vEnd === Infinity ? "; expires=Tue, 19 Jan 2038 03:14:07 GMT" : "; max-age=" + vEnd;
-                break;
-              case String:
-                sExpires = "; expires=" + vEnd;
-                break;
-              case Date:
-                sExpires = "; expires=" + vEnd.toGMTString();
-                break;
-            }
-          }
-          document.cookie = escape(sKey) + "=" + escape(sValue) + sExpires + (sDomain ? "; domain=" + sDomain : "") + (sPath ? "; path=" + sPath : "") + (bSecure ? "; secure" : "");
-        },
-        removeItem: function (sKey, sPath) {
-          if (!sKey || !this.hasItem(sKey)) { return; }
-          document.cookie = escape(sKey) + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT" + (sPath ? "; path=" + sPath : "");
-        },
-        hasItem: function (sKey) {
-          return (new RegExp("(?:^|;\\s*)" + escape(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=")).test(document.cookie);
-        },
-        keys: /* optional method: you can safely remove it! */ function () {
-          var aKeys = document.cookie.replace(/((?:^|\s*;)[^\=]+)(?=;|$)|^\s*|\s*(?:\=[^;]*)?(?:\1|$)/g, "").split(/\s*(?:\=[^;]*)?;\s*/);
-          for (var nIdx = 0; nIdx < aKeys.length; nIdx++) { aKeys[nIdx] = unescape(aKeys[nIdx]); }
-          return aKeys;
-        }
-      };
-      
-      module.exports = docCookies;
-      ;
-      }
-    ], [
-      {
-        /*
-          /Users/Admin/Projects/Nitro/source/scripts/controllers/search.coffee
-        */
-
-        '../controllers/lists': 34,
-        'base': 7
-      }, function(require, module, exports) {
-        var Base, List, Search;
-        List = require('../controllers/lists');
-        Base = require('base');
-        Search = (function(_super) {
-          __extends(Search, _super);
-
-          Search.prototype.events = {
-            'keyup': 'search'
-          };
-
-          function Search() {
-            this.clearSearch = __bind(this.clearSearch, this);
-            this.search = __bind(this.search, this);
-            Search.__super__.constructor.apply(this, arguments);
-            this.originalList = null;
-          }
-
-          Search.prototype.search = function() {
-            var query;
-            if (List.current.id !== 'filter') {
-              this.originalList = List.current;
-            }
-            query = this.el.val();
-            if (query.length === 0) {
-              return this.clearSearch();
-            } else {
-              return List.open({
-                name: "Results for " + query,
-                id: 'filter',
-                tasks: Task.search(query),
-                disabled: true,
-                permanent: true
-              });
-            }
-          };
-
-          Search.prototype.clearSearch = function() {
-            return List.open(this.originalList);
-          };
-
-          return Search;
-
-        })(Base.Controller);
-        return module.exports = Search;
-      }
-    ], [
-      {
-        /*
-          /Users/Admin/Projects/Nitro/source/scripts/controllers/Settings.coffee
-        */
-
-        'base': 7,
-        '../models/task': 23,
-        '../models/list': 24,
-        '../models/setting': 11,
-        '../libs/cookies': 40,
-        '../utils/event': 15,
-        '../utils/conf': 14
-      }, function(require, module, exports) {
-        var Base, CONFIG, Cookies, Event, List, Settings, Task, setting;
-        Base = require('base');
-        Task = require('../models/task');
-        List = require('../models/list');
-        setting = require('../models/setting');
-        Cookies = require('../libs/cookies');
-        Event = require('../utils/event');
-        CONFIG = require('../utils/conf');
-        Settings = (function(_super) {
-          __extends(Settings, _super);
-
-          Settings.prototype.elements = {
-            '.disabler': 'disabler',
-            '.language': 'language',
-            '.username': 'username',
-            '.clear-data': 'clearDataButton',
-            '.week-start': 'weekStart',
-            '.date-format': 'dateFormat',
-            '.night-mode': 'nightMode',
-            '#notify-time': 'notifyTime',
-            '#notify-email': 'notifyEmail',
-            '#notify-toggle': 'notifyToggle',
-            '#notify-regular': 'notifyRegular',
-            '.confirm-delete': 'confirmDelete',
-            '.completed-duration': 'completedDuration',
-            '.clear-data-label': 'clearDataLabel',
-            '#passwordreset': 'passwordreset',
-            '.user-name': 'nameInput',
-            '.user-email': 'emailInput'
-          };
-
-          Settings.prototype.events = {
-            'click .login': 'login',
-            'change input': 'save',
-            'change select': 'save',
-            'click .tabs li': 'tabSwitch',
-            'click .clear-data': 'clearData',
-            'click .night-mode': 'toggleNight',
-            'click .language a': 'changeLanguage',
-            'click .export-data': 'exportData',
-            'click button.probtn': 'proUpgrade',
-            'click #notify-toggle': 'toggleNotify',
-            'click .edit': 'editField',
-            'click .save': 'saveField'
-          };
-
-          function Settings() {
-            this.toggleNotify = __bind(this.toggleNotify, this);
-            this.login = __bind(this.login, this);
-            this.changeLanguage = __bind(this.changeLanguage, this);
-            this.clearData = __bind(this.clearData, this);
-            this.setupNotifications = __bind(this.setupNotifications, this);
-            this.toggleNight = __bind(this.toggleNight, this);
-            this.tabSwitch = __bind(this.tabSwitch, this);
-            this.moveCompleted = __bind(this.moveCompleted, this);
-            this.save = __bind(this.save, this);
-            this.show = __bind(this.show, this);
-            this.proUpgrade = __bind(this.proUpgrade, this);
-            this.account = __bind(this.account, this);
-            this.disableNotifications = __bind(this.disableNotifications, this);
-            this.setLanguage = __bind(this.setLanguage, this);
-            this.loadSettings = __bind(this.loadSettings, this);
-            Base.touchify(this.events);
-            Settings.__super__.constructor.apply(this, arguments);
-            this.listen(Event, {
-              'settings:show': this.show,
-              'login': this.account
-            });
-            this.loadSettings();
-            this.setLanguage();
-            this.disableNotifications();
-            this.setupNotifications();
-          }
-
-          Settings.prototype.loadSettings = function() {
-            this.dateFormat.val(setting.dateFormat);
-            this.completedDuration.val(setting.completedDuration);
-            this.notifyTime.val(setting.notifyTime);
-            this.notifyRegular.val(setting.notifyRegular);
-            this.confirmDelete.prop('checked', setting.confirmDelete);
-            this.nightMode.prop('checked', setting.night);
-            return this.notifyEmail.prop('checked', setting.notifyEmail);
-          };
-
-          Settings.prototype.setLanguage = function(language) {
-            if (language == null) {
-              language = setting.language;
-            }
-            return $("[data-value=" + language + "]").addClass('selected');
-          };
-
-          Settings.prototype.disableNotifications = function() {
-            this.disabler.prop('disabled', true).addClass('disabled');
-            return this.notifyToggle.prop('checked', false);
-          };
-
-          Settings.prototype.account = function() {
-            $('.account .signedout').hide();
-            $('.account .signedin').show();
-            this.passwordreset.attr('action', 'http://' + CONFIG.server + '/forgot');
-            this.nameInput.val(setting.userName);
-            this.emailInput.val(setting.userEmail);
-            $('.account .user-language').val($('.language [data-value=' + setting.language + ']').text());
-            this.clearDataLabel.hide();
-            this.clearDataButton.text($.i18n._('Logout'));
-            return $('.clearWrapper').css('text-align', 'center');
-          };
-
-          Settings.prototype.proUpgrade = function() {
-            return location.href = 'http://nitrotasks.com/pro?uid=' + setting.uid;
-          };
-
-          Settings.prototype.show = function() {
-            return this.el.modal();
-          };
-
-          Settings.prototype.save = function() {
-            setting.username = this.username.val();
-            setting.weekStart = this.weekStart.val();
-            setting.dateFormat = this.dateFormat.val();
-            setting.completedDuration = this.completedDuration.val();
-            setting.confirmDelete = this.confirmDelete.prop('checked');
-            setting.night = this.nightMode.prop('checked');
-            setting.notifications = this.notifyToggle.prop('checked');
-            setting.notifyEmail = this.notifyEmail.prop('checked');
-            setting.notifyTime = this.notifyTime.val();
-            setting.notifyRegular = this.notifyRegular.val();
-            try {
-              clearTimeout(settings.notifyTimeout);
-            } catch (_error) {}
-            return this.setupNotifications();
-          };
-
-          Settings.prototype.moveCompleted = function() {
-            return List.forEach(function(list) {
-              return list.moveCompleted();
-            });
-          };
-
-          Settings.prototype.tabSwitch = function(e) {
-            if ($(e.target).hasClass('close')) {
-              return this.el.modal('hide');
-            } else {
-              this.el.find('.current').removeClass('current');
-              return this.el.find('div.' + $(e.target).addClass('current').attr('data-id')).addClass('current');
-            }
-          };
-
-          Settings.prototype.toggleNight = function(e) {
-            if (setting.isPro()) {
-              return $('html').toggleClass('dark');
-            } else {
-              this.nightMode.prop('checked', false);
-              this.el.modal('hide');
-              $('.modal.proventor').modal('show');
-              return setting.night = false;
-            }
-          };
-
-          Settings.prototype.editField = function(e) {
-            var text;
-            if ($(e.target).hasClass('name') || $(e.target).hasClass('email')) {
-              text = $(e.target).text();
-              this.nameInput.prop('disabled', true);
-              this.emailInput.prop('disabled', true);
-              $(e.target).parent().find('.save').hide();
-              $(e.target).parent().find('.edit').text($.i18n._('Edit'));
-              $(e.target).text(text);
-              if ($(e.target).text() === $.i18n._('Edit')) {
-                $(e.target).text($.i18n._('Cancel'));
-                if ($(e.target).hasClass('name')) {
-                  $(e.target).parent().find('.name.save').show();
-                  return this.nameInput.prop('disabled', false).focus();
-                } else if ($(e.target).hasClass('email')) {
-                  $(e.target).parent().find('.email.save').show();
-                  return this.emailInput.prop('disabled', false).focus();
-                }
-              } else {
-                $(e.target).parent().find('button.save').hide();
-                $(e.target).text($.i18n._('Edit'));
-                this.nameInput.val(setting.user_name);
-                return this.emailInput.val(setting.user_email);
-              }
-            } else if ($(e.target).hasClass('language')) {
-              return $('.tabs li[data-id=language]').trigger('click');
-            }
-          };
-
-          Settings.prototype.saveField = function(e) {
-            $(e.target).hide();
-            setting.userName = this.nameInput.val();
-            setting.userEmail = this.emailInput.val();
-            this.nameInput.prop('disabled', true);
-            this.emailInput.prop('disabled', true);
-            return $(e.target).parent().find('button.edit').text($.i18n._('Edit'));
-          };
-
-          Settings.prototype.setupNotifications = function() {
-            var hour, notifyTime, now,
-              _this = this;
-            if (setting.notifications && setting.isPro()) {
-              now = Date.now();
-              notifyTime = new Date();
-              hour = setting.notifyTime;
-              notifyTime.setHours(hour);
-              notifyTime.setMinutes(8);
-              notifyTime.setSeconds(0);
-              notifyTime.setMilliseconds(0);
-              notifyTime = notifyTime.getTime();
-              if (notifyTime - now < 0) {
-                notifyTime += 86400000;
-              }
-              this.log("Notifying in: " + ((notifyTime - now) / 1000) + " seconds");
-              return this.notifyTimeout = setTimeout(function() {
-                var dueNumber, notification, task, upcomingNumber, _i, _len, _ref;
-                dueNumber = 0;
-                upcomingNumber = 0;
-                _ref = Task.all();
-                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-                  task = _ref[_i];
-                  if (task.date !== '' && task.date !== false && !task.completed) {
-                    upcomingNumber++;
-                    if (new Date(task.date) - new Date() < 0) {
-                      dueNumber++;
-                    }
-                  }
-                }
-                console.log({
-                  due: dueNumber,
-                  upcoming: upcomingNumber
-                });
-                if (setting.notifyRegular === 'upcoming') {
-                  notification = window.webkitNotifications.createNotification('img/icon.png', 'Nitro Tasks', 'You have ' + upcomingNumber + ' tasks upcoming').show();
-                } else {
-                  notification = window.webkitNotifications.createNotification('img/icon.png', 'Nitro Tasks', 'You have ' + dueNumber + ' tasks due').show();
-                }
-                return _this.setupNotifications();
-              }, notifyTime - now);
-            }
-          };
-
-          Settings.prototype.logout = function(e) {
-            Cookies.removeItem('uid');
-            Cookies.removeItem('token');
-            return document.location.reload();
-          };
-
-          Settings.prototype.clearData = function() {
-            var _this = this;
-            if (setting.token) {
-              localStorage.clear();
-              return this.logout();
-            } else {
-              $('.modal.settings').modal('hide');
-              $('.modal.delete').modal('show');
-              $('.modal.delete .true').on('click touchend', function() {
-                localStorage.clear();
-                _this.logout();
-                $('.modal.delete').modal('hide');
-                return $('.modal.delete .true').off('click touchend');
-              });
-              return $('.modal.delete .false').on('click touchend', function(e) {
-                $('.modal.delete').modal('hide');
-                return $('.modal.delete .false').off('click touchend');
-              });
-            }
-          };
-
-          Settings.prototype.exportData = function() {
-            this.el.modal('hide');
-            $('.modal.export').modal('show');
-            $('.modal.export textarea').val(Spine.Sync.exportData());
-            return $('.modal.export button').click(function() {
-              if ($(this).hasClass('true')) {
-                Spine.Sync.importData($('.modal.export textarea').val());
-              }
-              $('.modal.export').modal('hide');
-              return $(this).off('click');
-            });
-          };
-
-          Settings.prototype.changeLanguage = function(e) {
-            if ($(e.target).attr('data-value') === 'en-pi' && !setting.isPro()) {
-              this.el.modal('hide');
-              return $('.modal.proventor').modal('show');
-            } else {
-              setting.language = $(e.target).attr('data-value');
-              return window.location.reload();
-            }
-          };
-
-          Settings.prototype.login = function() {
-            $('.auth').fadeIn(300);
-            return this.el.modal('hide');
-          };
-
-          Settings.prototype.toggleNotify = function() {
-            if (this.notifyToggle.prop('checked')) {
-              if (setting.isPro()) {
-                return window.webkitNotifications.requestPermission(function() {
-                  console.log('Hello');
-                  if (window.webkitNotifications.checkPermission() === 0) {
-                    console.log('Hello');
-                    return $('.disabler').prop('disabled', false).removeClass('disabled');
-                  } else {
-                    setting.notifications = false;
-                    return alert('You\'ll need to open your browser settings and allow notifications for app.nitrotasks.com');
-                  }
-                });
-              } else {
-                this.notifyToggle.prop('checked', false);
-                setting.notifications = false;
-                this.el.modal('hide');
-                return $('.modal.proventor').modal('show');
-              }
-            } else {
-              return this.disabler.prop('disabled', true).addClass('disabled');
-            }
-          };
-
-          return Settings;
-
-        })(Base.Controller);
-        return module.exports = Settings;
-      }
-    ], [
-      {
-        /*
           /Users/Admin/Projects/Nitro/source/scripts/controllers/auth.coffee
         */
 
-        'base': 7,
-        'jqueryify': 1,
-        '../models/task': 23,
         '../models/setting': 11,
-        '../libs/cookies': 40,
-        '../utils/conf': 14
+        '../views/auth': 28,
+        '../utils/event': 14,
+        '../utils/conf': 15
       }, function(require, module, exports) {
-        var $, Auth, Base, CONFIG, Cookies, Setting, Task;
-        Base = require('base');
-        $ = require('jqueryify');
-        Task = require('../models/task');
+        var Auth, Event, Setting, View, config;
         Setting = require('../models/setting');
-        Cookies = require('../libs/cookies');
-        CONFIG = require('../utils/conf');
+        View = require('../views/auth');
+        Event = require('../utils/event');
+        config = require('../utils/conf');
+        Auth = (function() {
+          function Auth() {
+            this.skip = __bind(this.skip, this);
+            this.view = new View();
+          }
+
+          Auth.prototype.skip = function() {
+            return Event.trigger('auth:skip');
+          };
+
+          Auth.prototype.loadToken = function(id, token) {
+            Setting.uid = id;
+            Setting.token = token;
+            return Event.trigger('auth:token', id, token);
+          };
+
+          Auth.prototype.register = function(data) {
+            var _this = this;
+            return $.ajax({
+              type: 'post',
+              url: "http://" + config.server + "/register",
+              data: data,
+              success: function(data) {
+                return _this.view.trigger('register:success');
+              },
+              error: function(xhr, status, msg) {
+                return _this.view.trigger('register:error', xhr.responseText);
+              }
+            });
+          };
+
+          Auth.prototype.login = function(data) {
+            var _this = this;
+            return $.ajax({
+              type: 'post',
+              url: "http://" + config.server + "/login",
+              data: data,
+              dataType: 'json',
+              success: function(_arg) {
+                var email, name, pro, token, uid;
+                uid = _arg[0], token = _arg[1], email = _arg[2], name = _arg[3], pro = _arg[4];
+                _this.view.trigger('login:success');
+                Setting.pro = pro;
+                Setting.user_name = name;
+                Setting.user_email = email;
+                return _this.loadToken(uid, token);
+              },
+              error: function(xhr, status, msg) {
+                return _this.view.trigger('login:error', xhr.responseText);
+              }
+            });
+          };
+
+          return Auth;
+
+        })();
+        return module.exports = Auth;
+      }
+    ], [
+      {
+        /*
+          /Users/Admin/Projects/Nitro/source/scripts/views/auth.coffee
+        */
+
+        'base': 7,
+        '../models/setting': 11,
+        '../templates/auth': 29
+      }, function(require, module, exports) {
+        var Auth, Base, Setting;
+        Base = require('base');
+        Setting = require('../models/setting');
         Auth = (function(_super) {
           __extends(Auth, _super);
+
+          Auth.prototype.template = require('../templates/auth');
 
           Auth.prototype.elements = {
             '.form': 'form',
@@ -18613,29 +16403,34 @@
           };
 
           Auth.prototype.events = {
-            'click .login': 'buttonLogin',
-            'click .register': 'buttonRegister',
+            'click .login': 'submit',
+            'click .register': 'submit',
             'click .switch-mode': 'switchMode',
-            'click .offline': 'noAccount',
-            'click .service': 'oauthLogin',
-            'keydown input': 'enterKey'
+            'click .offline': 'skipAuth',
+            'keydown input': 'keydown'
           };
 
           function Auth() {
-            this.oauthLogin = __bind(this.oauthLogin, this);
-            this.getData = __bind(this.getData, this);
-            this.noAccount = __bind(this.noAccount, this);
+            this.hideError = __bind(this.hideError, this);
             this.switchMode = __bind(this.switchMode, this);
-            this.buttonRegister = __bind(this.buttonRegister, this);
-            this.buttonLogin = __bind(this.buttonLogin, this);
-            this.enterKey = __bind(this.enterKey, this);
+            this.valid = __bind(this.valid, this);
+            this.submit = __bind(this.submit, this);
+            this.keydown = __bind(this.keydown, this);
             this.show = __bind(this.show, this);
             this.hide = __bind(this.hide, this);
+            var _this = this;
             Base.touchify(this.events);
             Auth.__super__.constructor.apply(this, arguments);
-            this.mode = true;
+            this.el = $('.auth');
+            this.bind();
+            this.mode = 'login';
             this.listen(Setting, {
               'offline login': this.hide
+            });
+            this.on('register:success', function() {
+              _this.spinner(false);
+              _this.setMode('login');
+              return _this.hideError();
             });
           }
 
@@ -18648,158 +16443,59 @@
             return this.el.fadeIn(300);
           };
 
-          Auth.prototype.enterKey = function(e) {
+          Auth.prototype.keydown = function(e) {
             if (e.keyCode === 13) {
-              if (this.mode) {
-                return this.buttonLogin();
-              } else {
-                return this.buttonRegister();
+              return this.submit();
+            }
+          };
+
+          Auth.prototype.submit = function() {
+            if (this.valid) {
+              this.spinner(true);
+              switch (this.mode) {
+                case 'login':
+                  return this.trigger('login', this.email.val(), this.password.val());
+                case 'register':
+                  return this.trigger('register', this.email.va(), this.password.val(), this.name.val());
               }
             }
           };
 
-          Auth.prototype.buttonLogin = function() {
-            this.loginBtn.toggleClass('disabled active');
-            return true;
-            if (this.email.val() === '' || this.password.val() === '') {
-              this.errorNote.addClass('populated').text('Please fill out all fields');
+          Auth.prototype.valid = function() {
+            var valid;
+            if (this.mode) {
+              valid = this.email.val().length && this.password.va().length;
             } else {
-              this.form.addClass('ajax');
-              this.login(this.getData());
+              valid = this.email.val().length && this.password.val().length && this.name.val().length;
             }
-            return true;
-          };
-
-          Auth.prototype.buttonRegister = function() {
-            this.registerBtn.toggleClass('disabled active');
-            return true;
-            if (this.email.val() === '' || this.password.val() === '' || this.name.val() === '') {
-              this.errorNote.addClass('populated').text('Please fill out all fields');
-            } else {
-              this.form.addClass('ajax');
-              this.register(this.getData());
+            if (!valid) {
+              this.error('Please  fill out all fields');
             }
-            return true;
+            return valid;
           };
 
           Auth.prototype.switchMode = function(mode) {
-            if (typeof mode !== 'boolean') {
-              mode = !this.mode;
-            }
             this.mode = mode;
-            this.form.toggleClass('mode-login', this.mode);
-            this.form.toggleClass('mode-register', !this.mode);
-            this.errorNote.removeClass('populated').empty();
-            if (this.mode) {
-              return this.email.focus();
-            } else {
-              return this.name.focus();
+            this.el.toggleClass('login', this.mode === 'login');
+            this.hideError();
+            switch (this.mode) {
+              case 'login':
+                return this.email.focus();
+              case 'register':
+                return this.name.focus();
             }
           };
 
-          Auth.prototype.noAccount = function() {
-            Setting.noAccount = true;
-            Setting.trigger('offline');
-            Task["default"]();
-            return true;
+          Auth.prototype.hideError = function() {
+            return this.errorMessage.removeClass('populated'.empty());
           };
 
-          Auth.prototype.getData = function() {
-            console.log(this.mode);
-            return {
-              name: this.name.val(),
-              email: this.email.val(),
-              password: this.password.val()
-            };
+          Auth.prototype.showError = function(type, message) {
+            return this.errorNote.addClass('populated'.html(this.template(message)));
           };
 
-          Auth.prototype.saveToken = function(id, token) {
-            Setting.uid = id;
-            Setting.token = token;
-            return Setting.trigger('haveToken', [id, token]);
-          };
-
-          Auth.prototype.register = function(data) {
-            var _this = this;
-            return $.ajax({
-              type: 'post',
-              url: "http://" + CONFIG.server + "/register",
-              data: data,
-              success: function(data) {
-                _this.form.removeClass('ajax');
-                _this.switchMode(true);
-                _this.successNote.show();
-                _this.errorNote.removeClass("populated").empty();
-                if (Setting.noAccount === false) {
-                  return Task["default"]();
-                }
-              },
-              error: function(xhr, status, msg) {
-                return _this.error('signup', xhr.responseText);
-              }
-            });
-          };
-
-          Auth.prototype.login = function(data) {
-            var _this = this;
-            this.errorNote.empty().removeClass('populated');
-            return $.ajax({
-              type: 'post',
-              url: "http://" + CONFIG.server + "/login",
-              data: data,
-              dataType: 'json',
-              success: function(_arg) {
-                var email, name, pro, token, uid;
-                uid = _arg[0], token = _arg[1], email = _arg[2], name = _arg[3], pro = _arg[4];
-                _this.saveToken(uid, token);
-                Setting.user_name = name;
-                Setting.user_email = email;
-                Setting.pro = pro;
-                _this.errorNote.removeClass('populated').empty();
-                return Setting.set('noAccount', false);
-              },
-              error: function(xhr, status, msg) {
-                console.log('Could not login');
-                return _this.error('login', xhr.responseText);
-              }
-            });
-          };
-
-          Auth.prototype.error = function(type, err) {
-            this.form.removeClass('ajax');
-            console.log("(" + type + "): " + err);
-            this.errorNote.addClass('populated');
-            if (err === 'err_bad_pass') {
-              return this.errorNote.html("Incorrect email or password. <a href=\"http://" + CONFIG.server + "/forgot\">Forgot?</a>");
-            } else if (err === 'err_old_email') {
-              return this.errorNote.text('Account already in use');
-            } else {
-              return this.errorNote.text("" + err);
-            }
-          };
-
-          Auth.prototype.oauthLogin = function(e) {
-            var service, _ref,
-              _this = this;
-            service = (_ref = e.target.attributes['data-service']) != null ? _ref.value : void 0;
-            if (service !== 'dropbox' && service !== 'ubuntu') {
-              return;
-            }
-            return $.ajax({
-              type: 'post',
-              url: "http://" + CONFIG.server + "/oauth/request",
-              data: {
-                service: service
-              },
-              success: function(request) {
-                Setting.set('oauth', {
-                  service: service,
-                  token: request.oauth_token,
-                  secret: request.oauth_token_secret
-                });
-                return location.href = request.authorize_url;
-              }
-            });
+          Auth.prototype.spinner = function(status) {
+            return this.buttons.toggleClass('active', status);
           };
 
           return Auth;
@@ -18810,15 +16506,121 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/controllers/loadingScreen.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/templates/auth.coffee
+        */
+
+      }, function(require, module, exports) {
+        return module.exports = function(message) {
+          switch (message) {
+            case 'err_bad_pass':
+              return "Incorrect email or password. <a href=\"http://" + CONFIG.server + "/forgot\">Forgot?</a>";
+            case 'err_old_email':
+              return this.errorNote.text('Account already in use');
+            default:
+              return message;
+          }
+        };
+      }
+    ], [
+      {
+        /*
+          /Users/Admin/Projects/Nitro/source/scripts/views/keys.coffee
+        */
+
+        '../utils/keys': 9,
+        'base': 7
+      }, function(require, module, exports) {
+        var Base, Keys, keys, _ref;
+        keys = require('../utils/keys');
+        Base = require('base');
+        Keys = (function(_super) {
+          __extends(Keys, _super);
+
+          function Keys() {
+            this.keyup = __bind(this.keyup, this);
+            this.blur = __bind(this.blur, this);
+            this.focus = __bind(this.focus, this);
+            _ref = Keys.__super__.constructor.apply(this, arguments);
+            return _ref;
+          }
+
+          Keys.prototype.events = {
+            'keyup': 'keyup',
+            'input focus': 'focus',
+            'input blur': 'blur'
+          };
+
+          Keys.prototype.controller = function() {
+            Keys.__super__.controller.apply(this, arguments);
+            this.input = null;
+            return this.focused = false;
+          };
+
+          Keys.prototype.focus = function(e) {
+            this.input = $(e.targetElement);
+            return this.focused = true;
+          };
+
+          Keys.prototype.blur = function() {
+            return this.focused = false;
+          };
+
+          Keys.prototype.keyup = function(e) {
+            var keycode;
+            keycode = e.which;
+            if (!this.focused && keycode === keys.escape) {
+              this.input.blur();
+              return true;
+            }
+            switch (keycode) {
+              case keys.escape:
+                return this.tasks.collapseAll();
+              case keys.n:
+                return $(".new-task").focus().val("");
+              case keys.l:
+                return $(".new-list").focus().val("");
+              case keys.f:
+                return $(".search input").focus().val("");
+              case keys.p:
+                return $(".buttons .print").trigger("click");
+              case keys.comma:
+                return $(".settingsButton img").trigger("click");
+              case keys.k:
+                if ($(".sidebar .current").prev().length === 0) {
+                  return $(".sidebar .completed").trigger("click");
+                } else {
+                  $(".sidebar .current").prev().trigger("click");
+                  return $(".new-task").blur();
+                }
+                break;
+              case keys.j:
+                if ($(".sidebar .current").next().hasClass("lists")) {
+                  $($(".sidebar .lists").children()[0]).trigger("click");
+                  return $(".new-task").blur();
+                } else {
+                  $(".sidebar .current").next().trigger("click");
+                  return $(".new-task").blur();
+                }
+            }
+          };
+
+          return Keys;
+
+        })(Base.Controller);
+        return module.exports = Keys;
+      }
+    ], [
+      {
+        /*
+          /Users/Admin/Projects/Nitro/source/scripts/views/loadingScreen.coffee
         */
 
         'base': 7,
-        '../models/setting': 11
+        '../utils/event': 14
       }, function(require, module, exports) {
-        var Base, LoadingScreen, setting;
+        var Base, Event, LoadingScreen;
         Base = require('base');
-        setting = require('../models/setting');
+        Event = require('../utils/event');
         LoadingScreen = (function(_super) {
           __extends(LoadingScreen, _super);
 
@@ -18826,7 +16628,9 @@
             this.show = __bind(this.show, this);
             this.hide = __bind(this.hide, this);
             LoadingScreen.__super__.constructor.apply(this, arguments);
-            setting.on('offline', this.hide);
+            this.el = $('.loading-screen');
+            this.bind();
+            Event.on('app:ready', this.hide);
           }
 
           LoadingScreen.prototype.hide = function() {

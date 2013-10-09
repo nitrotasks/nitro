@@ -7,7 +7,7 @@ List    = require '../models/list'
 setting = require '../models/setting'
 
 # Utils
-Cookies = require '../libs/cookies'
+Cookies = require '../vendor/cookies'
 Event   = require '../utils/event'
 CONFIG  = require '../utils/conf'
 

@@ -3,14 +3,14 @@ Base    = require 'base'
 $       = require 'jqueryify'
 
 # Controllers
-ListItem = require './lists.item.coffee'
+ListItem = require './lists.item'
 
 # Models
-List     = require '../models/list.coffee'
-Task     = require '../models/task.coffee'
+List     = require '../models/list'
+Task     = require '../models/task'
 
 # Utils
-Keys     = require '../utils/keys.coffee'
+Keys     = require '../utils/keys'
 
 
 class Lists extends Base.Controller

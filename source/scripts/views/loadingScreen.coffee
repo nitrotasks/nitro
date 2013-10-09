@@ -1,12 +1,15 @@
-
-Base = require 'base'
-setting = require '../models/setting'
+Base  = require 'base'
+Event = require '../utils/event'
 
 class LoadingScreen extends Base.Controller
 
   constructor: ->
     super
-    setting.on 'offline', @hide
+
+    @el = $('.loading-screen')
+    @bind()
+
+    Event.on 'app:ready', @hide
 
   hide: =>
     @el.fadeOut(300)
