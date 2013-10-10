@@ -1,6 +1,13 @@
 $font: "Lato", sans-serif;
 
 /*
+ * LAYOUT
+ */
+
+$sidebar-width: 250px;
+$sidebar-padding: 30px;
+
+/*
  * Z-INDEX
  */
 
@@ -11,7 +18,7 @@ $z-auth: 50;
  */
 
 $white:        #fff;
-$light-grey:   #eee;
+$light-grey:   #f3f3f3;
 $mid-grey:     #ccc;
 $half-grey:    #888;
 $dark-grey:    #4c4c4c;

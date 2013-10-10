@@ -5,16 +5,20 @@ html, body {
 }
 
 .main {
-  @include pos(40px, 293px, 0, 0);
-  padding: 0 13px 40px 30px;
+  @include pos(0, $sidebar-width + $sidebar-padding * 2, 0, 0);
+  padding: 0 $sidebar-padding 40px;
   overflow-y: scroll;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+  // TODO: Move scrollbar stuff into a module
+
   &.show::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.2);
   }
+
   &::-webkit-scrollbar {
     width: 8px;
   }
+
   &::-webkit-scrollbar-thumb {
     background: transparent;
     border-radius: 10px;
@@ -26,28 +30,31 @@ html, body {
       background: rgba(0, 0, 0, 0.2);
     }
   }
+
   .title {
     border-bottom: 2px $light-blue solid;
     position: relative;
     height: 70px;
     margin: 0 0 20px;
+
     h1 {
       font-size: 26px;
-      padding: 0;
       color: $dark-blue;
       margin: 0;
+      outline: none;
       @include pos(auto, auto, 5px, 0);
-      border: 1px transparent solid;
-      cursor: default;
       @include transition(0.2s, border-color);
-      outline: 0;
+      border: 1px transparent solid;
+
       &[contenteditable=true]:hover {
-        border-color: #999999;
+        border-color: $half-grey;
         cursor: text;
       }
+
       &[contenteditable=true]:focus {
-        border-color: #999999;
+        border-color: $mid-grey;
       }
+
     }
   }
 }

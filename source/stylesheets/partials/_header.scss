@@ -1,4 +1,8 @@
 
+/*
+ * DEPRECATED
+ */
+
 .mac {
   header {
     display: none;
@@ -77,14 +81,6 @@ header {
       @include text-shadow(0px 1px 0px #f6f6f6);
     }
   }
-
-  // .seperator {
-  //   float: right;
-  //   line-height: 40px;
-  //   color: #aaaaaa;
-  //   @include text-shadow(0px 1px 0px #fafafa);
-  //   padding-right: 5px;
-  // }
 
   .openSettings {
     display: inline-block;

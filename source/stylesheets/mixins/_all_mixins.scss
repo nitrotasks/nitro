@@ -84,7 +84,14 @@
   transition: $args;
 }
 
-@mixin ellipsis() {
+@mixin transition-transform($args...) {
+  -webkit-transition: -webkit-transform $args;
+  -moz-transition: -moz-transform $args;
+  -ms-transition: -ms-transform $args;
+  transition: transform $args;
+}
+
+%ellipsis {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -104,3 +111,9 @@
   transform: $tr;
 }
 
+@mixin animation ($animation) {
+  -webkit-animation: $animation;
+  -moz-animation: $animation;
+  -ms-animation: $animation;
+  animation: $animation;
+}

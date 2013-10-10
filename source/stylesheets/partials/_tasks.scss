@@ -41,6 +41,7 @@
   @include transition(border-color 0.3s);
   -webkit-appearance: none;
   border-radius: 0;
+
   &:focus {
     outline: none;
     border-color: #1bc1f5;

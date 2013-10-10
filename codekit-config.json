@@ -36,6 +36,18 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
+    "\/source\/stylesheets\/mixins\/_placeholder.scss" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/source\/stylesheets\/mixins\/_placeholder.scss",
+      "outputStyle" : 0,
+      "shouldRunBless" : 0,
+      "outputAbbreviatedPath" : "\/app\/css\/_placeholder.css",
+      "fileType" : 4,
+      "debugStyle" : 0
+    },
     "\/app\/css\/screen.css" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -173,18 +185,6 @@
       "outputAbbreviatedPath" : "\/source\/scripts\/vendor\/modal.min.js",
       "fileType" : 64
     },
-    "\/source\/stylesheets\/partials\/_tasks.scss" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/source\/stylesheets\/partials\/_tasks.scss",
-      "outputStyle" : 0,
-      "shouldRunBless" : 0,
-      "outputAbbreviatedPath" : "\/app\/css\/_tasks.css",
-      "fileType" : 4,
-      "debugStyle" : 0
-    },
     "\/source\/scripts\/views\/auth.coffee" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
@@ -196,6 +196,18 @@
       "outputAbbreviatedPath" : "\/source\/scripts\/views\/auth.js",
       "outputStyle" : 0,
       "fileType" : 32
+    },
+    "\/source\/stylesheets\/partials\/_tasks.scss" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/source\/stylesheets\/partials\/_tasks.scss",
+      "outputStyle" : 0,
+      "shouldRunBless" : 0,
+      "outputAbbreviatedPath" : "\/app\/css\/_tasks.css",
+      "fileType" : 4,
+      "debugStyle" : 0
     },
     "\/source\/scripts\/languages\/datepicker\/de.js" : {
       "ignoreWasSetByUser" : 1,
@@ -232,16 +244,16 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
-    "\/app\/img\/pro.png" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
+    "\/source\/scripts\/vendor\/touch.js" : {
+      "ignoreWasSetByUser" : 1,
+      "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/app\/img\/pro.png",
-      "processed" : 1,
-      "outputAbbreviatedPath" : "\/app\/img\/pro.png",
-      "initialSize" : 1592,
-      "fileType" : 8192
+      "inputAbbreviatedPath" : "\/source\/scripts\/vendor\/touch.js",
+      "outputStyle" : 1,
+      "syntaxCheckerStyle" : 0,
+      "outputAbbreviatedPath" : "\/source\/scripts\/vendor\/touch.min.js",
+      "fileType" : 64
     },
     "\/source\/stylesheets\/modules\/_fonts.scss" : {
       "ignoreWasSetByUser" : 0,
@@ -255,16 +267,16 @@
       "fileType" : 4,
       "debugStyle" : 0
     },
-    "\/source\/scripts\/vendor\/touch.js" : {
-      "ignoreWasSetByUser" : 1,
-      "ignore" : 1,
+    "\/app\/img\/pro.png" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/source\/scripts\/vendor\/touch.js",
-      "outputStyle" : 1,
-      "syntaxCheckerStyle" : 0,
-      "outputAbbreviatedPath" : "\/source\/scripts\/vendor\/touch.min.js",
-      "fileType" : 64
+      "inputAbbreviatedPath" : "\/app\/img\/pro.png",
+      "processed" : 1,
+      "outputAbbreviatedPath" : "\/app\/img\/pro.png",
+      "initialSize" : 1592,
+      "fileType" : 8192
     },
     "\/source\/scripts\/controllers\/settings.coffee" : {
       "ignoreWasSetByUser" : 1,
@@ -439,17 +451,6 @@
       "fileType" : 4,
       "debugStyle" : 0
     },
-    "\/app\/img\/calendar.png" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/app\/img\/calendar.png",
-      "processed" : 1,
-      "outputAbbreviatedPath" : "\/app\/img\/calendar.png",
-      "initialSize" : 2837,
-      "fileType" : 8192
-    },
     "\/source\/scripts\/templates\/tasks.coffee" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
@@ -461,6 +462,17 @@
       "outputAbbreviatedPath" : "\/source\/scripts\/templates\/tasks.js",
       "outputStyle" : 0,
       "fileType" : 32
+    },
+    "\/app\/img\/calendar.png" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/app\/img\/calendar.png",
+      "processed" : 1,
+      "outputAbbreviatedPath" : "\/app\/img\/calendar.png",
+      "initialSize" : 2837,
+      "fileType" : 8192
     },
     "\/app\/img\/search_blue.png" : {
       "ignoreWasSetByUser" : 0,
@@ -1320,17 +1332,6 @@
       "initialSize" : 3314,
       "fileType" : 8192
     },
-    "\/app\/img\/tour.png" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/app\/img\/tour.png",
-      "processed" : 1,
-      "outputAbbreviatedPath" : "\/app\/img\/tour.png",
-      "initialSize" : 5756,
-      "fileType" : 8192
-    },
     "\/source\/stylesheets\/partials\/_task.scss" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -1342,6 +1343,17 @@
       "outputAbbreviatedPath" : "\/app\/css\/_task.css",
       "fileType" : 4,
       "debugStyle" : 0
+    },
+    "\/app\/img\/tour.png" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/app\/img\/tour.png",
+      "processed" : 1,
+      "outputAbbreviatedPath" : "\/app\/img\/tour.png",
+      "initialSize" : 5756,
+      "fileType" : 8192
     },
     "\/app\/img\/inbox_light.png" : {
       "ignoreWasSetByUser" : 0,

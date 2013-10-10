@@ -10,3 +10,13 @@
   }
 
 }
+
+%hidden-input {
+    @extend %border-box;
+    background: transparent;
+    border: 0;
+    height: 40px;
+    padding: 0 0 0 15px;
+    font-size: 15px;
+    outline: none;
+}
