@@ -8928,9 +8928,7 @@
             translate.init();
             this.auth = new Auth();
             new LoadingScreen();
-            this.keys = new Keys({
-              el: $('body')
-            });
+            this.keys = new Keys();
             Task.trigger('fetch');
             List.trigger('fetch');
             if (List.exists('inbox') === false) {
@@ -14889,13 +14887,13 @@
         'base': 7,
         '../vendor/socket.io.js': 13,
         '../utils/event': 14,
-        '../utils/conf': 15
+        '../utils/config': 15
       }, function(require, module, exports) {
         var Base, Collection, Event, Extend, Include, Singleton, SocketIo, Sync, config;
         Base = require('base');
         SocketIo = require('../vendor/socket.io.js');
         Event = require('../utils/event');
-        config = require('../utils/conf');
+        config = require('../utils/config');
         Sync = {
           models: {},
           online: false,
@@ -15361,7 +15359,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/utils/conf.coffee
+          /Users/Admin/Projects/Nitro/source/scripts/utils/config.coffee
         */
 
       }, function(require, module, exports) {
@@ -16305,17 +16303,22 @@
         '../models/setting': 11,
         '../views/auth': 28,
         '../utils/event': 14,
-        '../utils/conf': 15
+        '../utils/config': 15
       }, function(require, module, exports) {
         var Auth, Event, Setting, View, config;
         Setting = require('../models/setting');
         View = require('../views/auth');
         Event = require('../utils/event');
-        config = require('../utils/conf');
+        config = require('../utils/config');
         Auth = (function() {
           function Auth() {
+            this.login = __bind(this.login, this);
+            this.register = __bind(this.register, this);
             this.skip = __bind(this.skip, this);
-            this.view = new View();
+            window.view = this.view = new View();
+            this.view.on('login', this.login);
+            this.view.on('register', this.register);
+            this.view.on('skip', this.skip);
           }
 
           Auth.prototype.skip = function() {
@@ -16328,27 +16331,34 @@
             return Event.trigger('auth:token', id, token);
           };
 
-          Auth.prototype.register = function(data) {
+          Auth.prototype.register = function(name, email, password) {
             var _this = this;
             return $.ajax({
               type: 'post',
               url: "http://" + config.server + "/register",
-              data: data,
-              success: function(data) {
+              data: {
+                name: name,
+                email: email,
+                password: password
+              },
+              success: function(status) {
                 return _this.view.trigger('register:success');
               },
               error: function(xhr, status, msg) {
-                return _this.view.trigger('register:error', xhr.responseText);
+                return _this.view.trigger('register:fail', xhr.responseText);
               }
             });
           };
 
-          Auth.prototype.login = function(data) {
+          Auth.prototype.login = function(email, password) {
             var _this = this;
             return $.ajax({
               type: 'post',
               url: "http://" + config.server + "/login",
-              data: data,
+              data: {
+                email: email,
+                password: password
+              },
               dataType: 'json',
               success: function(_arg) {
                 var email, name, pro, token, uid;
@@ -16360,7 +16370,7 @@
                 return _this.loadToken(uid, token);
               },
               error: function(xhr, status, msg) {
-                return _this.view.trigger('login:error', xhr.responseText);
+                return _this.view.trigger('login:fail', xhr.responseText);
               }
             });
           };
@@ -16396,10 +16406,9 @@
             'button': 'buttons',
             '.login': 'loginBtn',
             '.register': 'registerBtn',
-            '.note-login': 'loginNote',
-            '.note-register': 'registerNote',
-            '.note-success': 'successNote',
-            '.error': 'errorNote'
+            '.note-login': 'loginMessage',
+            '.note-success': 'successMessage',
+            '.error': 'errorMessage'
           };
 
           Auth.prototype.events = {
@@ -16412,6 +16421,7 @@
 
           function Auth() {
             this.hideError = __bind(this.hideError, this);
+            this.skipAuth = __bind(this.skipAuth, this);
             this.switchMode = __bind(this.switchMode, this);
             this.valid = __bind(this.valid, this);
             this.submit = __bind(this.submit, this);
@@ -16427,10 +16437,18 @@
             this.listen(Setting, {
               'offline login': this.hide
             });
+            this.on('login:success', function() {
+              _this.spinner(false);
+              return _this.hide();
+            });
+            this.on('login:fail register:fail', function(message) {
+              _this.spinner(false);
+              return _this.showError(message);
+            });
             this.on('register:success', function() {
               _this.spinner(false);
-              _this.setMode('login');
-              return _this.hideError();
+              _this.switchMode('login');
+              return _this.showSuccess();
             });
           }
 
@@ -16445,18 +16463,19 @@
 
           Auth.prototype.keydown = function(e) {
             if (e.keyCode === 13) {
-              return this.submit();
+              this.submit();
             }
+            return true;
           };
 
           Auth.prototype.submit = function() {
-            if (this.valid) {
+            if (this.valid()) {
               this.spinner(true);
               switch (this.mode) {
                 case 'login':
                   return this.trigger('login', this.email.val(), this.password.val());
                 case 'register':
-                  return this.trigger('register', this.email.va(), this.password.val(), this.name.val());
+                  return this.trigger('register', this.name.val(), this.email.val(), this.password.val());
               }
             }
           };
@@ -16464,19 +16483,24 @@
           Auth.prototype.valid = function() {
             var valid;
             if (this.mode) {
-              valid = this.email.val().length && this.password.va().length;
+              valid = this.email.val().length && this.password.val().length;
             } else {
               valid = this.email.val().length && this.password.val().length && this.name.val().length;
             }
             if (!valid) {
-              this.error('Please  fill out all fields');
+              this.showError('Please  fill out all fields');
             }
             return valid;
           };
 
           Auth.prototype.switchMode = function(mode) {
-            this.mode = mode;
+            if (typeof mode !== 'string') {
+              this.mode = this.mode === 'login' ? 'register' : 'login';
+            } else {
+              this.mode = mode;
+            }
             this.el.toggleClass('login', this.mode === 'login');
+            this.el.toggleClass('register', this.mode === 'register');
             this.hideError();
             switch (this.mode) {
               case 'login':
@@ -16486,12 +16510,23 @@
             }
           };
 
-          Auth.prototype.hideError = function() {
-            return this.errorMessage.removeClass('populated'.empty());
+          Auth.prototype.skipAuth = function() {
+            this.hide();
+            return this.trigger('skip');
           };
 
-          Auth.prototype.showError = function(type, message) {
-            return this.errorNote.addClass('populated'.html(this.template(message)));
+          Auth.prototype.hideError = function() {
+            return this.errorMessage.removeClass('populated').empty();
+          };
+
+          Auth.prototype.showError = function(message) {
+            return this.errorMessage.addClass('populated').html(this.template(message));
+          };
+
+          Auth.prototype.showSuccess = function() {
+            this.hideError();
+            this.loginMessage.addClass('hidden');
+            return this.successMessage.removeClass('hidden');
           };
 
           Auth.prototype.spinner = function(status) {
@@ -16509,13 +16544,16 @@
           /Users/Admin/Projects/Nitro/source/scripts/templates/auth.coffee
         */
 
+        '../utils/config': 15
       }, function(require, module, exports) {
+        var config;
+        config = require('../utils/config');
         return module.exports = function(message) {
           switch (message) {
             case 'err_bad_pass':
-              return "Incorrect email or password. <a href=\"http://" + CONFIG.server + "/forgot\">Forgot?</a>";
+              return "Incorrect email or password. <a href=\"http://" + config.server + "/forgot\">Want to reset?</a>";
             case 'err_old_email':
-              return this.errorNote.text('Account already in use');
+              return 'Sorry, but that email address has already been used';
             default:
               return message;
           }
@@ -16530,34 +16568,31 @@
         '../utils/keys': 9,
         'base': 7
       }, function(require, module, exports) {
-        var Base, Keys, keys, _ref;
+        var Base, Keys, keys;
         keys = require('../utils/keys');
         Base = require('base');
         Keys = (function(_super) {
           __extends(Keys, _super);
 
+          Keys.prototype.events = {
+            'keyup': 'keyup',
+            'focus input': 'focus',
+            'blur input': 'blur'
+          };
+
           function Keys() {
             this.keyup = __bind(this.keyup, this);
             this.blur = __bind(this.blur, this);
             this.focus = __bind(this.focus, this);
-            _ref = Keys.__super__.constructor.apply(this, arguments);
-            return _ref;
+            Keys.__super__.constructor.apply(this, arguments);
+            this.el = $('body');
+            this.bind();
+            this.input = null;
+            this.focused = false;
           }
 
-          Keys.prototype.events = {
-            'keyup': 'keyup',
-            'input focus': 'focus',
-            'input blur': 'blur'
-          };
-
-          Keys.prototype.controller = function() {
-            Keys.__super__.controller.apply(this, arguments);
-            this.input = null;
-            return this.focused = false;
-          };
-
           Keys.prototype.focus = function(e) {
-            this.input = $(e.targetElement);
+            this.input = $(e.target);
             return this.focused = true;
           };
 
@@ -16566,13 +16601,15 @@
           };
 
           Keys.prototype.keyup = function(e) {
-            var keycode;
-            keycode = e.which;
-            if (!this.focused && keycode === keys.escape) {
-              this.input.blur();
+            var keyCode;
+            keyCode = e.keyCode;
+            if (this.focused) {
+              if (keyCode === keys.escape) {
+                this.input.blur();
+              }
               return true;
             }
-            switch (keycode) {
+            switch (keyCode) {
               case keys.escape:
                 return this.tasks.collapseAll();
               case keys.n:

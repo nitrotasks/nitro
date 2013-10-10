@@ -15,7 +15,7 @@
   @extend %smoothScroll;
 
   $container-width: 620px;
-  $contents-margin: 10px;
+  $contents-margin: 30px;
 
   /* Container to position content in the center of the page */
   .group {
@@ -48,10 +48,10 @@
 
     p {
       max-width: 400px;
-      margin: 0 auto 25px;
+      margin: 25px auto;
       font-size: 16px;
       line-height: 1.5;
-      color: #444444;
+      color: $dark-grey;
     }
 
   }
@@ -101,10 +101,11 @@
 
   .note {
     margin-bottom: 10px;
-    color: #777777;
+    color: $half-grey;
+
     a {
       text-decoration: none;
-      color: #555555;
+      color: $dark-grey;
 
       &:hover {
         text-decoration: underline;
@@ -112,23 +113,19 @@
     }
   }
 
-  .note-success {
-    display: none;
-  }
-
   .error {
     font-size: 13px;
-    color: #e15556;
+    color: $red;
     font-weight: bold;
+    text-align: center;
 
     &.populated {
-      display: inline-block;
-      margin-top: 20px;
+      margin-top: 16px;
     }
 
     a {
       text-decoration: none;
-      color: darken(#e15556, 10%);
+      color: darken($red, 10);
 
       &:hover {
         text-decoration: underline;
@@ -202,7 +199,7 @@
     margin-bottom: 0;
 
     &:focus {
-      border-bottom: 1px #1bc1f5 solid;
+      border-bottom: 1px $light-blue solid;
       & + input {
         border-top: 0;
       }

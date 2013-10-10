@@ -9,7 +9,7 @@ setting = require '../models/setting'
 # Utils
 Cookies = require '../vendor/cookies'
 Event   = require '../utils/event'
-CONFIG  = require '../utils/conf'
+config  = require '../utils/config'
 
 class Settings extends Base.Controller
 
@@ -88,7 +88,7 @@ class Settings extends Base.Controller
     $('.account .signedout').hide()
     $('.account .signedin').show()
 
-    @passwordreset.attr('action', 'http://' + CONFIG.server + '/forgot')
+    @passwordreset.attr('action', 'http://' + config.server + '/forgot')
     @nameInput.val(setting.userName)
     @emailInput.val(setting.userEmail)
 

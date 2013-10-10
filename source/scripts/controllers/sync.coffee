@@ -1,7 +1,7 @@
 Base     = require 'base'
 SocketIo = require '../vendor/socket.io.js'
 Event    = require '../utils/event'
-config   = require '../utils/conf'
+config   = require '../utils/config'
 
 # TODO: Where should we put this?
 # Event.on 'auth:token', Sync.connnect

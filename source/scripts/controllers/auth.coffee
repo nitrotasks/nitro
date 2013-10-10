@@ -1,14 +1,18 @@
 Setting = require '../models/setting'
 View    = require '../views/auth'
 Event   = require '../utils/event'
-config  = require '../utils/conf'
+config  = require '../utils/config'
 
 class Auth
 
   constructor: ->
-    @view = new View()
+    window.view = @view = new View()
+    @view.on 'login', @login
+    @view.on 'register', @register
+    @view.on 'skip', @skip
 
   skip: =>
+    # TODO: Do we need to set anything here?
     Event.trigger 'auth:skip'
 
   loadToken: (id, token) ->
@@ -16,21 +20,26 @@ class Auth
     Setting.token = token
     Event.trigger 'auth:token', id, token
 
-  register: (data) ->
+  register: (name, email, password) =>
     $.ajax
       type: 'post'
       url: "http://#{ config.server }/register"
-      data: data
-      success: (data) =>
-        @view.trigger('register:success')
+      data:
+        name: name
+        email: email
+        password: password
+      success: (status) =>
+        @view.trigger 'register:success'
       error: (xhr, status, msg) =>
-        @view.trigger 'register:error', xhr.responseText
+        @view.trigger 'register:fail', xhr.responseText
 
-  login: (data) ->
+  login: (email, password) =>
     $.ajax
       type: 'post'
       url: "http://#{ config.server }/login"
-      data: data
+      data:
+        email: email
+        password: password
       dataType: 'json'
       success: ([uid, token, email, name, pro]) =>
         @view.trigger 'login:success'
@@ -39,6 +48,6 @@ class Auth
         Setting.user_email = email
         @loadToken(uid, token)
       error: (xhr, status, msg) =>
-        @view.trigger 'login:error', xhr.responseText
+        @view.trigger 'login:fail', xhr.responseText
 
 module.exports = Auth

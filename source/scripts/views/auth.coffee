@@ -19,10 +19,9 @@ class Auth extends Base.Controller
     '.register':       'registerBtn'
 
     # Messages
-    '.note-login':     'loginNote'
-    '.note-register':  'registerNote'
-    '.note-success':   'successNote'
-    '.error':          'errorNote'
+    '.note-login':     'loginMessage'
+    '.note-success':   'successMessage'
+    '.error':          'errorMessage'
 
   events:
     'click .login':        'submit'
@@ -43,10 +42,18 @@ class Auth extends Base.Controller
     @listen Setting,
       'offline login': @hide
 
+    @on 'login:success', =>
+      @spinner(off)
+      @hide()
+
+    @on 'login:fail register:fail', (message) =>
+      @spinner(off)
+      @showError(message)
+
     @on 'register:success', =>
       @spinner(off)
-      @setMode('login')
-      @hideError()
+      @switchMode('login')
+      @showSuccess()
 
   # Hide login screen
   hide: =>
@@ -60,42 +67,58 @@ class Auth extends Base.Controller
   # Submit form on enter
   keydown: (e) =>
     if e.keyCode is 13 then @submit()
+    return true
 
   # Submit the form data
   submit: =>
-    if @valid
+    if @valid()
       @spinner true
       switch @mode
         when 'login' then @trigger 'login', @email.val(), @password.val()
-        when 'register' then @trigger 'register', @email.va(), @password.val(), @name.val()
+        when 'register' then @trigger 'register', @name.val(), @email.val(), @password.val()
 
   # Check if the form is valid
   valid: =>
     if @mode
-      valid = @email.val().length and @password.va().length
+      valid = @email.val().length and @password.val().length
     else
       valid = @email.val().length and @password.val().length and @name.val().length
     if not valid
-      @error('Please  fill out all fields')
+      @showError('Please  fill out all fields')
     return valid
 
   # Switch form between login and register modes
-  switchMode: (@mode) =>
+  switchMode: (mode) =>
+    if typeof mode isnt 'string'
+      @mode = if @mode is 'login' then 'register' else 'login'
+    else
+      @mode = mode
     @el.toggleClass 'login', @mode is 'login'
+    @el.toggleClass 'register', @mode is 'register'
     @hideError()
     switch @mode
       when 'login' then @email.focus()
       when 'register' then @name.focus()
 
+  # Skip authentication
+  skipAuth: =>
+    @hide()
+    @trigger 'skip'
+
   hideError: =>
     @errorMessage
-      .removeClass 'populated'
+      .removeClass('populated')
       .empty()
 
-  showError: (type, message) ->
-    @errorNote
-      .addClass 'populated'
+  showError: (message) ->
+    @errorMessage
+      .addClass('populated')
       .html @template message
+
+  showSuccess: ->
+    @hideError()
+    @loginMessage.addClass('hidden')
+    @successMessage.removeClass('hidden')
 
   spinner: (status) ->
     @buttons.toggleClass('active', status)

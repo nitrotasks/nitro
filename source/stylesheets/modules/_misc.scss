@@ -9,3 +9,7 @@ img {
   user-drag: none;
   @include user-select(none);
 }
+
+.hidden {
+  display: none;
+}

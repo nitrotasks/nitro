@@ -5,30 +5,34 @@ class Keys extends Base.Controller
 
   events:
     'keyup': 'keyup'
-    'input focus': 'focus'
-    'input blur': 'blur'
+    'focus input': 'focus'
+    'blur input': 'blur'
 
-  controller: ->
+  constructor: ->
     super
+
+    @el = $('body')
+    @bind()
+
     @input  = null
     @focused = false
 
   focus: (e) =>
-    @input = $(e.targetElement)
+    @input = $(e.target)
     @focused = true
 
   blur: =>
     @focused = false
 
   keyup: (e)  =>
-    keycode = e.which
+    keyCode = e.keyCode
 
     # If an input is focused
-    if not @focused and keycode is keys.escape
-      @input.blur()
+    if @focused
+      if keyCode is keys.escape then @input.blur()
       return true
 
-    switch keycode
+    switch keyCode
       when keys.escape
         @tasks.collapseAll()
 

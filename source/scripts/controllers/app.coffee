@@ -53,8 +53,7 @@ class App
     new LoadingScreen()
 
     # Load views
-    @keys = new Keys
-      el: $('body')
+    @keys = new Keys()
 
     # Init Modals
     # Modal.init()
