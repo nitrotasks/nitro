@@ -1,0 +1,23 @@
+%scrollbars {
+
+  &.show::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 10px;
+    -webkit-transition: 300ms ease background;
+    &:active:hover {
+      background: rgba(0, 0, 0, 0.4);
+    }
+    &:hover {
+      background: rgba(0, 0, 0, 0.2);
+    }
+  }
+
+}

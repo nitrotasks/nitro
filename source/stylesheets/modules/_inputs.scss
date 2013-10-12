@@ -4,6 +4,7 @@
   outline: 0;
   @extend %border-box;
   padding: 7px 10px 8px;
+  @include transition(border-color 0.3s);
 
   &:focus {
     border-color: $light-blue;

@@ -1,44 +1,24 @@
-@-webkit-keyframes colorpulse {
-  0% {
-    background: #419dfa;
-  }
-  50% {
-    background: #2d6dad;
-  }
-  100% {
-    background: #419dfa;
-  }
-}
-
-
 .loading-screen {
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  position: absolute;
+  @include pos(0, 0, 0, 0);
   background: white;
-  z-index: 200;
-  &.hidden {
-    display: none;
-  }
+  z-index: $z-loading;
+
   .text {
-    text-align: center;
     padding: 25px;
     height: 150px;
     width: 150px;
-    margin-top: 0;
-    position: absolute;
-    left: 50%;
-    top: 25%;
-    margin-left: -100px;
     text-align: center;
     line-height: 30px;
-    color: #444444;
+    @include pos(25%, auto, auto, 50%);
+    margin-left: -100px;
+    margin-top: 0;
+    color: $dark-grey;
   }
+
   img {
     width: 27px;
-    -webkit-animation: 800ms colorpulse ease infinite;
+    @include animation( 800ms colorpulse ease infinite );
     background: #419dfa;
   }
+
 }

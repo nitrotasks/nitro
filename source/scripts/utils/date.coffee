@@ -22,10 +22,10 @@ class Now
     @year = @time.getFullYear()
 
   print: (gap="/") ->
-    "#{@day}#{gap}#{@month}#{gap}#{@year}"
+    "#{ @day }#{ gap }#{ @month }#{ gap }#{ @year }"
 
   value: ->
-    @time.getTime()
+    @time
 
   increment: (key, value) ->
     switch key

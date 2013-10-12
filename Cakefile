@@ -57,7 +57,7 @@ task 'server', 'Start server', (options) ->
 
   # Compile files
   compile.coffee(options)
-  compile.sass(options)
+  # compile.sass(options)
 
   # Start Server
   port = options.port or 9294
@@ -72,7 +72,7 @@ task 'server', 'Start server', (options) ->
 
 task 'build', 'Compile CoffeeScript and SASS', (options) ->
   compile.coffee(options)
-  compile.sass(options)
+  # compile.sass(options)
 
 task 'sass', 'Compile only SASS files', compile.sass
 task 'coffee', 'Compile only coffee files', compile.coffee

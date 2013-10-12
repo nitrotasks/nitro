@@ -31,7 +31,7 @@ class Auth
       success: (status) =>
         @view.trigger 'register:success'
       error: (xhr, status, msg) =>
-        @view.trigger 'register:fail', xhr.responseText
+        @view.trigger 'register:fail', xhr.status, xhr.responseText
 
   login: (email, password) =>
     $.ajax
@@ -48,6 +48,6 @@ class Auth
         Setting.user_email = email
         @loadToken(uid, token)
       error: (xhr, status, msg) =>
-        @view.trigger 'login:fail', xhr.responseText
+        @view.trigger 'login:fail', xhr.status, xhr.responseText
 
 module.exports = Auth

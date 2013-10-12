@@ -55,27 +55,6 @@ button.disabled {
  * BUTTONS
  */
 
-.list-buttons {
-
-  @include pos(auto, 0, 10px, auto);
-  font-size: 0;
-  text-align: right;
-
-  li {
-    display: inline-block;
-    list-style-type: none;
-    margin-left: 10px;
-  }
-
-  a {
-    display: block;
-    height: 17px;
-    width: 16px;
-    background-repeat: no-repeat;
-  }
-
-}
-
 button {
   outline: none;
 }

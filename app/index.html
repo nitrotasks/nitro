@@ -17,7 +17,7 @@
 
   <section class="main tasks">
     <div class="title">
-      <h1 contenteditable="true">List Name</h1>
+      <h1 class="editable" contenteditable="true">List Name</h1>
       <ul class="list-buttons">
         <li class="l trash hidden" title="Delete List"></li>
         <li class="l sort" title="Toggle Sorting"></li>
@@ -46,19 +46,24 @@
       <h2 class="t">Lists</h2>
     </div>
 
-    <div class="inbox list">
+    <div class="search special list">
+      <div class="arrow"></div>
+      <span class="t name">Search</span>
+    </div>
+
+    <div class="inbox special list">
       <div class="arrow"></div>
       <span class="t name">Inbox</span>
       <div class="count"></div>
     </div>
 
-    <div class="all list">
+    <div class="all special list">
       <div class="arrow"></div>
       <span class="t name">All Tasks</span>
       <div class="count"></div>
     </div>
 
-    <div class="completed list">
+    <div class="completed special list">
       <div class="arrow"></div>
       <span class="t name">Completed</span>
       <div class="count"></div>
@@ -66,7 +71,7 @@
 
     <ul class="lists"></ul>
 
-    <input class="p new-list" placeholder="New List">
+    <input class="p create-list" placeholder="New List">
 
   </aside>
 

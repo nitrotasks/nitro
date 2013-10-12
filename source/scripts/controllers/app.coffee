@@ -17,9 +17,6 @@ List    = require '../models/list'
 Setting = require '../models/setting'
 
 # Controllers
-# Tasks         = require # '../controllers/tasks'
-# Lists         = require # '../controllers/lists'
-# ListTitle     = require # '../controllers/lists.title'
 # Panel         = require # '../controllers/panel'
 # Settings      = require # '../controllers/Settings'
 # Modal         = require # '../controllers/modal'
@@ -30,6 +27,10 @@ Auth          = require '../controllers/auth'
 # Views
 Keys          = require '../views/keys'
 LoadingScreen = require '../views/loadingScreen'
+Lists         = require '../views/lists'
+Title         = require '../views/title'
+ListButtons   = require '../views/list_buttons'
+Tasks         = require '../views/tasks'
 
 class App
 
@@ -46,10 +47,12 @@ class App
 
     # Load controllers
     @auth = new Auth()
-    # @panel = new Panel()
-    # @tasks = new Tasks()
-    # @lists = new Lists()
-    # @title = new ListTitle()
+
+    # Load Views
+    new Lists()
+    new Tasks()
+    new Title()
+    new ListButtons()
     new LoadingScreen()
 
     # Load views

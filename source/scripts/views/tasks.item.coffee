@@ -1,31 +1,27 @@
-# Base
 Base    = require 'base'
-$       = require 'jqueryify'
-
-# Controllers
-Modal   = require './modal'
-
-# Models
+# Modal   = require './modal'
 List    = require '../models/list'
 setting = require '../models/setting'
-
-# Utils
-Keys    = require '../utils/keys'
-
+keys    = require '../utils/keys'
+delay   = require '../utils/timer'
+translate = require '../utils/translate'
 
 class TaskItem extends Base.Controller
+
+  template: require '../templates/task'
 
   elements:
     '.name'         : 'name'
     '.input-name'   : 'inputName'
     '.date'         : 'date'
+    '.notes'        : 'notesParent'
     '.notes .inner' : 'notes'
     'time'          : 'time'
 
   events:
     'click .delete'              : 'remove'
     'click .priority-button div' : 'setPriority'
-    'click .checkbox'            : 'toggleStatus'
+    'click .checkbox'            : 'toggleCompleted'
     'click .tag'                 : 'tagClick'
 
     # Editing the actual task
@@ -43,130 +39,151 @@ class TaskItem extends Base.Controller
     Base.touchify(@events)
     super
 
-    throw '@task required' unless @task
+    @expanded = false
 
     @listen @task,
-      'change':  @change
-      'destroy': @unbind
-      'destroy': @listWarning
-
-    @render()
+      'destroy': @release
+      'change:name': @updateName
+      'change:priority': @updatePriority
+      'change:completed': @updateCompleted
 
   render: =>
-
+    # TODO: Setup datepicker
     # Bind datepicker
-    @date.datepicker
-      firstDay: setting.weekStart
-      dateFormat: setting.dateFormat
-    @date.datepicker('setDate', new Date(@task.date)) if @task.date
+    # @date.datepicker
+    #   firstDay: setting.weekStart
+    #   dateFormat: setting.dateFormat
+    # @date.datepicker('setDate', new Date(@task.date)) if @task.date
+    @el = $ @template @task
+    @bind()
+    return this
 
-  change: (task) =>
+  # Delete Button
+  remove: =>
+    Modal.get('trashTask').run(@task)
 
-    # Remove task if it isn't in the current list
-    if List.current.id isnt 'all' and List.current.id isnt 'filter' and task.list isnt List.current.id
-      @release()
+  # Remove this view
+  release: =>
+    @unbind()
+    @el.remove()
 
-    # Set completed
+  # ----------------------------------------------------------------------------
+  # EXPAND / COLLAPSE
+  # ----------------------------------------------------------------------------
+
+  # Expand the task
+  expand: (e) =>
+    if not @expanded
+      @trigger 'select'
+      @expanded = true
+      @inputName.val @task.name
+      @el.addClass('expanded animout')
+
+      # TODO: Fix
+      # Disable sortable and draggable
+      # @el.draggable({ disabled: true })
+      # @el.parent().sortable({ disabled: true })
+
+      notes = @notes.parent()
+      delay 300, ->
+        notes.addClass 'auto'
+
+  # Collapse the task
+  collapse: =>
+    if @expanded
+      @expanded = false
+      @el.removeClass('expanded')
+
+  # ----------------------------------------------------------------------------
+  # COMPLETED
+  # ----------------------------------------------------------------------------
+
+  toggleCompleted: (e) =>
+
+    # Prevent note expanding
+    e.stopPropagation()
+
+    # Does not work in completed list
+    if @task.completed is false
+      @task.completed = new Date().getTime()
+    else
+      @task.completed = false
+
+    # TODO: Move into a model/controller
+    if false # List.current.id is 'completed'
+
+      # Clones List
+      order = List.get(@task.list).tasks.slice(0)
+
+      # Checks if it hasn't been moved
+      if order.indexOf(@task.id) is -1
+        order.push(@task.id)
+        List.get(@task.list).tasks = order
+
+    else if false # setting.completedDuration is 'instant'
+      settings.moveCompleted()
+      @el.remove()
+
+  updateCompleted: =>
     @el.toggleClass 'completed', @task.completed
 
-    # Makes tags clickable
+  # ----------------------------------------------------------------------------
+  # PRIORITIES
+  # ----------------------------------------------------------------------------
+
+  setPriority: (e) =>
+    priority = $(e.target).data('id')
+    @task.priority = priority
+
+  updatePriority: =>
+    @el
+      .removeClass('p1 p2 p3')
+      .addClass('p' + @task.priority)
+
+  # ----------------------------------------------------------------------------
+  # NAME
+  # ----------------------------------------------------------------------------
+
+  endEdit: =>
+    val = @inputName.val()
+    if val.length
+      @task.name = val
+    else
+      @task.destroy()
+
+  endEditOnEnter: (e) =>
+    if e.which is keys.enter
+      # e.preventDefault()
+      @inputName.blur()
+
+  updateName: =>
     @name.html @task.name
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
       .replace(/#(\w+)/g, ' <span class="tag">#$1</span>')
 
-    # Set priority
-    @el.removeClass('p0 p1 p2 p3').addClass('p' + @task.priority)
-
-  # Delete Button
-  remove: ->
-    Modal.get('trashTask').run(@task)
-
-  listWarning: ->
-    $('.main.tasks').addClass('empty') if $('ul.tasks').children().length == 0
-
-  toggleStatus: =>
-
-      # Does not work in completed list
-      if @task.completed is false
-        @task.completed = new Date().getTime()
-      else
-        @task.completed = false
-
-      if List.current.id is 'completed'
-
-        # Clones List
-        order = List.get(@task.list).tasks.slice(0)
-
-        # Checks if it hasn't been moved
-        if order.indexOf(@task.id) is -1
-          order.push(@task.id)
-          List.get(@task.list).tasks = order
-
-      else if setting.completedDuration is 'instant'
-        settings.moveCompleted()
-        @el.remove()
-
-  expand: (e) =>
-    if not @el.hasClass('expanded') and e.target.className isnt 'checkbox'
-      @el.parent()
-        .find('.expanded')
-        .removeClass('expanded')
-      @inputName.val @task.name
-      @el.addClass('expanded animout')
-
-      # Disable sortable and draggable
-      @el.draggable({ disabled: true })
-      @el.parent().sortable({ disabled: true })
-
-      notes = @notes.parent()
-      setTimeout ( =>
-        notes.addClass('auto')
-      ), 300
-
-
-  # ----------------------------------------------------------------------------
-  # PRIORITIES
-  # ----------------------------------------------------------------------------
-
-  setPriority: (e) ->
-    priority = $(e.target).data('id')
-    @task.updateAttribute 'priority', priority
-
-
-  # ----------------------------------------------------------------------------
-  # NAME
-  # ----------------------------------------------------------------------------
-
-  endEdit: ->
-    val = @inputName.val()
-    if val then @task.updateAttribute('name', val) else @task.destroy()
-
-  endEditOnEnter: (e) =>
-    if e.which is Keys.ENTER
-      e.preventDefault()
-      @inputName.blur()
-
   # ----------------------------------------------------------------------------
   # NOTES
   # ----------------------------------------------------------------------------
 
   notesEdit: =>
-    if @notes.text() is $.i18n._('Notes') then @notes.text('')
-    @notes.parent().removeClass('placeholder')
+    if @notes.text() is translate 'Notes'
+      @notes.text ''
+    @notesParent.removeClass 'placeholder'
 
   notesSave: =>
     text = @notes.html()
     if text is ''
-      @notes.text($.i18n._('Notes'))
-      @notes.parent().addClass('placeholder')
+      @notes.text translate 'Notes'
+      @notesParent.addClass 'placeholder'
     else
-      @task.updateAttribute 'notes', text
+      @task.notes = text
 
   # ----------------------------------------------------------------------------
   # DATES
   # ----------------------------------------------------------------------------
+
   datesSave: =>
 
     if @date.val().length > 0
@@ -176,6 +193,7 @@ class TaskItem extends Base.Controller
       # Pretty Dates Engine
       @time.text Task.prettyDate(new Date(@task.date)).words
       @time.attr 'class', Task.prettyDate(new Date(@task.date)).className
+        
     else
       @task.updateAttribute 'date', ''
       @el.find('img').removeAttr('style')

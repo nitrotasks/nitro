@@ -3,7 +3,7 @@
  * FADE OUT
  */
 
-@-webkit-keyframes fade-out {
+@include keyframes( fade-out ) {
   0% {
     background-position-y: -100px;
   }
@@ -11,291 +11,153 @@
     background-position-y: 0px;
   }
 }
-
-@-moz-keyframes fade-out {
-  0% {
-    background-position-y: -100px;
-  }
-  100% {
-    background-position-y: 0px;
-  }
-}
-
-@-ms-keyframes fade-out {
-  0% {
-    background-position-y: -100px;
-  }
-  100% {
-    background-position-y: 0px;
-  }
-}
-
-@keyframes fade-out {
-  0% {
-    background-position-y: -100px;
-  }
-  100% {
-    background-position-y: 0px;
-  }
-}
-
 
 /*
  * HEIGHT
  */
 
-@-webkit-keyframes height {
+@include keyframes( height ) {
   0% {
     height: 0;
     padding: 0 40px;
     border-top: 1px transparent solid;
-    overflow: hidden;
   }
   100% {
     height: 40px;
     padding: 5px 40px;
     border-top: 1px inherit solid;
-    overflow: hidden;
   }
 }
-
-@-moz-keyframes height {
-  0% {
-    height: 0;
-    padding: 0 40px;
-    border-top: 1px transparent solid;
-    overflow: hidden;
-  }
-  100% {
-    height: 40px;
-    padding: 5px 40px;
-    border-top: 1px inherit solid;
-    overflow: hidden;
-  }
-}
-
-@-ms-keyframes height {
-  0% {
-    height: 0;
-    padding: 0 40px;
-    border-top: 1px transparent solid;
-    overflow: hidden;
-  }
-  100% {
-    height: 40px;
-    padding: 5px 40px;
-    border-top: 1px inherit solid;
-    overflow: hidden;
-  }
-}
-
-@keyframes height {
-  0% {
-    height: 0;
-    padding: 0 40px;
-    border-top: 1px transparent solid;
-    overflow: hidden;
-  }
-  100% {
-    height: 40px;
-    padding: 5px 40px;
-    border-top: 1px inherit solid;
-    overflow: hidden;
-  }
-}
-
 
 /*
- * REV
+ * HEIGHT - REVERSED
+ * TODO: Can we use CSS to reverse the direction instead?
  */
 
-@-webkit-keyframes rev {
+@include keyframes( rev ) {
   0% {
     height: 40px;
     padding: 5px 40px;
-    border-top: 1px #e6e6e6 solid;
-    overflow: hidden;
+    border-top: 1px inherit solid;
   }
   100% {
     height: 0;
     padding: 0 40px;
     border-top: 1px transparent solid;
-    overflow: hidden;
   }
 }
-
-@-moz-keyframes rev {
-  0% {
-    height: 40px;
-    padding: 5px 40px;
-    border-top: 1px #e6e6e6 solid;
-    overflow: hidden;
-  }
-  100% {
-    height: 0;
-    padding: 0 40px;
-    border-top: 1px transparent solid;
-    overflow: hidden;
-  }
-}
-
-@-ms-keyframes rev {
-  0% {
-    height: 40px;
-    padding: 5px 40px;
-    border-top: 1px #e6e6e6 solid;
-    overflow: hidden;
-  }
-  100% {
-    height: 0;
-    padding: 0 40px;
-    border-top: 1px transparent solid;
-    overflow: hidden;
-  }
-}
-
-@keyframes rev {
-  0% {
-    height: 40px;
-    padding: 5px 40px;
-    border-top: 1px #e6e6e6 solid;
-    overflow: hidden;
-  }
-  100% {
-    height: 0;
-    padding: 0 40px;
-    border-top: 1px transparent solid;
-    overflow: hidden;
-  }
-}
-
 
 /*
  * NEW TASK
  */
 
-@-webkit-keyframes new-task {
+@include keyframes( new-task ) {
   0% {
     opacity: 0;
-    -webkit-transform: scale3d(1.02, 1.1, 1) translate3d(0, 0, 0);
+    @include transform( scale3d(1.02, 1.1, 1) translate3d(0, 0, 0) );
   }
   100% {
     opacity: 1;
-    -webkit-transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
+    @include transform( scale3d(1, 1, 1) translate3d(0, 0, 0) );
   }
 }
 
-@-moz-keyframes new-task {
-  0% {
-    opacity: 0;
-    -moz-transform: scale3d(1.02, 1.1, 1) translate3d(0, 0, 0);
+/*
+ * COLORPULSE
+ */
+
+@include keyframes( colorpulse ) {
+  0%, 100% {
+    background: #419dfa;
   }
-  100% {
-    opacity: 1;
-    -moz-transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
+  50% {
+    background: #2d6dad;
   }
 }
 
-@-ms-keyframes new-task {
-  0% {
-    opacity: 0;
-    -ms-transform: scale3d(1.02, 1.1, 1) translate3d(0, 0, 0);
-  }
-  100% {
-    opacity: 1;
-    -ms-transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
-  }
-}
 
-@keyframes new-task {
-  0% {
-    opacity: 0;
-    transform: scale3d(1.02, 1.1, 1) translate3d(0, 0, 0);
-  }
-  100% {
-    opacity: 1;
-    transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
-  }
-}
+/*
+ * SPINNER
+ */
 
-@-webkit-keyframes spin-1 { 
+@include keyframes( spin-1 ) { 
   0% { opacity: 0.25007500000000005 }
   0.01% { opacity: 0.25 }
   0.02% { opacity: 1 }
   0.010000000000005116% { opacity: 0.25 }
   100% { opacity: 0.25007500000000005 }
 }
-@-webkit-keyframes spin-2 { 
+@include keyframes( spin-2 ) { 
   0% { opacity: 0.31257500000000005 }
   8.343333333333332% { opacity: 0.25 }
   8.353333333333332% { opacity: 1 }
   8.343333333333334% { opacity: 0.25 }
   100% { opacity: 0.31257500000000005 }
 }
-@-webkit-keyframes spin-3 { 
+@include keyframes( spin-3 ) { 
   0% { opacity: 0.37507499999999994 }
   16.676666666666666% { opacity: 0.25 }
   16.686666666666667% { opacity: 1 }
   16.676666666666662% { opacity: 0.25 }
   100% { opacity: 0.37507499999999994 }
 }
-@-webkit-keyframes spin-4 { 
+@include keyframes( spin-4 ) { 
   0% { opacity: 0.43757500000000005 }
   25.01% { opacity: 0.25 }
   25.020000000000003% { opacity: 1 }
   25.010000000000005% { opacity: 0.25 }
   100% { opacity: 0.43757500000000005 }
 }
-@-webkit-keyframes spin-5 { 
+@include keyframes( spin-5 ) { 
   0% { opacity: 0.500075 }
   33.34333333333333% { opacity: 0.25 }
   33.353333333333325% { opacity: 1 }
   33.343333333333334% { opacity: 0.25 }
   100% { opacity: 0.500075 }
 }
-@-webkit-keyframes spin-6 { 
+@include keyframes( spin-6 ) { 
   0% { opacity: 0.562575 }
   41.67666666666667% { opacity: 0.25 }
   41.68666666666667% { opacity: 1 }
   41.67666666666668% { opacity: 0.25 }
   100% { opacity: 0.562575 }
 }
-@-webkit-keyframes spin-7 { 
+@include keyframes( spin-7 ) { 
   0% { opacity: 0.625075 }
   50.01% { opacity: 0.25 }
   50.019999999999996% { opacity: 1 }
   50.00999999999999% { opacity: 0.25 }
   100% { opacity: 0.625075 }
 }
-@-webkit-keyframes spin-8 { 
+@include keyframes( spin-8 ) { 
   0% { opacity: 0.687575 }
   58.343333333333334% { opacity: 0.25 }
   58.35333333333333% { opacity: 1 }
   58.343333333333334% { opacity: 0.25 }
   100% { opacity: 0.687575 }
 }
-@-webkit-keyframes spin-9 { 
+@include keyframes( spin-9 ) { 
   0% { opacity: 0.7500749999999999 }
   66.67666666666666% { opacity: 0.25 }
   66.68666666666667% { opacity: 1 }
   66.67666666666668% { opacity: 0.25 }
   100% { opacity: 0.7500749999999999 }
 }
-@-webkit-keyframes spin-10 { 
+@include keyframes( spin-10 ) { 
   0% { opacity: 0.812575 }
   75.01% { opacity: 0.25 }
   75.02000000000001% { opacity: 1 }
   75.00999999999999% { opacity: 0.25 }
   100% { opacity: 0.812575 }
 }
-@-webkit-keyframes spin-11 { 
+@include keyframes( spin-11 ) { 
   0% { opacity: 0.8750750000000002 }
   83.34333333333335% { opacity: 0.25 }
   83.35333333333335% { opacity: 1 }
   83.34333333333336% { opacity: 0.25 }
   100% { opacity: 0.8750750000000002 }
 }
-@-webkit-keyframes spin-12 { 
+@include keyframes( spin-12 ) { 
     0% { opacity: 0.9375749999999999 }
     91.67666666666666% { opacity: 0.25 }
     91.68666666666667% { opacity: 1 }

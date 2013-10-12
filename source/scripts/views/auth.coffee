@@ -46,9 +46,9 @@ class Auth extends Base.Controller
       @spinner(off)
       @hide()
 
-    @on 'login:fail register:fail', (message) =>
+    @on 'login:fail register:fail', (status, message) =>
       @spinner(off)
-      @showError(message)
+      @showError(status, message)
 
     @on 'register:success', =>
       @spinner(off)
@@ -110,10 +110,10 @@ class Auth extends Base.Controller
       .removeClass('populated')
       .empty()
 
-  showError: (message) ->
+  showError: (status, message) ->
     @errorMessage
       .addClass('populated')
-      .html @template message
+      .html @template status, message
 
   showSuccess: ->
     @hideError()

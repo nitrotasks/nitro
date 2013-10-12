@@ -1,175 +1,144 @@
-# Base
-Base        = require 'base'
-
-# Controllers
-TaskItem     = require './tasks.item'
-
-# Models
+Base         = require 'base'
+TaskItem     = require '../views/tasks.item'
 Task         = require '../models/task'
 List         = require '../models/list'
 Setting      = require '../models/setting'
-
-# Utils
-Keys         = require '../utils/keys'
+keys         = require '../utils/keys'
 dateDetector = require '../utils/date'
-translate    = require '../utils/translate'
-
-# Views
-view         = require '../views/tasks'
-
+delay        = require '../utils/timer'
 
 class Tasks extends Base.Controller
 
-  template: require '../views/task'
+  template: require '../templates/task'
 
   elements:
     'ul.tasks': 'tasks'
     'input.new-task': 'input'
 
   events:
+    'click': 'collapseOnClick'
     'scroll': 'scrollbars'
     'keydown input.new-task': 'createNew'
-    'click': 'collapseAllOnClick'
-
-  # Store currently loaded tasks
-  items: []
-  timers: {}
 
   constructor: ->
     Base.touchify(@events)
     super
 
+    @el = $('.main')
+    @bind()
+
+    # Store currently loaded tasks
+    @views = []
+    @timers = {}
+
+    @currentTask
+    @currentList
+
     @listen [
       Task,
+        'refresh': @refresh
         'create:model': @addOne
-        'refresh': @reload
       List,
-        'change:current': @render
+        'select:model': @render
       Setting,
         'change:sort': @render
     ]
 
-    # TODO: Refactor this
-    $('body').on 'mouseover', '.main .task', ->
-
-      if Setting.sort and
-      not $(this).hasClass('ui-draggable') and
-      not List.current.disabled
-
-        $(this).draggable
-          distance: 10
-          scroll: false
-          cursorAt:
-            top: 15
-            left: 30
-          helper: (event, task) ->
-            id = $(task).attr('id')
-            element = "<div data-id=\'#{ id }\' class=\'helper\'>#{ $(this).find('.name').text() }</div>"
-            $('body').append(element)
-            $("[data-id=#{ id }]")
-
-    # TODO: Refactor this
-    self = this
-    $(this.el[1]).sortable
-      distance: 10
-      scroll: false
-      cursorAt:
-        top: 15
-        left: 30
-      helper: (event, task) ->
-        id = $(task).attr('id')
-        element = "<div data-id=\'#{ id }\' class=\'helper\'>#{ $(task).find('.name').text() }</div>"
-        $('body').append(element)
-        $("[data-id=#{ id }]")
-      update: ( event, ui ) ->
-        arr = []
-        $(this).children().each (index) ->
-          arr.unshift $(this).attr('id').slice(5)
-        self.list.updateAttribute('tasks', arr)
+  # Listen to events on the task item view
+  bindTask: (view) =>
+    view.on 'select', =>
+      # Collapse the last open view
+      @collapse()
+      @currentTask = view
 
   # Add a single task to the DOM
   addOne: (task) =>
-    return unless List.current.id in [task.list, 'all']
+    # return unless List.current.id in [task.list, 'all']
 
-    # Add task to DOM
-    @tasks.prepend @template task
-
-    # Create a new controller
+    # Create a new view
     view = new TaskItem
-      el: @tasks.find '#task-' + task.id
       task: task
 
+    # Add to dom
+    @tasks.prepend view.render().el
+
+    # Bind events
+    @bindTask(view)
+
     # TODO: Can we do this in the template?
-    view.el.addClass 'new'
+    # view.el.addClass 'new'
 
-    @items.push view
+    @views.push view
 
+    # TODO: Set up a method for this
     @el.removeClass 'empty'
 
+
   # Render the current list
-  reload: =>
+  refresh: =>
     @render List.current if List.current
+
 
   # Display a list of tasks
   render: (list) =>
 
-    # TODO: What are the timers for again?
-    if @timers.bindTasks? then clearTimeout @timers.bindTasks
-
     # TODO: Move this somewhere else
     @el.removeClass 'empty'
+    @el.find('.message').remove()
 
     # Update current list if the list is changed
     # hackery hack for completed & all. fuckit, we're shipping
     if list instanceof List.model or list.id is 'all' or list.id is 'completed'
-      @list = list
+      @currentList = list
+    else
+      console.log 'debug', list
 
     # Something to do with sorting tasks
-    if @list.disabled
-        $(@el[1]).sortable({ disabled: true })
-    else
-      if not Setting.sort
-        $(@el[1]).sortable({ disabled: false })
+    # if @list.disabled
+    #     $(@el[1]).sortable({ disabled: true })
+    # else
+    #   if not Setting.sort
+    #     $(@el[1]).sortable({ disabled: false })
 
     # Disable task input box
-    if @list.disabled
-      @input.hide()
-    else
-      @input.show()
+    @input.toggle not list.disabled
 
     # TODO: Do we really need this?
-    oldItems = @items.slice(0)
-    @items = []
+    oldItems = @views.slice 0
+    @views = []
 
     # Unbind existing tasks
     # TODO: Can we use nextAnimationFrame for this?
-    setTimeout ->
+    # TODO: Move into a method
+    delay 1000, ->
       for item in oldItems
         item.release()
-    , 100
 
+    # Holds html
     html = ''
 
-    # Remove old message
-    @el.find('.message').remove()
-
     # Special list
-    if @list.id is 'filter'
-      tasks = @list.tasks
+    if list.id is 'filter'
+      console.log 'filter'
+      tasks = list.tasks
       @el.append view.special
 
     # Standard list
-    else if @list?.tasks
-      tasks = @list.tasks
+    else if list?.tasks
+      console.log 'standard'
+      tasks = list.tasks
       @el.append view.standard
 
     # Empty list
     else
-      tasks = Task.list(@list.id)
+      console.log 'empty'
+      tasks = Task.list(list.id)
       @el.append view.empty
 
     # Sorting tasks
-    if list.id in ['all', 'completed'] or Setting.sort
+    # TODO: Ignore this for now
+    # if list.id in ['all', 'completed'] or Setting.sort
+    if false
 
       tasks = Task.sortTasks(tasks)
       last = tasks[0]?.priority
@@ -188,18 +157,6 @@ class Tasks extends Base.Controller
 
         last = task.priority
 
-        # Translations
-        # TODO: Only do this once, in a seperate file
-        task.notesplaceholder = $.i18n._ 'Notes'
-        task.dateplaceholder  = $.i18n._ 'Due Date'
-        task.checkboxalttext  = $.i18n._ 'Mark as completed'
-        task.lowalttext       = $.i18n._ 'Set priority to low'
-        task.mediumalttext    = $.i18n._ 'Set priority to medium'
-        task.highalttext      = $.i18n._ 'Set priority to high'
-
-        task.dateValue = Task.prettyDate(new Date(task.date)).words
-        task.dateClass = Task.prettyDate(new Date(task.date)).className
-
         if list.id is 'all'
           task.listName = List.get(task.list).name
 
@@ -208,40 +165,18 @@ class Tasks extends Base.Controller
 
     # Not sorting
     else
+      list.tasks.forEach (task) =>
+        html += @template task
+        # if list.id is 'all' then task.listName = List.get(task.list).name
 
-      for task in tasks
+    @tasks.html html
 
-        # TODO: Only do this once, in a seperate file
-        task.notesplaceholder = $.i18n._ 'Notes'
-        task.dateplaceholder  = $.i18n._ 'Due Date'
-        task.checkboxalttext  = $.i18n._ 'Mark as completed'
-        task.lowalttext       = $.i18n._ 'Set priority to low'
-        task.mediumalttext    = $.i18n._ 'Set priority to medium'
-        task.highalttext      = $.i18n._ 'Set priority to high'
-
-        task.dateValue = Task.prettyDate(new Date(task.date)).words
-        task.dateClass = Task.prettyDate(new Date(task.date)).className
-
-        if list.id is 'all'
-          task.listName = List.get(task.list).name
-
-        html = @template(task) + html
-
-    @tasks.addClass('loading')
-    @tasks[0].innerHTML = ''
-
-    setTimeout =>
-      @tasks[0].innerHTML = html
-      @tasks.removeClass('loading')
-    , 150
-
-    @timers.bindTasks = setTimeout =>
-      for task in tasks
+    @timers.bindTasks = delay 400,  =>
+      list.tasks.forEach (task) =>
         view = new TaskItem
           task: task
           el: @tasks.find("#task-#{ task.id }")
-        @items[@items.length] = view
-    , 400
+        @views.push view
 
     # Handles Empty List
     if tasks.length is 0
@@ -253,54 +188,34 @@ class Tasks extends Base.Controller
 
   # Create a new task
   createNew: (e) =>
-
-    val = @input.val()
-
-    if e.which is Keys.ENTER and val
-
-      # TODO: What is this?
-      if Setting.sort
-        if $('.main .tasks .seperator').length == 0
-          $('.main .tasks').prepend('<li class="seperator"></li>')
-
-      task = Task.create
-        name: val
-        list: @list?.id
-        date: dateDetector.parse(val)
-
-      # Add to current list
-      List.current.tasks.add task
-
-      # Clear input
+    if e.keyCode is keys.enter and @input.val().length
+      name = @input.val()
       @input.val ''
+      Task.create
+        name: name
+        list: @currentList?.id
+        date: dateDetector.parse name
 
   # ------------
   # COLLAPSE ALL
   # ------------
 
-  collapseAll: ->
-    if not List.current.disabled
-      if Setting.sort
-        @el.find('.expanded').draggable({ disabled: false })
-      else
-        @el.find('.expanded').parent().sortable({ disabled: false })
+  collapse: =>
+    @currentTask.collapse() if @currentTask
 
-    @el.find('.expanded')
-      .removeClass('expanded')
-      .find('.name')
-      .blur()
-      .attr('contenteditable', false)
-      .parent()
-      .find('.notes')
-      .removeClass('auto')
+    # TODO: fix
+    # if not List.current.disabled
+    #   if Setting.sort
+    #     @el.find('.expanded').draggable({ disabled: false })
+    #   else
+    #     @el.find('.expanded').parent().sortable({ disabled: false })
 
   # Collapsing of tasks
-  collapseAllOnClick: (e) =>
-    # Only works on some elements
-    # if e.target.nodeName in ['SECTION', 'INPUT', 'H1', 'A'] or $(e.target).hasClass('title') or $(e.target).hasClass('tasks-container')
+  collapseOnClick: (e) =>
     if e.target.className is 'main tasks'
-      @collapseAll()
+      @collapse()
 
+  # TODO: Check
   scrollbars: (e) =>
     target = $(e.currentTarget)
     target.addClass('show')
@@ -310,5 +225,44 @@ class Tasks extends Base.Controller
       target.removeClass('show')
     , 1000
 
+  # TODO: Refactor this
+  setupDraggable: ->
+    $('body').on 'mouseover', '.main .task', ->
+      if Setting.sort and
+      not $(this).hasClass('ui-draggable') and
+      not List.current.disabled
+
+        $(this).draggable
+          distance: 10
+          scroll: false
+          cursorAt:
+            top: 15
+            left: 30
+          helper: (event, task) ->
+            id = $(task).attr('id')
+            element = "<div data-id=\'#{ id }\' class=\'helper\'>#{ $(this).find('.name').text() }</div>"
+            $('body').append(element)
+            $("[data-id=#{ id }]")
+
+
+  # TODO: Refactor this
+  setupSortable: ->
+    self = this
+    $(this.el[1]).sortable
+      distance: 10
+      scroll: false
+      cursorAt:
+        top: 15
+        left: 30
+      helper: (event, task) ->
+        id = $(task).attr('id')
+        element = "<div data-id=\'#{ id }\' class=\'helper\'>#{ $(task).find('.name').text() }</div>"
+        $('body').append(element)
+        $("[data-id=#{ id }]")
+      update: ( event, ui ) ->
+        arr = []
+        $(this).children().each (index) ->
+          arr.unshift $(this).attr('id').slice(5)
+        self.list.updateAttribute('tasks', arr)
 
 module.exports = Tasks

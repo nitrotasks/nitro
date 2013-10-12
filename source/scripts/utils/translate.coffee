@@ -43,6 +43,9 @@ translate =
   convert: ->
     throw new Error 'Translations not ready'
 
+
+ready = false
+
 module.exports = (text) ->
 
   if Array.isArray(text)
@@ -58,8 +61,10 @@ module.exports = (text) ->
 
 module.exports.init = ->
   translate = new Translate(Setting.language)
+  ready = true
   Event.trigger 'translate:ready'
 
 module.exports.ready = (fn) ->
+  if ready then return fn()
   Event.on 'translate:ready', fn
 

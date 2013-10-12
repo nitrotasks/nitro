@@ -1,13 +1,19 @@
 translate = require '../utils/translate'
 
+month = []
+
+translate.ready ->
+  month = translate [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+  ]
+
 module.exports = (date) ->
 
-  month = []
-  translate.ready ->
-    month = translate [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-    ]
-    console.log month
+  if date not instanceof Date
+    return {
+      words: ''
+      className: ''
+    }
 
   # Create Date
   now = new Date()
@@ -34,7 +40,7 @@ module.exports = (date) ->
   # Show difference nicely
   if difference is -1
     # Yesterday
-    words = $.i18n._ 'yesterday'
+    words = translate 'yesterday'
     className = 'overdue'
 
   else if difference < -1
@@ -42,17 +48,17 @@ module.exports = (date) ->
 
     # Make sure the difference is a positive number
     difference = Math.abs difference
-    words = difference + ' ' + $.i18n._ 'days ago'
+    words = difference + ' ' + translate 'days ago'
     className = 'overdue'
 
   else if difference is 0
     # Due Today
-    words = $.i18n._ 'today'
+    words = translate 'today'
     className = 'due'
 
   else if difference is 1
     # Due Tomorrow
-    words = $.i18n._ 'tomorrow'
+    words = translate 'tomorrow'
     className = 'soon'
 
   else if difference < 15
@@ -62,7 +68,7 @@ module.exports = (date) ->
   else
     words = month[date.getMonth()] + ' ' + date.getDate()
 
-  {
+  return {
     words: words
     className: className
   }

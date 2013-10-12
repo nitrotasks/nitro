@@ -5,8 +5,8 @@ class Keys extends Base.Controller
 
   events:
     'keyup': 'keyup'
-    'focus input': 'focus'
-    'blur input': 'blur'
+    'blur .editable, input': 'blur'
+    'focus .editable, input': 'focus'
 
   constructor: ->
     super

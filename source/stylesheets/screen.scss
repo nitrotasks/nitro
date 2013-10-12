@@ -5,9 +5,11 @@
 // Mixins
 @import "./mixins/_all_mixins";
 @import "./mixins/_breakpoints";
+@import "./mixins/_keyframes";
 @import "./mixins/_placeholder";
 @import "./mixins/_pos";
 @import "./mixins/_smooth_scroll";
+@import "./mixins/_vendor";
 
 // Modules
 @import "./modules/_vars";
@@ -27,7 +29,8 @@
 
 // Partials
 @import "./partials/_auth";
-@import "./partials/_header";
+@import "./partials/_buttons";
+// @import "./partials/_header";
 @import "./partials/_loading";
 @import "./partials/_main";
 @import "./partials/_modals";

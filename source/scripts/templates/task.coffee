@@ -1,4 +1,4 @@
-date = require '../utils/prettydate'
+prettyDate = require '../utils/prettydate'
 translate = require '../utils/translate'
 
 text = {}
@@ -22,6 +22,9 @@ tags = (text) ->
     .replace(/#(\S+)/g, ' <span class="tag">#$1</span>')
 
 module.exports = (task) ->
+
+  date = prettyDate(task.date)
+
   """
     <li id="task-#{ task.id }" class="task#{
       if task.group then ' group' else ''
@@ -34,7 +37,7 @@ module.exports = (task) ->
       <div class="right-controls">#{
         if task.date
           "<img width='10' height='10' style='display: inline-block' src='img/calendar.png'>
-          <time class='#{ date(task).class }'>#{ date(task).value }</time>
+          <time class='#{ date.className }'>#{ date.words }</time>
           <input class='date' placeholder='#{ text.date }' value='#{ task.date }'>"
         else
           "<img width='10' height='10' src='img/calendar.png'>
@@ -53,15 +56,10 @@ module.exports = (task) ->
         </div>
         <div class="delete"></div>
       </div>
-      #{
-        if task.notes
-          "<div class='notes'>
-            <div class='inner' contenteditable='true'>#{ task.notes }</div>
-          </div>"
-        else
-          "<div class='notes placeholder'>
-            <div class='inner' contenteditable='true'>#{ text.notes }</div>
-           </div>"
-      }
+      <div class='notes#{
+        if not task.notes then " placeholder" else ""
+      }'>
+        <div class='inner editable' contenteditable='true'>#{ task.notes or "Notes" }</div>
+      </div>
     </li>
   """

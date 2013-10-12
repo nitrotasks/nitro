@@ -1,13 +1,12 @@
 Base = require 'base'
 Sync = require '../controllers/sync'
-Task = require './task'
+# Task = require './task'
 
 class List extends Base.Model
 
   defaults:
     id: null
     name: ''
-    permanent: null
 
   @extend Sync.core
 
@@ -19,6 +18,7 @@ class List extends Base.Model
     super
 
     # Create a new task collection
+    Task = require './task'
     @tasks = new Task.constructor()
 
   # Move a task from one list to another
@@ -34,18 +34,21 @@ class List extends Base.Model
   moveCompleted: =>
     @tasks.refresh(@tasks.active(), true)
 
+  # TODO: Hook up to the before:destroy event
+  destroyTasks: =>
+    @tasks.each (task) ->
+      if task.completed
+        task.destroy(sync:no)
+      else
+        task.list = 'inbox'
+        
 class ListCollection extends Base.Collection
 
   model: List
 
   constructor: ->
     super
-
-  # Set the current list 
-  open: (list) =>
-    @currrent = list
-    @trigger 'change:current', list
-
+    
 module.exports = new ListCollection()
 
 # Is this the best way to do this?

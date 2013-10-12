@@ -1,4 +1,5 @@
 Base = require 'base'
+List = require '../models/list'
 Sync = require '../controllers/sync'
 
 class Task extends Base.Model
@@ -11,11 +12,22 @@ class Task extends Base.Model
     priority: 1
     list: null
 
-  @extend Sync.core
 
 class TaskCollection extends Base.Collection
 
   model: Task
+
+  @extend Sync.core
+
+  constructor: ->
+    super
+
+    # Add task to the list.task collection
+    @on 'create:model', (task) =>
+      if List.exists task.list
+        list = List.get task.list
+        list.tasks.add task, silent: true
+        list.tasks.trigger 'change'
 
   # Get the active tasks
   # - [list] (string) : The list ID. If specified, will only return tasks in that list.

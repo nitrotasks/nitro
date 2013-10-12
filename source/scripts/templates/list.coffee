@@ -1,8 +1,15 @@
-module.exports = (data) ->
+List = require '../models/list'
+
+module.exports = (list) ->
   """
-    <li data-item="#{ data.id }" class="list">
+    <li data-item="#{ list.id }" class="list#{ 
+    	if List.current?.id is list.id
+    		" current"
+    	else
+    		""
+    }">
       <div class="arrow"></div>
-      <div class="name">#{ data.name }</div>
-      <div class="count">#{ data.count }</div>
+      <span class="name">#{ list.name }</span>
+      <div class="count">#{ list.tasks.length }</div>
     </li>
   """

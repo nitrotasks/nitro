@@ -53,14 +53,14 @@
     color: $dark-grey;
     line-height: 40px;
     border-top: 1px solid darken($light-grey, 10);
+    list-style-type: none;
 
-    &.inbox,
-    &.all,
-    &.completed {
+    &.special {
       @include transition(background-position 0.1s ease);
 
       .name {
         margin-left: 25px;
+        width: $sidebar-width - 75px;
       }
 
       &.current {
@@ -69,8 +69,11 @@
 
     }
 
-    &.inbox {
+    &.search {
       border-top: 0;
+    }
+    
+    &.inbox {
       background: url("../img/inbox.png") no-repeat 15px 15px;
       background-size: 12px 12px;
     }
@@ -87,10 +90,10 @@
 
     .name {
       margin-left: 5px;
-      width: $sidebar-width - 75px;
+      width: $sidebar-width - 55px;
       @extend %ellipsis;
       @include pos(auto, 45px, auto, 10px);
-      @include transition-transform(0.1s ease);
+      // @include transition(margin 0.1s ease);
     }
 
     .arrow {
@@ -109,10 +112,13 @@
     }
 
     &.current {
-      font-weight: bold;
-      .name {
+      font-weight: 700;
+      &.special .name {
         width: $sidebar-width - 95px;
-        @include transform( translate3d( 20px, 0px, 0px ) );
+      }
+      .name {
+        width: $sidebar-width - 75px;
+        margin-left: 20px;
       }
       .arrow {
         background: url("../img/arrow-left-fade.png") no-repeat;
@@ -126,7 +132,7 @@
   //    ## NEW LIST INPUT BOX
   // --------------------------------------------------------------------------
 
-  .new-list {
+  .create-list {
     @extend %hidden-input;
     border-top: 1px darken($light-grey, 10) solid;
     width: 100%;

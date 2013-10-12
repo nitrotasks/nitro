@@ -13,7 +13,7 @@
           if ((typeof require !== "undefined" && require !== null)) {
             return require(id);
           }
-          console.log("Cannot find module '" + id + "'");
+          console.trace("Cannot find module '" + id + "'");
           return null;
         }
         file = cache[id] = {
@@ -8906,9 +8906,13 @@
         '../models/setting': 11,
         '../controllers/auth': 27,
         '../views/keys': 30,
-        '../views/loadingScreen': 31
+        '../views/loadingScreen': 31,
+        '../views/lists': 32,
+        '../views/title': 35,
+        '../views/list_buttons': 36,
+        '../views/tasks': 38
       }, function(require, module, exports) {
-        var $, App, Auth, Base, Event, Keys, List, LoadingScreen, Setting, Task, libs, translate;
+        var $, App, Auth, Base, Event, Keys, List, ListButtons, Lists, LoadingScreen, Setting, Task, Tasks, Title, libs, translate;
         libs = require('../vendor/libs');
         Base = require('base');
         Base.touchify = require('../utils/touchify');
@@ -8922,11 +8926,19 @@
         Auth = require('../controllers/auth');
         Keys = require('../views/keys');
         LoadingScreen = require('../views/loadingScreen');
+        Lists = require('../views/lists');
+        Title = require('../views/title');
+        ListButtons = require('../views/list_buttons');
+        Tasks = require('../views/tasks');
         App = (function() {
           function App() {
             Setting.trigger('fetch');
             translate.init();
             this.auth = new Auth();
+            new Lists();
+            new Tasks();
+            new Title();
+            new ListButtons();
             new LoadingScreen();
             this.keys = new Keys();
             Task.trigger('fetch');
@@ -14215,8 +14227,11 @@
               // Trigger an event
               Event.prototype.trigger = function (event) {
                   var args, actions, i;
-                  // args is a splat
                   args = 2 <= arguments.length ? [].slice.call(arguments, 1) : [];
+                  // Is this a good idea?
+                  if (event !== '*') {
+                      this.trigger('*', event, args.slice(0));
+                  }
                   actions = this._events[event];
                   if (actions) {
                       for (i in actions) {
@@ -14228,15 +14243,18 @@
               };
       
               // Remove a listener from an event
-              Event.prototype.off = function (event, id) {
+              Event.prototype.off = function (events, id) {
                   var i, len;
                   if (Array.isArray(id)) {
                       for (i = 0, len = id.length; i < len; i += 1) {
-                          this.off(event, id[i]);
+                          this.off(events, id[i]);
                       }
                       return;
                   }
-                  delete this._events[event][id];
+                  events = events.split(' ');
+                  for (i = 0, len = events.length; i < len; i += 1) {
+                      delete this._events[events[i]][id];
+                  }
               };
       
               /**
@@ -14518,14 +14536,12 @@
       
                   // Bubble events
                   this.listen(model, {
-                      'change': function (key, value) {
-                          self.trigger('change:model', model, key, value);
+                      '*': function(event, args) {
+                          args.unshift(model);
+                          args.unshift(event + ':model');
+                          self.trigger.apply(self, args);
                       },
                       'before:destroy': function () {
-                          self.trigger('before:destroy:model', model);
-                      },
-                      'destroy': function () {
-                          self.trigger('destroy:model', model);
                           self.remove(model);
                       }
                   });
@@ -14533,6 +14549,7 @@
                   // Only trigger create if silent is not set
                   if (!options || !options.silent) {
                       this.trigger('create:model', model);
+                      this.trigger('change');
                   }
       
               };
@@ -14545,6 +14562,7 @@
                   delete this._lookup[model.id];
                   this.length -= 1;
                   this.stopListening(model);
+                  this.trigger('remove')
                   this.trigger('change');
               };
       
@@ -14554,6 +14572,7 @@
                   this._models.splice(index, 1);
                   this._models.splice(pos, 0, model);
                   this._lookup[model.id] = index;
+                  this.trigger('move')
                   this.trigger('change');
               };
       
@@ -14747,7 +14766,7 @@
         '../utils/event': 14,
         '../languages/languages': 16
       }, function(require, module, exports) {
-        var $, Event, Setting, Translate, languages, translate;
+        var $, Event, Setting, Translate, languages, ready, translate;
         $ = require('jqueryify');
         Setting = require('../models/setting');
         Event = require('../utils/event');
@@ -14807,6 +14826,7 @@
             throw new Error('Translations not ready');
           }
         };
+        ready = false;
         module.exports = function(text) {
           var k, t, v, _i, _len, _results;
           if (Array.isArray(text)) {
@@ -14828,9 +14848,13 @@
         };
         module.exports.init = function() {
           translate = new Translate(Setting.language);
+          ready = true;
           return Event.trigger('translate:ready');
         };
         return module.exports.ready = function(fn) {
+          if (ready) {
+            return fn();
+          }
           return Event.on('translate:ready', fn);
         };
       }
@@ -15978,13 +16002,14 @@
         */
 
         'base': 7,
-        '../controllers/sync': 12,
         '../models/list': 24,
+        '../controllers/sync': 12,
         '../models/default/list.json': 25,
         '../models/default/task.json': 26
       }, function(require, module, exports) {
-        var Base, Sync, Task, TaskCollection, _ref, _ref1;
+        var Base, List, Sync, Task, TaskCollection, _ref;
         Base = require('base');
+        List = require('../models/list');
         Sync = require('../controllers/sync');
         Task = (function(_super) {
           __extends(Task, _super);
@@ -16003,13 +16028,15 @@
             list: null
           };
 
-          Task.extend(Sync.core);
-
           return Task;
 
         })(Base.Model);
         TaskCollection = (function(_super) {
           __extends(TaskCollection, _super);
+
+          TaskCollection.prototype.model = Task;
+
+          TaskCollection.extend(Sync.core);
 
           function TaskCollection() {
             this.tag = __bind(this.tag, this);
@@ -16018,11 +16045,19 @@
             this.list = __bind(this.list, this);
             this.completed = __bind(this.completed, this);
             this.active = __bind(this.active, this);
-            _ref1 = TaskCollection.__super__.constructor.apply(this, arguments);
-            return _ref1;
+            var _this = this;
+            TaskCollection.__super__.constructor.apply(this, arguments);
+            this.on('create:model', function(task) {
+              var list;
+              if (List.exists(task.list)) {
+                list = List.get(task.list);
+                list.tasks.add(task, {
+                  silent: true
+                });
+                return list.tasks.trigger('change');
+              }
+            });
           }
-
-          TaskCollection.prototype.model = Task;
 
           TaskCollection.prototype.active = function(list) {
             return this.filter(function(task) {
@@ -16051,7 +16086,6 @@
           };
 
           TaskCollection.prototype["default"] = function() {
-            var List;
             if (Task.length === 0) {
               List = require('../models/list');
               List.refresh(require('../models/default/list.json'));
@@ -16093,11 +16127,11 @@
             }
             query = query.toLowerCase().split(' ');
             return this.filter(function(item) {
-              var matches, word, _i, _len, _ref2;
+              var matches, word, _i, _len, _ref1;
               matches = true;
               for (_i = 0, _len = query.length; _i < _len; _i++) {
                 word = query[_i];
-                if (!((_ref2 = item.name) != null ? _ref2.toLowerCase().match(word) : void 0)) {
+                if (!((_ref1 = item.name) != null ? _ref1.toLowerCase().match(word) : void 0)) {
                   matches = false;
                 }
               }
@@ -16111,8 +16145,8 @@
             }
             tag = tag.toLowerCase();
             return this.filter(function(item) {
-              var _ref2;
-              return ((_ref2 = item.name) != null ? _ref2.toLowerCase().indexOf('#' + tag) : void 0) > -1;
+              var _ref1;
+              return ((_ref1 = item.name) != null ? _ref1.toLowerCase().indexOf('#' + tag) : void 0) > -1;
             });
           };
 
@@ -16131,17 +16165,15 @@
         '../controllers/sync': 12,
         './task': 23
       }, function(require, module, exports) {
-        var Base, List, ListCollection, Sync, Task;
+        var Base, List, ListCollection, Sync;
         Base = require('base');
         Sync = require('../controllers/sync');
-        Task = require('./task');
         List = (function(_super) {
           __extends(List, _super);
 
           List.prototype.defaults = {
             id: null,
-            name: '',
-            permanent: null
+            name: ''
           };
 
           List.extend(Sync.core);
@@ -16149,9 +16181,12 @@
           List.current = null;
 
           function List() {
+            this.destroyTasks = __bind(this.destroyTasks, this);
             this.moveCompleted = __bind(this.moveCompleted, this);
             this.moveTask = __bind(this.moveTask, this);
+            var Task;
             List.__super__.constructor.apply(this, arguments);
+            Task = require('./task');
             this.tasks = new Task.constructor();
           }
 
@@ -16168,6 +16203,18 @@
             return this.tasks.refresh(this.tasks.active(), true);
           };
 
+          List.prototype.destroyTasks = function() {
+            return this.tasks.each(function(task) {
+              if (task.completed) {
+                return task.destroy({
+                  sync: false
+                });
+              } else {
+                return task.list = 'inbox';
+              }
+            });
+          };
+
           return List;
 
         })(Base.Model);
@@ -16177,14 +16224,8 @@
           ListCollection.prototype.model = List;
 
           function ListCollection() {
-            this.open = __bind(this.open, this);
             ListCollection.__super__.constructor.apply(this, arguments);
           }
-
-          ListCollection.prototype.open = function(list) {
-            this.currrent = list;
-            return this.trigger('change:current', list);
-          };
 
           return ListCollection;
 
@@ -16345,7 +16386,7 @@
                 return _this.view.trigger('register:success');
               },
               error: function(xhr, status, msg) {
-                return _this.view.trigger('register:fail', xhr.responseText);
+                return _this.view.trigger('register:fail', xhr.status, xhr.responseText);
               }
             });
           };
@@ -16370,7 +16411,7 @@
                 return _this.loadToken(uid, token);
               },
               error: function(xhr, status, msg) {
-                return _this.view.trigger('login:fail', xhr.responseText);
+                return _this.view.trigger('login:fail', xhr.status, xhr.responseText);
               }
             });
           };
@@ -16441,9 +16482,9 @@
               _this.spinner(false);
               return _this.hide();
             });
-            this.on('login:fail register:fail', function(message) {
+            this.on('login:fail register:fail', function(status, message) {
               _this.spinner(false);
-              return _this.showError(message);
+              return _this.showError(status, message);
             });
             this.on('register:success', function() {
               _this.spinner(false);
@@ -16519,8 +16560,8 @@
             return this.errorMessage.removeClass('populated').empty();
           };
 
-          Auth.prototype.showError = function(message) {
-            return this.errorMessage.addClass('populated').html(this.template(message));
+          Auth.prototype.showError = function(status, message) {
+            return this.errorMessage.addClass('populated').html(this.template(status, message));
           };
 
           Auth.prototype.showSuccess = function() {
@@ -16548,14 +16589,20 @@
       }, function(require, module, exports) {
         var config;
         config = require('../utils/config');
-        return module.exports = function(message) {
-          switch (message) {
-            case 'err_bad_pass':
-              return "Incorrect email or password. <a href=\"http://" + config.server + "/forgot\">Want to reset?</a>";
-            case 'err_old_email':
-              return 'Sorry, but that email address has already been used';
+        return module.exports = function(status, message) {
+          console.log(status, message);
+          switch (status) {
+            case 404:
+              return 'Could not connect to server.';
             default:
-              return message;
+              switch (message) {
+                case 'err_bad_pass':
+                  return "Incorrect email or password. <a href=\"http://" + config.server + "/forgot\">Want to reset?</a>";
+                case 'err_old_email':
+                  return 'Sorry, but that email address has already been used';
+                default:
+                  return message;
+              }
           }
         };
       }
@@ -16576,8 +16623,8 @@
 
           Keys.prototype.events = {
             'keyup': 'keyup',
-            'focus input': 'focus',
-            'blur input': 'blur'
+            'blur .editable, input': 'blur',
+            'focus .editable, input': 'focus'
           };
 
           function Keys() {
@@ -16682,6 +16729,1188 @@
 
         })(Base.Controller);
         return module.exports = LoadingScreen;
+      }
+    ], [
+      {
+        /*
+          /Users/Admin/Projects/Nitro/source/scripts/views/lists.coffee
+        */
+
+        'base': 7,
+        '../models/list': 24,
+        '../utils/keys': 9,
+        '../views/list/item': 33
+      }, function(require, module, exports) {
+        var Base, List, ListItem, Lists, keys;
+        Base = require('base');
+        List = require('../models/list');
+        keys = require('../utils/keys');
+        ListItem = require('../views/list/item');
+        Lists = (function(_super) {
+          __extends(Lists, _super);
+
+          Lists.prototype.elements = {
+            'ul': 'lists',
+            '.create-list': 'input'
+          };
+
+          Lists.prototype.events = {
+            'keyup .create-list': 'keyup'
+          };
+
+          function Lists() {
+            this.select = __bind(this.select, this);
+            this.render = __bind(this.render, this);
+            this.addOne = __bind(this.addOne, this);
+            this.createNew = __bind(this.createNew, this);
+            this.keyup = __bind(this.keyup, this);
+            Base.touchify(this.events);
+            Lists.__super__.constructor.apply(this, arguments);
+            this.el = $('.sidebar');
+            this.bind();
+            this.listen(List, {
+              'create:model': this.addOne,
+              'refresh': this.addAll,
+              'select:model': this.select
+            });
+          }
+
+          Lists.prototype.keyup = function(e) {
+            if (e.which === keys.enter && this.input.val().length) {
+              return this.createNew();
+            }
+          };
+
+          Lists.prototype.createNew = function() {
+            var list, name;
+            name = this.input.val();
+            this.input.val('');
+            list = List.create({
+              name: name
+            });
+            return list.trigger('select');
+          };
+
+          Lists.prototype.addOne = function(list) {
+            var listItem;
+            if (list.id === 'inbox') {
+              return;
+            }
+            listItem = new ListItem({
+              list: list
+            });
+            return this.lists.append(listItem.render().el);
+          };
+
+          Lists.prototype.render = function() {
+            this.lists.empty();
+            return List.forEach(this.addOne);
+          };
+
+          Lists.prototype.select = function() {
+            return this.lists.find('.current').removeClass('current');
+          };
+
+          return Lists;
+
+        })(Base.Controller);
+        return module.exports = Lists;
+      }
+    ], [
+      {
+        /*
+          /Users/Admin/Projects/Nitro/source/scripts/views/list/item.coffee
+        */
+
+        'base': 7,
+        '../../templates/list': 34
+      }, function(require, module, exports) {
+        var Base, ListItem;
+        Base = require('base');
+        ListItem = (function(_super) {
+          __extends(ListItem, _super);
+
+          ListItem.prototype.template = require('../../templates/list');
+
+          ListItem.prototype.elements = {
+            '.name': 'name',
+            '.count': 'count'
+          };
+
+          ListItem.prototype.events = {
+            'click': 'click'
+          };
+
+          function ListItem() {
+            this.remove = __bind(this.remove, this);
+            this.select = __bind(this.select, this);
+            this.click = __bind(this.click, this);
+            this.updateName = __bind(this.updateName, this);
+            this.updateCount = __bind(this.updateCount, this);
+            this.render = __bind(this.render, this);
+            Base.touchify(this.events);
+            ListItem.__super__.constructor.apply(this, arguments);
+            this.listen([
+              this.list, {
+                'select': this.select,
+                'change': this.updateName,
+                'before:destroy': this.remove
+              }, this.list.tasks, {
+                'change': this.updateCount
+              }
+            ]);
+            console.log(this.list.tasks);
+          }
+
+          ListItem.prototype.render = function() {
+            this.el = $(this.template(this.list));
+            this.bind();
+            return this;
+          };
+
+          ListItem.prototype.updateCount = function() {
+            console.log('updating list count');
+            return this.count.text(this.list.tasks.length);
+          };
+
+          ListItem.prototype.updateName = function() {
+            return this.name.text(this.list.name);
+          };
+
+          ListItem.prototype.click = function() {
+            return this.list.trigger('select');
+          };
+
+          ListItem.prototype.select = function() {
+            return this.el.addClass('current');
+          };
+
+          ListItem.prototype.remove = function() {
+            this.unbind();
+            return this.el.remove();
+          };
+
+          return ListItem;
+
+        })(Base.Controller);
+        return module.exports = ListItem;
+      }
+    ], [
+      {
+        /*
+          /Users/Admin/Projects/Nitro/source/scripts/templates/list.coffee
+        */
+
+        '../models/list': 24
+      }, function(require, module, exports) {
+        var List;
+        List = require('../models/list');
+        return module.exports = function(list) {
+          var _ref;
+          return "<li data-item=\"" + list.id + "\" class=\"list" + (((_ref = List.current) != null ? _ref.id : void 0) === list.id ? " current" : "") + "\">\n  <div class=\"arrow\"></div>\n  <span class=\"name\">" + list.name + "</span>\n  <div class=\"count\">" + list.tasks.length + "</div>\n</li>";
+        };
+      }
+    ], [
+      {
+        /*
+          /Users/Admin/Projects/Nitro/source/scripts/views/title.coffee
+        */
+
+        'base': 7,
+        '../models/list': 24,
+        '../utils/keys': 9
+      }, function(require, module, exports) {
+        var Base, List, Title, keys;
+        Base = require('base');
+        List = require('../models/list');
+        keys = require('../utils/keys');
+        Title = (function(_super) {
+          __extends(Title, _super);
+
+          Title.prototype.elements = {
+            'h1': 'title'
+          };
+
+          Title.prototype.events = {
+            'keyup h1': 'rename',
+            'keypress h1': 'preventer'
+          };
+
+          function Title() {
+            this.rename = __bind(this.rename, this);
+            this.render = __bind(this.render, this);
+            Base.touchify(this.events);
+            Title.__super__.constructor.apply(this, arguments);
+            this.el = $('.tasks .title');
+            this.bind();
+            this.listen(List, {
+              'select:model': this.render
+            });
+          }
+
+          Title.prototype.render = function(list) {
+            this.list = list;
+            this.title.text(this.list.name);
+            if (this.list.permanent) {
+              return this.title.removeAttr('contenteditable');
+            } else {
+              return this.title.attr('contenteditable', true);
+            }
+          };
+
+          Title.prototype.rename = function(e) {
+            return this.list.name = this.title.text();
+          };
+
+          Title.prototype.preventer = function(e) {
+            if (e.keyCode === keys.enter) {
+              return e.preventDefault();
+            }
+          };
+
+          return Title;
+
+        })(Base.Controller);
+        return module.exports = Title;
+      }
+    ], [
+      {
+        /*
+          /Users/Admin/Projects/Nitro/source/scripts/views/list_buttons.coffee
+        */
+
+        'base': 7,
+        '../models/list': 24,
+        './modal': 37
+      }, function(require, module, exports) {
+        var Base, List, ListButtons;
+        Base = require('base');
+        List = require('../models/list');
+        ListButtons = (function(_super) {
+          __extends(ListButtons, _super);
+
+          ListButtons.prototype.elements = {
+            '.trash': 'deleteBtn',
+            '.sort': 'sortBtn'
+          };
+
+          ListButtons.prototype.events = {
+            'click .trash': 'trash',
+            'click .email': 'email',
+            'click .print': 'print',
+            'click .share': 'share',
+            'click .sort': 'sort'
+          };
+
+          function ListButtons() {
+            this.update = __bind(this.update, this);
+            Base.touchify(this.events);
+            ListButtons.__super__.constructor.apply(this, arguments);
+            this.el = $('.list-buttons');
+            this.bind();
+            this.listen(List, {
+              'select:model': this.update
+            });
+          }
+
+          ListButtons.prototype.update = function(list) {
+            if (list.permanent) {
+              this.deleteBtn.fadeOut(150);
+            } else {
+              this.deleteBtn.fadeIn(150);
+            }
+            if (list.disabled) {
+              return this.sortBtn.fadeOut(150);
+            } else {
+              return this.sortBtn.fadeIn(150);
+            }
+          };
+
+          ListButtons.prototype.trash = function() {
+            return Modal.get('trashList').run();
+          };
+
+          ListButtons.prototype.email = function() {
+            return Modal.get('email').show();
+          };
+
+          ListButtons.prototype.print = function() {
+            return window.print();
+          };
+
+          ListButtons.prototype.share = function() {
+            return Modal.get('share').show();
+          };
+
+          ListButtons.prototype.sort = function() {
+            return Setting.toggle('sort');
+          };
+
+          return ListButtons;
+
+        })(Base.Controller);
+        return module.exports = ListButtons;
+      }
+    ], [
+      {
+        /*
+          /Users/Admin/Projects/Nitro/source/scripts/views/modal.coffee
+        */
+
+        'base': 7,
+        'jqueryify': 1,
+        '../utils/keys': 9,
+        '../models/setting': 11,
+        '../controllers/sync': 12,
+        '../models/list': 24
+      }, function(require, module, exports) {
+        var $, Base, CONFIG, Keys, Modal, Sync, modals, setting;
+        Base = require('base');
+        $ = require('jqueryify');
+        Keys = require('../utils/keys');
+        CONFIG = require('../utils/conf');
+        setting = require('../models/setting');
+        Sync = require('../controllers/sync');
+        Modal = (function(_super) {
+          __extends(Modal, _super);
+
+          function Modal(opts) {
+            Base.touchify(opts.events);
+            Modal.__super__.constructor.apply(this, arguments);
+          }
+
+          Modal.prototype.state = false;
+
+          Modal.prototype.show = function() {
+            var _this = this;
+            if (this.state !== false) {
+              return;
+            }
+            this.state = true;
+            this.el.show(0).addClass('show');
+            if (this.onShow) {
+              this.onShow();
+            }
+            return setTimeout((function() {
+              return _this.el.on('click.modal, touchend.modal', function(event) {
+                if (event.target.className.indexOf('modal') >= 0) {
+                  return _this.hide();
+                }
+              });
+            }), 500);
+          };
+
+          Modal.prototype.hide = function() {
+            var _this = this;
+            if (this.state !== true) {
+              return;
+            }
+            this.state = false;
+            this.el.removeClass('show');
+            setTimeout((function() {
+              _this.el.hide(0);
+              if (_this.onHide) {
+                return _this.onHide();
+              }
+            }), 350);
+            return this.el.off('click.modal, touchend.modal');
+          };
+
+          return Modal;
+
+        })(Base.Controller);
+        modals = [];
+        return module.exports = {
+          get: function(name) {
+            return modals[name];
+          },
+          init: function() {
+            modals['trashTask'] = new Modal({
+              el: $('.modal.delete-task'),
+              events: {
+                'click .true': 'delete',
+                'click .false': 'hide'
+              },
+              run: function(task) {
+                this.task = task;
+                if (setting.confirmDelete) {
+                  return this.show();
+                } else {
+                  return this["delete"]();
+                }
+              },
+              "delete": function() {
+                var _ref;
+                if ((_ref = this.task) != null) {
+                  _ref.destroy();
+                }
+                return this.hide();
+              }
+            });
+            modals['trashList'] = new Modal({
+              el: $('.modal.delete-list'),
+              events: {
+                'click .true': 'delete',
+                'click .false': 'hide'
+              },
+              run: function() {
+                if (setting.confirmDelete) {
+                  return this.show();
+                } else {
+                  return this["delete"]();
+                }
+              },
+              "delete": function() {
+                List.current.trigger('kill');
+                return this.hide();
+              }
+            });
+            modals['email'] = new Modal({
+              el: $('.modal.email'),
+              elements: {
+                'input': 'input'
+              },
+              events: {
+                'click button': 'submit',
+                'keyup input': 'keyup'
+              },
+              keyup: function(e) {
+                if (e.keyCode === Keys.ENTER) {
+                  return this.submit();
+                }
+              },
+              submit: function() {
+                var email, listId, uid;
+                if (setting.isPro()) {
+                  email = this.input.val();
+                  if (!email.match(/.+@.+\..+/)) {
+                    return;
+                  }
+                  uid = require('../models/setting').get('uid');
+                  listId = require('../models/list').current.id;
+                  Sync.emit('emailList', [uid, listId, email]);
+                } else {
+                  $('.modal.proventor').modal('show');
+                }
+                return this.hide();
+              },
+              onShow: function() {
+                return this.input.focus();
+              },
+              onHide: function() {
+                return this.input.val('');
+              }
+            });
+            return modals['share'] = new Modal({
+              el: $('.modal.share')
+            });
+          }
+        };
+      }
+    ], [
+      {
+        /*
+          /Users/Admin/Projects/Nitro/source/scripts/views/tasks.coffee
+        */
+
+        'base': 7,
+        '../views/tasks.item': 39,
+        '../models/task': 23,
+        '../models/list': 24,
+        '../models/setting': 11,
+        '../utils/keys': 9,
+        '../utils/date': 43,
+        '../utils/timer': 40,
+        '../templates/task': 41
+      }, function(require, module, exports) {
+        var Base, List, Setting, Task, TaskItem, Tasks, dateDetector, delay, keys;
+        Base = require('base');
+        TaskItem = require('../views/tasks.item');
+        Task = require('../models/task');
+        List = require('../models/list');
+        Setting = require('../models/setting');
+        keys = require('../utils/keys');
+        dateDetector = require('../utils/date');
+        delay = require('../utils/timer');
+        Tasks = (function(_super) {
+          __extends(Tasks, _super);
+
+          Tasks.prototype.template = require('../templates/task');
+
+          Tasks.prototype.elements = {
+            'ul.tasks': 'tasks',
+            'input.new-task': 'input'
+          };
+
+          Tasks.prototype.events = {
+            'click': 'collapseOnClick',
+            'scroll': 'scrollbars',
+            'keydown input.new-task': 'createNew'
+          };
+
+          function Tasks() {
+            this.scrollbars = __bind(this.scrollbars, this);
+            this.collapseOnClick = __bind(this.collapseOnClick, this);
+            this.collapse = __bind(this.collapse, this);
+            this.createNew = __bind(this.createNew, this);
+            this.render = __bind(this.render, this);
+            this.refresh = __bind(this.refresh, this);
+            this.addOne = __bind(this.addOne, this);
+            this.bindTask = __bind(this.bindTask, this);
+            Base.touchify(this.events);
+            Tasks.__super__.constructor.apply(this, arguments);
+            this.el = $('.main');
+            this.bind();
+            this.views = [];
+            this.timers = {};
+            this.currentTask;
+            this.currentList;
+            this.listen([
+              Task, {
+                'refresh': this.refresh,
+                'create:model': this.addOne
+              }, List, {
+                'select:model': this.render
+              }, Setting, {
+                'change:sort': this.render
+              }
+            ]);
+          }
+
+          Tasks.prototype.bindTask = function(view) {
+            var _this = this;
+            return view.on('select', function() {
+              _this.collapse();
+              return _this.currentTask = view;
+            });
+          };
+
+          Tasks.prototype.addOne = function(task) {
+            var view;
+            view = new TaskItem({
+              task: task
+            });
+            this.tasks.prepend(view.render().el);
+            this.bindTask(view);
+            this.views.push(view);
+            return this.el.removeClass('empty');
+          };
+
+          Tasks.prototype.refresh = function() {
+            if (List.current) {
+              return this.render(List.current);
+            }
+          };
+
+          Tasks.prototype.render = function(list) {
+            var completed, html, last, oldItems, task, tasks, _i, _len, _ref, _ref1,
+              _this = this;
+            this.el.removeClass('empty');
+            this.el.find('.message').remove();
+            if (list instanceof List.model || list.id === 'all' || list.id === 'completed') {
+              this.currentList = list;
+            } else {
+              console.log('debug', list);
+            }
+            this.input.toggle(!list.disabled);
+            oldItems = this.views.slice(0);
+            this.views = [];
+            delay(1000, function() {
+              var item, _i, _len, _results;
+              _results = [];
+              for (_i = 0, _len = oldItems.length; _i < _len; _i++) {
+                item = oldItems[_i];
+                _results.push(item.release());
+              }
+              return _results;
+            });
+            html = '';
+            if (list.id === 'filter') {
+              console.log('filter');
+              tasks = list.tasks;
+              this.el.append(view.special);
+            } else if (list != null ? list.tasks : void 0) {
+              console.log('standard');
+              tasks = list.tasks;
+              this.el.append(view.standard);
+            } else {
+              console.log('empty');
+              tasks = Task.list(list.id);
+              this.el.append(view.empty);
+            }
+            if (false) {
+              tasks = Task.sortTasks(tasks);
+              last = (_ref = tasks[0]) != null ? _ref.priority : void 0;
+              completed = (_ref1 = tasks[0]) != null ? _ref1.completed : void 0;
+              for (_i = 0, _len = tasks.length; _i < _len; _i++) {
+                task = tasks[_i];
+                if (completed && !task.completed) {
+                  completed = false;
+                  task.group = true;
+                }
+                if (!completed && task.priority !== last) {
+                  task.group = true;
+                }
+                last = task.priority;
+                if (list.id === 'all') {
+                  task.listName = List.get(task.list).name;
+                }
+                html = this.template(task) + html;
+              }
+            } else {
+              list.tasks.forEach(function(task) {
+                return html += _this.template(task);
+              });
+            }
+            this.tasks.html(html);
+            this.timers.bindTasks = delay(400, function() {
+              return list.tasks.forEach(function(task) {
+                var view;
+                view = new TaskItem({
+                  task: task,
+                  el: _this.tasks.find("#task-" + task.id)
+                });
+                return _this.views.push(view);
+              });
+            });
+            if (tasks.length === 0) {
+              this.el.addClass('empty');
+            }
+            if (!is_touch_device()) {
+              return this.input.focus();
+            }
+          };
+
+          Tasks.prototype.createNew = function(e) {
+            var name, _ref;
+            if (e.keyCode === keys.enter && this.input.val().length) {
+              name = this.input.val();
+              this.input.val('');
+              return Task.create({
+                name: name,
+                list: (_ref = this.currentList) != null ? _ref.id : void 0,
+                date: dateDetector.parse(name)
+              });
+            }
+          };
+
+          Tasks.prototype.collapse = function() {
+            if (this.currentTask) {
+              return this.currentTask.collapse();
+            }
+          };
+
+          Tasks.prototype.collapseOnClick = function(e) {
+            if (e.target.className === 'main tasks') {
+              return this.collapse();
+            }
+          };
+
+          Tasks.prototype.scrollbars = function(e) {
+            var target;
+            target = $(e.currentTarget);
+            target.addClass('show');
+            clearTimeout(this.scrollbarTimeout);
+            return this.scrollbarTimeout = setTimeout(function() {
+              return target.removeClass('show');
+            }, 1000);
+          };
+
+          Tasks.prototype.setupDraggable = function() {
+            return $('body').on('mouseover', '.main .task', function() {
+              if (Setting.sort && !$(this).hasClass('ui-draggable') && !List.current.disabled) {
+                return $(this).draggable({
+                  distance: 10,
+                  scroll: false,
+                  cursorAt: {
+                    top: 15,
+                    left: 30
+                  },
+                  helper: function(event, task) {
+                    var element, id;
+                    id = $(task).attr('id');
+                    element = "<div data-id=\'" + id + "\' class=\'helper\'>" + ($(this).find('.name').text()) + "</div>";
+                    $('body').append(element);
+                    return $("[data-id=" + id + "]");
+                  }
+                });
+              }
+            });
+          };
+
+          Tasks.prototype.setupSortable = function() {
+            var self;
+            self = this;
+            return $(this.el[1]).sortable({
+              distance: 10,
+              scroll: false,
+              cursorAt: {
+                top: 15,
+                left: 30
+              },
+              helper: function(event, task) {
+                var element, id;
+                id = $(task).attr('id');
+                element = "<div data-id=\'" + id + "\' class=\'helper\'>" + ($(task).find('.name').text()) + "</div>";
+                $('body').append(element);
+                return $("[data-id=" + id + "]");
+              },
+              update: function(event, ui) {
+                var arr;
+                arr = [];
+                $(this).children().each(function(index) {
+                  return arr.unshift($(this).attr('id').slice(5));
+                });
+                return self.list.updateAttribute('tasks', arr);
+              }
+            });
+          };
+
+          return Tasks;
+
+        })(Base.Controller);
+        return module.exports = Tasks;
+      }
+    ], [
+      {
+        /*
+          /Users/Admin/Projects/Nitro/source/scripts/views/tasks.item.coffee
+        */
+
+        'base': 7,
+        './modal': 37,
+        '../models/list': 24,
+        '../models/setting': 11,
+        '../utils/keys': 9,
+        '../utils/timer': 40,
+        '../utils/translate': 10,
+        '../templates/task': 41
+      }, function(require, module, exports) {
+        var Base, List, TaskItem, delay, keys, setting, translate;
+        Base = require('base');
+        List = require('../models/list');
+        setting = require('../models/setting');
+        keys = require('../utils/keys');
+        delay = require('../utils/timer');
+        translate = require('../utils/translate');
+        TaskItem = (function(_super) {
+          __extends(TaskItem, _super);
+
+          TaskItem.prototype.template = require('../templates/task');
+
+          TaskItem.prototype.elements = {
+            '.name': 'name',
+            '.input-name': 'inputName',
+            '.date': 'date',
+            '.notes': 'notesParent',
+            '.notes .inner': 'notes',
+            'time': 'time'
+          };
+
+          TaskItem.prototype.events = {
+            'click .delete': 'remove',
+            'click .priority-button div': 'setPriority',
+            'click .checkbox': 'toggleCompleted',
+            'click .tag': 'tagClick',
+            'click': 'expand',
+            'blur .input-name': 'endEdit',
+            'keypress .input-name': 'endEditOnEnter',
+            'focus .notes': 'notesEdit',
+            'blur .notes': 'notesSave',
+            'change .date': 'datesSave'
+          };
+
+          function TaskItem() {
+            this.tagClick = __bind(this.tagClick, this);
+            this.datesSave = __bind(this.datesSave, this);
+            this.notesSave = __bind(this.notesSave, this);
+            this.notesEdit = __bind(this.notesEdit, this);
+            this.updateName = __bind(this.updateName, this);
+            this.endEditOnEnter = __bind(this.endEditOnEnter, this);
+            this.endEdit = __bind(this.endEdit, this);
+            this.updatePriority = __bind(this.updatePriority, this);
+            this.setPriority = __bind(this.setPriority, this);
+            this.updateCompleted = __bind(this.updateCompleted, this);
+            this.toggleCompleted = __bind(this.toggleCompleted, this);
+            this.collapse = __bind(this.collapse, this);
+            this.expand = __bind(this.expand, this);
+            this.release = __bind(this.release, this);
+            this.remove = __bind(this.remove, this);
+            this.render = __bind(this.render, this);
+            Base.touchify(this.events);
+            TaskItem.__super__.constructor.apply(this, arguments);
+            this.expanded = false;
+            this.listen(this.task, {
+              'destroy': this.release,
+              'change:name': this.updateName,
+              'change:priority': this.updatePriority,
+              'change:completed': this.updateCompleted
+            });
+          }
+
+          TaskItem.prototype.render = function() {
+            this.el = $(this.template(this.task));
+            this.bind();
+            return this;
+          };
+
+          TaskItem.prototype.remove = function() {
+            return Modal.get('trashTask').run(this.task);
+          };
+
+          TaskItem.prototype.release = function() {
+            this.unbind();
+            return this.el.remove();
+          };
+
+          TaskItem.prototype.expand = function(e) {
+            var notes;
+            if (!this.expanded) {
+              this.trigger('select');
+              this.expanded = true;
+              this.inputName.val(this.task.name);
+              this.el.addClass('expanded animout');
+              notes = this.notes.parent();
+              return delay(300, function() {
+                return notes.addClass('auto');
+              });
+            }
+          };
+
+          TaskItem.prototype.collapse = function() {
+            if (this.expanded) {
+              this.expanded = false;
+              return this.el.removeClass('expanded');
+            }
+          };
+
+          TaskItem.prototype.toggleCompleted = function(e) {
+            var order;
+            e.stopPropagation();
+            if (this.task.completed === false) {
+              this.task.completed = new Date().getTime();
+            } else {
+              this.task.completed = false;
+            }
+            if (false) {
+              order = List.get(this.task.list).tasks.slice(0);
+              if (order.indexOf(this.task.id) === -1) {
+                order.push(this.task.id);
+                return List.get(this.task.list).tasks = order;
+              }
+            } else if (false) {
+              settings.moveCompleted();
+              return this.el.remove();
+            }
+          };
+
+          TaskItem.prototype.updateCompleted = function() {
+            return this.el.toggleClass('completed', this.task.completed);
+          };
+
+          TaskItem.prototype.setPriority = function(e) {
+            var priority;
+            priority = $(e.target).data('id');
+            return this.task.priority = priority;
+          };
+
+          TaskItem.prototype.updatePriority = function() {
+            return this.el.removeClass('p1 p2 p3').addClass('p' + this.task.priority);
+          };
+
+          TaskItem.prototype.endEdit = function() {
+            var val;
+            val = this.inputName.val();
+            if (val.length) {
+              return this.task.name = val;
+            } else {
+              return this.task.destroy();
+            }
+          };
+
+          TaskItem.prototype.endEditOnEnter = function(e) {
+            if (e.which === keys.enter) {
+              return this.inputName.blur();
+            }
+          };
+
+          TaskItem.prototype.updateName = function() {
+            return this.name.html(this.task.name.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/#(\w+)/g, ' <span class="tag">#$1</span>'));
+          };
+
+          TaskItem.prototype.notesEdit = function() {
+            if (this.notes.text() === translate('Notes')) {
+              this.notes.text('');
+            }
+            return this.notesParent.removeClass('placeholder');
+          };
+
+          TaskItem.prototype.notesSave = function() {
+            var text;
+            text = this.notes.html();
+            if (text === '') {
+              this.notes.text(translate('Notes'));
+              return this.notesParent.addClass('placeholder');
+            } else {
+              return this.task.notes = text;
+            }
+          };
+
+          TaskItem.prototype.datesSave = function() {
+            if (this.date.val().length > 0) {
+              this.task.updateAttribute('date', this.date.datepicker('getDate').getTime());
+              this.el.find('img').css('display', 'inline-block');
+              this.time.text(Task.prettyDate(new Date(this.task.date)).words);
+              return this.time.attr('class', Task.prettyDate(new Date(this.task.date)).className);
+            } else {
+              this.task.updateAttribute('date', '');
+              this.el.find('img').removeAttr('style');
+              return this.time.text('');
+            }
+          };
+
+          TaskItem.prototype.tagClick = function(e) {
+            e.stopPropagation();
+            return List.trigger('change:current', {
+              name: 'Tagged with ' + $(e.currentTarget).text(),
+              id: 'filter',
+              tasks: Task.tag($(e.currentTarget).text().substr(1)),
+              disabled: true,
+              permanent: true
+            });
+          };
+
+          return TaskItem;
+
+        })(Base.Controller);
+        return module.exports = TaskItem;
+      }
+    ], [
+      {
+        /*
+          /Users/Admin/Projects/Nitro/source/scripts/utils/timer.coffee
+        */
+
+      }, function(require, module, exports) {
+        return module.exports = function(duration, fn) {
+          return setTimeout(fn, duration);
+        };
+      }
+    ], [
+      {
+        /*
+          /Users/Admin/Projects/Nitro/source/scripts/templates/task.coffee
+        */
+
+        '../utils/prettydate': 42,
+        '../utils/translate': 10
+      }, function(require, module, exports) {
+        var prettyDate, tags, text, translate;
+        prettyDate = require('../utils/prettydate');
+        translate = require('../utils/translate');
+        text = {};
+        translate.ready(function() {
+          return text = translate({
+            notes: 'Notes',
+            date: 'Due Date',
+            checkbox: 'Mark as completed',
+            low: 'Set priority to low',
+            medium: 'Set priority to medium',
+            high: 'Set priority to high'
+          });
+        });
+        tags = function(text) {
+          if (!text) {
+            return;
+          }
+          return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/#(\S+)/g, ' <span class="tag">#$1</span>');
+        };
+        return module.exports = function(task) {
+          var date;
+          date = prettyDate(task.date);
+          return "<li id=\"task-" + task.id + "\" class=\"task" + (task.group ? ' group' : '') + (task.completed ? ' completed' : '') + " p" + task.priority + "\">\n  <div class=\"checkbox\" title=\"" + text.checkbox + "\"></div>\n  <div class=\"name\">" + (tags(task.name)) + "</div>\n  <input type=\"text\" class=\"input-name\">\n  <div class=\"right-controls\">" + (task.date ? "<img width='10' height='10' style='display: inline-block' src='img/calendar.png'>      <time class='" + date.className + "'>" + date.words + "</time>      <input class='date' placeholder='" + text.date + "' value='" + task.date + "'>" : "<img width='10' height='10' src='img/calendar.png'>      <time></time>      <input class='date' placeholder='" + text.date + "' value=''>") + (task.listName ? "<span class='listName'>" + task.listName + "</span>" : "") + "\n    <div class=\"priority-button\">\n      <div data-id=\"1\" title=\"" + text.low + "\" class=\"low\"></div>\n      <div data-id=\"2\" title=\"" + text.medium + "\" class=\"medium\"></div>\n      <div data-id=\"3\" title=\"" + text.high + "\" class=\"high\"></div>\n    </div>\n    <div class=\"delete\"></div>\n  </div>\n  <div class='notes" + (!task.notes ? " placeholder" : "") + "'>\n    <div class='inner editable' contenteditable='true'>" + (task.notes || "Notes") + "</div>\n  </div>\n</li>";
+        };
+      }
+    ], [
+      {
+        /*
+          /Users/Admin/Projects/Nitro/source/scripts/utils/prettydate.coffee
+        */
+
+        '../utils/translate': 10
+      }, function(require, module, exports) {
+        var month, translate;
+        translate = require('../utils/translate');
+        month = [];
+        translate.ready(function() {
+          return month = translate(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
+        });
+        return module.exports = function(date) {
+          var className, difference, now, oneDay, words;
+          if (!(date instanceof Date)) {
+            return {
+              words: '',
+              className: ''
+            };
+          }
+          now = new Date();
+          difference = 0;
+          oneDay = 86400000;
+          difference = Math.ceil((date.getTime() - now.getTime()) / oneDay);
+          words = '';
+          className = '';
+          /*
+                
+            Difference
+            ==  5: '5 days left'
+            ==  1: 'Due tomorrow'
+            ==  0: 'Due today'
+            == -1: 'Due yesterday'
+            == -5: '5 days overdue'
+          */
+
+          if (difference === -1) {
+            words = translate('yesterday');
+            className = 'overdue';
+          } else if (difference < -1) {
+            difference = Math.abs(difference);
+            words = difference + ' ' + translate('days ago');
+            className = 'overdue';
+          } else if (difference === 0) {
+            words = translate('today');
+            className = 'due';
+          } else if (difference === 1) {
+            words = translate('tomorrow');
+            className = 'soon';
+          } else if (difference < 15) {
+            words = 'in ' + difference + ' days';
+          } else {
+            words = month[date.getMonth()] + ' ' + date.getDate();
+          }
+          return {
+            words: words,
+            className: className
+          };
+        };
+      }
+    ], [
+      {
+        /*
+          /Users/Admin/Projects/Nitro/source/scripts/utils/date.coffee
+        */
+
+      }, function(require, module, exports) {
+        /*
+        
+          Nitro Date
+          ==========
+        
+          Reads a sentence and figures out a date for it.
+        
+          Written by George Czabania in February 2013.
+        */
+
+        var Now, api, dateParser, defineTrigger, removeTrigger, triggers;
+        Now = (function() {
+          function Now() {
+            this.time = new Date();
+            this.setup();
+          }
+
+          Now.prototype.setup = function() {
+            this.day = this.time.getDate();
+            this.weekDay = this.time.getDay();
+            this.month = this.time.getMonth() + 1;
+            return this.year = this.time.getFullYear();
+          };
+
+          Now.prototype.print = function(gap) {
+            if (gap == null) {
+              gap = "/";
+            }
+            return "" + this.day + gap + this.month + gap + this.year;
+          };
+
+          Now.prototype.value = function() {
+            return this.time;
+          };
+
+          Now.prototype.increment = function(key, value) {
+            switch (key) {
+              case "day":
+                this.time.setDate(this.day + value);
+                break;
+              case "month":
+                this.time.setMonth(--value);
+                break;
+              case "year":
+                this.time.setYear(year);
+                break;
+              default:
+                return false;
+            }
+            this.setup();
+            return true;
+          };
+
+          return Now;
+
+        })();
+        triggers = {};
+        defineTrigger = function(trigger, fn) {
+          var regexp;
+          regexp = new RegExp(trigger, "i");
+          return triggers[trigger] = {
+            regexp: regexp,
+            fn: fn
+          };
+        };
+        removeTrigger = function(trigger) {
+          return delete triggers[trigger];
+        };
+        dateParser = function(text) {
+          var date, match, obj, trigger;
+          for (trigger in triggers) {
+            obj = triggers[trigger];
+            if (match = text.match(obj.regexp)) {
+              date = obj.fn(new Now(), match);
+              return (date != null ? date.value() : void 0) || false;
+            }
+          }
+          return false;
+        };
+        defineTrigger("today", function(now) {
+          return now;
+        });
+        defineTrigger("tomorrow", function(now) {
+          now.increment("day", 1);
+          return now;
+        });
+        defineTrigger("a week", function(now) {
+          now.increment("day", 7);
+          return now;
+        });
+        defineTrigger("next week", function(now) {
+          now.increment("day", 8 - now.time.getDay());
+          return now;
+        });
+        defineTrigger("(monday|tuesday|wednesday|thursday|friday|saturday|sunday)", function(now, match) {
+          var date, days, diff;
+          days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+          date = days.indexOf(match[0].toLowerCase());
+          diff = date - now.weekDay;
+          now.increment("day", diff);
+          if (diff <= 0) {
+            now.increment("day", 7);
+          }
+          return now;
+        });
+        api = {
+          parse: dateParser,
+          define: defineTrigger,
+          remove: removeTrigger
+        };
+        return module != null ? module.exports = api : void 0;
       }
     ]
   ]);

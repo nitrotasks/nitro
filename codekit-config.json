@@ -36,6 +36,39 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
+    "\/source\/scripts\/utils\/timer.coffee" : {
+      "ignoreWasSetByUser" : 1,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/source\/scripts\/utils\/timer.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/source\/scripts\/utils\/timer.js",
+      "outputStyle" : 0,
+      "fileType" : 32
+    },
+    "\/source\/scripts\/__deprecated\/lists.coffee" : {
+      "ignoreWasSetByUser" : 1,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/source\/scripts\/__deprecated\/lists.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/source\/scripts\/__deprecated\/lists.js",
+      "outputStyle" : 0,
+      "fileType" : 32
+    },
+    "\/app\/css\/screen.css" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/app\/css\/screen.css",
+      "outputAbbreviatedPath" : "No Output Path",
+      "fileType" : 16
+    },
     "\/source\/stylesheets\/mixins\/_placeholder.scss" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -47,15 +80,6 @@
       "outputAbbreviatedPath" : "\/app\/css\/_placeholder.css",
       "fileType" : 4,
       "debugStyle" : 0
-    },
-    "\/app\/css\/screen.css" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/app\/css\/screen.css",
-      "outputAbbreviatedPath" : "No Output Path",
-      "fileType" : 16
     },
     "\/source\/stylesheets\/partials\/_auth.scss" : {
       "ignoreWasSetByUser" : 0,
@@ -104,18 +128,6 @@
       "fileType" : 4,
       "debugStyle" : 0
     },
-    "\/source\/scripts\/controllers\/lists.title.coffee" : {
-      "ignoreWasSetByUser" : 1,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/source\/scripts\/controllers\/lists.title.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/source\/scripts\/controllers\/lists.title.js",
-      "outputStyle" : 0,
-      "fileType" : 32
-    },
     "\/app\/img\/search_light.png" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
@@ -150,30 +162,6 @@
       "fileType" : 4,
       "debugStyle" : 0
     },
-    "\/source\/scripts\/controllers\/panel.coffee" : {
-      "ignoreWasSetByUser" : 1,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/source\/scripts\/controllers\/panel.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/source\/scripts\/controllers\/panel.js",
-      "outputStyle" : 0,
-      "fileType" : 32
-    },
-    "\/source\/scripts\/controllers\/lists.coffee" : {
-      "ignoreWasSetByUser" : 1,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/source\/scripts\/controllers\/lists.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/source\/scripts\/controllers\/lists.js",
-      "outputStyle" : 0,
-      "fileType" : 32
-    },
     "\/source\/scripts\/vendor\/modal.js" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
@@ -184,18 +172,6 @@
       "syntaxCheckerStyle" : 0,
       "outputAbbreviatedPath" : "\/source\/scripts\/vendor\/modal.min.js",
       "fileType" : 64
-    },
-    "\/source\/scripts\/views\/auth.coffee" : {
-      "ignoreWasSetByUser" : 1,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/source\/scripts\/views\/auth.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/source\/scripts\/views\/auth.js",
-      "outputStyle" : 0,
-      "fileType" : 32
     },
     "\/source\/stylesheets\/partials\/_tasks.scss" : {
       "ignoreWasSetByUser" : 0,
@@ -208,6 +184,18 @@
       "outputAbbreviatedPath" : "\/app\/css\/_tasks.css",
       "fileType" : 4,
       "debugStyle" : 0
+    },
+    "\/source\/scripts\/views\/auth.coffee" : {
+      "ignoreWasSetByUser" : 1,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/source\/scripts\/views\/auth.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/source\/scripts\/views\/auth.js",
+      "outputStyle" : 0,
+      "fileType" : 32
     },
     "\/source\/scripts\/languages\/datepicker\/de.js" : {
       "ignoreWasSetByUser" : 1,
@@ -397,23 +385,11 @@
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
       "inputAbbreviatedPath" : "\/source\/stylesheets\/screen.scss",
-      "outputStyle" : 3,
+      "outputStyle" : 0,
       "shouldRunBless" : 0,
       "outputAbbreviatedPath" : "\/app\/css\/screen.css",
       "fileType" : 4,
       "debugStyle" : 0
-    },
-    "\/source\/scripts\/controllers\/tasks.item.coffee" : {
-      "ignoreWasSetByUser" : 1,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/source\/scripts\/controllers\/tasks.item.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/source\/scripts\/controllers\/tasks.item.js",
-      "outputStyle" : 0,
-      "fileType" : 32
     },
     "\/source\/scripts\/views\/tasks.item.coffee" : {
       "ignoreWasSetByUser" : 1,
@@ -436,6 +412,18 @@
       "outputStyle" : 0,
       "shouldRunBless" : 0,
       "outputAbbreviatedPath" : "\/app\/css\/_modals.css",
+      "fileType" : 4,
+      "debugStyle" : 0
+    },
+    "\/source\/stylesheets\/modules\/_scrollbars.scss" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/source\/stylesheets\/modules\/_scrollbars.scss",
+      "outputStyle" : 0,
+      "shouldRunBless" : 0,
+      "outputAbbreviatedPath" : "\/app\/css\/_scrollbars.css",
       "fileType" : 4,
       "debugStyle" : 0
     },
@@ -484,6 +472,42 @@
       "outputAbbreviatedPath" : "\/app\/img\/search_blue.png",
       "initialSize" : 3451,
       "fileType" : 8192
+    },
+    "\/source\/scripts\/__deprecated\/panel.coffee" : {
+      "ignoreWasSetByUser" : 1,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/source\/scripts\/__deprecated\/panel.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/source\/scripts\/__deprecated\/panel.js",
+      "outputStyle" : 0,
+      "fileType" : 32
+    },
+    "\/source\/scripts\/views\/list\/item.coffee" : {
+      "ignoreWasSetByUser" : 1,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/source\/scripts\/views\/list\/item.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/source\/scripts\/views\/list\/item.js",
+      "outputStyle" : 0,
+      "fileType" : 32
+    },
+    "\/source\/scripts\/views\/list\/all.coffee" : {
+      "ignoreWasSetByUser" : 1,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/source\/scripts\/views\/list\/all.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/source\/scripts\/views\/list\/all.js",
+      "outputStyle" : 0,
+      "fileType" : 32
     },
     "\/app\/img\/skydrive.png" : {
       "ignoreWasSetByUser" : 0,
@@ -544,8 +568,8 @@
       "fileType" : 32
     },
     "\/source\/scripts\/templates\/auth.coffee" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
+      "ignoreWasSetByUser" : 1,
+      "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
       "inputAbbreviatedPath" : "\/source\/scripts\/templates\/auth.coffee",
@@ -647,8 +671,8 @@
       "fileType" : 8192
     },
     "\/source\/scripts\/utils\/config.coffee" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
+      "ignoreWasSetByUser" : 1,
+      "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
       "inputAbbreviatedPath" : "\/source\/scripts\/utils\/config.coffee",
@@ -692,18 +716,6 @@
       "outputAbbreviatedPath" : "\/app\/img\/inbox.png",
       "initialSize" : 2961,
       "fileType" : 8192
-    },
-    "\/source\/scripts\/controllers\/tasks.coffee" : {
-      "ignoreWasSetByUser" : 1,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/source\/scripts\/controllers\/tasks.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/source\/scripts\/controllers\/tasks.js",
-      "outputStyle" : 0,
-      "fileType" : 32
     },
     "\/source\/scripts\/models\/task.coffee" : {
       "ignoreWasSetByUser" : 1,
@@ -859,6 +871,18 @@
       "fileType" : 4,
       "debugStyle" : 0
     },
+    "\/source\/stylesheets\/partials\/_buttons.scss" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/source\/stylesheets\/partials\/_buttons.scss",
+      "outputStyle" : 0,
+      "shouldRunBless" : 0,
+      "outputAbbreviatedPath" : "\/app\/css\/_buttons.css",
+      "fileType" : 4,
+      "debugStyle" : 0
+    },
     "\/source\/scripts\/views\/modal.coffee" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
@@ -894,18 +918,6 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
-    "\/source\/scripts\/views\/lists.item.coffee" : {
-      "ignoreWasSetByUser" : 1,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/source\/scripts\/views\/lists.item.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/source\/scripts\/views\/lists.item.js",
-      "outputStyle" : 0,
-      "fileType" : 32
-    },
     "\/source\/stylesheets\/mixins\/_pos.scss" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -928,6 +940,18 @@
       "outputAbbreviatedPath" : "\/app\/img\/settings.png",
       "initialSize" : 4242,
       "fileType" : 8192
+    },
+    "\/source\/scripts\/views\/list_buttons.coffee" : {
+      "ignoreWasSetByUser" : 1,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/source\/scripts\/views\/list_buttons.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/source\/scripts\/views\/list_buttons.js",
+      "outputStyle" : 0,
+      "fileType" : 32
     },
     "\/source\/scripts\/controllers\/sync.coffee" : {
       "ignoreWasSetByUser" : 1,
@@ -1055,6 +1079,18 @@
       "outputAbbreviatedPath" : "\/source\/scripts\/vendor\/md5.min.js",
       "fileType" : 64
     },
+    "\/source\/scripts\/views\/list\/completed.coffee" : {
+      "ignoreWasSetByUser" : 1,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/source\/scripts\/views\/list\/completed.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/source\/scripts\/views\/list\/completed.js",
+      "outputStyle" : 0,
+      "fileType" : 32
+    },
     "\/app\/img\/datearrows.png" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
@@ -1065,18 +1101,6 @@
       "outputAbbreviatedPath" : "\/app\/img\/datearrows.png",
       "initialSize" : 2959,
       "fileType" : 8192
-    },
-    "\/source\/scripts\/controllers\/lists.item.coffee" : {
-      "ignoreWasSetByUser" : 1,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/source\/scripts\/controllers\/lists.item.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/source\/scripts\/controllers\/lists.item.js",
-      "outputStyle" : 0,
-      "fileType" : 32
     },
     "\/source\/scripts\/controllers\/app.coffee" : {
       "ignoreWasSetByUser" : 1,
@@ -1089,6 +1113,18 @@
       "outputAbbreviatedPath" : "\/source\/scripts\/controllers\/app.js",
       "outputStyle" : 0,
       "fileType" : 32
+    },
+    "\/source\/stylesheets\/mixins\/_vendor.scss" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/source\/stylesheets\/mixins\/_vendor.scss",
+      "outputStyle" : 0,
+      "shouldRunBless" : 0,
+      "outputAbbreviatedPath" : "\/app\/css\/_vendor.css",
+      "fileType" : 4,
+      "debugStyle" : 0
     },
     "\/source\/scripts\/controllers\/auth.coffee" : {
       "ignoreWasSetByUser" : 1,
@@ -1125,8 +1161,20 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
+    "\/source\/scripts\/views\/list\/inbox.coffee" : {
+      "ignoreWasSetByUser" : 1,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/source\/scripts\/views\/list\/inbox.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/source\/scripts\/views\/list\/inbox.js",
+      "outputStyle" : 0,
+      "fileType" : 32
+    },
     "\/source\/stylesheets\/partials\/_header.scss" : {
-      "ignoreWasSetByUser" : 0,
+      "ignoreWasSetByUser" : 1,
       "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
@@ -1147,6 +1195,18 @@
       "outputAbbreviatedPath" : "\/app\/img\/hamburger@2x.png",
       "initialSize" : 6379,
       "fileType" : 8192
+    },
+    "\/source\/scripts\/views\/title.coffee" : {
+      "ignoreWasSetByUser" : 1,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/source\/scripts\/views\/title.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/source\/scripts\/views\/title.js",
+      "outputStyle" : 0,
+      "fileType" : 32
     },
     "\/source\/scripts\/views\/panel.coffee" : {
       "ignoreWasSetByUser" : 1,
@@ -1309,27 +1369,15 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
-    "\/source\/scripts\/views\/lists.title.coffee" : {
-      "ignoreWasSetByUser" : 1,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/source\/scripts\/views\/lists.title.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/source\/scripts\/views\/lists.title.js",
-      "outputStyle" : 0,
-      "fileType" : 32
-    },
-    "\/app\/img\/search.png" : {
+    "\/app\/img\/tour.png" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/app\/img\/search.png",
+      "inputAbbreviatedPath" : "\/app\/img\/tour.png",
       "processed" : 1,
-      "outputAbbreviatedPath" : "\/app\/img\/search.png",
-      "initialSize" : 3314,
+      "outputAbbreviatedPath" : "\/app\/img\/tour.png",
+      "initialSize" : 5756,
       "fileType" : 8192
     },
     "\/source\/stylesheets\/partials\/_task.scss" : {
@@ -1344,15 +1392,15 @@
       "fileType" : 4,
       "debugStyle" : 0
     },
-    "\/app\/img\/tour.png" : {
+    "\/app\/img\/search.png" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/app\/img\/tour.png",
+      "inputAbbreviatedPath" : "\/app\/img\/search.png",
       "processed" : 1,
-      "outputAbbreviatedPath" : "\/app\/img\/tour.png",
-      "initialSize" : 5756,
+      "outputAbbreviatedPath" : "\/app\/img\/search.png",
+      "initialSize" : 3314,
       "fileType" : 8192
     },
     "\/app\/img\/inbox_light.png" : {
@@ -1376,6 +1424,18 @@
       "outputAbbreviatedPath" : "\/app\/img\/completed_light.png",
       "initialSize" : 2947,
       "fileType" : 8192
+    },
+    "\/source\/stylesheets\/mixins\/_keyframes.scss" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/source\/stylesheets\/mixins\/_keyframes.scss",
+      "outputStyle" : 0,
+      "shouldRunBless" : 0,
+      "outputAbbreviatedPath" : "\/app\/css\/_keyframes.css",
+      "fileType" : 4,
+      "debugStyle" : 0
     },
     "\/source\/scripts\/languages\/datepicker\/fr.js" : {
       "ignoreWasSetByUser" : 1,
