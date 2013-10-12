@@ -10,3 +10,8 @@ Thumbs.db
 ######################
 .sass-cache
 node_modules
+
+# Misc
+######################
+codekit-config.json
+.agignore
