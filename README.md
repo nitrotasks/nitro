@@ -1,14 +1,14 @@
-# Nitro 2 #
+# Nitro 2.1 #
 
 ## Installation ##
 
-Nitro 2 is written in [CoffeeScript](http://coffeescript.org/) and uses the [SpineJS](http://spinejs.com/) framework.
+Nitro is written in [CoffeeScript](http://coffeescript.org/) and uses the [Base](http://github.com/stayradiated/base) framework.
 
 ### Installing ###
 
     git clone https://github.com/stayradiated/Nitro.git
     cd Nitro
-    npm install .
+    npm install
 
 ### Local Development Server ###
 
@@ -37,19 +37,3 @@ Use these commands to compile and minify the app into the public folder.
 
     # Minify application.js
     cake minify
-
-### Building Nitro on Windows
-
-If you are using Windows then you will not be able to use the `cake` commands above.
-However you can still compile Nitro by installing browserify as a global module.
-
-    # Install browserify
-    npm install -g browserify caching-coffeeify
-
-    # Run from inside the Nitro folder
-    browserify -t caching-coffeeify app/init.coffee -o public/application.js
-
-    # You can compile the CSS using SASS
-    sass css/index.scss:public/application.css
-
-
