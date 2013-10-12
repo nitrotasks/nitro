@@ -12,7 +12,7 @@ class ListInbox extends ListItem
       drop: (event, ui) =>
         movedTask = Task.get(ui.draggable.attr('id').slice(5))
         List.current.moveTask(movedTask, List.get('inbox'))
-        
+
   # Show completed
   showCompleted: =>
     List.trigger 'change:current', List.get('inbox')

@@ -14,7 +14,7 @@ class ListAll extends ListItem
     @el.find('.current').removeClass 'current'
     @all.addClass 'current'
     return
-    
+
   updateAll: =>
     @inboxCount.text Task.active('inbox').length
     @allCount.text Task.active().length

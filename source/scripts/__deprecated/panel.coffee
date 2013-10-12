@@ -45,7 +45,7 @@ class Panel extends Base.Controller
 
   toggleMenu: (onOff) =>
     @sidebar.toggleClass('show', onOff)
- 
+
   setName: (name = setting.userName) =>
     @name.text(name)
 

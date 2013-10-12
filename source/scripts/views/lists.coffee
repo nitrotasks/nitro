@@ -35,7 +35,7 @@ class Lists extends Base.Controller
     list = List.create name: name
     list.trigger 'select'
 
-  # Add a single list to the DOM 
+  # Add a single list to the DOM
   addOne: (list) =>
     return if list.id is 'inbox'
     listItem = new ListItem

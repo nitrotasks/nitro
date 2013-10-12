@@ -193,7 +193,7 @@ class TaskItem extends Base.Controller
       # Pretty Dates Engine
       @time.text Task.prettyDate(new Date(@task.date)).words
       @time.attr 'class', Task.prettyDate(new Date(@task.date)).className
-        
+
     else
       @task.updateAttribute 'date', ''
       @el.find('img').removeAttr('style')

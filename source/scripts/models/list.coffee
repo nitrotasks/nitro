@@ -41,14 +41,14 @@ class List extends Base.Model
         task.destroy(sync:no)
       else
         task.list = 'inbox'
-        
+
 class ListCollection extends Base.Collection
 
   model: List
 
   constructor: ->
     super
-    
+
 module.exports = new ListCollection()
 
 # Is this the best way to do this?

@@ -24,7 +24,7 @@ class Title extends Base.Controller
   # Display listname
   render: (@list) =>
     @title.text @list.name
-    
+
     if @list.permanent
       @title.removeAttr 'contenteditable'
     else

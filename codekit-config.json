@@ -289,6 +289,17 @@
       "initialSize" : 7681,
       "fileType" : 8192
     },
+    "\/app\/img\/logo_light@2x.png" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/app\/img\/logo_light@2x.png",
+      "processed" : 1,
+      "outputAbbreviatedPath" : "\/app\/img\/logo_light@2x.png",
+      "initialSize" : 7724,
+      "fileType" : 8192
+    },
     "\/source\/scripts\/utils\/prettydate.coffee" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
@@ -300,17 +311,6 @@
       "outputAbbreviatedPath" : "\/source\/scripts\/utils\/prettydate.js",
       "outputStyle" : 0,
       "fileType" : 32
-    },
-    "\/app\/img\/logo_light@2x.png" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/app\/img\/logo_light@2x.png",
-      "processed" : 1,
-      "outputAbbreviatedPath" : "\/app\/img\/logo_light@2x.png",
-      "initialSize" : 7724,
-      "fileType" : 8192
     },
     "\/app\/index.html" : {
       "ignoreWasSetByUser" : 1,
@@ -859,18 +859,6 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
-    "\/source\/stylesheets\/modules\/_clearfix.scss" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/source\/stylesheets\/modules\/_clearfix.scss",
-      "outputStyle" : 0,
-      "shouldRunBless" : 0,
-      "outputAbbreviatedPath" : "\/app\/css\/_clearfix.css",
-      "fileType" : 4,
-      "debugStyle" : 0
-    },
     "\/source\/stylesheets\/partials\/_buttons.scss" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -880,6 +868,18 @@
       "outputStyle" : 0,
       "shouldRunBless" : 0,
       "outputAbbreviatedPath" : "\/app\/css\/_buttons.css",
+      "fileType" : 4,
+      "debugStyle" : 0
+    },
+    "\/source\/stylesheets\/modules\/_clearfix.scss" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/source\/stylesheets\/modules\/_clearfix.scss",
+      "outputStyle" : 0,
+      "shouldRunBless" : 0,
+      "outputAbbreviatedPath" : "\/app\/css\/_clearfix.css",
       "fileType" : 4,
       "debugStyle" : 0
     },
@@ -1079,6 +1079,17 @@
       "outputAbbreviatedPath" : "\/source\/scripts\/vendor\/md5.min.js",
       "fileType" : 64
     },
+    "\/app\/img\/datearrows.png" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/app\/img\/datearrows.png",
+      "processed" : 1,
+      "outputAbbreviatedPath" : "\/app\/img\/datearrows.png",
+      "initialSize" : 2959,
+      "fileType" : 8192
+    },
     "\/source\/scripts\/views\/list\/completed.coffee" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
@@ -1090,17 +1101,6 @@
       "outputAbbreviatedPath" : "\/source\/scripts\/views\/list\/completed.js",
       "outputStyle" : 0,
       "fileType" : 32
-    },
-    "\/app\/img\/datearrows.png" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/app\/img\/datearrows.png",
-      "processed" : 1,
-      "outputAbbreviatedPath" : "\/app\/img\/datearrows.png",
-      "initialSize" : 2959,
-      "fileType" : 8192
     },
     "\/source\/scripts\/controllers\/app.coffee" : {
       "ignoreWasSetByUser" : 1,
@@ -1369,15 +1369,15 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
-    "\/app\/img\/tour.png" : {
+    "\/app\/img\/search.png" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/app\/img\/tour.png",
+      "inputAbbreviatedPath" : "\/app\/img\/search.png",
       "processed" : 1,
-      "outputAbbreviatedPath" : "\/app\/img\/tour.png",
-      "initialSize" : 5756,
+      "outputAbbreviatedPath" : "\/app\/img\/search.png",
+      "initialSize" : 3314,
       "fileType" : 8192
     },
     "\/source\/stylesheets\/partials\/_task.scss" : {
@@ -1392,15 +1392,15 @@
       "fileType" : 4,
       "debugStyle" : 0
     },
-    "\/app\/img\/search.png" : {
+    "\/app\/img\/tour.png" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/app\/img\/search.png",
+      "inputAbbreviatedPath" : "\/app\/img\/tour.png",
       "processed" : 1,
-      "outputAbbreviatedPath" : "\/app\/img\/search.png",
-      "initialSize" : 3314,
+      "outputAbbreviatedPath" : "\/app\/img\/tour.png",
+      "initialSize" : 5756,
       "fileType" : 8192
     },
     "\/app\/img\/inbox_light.png" : {

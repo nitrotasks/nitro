@@ -33,7 +33,7 @@ class Translate
 
   exists: (text) =>
     @dictionary.hasOwnProperty text
-    
+
   convert: (text) =>
     if @exists text
       return @dictionary[text]
