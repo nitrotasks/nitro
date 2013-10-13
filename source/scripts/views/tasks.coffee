@@ -119,19 +119,16 @@ class Tasks extends Base.Controller
 
     # Special list
     if list.id is 'filter'
-      console.log 'filter'
       tasks = list.tasks
       @el.append view.special
 
     # Standard list
     else if list?.tasks
-      console.log 'standard'
       tasks = list.tasks
       @el.append view.standard
 
     # Empty list
     else
-      console.log 'empty'
       tasks = Task.list(list.id)
       @el.append view.empty
 
@@ -176,6 +173,7 @@ class Tasks extends Base.Controller
         view = new TaskItem
           task: task
           el: @tasks.find("#task-#{ task.id }")
+        @bindTask view
         @views.push view
 
     # Handles Empty List

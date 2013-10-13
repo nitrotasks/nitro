@@ -687,7 +687,7 @@ table {
   -moz-box-sizing: border-box;
   box-sizing: border-box; }
 
-.sidebar .list .name {
+.sidebar .list .name, .task .name {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap; }
@@ -2861,9 +2861,6 @@ html, body {
     .sidebar .create-list:-moz-placeholder {
       color: #888888; }
 
-/*
- * A SINGLE TASK
- */
 .task {
   display: block;
   list-style-type: none;
@@ -2879,9 +2876,16 @@ html, body {
   -moz-transition: 0.15s, ease, margin;
   transition: 0.15s, ease, margin;
   -webkit-transform: translate3d(0, 0, 0);
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0); }
   .task.new {
     -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
     -webkit-animation: new-task 1 ease 150ms;
     -moz-animation: new-task 1 ease 150ms;
     -ms-animation: new-task 1 ease 150ms;
@@ -2900,11 +2904,11 @@ html, body {
     left: 31px;
     right: auto; }
   .task.p3 .checkbox, .task.p3 .notes {
-    border-left: 4px solid #e15556; }
+    border-left-color: #e15556; }
   .task.p2 .checkbox, .task.p2 .notes {
-    border-left: 4px solid #9dd071; }
+    border-left-color: #9dd071; }
   .task.p1 .checkbox, .task.p1 .notes {
-    border-left: 4px solid #1bc1f5; }
+    border-left-color: #1bc1f5; }
   .task .tag {
     color: #068dd8;
     cursor: pointer;
@@ -2919,7 +2923,8 @@ html, body {
     margin-bottom: -11px;
     width: 28px;
     height: 30px;
-    top: -1px; }
+    top: -1px;
+    border-left: 4px solid #cccccc; }
     .task .checkbox:before {
       display: block;
       content: "";
@@ -2936,10 +2941,6 @@ html, body {
     bottom: auto;
     left: 44px;
     right: 0;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    cursor: default;
     -webkit-transition: 150ms, color, ease;
     -moz-transition: 150ms, color, ease;
     transition: 150ms, color, ease; }
@@ -3043,7 +3044,8 @@ html, body {
     outline: none;
     height: 0;
     padding: 0 5px 0 40px;
-    overflow: hidden; }
+    overflow: hidden;
+    border-left: 4px solid #cccccc; }
     .task .notes::-webkit-scrollbar-track {
       margin: 10px 0; }
     .task .notes::-webkit-scrollbar {
@@ -3089,21 +3091,18 @@ html, body {
         outline: 0; }
   .task.completed .checkbox:after {
     content: "";
-    display: block;
+    width: 10px;
+    height: 10px;
     position: absolute;
     top: 10px;
     bottom: auto;
     left: 9px;
     right: auto;
-    width: 10px;
-    height: 10px;
     background: url("../img/checkmark.png") no-repeat; }
   .task.completed .checkbox, .task.completed .notes {
-    border-left: 4px solid #cccccc; }
-  .task.completed .name {
-    color: #999999; }
-    .task.completed .name .tag {
-      color: #999999; }
+    border-left-color: #cccccc; }
+  .task.completed .name, .task.completed .tag {
+    color: #888888; }
   .task.completed img, .task.completed time {
     display: none !important; }
 

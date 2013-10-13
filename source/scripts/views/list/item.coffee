@@ -24,8 +24,6 @@ class ListItem extends Base.Controller
         'change': @updateCount
     ]
 
-    console.log @list.tasks
-
   # Create the list element
   render: =>
 
@@ -43,7 +41,6 @@ class ListItem extends Base.Controller
     return this
 
   updateCount: =>
-    console.log 'updating list count'
     @count.text @list.tasks.length
 
   updateName: =>

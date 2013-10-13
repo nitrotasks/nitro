@@ -1,7 +1,7 @@
 
-/*
- * A SINGLE TASK
- */
+// ----------------------------------------------------------------------------
+// A SINGLE TASK
+// ----------------------------------------------------------------------------
 
 .task {
 
@@ -16,16 +16,12 @@
   border-top: 0;
   border-left: 0;
 
-  @include transition(.15s, ease, margin);
-  -webkit-transform: translate3d(0, 0, 0);
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  @include transition( 0.15s, ease, margin );
+  @include transform( translate3d(0, 0, 0) );
 
   &.new {
-    -webkit-transform: none;
-    -webkit-animation: new-task 1 ease 150ms;
-    -moz-animation: new-task 1 ease 150ms;
-    -ms-animation: new-task 1 ease 150ms;
-    animation: new-task 1 ease 150ms;
+    @include transform( none );
+    @include animation( new-task 1 ease 150ms );
   }
 
   &:first-child {
@@ -42,36 +38,40 @@
     @include pos(0, auto, 0, 31px);
   }
 
-  &.p3 .checkbox, &.p3 .notes {
-    border-left: 4px solid $red;
+  &.p3 .checkbox,
+  &.p3 .notes {
+    border-left-color: $red;
   }
 
-  &.p2 .checkbox, &.p2 .notes {
-    border-left: 4px solid $green;
+  &.p2 .checkbox,
+  &.p2 .notes {
+    border-left-color: $green;
   }
 
-  &.p1 .checkbox, &.p1 .notes {
-    border-left: 4px solid $light-blue;
+  &.p1 .checkbox,
+  &.p1 .notes {
+    border-left-color: $light-blue;
   }
 
   .tag {
     color: $dark-blue;
     cursor: pointer;
     @include transition(150ms, color, ease);
+
     &:hover {
       text-decoration: underline;
     }
   }
 
-  // Checkbox
   .checkbox {
     display: inline-block;
     position: relative;
-    // Not sure why, but there is a large space underneath
     margin-bottom: -11px;
     width: 28px;
     height: 30px;
     top: -1px;
+    border-left: 4px solid $mid-grey;
+
     &:before {
       display: block;
       content: "";
@@ -84,19 +84,15 @@
     }
   }
 
-  // Task Name
   .name {
     line-height: 18px;
+    @extend %ellipsis;
     @include pos(6px, 0, auto, 44px);
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    cursor: default;
     @include transition(150ms, color, ease);
   }
 
   .input-name {
-    color: #4c4c4c;
+    color: $dark-grey;
     @include pos(6px, 0, auto, 44px);
     @include transition(0.2s, background);
     display: none;
@@ -105,14 +101,12 @@
     padding: 0;
   }
 
-  // Buttons
   .right-controls {
     @include pos(0, 0, auto, auto);
     text-align: right;
     font-size: 0;
   }
 
-  // Trash Can
   .delete {
     display: none;
     background: url("../img/trashcan_grey.png") 50% 50% no-repeat;
@@ -200,10 +194,7 @@
 
   &.animout {
     .notes {
-      -webkit-animation: 0.15s ease rev 1;
-      -moz-animation: 0.15s ease rev 1;
-      -ms-animation: 0.15s ease rev 1;
-      animation: 0.15s ease rev 1;
+      @include animation( 0.15s ease rev 1 );
     }
   }
 
@@ -215,98 +206,114 @@
     height: 0;
     padding: 0 5px 0 40px;
     overflow: hidden;
+    border-left: 4px solid $mid-grey;
+
     &::-webkit-scrollbar-track {
       margin: 10px 0;
     }
+
     &::-webkit-scrollbar {
       width: 0;
     }
+
     &.placeholder {
       color: hsl(0, 0, 40%);
     }
   }
 
-  // Expanded Task
+  // --------------------------------------------------------------------------
+  // EXPANDED TASK
+  // --------------------------------------------------------------------------
+
   &.expanded {
     border-top: 1px solid $task-color;
+
     &.group {
       margin-bottom: 20px;
     }
+
     &+ li {
       border-top: 1px solid $task-color;
       &.seperator {
         border-top: 0;
       }
     }
+
     // Add some spacing around the task
     margin: 5px 0;
+
     // Show right buttons
     .date, .delete, .priority-button, img {
       display: inline-block;
     }
+
     // Hide List Name
     .name, time, .listName {
       display: none;
     }
+
     .input-name {
       display: inline-block;
       cursor: text;
       right: 214px;
     }
+
     .notes {
       cursor: text;
       display: block;
-      //min-height: 40px
       height: 40px;
       padding: 5px 5px 5px 40px;
       border-top: 1px #e6e6e6 solid;
-      -webkit-animation: 0.15s ease height 1;
-      -moz-animation: 0.15s ease height 1;
-      -ms-animation: 0.15s ease height 1;
-      animation: 0.15s ease height 1;
+      @include animation( 0.15s ease height 1 );
       overflow: auto;
       max-height: 200px;
+
       &.auto {
         height: auto;
+
         &::-webkit-scrollbar {
           width: 7px;
         }
+
       }
+
       .inner {
         min-height: 40px;
         width: 100%;
         outline: 0;
       }
+
     }
+
   }
 
-  // Completed Task
+  // --------------------------------------------------------------------------
+  // COMPLETED TASK
+  // --------------------------------------------------------------------------
+
   &.completed {
-    // Add Tick to Checkbox
+
     .checkbox:after {
       content: "";
-      display: block;
-      @include pos(10px, auto, auto, 9px);
-      width: 10px;
+      width:  10px;
       height: 10px;
+      @include pos(10px, auto, auto, 9px);
       background: url("../img/checkmark.png") no-repeat;
     }
+
     .checkbox, .notes {
-      border-left: 4px solid #cccccc;
+      border-left-color: $mid-grey;
     }
-    // Strikethrough task name
-    .name {
-      // text-decoration: line-through
-      color: hsl(0, 0, 60%);
-      // Change tag Color
-      .tag {
-        color: hsl(0, 0, 60%);
-      }
+
+    .name, .tag {
+      color: $half-grey;
     }
-    // Hide Due Date
+
     img, time {
       display: none !important;
     }
+
   }
+
 }
 

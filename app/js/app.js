@@ -14205,6 +14205,9 @@
               // Returns an event ID so you can unbind it later
               Event.prototype.on = function (events, fn) {
                   var ids, id, i, len, event;
+                  if (typeof fn !== 'function') {
+                      throw new Error('fn not function');
+                  }
                   // Allow multiple events to be set at once such as:
                   // event.on('update change refresh', this.render);
                   ids = [];
@@ -14230,7 +14233,8 @@
                   args = 2 <= arguments.length ? [].slice.call(arguments, 1) : [];
                   // Is this a good idea?
                   if (event !== '*') {
-                      this.trigger('*', event, args.slice(0));
+                      // console.log('--', event, args, '\n')
+                      this.trigger('*', event, args);
                   }
                   actions = this._events[event];
                   if (actions) {
@@ -14425,20 +14429,14 @@
                   include(this._data, attrs);
       
                   set = function (key) {
-                      // Encapture key
                       return function (value) {
-                          // Don't do anything if the value doesn't change
-                          if (value === self._data[key]) { return; }
-                          self._data[key] = value;
-                          self.trigger('change', key, value);
-                          self.trigger('change:' + key, value);
+                          return self.set(key, value);
                       };
                   };
       
                   get = function (key) {
-                      // Encapture key
                       return function () {
-                          return self._data[key];
+                          return self.get(key);
                       };
                   };
       
@@ -14454,6 +14452,21 @@
               // Load Events
               inherit(Model, Event);
               include(Model, Module);
+      
+              // Change a value
+              Model.prototype.set = function(key, value, options) {
+                  if (value === this._data[key]) { return; }
+                  this._data[key] = value;
+                  if (!options || !options.silent) {
+                      this.trigger('change', key, value);
+                      this.trigger('change:' + key, value);
+                  }
+              };
+      
+              // Get a value
+              Model.prototype.get = function(key) {
+                  return this._data[key];
+              };
       
               // Load data into the model
               Model.prototype.refresh = function (data, replace) {
@@ -14475,8 +14488,18 @@
               };
       
               // Convert the class instance into a simple object
-              Model.prototype.toJSON = function () {
-                  return this._data;
+              Model.prototype.toJSON = function (strict) {
+                  var key, json;
+                  if (strict) {
+                      for (key in this._defaults) {
+                          if (this._defaults.hasOwnProperty(key)) {
+                              json[key] = this._data[key];
+                          }
+                      }
+                  } else {
+                      json = this._data;
+                  }
+                  return json;
               };
       
       
@@ -14524,9 +14547,12 @@
                   if (model.id) {
                       id = model.id;
                   } else {
-                      id = model.id = 'c-' + this._index;
+                      id = 'c-' + this._index;
                       this._index += 1;
+                      model.set('id', id, {silent: true});
                   }
+      
+                  console.log('\n++ id', model.id, model.get('id'));
       
                   // Add to collection
                   model.collection = this;
@@ -14537,8 +14563,9 @@
                   // Bubble events
                   this.listen(model, {
                       '*': function(event, args) {
-                          args.unshift(model);
-                          args.unshift(event + ':model');
+                          args = args.slice(0);
+                          args.unshift(event + ':model', model);
+                          // console.log('++', event, ' -> ', self.type || self.className, self)
                           self.trigger.apply(self, args);
                       },
                       'before:destroy': function () {
@@ -14562,7 +14589,7 @@
                   delete this._lookup[model.id];
                   this.length -= 1;
                   this.stopListening(model);
-                  this.trigger('remove')
+                  this.trigger('remove:model')
                   this.trigger('change');
               };
       
@@ -14572,7 +14599,7 @@
                   this._models.splice(index, 1);
                   this._models.splice(pos, 0, model);
                   this._lookup[model.id] = index;
-                  this.trigger('move')
+                  this.trigger('change:order')
                   this.trigger('change');
               };
       
@@ -14607,6 +14634,7 @@
       
               // Get the index of the item
               Collection.prototype.indexOf = function (model) {
+                  console.log('-- indexof', model);
                   if (typeof model === 'string') {
                       // Convert model id to actual model
                       return this.indexOf(this.get(model));
@@ -15311,20 +15339,23 @@
             return new Collection(this);
           }
         };
-        Sync.core = {
-          extended: function() {
-            this.on('fetch', this.syncFetch);
-            this.bind('change', this.syncChange);
-            this.bind('updateAttr', this.syncUpdate);
-            this.bind('refresh update', this.saveLocal);
-            this.extend(Extend);
-            return this.include(Include);
-          },
-          syncFetch: function() {
-            this.loadLocal();
-            return this.sync();
-          },
-          syncChange: function(record, type, options) {
+        Sync.Collection = (function(_super) {
+          __extends(Collection, _super);
+
+          function Collection() {
+            this.save = __bind(this.save, this);
+            this.fetch = __bind(this.fetch, this);
+            this.syncFetch = __bind(this.syncFetch, this);
+            Collection.__super__.constructor.apply(this, arguments);
+            this.on('fetch', this.fetch);
+            this.on('save:model create:model change:model remove:model', this.save);
+          }
+
+          Collection.prototype.syncFetch = function() {
+            return this.loadLocal();
+          };
+
+          Collection.prototype.syncChange = function(record, type, options) {
             if (options == null) {
               options = {};
             }
@@ -15336,26 +15367,29 @@
               return;
             }
             return record.sync()[type](options.sync, options);
-          },
-          syncUpdate: function(record, key, value, old, options) {
+          };
+
+          Collection.prototype.syncUpdate = function(record, key, value, old, options) {
             if (options.sync === false) {
               return;
             }
             return record.sync().update.apply(this, arguments);
-          },
-          loadLocal: function() {
+          };
+
+          Collection.prototype.fetch = function() {
             var result;
-            result = localStorage[this.className];
-            return this.refresh(result || [], {
-              clear: true
-            });
-          },
-          saveLocal: function() {
-            var result;
-            result = JSON.stringify(this);
-            return localStorage[this.className] = result;
-          }
-        };
+            result = JSON.parse(localStorage[this.className] || '[]');
+            return this.refresh(result, true);
+          };
+
+          Collection.prototype.save = function() {
+            console.log('[' + this.className + ']', 'saving', arguments);
+            return localStorage[this.className] = JSON.stringify(this.toJSON());
+          };
+
+          return Collection;
+
+        })(Base.Collection);
         return module.exports = Sync;
       }
     ], [
@@ -16020,12 +16054,12 @@
           }
 
           Task.prototype.defaults = {
+            id: null,
             name: '',
             date: null,
             notes: '',
-            completed: false,
             priority: 1,
-            list: null
+            completed: false
           };
 
           return Task;
@@ -16034,9 +16068,9 @@
         TaskCollection = (function(_super) {
           __extends(TaskCollection, _super);
 
-          TaskCollection.prototype.model = Task;
+          TaskCollection.prototype.className = 'task';
 
-          TaskCollection.extend(Sync.core);
+          TaskCollection.prototype.model = Task;
 
           function TaskCollection() {
             this.tag = __bind(this.tag, this);
@@ -16045,6 +16079,7 @@
             this.list = __bind(this.list, this);
             this.completed = __bind(this.completed, this);
             this.active = __bind(this.active, this);
+            this.toArray = __bind(this.toArray, this);
             var _this = this;
             TaskCollection.__super__.constructor.apply(this, arguments);
             this.on('create:model', function(task) {
@@ -16058,6 +16093,15 @@
               }
             });
           }
+
+          TaskCollection.prototype.toArray = function() {
+            var array;
+            array = [];
+            this.forEach(function(task) {
+              return array.push(task.id);
+            });
+            return array;
+          };
 
           TaskCollection.prototype.active = function(list) {
             return this.filter(function(task) {
@@ -16152,8 +16196,9 @@
 
           return TaskCollection;
 
-        })(Base.Collection);
-        return module.exports = new TaskCollection();
+        })(Sync.Collection);
+        module.exports = new TaskCollection();
+        return module.exports.type = 'major';
       }
     ], [
       {
@@ -16176,18 +16221,38 @@
             name: ''
           };
 
-          List.extend(Sync.core);
-
           List.current = null;
 
           function List() {
+            this.toJSON = __bind(this.toJSON, this);
             this.destroyTasks = __bind(this.destroyTasks, this);
             this.moveCompleted = __bind(this.moveCompleted, this);
             this.moveTask = __bind(this.moveTask, this);
-            var Task;
+            var Task, taskIds,
+              _this = this;
             List.__super__.constructor.apply(this, arguments);
             Task = require('./task');
-            this.tasks = new Task.constructor();
+            if (Array.isArray(this.tasks)) {
+              taskIds = this.tasks;
+              this.tasks = new Task.constructor();
+              taskIds.forEach(function(id) {
+                var task;
+                if (Task.exists(id)) {
+                  task = Task.get(id);
+                  return _this.tasks.add(task, {
+                    silent: true
+                  });
+                } else {
+                  return console.log('could not find task', id);
+                }
+              });
+            } else {
+              this.tasks = new Task.constructor();
+            }
+            this.tasks.on('change', function() {
+              return _this.trigger('save');
+            });
+            this.tasks.type = 'minor';
           }
 
           List.prototype.moveTask = function(task, list) {
@@ -16215,11 +16280,21 @@
             });
           };
 
+          List.prototype.toJSON = function() {
+            return {
+              id: this.id,
+              name: this.name,
+              tasks: this.tasks.toArray()
+            };
+          };
+
           return List;
 
         })(Base.Model);
         ListCollection = (function(_super) {
           __extends(ListCollection, _super);
+
+          ListCollection.prototype.className = 'list';
 
           ListCollection.prototype.model = List;
 
@@ -16229,7 +16304,7 @@
 
           return ListCollection;
 
-        })(Base.Collection);
+        })(Sync.Collection);
         module.exports = new ListCollection();
         return module.exports.on('refresh', function() {
           if (List.current == null) {
@@ -16760,7 +16835,7 @@
 
           function Lists() {
             this.select = __bind(this.select, this);
-            this.render = __bind(this.render, this);
+            this.addAll = __bind(this.addAll, this);
             this.addOne = __bind(this.addOne, this);
             this.createNew = __bind(this.createNew, this);
             this.keyup = __bind(this.keyup, this);
@@ -16802,7 +16877,7 @@
             return this.lists.append(listItem.render().el);
           };
 
-          Lists.prototype.render = function() {
+          Lists.prototype.addAll = function() {
             this.lists.empty();
             return List.forEach(this.addOne);
           };
@@ -16859,7 +16934,6 @@
                 'change': this.updateCount
               }
             ]);
-            console.log(this.list.tasks);
           }
 
           ListItem.prototype.render = function() {
@@ -16869,7 +16943,6 @@
           };
 
           ListItem.prototype.updateCount = function() {
-            console.log('updating list count');
             return this.count.text(this.list.tasks.length);
           };
 
@@ -17326,15 +17399,12 @@
             });
             html = '';
             if (list.id === 'filter') {
-              console.log('filter');
               tasks = list.tasks;
               this.el.append(view.special);
             } else if (list != null ? list.tasks : void 0) {
-              console.log('standard');
               tasks = list.tasks;
               this.el.append(view.standard);
             } else {
-              console.log('empty');
               tasks = Task.list(list.id);
               this.el.append(view.empty);
             }
@@ -17370,6 +17440,7 @@
                   task: task,
                   el: _this.tasks.find("#task-" + task.id)
                 });
+                _this.bindTask(view);
                 return _this.views.push(view);
               });
             });

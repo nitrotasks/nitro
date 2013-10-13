@@ -336,21 +336,18 @@ Extend =
 # Extend Model
 # ------------
 
-Sync.core =
-  extended: ->
-    @on 'fetch', @syncFetch
-    @bind 'change', @syncChange
-    @bind 'updateAttr', @syncUpdate
-    @bind 'refresh update', @saveLocal
+class Sync.Collection extends Base.Collection
 
-    @extend Extend
-    @include Include
+  constructor: ->
+    super
+    # @bind 'change', @syncChange
+    # @bind 'updateAttr', @syncUpdate
+    @on 'fetch', @fetch
+    @on 'save:model create:model change:model remove:model', @save
 
-  # Private
-
-  syncFetch: () ->
+  syncFetch: =>
     @loadLocal()
-    @sync()#.fetch(arguments...)
+    # @sync()#.fetch(arguments...)
 
   syncChange: (record, type, options = {}) ->
     # Update events are handled by syncUpdate
@@ -363,13 +360,12 @@ Sync.core =
     return if options.sync is off
     record.sync().update.apply(this, arguments)
 
-  loadLocal: ->
-    result = localStorage[@className]
-    @refresh(result or [], clear: true)
+  fetch: =>
+    result = JSON.parse localStorage[@className] or '[]'
+    @refresh result, true
 
-  saveLocal: ->
-    result = JSON.stringify(@)
-    localStorage[@className] = result
-
+  save: =>
+    console.log '[' + @className + ']', 'saving', arguments
+    localStorage[@className] = JSON.stringify @toJSON()
 
 module.exports = Sync

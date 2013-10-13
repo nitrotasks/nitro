@@ -43,7 +43,7 @@ class Lists extends Base.Controller
     @lists.append listItem.render().el
 
   # Draw all lists to the DOM
-  render: =>
+  addAll: =>
     @lists.empty()
     List.forEach @addOne
 

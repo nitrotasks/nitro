@@ -8,8 +8,6 @@ class List extends Base.Model
     id: null
     name: ''
 
-  @extend Sync.core
-
   # Reference active list
   # Should proabably be in a controller
   @current: null
@@ -17,9 +15,25 @@ class List extends Base.Model
   constructor: ->
     super
 
-    # Create a new task collection
     Task = require './task'
-    @tasks = new Task.constructor()
+
+    if Array.isArray @tasks
+      taskIds = @tasks
+      @tasks = new Task.constructor()
+      taskIds.forEach (id) =>
+        if Task.exists id
+          task = Task.get id
+          @tasks.add task, silent: true
+        else
+          console.log 'could not find task', id
+
+    else
+      @tasks = new Task.constructor()
+
+    @tasks.on 'change', =>
+      @trigger 'save'
+
+    @tasks.type = 'minor'
 
   # Move a task from one list to another
   # - task (Task) : The task to move
@@ -42,7 +56,14 @@ class List extends Base.Model
       else
         task.list = 'inbox'
 
-class ListCollection extends Base.Collection
+  toJSON: =>
+    id: @id
+    name: @name
+    tasks: @tasks.toArray()
+
+class ListCollection extends Sync.Collection
+
+  className: 'list'
 
   model: List
 

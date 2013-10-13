@@ -5,19 +5,18 @@ Sync = require '../controllers/sync'
 class Task extends Base.Model
 
   defaults:
+    id: null
     name: ''
     date: null
     notes: ''
-    completed: false
     priority: 1
-    list: null
+    completed: false
 
+class TaskCollection extends Sync.Collection
 
-class TaskCollection extends Base.Collection
+  className: 'task'
 
   model: Task
-
-  @extend Sync.core
 
   constructor: ->
     super
@@ -28,6 +27,12 @@ class TaskCollection extends Base.Collection
         list = List.get task.list
         list.tasks.add task, silent: true
         list.tasks.trigger 'change'
+
+
+  toArray: =>
+    array = []
+    @forEach (task) -> array.push task.id
+    return array
 
   # Get the active tasks
   # - [list] (string) : The list ID. If specified, will only return tasks in that list.
@@ -96,3 +101,4 @@ class TaskCollection extends Base.Collection
       item.name?.toLowerCase().indexOf('#'+tag) > -1
 
 module.exports = new TaskCollection()
+module.exports.type = 'major'
