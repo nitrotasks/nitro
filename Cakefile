@@ -7,6 +7,7 @@ fs      = require 'fs'
 
 # Configuration
 config =
+  port: 9294
   public: 'app'
   js:
     input:  'source/scripts/init.coffee'
@@ -27,7 +28,7 @@ compile =
     scrunch = new Scrunch
       path: config.js.input
       compile: true
-      verbose: false
+      verbose: true
       watch: options.watch
 
     scrunch.vent.on 'init', ->
@@ -60,7 +61,7 @@ task 'server', 'Start server', (options) ->
   # compile.sass(options)
 
   # Start Server
-  port = options.port or 9294
+  port = options.port or config.port
   file= new(server.Server)(config.public)
   server = http.createServer (req, res) ->
     req.addListener( 'end', ->
@@ -77,3 +78,8 @@ task 'build', 'Compile CoffeeScript and SASS', (options) ->
 task 'sass', 'Compile only SASS files', compile.sass
 task 'coffee', 'Compile only coffee files', compile.coffee
 task 'minify', 'Minify application.js', compile.minify
+
+task 'open', 'Open the app in a browser', (options) ->
+  {exec} = require 'child_process'
+  port = options.port or config.port
+  exec 'open http://localhost:' + port
