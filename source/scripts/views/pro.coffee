@@ -3,7 +3,7 @@ Setting = require '../models/setting'
 
 PRO_CLASS = 'nitro_pro'
 
-class Pro extends Base.Controller
+class Pro extends Base.View
 
   constructor: ->
     super

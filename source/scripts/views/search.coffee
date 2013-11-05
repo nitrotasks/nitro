@@ -1,7 +1,7 @@
 List = require '../controllers/lists'
 Base = require 'base'
 
-class Search extends Base.Controller
+class Search extends Base.View
 
   events:
     'keyup': 'search'

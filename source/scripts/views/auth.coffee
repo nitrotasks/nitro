@@ -1,7 +1,7 @@
 Base    = require 'base'
 Setting = require '../models/setting'
 
-class Auth extends Base.Controller
+class Auth extends Base.View
 
   template: require '../templates/auth'
 

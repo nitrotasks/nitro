@@ -3,7 +3,7 @@ List     = require '../models/list'
 keys     = require '../utils/keys'
 ListItem = require '../views/list/item'
 
-class Lists extends Base.Controller
+class Lists extends Base.View
 
   elements:
     'ul': 'lists'

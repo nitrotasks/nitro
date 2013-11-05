@@ -26,7 +26,7 @@ Auth          = require '../controllers/auth'
 
 # Views
 Keys          = require '../views/keys'
-LoadingScreen = require '../views/loadingScreen'
+LoadingScreen = require '../views/loading_screen'
 Lists         = require '../views/lists'
 Title         = require '../views/title'
 ListButtons   = require '../views/list_buttons'

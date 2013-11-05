@@ -11,7 +11,7 @@ Cookies = require '../vendor/cookies'
 Event   = require '../utils/event'
 config  = require '../utils/config'
 
-class Settings extends Base.Controller
+class Settings extends Base.View
 
   elements:
     '.disabler'           : 'disabler'

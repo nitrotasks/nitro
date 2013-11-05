@@ -1,7 +1,7 @@
 keys = require '../utils/keys'
 Base = require 'base'
 
-class Keys extends Base.Controller
+class Keys extends Base.View
 
   events:
     'keyup': 'keyup'

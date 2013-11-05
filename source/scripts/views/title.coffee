@@ -2,7 +2,7 @@ Base = require 'base'
 List = require '../models/list'
 keys = require '../utils/keys'
 
-class Title extends Base.Controller
+class Title extends Base.View
 
   elements:
     'h1': 'title'

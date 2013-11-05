@@ -1,6 +1,6 @@
 Base = require 'base'
 
-class ListItem extends Base.Controller
+class ListItem extends Base.View
 
   template: require '../../templates/list'
 

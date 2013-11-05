@@ -4,7 +4,7 @@ Base = require 'base'
 List = require '../models/list'
 # Modal   = require './modal'
 
-class ListButtons extends Base.Controller
+class ListButtons extends Base.View
 
 	elements:
     '.trash': 'deleteBtn'

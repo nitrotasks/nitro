@@ -13,7 +13,7 @@
           if ((typeof require !== "undefined" && require !== null)) {
             return require(id);
           }
-          console.trace("Cannot find module '" + id + "'");
+          console.error("Cannot find module '" + id + "'");
           return null;
         }
         file = cache[id] = {
@@ -35,7 +35,7 @@
     [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/init.coffee
+          /Volumes/Home/Projects/Nitro/source/scripts/init.coffee
         */
 
         'jqueryify': 1,
@@ -51,7 +51,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/node_modules/jqueryify/index.js
+          /Volumes/Home/Projects/Nitro/node_modules/jqueryify/index.js
         */
 
       }, function(require, module, exports) {
@@ -8891,7 +8891,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/controllers/app.coffee
+          /Volumes/Home/Projects/Nitro/source/scripts/controllers/app.coffee
         */
 
         '../vendor/libs': 3,
@@ -8906,7 +8906,7 @@
         '../models/setting': 11,
         '../controllers/auth': 27,
         '../views/keys': 30,
-        '../views/loadingScreen': 31,
+        '../views/loading_screen': 31,
         '../views/lists': 32,
         '../views/title': 35,
         '../views/list_buttons': 36,
@@ -8925,7 +8925,7 @@
         Setting = require('../models/setting');
         Auth = require('../controllers/auth');
         Keys = require('../views/keys');
-        LoadingScreen = require('../views/loadingScreen');
+        LoadingScreen = require('../views/loading_screen');
         Lists = require('../views/lists');
         Title = require('../views/title');
         ListButtons = require('../views/list_buttons');
@@ -8966,7 +8966,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/vendor/libs.coffee
+          /Volumes/Home/Projects/Nitro/source/scripts/vendor/libs.coffee
         */
 
         './modal': 4,
@@ -8985,7 +8985,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/vendor/modal.js
+          /Volumes/Home/Projects/Nitro/source/scripts/vendor/modal.js
         */
 
       }, function(require, module, exports) {
@@ -9021,7 +9021,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/vendor/jquery-ui.js
+          /Volumes/Home/Projects/Nitro/source/scripts/vendor/jquery-ui.js
         */
 
       }, function(require, module, exports) {
@@ -14068,7 +14068,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/vendor/touch.js
+          /Volumes/Home/Projects/Nitro/source/scripts/vendor/touch.js
         */
 
       }, function(require, module, exports) {
@@ -14081,7 +14081,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/node_modules/base/index.js
+          /Volumes/Home/Projects/Nitro/node_modules/base/index.js
         */
 
       }, function(require, module, exports) {
@@ -14090,7 +14090,7 @@
       (function () {
           'use strict';
       
-          var include, extend, inherit, Module, Controller, Event, Model, Collection;
+          var include, extend, inherit, View, Event, Model, Collection;
       
           // Copy object properties
           include = function (to, from) {
@@ -14135,560 +14135,498 @@
               return child;
           };
       
-          /*
-           * MODULE
-           *
-           * Module magic taken from Spine
-           */
-      
-          Module = {
-      
-              includes: function (obj) {
-                  var key;
-                  if (!obj) {
-                      throw new Error('include(obj) requires obj');
-                  }
-                  for (key in obj) {
-                      if (obj.hasOwnProperty(key) && key !== 'included' && key !== 'extended') {
-                          this.prototype[key] = obj[key];
-                      }
-                  }
-                  if (obj.hasOwnProperty('included')) {
-                      obj.included.apply(this);
-                  }
-                  return this;
-              },
-      
-              extends: function (obj) {
-                  var key;
-                  if (!obj) {
-                      throw new Error('extend(obj) requires obj');
-                  }
-                  for (key in obj) {
-                      if (obj.hasOwnProperty(key) && key !== 'included' && key !== 'extended') {
-                          this[key] = obj[key];
-                      }
-                  }
-                  if (obj.hasOwnProperty('extended')) {
-                      obj.extended.apply(this);
-                  }
-                  return this;
-              }
-      
-          };
-      
       
           /*
            * EVENT
            */
       
-          Event = (function () {
+          Event = function () {
+              this._events = {};
+              this._listening = [];
+          };
       
-              function Event(attrs) {
-                  var key;
-                  this._events = {};
-                  this._listening = [];
-                  // Bind events specified in attrs
-                  if (attrs && attrs.on) {
-                      for (key in attrs.on) {
-                          if (attrs.on.hasOwnProperty(key)) {
-                              this.on(key, attrs.on[key]);
-                          }
-                      }
-                      delete attrs.on;
-                  }
+          // Bind an event to a function
+          // Returns an event ID so you can unbind it later
+          Event.prototype.on = function (events, fn) {
+              var ids, id, i, len, event;
+              if (typeof fn !== 'function') {
+                  throw new Error('fn not function');
               }
       
-              include(Event, Module);
-      
-              // Bind an event to a function
-              // Returns an event ID so you can unbind it later
-              Event.prototype.on = function (events, fn) {
-                  var ids, id, i, len, event;
-                  if (typeof fn !== 'function') {
-                      throw new Error('fn not function');
+              // Allow multiple events to be set at once such as:
+              // event.on('update change refresh', this.render);
+              ids = [];
+              events = events.split(' ');
+              for (i = 0, len = events.length; i < len; i += 1) {
+                  event = events[i];
+                  // If the event has never been listened to before
+                  if (!this._events[event]) {
+                      this._events[event] = {};
+                      this._events[event].index = 0;
                   }
-                  // Allow multiple events to be set at once such as:
-                  // event.on('update change refresh', this.render);
-                  ids = [];
-                  events = events.split(' ');
-                  for (i = 0, len = events.length; i < len; i += 1) {
-                      event = events[i];
-                      // If the event has never been listened to before
-                      if (!this._events[event]) {
-                          this._events[event] = {};
-                          this._events[event].index = 0;
+                  // Increment the index and assign an ID
+                  this._events[event].index += 1;
+                  id = this._events[event].index;
+                  this._events[event][id] = fn;
+                  ids.push(id);
+              }
+      
+              return ids;
+          };
+      
+          // Trigger an event
+          Event.prototype.trigger = function (event) {
+              var args, actions, i;
+              args = 2 <= arguments.length ? [].slice.call(arguments, 1) : [];
+      
+              // Listen to all events
+              if (event !== '*') {
+                  this.trigger('*', event, args);
+              }
+      
+              actions = this._events[event];
+              if (actions) {
+                  for (i in actions) {
+                      if (actions.hasOwnProperty(i) && i !== 'index') {
+                          actions[i].apply(actions[i], args);
                       }
-                      // Increment the index and assign an ID
-                      id = this._events[event].index += 1;
-                      this._events[event][id] = fn;
-                      ids.push(id);
                   }
-                  return ids;
-              };
+              }
+          };
       
-              // Trigger an event
-              Event.prototype.trigger = function (event) {
-                  var args, actions, i;
-                  args = 2 <= arguments.length ? [].slice.call(arguments, 1) : [];
-                  // Is this a good idea?
-                  if (event !== '*') {
-                      // console.log('--', event, args, '\n')
-                      this.trigger('*', event, args);
+          // Remove a listener from an event
+          Event.prototype.off = function (events, id) {
+              var i, len;
+              if (Array.isArray(id)) {
+                  for (i = 0, len = id.length; i < len; i += 1) {
+                      this.off(events, id[i]);
                   }
-                  actions = this._events[event];
-                  if (actions) {
-                      for (i in actions) {
-                          if (actions.hasOwnProperty(i) && i !== 'index') {
-                              actions[i].apply(actions[i], args);
+                  return;
+              }
+              events = events.split(' ');
+              for (i = 0, len = events.length; i < len; i += 1) {
+                  delete this._events[events[i]][id];
+              }
+          };
+      
+          /**
+           * Listen to multiple events from multiple objects
+           * Use this.stopListening to stop listening to them all
+           *
+           * Example:
+           *
+           *   this.listen(object, {
+           *      'create change': this.render,
+           *      'remove': this.remove
+           *   });
+           *
+           *   this.listen([
+           *      objectOne, {
+           *          'create': this.render,
+           *          'remove': this.remove
+           *      },
+           *      objectTwo, {
+           *          'change': 'this.render
+           *      }
+           *   ]);
+           *
+           */
+          Event.prototype.listen = function (obj, attrs) {
+              var i, len, event, listener;
+              if (Array.isArray(obj)) {
+                  for (i = 0, len = obj.length; i < len; i += 2) {
+                      this.listen(obj[i], obj[i + 1]);
+                  }
+                  return;
+              }
+              listener = [obj, {}];
+              for (event in attrs) {
+                  if (attrs.hasOwnProperty(event)) {
+                      listener[1][event] = obj.on(event, attrs[event]);
+                  }
+              }
+              this._listening.push(listener);
+          };
+      
+          // Stop listening to all events
+          Event.prototype.stopListening = function (object) {
+              var i, len, obj, events, event;
+              for (i = 0, len = this._listening.length; i < len; i += 1) {
+                  obj = this._listening[i][0];
+                  if (!object || object === obj) {
+                      events = this._listening[i][1];
+                      for (event in events) {
+                          if (events.hasOwnProperty(event)) {
+                              obj.off(event, events[event]);
                           }
                       }
                   }
-              };
-      
-              // Remove a listener from an event
-              Event.prototype.off = function (events, id) {
-                  var i, len;
-                  if (Array.isArray(id)) {
-                      for (i = 0, len = id.length; i < len; i += 1) {
-                          this.off(events, id[i]);
-                      }
-                      return;
-                  }
-                  events = events.split(' ');
-                  for (i = 0, len = events.length; i < len; i += 1) {
-                      delete this._events[events[i]][id];
-                  }
-              };
-      
-              /**
-               * Listen to multiple events from multiple objects
-               * Use this.stopListening to stop listening to them all
-               *
-               * Example:
-               *
-               *   this.listen(object, {
-               *      'create change': this.render,
-               *      'remove': this.remove
-               *   });
-               *
-               *   this.listen([
-               *      objectOne, {
-               *          'create': this.render,
-               *          'remove': this.remove
-               *      },
-               *      objectTwo, {
-               *          'change': 'this.render
-               *      }
-               *   ]);
-               *
-               */
-              Event.prototype.listen = function (obj, attrs) {
-                  var i, len, event, listener;
-                  if (Array.isArray(obj)) {
-                      for (i = 0, len = obj.length; i < len; i += 2) {
-                          this.listen(obj[i], obj[i + 1]);
-                      }
-                      return;
-                  }
-                  listener = [obj, {}];
-                  for (event in attrs) {
-                      if (attrs.hasOwnProperty(event)) {
-                          listener[1][event] = obj.on(event, attrs[event]);
-                      }
-                  }
-                  this._listening.push(listener);
-              };
-      
-              // Stop listening to all events
-              Event.prototype.stopListening = function (object) {
-                  var i, len, obj, events, event;
-                  for (i = 0, len = this._listening.length; i < len; i += 1) {
-                      obj = this._listening[i][0];
-                      if (!object || object === obj) {
-                          events = this._listening[i][1];
-                          for (event in events) {
-                              if (events.hasOwnProperty(event)) {
-                                  obj.off(event, events[event]);
-                              }
-                          }
-                      }
-                  }
-                  this._listening = [];
-              };
-      
-              return Event;
-      
-          }());
-      
+              }
+              this._listening = [];
+          };
       
           /*
-           * CONTROLLER
+           * VIEW
            */
       
-          Controller = (function () {
+          View = function (attrs) {
+              View.__super__.constructor.apply(this, arguments);
+              include(this, attrs);
       
-              function Controller(attrs) {
-                  Controller.__super__.constructor.apply(this, arguments);
-                  if (!this.elements) { this.elements = {}; }
-                  if (!this.events) { this.events = {}; }
-                  include(this, attrs);
-                  if (this.el) { this.bind(); }
+              if (!this.elements) {
+                  this.elements = {};
               }
       
-              // Load Events
-              inherit(Controller, Event);
-              include(Controller, Module);
+              if (!this.events) {
+                  this.events = {};
+              }
       
-              Controller.prototype.bind = function (el) {
-                  var selector, query, action, split, name, event;
+              if (this.el) {
+                  this.bind();
+              }
+          };
       
-                  // If el is not specified use this.el
-                  if (!el) { el = this.el; }
+          // Load Events
+          inherit(View, Event);
       
-                  // Cache elements
-                  for (selector in this.elements) {
-                      if (this.elements.hasOwnProperty(selector)) {
-                          name = this.elements[selector];
-                          this[name] = el.find(selector);
+          View.prototype.bind = function (el) {
+              var selector, query, action, split, name, event;
+      
+              // If el is not specified use this.el
+              if (!el) { el = this.el; }
+      
+              // Cache elements
+              for (selector in this.elements) {
+                  if (this.elements.hasOwnProperty(selector)) {
+                      name = this.elements[selector];
+                      this[name] = el.find(selector);
+                  }
+              }
+      
+              // Bind events
+              for (query in this.events) {
+                  if (this.events.hasOwnProperty(query)) {
+                      action = this.events[query];
+                      split = query.indexOf(' ') + 1;
+                      event = query.slice(0, split || 9e9);
+                      if (split > 0) {
+                          selector = query.slice(split);
+                          el.on(event, selector, this[action]);
+                      } else {
+                          el.on(event, this[action]);
                       }
                   }
+              }
       
-                  // Bind events
-                  for (query in this.events) {
-                      if (this.events.hasOwnProperty(query)) {
-                          action = this.events[query];
-                          split = query.indexOf(' ') + 1;
-                          event = query.slice(0, split || 9e9);
-                          if (split > 0) {
-                              selector = query.slice(split);
-                              el.on(event, selector, this[action]);
-                          } else {
-                              el.on(event, this[action]);
-                          }
+          };
+      
+          View.prototype.unbind = function (el) {
+              var selector, query, action, split, name, event;
+      
+              // If el is not specified use this.el
+              if (!el) { el = this.el; }
+      
+              // Delete elements
+              for (selector in this.elements) {
+                  if (this.elements.hasOwnProperty(selector)) {
+                      name = this.elements[selector];
+                      delete this[name];
+                  }
+              }
+      
+              // Unbind events
+              for (query in this.events) {
+                  if (this.events.hasOwnProperty(query)) {
+                      action = this.events[query];
+                      split = query.indexOf(' ') + 1;
+                      event = query.slice(0, split || 9e9);
+                      if (split > 0) {
+                          selector = query.slice(split);
+                          el.off(event, selector);
+                      } else {
+                          el.off(event);
                       }
                   }
+              }
       
-              };
+          };
       
-              Controller.prototype.unbind = function (el) {
-                  var selector, query, action, split, name, event;
-      
-                  // If el is not specified use this.el
-                  if (!el) { el = this.el; }
-      
-                  // Delete elements
-                  for (selector in this.elements) {
-                      if (this.elements.hasOwnProperty(selector)) {
-                          name = this.elements[selector];
-                          delete this[name];
-                      }
-                  }
-      
-                  // Unbind events
-                  for (query in this.events) {
-                      if (this.events.hasOwnProperty(query)) {
-                          action = this.events[query];
-                          split = query.indexOf(' ') + 1;
-                          event = query.slice(0, split || 9e9);
-                          if (split > 0) {
-                              selector = query.slice(split);
-                              el.off(event, selector);
-                          } else {
-                              el.off(event);
-                          }
-                      }
-                  }
-      
-                  // Stop listening for events
-                  this.stopListening();
-      
-              };
-      
-              return Controller;
-      
-          }());
+          // Unbind the view and remove the element
+          View.prototype.release = function () {
+              this.unbind();
+              this.el.remove();
+              this.stopListening();
+          };
       
       
           /*
            * MODEL
            */
       
-          Model = (function () {
+          Model = function (attrs) {
+              var set, get, key, self = this;
       
-              function Model(attrs) {
-                  var set, get, key, self = this;
+              // Call super
+              Model.__super__.constructor.apply(this, arguments);
       
-                  // Call super
-                  Model.__super__.constructor.apply(this, arguments);
+              // Set attributes
+              if (!this.defaults) { this.defaults = {}; }
+              this._data = {};
+              include(this._data, this.defaults);
+              include(this._data, attrs);
       
-                  // Set attributes
-                  if (!this.defaults) { this.defaults = {}; }
-                  this._data = {};
-                  include(this._data, this.defaults);
-                  include(this._data, attrs);
-      
-                  set = function (key) {
-                      return function (value) {
-                          return self.set(key, value);
-                      };
+              set = function (key) {
+                  return function (value) {
+                      return self.set.call(self, key, value);
                   };
+              };
       
-                  get = function (key) {
-                      return function () {
-                          return self.get(key);
-                      };
+              get = function (key) {
+                  return function () {
+                      return self.get(key);
                   };
+              };
       
-                  for (key in this.defaults) {
-                      if (this.defaults.hasOwnProperty(key)) {
-                          this.__defineSetter__(key, set(key));
-                          this.__defineGetter__(key, get(key));
-                      }
+              for (key in this.defaults) {
+                  if (this.defaults.hasOwnProperty(key)) {
+                      this.__defineSetter__(key, set(key));
+                      this.__defineGetter__(key, get(key));
                   }
-      
               }
       
-              // Load Events
-              inherit(Model, Event);
-              include(Model, Module);
+          };
       
-              // Change a value
-              Model.prototype.set = function(key, value, options) {
-                  if (value === this._data[key]) { return; }
-                  this._data[key] = value;
-                  if (!options || !options.silent) {
-                      this.trigger('change', key, value);
-                      this.trigger('change:' + key, value);
-                  }
-              };
+          // Load Events
+          inherit(Model, Event);
       
-              // Get a value
-              Model.prototype.get = function(key) {
+          // Change a value
+          Model.prototype.set = function (key, value, options) {
+              if (!this.defaults.hasOwnProperty(key)) {
+                  this[key] = value;
+                  return value;
+              }
+              if (value === this._data[key]) { return; }
+              this._data[key] = value;
+              if (!options || !options.silent) {
+                  this.trigger('change', key, value);
+                  this.trigger('change:' + key, value);
+              }
+          };
+      
+          // Get a value
+          Model.prototype.get = function(key) {
+              if (this.defaults.hasOwnProperty(key)) {
                   return this._data[key];
-              };
+              }
+              return this[key];
+          };
       
-              // Load data into the model
-              Model.prototype.refresh = function (data, replace) {
-                  if (replace) {
-                      this._data = {};
-                      include(this._data, this.defaults);
-                  }
-                  include(this._data, data);
-                  this.trigger('refresh');
-                  return this;
-              };
+          // Load data into the model
+          Model.prototype.refresh = function (data, replace) {
+              if (replace) {
+                  this._data = {};
+                  include(this._data, this.defaults);
+              }
+              include(this._data, data);
+              this.trigger('refresh', this);
+              return this;
+          };
       
-              // Destroy the model
-              Model.prototype.destroy = function () {
-                  this.trigger('before:destroy');
-                  delete this._data;
-                  this.trigger('destroy');
-                  return this;
-              };
+          // Destroy the model
+          Model.prototype.destroy = function () {
+              this.trigger('before:destroy', this);
+              delete this._data;
+              this.trigger('destroy', this);
+              return this;
+          };
       
-              // Convert the class instance into a simple object
-              Model.prototype.toJSON = function (strict) {
-                  var key, json;
-                  if (strict) {
-                      for (key in this._defaults) {
-                          if (this._defaults.hasOwnProperty(key)) {
-                              json[key] = this._data[key];
-                          }
+          // Convert the class instance into a simple object
+          Model.prototype.toJSON = function (strict) {
+              var key, json;
+              if (strict) {
+                  for (key in this.defaults) {
+                      if (this.defaults.hasOwnProperty(key)) {
+                          json[key] = this._data[key];
                       }
-                  } else {
-                      json = this._data;
                   }
-                  return json;
-              };
-      
-      
-              return Model;
-      
-          }());
+              } else {
+                  json = this._data;
+              }
+              return json;
+          };
       
       
           /*
            * COLLECTION
            */
       
-          Collection = (function () {
+          Collection = function () {
+              Collection.__super__.constructor.apply(this, arguments);
+              this.length  = 0;
+              this._index  = 0;
+              this._models = [];
+              this._lookup = {};
+          };
       
-              function Collection() {
-                  Collection.__super__.constructor.apply(this, arguments);
-                  this.length  = 0;
-                  this._index  = 0;
+          // Load Events
+          inherit(Collection, Event);
+      
+          // Access all models
+          Collection.prototype.all = function () {
+              return this._models;
+          };
+      
+          // Create a new instance of the model and add it to the collection
+          Collection.prototype.create = function (attrs, options) {
+              var model = new this.model(attrs);
+              this.add(model, options);
+              return model;
+          };
+      
+          // Add a model to the collection
+          Collection.prototype.add = function (model, options) {
+      
+              var id, index, self = this;
+      
+              // Set ID
+              if (model.id) {
+                  id = model.id;
+              } else {
+                  id = 'c-' + this._index;
+                  this._index += 1;
+                  model.set('id', id, {silent: true});
+              }
+      
+              // Add to collection
+              model.collection = this;
+              index = this._models.push(model) - 1;
+              this._lookup[id] = index;
+              this.length += 1;
+      
+              // Bubble events
+              this.listen(model, {
+                  '*': function (event, args) {
+                      args = args.slice(0);
+                      args.unshift(event + ':model', model);
+                      self.trigger.apply(self, args);
+                  },
+                  'before:destroy': function () {
+                      self.remove(model);
+                  }
+              });
+      
+              // Only trigger create if silent is not set
+              if (!options || !options.silent) {
+                  this.trigger('create:model', model);
+                  this.trigger('change');
+              }
+      
+          };
+      
+          // Remove a model from the collection
+          // Does not destroy the model - just removes it from the array
+          Collection.prototype.remove = function (model) {
+              var index = this.indexOf(model);
+              this._models.splice(index, 1);
+              delete this._lookup[model.id];
+              this.length -= 1;
+              this.stopListening(model);
+              this.trigger('remove:model');
+              this.trigger('change');
+          };
+      
+          // Reorder the collection
+          Collection.prototype.move = function (model, pos) {
+              var index = this.indexOf(model);
+              this._models.splice(index, 1);
+              this._models.splice(pos, 0, model);
+              this._lookup[model.id] = index;
+              this.trigger('change:order');
+              this.trigger('change');
+          };
+      
+          // Append or replace the data in the collection
+          // Doesn't trigger any events when updating the array apart from 'refresh'
+          Collection.prototype.refresh = function (data, replace) {
+              var i, len;
+              if (replace) {
                   this._models = [];
                   this._lookup = {};
               }
+              for (i = 0, len = data.length; i < len; i += 1) {
+                  this.create(data[i], { silent: true });
+              }
+              return this.trigger('refresh');
+          };
       
-              // Load Events
-              inherit(Collection, Event);
-              include(Collection, Module);
+          // Loop over each record in the collection
+          Collection.prototype.forEach = function () {
+              return this._models.forEach.apply(this._models, arguments);
+          };
       
-              // Access all models
-              Collection.prototype.all = function () {
-                  return this._models;
-              };
+          // Filter the models
+          Collection.prototype.filter = function () {
+              return this._models.filter.apply(this._models, arguments);
+          };
       
-              // Create a new instance of the model and add it to the collection
-              Collection.prototype.create = function (attrs, options) {
-                  var model = new this.model(attrs);
-                  this.add(model, options);
-                  return model;
-              };
+          // Sort the models. Does not alter original order
+          Collection.prototype.sort = function () {
+              return this._models.sort.apply(this._models, arguments);
+          };
       
-              // Add a model to the collection
-              Collection.prototype.add = function (model, options) {
+          // Get the index of the item
+          Collection.prototype.indexOf = function (model) {
+              if (typeof model === 'string') {
+                  // Convert model id to actual model
+                  return this.indexOf(this.get(model));
+              }
+              return this._models.indexOf(model);
+          };
       
-                  var id, index, self = this;
+          // Convert the collection into an array of objects
+          Collection.prototype.toJSON = function () {
+              var i, len, record, results = [];
+              for (i = 0, len = this._models.length; i < len; i += 1) {
+                  record = this._models[i];
+                  results.push(record.toJSON());
+              }
+              return results;
+          };
       
-                  // Set ID
-                  if (model.id) {
-                      id = model.id;
-                  } else {
-                      id = 'c-' + this._index;
-                      this._index += 1;
-                      model.set('id', id, {silent: true});
-                  }
+          // Return the first record in the collection
+          Collection.prototype.first = function () {
+              return this.at(0);
+          };
       
-                  console.log('\n++ id', model.id, model.get('id'));
+          // Return the last record in the collection
+          Collection.prototype.last = function () {
+              return this.at(this.length - 1);
+          };
       
-                  // Add to collection
-                  model.collection = this;
-                  index = this._models.push(model) - 1;
-                  this._lookup[id] = index;
-                  this.length += 1;
+          // Return the record by the id
+          Collection.prototype.get = function (id) {
+              var index = this._lookup[id];
+              return this.at(index);
+          };
       
-                  // Bubble events
-                  this.listen(model, {
-                      '*': function(event, args) {
-                          args = args.slice(0);
-                          args.unshift(event + ':model', model);
-                          // console.log('++', event, ' -> ', self.type || self.className, self)
-                          self.trigger.apply(self, args);
-                      },
-                      'before:destroy': function () {
-                          self.remove(model);
-                      }
-                  });
+          // Return a specified record in the collection
+          Collection.prototype.at = function (index) {
+              return this._models[index];
+          };
       
-                  // Only trigger create if silent is not set
-                  if (!options || !options.silent) {
-                      this.trigger('create:model', model);
-                      this.trigger('change');
-                  }
+          // Check if a model exists in the collection
+          Collection.prototype.exists = function (model) {
+              return this.indexOf(model) > -1;
+          };
       
-              };
-      
-              // Remove a model from the collection
-              // Does not destroy the model - just removes it from the array
-              Collection.prototype.remove = function (model) {
-                  var index = this.indexOf(model);
-                  this._models.splice(index, 1);
-                  delete this._lookup[model.id];
-                  this.length -= 1;
-                  this.stopListening(model);
-                  this.trigger('remove:model')
-                  this.trigger('change');
-              };
-      
-              // Reorder the collection
-              Collection.prototype.move = function (model, pos) {
-                  var index = this.indexOf(model);
-                  this._models.splice(index, 1);
-                  this._models.splice(pos, 0, model);
-                  this._lookup[model.id] = index;
-                  this.trigger('change:order')
-                  this.trigger('change');
-              };
-      
-              // Append or replace the data in the collection
-              // Doesn't trigger any events when updating the array apart from 'refresh'
-              Collection.prototype.refresh = function (data, replace) {
-                  var i, len;
-                  if (replace) {
-                      this._models = [];
-                      this._lookup = {};
-                  }
-                  for (i = 0, len = data.length; i < len; i += 1) {
-                      this.create(data[i], { silent: true });
-                  }
-                  return this.trigger('refresh');
-              };
-      
-              // Loop over each record in the collection
-              Collection.prototype.forEach = function () {
-                  return this._models.forEach.apply(this._models, arguments);
-              };
-      
-              // Filter the models
-              Collection.prototype.filter = function () {
-                  return this._models.filter.apply(this._models, arguments);
-              };
-      
-              // Sort the models. Does not alter original order
-              Collection.prototype.sort = function () {
-                  return this._models.sort.apply(this._models, arguments);
-              };
-      
-              // Get the index of the item
-              Collection.prototype.indexOf = function (model) {
-                  console.log('-- indexof', model);
-                  if (typeof model === 'string') {
-                      // Convert model id to actual model
-                      return this.indexOf(this.get(model));
-                  }
-                  return this._models.indexOf(model);
-              };
-      
-              // Convert the collection into an array of objects
-              Collection.prototype.toJSON = function () {
-                  var i, id, len, record, results = [];
-                  for (i = 0, len = this._models.length; i < len; i += 1) {
-                      record = this._models[i];
-                      results.push(record.toJSON());
-                  }
-                  return results;
-              };
-      
-              // Return the first record in the collection
-              Collection.prototype.first = function () {
-                  return this.at(0);
-              };
-      
-              // Return the last record in the collection
-              Collection.prototype.last = function () {
-                  return this.at(this.length - 1);
-              };
-      
-              // Return the record by the id
-              Collection.prototype.get = function (id) {
-                  var index = this._lookup[id];
-                  return this.at(index);
-              };
-      
-              // Return a specified record in the collection
-              Collection.prototype.at = function (index) {
-                  return this._models[index];
-              };
-      
-              // Check if a model exists in the collection
-              Collection.prototype.exists = function (model) {
-                  return this.indexOf(model) > -1;
-              };
-      
-              return Collection;
-      
-          }());
       
           // Add the extend to method to all classes
-          Event.extend = Controller.extend = Model.extend = Collection.extend = extend;
+          Event.extend = View.extend = Model.extend = Collection.extend = extend;
       
           // Export all the classes
           module.exports = {
               Event: Event,
-              Controller: Controller,
+              View: View,
               Model: Model,
               Collection: Collection
           };
@@ -14699,7 +14637,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/utils/touchify.coffee
+          /Volumes/Home/Projects/Nitro/source/scripts/utils/touchify.coffee
         */
 
         'base': 7
@@ -14731,7 +14669,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/utils/keys.json
+          /Volumes/Home/Projects/Nitro/source/scripts/utils/keys.json
         */
 
       }, function(require, module, exports) {
@@ -14786,7 +14724,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/utils/translate.coffee
+          /Volumes/Home/Projects/Nitro/source/scripts/utils/translate.coffee
         */
 
         'jqueryify': 1,
@@ -14889,7 +14827,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/models/setting.coffee
+          /Volumes/Home/Projects/Nitro/source/scripts/models/setting.coffee
         */
 
         'base': 7,
@@ -14933,7 +14871,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/controllers/sync.coffee
+          /Volumes/Home/Projects/Nitro/source/scripts/controllers/sync.coffee
         */
 
         'base': 7,
@@ -15395,7 +15333,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/vendor/socket.io.js
+          /Volumes/Home/Projects/Nitro/source/scripts/vendor/socket.io.js
         */
 
       }, function(require, module, exports) {
@@ -15405,7 +15343,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/utils/event.coffee
+          /Volumes/Home/Projects/Nitro/source/scripts/utils/event.coffee
         */
 
         'base': 7
@@ -15417,7 +15355,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/utils/config.coffee
+          /Volumes/Home/Projects/Nitro/source/scripts/utils/config.coffee
         */
 
       }, function(require, module, exports) {
@@ -15436,7 +15374,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/languages/languages.coffee
+          /Volumes/Home/Projects/Nitro/source/scripts/languages/languages.coffee
         */
 
         './bg.json': 17,
@@ -15458,7 +15396,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/languages/bg.json
+          /Volumes/Home/Projects/Nitro/source/scripts/languages/bg.json
         */
 
       }, function(require, module, exports) {
@@ -15591,7 +15529,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/languages/bn-IN.json
+          /Volumes/Home/Projects/Nitro/source/scripts/languages/bn-IN.json
         */
 
       }, function(require, module, exports) {
@@ -15724,7 +15662,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/languages/en-pi.json
+          /Volumes/Home/Projects/Nitro/source/scripts/languages/en-pi.json
         */
 
       }, function(require, module, exports) {
@@ -15755,7 +15693,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/languages/en-us.json
+          /Volumes/Home/Projects/Nitro/source/scripts/languages/en-us.json
         */
 
       }, function(require, module, exports) {
@@ -15766,7 +15704,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/languages/es-ES.json
+          /Volumes/Home/Projects/Nitro/source/scripts/languages/es-ES.json
         */
 
       }, function(require, module, exports) {
@@ -15899,7 +15837,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/languages/nl.json
+          /Volumes/Home/Projects/Nitro/source/scripts/languages/nl.json
         */
 
       }, function(require, module, exports) {
@@ -16032,7 +15970,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/models/task.coffee
+          /Volumes/Home/Projects/Nitro/source/scripts/models/task.coffee
         */
 
         'base': 7,
@@ -16203,7 +16141,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/models/list.coffee
+          /Volumes/Home/Projects/Nitro/source/scripts/models/list.coffee
         */
 
         'base': 7,
@@ -16322,7 +16260,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/models/default/list.json
+          /Volumes/Home/Projects/Nitro/source/scripts/models/default/list.json
         */
 
       }, function(require, module, exports) {
@@ -16338,7 +16276,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/models/default/task.json
+          /Volumes/Home/Projects/Nitro/source/scripts/models/default/task.json
         */
 
       }, function(require, module, exports) {
@@ -16413,7 +16351,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/controllers/auth.coffee
+          /Volumes/Home/Projects/Nitro/source/scripts/controllers/auth.coffee
         */
 
         '../models/setting': 11,
@@ -16499,7 +16437,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/views/auth.coffee
+          /Volumes/Home/Projects/Nitro/source/scripts/views/auth.coffee
         */
 
         'base': 7,
@@ -16651,13 +16589,13 @@
 
           return Auth;
 
-        })(Base.Controller);
+        })(Base.View);
         return module.exports = Auth;
       }
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/templates/auth.coffee
+          /Volumes/Home/Projects/Nitro/source/scripts/templates/auth.coffee
         */
 
         '../utils/config': 15
@@ -16684,7 +16622,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/views/keys.coffee
+          /Volumes/Home/Projects/Nitro/source/scripts/views/keys.coffee
         */
 
         '../utils/keys': 9,
@@ -16765,13 +16703,13 @@
 
           return Keys;
 
-        })(Base.Controller);
+        })(Base.View);
         return module.exports = Keys;
       }
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/views/loadingScreen.coffee
+          /Volumes/Home/Projects/Nitro/source/scripts/views/loading_screen.coffee
         */
 
         'base': 7,
@@ -16802,13 +16740,13 @@
 
           return LoadingScreen;
 
-        })(Base.Controller);
+        })(Base.View);
         return module.exports = LoadingScreen;
       }
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/views/lists.coffee
+          /Volumes/Home/Projects/Nitro/source/scripts/views/lists.coffee
         */
 
         'base': 7,
@@ -16888,13 +16826,13 @@
 
           return Lists;
 
-        })(Base.Controller);
+        })(Base.View);
         return module.exports = Lists;
       }
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/views/list/item.coffee
+          /Volumes/Home/Projects/Nitro/source/scripts/views/list/item.coffee
         */
 
         'base': 7,
@@ -16965,13 +16903,13 @@
 
           return ListItem;
 
-        })(Base.Controller);
+        })(Base.View);
         return module.exports = ListItem;
       }
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/templates/list.coffee
+          /Volumes/Home/Projects/Nitro/source/scripts/templates/list.coffee
         */
 
         '../models/list': 24
@@ -16986,7 +16924,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/views/title.coffee
+          /Volumes/Home/Projects/Nitro/source/scripts/views/title.coffee
         */
 
         'base': 7,
@@ -17043,13 +16981,13 @@
 
           return Title;
 
-        })(Base.Controller);
+        })(Base.View);
         return module.exports = Title;
       }
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/views/list_buttons.coffee
+          /Volumes/Home/Projects/Nitro/source/scripts/views/list_buttons.coffee
         */
 
         'base': 7,
@@ -17121,56 +17059,44 @@
 
           return ListButtons;
 
-        })(Base.Controller);
+        })(Base.View);
         return module.exports = ListButtons;
       }
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/views/modal.coffee
+          /Volumes/Home/Projects/Nitro/source/scripts/views/modal.coffee
         */
 
-        'base': 7,
-        'jqueryify': 1,
-        '../utils/keys': 9,
-        '../models/setting': 11,
-        '../controllers/sync': 12,
-        '../models/list': 24
+        'base': 7
       }, function(require, module, exports) {
-        var $, Base, CONFIG, Keys, Modal, Sync, modals, setting;
+        var Base, Modal;
         Base = require('base');
-        $ = require('jqueryify');
-        Keys = require('../utils/keys');
-        CONFIG = require('../utils/conf');
-        setting = require('../models/setting');
-        Sync = require('../controllers/sync');
         Modal = (function(_super) {
           __extends(Modal, _super);
 
           function Modal(opts) {
+            var _this = this;
             Base.touchify(opts.events);
             Modal.__super__.constructor.apply(this, arguments);
+            this.el.on('click.modal, touchend.modal', function(event) {
+              if (event.target.className.indexOf('modal') > -1) {
+                return _this.hide();
+              }
+            });
           }
 
           Modal.prototype.state = false;
 
           Modal.prototype.show = function() {
-            var _this = this;
             if (this.state !== false) {
               return;
             }
             this.state = true;
-            this.el.show(0).addClass('show');
+            this.el.show().addClass('show');
             if (this.onShow) {
-              this.onShow();
+              return this.onShow();
             }
-            return setTimeout((function() {
-              return _this.el.on('click.modal, touchend.modal', function(event) {
-                if (event.target.className.indexOf('modal') >= 0) {
-                  return _this.hide();
-                }
-              });
-            }), 500);
           };
 
           Modal.prototype.hide = function() {
@@ -17180,125 +17106,38 @@
             }
             this.state = false;
             this.el.removeClass('show');
-            setTimeout((function() {
+            return setTimeout(function() {
               _this.el.hide(0);
               if (_this.onHide) {
                 return _this.onHide();
               }
-            }), 350);
-            return this.el.off('click.modal, touchend.modal');
+            }, 350);
           };
 
           return Modal;
 
-        })(Base.Controller);
-        modals = [];
-        return module.exports = {
-          get: function(name) {
-            return modals[name];
-          },
-          init: function() {
-            modals['trashTask'] = new Modal({
-              el: $('.modal.delete-task'),
-              events: {
-                'click .true': 'delete',
-                'click .false': 'hide'
-              },
-              run: function(task) {
-                this.task = task;
-                if (setting.confirmDelete) {
-                  return this.show();
-                } else {
-                  return this["delete"]();
-                }
-              },
-              "delete": function() {
-                var _ref;
-                if ((_ref = this.task) != null) {
-                  _ref.destroy();
-                }
-                return this.hide();
-              }
-            });
-            modals['trashList'] = new Modal({
-              el: $('.modal.delete-list'),
-              events: {
-                'click .true': 'delete',
-                'click .false': 'hide'
-              },
-              run: function() {
-                if (setting.confirmDelete) {
-                  return this.show();
-                } else {
-                  return this["delete"]();
-                }
-              },
-              "delete": function() {
-                List.current.trigger('kill');
-                return this.hide();
-              }
-            });
-            modals['email'] = new Modal({
-              el: $('.modal.email'),
-              elements: {
-                'input': 'input'
-              },
-              events: {
-                'click button': 'submit',
-                'keyup input': 'keyup'
-              },
-              keyup: function(e) {
-                if (e.keyCode === Keys.ENTER) {
-                  return this.submit();
-                }
-              },
-              submit: function() {
-                var email, listId, uid;
-                if (setting.isPro()) {
-                  email = this.input.val();
-                  if (!email.match(/.+@.+\..+/)) {
-                    return;
-                  }
-                  uid = require('../models/setting').get('uid');
-                  listId = require('../models/list').current.id;
-                  Sync.emit('emailList', [uid, listId, email]);
-                } else {
-                  $('.modal.proventor').modal('show');
-                }
-                return this.hide();
-              },
-              onShow: function() {
-                return this.input.focus();
-              },
-              onHide: function() {
-                return this.input.val('');
-              }
-            });
-            return modals['share'] = new Modal({
-              el: $('.modal.share')
-            });
-          }
-        };
+        })(Base.View);
+        return module.exports = Modal;
       }
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/views/tasks.coffee
+          /Volumes/Home/Projects/Nitro/source/scripts/views/tasks.coffee
         */
 
         'base': 7,
-        '../views/tasks.item': 39,
+        '../views/task_item': 39,
         '../models/task': 23,
         '../models/list': 24,
         '../models/setting': 11,
         '../utils/keys': 9,
-        '../utils/date': 43,
-        '../utils/timer': 40,
-        '../templates/task': 41
+        '../utils/date': 44,
+        '../utils/timer': 41,
+        '../templates/task': 42
       }, function(require, module, exports) {
         var Base, List, Setting, Task, TaskItem, Tasks, dateDetector, delay, keys;
         Base = require('base');
-        TaskItem = require('../views/tasks.item');
+        TaskItem = require('../views/task_item');
         Task = require('../models/task');
         List = require('../models/list');
         Setting = require('../models/setting');
@@ -17539,26 +17378,27 @@
 
           return Tasks;
 
-        })(Base.Controller);
+        })(Base.View);
         return module.exports = Tasks;
       }
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/views/tasks.item.coffee
+          /Volumes/Home/Projects/Nitro/source/scripts/views/task_item.coffee
         */
 
         'base': 7,
-        './modal': 37,
+        '../views/modal/destroy_task': 40,
         '../models/list': 24,
         '../models/setting': 11,
         '../utils/keys': 9,
-        '../utils/timer': 40,
+        '../utils/timer': 41,
         '../utils/translate': 10,
-        '../templates/task': 41
+        '../templates/task': 42
       }, function(require, module, exports) {
-        var Base, List, TaskItem, delay, keys, setting, translate;
+        var Base, List, Modal, TaskItem, delay, keys, setting, translate;
         Base = require('base');
+        Modal = require('../views/modal/destroy_task');
         List = require('../models/list');
         setting = require('../models/setting');
         keys = require('../utils/keys');
@@ -17626,7 +17466,7 @@
           };
 
           TaskItem.prototype.remove = function() {
-            return Modal.get('trashTask').run(this.task);
+            return Modal.run(this.task);
           };
 
           TaskItem.prototype.release = function() {
@@ -17753,13 +17593,47 @@
 
           return TaskItem;
 
-        })(Base.Controller);
+        })(Base.View);
         return module.exports = TaskItem;
       }
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/utils/timer.coffee
+          /Volumes/Home/Projects/Nitro/source/scripts/views/modal/destroy_task.coffee
+        */
+
+        '../modal': 37
+      }, function(require, module, exports) {
+        var Modal, destroyTaskModal;
+        Modal = require('../modal');
+        destroyTaskModal = new Modal({
+          el: $('.modal.delete-task'),
+          events: {
+            'click .true': 'delete',
+            'click .false': 'hide'
+          },
+          run: function(task) {
+            this.task = task;
+            if (setting.confirmDelete) {
+              return this.show();
+            } else {
+              return this["delete"]();
+            }
+          },
+          "delete": function() {
+            var _ref;
+            if ((_ref = this.task) != null) {
+              _ref.destroy();
+            }
+            return this.hide();
+          }
+        });
+        return module.exports = destroyTaskModal;
+      }
+    ], [
+      {
+        /*
+          /Volumes/Home/Projects/Nitro/source/scripts/utils/timer.coffee
         */
 
       }, function(require, module, exports) {
@@ -17770,10 +17644,10 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/templates/task.coffee
+          /Volumes/Home/Projects/Nitro/source/scripts/templates/task.coffee
         */
 
-        '../utils/prettydate': 42,
+        '../utils/prettydate': 43,
         '../utils/translate': 10
       }, function(require, module, exports) {
         var prettyDate, tags, text, translate;
@@ -17805,7 +17679,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/utils/prettydate.coffee
+          /Volumes/Home/Projects/Nitro/source/scripts/utils/prettydate.coffee
         */
 
         '../utils/translate': 10
@@ -17867,7 +17741,7 @@
     ], [
       {
         /*
-          /Users/Admin/Projects/Nitro/source/scripts/utils/date.coffee
+          /Volumes/Home/Projects/Nitro/source/scripts/utils/date.coffee
         */
 
       }, function(require, module, exports) {

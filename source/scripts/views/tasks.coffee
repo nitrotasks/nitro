@@ -1,5 +1,5 @@
 Base         = require 'base'
-TaskItem     = require '../views/tasks.item'
+TaskItem     = require '../views/task_item'
 Task         = require '../models/task'
 List         = require '../models/list'
 Setting      = require '../models/setting'
@@ -7,7 +7,7 @@ keys         = require '../utils/keys'
 dateDetector = require '../utils/date'
 delay        = require '../utils/timer'
 
-class Tasks extends Base.Controller
+class Tasks extends Base.View
 
   template: require '../templates/task'
 

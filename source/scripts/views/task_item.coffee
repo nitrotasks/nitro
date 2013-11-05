@@ -6,7 +6,7 @@ keys    = require '../utils/keys'
 delay   = require '../utils/timer'
 translate = require '../utils/translate'
 
-class TaskItem extends Base.Controller
+class TaskItem extends Base.View
 
   template: require '../templates/task'
 

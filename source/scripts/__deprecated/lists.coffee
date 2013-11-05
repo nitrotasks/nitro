@@ -13,7 +13,7 @@ Task     = require '../models/task'
 Keys     = require '../utils/keys'
 
 
-class Lists extends Base.Controller
+class Lists extends Base.View
 
   elements:
     'ul': 'lists'

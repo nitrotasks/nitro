@@ -1,7 +1,7 @@
 Base  = require 'base'
 Event = require '../utils/event'
 
-class LoadingScreen extends Base.Controller
+class LoadingScreen extends Base.View
 
   constructor: ->
     super

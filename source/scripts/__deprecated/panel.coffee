@@ -11,7 +11,7 @@ Task     = require '../models/task'
 Setting  = require '../models/setting'
 Event    = require '../utils/event'
 
-class Panel extends Base.Controller
+class Panel extends Base.View
 
   elements:
     '.search':      'search'
