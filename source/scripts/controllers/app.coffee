@@ -19,12 +19,12 @@ Setting = require '../models/setting'
 # Controllers
 # Panel         = require # '../controllers/panel'
 # Settings      = require # '../controllers/Settings'
-# Modal         = require # '../controllers/modal'
 # Sync          = require # '../controllers/sync'
 # Pro           = require # '../controllers/pro'
 Auth          = require '../controllers/auth'
 
 # Views
+Modal         = require '../views/modal'
 Keys          = require '../views/keys'
 LoadingScreen = require '../views/loading_screen'
 Lists         = require '../views/lists'
@@ -59,7 +59,7 @@ class App
     @keys = new Keys()
 
     # Init Modals
-    # Modal.init()
+    Modal.init()
 
     # Load data from disk
     Task.trigger 'fetch'
