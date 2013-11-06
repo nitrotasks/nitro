@@ -8895,24 +8895,25 @@
         */
 
         '../vendor/libs': 3,
-        'base': 7,
-        '../utils/touchify': 8,
+        'base': 6,
+        '../utils/touchify': 7,
         'jqueryify': 1,
-        '../utils/keys': 9,
-        '../utils/translate': 10,
-        '../utils/event': 14,
-        '../models/task': 23,
-        '../models/list': 24,
-        '../models/setting': 11,
-        '../controllers/auth': 27,
+        '../utils/keys': 8,
+        '../utils/translate': 9,
+        '../utils/event': 13,
+        '../models/task': 22,
+        '../models/list': 23,
+        '../models/setting': 10,
+        '../controllers/auth': 26,
+        '../views/modal': 29,
         '../views/keys': 30,
         '../views/loading_screen': 31,
         '../views/lists': 32,
         '../views/title': 35,
         '../views/list_buttons': 36,
-        '../views/tasks': 38
+        '../views/tasks': 37
       }, function(require, module, exports) {
-        var $, App, Auth, Base, Event, Keys, List, ListButtons, Lists, LoadingScreen, Setting, Task, Tasks, Title, libs, translate;
+        var $, App, Auth, Base, Event, Keys, List, ListButtons, Lists, LoadingScreen, Modal, Setting, Task, Tasks, Title, libs, translate;
         libs = require('../vendor/libs');
         Base = require('base');
         Base.touchify = require('../utils/touchify');
@@ -8924,6 +8925,7 @@
         List = require('../models/list');
         Setting = require('../models/setting');
         Auth = require('../controllers/auth');
+        Modal = require('../views/modal');
         Keys = require('../views/keys');
         LoadingScreen = require('../views/loading_screen');
         Lists = require('../views/lists');
@@ -8941,6 +8943,7 @@
             new ListButtons();
             new LoadingScreen();
             this.keys = new Keys();
+            Modal.init();
             Task.trigger('fetch');
             List.trigger('fetch');
             if (List.exists('inbox') === false) {
@@ -8969,54 +8972,15 @@
           /Volumes/Home/Projects/Nitro/source/scripts/vendor/libs.coffee
         */
 
-        './modal': 4,
-        './jquery-ui': 5,
-        './touch': 6
+        './jquery-ui': 4,
+        './touch': 5
       }, function(require, module, exports) {
-        require('./modal');
         require('./jquery-ui');
         require('./touch');
         return module.exports = {
-          touch: is_touch_device,
-          modal: $.fn.modal,
-          jqueryui: $
+          jqueryui: $,
+          touch: is_touch_device
         };
-      }
-    ], [
-      {
-        /*
-          /Volumes/Home/Projects/Nitro/source/scripts/vendor/modal.js
-        */
-
-      }, function(require, module, exports) {
-        // Shitty Modal Plugin.
-      // By Jono Cooper
-      
-      (function($){
-      	$.fn.modal = function(control){
-      		// So it works in setTimeout and deferred
-      		var self = this;
-      		if (control === "hide" || control === undefined && this.hasClass("show")) {
-      			this.removeClass("show");
-      			setTimeout (function() {
-      				self.hide(0);
-      			}, 350);
-      			this.off("click.modal, touchend.modal");
-      		} else if (control === "show" || control === undefined && !this.hasClass("show")) {
-      			this.show(0).addClass("show");
-      			// Because I'm an asshole - delays for touch devices
-      			setTimeout(function() {
-      				self.on("click.modal, touchend.modal", function(e)	 {
-      					if ($(e.target).hasClass("modal")) {
-      						// This feels so wrong...
-      						self.modal("hide");
-      					}
-      				});
-      			}, 500);
-      		}
-      	};
-      })(jQuery);
-      ;
       }
     ], [
       {
@@ -14640,7 +14604,7 @@
           /Volumes/Home/Projects/Nitro/source/scripts/utils/touchify.coffee
         */
 
-        'base': 7
+        'base': 6
       }, function(require, module, exports) {
         var Base, isMobile;
         Base = require('base');
@@ -14728,9 +14692,9 @@
         */
 
         'jqueryify': 1,
-        '../models/setting': 11,
-        '../utils/event': 14,
-        '../languages/languages': 16
+        '../models/setting': 10,
+        '../utils/event': 13,
+        '../languages/languages': 15
       }, function(require, module, exports) {
         var $, Event, Setting, Translate, languages, ready, translate;
         $ = require('jqueryify');
@@ -14830,8 +14794,8 @@
           /Volumes/Home/Projects/Nitro/source/scripts/models/setting.coffee
         */
 
-        'base': 7,
-        '../controllers/sync': 12
+        'base': 6,
+        '../controllers/sync': 11
       }, function(require, module, exports) {
         var Base, Setting, Sync;
         Base = require('base');
@@ -14874,10 +14838,10 @@
           /Volumes/Home/Projects/Nitro/source/scripts/controllers/sync.coffee
         */
 
-        'base': 7,
-        '../vendor/socket.io.js': 13,
-        '../utils/event': 14,
-        '../utils/config': 15
+        'base': 6,
+        '../vendor/socket.io.js': 12,
+        '../utils/event': 13,
+        '../utils/config': 14
       }, function(require, module, exports) {
         var Base, Collection, Event, Extend, Include, Singleton, SocketIo, Sync, config;
         Base = require('base');
@@ -15346,7 +15310,7 @@
           /Volumes/Home/Projects/Nitro/source/scripts/utils/event.coffee
         */
 
-        'base': 7
+        'base': 6
       }, function(require, module, exports) {
         var Base;
         Base = require('base');
@@ -15377,12 +15341,12 @@
           /Volumes/Home/Projects/Nitro/source/scripts/languages/languages.coffee
         */
 
-        './bg.json': 17,
-        './bn-IN.json': 18,
-        './en-pi.json': 19,
-        './en-us.json': 20,
-        './es-ES.json': 21,
-        './nl.json': 22
+        './bg.json': 16,
+        './bn-IN.json': 17,
+        './en-pi.json': 18,
+        './en-us.json': 19,
+        './es-ES.json': 20,
+        './nl.json': 21
       }, function(require, module, exports) {
         return module.exports = {
           'bg': require('./bg.json'),
@@ -15973,11 +15937,11 @@
           /Volumes/Home/Projects/Nitro/source/scripts/models/task.coffee
         */
 
-        'base': 7,
-        '../models/list': 24,
-        '../controllers/sync': 12,
-        '../models/default/list.json': 25,
-        '../models/default/task.json': 26
+        'base': 6,
+        '../models/list': 23,
+        '../controllers/sync': 11,
+        '../models/default/list.json': 24,
+        '../models/default/task.json': 25
       }, function(require, module, exports) {
         var Base, List, Sync, Task, TaskCollection, _ref;
         Base = require('base');
@@ -16144,9 +16108,9 @@
           /Volumes/Home/Projects/Nitro/source/scripts/models/list.coffee
         */
 
-        'base': 7,
-        '../controllers/sync': 12,
-        './task': 23
+        'base': 6,
+        '../controllers/sync': 11,
+        './task': 22
       }, function(require, module, exports) {
         var Base, List, ListCollection, Sync;
         Base = require('base');
@@ -16354,10 +16318,10 @@
           /Volumes/Home/Projects/Nitro/source/scripts/controllers/auth.coffee
         */
 
-        '../models/setting': 11,
-        '../views/auth': 28,
-        '../utils/event': 14,
-        '../utils/config': 15
+        '../models/setting': 10,
+        '../views/auth': 27,
+        '../utils/event': 13,
+        '../utils/config': 14
       }, function(require, module, exports) {
         var Auth, Event, Setting, View, config;
         Setting = require('../models/setting');
@@ -16440,9 +16404,9 @@
           /Volumes/Home/Projects/Nitro/source/scripts/views/auth.coffee
         */
 
-        'base': 7,
-        '../models/setting': 11,
-        '../templates/auth': 29
+        'base': 6,
+        '../models/setting': 10,
+        '../templates/auth': 28
       }, function(require, module, exports) {
         var Auth, Base, Setting;
         Base = require('base');
@@ -16598,7 +16562,7 @@
           /Volumes/Home/Projects/Nitro/source/scripts/templates/auth.coffee
         */
 
-        '../utils/config': 15
+        '../utils/config': 14
       }, function(require, module, exports) {
         var config;
         config = require('../utils/config');
@@ -16622,11 +16586,98 @@
     ], [
       {
         /*
+          /Volumes/Home/Projects/Nitro/source/scripts/views/modal.coffee
+        */
+
+        'base': 6
+      }, function(require, module, exports) {
+        var Base, Modal, container, modals;
+        Base = require('base');
+        container = '.modals';
+        modals = [];
+        Modal = (function(_super) {
+          __extends(Modal, _super);
+
+          Modal.init = function() {
+            var modal, _i, _len, _results;
+            container = $(container);
+            _results = [];
+            for (_i = 0, _len = modals.length; _i < _len; _i++) {
+              modal = modals[_i];
+              _results.push(modal.init());
+            }
+            return _results;
+          };
+
+          function Modal(opts) {
+            this.hide = __bind(this.hide, this);
+            this.show = __bind(this.show, this);
+            this.init = __bind(this.init, this);
+            Base.touchify(opts.events);
+            Modal.__super__.constructor.apply(this, arguments);
+            modals.push(this);
+          }
+
+          Modal.prototype.init = function() {
+            var _this = this;
+            this.el = $(this.selector);
+            this.bind();
+            return this.el.on('click.modal, touchend.modal', function(event) {
+              if (event.target.className.indexOf('modal') > -1) {
+                return _this.hide();
+              }
+            });
+          };
+
+          Modal.prototype.state = false;
+
+          Modal.prototype.show = function() {
+            var _this = this;
+            if (this.state !== false) {
+              return;
+            }
+            this.state = true;
+            container.show();
+            this.el.show();
+            setTimeout(function() {
+              container.addClass('show');
+              return _this.el.addClass('show');
+            }, 1);
+            if (this.onShow) {
+              return this.onShow();
+            }
+          };
+
+          Modal.prototype.hide = function() {
+            var _this = this;
+            if (this.state !== true) {
+              return;
+            }
+            this.state = false;
+            container.removeClass('show');
+            this.el.removeClass('show');
+            return setTimeout(function() {
+              _this.el.hide();
+              container.hide();
+              if (_this.onHide) {
+                return _this.onHide();
+              }
+            }, 350);
+          };
+
+          return Modal;
+
+        })(Base.View);
+        return module.exports = Modal;
+      }
+    ], [
+      {
+        /*
           /Volumes/Home/Projects/Nitro/source/scripts/views/keys.coffee
         */
 
-        '../utils/keys': 9,
-        'base': 7
+        '../utils/keys': 8,
+        'base': 6
       }, function(require, module, exports) {
         var Base, Keys, keys;
         keys = require('../utils/keys');
@@ -16712,8 +16763,8 @@
           /Volumes/Home/Projects/Nitro/source/scripts/views/loading_screen.coffee
         */
 
-        'base': 7,
-        '../utils/event': 14
+        'base': 6,
+        '../utils/event': 13
       }, function(require, module, exports) {
         var Base, Event, LoadingScreen;
         Base = require('base');
@@ -16749,9 +16800,9 @@
           /Volumes/Home/Projects/Nitro/source/scripts/views/lists.coffee
         */
 
-        'base': 7,
-        '../models/list': 24,
-        '../utils/keys': 9,
+        'base': 6,
+        '../models/list': 23,
+        '../utils/keys': 8,
         '../views/list/item': 33
       }, function(require, module, exports) {
         var Base, List, ListItem, Lists, keys;
@@ -16835,7 +16886,7 @@
           /Volumes/Home/Projects/Nitro/source/scripts/views/list/item.coffee
         */
 
-        'base': 7,
+        'base': 6,
         '../../templates/list': 34
       }, function(require, module, exports) {
         var Base, ListItem;
@@ -16912,7 +16963,7 @@
           /Volumes/Home/Projects/Nitro/source/scripts/templates/list.coffee
         */
 
-        '../models/list': 24
+        '../models/list': 23
       }, function(require, module, exports) {
         var List;
         List = require('../models/list');
@@ -16927,9 +16978,9 @@
           /Volumes/Home/Projects/Nitro/source/scripts/views/title.coffee
         */
 
-        'base': 7,
-        '../models/list': 24,
-        '../utils/keys': 9
+        'base': 6,
+        '../models/list': 23,
+        '../utils/keys': 8
       }, function(require, module, exports) {
         var Base, List, Title, keys;
         Base = require('base');
@@ -16990,9 +17041,9 @@
           /Volumes/Home/Projects/Nitro/source/scripts/views/list_buttons.coffee
         */
 
-        'base': 7,
-        '../models/list': 24,
-        './modal': 37
+        'base': 6,
+        '../models/list': 23,
+        './modal': 29
       }, function(require, module, exports) {
         var Base, List, ListButtons;
         Base = require('base');
@@ -17065,75 +17116,18 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/modal.coffee
-        */
-
-        'base': 7
-      }, function(require, module, exports) {
-        var Base, Modal;
-        Base = require('base');
-        Modal = (function(_super) {
-          __extends(Modal, _super);
-
-          function Modal(opts) {
-            var _this = this;
-            Base.touchify(opts.events);
-            Modal.__super__.constructor.apply(this, arguments);
-            this.el.on('click.modal, touchend.modal', function(event) {
-              if (event.target.className.indexOf('modal') > -1) {
-                return _this.hide();
-              }
-            });
-          }
-
-          Modal.prototype.state = false;
-
-          Modal.prototype.show = function() {
-            if (this.state !== false) {
-              return;
-            }
-            this.state = true;
-            this.el.show().addClass('show');
-            if (this.onShow) {
-              return this.onShow();
-            }
-          };
-
-          Modal.prototype.hide = function() {
-            var _this = this;
-            if (this.state !== true) {
-              return;
-            }
-            this.state = false;
-            this.el.removeClass('show');
-            return setTimeout(function() {
-              _this.el.hide(0);
-              if (_this.onHide) {
-                return _this.onHide();
-              }
-            }, 350);
-          };
-
-          return Modal;
-
-        })(Base.View);
-        return module.exports = Modal;
-      }
-    ], [
-      {
-        /*
           /Volumes/Home/Projects/Nitro/source/scripts/views/tasks.coffee
         */
 
-        'base': 7,
-        '../views/task_item': 39,
-        '../models/task': 23,
-        '../models/list': 24,
-        '../models/setting': 11,
-        '../utils/keys': 9,
-        '../utils/date': 44,
-        '../utils/timer': 41,
-        '../templates/task': 42
+        'base': 6,
+        '../views/task_item': 38,
+        '../models/task': 22,
+        '../models/list': 23,
+        '../models/setting': 10,
+        '../utils/keys': 8,
+        '../utils/date': 43,
+        '../utils/timer': 40,
+        '../templates/task': 41
       }, function(require, module, exports) {
         var Base, List, Setting, Task, TaskItem, Tasks, dateDetector, delay, keys;
         Base = require('base');
@@ -17387,14 +17381,14 @@
           /Volumes/Home/Projects/Nitro/source/scripts/views/task_item.coffee
         */
 
-        'base': 7,
-        '../views/modal/destroy_task': 40,
-        '../models/list': 24,
-        '../models/setting': 11,
-        '../utils/keys': 9,
-        '../utils/timer': 41,
-        '../utils/translate': 10,
-        '../templates/task': 42
+        'base': 6,
+        '../views/modal/destroy_task': 39,
+        '../models/list': 23,
+        '../models/setting': 10,
+        '../utils/keys': 8,
+        '../utils/timer': 40,
+        '../utils/translate': 9,
+        '../templates/task': 41
       }, function(require, module, exports) {
         var Base, List, Modal, TaskItem, delay, keys, setting, translate;
         Base = require('base');
@@ -17602,30 +17596,33 @@
           /Volumes/Home/Projects/Nitro/source/scripts/views/modal/destroy_task.coffee
         */
 
-        '../modal': 37
+        '../../models/setting': 10,
+        '../modal': 29
       }, function(require, module, exports) {
-        var Modal, destroyTaskModal;
+        var Modal, Setting, destroyTaskModal, task,
+          _this = this;
+        Setting = require('../../models/setting');
         Modal = require('../modal');
+        task = null;
         destroyTaskModal = new Modal({
-          el: $('.modal.delete-task'),
+          selector: '.delete-task.modal',
           events: {
             'click .true': 'delete',
             'click .false': 'hide'
           },
-          run: function(task) {
-            this.task = task;
-            if (setting.confirmDelete) {
-              return this.show();
+          run: function(_task) {
+            task = _task;
+            if (Setting.confirmDelete) {
+              return destroyTaskModal.show();
             } else {
               return this["delete"]();
             }
           },
           "delete": function() {
-            var _ref;
-            if ((_ref = this.task) != null) {
-              _ref.destroy();
+            if (task != null) {
+              task.destroy();
             }
-            return this.hide();
+            return destroyTaskModal.hide();
           }
         });
         return module.exports = destroyTaskModal;
@@ -17647,8 +17644,8 @@
           /Volumes/Home/Projects/Nitro/source/scripts/templates/task.coffee
         */
 
-        '../utils/prettydate': 43,
-        '../utils/translate': 10
+        '../utils/prettydate': 42,
+        '../utils/translate': 9
       }, function(require, module, exports) {
         var prettyDate, tags, text, translate;
         prettyDate = require('../utils/prettydate');
@@ -17682,7 +17679,7 @@
           /Volumes/Home/Projects/Nitro/source/scripts/utils/prettydate.coffee
         */
 
-        '../utils/translate': 10
+        '../utils/translate': 9
       }, function(require, module, exports) {
         var month, translate;
         translate = require('../utils/translate');
