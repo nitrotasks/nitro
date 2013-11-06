@@ -4,50 +4,61 @@ keys     = require '../utils/keys'
 ListItem = require '../views/list/item'
 
 class Lists extends Base.View
+  
+  # Reference the currently open list
+  @active: null
 
+  # UI elements
   elements:
     'ul': 'lists'
     '.create-list': 'input'
-
+  
+  # UI events
   events:
     'keyup .create-list': 'keyup'
 
   constructor: ->
-    Base.touchify(@events)
     super
-
-    @el = $('.sidebar')
-    @bind()
-
+    
+    # Bind to sidebar
+    @bind $ '.sidebar' 
+    
+    # Listen to the List collection
     @listen List,
       'create:model': @addOne
       'refresh':      @addAll
       'select:model': @select
-
+  
+  # Handle input keyboard events
+  # - e (Event) : the keyup event
   keyup: (e) =>
     if e.which is keys.enter and @input.val().length
-      @createNew()
+      @createNew @input.val()
+      @input.val ''
 
   # Create a new list
-  createNew: =>
-    name = @input.val()
-    @input.val ''
+  # - name (string) : the name of the list
+  createNew: (name) =>
     list = List.create name: name
     list.trigger 'select'
 
-  # Add a single list to the DOM
+  # Render a single list
+  # - list (List) : the list to render
   addOne: (list) =>
     return if list.id is 'inbox'
-    listItem = new ListItem
-      list: list
+    listItem = new ListItem list: list
     @lists.append listItem.render().el
 
-  # Draw all lists to the DOM
+  # Render all lists
   addAll: =>
     @lists.empty()
     List.forEach @addOne
-
-  select: =>
+  
+  # Select a list
+  # - list (List) : the list to select
+  select: (list) =>
+    Lists.active = list
+    # Clear the currently selected list
     @lists
       .find('.current')
       .removeClass('current')
