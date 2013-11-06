@@ -7,10 +7,16 @@
   background-color: rgba(255, 255, 255, 0.7);
   z-index: 10;
   @include pos(0, 0, 0, 0);
-  @include transition(.3s, opacity, ease);
-  @include user-select(none);
-  -webkit-transform: translate3d(0, 0, 0);
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+  @include transition(.3s opacity ease);
+  // @include user-select(none);
+  // -webkit-transform: translate3d(0, 0, 0)
+  // -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+  &.show {
+    display: block;
+    opacity: 1;
+  }
 }
 
 .modal {
@@ -23,8 +29,8 @@
   color: #222222;
 
   @include pos(15%, auto, auto, 50%);
-  @include transition(.3s, -webkit-transform, ease);
-  -webkit-transform: scale(0.75) translate3d(0, 0, 0);
+  @include transition(.3s -webkit-transform ease);
+  @include transform(scale(0.75));
 
   p {
     display: inline-block;
@@ -32,10 +38,7 @@
   }
 
   &.show {
-    opacity: 1;
-    & > div {
-      -webkit-transform: scale(1) translate3d(0, 0, 0);
-    }
+    @include transform(scale(1));
   }
 
   button.special {
