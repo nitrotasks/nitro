@@ -1,7 +1,7 @@
 Modal = require '../modal'
 
-shareModal = new Modal
+modal = new Modal
 
-  el: $ '.modal.share'
+  selector: '.modal.share'
 
-module.exports = shareModal
+module.exports = modal

@@ -1,8 +1,8 @@
 Modal = require '../modal'
 
-emailModal = new Modal
+modal = new Modal
 
-  el: $ '.modal.email'
+  selector: '.modal.email'
 
   elements:
     'input': 'input'
@@ -24,7 +24,7 @@ emailModal = new Modal
     else
       $('.modal.proventor').modal('show')
 
-    @hide()
+    modal.hide()
 
   onShow: ->
     @input.focus()
@@ -32,4 +32,4 @@ emailModal = new Modal
   onHide: ->
     @input.val('')
 
-module.exports = emailModal
+module.exports = modal

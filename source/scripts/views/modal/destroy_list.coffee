@@ -1,8 +1,9 @@
+List = require '../../models/list'
 Modal = require '../modal'
 
-destroyListModal = new Modal
+modal = new Modal
 
-  el: $ '.modal.delete-list'
+  selector: '.modal.delete-list'
 
   events:
     'click .true': 'delete'
@@ -10,12 +11,12 @@ destroyListModal = new Modal
 
   run: ->
     if setting.confirmDelete
-      @show()
+      modal.show()
     else
       @delete()
 
   delete: ->
     List.current.trigger 'kill'
-    @hide()
+    modal.hide()
 
-module.exports = destroyListModal
+module.exports = modal

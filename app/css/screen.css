@@ -2528,7 +2528,7 @@ html, body {
         background: #068dd8;
         color: white; }
 
-.modal.delete {
+.modal.delete-task {
   width: 400px;
   margin-left: -228px;
   border: 3px solid #e15556;
@@ -2536,12 +2536,12 @@ html, body {
   text-align: center;
   font-size: 16px;
   color: #222222; }
-  .modal.delete span {
+  .modal.delete-task span {
     display: inline-block;
     margin: 5px 0; }
-  .modal.delete button.special {
+  .modal.delete-task button.special {
     border: 2px solid #e15556; }
-    .modal.delete button.special:active {
+    .modal.delete-task button.special:active {
       background: #e15556; }
 
 .modal.tour {

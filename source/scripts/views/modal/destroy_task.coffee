@@ -3,7 +3,7 @@ Modal = require '../modal'
 
 task = null
 
-destroyTaskModal = new Modal
+modal = new Modal
 
   selector: '.delete-task.modal'
 
@@ -14,12 +14,12 @@ destroyTaskModal = new Modal
   run: (_task) ->
     task = _task
     if Setting.confirmDelete
-      destroyTaskModal.show()
+      modal.show()
     else
       @delete()
 
   delete: =>
     task?.destroy()
-    destroyTaskModal.hide()
+    modal.hide()
 
-module.exports = destroyTaskModal
+module.exports = modal

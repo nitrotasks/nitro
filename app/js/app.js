@@ -17599,12 +17599,12 @@
         '../../models/setting': 10,
         '../modal': 29
       }, function(require, module, exports) {
-        var Modal, Setting, destroyTaskModal, task,
+        var Modal, Setting, modal, task,
           _this = this;
         Setting = require('../../models/setting');
         Modal = require('../modal');
         task = null;
-        destroyTaskModal = new Modal({
+        modal = new Modal({
           selector: '.delete-task.modal',
           events: {
             'click .true': 'delete',
@@ -17613,7 +17613,7 @@
           run: function(_task) {
             task = _task;
             if (Setting.confirmDelete) {
-              return destroyTaskModal.show();
+              return modal.show();
             } else {
               return this["delete"]();
             }
@@ -17622,10 +17622,10 @@
             if (task != null) {
               task.destroy();
             }
-            return destroyTaskModal.hide();
+            return modal.hide();
           }
         });
-        return module.exports = destroyTaskModal;
+        return module.exports = modal;
       }
     ], [
       {
