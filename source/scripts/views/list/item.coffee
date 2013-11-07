@@ -15,6 +15,8 @@ class ListItem extends Base.View
     Base.touchify(@events)
     super
 
+    return unless @list?
+
     @listen [
       @list,
         'select': @select

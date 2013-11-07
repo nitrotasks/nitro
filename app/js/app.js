@@ -8913,10 +8913,12 @@
         '../views/list_buttons': 33,
         '../views/tasks': 34,
         '../views/list/inbox': 41,
-        '../models/default/list.json': 42,
-        '../models/default/task.json': 43
+        '../views/list/all': 42,
+        '../views/list/completed': 43,
+        '../models/default/list.json': 44,
+        '../models/default/task.json': 45
       }, function(require, module, exports) {
-        var $, App, Auth, Base, Event, Keys, List, ListButtons, ListInbox, Lists, LoadingScreen, Modal, Setting, Task, Tasks, Title, libs, translate;
+        var $, App, Auth, Base, Event, Keys, List, ListAll, ListButtons, ListCompleted, ListInbox, Lists, LoadingScreen, Modal, Setting, Task, Tasks, Title, libs, translate;
         libs = require('../vendor/libs');
         Base = require('base');
         Base.touchify = require('../utils/touchify');
@@ -8936,8 +8938,11 @@
         ListButtons = require('../views/list_buttons');
         Tasks = require('../views/tasks');
         ListInbox = require('../views/list/inbox');
+        ListAll = require('../views/list/all');
+        ListCompleted = require('../views/list/completed');
         App = (function() {
           function App() {
+            var inbox;
             Setting.trigger('fetch');
             translate.init();
             this.auth = new Auth();
@@ -8957,9 +8962,13 @@
                 permanent: true
               });
             }
+            inbox = List.get('inbox');
             new ListInbox({
-              list: List.get('inbox')
+              list: inbox
             });
+            inbox.trigger('select');
+            new ListAll();
+            new ListCompleted();
             if (Setting.loggedin) {
               Sync.connect(Setting.uid, Setting.token);
             } else {
@@ -16391,6 +16400,9 @@
             this.render = __bind(this.render, this);
             Base.touchify(this.events);
             ListItem.__super__.constructor.apply(this, arguments);
+            if (this.list == null) {
+              return;
+            }
             this.listen([
               this.list, {
                 'select': this.select,
@@ -17346,10 +17358,9 @@
           __extends(ListInbox, _super);
 
           function ListInbox() {
-            this.showCompleted = __bind(this.showCompleted, this);
-            this.render = __bind(this.render, this);
             ListInbox.__super__.constructor.apply(this, arguments);
-            this.render();
+            this.bind($('.inbox.list'));
+            this.updateCount();
             /*
             # Set up draggable on inbox
             @el.droppable
@@ -17362,18 +17373,102 @@
 
           }
 
-          ListInbox.prototype.render = function() {
-            return this.bind($('.inbox.list'));
-          };
-
-          ListInbox.prototype.showCompleted = function() {
-            return this.list.trigger('select');
-          };
-
           return ListInbox;
 
         })(ListItem);
         return module.exports = ListInbox;
+      }
+    ], [
+      {
+        /*
+          /Volumes/Home/Projects/Nitro/source/scripts/views/list/all.coffee
+        */
+
+        '../../models/task': 20,
+        '../../models/list': 21,
+        './item': 30
+      }, function(require, module, exports) {
+        var List, ListAll, ListItem, Task;
+        Task = require('../../models/task');
+        List = require('../../models/list');
+        ListItem = require('./item');
+        ListAll = (function(_super) {
+          __extends(ListAll, _super);
+
+          function ListAll() {
+            this.updateCount = __bind(this.updateCount, this);
+            this.click = __bind(this.click, this);
+            ListAll.__super__.constructor.apply(this, arguments);
+            this.bind($('.all.list'));
+            Task.on('change', this.updateCount);
+            this.updateCount();
+          }
+
+          ListAll.prototype.click = function() {
+            List.trigger('select:model', {
+              name: 'All Tasks',
+              id: 'all',
+              disabled: true,
+              permanent: true,
+              tasks: Task.active()
+            });
+            return this.select();
+          };
+
+          ListAll.prototype.updateCount = function() {
+            return this.count.text(Task.active().length);
+          };
+
+          return ListAll;
+
+        })(ListItem);
+        return module.exports = ListAll;
+      }
+    ], [
+      {
+        /*
+          /Volumes/Home/Projects/Nitro/source/scripts/views/list/completed.coffee
+        */
+
+        '../../models/task': 20,
+        '../../models/list': 21,
+        './item': 30
+      }, function(require, module, exports) {
+        var List, ListCompleted, ListItem, Task;
+        Task = require('../../models/task');
+        List = require('../../models/list');
+        ListItem = require('./item');
+        ListCompleted = (function(_super) {
+          __extends(ListCompleted, _super);
+
+          function ListCompleted() {
+            this.updateCount = __bind(this.updateCount, this);
+            this.click = __bind(this.click, this);
+            ListCompleted.__super__.constructor.apply(this, arguments);
+            this.bind($('.completed.list'));
+            Task.on('change:completed:model', this.updateCount);
+            this.updateCount();
+          }
+
+          ListCompleted.prototype.click = function() {
+            List.trigger('select:model', {
+              name: 'Completed',
+              id: 'completed',
+              disabled: true,
+              permanent: true,
+              tasks: Task.completed()
+            });
+            return this.select();
+          };
+
+          ListCompleted.prototype.updateCount = function() {
+            return this.count.text(Task.completed().length);
+          };
+
+          return ListCompleted;
+
+        })(ListItem);
+        return module.exports = ListCompleted;
       }
     ], [
       {

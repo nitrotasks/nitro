@@ -34,6 +34,8 @@ Tasks         = require '../views/tasks'
 
 # Special Lists
 ListInbox     = require '../views/list/inbox'
+ListAll       = require '../views/list/all'
+ListCompleted = require '../views/list/completed'
 
 class App
 
@@ -82,7 +84,13 @@ class App
         permanent: yes
 
     # Load inbox
-    new ListInbox list: List.get 'inbox'
+    inbox = List.get 'inbox'
+    new ListInbox list: inbox
+    inbox.trigger 'select'
+
+    # Load other special lists
+    new ListAll()
+    new ListCompleted()
 
     # Doesn't run in the Settings constructor. Bit of a pain
     # TODO: Move somewhere else?

@@ -1,3 +1,5 @@
+Task = require '../../models/task'
+List = require '../../models/list'
 ListItem = require './item'
 
 class ListAll extends ListItem
@@ -5,23 +7,24 @@ class ListAll extends ListItem
   constructor: ->
     super
 
-  showAllTasks: =>
-    List.trigger 'change:current',
-      name: $.i18n._('All Tasks')
+    @bind $ '.all.list'
+
+    Task.on 'change', @updateCount
+
+    @updateCount()
+
+
+  click: =>
+    List.trigger 'select:model',
+      name: 'All Tasks'
       id: 'all'
       disabled: yes
       permanent: yes
-    @el.find('.current').removeClass 'current'
-    @all.addClass 'current'
-    return
+      tasks: Task.active()
 
-  updateAll: =>
-    @inboxCount.text Task.active('inbox').length
-    @allCount.text Task.active().length
-    @completedCount.text Task.completed().length
+    @select()
 
-    # Updates Counts for all other lists
-    List.forEach (list) ->
-      list.trigger('update:tasks')
+  updateCount: =>
+    @count.text Task.active().length
 
 module.exports = ListAll

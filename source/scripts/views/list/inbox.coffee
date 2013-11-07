@@ -5,7 +5,9 @@ class ListInbox extends ListItem
   constructor: ->
     super
 
-    @render()
+    @bind $ '.inbox.list'
+
+    @updateCount()
 
     ###
     # Set up draggable on inbox
@@ -16,12 +18,5 @@ class ListInbox extends ListItem
         movedTask = Task.get(ui.draggable.attr('id').slice(5))
         List.current.moveTask(movedTask, List.get('inbox'))
     ###
-
-  render: =>
-    @bind $ '.inbox.list'
-
-  # Show completed
-  showCompleted: =>
-    @list.trigger 'select'
 
 module.exports = ListInbox
