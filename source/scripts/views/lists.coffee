@@ -4,7 +4,7 @@ keys     = require '../utils/keys'
 ListItem = require '../views/list/item'
 
 class Lists extends Base.View
-  
+
   # Reference the currently open list
   @active: null
 
@@ -12,23 +12,22 @@ class Lists extends Base.View
   elements:
     'ul': 'lists'
     '.create-list': 'input'
-  
+
   # UI events
   events:
     'keyup .create-list': 'keyup'
 
   constructor: ->
     super
-    
-    # Bind to sidebar
-    @bind $ '.sidebar' 
-    
+
+    @bind $ '.sidebar'
+
     # Listen to the List collection
     @listen List,
       'create:model': @addOne
       'refresh':      @addAll
       'select:model': @select
-  
+
   # Handle input keyboard events
   # - e (Event) : the keyup event
   keyup: (e) =>
@@ -53,13 +52,13 @@ class Lists extends Base.View
   addAll: =>
     @lists.empty()
     List.forEach @addOne
-  
+
   # Select a list
   # - list (List) : the list to select
   select: (list) =>
     Lists.active = list
     # Clear the currently selected list
-    @lists
+    @el
       .find('.current')
       .removeClass('current')
 

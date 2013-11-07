@@ -32,6 +32,9 @@ Title         = require '../views/title'
 ListButtons   = require '../views/list_buttons'
 Tasks         = require '../views/tasks'
 
+# Special Lists
+ListInbox     = require '../views/list/inbox'
+
 class App
 
   constructor: ->
@@ -65,6 +68,11 @@ class App
     Task.trigger 'fetch'
     List.trigger 'fetch'
 
+    # Load default lists and tasks
+    # if Task.length is 0
+    #     List.refresh require '../models/default/list.json'
+    #     Task.refresh require '../models/default/task.json'
+
     # Make sure inbox list exists
     # TODO: Move somewhere elese
     if List.exists('inbox') is false
@@ -72,6 +80,9 @@ class App
         id: 'inbox'
         name: translate 'Inbox'
         permanent: yes
+
+    # Load inbox
+    new ListInbox list: List.get 'inbox'
 
     # Doesn't run in the Settings constructor. Bit of a pain
     # TODO: Move somewhere else?

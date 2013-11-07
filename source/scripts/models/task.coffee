@@ -6,8 +6,9 @@ class Task extends Base.Model
 
   defaults:
     id: null
-    name: ''
+    list: null
     date: null
+    name: ''
     notes: ''
     priority: 1
     completed: false
@@ -29,16 +30,9 @@ class TaskCollection extends Sync.Collection
         list.tasks.trigger 'change'
 
 
-  toArray: =>
-    array = []
-    @forEach (task) -> array.push task.id
-    return array
-
   # Get the active tasks
-  # - [list] (string) : The list ID. If specified, will only return tasks in that list.
-  active: (list) =>
-    @filter (task) ->
-      !task.completed and (if list then (task.list is list) else yes)
+  active: =>
+    @filter (task) -> !task.completed
 
   # Get the completed tasks
   completed: =>
@@ -51,15 +45,7 @@ class TaskCollection extends Sync.Collection
     else if listId is 'completed' then return @completed()
     @filter (task) -> task.list is listId
 
-  # TODO: Move this somewhere else
-  default: ->
-    if Task.length is 0
-      # Circular dependency fix
-      List =       require '../models/list'
-      List.refresh require '../models/default/list.json'
-      @refresh     require '../models/default/task.json'
-
-  #
+  # Sort the tasks
   sortTasks: (tasks) =>
     sorted = tasks.sort (a, b) ->
       # If logged, move to bottom

@@ -8904,16 +8904,19 @@
         '../models/task': 22,
         '../models/list': 23,
         '../models/setting': 10,
-        '../controllers/auth': 26,
-        '../views/modal': 29,
-        '../views/keys': 30,
-        '../views/loading_screen': 31,
-        '../views/lists': 32,
-        '../views/title': 35,
-        '../views/list_buttons': 36,
-        '../views/tasks': 37
+        '../controllers/auth': 24,
+        '../views/modal': 27,
+        '../views/keys': 28,
+        '../views/loading_screen': 29,
+        '../views/lists': 30,
+        '../views/title': 33,
+        '../views/list_buttons': 34,
+        '../views/tasks': 35,
+        '../views/list/inbox': 42,
+        '../models/default/list.json': 43,
+        '../models/default/task.json': 44
       }, function(require, module, exports) {
-        var $, App, Auth, Base, Event, Keys, List, ListButtons, Lists, LoadingScreen, Modal, Setting, Task, Tasks, Title, libs, translate;
+        var $, App, Auth, Base, Event, Keys, List, ListButtons, ListInbox, Lists, LoadingScreen, Modal, Setting, Task, Tasks, Title, libs, translate;
         libs = require('../vendor/libs');
         Base = require('base');
         Base.touchify = require('../utils/touchify');
@@ -8932,6 +8935,7 @@
         Title = require('../views/title');
         ListButtons = require('../views/list_buttons');
         Tasks = require('../views/tasks');
+        ListInbox = require('../views/list/inbox');
         App = (function() {
           function App() {
             Setting.trigger('fetch');
@@ -8953,6 +8957,9 @@
                 permanent: true
               });
             }
+            new ListInbox({
+              list: List.get('inbox')
+            });
             if (Setting.loggedin) {
               Sync.connect(Setting.uid, Setting.token);
             } else {
@@ -14259,6 +14266,9 @@
               // If el is not specified use this.el
               if (!el) { el = this.el; }
       
+              // Else set this.el if it isn't already set
+              else if (!this.el) { this.el = el; }
+      
               // Cache elements
               for (selector in this.elements) {
                   if (this.elements.hasOwnProperty(selector)) {
@@ -14450,11 +14460,16 @@
           // Add a model to the collection
           Collection.prototype.add = function (model, options) {
       
-              var id, index, self = this;
+              var id, number, index, self = this;
       
               // Set ID
               if (model.id) {
                   id = model.id;
+                  // Make sure we don't reuse an existing id
+                  number = parseInt(model.id.slice(2), 10);
+                  if (number> this._index) {
+                      this._index = number + 1;
+                  }
               } else {
                   id = 'c-' + this._index;
                   this._index += 1;
@@ -14536,6 +14551,15 @@
           // Sort the models. Does not alter original order
           Collection.prototype.sort = function () {
               return this._models.sort.apply(this._models, arguments);
+          };
+      
+          // Get an array of all the properties from the models
+          Collection.prototype.pluck = function(property) {
+              var array = [];
+              this.forEach(function (task) {
+                  array.push(task[property]);
+              });
+              return array
           };
       
           // Get the index of the item
@@ -15281,6 +15305,7 @@
           Collection.prototype.fetch = function() {
             var result;
             result = JSON.parse(localStorage[this.className] || '[]');
+            console.log('loading', this.className, result);
             return this.refresh(result, true);
           };
 
@@ -15939,9 +15964,7 @@
 
         'base': 6,
         '../models/list': 23,
-        '../controllers/sync': 11,
-        '../models/default/list.json': 24,
-        '../models/default/task.json': 25
+        '../controllers/sync': 11
       }, function(require, module, exports) {
         var Base, List, Sync, Task, TaskCollection, _ref;
         Base = require('base');
@@ -15957,8 +15980,9 @@
 
           Task.prototype.defaults = {
             id: null,
-            name: '',
+            list: null,
             date: null,
+            name: '',
             notes: '',
             priority: 1,
             completed: false
@@ -15981,7 +16005,6 @@
             this.list = __bind(this.list, this);
             this.completed = __bind(this.completed, this);
             this.active = __bind(this.active, this);
-            this.toArray = __bind(this.toArray, this);
             var _this = this;
             TaskCollection.__super__.constructor.apply(this, arguments);
             this.on('create:model', function(task) {
@@ -15996,18 +16019,9 @@
             });
           }
 
-          TaskCollection.prototype.toArray = function() {
-            var array;
-            array = [];
-            this.forEach(function(task) {
-              return array.push(task.id);
-            });
-            return array;
-          };
-
-          TaskCollection.prototype.active = function(list) {
+          TaskCollection.prototype.active = function() {
             return this.filter(function(task) {
-              return !task.completed && (list ? task.list === list : true);
+              return !task.completed;
             });
           };
 
@@ -16029,14 +16043,6 @@
             return this.filter(function(task) {
               return task.list === listId;
             });
-          };
-
-          TaskCollection.prototype["default"] = function() {
-            if (Task.length === 0) {
-              List = require('../models/list');
-              List.refresh(require('../models/default/list.json'));
-              return this.refresh(require('../models/default/task.json'));
-            }
           };
 
           TaskCollection.prototype.sortTasks = function(tasks) {
@@ -16120,7 +16126,8 @@
 
           List.prototype.defaults = {
             id: null,
-            name: ''
+            name: '',
+            tasks: null
           };
 
           List.current = null;
@@ -16134,7 +16141,7 @@
               _this = this;
             List.__super__.constructor.apply(this, arguments);
             Task = require('./task');
-            if (Array.isArray(this.tasks)) {
+            if (this.tasks instanceof Array) {
               taskIds = this.tasks;
               this.tasks = new Task.constructor();
               taskIds.forEach(function(id) {
@@ -16148,7 +16155,7 @@
                   return console.log('could not find task', id);
                 }
               });
-            } else {
+            } else if (this.tasks === null) {
               this.tasks = new Task.constructor();
             }
             this.tasks.on('change', function() {
@@ -16186,7 +16193,7 @@
             return {
               id: this.id,
               name: this.name,
-              tasks: this.tasks.toArray()
+              tasks: this.tasks.pluck('id')
             };
           };
 
@@ -16224,102 +16231,11 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/models/default/list.json
-        */
-
-      }, function(require, module, exports) {
-        return module.exports = [
-          {
-            "name": "Inbox",
-            "tasks": ["c-0", "c-2", "c-4", "c-6", "c-8", "c-10", "c-12", "c-14"],
-            "permanent": true,
-            "id": "inbox"
-          }
-        ];
-      }
-    ], [
-      {
-        /*
-          /Volumes/Home/Projects/Nitro/source/scripts/models/default/task.json
-        */
-
-      }, function(require, module, exports) {
-        return module.exports = [
-          {
-            "name": "Welcome to Nitro!",
-            "date": "",
-            "notes": "",
-            "completed": false,
-            "priority": 3,
-            "list": "inbox",
-            "id": "c-0"
-          }, {
-            "name": "Add a new task by using the box above",
-            "date": "",
-            "notes": "",
-            "completed": false,
-            "priority": 3,
-            "list": "inbox",
-            "id": "c-2"
-          }, {
-            "name": "Create a new list by using the box in the sidebar",
-            "date": "",
-            "notes": "",
-            "completed": false,
-            "priority": 2,
-            "list": "inbox",
-            "id": "c-4"
-          }, {
-            "name": "You can see all your tasks and completed tasks by clicking on the list in the sidebar",
-            "date": "",
-            "notes": "",
-            "completed": false,
-            "priority": 2,
-            "list": "inbox",
-            "id": "c-6"
-          }, {
-            "name": "Click on a task to expand it",
-            "date": "",
-            "notes": "<div>You can add notes, due dates and change the priority</div>",
-            "completed": false,
-            "priority": 2,
-            "list": "inbox",
-            "id": "c-8"
-          }, {
-            "name": "Group your tasks by clicking the lists icon to the right of the list title",
-            "date": "",
-            "notes": "",
-            "completed": false,
-            "priority": 1,
-            "list": "inbox",
-            "id": "c-10"
-          }, {
-            "name": "Get Nitro Pro to unlock more features and be awesome",
-            "date": "",
-            "notes": "",
-            "completed": false,
-            "priority": 1,
-            "list": "inbox",
-            "id": "c-12"
-          }, {
-            "name": "Thanks for checking out Nitro! We hope you enjoy it as much as we did creating it.",
-            "date": "",
-            "notes": "",
-            "completed": false,
-            "priority": 1,
-            "list": "inbox",
-            "id": "c-14"
-          }
-        ];
-      }
-    ], [
-      {
-        /*
           /Volumes/Home/Projects/Nitro/source/scripts/controllers/auth.coffee
         */
 
         '../models/setting': 10,
-        '../views/auth': 27,
+        '../views/auth': 25,
         '../utils/event': 13,
         '../utils/config': 14
       }, function(require, module, exports) {
@@ -16406,7 +16322,7 @@
 
         'base': 6,
         '../models/setting': 10,
-        '../templates/auth': 28
+        '../templates/auth': 26
       }, function(require, module, exports) {
         var Auth, Base, Setting;
         Base = require('base');
@@ -16803,7 +16719,7 @@
         'base': 6,
         '../models/list': 23,
         '../utils/keys': 8,
-        '../views/list/item': 33
+        '../views/list/item': 31
       }, function(require, module, exports) {
         var Base, List, ListItem, Lists, keys;
         Base = require('base');
@@ -16812,6 +16728,8 @@
         ListItem = require('../views/list/item');
         Lists = (function(_super) {
           __extends(Lists, _super);
+
+          Lists.active = null;
 
           Lists.prototype.elements = {
             'ul': 'lists',
@@ -16828,10 +16746,8 @@
             this.addOne = __bind(this.addOne, this);
             this.createNew = __bind(this.createNew, this);
             this.keyup = __bind(this.keyup, this);
-            Base.touchify(this.events);
             Lists.__super__.constructor.apply(this, arguments);
-            this.el = $('.sidebar');
-            this.bind();
+            this.bind($('.sidebar'));
             this.listen(List, {
               'create:model': this.addOne,
               'refresh': this.addAll,
@@ -16841,14 +16757,13 @@
 
           Lists.prototype.keyup = function(e) {
             if (e.which === keys.enter && this.input.val().length) {
-              return this.createNew();
+              this.createNew(this.input.val());
+              return this.input.val('');
             }
           };
 
-          Lists.prototype.createNew = function() {
-            var list, name;
-            name = this.input.val();
-            this.input.val('');
+          Lists.prototype.createNew = function(name) {
+            var list;
             list = List.create({
               name: name
             });
@@ -16871,8 +16786,9 @@
             return List.forEach(this.addOne);
           };
 
-          Lists.prototype.select = function() {
-            return this.lists.find('.current').removeClass('current');
+          Lists.prototype.select = function(list) {
+            Lists.active = list;
+            return this.el.find('.current').removeClass('current');
           };
 
           return Lists;
@@ -16887,7 +16803,7 @@
         */
 
         'base': 6,
-        '../../templates/list': 34
+        '../../templates/list': 32
       }, function(require, module, exports) {
         var Base, ListItem;
         Base = require('base');
@@ -17043,7 +16959,7 @@
 
         'base': 6,
         '../models/list': 23,
-        './modal': 29
+        './modal': 27
       }, function(require, module, exports) {
         var Base, List, ListButtons;
         Base = require('base');
@@ -17120,17 +17036,19 @@
         */
 
         'base': 6,
-        '../views/task_item': 38,
+        '../views/lists': 30,
+        '../views/task_item': 36,
         '../models/task': 22,
         '../models/list': 23,
         '../models/setting': 10,
         '../utils/keys': 8,
-        '../utils/date': 43,
-        '../utils/timer': 40,
-        '../templates/task': 41
+        '../utils/date': 41,
+        '../utils/timer': 38,
+        '../templates/task': 39
       }, function(require, module, exports) {
-        var Base, List, Setting, Task, TaskItem, Tasks, dateDetector, delay, keys;
+        var Base, List, Lists, Setting, Task, TaskItem, Tasks, dateDetector, delay, keys;
         Base = require('base');
+        Lists = require('../views/lists');
         TaskItem = require('../views/task_item');
         Task = require('../models/task');
         List = require('../models/list');
@@ -17165,8 +17083,7 @@
             this.bindTask = __bind(this.bindTask, this);
             Base.touchify(this.events);
             Tasks.__super__.constructor.apply(this, arguments);
-            this.el = $('.main');
-            this.bind();
+            this.bind($('.main'));
             this.views = [];
             this.timers = {};
             this.currentTask;
@@ -17382,13 +17299,13 @@
         */
 
         'base': 6,
-        '../views/modal/destroy_task': 39,
+        '../views/modal/destroy_task': 37,
         '../models/list': 23,
         '../models/setting': 10,
         '../utils/keys': 8,
-        '../utils/timer': 40,
+        '../utils/timer': 38,
         '../utils/translate': 9,
-        '../templates/task': 41
+        '../templates/task': 39
       }, function(require, module, exports) {
         var Base, List, Modal, TaskItem, delay, keys, setting, translate;
         Base = require('base');
@@ -17597,7 +17514,7 @@
         */
 
         '../../models/setting': 10,
-        '../modal': 29
+        '../modal': 27
       }, function(require, module, exports) {
         var Modal, Setting, modal, task,
           _this = this;
@@ -17644,7 +17561,7 @@
           /Volumes/Home/Projects/Nitro/source/scripts/templates/task.coffee
         */
 
-        '../utils/prettydate': 42,
+        '../utils/prettydate': 40,
         '../utils/translate': 9
       }, function(require, module, exports) {
         var prettyDate, tags, text, translate;
@@ -17853,6 +17770,140 @@
           remove: removeTrigger
         };
         return module != null ? module.exports = api : void 0;
+      }
+    ], [
+      {
+        /*
+          /Volumes/Home/Projects/Nitro/source/scripts/views/list/inbox.coffee
+        */
+
+        './item': 31
+      }, function(require, module, exports) {
+        var ListInbox, ListItem;
+        ListItem = require('./item');
+        ListInbox = (function(_super) {
+          __extends(ListInbox, _super);
+
+          function ListInbox() {
+            this.showCompleted = __bind(this.showCompleted, this);
+            this.render = __bind(this.render, this);
+            ListInbox.__super__.constructor.apply(this, arguments);
+            this.render();
+            /*
+            # Set up draggable on inbox
+            @el.droppable
+              hoverClass: 'ui-state-active'
+              tolerance: 'pointer'
+              drop: (event, ui) =>
+                movedTask = Task.get(ui.draggable.attr('id').slice(5))
+                List.current.moveTask(movedTask, List.get('inbox'))
+            */
+
+          }
+
+          ListInbox.prototype.render = function() {
+            return this.bind($('.inbox.list'));
+          };
+
+          ListInbox.prototype.showCompleted = function() {
+            return this.list.trigger('select');
+          };
+
+          return ListInbox;
+
+        })(ListItem);
+        return module.exports = ListInbox;
+      }
+    ], [
+      {
+        /*
+          /Volumes/Home/Projects/Nitro/source/scripts/models/default/list.json
+        */
+
+      }, function(require, module, exports) {
+        return module.exports = [
+          {
+            "name": "Inbox",
+            "tasks": ["c-0", "c-2", "c-4", "c-6", "c-8", "c-10", "c-12", "c-14"],
+            "permanent": true,
+            "id": "inbox"
+          }
+        ];
+      }
+    ], [
+      {
+        /*
+          /Volumes/Home/Projects/Nitro/source/scripts/models/default/task.json
+        */
+
+      }, function(require, module, exports) {
+        return module.exports = [
+          {
+            "name": "Welcome to Nitro!",
+            "date": "",
+            "notes": "",
+            "completed": false,
+            "priority": 3,
+            "list": "inbox",
+            "id": "c-0"
+          }, {
+            "name": "Add a new task by using the box above",
+            "date": "",
+            "notes": "",
+            "completed": false,
+            "priority": 3,
+            "list": "inbox",
+            "id": "c-2"
+          }, {
+            "name": "Create a new list by using the box in the sidebar",
+            "date": "",
+            "notes": "",
+            "completed": false,
+            "priority": 2,
+            "list": "inbox",
+            "id": "c-4"
+          }, {
+            "name": "You can see all your tasks and completed tasks by clicking on the list in the sidebar",
+            "date": "",
+            "notes": "",
+            "completed": false,
+            "priority": 2,
+            "list": "inbox",
+            "id": "c-6"
+          }, {
+            "name": "Click on a task to expand it",
+            "date": "",
+            "notes": "<div>You can add notes, due dates and change the priority</div>",
+            "completed": false,
+            "priority": 2,
+            "list": "inbox",
+            "id": "c-8"
+          }, {
+            "name": "Group your tasks by clicking the lists icon to the right of the list title",
+            "date": "",
+            "notes": "",
+            "completed": false,
+            "priority": 1,
+            "list": "inbox",
+            "id": "c-10"
+          }, {
+            "name": "Get Nitro Pro to unlock more features and be awesome",
+            "date": "",
+            "notes": "",
+            "completed": false,
+            "priority": 1,
+            "list": "inbox",
+            "id": "c-12"
+          }, {
+            "name": "Thanks for checking out Nitro! We hope you enjoy it as much as we did creating it.",
+            "date": "",
+            "notes": "",
+            "completed": false,
+            "priority": 1,
+            "list": "inbox",
+            "id": "c-14"
+          }
+        ];
       }
     ]
   ]);

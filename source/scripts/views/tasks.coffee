@@ -1,4 +1,5 @@
 Base         = require 'base'
+Lists        = require '../views/lists'
 TaskItem     = require '../views/task_item'
 Task         = require '../models/task'
 List         = require '../models/list'
@@ -21,11 +22,10 @@ class Tasks extends Base.View
     'keydown input.new-task': 'createNew'
 
   constructor: ->
-    Base.touchify(@events)
+    Base.touchify @events
     super
 
-    @el = $('.main')
-    @bind()
+    @bind $ '.main'
 
     # Store currently loaded tasks
     @views = []

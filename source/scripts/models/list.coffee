@@ -7,6 +7,7 @@ class List extends Base.Model
   defaults:
     id: null
     name: ''
+    tasks: null
 
   # Reference active list
   # Should proabably be in a controller
@@ -17,7 +18,8 @@ class List extends Base.Model
 
     Task = require './task'
 
-    if Array.isArray @tasks
+    # If @tasks is an array of IDs, convert it into a Task collection
+    if @tasks instanceof Array
       taskIds = @tasks
       @tasks = new Task.constructor()
       taskIds.forEach (id) =>
@@ -27,7 +29,7 @@ class List extends Base.Model
         else
           console.log 'could not find task', id
 
-    else
+    else if @tasks is null
       @tasks = new Task.constructor()
 
     @tasks.on 'change', =>
@@ -59,7 +61,7 @@ class List extends Base.Model
   toJSON: =>
     id: @id
     name: @name
-    tasks: @tasks.toArray()
+    tasks: @tasks.pluck 'id'
 
 class ListCollection extends Sync.Collection
 

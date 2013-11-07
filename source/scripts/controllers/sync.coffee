@@ -362,6 +362,7 @@ class Sync.Collection extends Base.Collection
 
   fetch: =>
     result = JSON.parse localStorage[@className] or '[]'
+    console.log 'loading', @className, result
     @refresh result, true
 
   save: =>
