@@ -1,7 +1,9 @@
 Base = require 'base'
-Sync = require '../controllers/sync'
+Local = require '../controllers/local'
 
 class Setting extends Base.Model
+
+  className: 'setting'
 
   defaults:
 
@@ -33,7 +35,10 @@ class Setting extends Base.Model
   constructor: ->
     super
 
-  # @extends  Sync.core
-  # @includes Sync
+# Create a new instance of Setting
+settings = new Setting()
 
-module.exports = new Setting()
+# Add localStorage support
+new Local(settings)
+
+module.exports = settings
