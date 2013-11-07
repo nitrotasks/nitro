@@ -21,19 +21,19 @@ class Now
     @month = @time.getMonth() + 1
     @year = @time.getFullYear()
 
-  print: (gap="/") ->
-    "#{ @day }#{ gap }#{ @month }#{ gap }#{ @year }"
+  print: (gap = '/') ->
+    @day + @gap + @month + @gap + @year
 
   value: ->
     @time
 
   increment: (key, value) ->
     switch key
-      when "day"
+      when 'day'
         @time.setDate(@day + value)
-      when "month"
+      when 'month'
         @time.setMonth(--value)
-      when "year"
+      when 'year'
         @time.setYear(year)
       else
         return false
@@ -43,7 +43,7 @@ class Now
 triggers = {}
 
 defineTrigger = (trigger, fn) ->
-  regexp = new RegExp(trigger, "i")
+  regexp = new RegExp(trigger, 'i')
   triggers[trigger] =
     regexp: regexp
     fn: fn
@@ -62,28 +62,32 @@ dateParser = (text) ->
 # Default Triggers
 # ----------------
 
-defineTrigger "today", (now) ->
+defineTrigger 'today', (now) ->
   return now
 
-defineTrigger "tomorrow", (now) ->
-  now.increment("day", 1)
+defineTrigger 'tomorrow', (now) ->
+  now.increment('day', 1)
   return now
 
-defineTrigger "a week", (now) ->
-  now.increment("day", 7)
+defineTrigger 'a week', (now) ->
+  now.increment('day', 7)
   return now
 
-defineTrigger "next week", (now) ->
-  now.increment("day", (8 - now.time.getDay()))
+defineTrigger 'next week', (now) ->
+  now.increment('day', (8 - now.time.getDay()))
   return now
 
-defineTrigger "(monday|tuesday|wednesday|thursday|friday|saturday|sunday)", (now, match) ->
-  days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
-  date = days.indexOf(match[0].toLowerCase())
+weekDays = [
+  'sunday', 'monday', 'tuesday', 'wednesday',
+  'thursday', 'friday', 'saturday'
+]
+
+defineTrigger "(#{ weekDays.join('|') })", (now, match) ->
+  date = weekDays.indexOf(match[0].toLowerCase())
   diff = date - now.weekDay
-  now.increment("day", diff)
+  now.increment('day', diff)
   if diff <= 0
-    now.increment("day", 7)
+    now.increment('day', 7)
   return now
 
 

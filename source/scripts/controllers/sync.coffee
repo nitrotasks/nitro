@@ -23,7 +23,8 @@ Sync =
   queue: JSON.parse localStorage.Queue or '[]'
 
   connect: (uid, token, fn) ->
-    @socket = SocketIo.connect("http://#{ config.sync }/?token=#{  token  }&uid=#{ uid }")
+    @socket = SocketIo.connect("http://#{
+      config.sync }/?token=#{  token  }&uid=#{ uid }")
 
     # Handle offline modes
     for event in ['error', 'disconnect', 'connect_failed']
@@ -153,7 +154,7 @@ Sync =
             if typeof x[2] is 'object'
               times = []
               times.push time for key, time of x[2]
-              value = Math.max.apply @, times
+              value = Math.max.apply this, times
             else value = x[2]
 
             if i is 0
@@ -207,7 +208,7 @@ Sync =
           # Get latest update time
           times = []
           times.push time for key, time of timestamps
-          section.create[2] = Math.max.apply @, times
+          section.create[2] = Math.max.apply this, times
           # Add to queue
           queue.push section.create
           continue

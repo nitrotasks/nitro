@@ -36,7 +36,7 @@ class Keys extends Base.View
       when keys.escape
         @tasks.collapseAll()
 
-      # TODO: Refactor using Modules and Classes instead of modifying the DOM directly
+      # TODO: Don't modify the DOM directly
 
       when keys.n
         # New Task

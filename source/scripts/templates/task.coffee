@@ -36,9 +36,10 @@ module.exports = (task) ->
       <input type="text" class="input-name">
       <div class="right-controls">#{
         if task.date
-          "<img width='10' height='10' style='display: inline-block' src='img/calendar.png'>
+          "<img width='10' height='10' src='img/calendar.png'>
           <time class='#{ date.className }'>#{ date.words }</time>
-          <input class='date' placeholder='#{ text.date }' value='#{ task.date }'>"
+          <input class='date' placeholder='#{ text.date
+            }' value='#{ task.date }'>"
         else
           "<img width='10' height='10' src='img/calendar.png'>
           <time></time>
@@ -59,7 +60,8 @@ module.exports = (task) ->
       <div class='notes#{
         if not task.notes then " placeholder" else ""
       }'>
-        <div class='inner editable' contenteditable='true'>#{ task.notes or "Notes" }</div>
+        <div class='inner editable' contenteditable='true'>#{
+          task.notes or "Notes" }</div>
       </div>
     </li>
   """

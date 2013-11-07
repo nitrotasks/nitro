@@ -74,15 +74,20 @@ class Auth extends Base.View
     if @valid()
       @spinner true
       switch @mode
-        when 'login' then @trigger 'login', @email.val(), @password.val()
-        when 'register' then @trigger 'register', @name.val(), @email.val(), @password.val()
+        when 'login'
+          @trigger 'login', @email.val(), @password.val()
+        when 'register'
+          @trigger 'register', @name.val(), @email.val(), @password.val()
 
   # Check if the form is valid
   valid: =>
     if @mode
-      valid = @email.val().length and @password.val().length
+      valid = @email.val().length and
+              @password.val().length
     else
-      valid = @email.val().length and @password.val().length and @name.val().length
+      valid = @email.val().length and
+              @password.val().length and
+              @name.val().length
     if not valid
       @showError('Please  fill out all fields')
     return valid

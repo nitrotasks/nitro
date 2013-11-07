@@ -7,9 +7,9 @@ List    = require '../models/list'
 setting = require '../models/setting'
 
 # Utils
-Cookies = require '../libs/cookies'
+Cookies = require '../vendor/cookies'
 Event   = require '../utils/event'
-CONFIG  = require '../utils/conf'
+config  = require '../utils/config'
 
 class Settings extends Base.View
 
@@ -88,12 +88,13 @@ class Settings extends Base.View
     $('.account .signedout').hide()
     $('.account .signedin').show()
 
-    @passwordreset.attr('action', 'http://' + CONFIG.server + '/forgot')
+    @passwordreset.attr('action', 'http://' + config.server + '/forgot')
     @nameInput.val(setting.userName)
     @emailInput.val(setting.userEmail)
 
     # Forgive Me. No.
-    $('.account .user-language').val($('.language [data-value=' + setting.language + ']').text())
+    $('.account .user-language')
+      .val $('.language [data-value=' + setting.language + ']').text()
 
     @clearDataLabel.hide()
     @clearDataButton.text $.i18n._('Logout')
@@ -133,8 +134,10 @@ class Settings extends Base.View
       @el.modal('hide')
     else
       @el.find('.current').removeClass 'current'
-      # One hell of a line of code, but it switches tabs. I'm amazing
-      @el.find('div.' + $(e.target).addClass('current').attr('data-id')).addClass 'current'
+      # Switches tabs
+      @el
+        .find 'div.' + $(e.target).addClass('current').attr('data-id')
+        .addClass 'current'
 
   toggleNight: (e) =>
     if setting.isPro()
@@ -264,9 +267,10 @@ class Settings extends Base.View
     $('.modal.export textarea').val Spine.Sync.exportData()
 
     $('.modal.export button').click ->
-      Spine.Sync.importData($('.modal.export textarea').val()) if $(@).hasClass('true')
+      if $(this).hasClass('true')
+        Spine.Sync.importData($('.modal.export textarea').val())
       $('.modal.export').modal('hide')
-      $(@).off('click')
+      $(this).off('click')
 
   changeLanguage: (e) =>
     # Pirate Speak is a Pro feature
@@ -293,7 +297,8 @@ class Settings extends Base.View
 
           else
             setting.notifications = false
-            alert 'You\'ll need to open your browser settings and allow notifications for app.nitrotasks.com'
+            alert 'You\'ll need to open your browser settings and ' +
+              'allow notifications for app.nitrotasks.com'
 
       else
         @notifyToggle.prop('checked', false)

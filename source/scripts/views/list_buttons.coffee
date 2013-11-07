@@ -6,29 +6,29 @@ List = require '../models/list'
 
 class ListButtons extends Base.View
 
-	elements:
+  elements:
     '.trash': 'deleteBtn'
     '.sort':  'sortBtn'
 
-	events:
+  events:
     'click .trash': 'trash'
     'click .email': 'email'
     'click .print': 'print'
     'click .share': 'share'
     'click .sort':  'sort'
 
-	constructor: ->
-		Base.touchify @events
-		super
+  constructor: ->
+    Base.touchify @events
+    super
 
-		@el = $('.list-buttons')
-		@bind()
+    @el = $('.list-buttons')
+    @bind()
 
-		@listen List,
-			'select:model': @update
+    @listen List,
+      'select:model': @update
 
-	# Show/Hide buttons depending on the list attributes
-	update: (list) =>
+  # Show/Hide buttons depending on the list attributes
+  update: (list) =>
 
     if list.permanent
       @deleteBtn.fadeOut(150)

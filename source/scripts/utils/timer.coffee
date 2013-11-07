@@ -1,2 +1,2 @@
 module.exports = (duration, fn) ->
-	return setTimeout(fn, duration)
+  return setTimeout(fn, duration)

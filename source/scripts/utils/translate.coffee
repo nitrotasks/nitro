@@ -4,9 +4,10 @@ Event     = require '../utils/event'
 languages = require '../languages/languages'
 
 ###
-# Currently the app can only be translated once, as the original text is lost after translation.
-# We could fix this by storing the original text on the element.
-# ###
+  Currently the app can only be translated once, as the original text
+  is lost after translation.
+  We could fix this by storing the original text on the element.
+###
 
 class Translate
 

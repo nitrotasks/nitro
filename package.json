@@ -5,10 +5,14 @@
     "jqueryify"      : "~2.0.3",
     "base"           : "git://github.com/stayradiated/base.git#master"
   },
+  "scripts": {
+    "lint": "coffeelint -f lint.json -r source/scripts"
+  },
   "devDependencies"  : {
     "coffee-scrunch" : "~0.1.3",
     "uglify-js"      : "~2.4.0",
     "node-static"    : "~0.7.1",
-    "node-sass"      : "~0.7.0"
+    "node-sass"      : "~0.7.0",
+    "coffeelint"     : "~0.6.1"
   }
 }

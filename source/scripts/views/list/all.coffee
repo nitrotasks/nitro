@@ -2,8 +2,8 @@ ListItem = require './item'
 
 class ListAll extends ListItem
 
-	constructor: ->
-		super
+  constructor: ->
+    super
 
   showAllTasks: =>
     List.trigger 'change:current',

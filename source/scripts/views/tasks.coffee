@@ -238,7 +238,9 @@ class Tasks extends Base.View
             left: 30
           helper: (event, task) ->
             id = $(task).attr('id')
-            element = "<div data-id=\'#{ id }\' class=\'helper\'>#{ $(this).find('.name').text() }</div>"
+            element = "<div data-id=\'#{
+              id }\' class=\'helper\'>#{
+              $(this).find('.name').text() }</div>"
             $('body').append(element)
             $("[data-id=#{ id }]")
 
@@ -254,7 +256,9 @@ class Tasks extends Base.View
         left: 30
       helper: (event, task) ->
         id = $(task).attr('id')
-        element = "<div data-id=\'#{ id }\' class=\'helper\'>#{ $(task).find('.name').text() }</div>"
+        element = "<div data-id=\'#{
+          id }\' class=\'helper\'>#{
+          $(task).find('.name').text() }</div>"
         $('body').append(element)
         $("[data-id=#{ id }]")
       update: ( event, ui ) ->
