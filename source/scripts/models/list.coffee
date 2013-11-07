@@ -1,6 +1,5 @@
 Base = require 'base'
-Sync = require '../controllers/sync'
-# Task = require './task'
+Local = require '../controllers/local'
 
 class List extends Base.Model
 
@@ -63,7 +62,7 @@ class List extends Base.Model
     name: @name
     tasks: @tasks.pluck 'id'
 
-class ListCollection extends Sync.Collection
+class ListCollection extends Base.Collection
 
   className: 'list'
 
@@ -72,16 +71,10 @@ class ListCollection extends Sync.Collection
   constructor: ->
     super
 
-module.exports = new ListCollection()
+# Create a new ListCollection to store all the lists
+allLists = new ListCollection()
 
-# Is this the best way to do this?
-# Nope. Like I said, put it in a controller.
-module.exports.on 'refresh', ->
-  return unless List.current?
-  if List.exists(List.current.id)
-    console.log 'Updating List.current'
-    List.current = List.get(List.current.id)
-  else
-    console.log 'Changing List.current to inbox'
-    List.current = List.get('inbox')
+# Add localStorge support
+new Local(allLists)
 
+module.exports = allLists

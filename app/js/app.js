@@ -8904,17 +8904,17 @@
         '../models/task': 22,
         '../models/list': 23,
         '../models/setting': 10,
-        '../controllers/auth': 24,
-        '../views/modal': 27,
-        '../views/keys': 28,
-        '../views/loading_screen': 29,
-        '../views/lists': 30,
-        '../views/title': 33,
-        '../views/list_buttons': 34,
-        '../views/tasks': 35,
-        '../views/list/inbox': 42,
-        '../models/default/list.json': 43,
-        '../models/default/task.json': 44
+        '../controllers/auth': 25,
+        '../views/modal': 28,
+        '../views/keys': 29,
+        '../views/loading_screen': 30,
+        '../views/lists': 31,
+        '../views/title': 34,
+        '../views/list_buttons': 35,
+        '../views/tasks': 36,
+        '../views/list/inbox': 43,
+        '../models/default/list.json': 44,
+        '../models/default/task.json': 45
       }, function(require, module, exports) {
         var $, App, Auth, Base, Event, Keys, List, ListButtons, ListInbox, Lists, LoadingScreen, Modal, Setting, Task, Tasks, Title, libs, translate;
         libs = require('../vendor/libs');
@@ -14726,9 +14726,9 @@
         Event = require('../utils/event');
         languages = require('../languages/languages');
         /*
-        # Currently the app can only be translated once, as the original text is lost after translation.
-        # We could fix this by storing the original text on the element.
-        #
+          Currently the app can only be translated once, as the original text
+          is lost after translation.
+          We could fix this by storing the original text on the element.
         */
 
         Translate = (function() {
@@ -15964,12 +15964,12 @@
 
         'base': 6,
         '../models/list': 23,
-        '../controllers/sync': 11
+        '../controllers/local': 24
       }, function(require, module, exports) {
-        var Base, List, Sync, Task, TaskCollection, _ref;
+        var Base, List, Local, Task, TaskCollection, allTasks, _ref;
         Base = require('base');
         List = require('../models/list');
-        Sync = require('../controllers/sync');
+        Local = require('../controllers/local');
         Task = (function(_super) {
           __extends(Task, _super);
 
@@ -16104,9 +16104,10 @@
 
           return TaskCollection;
 
-        })(Sync.Collection);
-        module.exports = new TaskCollection();
-        return module.exports.type = 'major';
+        })(Base.Collection);
+        allTasks = new TaskCollection();
+        new Local(allTasks);
+        return module.exports = allTasks;
       }
     ], [
       {
@@ -16115,12 +16116,12 @@
         */
 
         'base': 6,
-        '../controllers/sync': 11,
+        '../controllers/local': 24,
         './task': 22
       }, function(require, module, exports) {
-        var Base, List, ListCollection, Sync;
+        var Base, List, ListCollection, Local, allLists;
         Base = require('base');
-        Sync = require('../controllers/sync');
+        Local = require('../controllers/local');
         List = (function(_super) {
           __extends(List, _super);
 
@@ -16213,20 +16214,42 @@
 
           return ListCollection;
 
-        })(Sync.Collection);
-        module.exports = new ListCollection();
-        return module.exports.on('refresh', function() {
-          if (List.current == null) {
-            return;
+        })(Base.Collection);
+        allLists = new ListCollection();
+        new Local(allLists);
+        return module.exports = allLists;
+      }
+    ], [
+      {
+        /*
+          /Volumes/Home/Projects/Nitro/source/scripts/controllers/local.coffee
+        */
+
+      }, function(require, module, exports) {
+        var Local;
+        Local = (function() {
+          function Local(model) {
+            this.model = model;
+            this.save = __bind(this.save, this);
+            this.fetch = __bind(this.fetch, this);
+            this.model.on('fetch', this.fetch);
+            this.model.on('save:model create:model change:model remove:model', this.save);
           }
-          if (List.exists(List.current.id)) {
-            console.log('Updating List.current');
-            return List.current = List.get(List.current.id);
-          } else {
-            console.log('Changing List.current to inbox');
-            return List.current = List.get('inbox');
-          }
-        });
+
+          Local.prototype.fetch = function() {
+            var result;
+            result = JSON.parse(localStorage[this.model.className] || '[]');
+            return this.model.refresh(result, true);
+          };
+
+          Local.prototype.save = function() {
+            return localStorage[this.model.className] = JSON.stringify(this.model.toJSON());
+          };
+
+          return Local;
+
+        })();
+        return module.exports = Local;
       }
     ], [
       {
@@ -16235,7 +16258,7 @@
         */
 
         '../models/setting': 10,
-        '../views/auth': 25,
+        '../views/auth': 26,
         '../utils/event': 13,
         '../utils/config': 14
       }, function(require, module, exports) {
@@ -16322,7 +16345,7 @@
 
         'base': 6,
         '../models/setting': 10,
-        '../templates/auth': 26
+        '../templates/auth': 27
       }, function(require, module, exports) {
         var Auth, Base, Setting;
         Base = require('base');
@@ -16483,20 +16506,17 @@
         var config;
         config = require('../utils/config');
         return module.exports = function(status, message) {
-          console.log(status, message);
           switch (status) {
             case 404:
               return 'Could not connect to server.';
-            default:
-              switch (message) {
-                case 'err_bad_pass':
-                  return "Incorrect email or password. <a href=\"http://" + config.server + "/forgot\">Want to reset?</a>";
-                case 'err_old_email':
-                  return 'Sorry, but that email address has already been used';
-                default:
-                  return message;
-              }
           }
+          switch (message) {
+            case 'err_bad_pass':
+              return "Incorrect email or password. <a href=\"http://" + config.server + "/forgot\">Want to reset?</a>";
+            case 'err_old_email':
+              return 'Sorry, but that email address has already been used';
+          }
+          return message;
         };
       }
     ], [
@@ -16719,7 +16739,7 @@
         'base': 6,
         '../models/list': 23,
         '../utils/keys': 8,
-        '../views/list/item': 31
+        '../views/list/item': 32
       }, function(require, module, exports) {
         var Base, List, ListItem, Lists, keys;
         Base = require('base');
@@ -16803,7 +16823,7 @@
         */
 
         'base': 6,
-        '../../templates/list': 32
+        '../../templates/list': 33
       }, function(require, module, exports) {
         var Base, ListItem;
         Base = require('base');
@@ -16959,7 +16979,7 @@
 
         'base': 6,
         '../models/list': 23,
-        './modal': 27
+        './modal': 28
       }, function(require, module, exports) {
         var Base, List, ListButtons;
         Base = require('base');
@@ -17036,15 +17056,15 @@
         */
 
         'base': 6,
-        '../views/lists': 30,
-        '../views/task_item': 36,
+        '../views/lists': 31,
+        '../views/task_item': 37,
         '../models/task': 22,
         '../models/list': 23,
         '../models/setting': 10,
         '../utils/keys': 8,
-        '../utils/date': 41,
-        '../utils/timer': 38,
-        '../templates/task': 39
+        '../utils/date': 42,
+        '../utils/timer': 39,
+        '../templates/task': 40
       }, function(require, module, exports) {
         var Base, List, Lists, Setting, Task, TaskItem, Tasks, dateDetector, delay, keys;
         Base = require('base');
@@ -17299,13 +17319,13 @@
         */
 
         'base': 6,
-        '../views/modal/destroy_task': 37,
+        '../views/modal/destroy_task': 38,
         '../models/list': 23,
         '../models/setting': 10,
         '../utils/keys': 8,
-        '../utils/timer': 38,
+        '../utils/timer': 39,
         '../utils/translate': 9,
-        '../templates/task': 39
+        '../templates/task': 40
       }, function(require, module, exports) {
         var Base, List, Modal, TaskItem, delay, keys, setting, translate;
         Base = require('base');
@@ -17514,7 +17534,7 @@
         */
 
         '../../models/setting': 10,
-        '../modal': 27
+        '../modal': 28
       }, function(require, module, exports) {
         var Modal, Setting, modal, task,
           _this = this;
@@ -17561,7 +17581,7 @@
           /Volumes/Home/Projects/Nitro/source/scripts/templates/task.coffee
         */
 
-        '../utils/prettydate': 40,
+        '../utils/prettydate': 41,
         '../utils/translate': 9
       }, function(require, module, exports) {
         var prettyDate, tags, text, translate;
@@ -17587,7 +17607,7 @@
         return module.exports = function(task) {
           var date;
           date = prettyDate(task.date);
-          return "<li id=\"task-" + task.id + "\" class=\"task" + (task.group ? ' group' : '') + (task.completed ? ' completed' : '') + " p" + task.priority + "\">\n  <div class=\"checkbox\" title=\"" + text.checkbox + "\"></div>\n  <div class=\"name\">" + (tags(task.name)) + "</div>\n  <input type=\"text\" class=\"input-name\">\n  <div class=\"right-controls\">" + (task.date ? "<img width='10' height='10' style='display: inline-block' src='img/calendar.png'>      <time class='" + date.className + "'>" + date.words + "</time>      <input class='date' placeholder='" + text.date + "' value='" + task.date + "'>" : "<img width='10' height='10' src='img/calendar.png'>      <time></time>      <input class='date' placeholder='" + text.date + "' value=''>") + (task.listName ? "<span class='listName'>" + task.listName + "</span>" : "") + "\n    <div class=\"priority-button\">\n      <div data-id=\"1\" title=\"" + text.low + "\" class=\"low\"></div>\n      <div data-id=\"2\" title=\"" + text.medium + "\" class=\"medium\"></div>\n      <div data-id=\"3\" title=\"" + text.high + "\" class=\"high\"></div>\n    </div>\n    <div class=\"delete\"></div>\n  </div>\n  <div class='notes" + (!task.notes ? " placeholder" : "") + "'>\n    <div class='inner editable' contenteditable='true'>" + (task.notes || "Notes") + "</div>\n  </div>\n</li>";
+          return "<li id=\"task-" + task.id + "\" class=\"task" + (task.group ? ' group' : '') + (task.completed ? ' completed' : '') + " p" + task.priority + "\">\n  <div class=\"checkbox\" title=\"" + text.checkbox + "\"></div>\n  <div class=\"name\">" + (tags(task.name)) + "</div>\n  <input type=\"text\" class=\"input-name\">\n  <div class=\"right-controls\">" + (task.date ? "<img width='10' height='10' src='img/calendar.png'>      <time class='" + date.className + "'>" + date.words + "</time>      <input class='date' placeholder='" + text.date + "' value='" + task.date + "'>" : "<img width='10' height='10' src='img/calendar.png'>      <time></time>      <input class='date' placeholder='" + text.date + "' value=''>") + (task.listName ? "<span class='listName'>" + task.listName + "</span>" : "") + "\n    <div class=\"priority-button\">\n      <div data-id=\"1\" title=\"" + text.low + "\" class=\"low\"></div>\n      <div data-id=\"2\" title=\"" + text.medium + "\" class=\"medium\"></div>\n      <div data-id=\"3\" title=\"" + text.high + "\" class=\"high\"></div>\n    </div>\n    <div class=\"delete\"></div>\n  </div>\n  <div class='notes" + (!task.notes ? " placeholder" : "") + "'>\n    <div class='inner editable' contenteditable='true'>" + (task.notes || "Notes") + "</div>\n  </div>\n</li>";
         };
       }
     ], [
@@ -17669,7 +17689,7 @@
           Written by George Czabania in February 2013.
         */
 
-        var Now, api, dateParser, defineTrigger, removeTrigger, triggers;
+        var Now, api, dateParser, defineTrigger, removeTrigger, triggers, weekDays;
         Now = (function() {
           function Now() {
             this.time = new Date();
@@ -17685,9 +17705,9 @@
 
           Now.prototype.print = function(gap) {
             if (gap == null) {
-              gap = "/";
+              gap = '/';
             }
-            return "" + this.day + gap + this.month + gap + this.year;
+            return this.day + this.gap + this.month + this.gap + this.year;
           };
 
           Now.prototype.value = function() {
@@ -17696,13 +17716,13 @@
 
           Now.prototype.increment = function(key, value) {
             switch (key) {
-              case "day":
+              case 'day':
                 this.time.setDate(this.day + value);
                 break;
-              case "month":
+              case 'month':
                 this.time.setMonth(--value);
                 break;
-              case "year":
+              case 'year':
                 this.time.setYear(year);
                 break;
               default:
@@ -17718,7 +17738,7 @@
         triggers = {};
         defineTrigger = function(trigger, fn) {
           var regexp;
-          regexp = new RegExp(trigger, "i");
+          regexp = new RegExp(trigger, 'i');
           return triggers[trigger] = {
             regexp: regexp,
             fn: fn
@@ -17738,29 +17758,29 @@
           }
           return false;
         };
-        defineTrigger("today", function(now) {
+        defineTrigger('today', function(now) {
           return now;
         });
-        defineTrigger("tomorrow", function(now) {
-          now.increment("day", 1);
+        defineTrigger('tomorrow', function(now) {
+          now.increment('day', 1);
           return now;
         });
-        defineTrigger("a week", function(now) {
-          now.increment("day", 7);
+        defineTrigger('a week', function(now) {
+          now.increment('day', 7);
           return now;
         });
-        defineTrigger("next week", function(now) {
-          now.increment("day", 8 - now.time.getDay());
+        defineTrigger('next week', function(now) {
+          now.increment('day', 8 - now.time.getDay());
           return now;
         });
-        defineTrigger("(monday|tuesday|wednesday|thursday|friday|saturday|sunday)", function(now, match) {
-          var date, days, diff;
-          days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
-          date = days.indexOf(match[0].toLowerCase());
+        weekDays = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        defineTrigger("(" + (weekDays.join('|')) + ")", function(now, match) {
+          var date, diff;
+          date = weekDays.indexOf(match[0].toLowerCase());
           diff = date - now.weekDay;
-          now.increment("day", diff);
+          now.increment('day', diff);
           if (diff <= 0) {
-            now.increment("day", 7);
+            now.increment('day', 7);
           }
           return now;
         });
@@ -17777,7 +17797,7 @@
           /Volumes/Home/Projects/Nitro/source/scripts/views/list/inbox.coffee
         */
 
-        './item': 31
+        './item': 32
       }, function(require, module, exports) {
         var ListInbox, ListItem;
         ListItem = require('./item');

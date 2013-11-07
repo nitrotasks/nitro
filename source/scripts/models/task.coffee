@@ -1,6 +1,6 @@
 Base = require 'base'
 List = require '../models/list'
-Sync = require '../controllers/sync'
+Local = require '../controllers/local'
 
 class Task extends Base.Model
 
@@ -13,7 +13,7 @@ class Task extends Base.Model
     priority: 1
     completed: false
 
-class TaskCollection extends Sync.Collection
+class TaskCollection extends Base.Collection
 
   className: 'task'
 
@@ -86,5 +86,10 @@ class TaskCollection extends Sync.Collection
     @filter (item) ->
       item.name?.toLowerCase().indexOf('#'+tag) > -1
 
-module.exports = new TaskCollection()
-module.exports.type = 'major'
+# Create a new TaskCollection to store all tasks
+allTasks = new TaskCollection()
+
+# Add localStorage support
+new Local(allTasks)
+
+module.exports = allTasks
