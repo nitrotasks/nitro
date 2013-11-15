@@ -3,7 +3,8 @@
   "version": "2.1.0",
   "dependencies": {
     "jqueryify"      : "~2.0.3",
-    "base"           : "git://github.com/stayradiated/base.git#master"
+    "base"           : "git://github.com/stayradiated/base.git#master",
+    "select"         : "git://github.com/stayradiated/select.git#master"
   },
   "scripts": {
     "lint": "coffeelint -f lint.json -r source/scripts"

@@ -1,0 +1,17 @@
+.select_js_box {
+  background: rgba(0,0,0,0.15);
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 100px;
+  height: 100px;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+  border: 1px solid rgba(0,0,0,0.58);
+  z-index: 1000;
+  box-sizing: border-box;
+}
+
+.select_js_box.hide {
+  opacity: 0;
+}

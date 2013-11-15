@@ -13,3 +13,8 @@ img {
 .hidden {
   display: none;
 }
+
+body {
+  cursor: default;
+  -webkit-user-select: none;
+}

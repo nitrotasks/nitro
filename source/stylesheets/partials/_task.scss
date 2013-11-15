@@ -19,6 +19,10 @@
   @include transition( 0.15s, ease, margin );
   @include transform( translate3d(0, 0, 0) );
 
+  &.selected {
+    background: #1BC1F5;
+  }
+
   &.new {
     @include transform( none );
     @include animation( new-task 1 ease 150ms );
