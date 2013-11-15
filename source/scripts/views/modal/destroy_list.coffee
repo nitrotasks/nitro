@@ -1,4 +1,5 @@
-List = require '../../models/list'
+Setting = require '../../models/setting'
+Lists = require '../../views/lists'
 Modal = require '../modal'
 
 modal = new Modal
@@ -10,13 +11,13 @@ modal = new Modal
     'click .false': 'hide'
 
   run: ->
-    if setting.confirmDelete
+    if Setting.confirmDelete
       modal.show()
     else
       @delete()
 
   delete: ->
-    List.current.trigger 'kill'
+    Lists.active.destroy()
     modal.hide()
 
 module.exports = modal

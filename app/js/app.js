@@ -8901,24 +8901,25 @@
         '../utils/keys': 8,
         '../utils/translate': 9,
         '../utils/event': 12,
-        '../models/task': 20,
-        '../models/list': 21,
+        'select': 20,
+        '../models/task': 23,
+        '../models/list': 24,
         '../models/setting': 10,
-        '../controllers/auth': 22,
-        '../views/modal': 26,
-        '../views/keys': 27,
-        '../views/loading_screen': 28,
-        '../views/lists': 29,
-        '../views/title': 32,
-        '../views/list_buttons': 33,
-        '../views/tasks': 34,
-        '../views/list/inbox': 41,
-        '../views/list/all': 42,
-        '../views/list/completed': 43,
-        '../models/default/list.json': 44,
-        '../models/default/task.json': 45
+        '../controllers/auth': 25,
+        '../views/modal': 29,
+        '../views/keys': 30,
+        '../views/loading_screen': 31,
+        '../views/lists': 32,
+        '../views/title': 35,
+        '../views/list_buttons': 36,
+        '../views/tasks': 40,
+        '../views/list/inbox': 47,
+        '../views/list/all': 48,
+        '../views/list/completed': 49,
+        '../models/default/list.json': 50,
+        '../models/default/task.json': 51
       }, function(require, module, exports) {
-        var $, App, Auth, Base, Event, Keys, List, ListAll, ListButtons, ListCompleted, ListInbox, Lists, LoadingScreen, Modal, Setting, Task, Tasks, Title, libs, translate;
+        var $, App, Auth, Base, Event, Keys, List, ListAll, ListButtons, ListCompleted, ListInbox, Lists, LoadingScreen, Modal, Select, Setting, Task, Tasks, Title, libs, translate;
         libs = require('../vendor/libs');
         Base = require('base');
         Base.touchify = require('../utils/touchify');
@@ -8926,6 +8927,7 @@
         Keys = require('../utils/keys');
         translate = require('../utils/translate');
         Event = require('../utils/event');
+        Select = require('select');
         Task = require('../models/task');
         List = require('../models/list');
         Setting = require('../models/setting');
@@ -8942,7 +8944,7 @@
         ListCompleted = require('../views/list/completed');
         App = (function() {
           function App() {
-            var inbox;
+            var inbox, select;
             Setting.trigger('fetch');
             translate.init();
             this.auth = new Auth();
@@ -8952,6 +8954,11 @@
             new ListButtons();
             new LoadingScreen();
             this.keys = new Keys();
+            select = new Select({
+              parent: $('.tasks-container')[0],
+              query: '.task'
+            });
+            select.init();
             Modal.init();
             Task.trigger('fetch');
             List.trigger('fetch');
@@ -15522,11 +15529,265 @@
     ], [
       {
         /*
+          /Volumes/Home/Projects/Nitro/node_modules/select/source/select.js
+        */
+
+        './box': 21,
+        './elements': 22
+      }, function(require, module, exports) {
+        (function () {
+      
+        'use strict';
+      
+        var Box, Elements, Select;
+      
+        // Classes
+        Box = require('./box');
+        Elements = require('./elements');
+      
+        Select = function (options) {
+          this.parent = options.parent;
+          this.elements = new Elements(options);
+          this.box = null;
+          this.active = false;
+        };
+      
+        Select.prototype.init = function() {
+      
+          var self = this;
+      
+          this.parent.addEventListener('mousedown',function (event) {
+            self.active = true;
+            if (self.box) { self.box.remove(); }
+            self.box = (new Box()).reset(event).update().render();
+            self.elements.reset(event.ctrlKey || event.metaKey).check(self.box);
+          });
+      
+          document.addEventListener('mousemove', function (event) {
+            if (!self.active) { return; }
+            self.box.setEnd(event).update().render();
+            self.elements.check(self.box);
+          });
+      
+          document.addEventListener('mouseup', function (event) {
+            self.active = false;
+            self.box.remove();
+            self.box = null;
+            self.elements.select();
+          });
+      
+        };
+      
+        if (typeof window !== 'undefined') {
+          window.Select = Select;
+        }
+      
+        module.exports = Select;
+      
+      }());
+      ;
+      }
+    ], [
+      {
+        /*
+          /Volumes/Home/Projects/Nitro/node_modules/select/source/box.js
+        */
+
+      }, function(require, module, exports) {
+        (function() {
+      
+        var Box;
+      
+        Box = function () {
+      
+          // Create dom element
+          this.el = document.createElement('div');
+          this.el.className = Box.className;
+          document.body.appendChild(this.el);
+      
+          this.mouse = {
+            start: {},
+            end: {}
+          };
+      
+        };
+      
+        Box.className = 'select_js_box';
+      
+        Box.prototype.setStart = function(position) {
+          this.mouse.start.x = position.pageX;
+          this.mouse.start.y = position.pageY;
+          return this;
+        };
+      
+        Box.prototype.setEnd = function(position) {
+          this.mouse.end.x = position.pageX;
+          this.mouse.end.y = position.pageY;
+          return this;
+        };
+      
+        Box.prototype.reset = function(position) {
+          this.setStart(position);
+          this.setEnd(position);
+          return this;
+        };
+      
+        Box.prototype.remove = function() {
+          var el = this.el;
+          el.className += ' hide';
+          setTimeout(function () {
+            document.body.removeChild(el);
+          }, 200);
+          return this;
+        };
+      
+        Box.prototype.render = function() {
+          this.el.style.top    = this.top + 'px';
+          this.el.style.left   = this.left + 'px';
+          this.el.style.width  = this.right - this.left + 'px';
+          this.el.style.height = this.bottom - this.top + 'px';
+          return this;
+        };
+      
+        Box.prototype.update = function() {
+          var start, end;
+      
+          end          = this.mouse.end;
+          start        = this.mouse.start;
+      
+          if (end.x > start.x) {
+            this.left  = start.x;
+            this.right = end.x;
+          } else {
+            this.left  = end.x;
+            this.right = start.x;
+          }
+      
+          if (end.y > start.y) {
+            this.top    = start.y;
+            this.bottom = end.y;
+          } else {
+            this.top    = end.y;
+            this.bottom = start.y;
+          }
+      
+          return this;
+      
+        };
+      
+        module.exports = Box;
+      
+      }());;
+      }
+    ], [
+      {
+        /*
+          /Volumes/Home/Projects/Nitro/node_modules/select/source/elements.js
+        */
+
+      }, function(require, module, exports) {
+        (function () {
+        'use strict';
+      
+        var Elements;
+      
+        Elements = function (options) {
+          this.parent = options.parent;
+          this.query = options.query;
+          this.selected = [];
+        };
+      
+        Elements.prototype.reset = function(append) {
+          var i, el, rect, pos;
+      
+          this.el = this.parent.querySelectorAll(this.query);
+      
+          for (i = 0; i < this.el.length; i++) {
+      
+            el = this.el[i];
+      
+            if (! append) {
+              el.classList.remove('selected');
+              el.selected = false;
+            }
+      
+            rect = el.getBoundingClientRect();
+            pos = {
+              top: rect.top + window.pageYOffset,
+              left: rect.left + window.pageXOffset,
+            };
+            el.position = {
+              top: pos.top,
+              left: pos.left,
+              bottom: pos.top + rect.height,
+              right: pos.left + rect.width
+            };
+          }
+      
+          return this;
+        };
+      
+        Elements.prototype.check = function(box) {
+          var i, el, pos, hit;
+      
+          for (i = 0; i < this.el.length; i++) {
+      
+            el = this.el[i];
+            pos = el.position;
+      
+            hit = !(
+              pos.left   > box.right  ||
+              pos.right  < box.left   ||
+              pos.top    > box.bottom ||
+              pos.bottom < box.top
+            );
+      
+            if ((hit && !el.selected) || (!hit && el.selected)) {
+              el.classList.add('selected');
+              el._selected = true;
+            } else {
+              el.classList.remove('selected');
+              el._selected = false;
+            }
+      
+          }
+      
+          return this;
+      
+        };
+      
+        Elements.prototype.select = function() {
+          var i, el;
+      
+          this.selected = [];
+      
+          for (i = 0; i < this.el.length; i++) {
+            el = this.el[i];
+      
+            if (el._selected) {
+              el._selected = false;
+              el.selected = true;
+              this.selected.push(el);
+            } else {
+              el.selected = false;
+            }
+          }
+      
+          return this;
+        };
+      
+        module.exports = Elements;
+      
+      }());;
+      }
+    ], [
+      {
+        /*
           /Volumes/Home/Projects/Nitro/source/scripts/models/task.coffee
         */
 
         'base': 6,
-        '../models/list': 21,
+        '../models/list': 24,
         '../controllers/local': 11
       }, function(require, module, exports) {
         var Base, List, Local, Task, TaskCollection, allTasks, _ref;
@@ -15680,7 +15941,7 @@
 
         'base': 6,
         '../controllers/local': 11,
-        './task': 20
+        './task': 23
       }, function(require, module, exports) {
         var Base, List, ListCollection, Local, allLists;
         Base = require('base');
@@ -15789,9 +16050,9 @@
         */
 
         '../models/setting': 10,
-        '../views/auth': 23,
+        '../views/auth': 26,
         '../utils/event': 12,
-        '../utils/config': 25
+        '../utils/config': 28
       }, function(require, module, exports) {
         var Auth, Event, Setting, View, config;
         Setting = require('../models/setting');
@@ -15876,7 +16137,7 @@
 
         'base': 6,
         '../models/setting': 10,
-        '../templates/auth': 24
+        '../templates/auth': 27
       }, function(require, module, exports) {
         var Auth, Base, Setting;
         Base = require('base');
@@ -16032,7 +16293,7 @@
           /Volumes/Home/Projects/Nitro/source/scripts/templates/auth.coffee
         */
 
-        '../utils/config': 25
+        '../utils/config': 28
       }, function(require, module, exports) {
         var config;
         config = require('../utils/config');
@@ -16287,9 +16548,9 @@
         */
 
         'base': 6,
-        '../models/list': 21,
+        '../models/list': 24,
         '../utils/keys': 8,
-        '../views/list/item': 30
+        '../views/list/item': 33
       }, function(require, module, exports) {
         var Base, List, ListItem, Lists, keys;
         Base = require('base');
@@ -16373,7 +16634,7 @@
         */
 
         'base': 6,
-        '../../templates/list': 31
+        '../../templates/list': 34
       }, function(require, module, exports) {
         var Base, ListItem;
         Base = require('base');
@@ -16452,7 +16713,7 @@
           /Volumes/Home/Projects/Nitro/source/scripts/templates/list.coffee
         */
 
-        '../models/list': 21
+        '../models/list': 24
       }, function(require, module, exports) {
         var List;
         List = require('../models/list');
@@ -16468,7 +16729,7 @@
         */
 
         'base': 6,
-        '../models/list': 21,
+        '../models/list': 24,
         '../utils/keys': 8
       }, function(require, module, exports) {
         var Base, List, Title, keys;
@@ -16531,12 +16792,17 @@
         */
 
         'base': 6,
-        '../models/list': 21,
-        './modal': 26
+        '../models/list': 24,
+        '../views/modal/destroy_list': 37,
+        '../views/modal/share': 38,
+        '../views/modal/email': 39
       }, function(require, module, exports) {
-        var Base, List, ListButtons;
+        var Base, EmailModal, List, ListButtons, ListModal, ShareModal;
         Base = require('base');
         List = require('../models/list');
+        ListModal = require('../views/modal/destroy_list');
+        ShareModal = require('../views/modal/share');
+        EmailModal = require('../views/modal/email');
         ListButtons = (function(_super) {
           __extends(ListButtons, _super);
 
@@ -16578,11 +16844,11 @@
           };
 
           ListButtons.prototype.trash = function() {
-            return Modal.get('trashList').run();
+            return ListModal.run();
           };
 
           ListButtons.prototype.email = function() {
-            return Modal.get('email').show();
+            return EmailModal.run();
           };
 
           ListButtons.prototype.print = function() {
@@ -16590,7 +16856,7 @@
           };
 
           ListButtons.prototype.share = function() {
-            return Modal.get('share').show();
+            return ShareModal.run();
           };
 
           ListButtons.prototype.sort = function() {
@@ -16605,19 +16871,116 @@
     ], [
       {
         /*
+          /Volumes/Home/Projects/Nitro/source/scripts/views/modal/destroy_list.coffee
+        */
+
+        '../../models/setting': 10,
+        '../../views/lists': 32,
+        '../modal': 29
+      }, function(require, module, exports) {
+        var Lists, Modal, Setting, modal;
+        Setting = require('../../models/setting');
+        Lists = require('../../views/lists');
+        Modal = require('../modal');
+        modal = new Modal({
+          selector: '.modal.delete-list',
+          events: {
+            'click .true': 'delete',
+            'click .false': 'hide'
+          },
+          run: function() {
+            if (Setting.confirmDelete) {
+              return modal.show();
+            } else {
+              return this["delete"]();
+            }
+          },
+          "delete": function() {
+            Lists.active.destroy();
+            return modal.hide();
+          }
+        });
+        return module.exports = modal;
+      }
+    ], [
+      {
+        /*
+          /Volumes/Home/Projects/Nitro/source/scripts/views/modal/share.coffee
+        */
+
+        '../modal': 29
+      }, function(require, module, exports) {
+        var Modal, modal;
+        Modal = require('../modal');
+        modal = new Modal({
+          selector: '.modal.share'
+        });
+        return module.exports = modal;
+      }
+    ], [
+      {
+        /*
+          /Volumes/Home/Projects/Nitro/source/scripts/views/modal/email.coffee
+        */
+
+        '../modal': 29
+      }, function(require, module, exports) {
+        var Modal, modal;
+        Modal = require('../modal');
+        modal = new Modal({
+          selector: '.modal.email',
+          elements: {
+            'input': 'input'
+          },
+          events: {
+            'click button': 'submit',
+            'keyup input': 'keyup'
+          },
+          keyup: function(e) {
+            if (e.keyCode === Keys.ENTER) {
+              return this.submit();
+            }
+          },
+          submit: function() {
+            var email, listId, uid;
+            if (setting.isPro()) {
+              email = this.input.val();
+              if (!email.match(/.+@.+\..+/)) {
+                return;
+              }
+              uid = require('../models/setting').get('uid');
+              listId = require('../models/list').current.id;
+              Sync.emit('emailList', [uid, listId, email]);
+            } else {
+              $('.modal.proventor').modal('show');
+            }
+            return modal.hide();
+          },
+          onShow: function() {
+            return this.input.focus();
+          },
+          onHide: function() {
+            return this.input.val('');
+          }
+        });
+        return module.exports = modal;
+      }
+    ], [
+      {
+        /*
           /Volumes/Home/Projects/Nitro/source/scripts/views/tasks.coffee
         */
 
         'base': 6,
-        '../views/lists': 29,
-        '../views/task_item': 35,
-        '../models/task': 20,
-        '../models/list': 21,
+        '../views/lists': 32,
+        '../views/task_item': 41,
+        '../models/task': 23,
+        '../models/list': 24,
         '../models/setting': 10,
         '../utils/keys': 8,
-        '../utils/date': 40,
-        '../utils/timer': 37,
-        '../templates/task': 38
+        '../utils/date': 46,
+        '../utils/timer': 43,
+        '../templates/task': 44
       }, function(require, module, exports) {
         var Base, List, Lists, Setting, Task, TaskItem, Tasks, dateDetector, delay, keys;
         Base = require('base');
@@ -16872,13 +17235,13 @@
         */
 
         'base': 6,
-        '../views/modal/destroy_task': 36,
-        '../models/list': 21,
+        '../views/modal/destroy_task': 42,
+        '../models/list': 24,
         '../models/setting': 10,
         '../utils/keys': 8,
-        '../utils/timer': 37,
+        '../utils/timer': 43,
         '../utils/translate': 9,
-        '../templates/task': 38
+        '../templates/task': 44
       }, function(require, module, exports) {
         var Base, List, Modal, TaskItem, delay, keys, setting, translate;
         Base = require('base');
@@ -17087,7 +17450,7 @@
         */
 
         '../../models/setting': 10,
-        '../modal': 26
+        '../modal': 29
       }, function(require, module, exports) {
         var Modal, Setting, modal, task,
           _this = this;
@@ -17134,7 +17497,7 @@
           /Volumes/Home/Projects/Nitro/source/scripts/templates/task.coffee
         */
 
-        '../utils/prettydate': 39,
+        '../utils/prettydate': 45,
         '../utils/translate': 9
       }, function(require, module, exports) {
         var prettyDate, tags, text, translate;
@@ -17350,7 +17713,7 @@
           /Volumes/Home/Projects/Nitro/source/scripts/views/list/inbox.coffee
         */
 
-        './item': 30
+        './item': 33
       }, function(require, module, exports) {
         var ListInbox, ListItem;
         ListItem = require('./item');
@@ -17384,9 +17747,9 @@
           /Volumes/Home/Projects/Nitro/source/scripts/views/list/all.coffee
         */
 
-        '../../models/task': 20,
-        '../../models/list': 21,
-        './item': 30
+        '../../models/task': 23,
+        '../../models/list': 24,
+        './item': 33
       }, function(require, module, exports) {
         var List, ListAll, ListItem, Task;
         Task = require('../../models/task');
@@ -17430,9 +17793,9 @@
           /Volumes/Home/Projects/Nitro/source/scripts/views/list/completed.coffee
         */
 
-        '../../models/task': 20,
-        '../../models/list': 21,
-        './item': 30
+        '../../models/task': 23,
+        '../../models/list': 24,
+        './item': 33
       }, function(require, module, exports) {
         var List, ListCompleted, ListItem, Task;
         Task = require('../../models/task');

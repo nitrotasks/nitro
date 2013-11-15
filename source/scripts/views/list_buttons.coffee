@@ -2,7 +2,9 @@
 
 Base = require 'base'
 List = require '../models/list'
-# Modal   = require './modal'
+ListModal = require '../views/modal/destroy_list'
+ShareModal = require '../views/modal/share'
+EmailModal = require '../views/modal/email'
 
 class ListButtons extends Base.View
 
@@ -41,16 +43,16 @@ class ListButtons extends Base.View
       @sortBtn.fadeIn(150)
 
   trash: ->
-    Modal.get('trashList').run()
+    ListModal.run()
 
   email: ->
-    Modal.get('email').show()
+    EmailModal.run()
 
   print: ->
     window.print()
 
   share: ->
-    Modal.get('share').show()
+    ShareModal.run()
 
   sort: ->
     Setting.toggle('sort')

@@ -1904,6 +1904,10 @@ img {
 .hidden {
   display: none; }
 
+body {
+  cursor: default;
+  -webkit-user-select: none; }
+
 @media screen and (max-width: 600px) {
   header .logo {
     background: url("../img/hamburger.png") no-repeat 0 9px;
@@ -2403,6 +2407,22 @@ body, input {
     background-image: url("../img/sprite_list.png");
     background-position: -32px 0; }
 
+.select_js_box {
+  background: rgba(0, 0, 0, 0.15);
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 100px;
+  height: 100px;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+  border: 1px solid rgba(0, 0, 0, 0.58);
+  z-index: 1000;
+  box-sizing: border-box; }
+
+.select_js_box.hide {
+  opacity: 0; }
+
 .loading-screen {
   position: absolute;
   top: 0;
@@ -2896,6 +2916,8 @@ html, body {
   -ms-transform: translate3d(0, 0, 0);
   -o-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0); }
+  .task.selected {
+    background: #1BC1F5; }
   .task.new {
     -webkit-transform: none;
     -moz-transform: none;
