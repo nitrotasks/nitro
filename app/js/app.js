@@ -13,7 +13,7 @@
           if ((typeof require !== "undefined" && require !== null)) {
             return require(id);
           }
-          console.error("Cannot find module '" + id + "'");
+          console.log("Cannot find module '" + id + "'");
           return null;
         }
         file = cache[id] = {
@@ -35,7 +35,7 @@
     [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/init.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/init.coffee
         */
 
         'jqueryify': 1,
@@ -51,7 +51,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/node_modules/jqueryify/index.js
+          /home/stayrad/Projects/Nitro/node_modules/jqueryify/index.js
         */
 
       }, function(require, module, exports) {
@@ -8891,7 +8891,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/controllers/app.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/controllers/app.coffee
         */
 
         '../vendor/libs': 3,
@@ -8992,7 +8992,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/vendor/libs.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/vendor/libs.coffee
         */
 
         './jquery-ui': 4,
@@ -9008,7 +9008,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/vendor/jquery-ui.js
+          /home/stayrad/Projects/Nitro/source/scripts/vendor/jquery-ui.js
         */
 
       }, function(require, module, exports) {
@@ -14055,7 +14055,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/vendor/touch.js
+          /home/stayrad/Projects/Nitro/source/scripts/vendor/touch.js
         */
 
       }, function(require, module, exports) {
@@ -14068,7 +14068,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/node_modules/base/index.js
+          /home/stayrad/Projects/Nitro/node_modules/base/index.js
         */
 
       }, function(require, module, exports) {
@@ -14641,7 +14641,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/utils/touchify.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/utils/touchify.coffee
         */
 
         'base': 6
@@ -14673,7 +14673,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/utils/keys.json
+          /home/stayrad/Projects/Nitro/source/scripts/utils/keys.json
         */
 
       }, function(require, module, exports) {
@@ -14728,7 +14728,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/utils/translate.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/utils/translate.coffee
         */
 
         'jqueryify': 1,
@@ -14831,7 +14831,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/models/setting.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/models/setting.coffee
         */
 
         'base': 6,
@@ -14879,7 +14879,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/controllers/local.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/controllers/local.coffee
         */
 
         'base': 6
@@ -14921,7 +14921,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/utils/event.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/utils/event.coffee
         */
 
         'base': 6
@@ -14933,7 +14933,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/languages/languages.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/languages/languages.coffee
         */
 
         './bg.json': 14,
@@ -14955,7 +14955,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/languages/bg.json
+          /home/stayrad/Projects/Nitro/source/scripts/languages/bg.json
         */
 
       }, function(require, module, exports) {
@@ -15088,7 +15088,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/languages/bn-IN.json
+          /home/stayrad/Projects/Nitro/source/scripts/languages/bn-IN.json
         */
 
       }, function(require, module, exports) {
@@ -15221,7 +15221,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/languages/en-pi.json
+          /home/stayrad/Projects/Nitro/source/scripts/languages/en-pi.json
         */
 
       }, function(require, module, exports) {
@@ -15252,7 +15252,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/languages/en-us.json
+          /home/stayrad/Projects/Nitro/source/scripts/languages/en-us.json
         */
 
       }, function(require, module, exports) {
@@ -15263,7 +15263,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/languages/es-ES.json
+          /home/stayrad/Projects/Nitro/source/scripts/languages/es-ES.json
         */
 
       }, function(require, module, exports) {
@@ -15396,7 +15396,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/languages/nl.json
+          /home/stayrad/Projects/Nitro/source/scripts/languages/nl.json
         */
 
       }, function(require, module, exports) {
@@ -15529,7 +15529,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/node_modules/select/source/select.js
+          /home/stayrad/Projects/Nitro/node_modules/select/source/select.js
         */
 
         './box': 21,
@@ -15590,7 +15590,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/node_modules/select/source/box.js
+          /home/stayrad/Projects/Nitro/node_modules/select/source/box.js
         */
 
       }, function(require, module, exports) {
@@ -15682,7 +15682,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/node_modules/select/source/elements.js
+          /home/stayrad/Projects/Nitro/node_modules/select/source/elements.js
         */
 
       }, function(require, module, exports) {
@@ -15783,7 +15783,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/models/task.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/models/task.coffee
         */
 
         'base': 6,
@@ -15936,7 +15936,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/models/list.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/models/list.coffee
         */
 
         'base': 6,
@@ -16046,7 +16046,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/controllers/auth.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/controllers/auth.coffee
         */
 
         '../models/setting': 10,
@@ -16132,7 +16132,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/auth.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/views/auth.coffee
         */
 
         'base': 6,
@@ -16290,7 +16290,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/templates/auth.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/templates/auth.coffee
         */
 
         '../utils/config': 28
@@ -16314,7 +16314,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/utils/config.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/utils/config.coffee
         */
 
       }, function(require, module, exports) {
@@ -16333,7 +16333,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/modal.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/views/modal.coffee
         */
 
         'base': 6
@@ -16420,7 +16420,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/keys.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/views/keys.coffee
         */
 
         '../utils/keys': 8,
@@ -16507,7 +16507,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/loading_screen.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/views/loading_screen.coffee
         */
 
         'base': 6,
@@ -16544,7 +16544,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/lists.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/views/lists.coffee
         */
 
         'base': 6,
@@ -16630,7 +16630,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/list/item.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/views/list/item.coffee
         */
 
         'base': 6,
@@ -16710,7 +16710,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/templates/list.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/templates/list.coffee
         */
 
         '../models/list': 24
@@ -16725,7 +16725,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/title.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/views/title.coffee
         */
 
         'base': 6,
@@ -16788,7 +16788,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/list_buttons.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/views/list_buttons.coffee
         */
 
         'base': 6,
@@ -16871,7 +16871,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/modal/destroy_list.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/views/modal/destroy_list.coffee
         */
 
         '../../models/setting': 10,
@@ -16905,7 +16905,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/modal/share.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/views/modal/share.coffee
         */
 
         '../modal': 29
@@ -16920,7 +16920,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/modal/email.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/views/modal/email.coffee
         */
 
         '../modal': 29
@@ -16968,7 +16968,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/tasks.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/views/tasks.coffee
         */
 
         'base': 6,
@@ -17231,7 +17231,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/task_item.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/views/task_item.coffee
         */
 
         'base': 6,
@@ -17446,7 +17446,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/modal/destroy_task.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/views/modal/destroy_task.coffee
         */
 
         '../../models/setting': 10,
@@ -17483,7 +17483,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/utils/timer.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/utils/timer.coffee
         */
 
       }, function(require, module, exports) {
@@ -17494,7 +17494,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/templates/task.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/templates/task.coffee
         */
 
         '../utils/prettydate': 45,
@@ -17529,7 +17529,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/utils/prettydate.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/utils/prettydate.coffee
         */
 
         '../utils/translate': 9
@@ -17591,7 +17591,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/utils/date.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/utils/date.coffee
         */
 
       }, function(require, module, exports) {
@@ -17710,7 +17710,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/list/inbox.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/views/list/inbox.coffee
         */
 
         './item': 33
@@ -17744,7 +17744,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/list/all.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/views/list/all.coffee
         */
 
         '../../models/task': 23,
@@ -17790,7 +17790,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/list/completed.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/views/list/completed.coffee
         */
 
         '../../models/task': 23,
@@ -17836,7 +17836,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/models/default/list.json
+          /home/stayrad/Projects/Nitro/source/scripts/models/default/list.json
         */
 
       }, function(require, module, exports) {
@@ -17852,7 +17852,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/models/default/task.json
+          /home/stayrad/Projects/Nitro/source/scripts/models/default/task.json
         */
 
       }, function(require, module, exports) {

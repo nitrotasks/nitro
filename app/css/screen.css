@@ -2916,8 +2916,6 @@ html, body {
   -ms-transform: translate3d(0, 0, 0);
   -o-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0); }
-  .task.selected {
-    background: #1BC1F5; }
   .task.new {
     -webkit-transform: none;
     -moz-transform: none;
@@ -2930,6 +2928,9 @@ html, body {
     animation: new-task 1 ease 150ms; }
   .task:first-child {
     border-top: 1px solid #d9d9d9; }
+  .task.selected {
+    border-color: #1BC1F5;
+    background: #e8f8fe; }
   .task:before {
     content: "";
     display: block;
