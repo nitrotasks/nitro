@@ -8,8 +8,6 @@ translate = require '../utils/translate'
 
 class TaskItem extends Base.View
 
-  template: require '../templates/task'
-
   elements:
     '.name'         : 'name'
     '.input-name'   : 'inputName'
@@ -54,8 +52,9 @@ class TaskItem extends Base.View
     #   firstDay: setting.weekStart
     #   dateFormat: setting.dateFormat
     # @date.datepicker('setDate', new Date(@task.date)) if @task.date
-    @el = $ @template @task
-    @bind()
+
+    # @el = $ @template @task
+    # @bind()
     return this
 
   # Delete Button

@@ -8914,11 +8914,11 @@
         '../views/title': 36,
         '../views/list_buttons': 37,
         '../views/tasks': 41,
-        '../views/list/inbox': 48,
-        '../views/list/all': 49,
-        '../views/list/completed': 50,
-        '../models/default/list.json': 51,
-        '../models/default/task.json': 52
+        '../views/list/inbox': 49,
+        '../views/list/all': 50,
+        '../views/list/completed': 51,
+        '../models/default/list.json': 52,
+        '../models/default/task.json': 53
       }, function(require, module, exports) {
         var $, App, Auth, Base, Event, Keys, List, ListAll, ListButtons, ListCompleted, ListInbox, Lists, LoadingScreen, Modal, Select, Setting, Task, Tasks, Title, User, libs, translate;
         libs = require('../vendor/libs');
@@ -17034,9 +17034,10 @@
         '../models/list': 24,
         '../models/setting': 10,
         '../utils/keys': 8,
-        '../utils/date': 47,
+        '../utils/date': 45,
         '../utils/timer': 44,
-        '../templates/task': 45
+        '../templates/task': 46,
+        '../templates/tasks': 48
       }, function(require, module, exports) {
         var Base, List, Lists, Setting, Task, TaskItem, Tasks, dateDetector, delay, keys;
         Base = require('base');
@@ -17051,7 +17052,10 @@
         Tasks = (function(_super) {
           __extends(Tasks, _super);
 
-          Tasks.prototype.template = require('../templates/task');
+          Tasks.prototype.template = {
+            item: require('../templates/task'),
+            message: require('../templates/tasks')
+          };
 
           Tasks.prototype.elements = {
             'ul.tasks': 'tasks',
@@ -17079,7 +17083,6 @@
             this.views = [];
             this.timers = {};
             this.currentTask;
-            this.currentList;
             this.listen([
               Task, {
                 'refresh': this.refresh,
@@ -17118,23 +17121,18 @@
           };
 
           Tasks.prototype.render = function(list) {
-            var completed, html, last, oldItems, task, tasks, _i, _len, _ref, _ref1,
+            var completed, html, last, oldViews, task, tasks, _i, _len, _ref, _ref1,
               _this = this;
             this.el.removeClass('empty');
             this.el.find('.message').remove();
-            if (list instanceof List.model || list.id === 'all' || list.id === 'completed') {
-              this.currentList = list;
-            } else {
-              console.log('debug', list);
-            }
             this.input.toggle(!list.disabled);
-            oldItems = this.views.slice(0);
+            oldViews = this.views.slice();
             this.views = [];
             delay(1000, function() {
               var item, _i, _len, _results;
               _results = [];
-              for (_i = 0, _len = oldItems.length; _i < _len; _i++) {
-                item = oldItems[_i];
+              for (_i = 0, _len = oldViews.length; _i < _len; _i++) {
+                item = oldViews[_i];
                 _results.push(item.release());
               }
               return _results;
@@ -17142,13 +17140,13 @@
             html = '';
             if (list.id === 'filter') {
               tasks = list.tasks;
-              this.el.append(view.special);
+              this.el.append(this.template.message.special);
             } else if (list != null ? list.tasks : void 0) {
               tasks = list.tasks;
-              this.el.append(view.standard);
+              this.el.append(this.template.message.standard);
             } else {
               tasks = Task.list(list.id);
-              this.el.append(view.empty);
+              this.el.append(this.template.message.empty);
             }
             if (false) {
               tasks = Task.sortTasks(tasks);
@@ -17170,13 +17168,13 @@
                 html = this.template(task) + html;
               }
             } else {
-              list.tasks.forEach(function(task) {
-                return html += _this.template(task);
+              tasks.forEach(function(task) {
+                return html += _this.template.item(task);
               });
             }
             this.tasks.html(html);
-            this.timers.bindTasks = delay(400, function() {
-              return list.tasks.forEach(function(task) {
+            delay(400, function() {
+              return tasks.forEach(function(task) {
                 var view;
                 view = new TaskItem({
                   task: task,
@@ -17296,8 +17294,7 @@
         '../models/setting': 10,
         '../utils/keys': 8,
         '../utils/timer': 44,
-        '../utils/translate': 9,
-        '../templates/task': 45
+        '../utils/translate': 9
       }, function(require, module, exports) {
         var Base, List, Modal, TaskItem, delay, keys, setting, translate;
         Base = require('base');
@@ -17309,8 +17306,6 @@
         translate = require('../utils/translate');
         TaskItem = (function(_super) {
           __extends(TaskItem, _super);
-
-          TaskItem.prototype.template = require('../templates/task');
 
           TaskItem.prototype.elements = {
             '.name': 'name',
@@ -17363,8 +17358,6 @@
           }
 
           TaskItem.prototype.render = function() {
-            this.el = $(this.template(this.task));
-            this.bind();
             return this;
           };
 
@@ -17550,103 +17543,6 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/templates/task.coffee
-        */
-
-        '../utils/prettydate': 46,
-        '../utils/translate': 9
-      }, function(require, module, exports) {
-        var prettyDate, tags, text, translate;
-        prettyDate = require('../utils/prettydate');
-        translate = require('../utils/translate');
-        text = {};
-        translate.ready(function() {
-          return text = translate({
-            notes: 'Notes',
-            date: 'Due Date',
-            checkbox: 'Mark as completed',
-            low: 'Set priority to low',
-            medium: 'Set priority to medium',
-            high: 'Set priority to high'
-          });
-        });
-        tags = function(text) {
-          if (!text) {
-            return;
-          }
-          return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/#(\S+)/g, ' <span class="tag">#$1</span>');
-        };
-        return module.exports = function(task) {
-          var date;
-          date = prettyDate(task.date);
-          return "<li id=\"task-" + task.id + "\" class=\"task" + (task.group ? ' group' : '') + (task.completed ? ' completed' : '') + " p" + task.priority + "\">\n  <div class=\"checkbox\" title=\"" + text.checkbox + "\"></div>\n  <div class=\"name\">" + (tags(task.name)) + "</div>\n  <input type=\"text\" class=\"input-name\">\n  <div class=\"right-controls\">" + (task.date ? "<img width='10' height='10' src='img/calendar.png'>      <time class='" + date.className + "'>" + date.words + "</time>      <input class='date' placeholder='" + text.date + "' value='" + task.date + "'>" : "<img width='10' height='10' src='img/calendar.png'>      <time></time>      <input class='date' placeholder='" + text.date + "' value=''>") + (task.listName ? "<span class='listName'>" + task.listName + "</span>" : "") + "\n    <div class=\"priority-button\">\n      <div data-id=\"1\" title=\"" + text.low + "\" class=\"low\"></div>\n      <div data-id=\"2\" title=\"" + text.medium + "\" class=\"medium\"></div>\n      <div data-id=\"3\" title=\"" + text.high + "\" class=\"high\"></div>\n    </div>\n    <div class=\"delete\"></div>\n  </div>\n  <div class='notes" + (!task.notes ? " placeholder" : "") + "'>\n    <div class='inner editable' contenteditable='true'>" + (task.notes || "Notes") + "</div>\n  </div>\n</li>";
-        };
-      }
-    ], [
-      {
-        /*
-          /Volumes/Home/Projects/Nitro/source/scripts/utils/prettydate.coffee
-        */
-
-        '../utils/translate': 9
-      }, function(require, module, exports) {
-        var month, translate;
-        translate = require('../utils/translate');
-        month = [];
-        translate.ready(function() {
-          return month = translate(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
-        });
-        return module.exports = function(date) {
-          var className, difference, now, oneDay, words;
-          if (!(date instanceof Date)) {
-            return {
-              words: '',
-              className: ''
-            };
-          }
-          now = new Date();
-          difference = 0;
-          oneDay = 86400000;
-          difference = Math.ceil((date.getTime() - now.getTime()) / oneDay);
-          words = '';
-          className = '';
-          /*
-                
-            Difference
-            ==  5: '5 days left'
-            ==  1: 'Due tomorrow'
-            ==  0: 'Due today'
-            == -1: 'Due yesterday'
-            == -5: '5 days overdue'
-          */
-
-          if (difference === -1) {
-            words = translate('yesterday');
-            className = 'overdue';
-          } else if (difference < -1) {
-            difference = Math.abs(difference);
-            words = difference + ' ' + translate('days ago');
-            className = 'overdue';
-          } else if (difference === 0) {
-            words = translate('today');
-            className = 'due';
-          } else if (difference === 1) {
-            words = translate('tomorrow');
-            className = 'soon';
-          } else if (difference < 15) {
-            words = 'in ' + difference + ' days';
-          } else {
-            words = month[date.getMonth()] + ' ' + date.getDate();
-          }
-          return {
-            words: words,
-            className: className
-          };
-        };
-      }
-    ], [
-      {
-        /*
           /Volumes/Home/Projects/Nitro/source/scripts/utils/date.coffee
         */
 
@@ -17762,6 +17658,126 @@
           remove: removeTrigger
         };
         return module != null ? module.exports = api : void 0;
+      }
+    ], [
+      {
+        /*
+          /Volumes/Home/Projects/Nitro/source/scripts/templates/task.coffee
+        */
+
+        '../utils/prettydate': 47,
+        '../utils/translate': 9
+      }, function(require, module, exports) {
+        var prettyDate, tags, text, translate;
+        prettyDate = require('../utils/prettydate');
+        translate = require('../utils/translate');
+        text = {};
+        translate.ready(function() {
+          return text = translate({
+            notes: 'Notes',
+            date: 'Due Date',
+            checkbox: 'Mark as completed',
+            low: 'Set priority to low',
+            medium: 'Set priority to medium',
+            high: 'Set priority to high'
+          });
+        });
+        tags = function(text) {
+          if (!text) {
+            return;
+          }
+          return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/#(\S+)/g, ' <span class="tag">#$1</span>');
+        };
+        return module.exports = function(task) {
+          var date;
+          date = prettyDate(task.date);
+          return "<li id=\"task-" + task.id + "\" class=\"task" + (task.group ? ' group' : '') + (task.completed ? ' completed' : '') + " p" + task.priority + "\">\n  <div class=\"checkbox\" title=\"" + text.checkbox + "\"></div>\n  <div class=\"name\">" + (tags(task.name)) + "</div>\n  <input type=\"text\" class=\"input-name\">\n  <div class=\"right-controls\">" + (task.date ? "<img width='10' height='10' src='img/calendar.png'>      <time class='" + date.className + "'>" + date.words + "</time>      <input class='date' placeholder='" + text.date + "' value='" + task.date + "'>" : "<img width='10' height='10' src='img/calendar.png'>      <time></time>      <input class='date' placeholder='" + text.date + "' value=''>") + (task.listName ? "<span class='listName'>" + task.listName + "</span>" : "") + "\n    <div class=\"priority-button\">\n      <div data-id=\"1\" title=\"" + text.low + "\" class=\"low\"></div>\n      <div data-id=\"2\" title=\"" + text.medium + "\" class=\"medium\"></div>\n      <div data-id=\"3\" title=\"" + text.high + "\" class=\"high\"></div>\n    </div>\n    <div class=\"delete\"></div>\n  </div>\n  <div class='notes" + (!task.notes ? " placeholder" : "") + "'>\n    <div class='inner editable' contenteditable='true'>" + (task.notes || "Notes") + "</div>\n  </div>\n</li>";
+        };
+      }
+    ], [
+      {
+        /*
+          /Volumes/Home/Projects/Nitro/source/scripts/utils/prettydate.coffee
+        */
+
+        '../utils/translate': 9
+      }, function(require, module, exports) {
+        var month, translate;
+        translate = require('../utils/translate');
+        month = [];
+        translate.ready(function() {
+          return month = translate(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
+        });
+        return module.exports = function(date) {
+          var className, difference, now, oneDay, words;
+          if (!(date instanceof Date)) {
+            return {
+              words: '',
+              className: ''
+            };
+          }
+          now = new Date();
+          difference = 0;
+          oneDay = 86400000;
+          difference = Math.ceil((date.getTime() - now.getTime()) / oneDay);
+          words = '';
+          className = '';
+          /*
+                
+            Difference
+            ==  5: '5 days left'
+            ==  1: 'Due tomorrow'
+            ==  0: 'Due today'
+            == -1: 'Due yesterday'
+            == -5: '5 days overdue'
+          */
+
+          if (difference === -1) {
+            words = translate('yesterday');
+            className = 'overdue';
+          } else if (difference < -1) {
+            difference = Math.abs(difference);
+            words = difference + ' ' + translate('days ago');
+            className = 'overdue';
+          } else if (difference === 0) {
+            words = translate('today');
+            className = 'due';
+          } else if (difference === 1) {
+            words = translate('tomorrow');
+            className = 'soon';
+          } else if (difference < 15) {
+            words = 'in ' + difference + ' days';
+          } else {
+            words = month[date.getMonth()] + ' ' + date.getDate();
+          }
+          return {
+            words: words,
+            className: className
+          };
+        };
+      }
+    ], [
+      {
+        /*
+          /Volumes/Home/Projects/Nitro/source/scripts/templates/tasks.coffee
+        */
+
+        '../utils/translate': 9
+      }, function(require, module, exports) {
+        var mex, translate;
+        translate = require('../utils/translate');
+        mex = module.exports = {};
+        return translate.ready(function() {
+          var tls;
+          tls = {
+            special: translate('No tasks could be found.'),
+            standard: translate('You haven\'t added any tasks to this list.'),
+            empty: translate('There are no tasks in here.')
+          };
+          mex.special = "<div class=\"message\">" + tls.special + "</div>";
+          mex.standard = "<div class=\"message\">" + tls.standard + "</div>";
+          return mex.empty = "<div class=\"message\">" + tls.empty + "</div>";
+        });
       }
     ], [
       {

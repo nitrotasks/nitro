@@ -10,7 +10,9 @@ delay        = require '../utils/timer'
 
 class Tasks extends Base.View
 
-  template: require '../templates/task'
+  template:
+    item:     require '../templates/task'
+    message: require '../templates/tasks'
 
   elements:
     'ul.tasks': 'tasks'
@@ -32,7 +34,6 @@ class Tasks extends Base.View
     @timers = {}
 
     @currentTask
-    @currentList
 
     @listen [
       Task,
@@ -82,18 +83,11 @@ class Tasks extends Base.View
   # Display a list of tasks
   render: (list) =>
 
-    # TODO: Move this somewhere else
+    # TODO: Move this somewhere else. Going to ignore it for now.
     @el.removeClass 'empty'
     @el.find('.message').remove()
 
-    # Update current list if the list is changed
-    # hackery hack for completed & all. fuckit, we're shipping
-    if list instanceof List.model or list.id is 'all' or list.id is 'completed'
-      @currentList = list
-    else
-      console.log 'debug', list
-
-    # Something to do with sorting tasks
+    # TODO: Re-implement sorting
     # if @list.disabled
     #     $(@el[1]).sortable({ disabled: true })
     # else
@@ -103,16 +97,13 @@ class Tasks extends Base.View
     # Disable task input box
     @input.toggle not list.disabled
 
-    # TODO: Do we really need this?
-    oldItems = @views.slice 0
+    # Keep a copy of the old views
+    oldViews = @views.slice()
     @views = []
 
     # Unbind existing tasks
-    # TODO: Can we use nextAnimationFrame for this?
-    # TODO: Move into a method
     delay 1000, ->
-      for item in oldItems
-        item.release()
+      item.release() for item in oldViews
 
     # Holds html
     html = ''
@@ -120,20 +111,20 @@ class Tasks extends Base.View
     # Special list
     if list.id is 'filter'
       tasks = list.tasks
-      @el.append view.special
+      @el.append @template.message.special
 
     # Standard list
     else if list?.tasks
       tasks = list.tasks
-      @el.append view.standard
+      @el.append @template.message.standard
 
     # Empty list
     else
       tasks = Task.list(list.id)
-      @el.append view.empty
+      @el.append @template.message.empty
 
-    # Sorting tasks
     # TODO: Ignore this for now
+    # Sorting tasks
     # if list.id in ['all', 'completed'] or Setting.sort
     if false
 
@@ -162,17 +153,17 @@ class Tasks extends Base.View
 
     # Not sorting
     else
-      list.tasks.forEach (task) =>
-        html += @template task
+      tasks.forEach (task) =>
         # if list.id is 'all' then task.listName = List.get(task.list).name
+        html += @template.item task
 
     @tasks.html html
 
-    @timers.bindTasks = delay 400,  =>
-      list.tasks.forEach (task) =>
+    delay 400,  =>
+      tasks.forEach (task) =>
         view = new TaskItem
           task: task
-          el: @tasks.find("#task-#{ task.id }")
+          el: @tasks.find "#task-#{ task.id }"
         @bindTask view
         @views.push view
 
