@@ -1,5 +1,5 @@
 Base  = require 'base'
-Event = require '../utils/event'
+event = require '../utils/event'
 
 class LoadingScreen extends Base.View
 
@@ -9,7 +9,7 @@ class LoadingScreen extends Base.View
     @el = $('.loading-screen')
     @bind()
 
-    Event.on 'app:ready', @hide
+    event.on 'app:ready', @hide
 
   hide: =>
     @el.fadeOut(300)

@@ -7,18 +7,8 @@ class Setting extends Base.Model
 
   defaults:
 
-    # User
-    pro:                no
-    loggedin:           no
-    uid:                null
-    token:              null
-    userName:           null
-    userEmail:          null
-
-    # Misc
-    sort:               yes
-
     # Settings
+    sort:               yes
     night:              no
     language:           'en-us'
     weekStart:          '1'
@@ -31,9 +21,6 @@ class Setting extends Base.Model
     notifyEmail:        no
     notifyRegular:      'upcoming'
     notifications:      no
-
-  constructor: ->
-    super
 
 # Create a new instance of Setting
 settings = new Setting()

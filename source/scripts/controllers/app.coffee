@@ -16,6 +16,7 @@ Select    = require 'select'
 Task    = require '../models/task'
 List    = require '../models/list'
 Setting = require '../models/setting'
+User    = require '../models/user'
 
 # Controllers
 # Panel         = require # '../controllers/panel'
@@ -44,6 +45,7 @@ class App
 
     # Load Settings
     Setting.trigger 'fetch'
+    User.trigger 'fetch'
 
     # Init Settings
     # Settings = new Settings
@@ -53,6 +55,9 @@ class App
 
     # Load controllers
     @auth = new Auth()
+
+    if User.loggedIn()
+      User.trigger 'login', animate: false
 
     # Load Views
     new Lists()
@@ -65,7 +70,7 @@ class App
     @keys = new Keys()
 
     select = new Select
-      parent: $('.tasks-container')[0]
+      parent: $('.tasks')[0]
       query: '.task'
 
     select.init();

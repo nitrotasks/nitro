@@ -1,5 +1,5 @@
-Base    = require 'base'
-Setting = require '../models/setting'
+Base = require 'base'
+user = require '../models/user'
 
 class Auth extends Base.View
 
@@ -39,8 +39,8 @@ class Auth extends Base.View
 
     @mode = 'login'
 
-    @listen Setting,
-      'offline login': @hide
+    @listen user,
+      'login': @hide
 
     @on 'login:success', =>
       @spinner(off)
@@ -56,8 +56,11 @@ class Auth extends Base.View
       @showSuccess()
 
   # Hide login screen
-  hide: =>
-    @el.fadeOut(300)
+  hide: (options = {}) =>
+    if options.animate is false
+      @el.hide()
+    else
+      @el.fadeOut(300)
     @buttons.removeClass('active')
 
   # Show login screen
