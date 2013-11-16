@@ -17,6 +17,7 @@ class Tasks extends Base.View
   elements:
     'ul.tasks': 'tasks'
     'input.new-task': 'input'
+    '.message': 'message'
 
   events:
     'click': 'collapseOnClick'
@@ -56,12 +57,13 @@ class Tasks extends Base.View
   addOne: (task) =>
     # return unless List.current.id in [task.list, 'all']
 
+    # Add to dom
+    @tasks.prepend @template.item task
+
     # Create a new view
     view = new TaskItem
       task: task
-
-    # Add to dom
-    @tasks.prepend view.render().el
+      el: @tasks.find "#task-#{ task.id }"
 
     # Bind events
     @bindTask(view)
@@ -82,10 +84,6 @@ class Tasks extends Base.View
 
   # Display a list of tasks
   render: (list) =>
-
-    # TODO: Move this somewhere else. Going to ignore it for now.
-    @el.removeClass 'empty'
-    @el.find('.message').remove()
 
     # TODO: Re-implement sorting
     # if @list.disabled
@@ -111,17 +109,17 @@ class Tasks extends Base.View
     # Special list
     if list.id is 'filter'
       tasks = list.tasks
-      @el.append @template.message.special
+      @message.text @template.message.special
 
     # Standard list
     else if list?.tasks
       tasks = list.tasks
-      @el.append @template.message.standard
+      @message.text @template.message.standard
 
     # Empty list
     else
-      tasks = Task.list(list.id)
-      @el.append @template.message.empty
+      tasks = Task.list list.id
+      @message.text @template.message.empty
 
     # TODO: Ignore this for now
     # Sorting tasks
@@ -154,12 +152,15 @@ class Tasks extends Base.View
     # Not sorting
     else
       tasks.forEach (task) =>
-        # if list.id is 'all' then task.listName = List.get(task.list).name
         html += @template.item task
 
+        # TODO: Add this back in a sane way
+        # if list.id is 'all' then task.listName = List.get(task.list).name
+
+    # Render html
     @tasks.html html
 
-    delay 400,  =>
+    requestAnimationFrame =>
       tasks.forEach (task) =>
         view = new TaskItem
           task: task
@@ -168,21 +169,21 @@ class Tasks extends Base.View
         @views.push view
 
     # Handles Empty List
-    if tasks.length is 0
-      @el.addClass 'empty'
+    @el.toggleClass 'empty', tasks.length is 0
 
     # Focuses input if not on a touchscreen (virtual keyboard)
     # TODO: Don't make is_touch_device a global
-    @input.focus() if !is_touch_device()
+    @input.focus() if not is_touch_device()
 
   # Create a new task
+  # TODO: Maybe seperate the key event and the task create code
   createNew: (e) =>
     if e.keyCode is keys.enter and @input.val().length
       name = @input.val()
       @input.val ''
       Task.create
         name: name
-        list: @currentList?.id
+        list: Lists.active.id
         date: dateDetector.parse name
 
   # ------------

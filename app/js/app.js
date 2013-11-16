@@ -15551,32 +15551,56 @@
         Select = function (options) {
           this.parent = options.parent;
           this.elements = new Elements(options);
+          this.min = 5;
           this.box = null;
-          this.active = false;
+          this.down = false;
+          this.moving = false;
         };
       
-        Select.prototype._mousedown = function(event) {
-          this.active = true;
+        Select.prototype.create = function (event) {
           if (this.box) { this.box.remove(); }
-          this.box = (new Box()).reset(event).update().render();
+          this.box = (new Box()).reset(event).update();
           this.elements.reset(event.ctrlKey || event.metaKey).check(this.box);
         };
       
-        Select.prototype._mousemove = function(event) {
-          if (!this.active) { return; }
-          this.box.setEnd(event).update().render();
+        Select.prototype.update = function (event) {
+          this.box.setEnd(event).update();
           this.elements.check(this.box);
         };
       
-        Select.prototype._mouseup = function(event) {
-          if (!this.active) { return; }
-          this.active = false;
+        Select.prototype._mousedown = function (event) {
+          this.down = true;
+          this.start = event;
+          this.create(event);
+        };
+      
+        Select.prototype._mousemove = function (event) {
+          if (!this.down) { return; }
+      
+          if (this.moving) {
+            this.update(event);
+            this.box.render();
+      
+          } else if (
+            Math.abs(event.x - this.start.x) > this.min ||
+            Math.abs(event.y - this.start.y) > this.min
+          ) {
+            this.moving = true;
+            this.update(event);
+            this.box.render();
+          }
+        };
+      
+        Select.prototype._mouseup = function () {
+          if (!this.down) { return; }
+          this.down = false;
+          this.moving = false;
           this.box.remove();
           this.box = null;
           this.elements.select();
         };
       
-        Select.prototype.init = function() {
+        Select.prototype.init = function () {
           this.parent.addEventListener('mousedown', this._mousedown.bind(this));
           document.addEventListener('mousemove', this._mousemove.bind(this));
           document.addEventListener('mouseup', this._mouseup.bind(this));
@@ -15598,7 +15622,9 @@
         */
 
       }, function(require, module, exports) {
-        (function() {
+        (function () {
+      
+        'use strict';
       
         var Box;
       
@@ -15609,6 +15635,11 @@
           this.el.className = Box.className;
           document.body.appendChild(this.el);
       
+          this.el.style.left   = '-10px';
+          this.el.style.top    = '-10px';
+          this.el.style.width  = 0;
+          this.el.style.height = 0;
+      
           this.mouse = {
             start: {},
             end: {}
@@ -15618,25 +15649,25 @@
       
         Box.className = 'select_js_box';
       
-        Box.prototype.setStart = function(position) {
+        Box.prototype.setStart = function (position) {
           this.mouse.start.x = position.pageX;
           this.mouse.start.y = position.pageY;
           return this;
         };
       
-        Box.prototype.setEnd = function(position) {
+        Box.prototype.setEnd = function (position) {
           this.mouse.end.x = position.pageX;
           this.mouse.end.y = position.pageY;
           return this;
         };
       
-        Box.prototype.reset = function(position) {
+        Box.prototype.reset = function (position) {
           this.setStart(position);
           this.setEnd(position);
           return this;
         };
       
-        Box.prototype.remove = function() {
+        Box.prototype.remove = function () {
           var el = this.el;
           el.className += ' hide';
           setTimeout(function () {
@@ -15645,7 +15676,7 @@
           return this;
         };
       
-        Box.prototype.render = function() {
+        Box.prototype.render = function () {
           this.el.style.top    = this.top + 'px';
           this.el.style.left   = this.left + 'px';
           this.el.style.width  = this.right - this.left + 'px';
@@ -15653,7 +15684,7 @@
           return this;
         };
       
-        Box.prototype.update = function() {
+        Box.prototype.update = function () {
           var start, end;
       
           end          = this.mouse.end;
@@ -15701,7 +15732,7 @@
           this.selected = [];
         };
       
-        Elements.prototype.reset = function(append) {
+        Elements.prototype.reset = function (append) {
           var i, el, rect, pos;
       
           this.el = this.parent.querySelectorAll(this.query);
@@ -15716,10 +15747,12 @@
             }
       
             rect = el.getBoundingClientRect();
+      
             pos = {
               top: rect.top + window.pageYOffset,
               left: rect.left + window.pageXOffset,
             };
+      
             el.position = {
               top: pos.top,
               left: pos.left,
@@ -15731,7 +15764,7 @@
           return this;
         };
       
-        Elements.prototype.check = function(box) {
+        Elements.prototype.check = function (box) {
           var i, el, pos, hit;
       
           for (i = 0; i < this.el.length; i++) {
@@ -15760,7 +15793,7 @@
       
         };
       
-        Elements.prototype.select = function() {
+        Elements.prototype.select = function () {
           var i, el;
       
           this.selected = [];
@@ -17059,7 +17092,8 @@
 
           Tasks.prototype.elements = {
             'ul.tasks': 'tasks',
-            'input.new-task': 'input'
+            'input.new-task': 'input',
+            '.message': 'message'
           };
 
           Tasks.prototype.events = {
@@ -17105,10 +17139,11 @@
 
           Tasks.prototype.addOne = function(task) {
             var view;
+            this.tasks.prepend(this.template.item(task));
             view = new TaskItem({
-              task: task
+              task: task,
+              el: this.tasks.find("#task-" + task.id)
             });
-            this.tasks.prepend(view.render().el);
             this.bindTask(view);
             this.views.push(view);
             return this.el.removeClass('empty');
@@ -17123,8 +17158,6 @@
           Tasks.prototype.render = function(list) {
             var completed, html, last, oldViews, task, tasks, _i, _len, _ref, _ref1,
               _this = this;
-            this.el.removeClass('empty');
-            this.el.find('.message').remove();
             this.input.toggle(!list.disabled);
             oldViews = this.views.slice();
             this.views = [];
@@ -17140,13 +17173,13 @@
             html = '';
             if (list.id === 'filter') {
               tasks = list.tasks;
-              this.el.append(this.template.message.special);
+              this.message.text(this.template.message.special);
             } else if (list != null ? list.tasks : void 0) {
               tasks = list.tasks;
-              this.el.append(this.template.message.standard);
+              this.message.text(this.template.message.standard);
             } else {
               tasks = Task.list(list.id);
-              this.el.append(this.template.message.empty);
+              this.message.text(this.template.message.empty);
             }
             if (false) {
               tasks = Task.sortTasks(tasks);
@@ -17173,7 +17206,7 @@
               });
             }
             this.tasks.html(html);
-            delay(400, function() {
+            requestAnimationFrame(function() {
               return tasks.forEach(function(task) {
                 var view;
                 view = new TaskItem({
@@ -17184,22 +17217,20 @@
                 return _this.views.push(view);
               });
             });
-            if (tasks.length === 0) {
-              this.el.addClass('empty');
-            }
+            this.el.toggleClass('empty', tasks.length === 0);
             if (!is_touch_device()) {
               return this.input.focus();
             }
           };
 
           Tasks.prototype.createNew = function(e) {
-            var name, _ref;
+            var name;
             if (e.keyCode === keys.enter && this.input.val().length) {
               name = this.input.val();
               this.input.val('');
               return Task.create({
                 name: name,
-                list: (_ref = this.currentList) != null ? _ref.id : void 0,
+                list: Lists.active.id,
                 date: dateDetector.parse(name)
               });
             }
@@ -17768,15 +17799,9 @@
         translate = require('../utils/translate');
         mex = module.exports = {};
         return translate.ready(function() {
-          var tls;
-          tls = {
-            special: translate('No tasks could be found.'),
-            standard: translate('You haven\'t added any tasks to this list.'),
-            empty: translate('There are no tasks in here.')
-          };
-          mex.special = "<div class=\"message\">" + tls.special + "</div>";
-          mex.standard = "<div class=\"message\">" + tls.standard + "</div>";
-          return mex.empty = "<div class=\"message\">" + tls.empty + "</div>";
+          mex.special = translate('No tasks could be found.');
+          mex.standard = translate('You haven\'t added any tasks to this list.');
+          return mex.empty = translate('There are no tasks in here.');
         });
       }
     ], [
