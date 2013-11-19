@@ -24,6 +24,7 @@ User    = require '../models/user'
 # Sync          = require # '../controllers/sync'
 # Pro           = require # '../controllers/pro'
 Auth          = require '../controllers/auth'
+Search        = require '../controllers/search'
 
 # Views
 Modal         = require '../views/modal'
@@ -56,7 +57,8 @@ class App
     translate.init()
 
     # Load controllers
-    @auth = new Auth()
+    new Auth()
+    new Search()
 
     if User.loggedIn()
       User.trigger 'login', animate: false

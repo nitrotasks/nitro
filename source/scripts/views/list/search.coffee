@@ -1,6 +1,5 @@
-Task = require '../../models/task'
-List = require '../../models/list'
 ListItem = require './item'
+event = require '.../../utils/event'
 
 class ListSearch extends ListItem
 
@@ -11,12 +10,7 @@ class ListSearch extends ListItem
     @bind $ '.search.list'
 
   click: =>
-    List.trigger 'select:model',
-      name: 'Search'
-      id: 'search'
-      permanent: yes
-      tasks: Task.all()
-
+    event.trigger 'search'
     @select()
 
 module.exports = ListSearch

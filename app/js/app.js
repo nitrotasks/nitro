@@ -8907,21 +8907,22 @@
         '../models/setting': 10,
         '../models/user': 25,
         '../controllers/auth': 26,
-        '../views/modal': 30,
-        '../views/keys': 31,
-        '../views/loading_screen': 32,
-        '../views/lists': 33,
-        '../views/title': 36,
-        '../views/list_buttons': 37,
-        '../views/tasks': 41,
-        '../views/list/inbox': 49,
-        '../views/list/all': 50,
-        '../views/list/completed': 51,
-        '../views/list/search': 52,
-        '../models/default/list.json': 53,
-        '../models/default/task.json': 54
+        '../controllers/search': 30,
+        '../views/modal': 31,
+        '../views/keys': 32,
+        '../views/loading_screen': 33,
+        '../views/lists': 34,
+        '../views/title': 37,
+        '../views/list_buttons': 38,
+        '../views/tasks': 42,
+        '../views/list/inbox': 50,
+        '../views/list/all': 51,
+        '../views/list/completed': 52,
+        '../views/list/search': 53,
+        '../models/default/list.json': 54,
+        '../models/default/task.json': 55
       }, function(require, module, exports) {
-        var $, App, Auth, Base, Event, Keys, List, ListAll, ListButtons, ListCompleted, ListInbox, ListSearch, Lists, LoadingScreen, Modal, Select, Setting, Task, Tasks, Title, User, libs, translate;
+        var $, App, Auth, Base, Event, Keys, List, ListAll, ListButtons, ListCompleted, ListInbox, ListSearch, Lists, LoadingScreen, Modal, Search, Select, Setting, Task, Tasks, Title, User, libs, translate;
         libs = require('../vendor/libs');
         Base = require('base');
         Base.touchify = require('../utils/touchify');
@@ -8935,6 +8936,7 @@
         Setting = require('../models/setting');
         User = require('../models/user');
         Auth = require('../controllers/auth');
+        Search = require('../controllers/search');
         Modal = require('../views/modal');
         Keys = require('../views/keys');
         LoadingScreen = require('../views/loading_screen');
@@ -8952,7 +8954,8 @@
             Setting.trigger('fetch');
             User.trigger('fetch');
             translate.init();
-            this.auth = new Auth();
+            new Auth();
+            new Search();
             if (User.loggedIn()) {
               User.trigger('login', {
                 animate: false
@@ -16428,6 +16431,44 @@
     ], [
       {
         /*
+          /Volumes/Home/Projects/Nitro/source/scripts/controllers/search.coffee
+        */
+
+        '../models/list': 24,
+        'base': 6,
+        '../utils/event': 12
+      }, function(require, module, exports) {
+        var Base, List, Search, event;
+        List = require('../models/list');
+        Base = require('base');
+        event = require('../utils/event');
+        Search = (function() {
+          function Search() {
+            this.search = __bind(this.search, this);
+            Search.__super__.constructor.apply(this, arguments);
+            event.on('search', this.search);
+          }
+
+          Search.prototype.search = function(query) {
+            if (query == null) {
+              query = '';
+            }
+            return List.trigger('select:model', {
+              name: 'Search',
+              id: 'search',
+              permanent: true,
+              tasks: Task.search(query)
+            });
+          };
+
+          return Search;
+
+        })();
+        return module.exports = Search;
+      }
+    ], [
+      {
+        /*
           /Volumes/Home/Projects/Nitro/source/scripts/views/modal.coffee
         */
 
@@ -16645,7 +16686,7 @@
         'base': 6,
         '../models/list': 24,
         '../utils/keys': 8,
-        '../views/list/item': 34
+        '../views/list/item': 35
       }, function(require, module, exports) {
         var Base, List, ListItem, Lists, keys;
         Base = require('base');
@@ -16729,7 +16770,7 @@
         */
 
         'base': 6,
-        '../../templates/list': 35
+        '../../templates/list': 36
       }, function(require, module, exports) {
         var Base, ListItem;
         Base = require('base');
@@ -16888,9 +16929,9 @@
 
         'base': 6,
         '../models/list': 24,
-        '../views/modal/destroy_list': 38,
-        '../views/modal/share': 39,
-        '../views/modal/email': 40
+        '../views/modal/destroy_list': 39,
+        '../views/modal/share': 40,
+        '../views/modal/email': 41
       }, function(require, module, exports) {
         var Base, EmailModal, List, ListButtons, ListModal, ShareModal;
         Base = require('base');
@@ -16970,8 +17011,8 @@
         */
 
         '../../models/setting': 10,
-        '../../views/lists': 33,
-        '../modal': 30
+        '../../views/lists': 34,
+        '../modal': 31
       }, function(require, module, exports) {
         var Lists, Modal, Setting, modal;
         Setting = require('../../models/setting');
@@ -17003,7 +17044,7 @@
           /Volumes/Home/Projects/Nitro/source/scripts/views/modal/share.coffee
         */
 
-        '../modal': 30
+        '../modal': 31
       }, function(require, module, exports) {
         var Modal, modal;
         Modal = require('../modal');
@@ -17018,7 +17059,7 @@
           /Volumes/Home/Projects/Nitro/source/scripts/views/modal/email.coffee
         */
 
-        '../modal': 30
+        '../modal': 31
       }, function(require, module, exports) {
         var Modal, modal;
         Modal = require('../modal');
@@ -17067,16 +17108,16 @@
         */
 
         'base': 6,
-        '../views/lists': 33,
-        '../views/task_item': 42,
+        '../views/lists': 34,
+        '../views/task_item': 43,
         '../models/task': 23,
         '../models/list': 24,
         '../models/setting': 10,
         '../utils/keys': 8,
-        '../utils/date': 45,
-        '../utils/timer': 44,
-        '../templates/task': 46,
-        '../templates/tasks': 48
+        '../utils/date': 46,
+        '../utils/timer': 45,
+        '../templates/task': 47,
+        '../templates/tasks': 49
       }, function(require, module, exports) {
         var Base, List, Lists, Setting, Task, TaskItem, Tasks, dateDetector, delay, keys;
         Base = require('base');
@@ -17355,14 +17396,15 @@
         */
 
         'base': 6,
-        '../views/modal/destroy_task': 43,
+        '../views/modal/destroy_task': 44,
         '../models/list': 24,
         '../models/setting': 10,
         '../utils/keys': 8,
-        '../utils/timer': 44,
-        '../utils/translate': 9
+        '../utils/timer': 45,
+        '../utils/translate': 9,
+        '../utils/event': 12
       }, function(require, module, exports) {
-        var Base, List, Modal, TaskItem, delay, keys, setting, translate;
+        var Base, List, Modal, TaskItem, delay, event, keys, setting, translate;
         Base = require('base');
         Modal = require('../views/modal/destroy_task');
         List = require('../models/list');
@@ -17370,6 +17412,7 @@
         keys = require('../utils/keys');
         delay = require('../utils/timer');
         translate = require('../utils/translate');
+        event = require('../utils/event');
         TaskItem = (function(_super) {
           __extends(TaskItem, _super);
 
@@ -17543,14 +17586,10 @@
           };
 
           TaskItem.prototype.tagClick = function(e) {
+            var tag;
             e.stopPropagation();
-            return List.trigger('change:current', {
-              name: 'Tagged with ' + $(e.currentTarget).text(),
-              id: 'filter',
-              tasks: Task.tag($(e.currentTarget).text().substr(1)),
-              disabled: true,
-              permanent: true
-            });
+            tag = $(e.currentTarget).text();
+            return console.log(Task.tag(tag));
           };
 
           return TaskItem;
@@ -17565,7 +17604,7 @@
         */
 
         '../../models/setting': 10,
-        '../modal': 30
+        '../modal': 31
       }, function(require, module, exports) {
         var Modal, Setting, modal, task,
           _this = this;
@@ -17731,7 +17770,7 @@
           /Volumes/Home/Projects/Nitro/source/scripts/templates/task.coffee
         */
 
-        '../utils/prettydate': 47,
+        '../utils/prettydate': 48,
         '../utils/translate': 9
       }, function(require, module, exports) {
         var prettyDate, tags, text, translate;
@@ -17847,7 +17886,7 @@
           /Volumes/Home/Projects/Nitro/source/scripts/views/list/inbox.coffee
         */
 
-        './item': 34
+        './item': 35
       }, function(require, module, exports) {
         var ListInbox, ListItem;
         ListItem = require('./item');
@@ -17883,7 +17922,7 @@
 
         '../../models/task': 23,
         '../../models/list': 24,
-        './item': 34
+        './item': 35
       }, function(require, module, exports) {
         var List, ListAll, ListItem, Task;
         Task = require('../../models/task');
@@ -17929,7 +17968,7 @@
 
         '../../models/task': 23,
         '../../models/list': 24,
-        './item': 34
+        './item': 35
       }, function(require, module, exports) {
         var List, ListCompleted, ListItem, Task;
         Task = require('../../models/task');
@@ -17973,14 +18012,11 @@
           /Volumes/Home/Projects/Nitro/source/scripts/views/list/search.coffee
         */
 
-        '../../models/task': 23,
-        '../../models/list': 24,
-        './item': 34
+        './item': 35
       }, function(require, module, exports) {
-        var List, ListItem, ListSearch, Task;
-        Task = require('../../models/task');
-        List = require('../../models/list');
+        var ListItem, ListSearch, event;
         ListItem = require('./item');
+        event = require('.../../utils/event');
         ListSearch = (function(_super) {
           __extends(ListSearch, _super);
 
@@ -17991,12 +18027,7 @@
           }
 
           ListSearch.prototype.click = function() {
-            List.trigger('select:model', {
-              name: 'Search',
-              id: 'search',
-              permanent: true,
-              tasks: Task.all()
-            });
+            event.trigger('search');
             return this.select();
           };
 

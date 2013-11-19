@@ -5,6 +5,7 @@ setting = require '../models/setting'
 keys    = require '../utils/keys'
 delay   = require '../utils/timer'
 translate = require '../utils/translate'
+event   = require '../utils/event'
 
 class TaskItem extends Base.View
 
@@ -205,12 +206,22 @@ class TaskItem extends Base.View
   tagClick: (e) =>
     # Stop task from expanding
     e.stopPropagation()
-    List.trigger 'change:current',
-      name: 'Tagged with ' + $(e.currentTarget).text()
-      id: 'filter'
-      tasks: Task.tag($(e.currentTarget).text().substr(1))
-      disabled: yes
-      permanent: yes
+
+    # TODO: Replace this with a tag event
+    # tag = $(e.currentTarget).text()
+    # event.trigger 'open:tag', tag
+
+    tag = $(e.currentTarget).text()
+    console.log Task.tag tag
+
+
+
+    # List.trigger 'change:current',
+    #   name: 'Tagged with ' + $(e.currentTarget).text()
+    #   id: 'search'
+    #   tasks: Task.tag($(e.currentTarget).text().substr(1))
+    #   disabled: yes
+    #   permanent: yes
 
 
 module.exports = TaskItem

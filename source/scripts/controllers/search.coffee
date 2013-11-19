@@ -1,34 +1,20 @@
-List = require '../controllers/lists'
+List = require '../models/list'
 Base = require 'base'
+event = require '../utils/event'
 
-class Search extends Base.View
-
-  events:
-    'keyup': 'search'
+class Search
 
   constructor: ->
     super
-    @originalList = null
 
-  search: =>
+    event.on 'search', @search
 
-    if List.current.id isnt 'filter'
-      @originalList = List.current
+  search: (query='') =>
 
-    query = @el.val()
-
-    if query.length is 0
-      @clearSearch()
-
-    else
-      List.open
-        name: "Results for #{ query }"
-        id: 'filter'
-        tasks: Task.search query
-        disabled: yes
-        permanent: yes
-
-  clearSearch: =>
-    List.open @originalList
+    List.trigger 'select:model',
+      name: 'Search'
+      id: 'search'
+      permanent: yes
+      tasks: Task.search query
 
 module.exports = Search
