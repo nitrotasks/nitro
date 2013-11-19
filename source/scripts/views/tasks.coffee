@@ -94,19 +94,34 @@ class Tasks extends Base.View
     #   if not Setting.sort
     #     $(@el[1]).sortable({ disabled: false })
 
+
+    if list.disabled
+      @input.hide()
+    else
+      @input.show()
+      # TODO: Don't make is_touch_device a global
+      @input.focus() if not is_touch_device()
+
     # Disable task input box
     @input.toggle not list.disabled
 
-    # Search box
-    @toggleSearch list.id is 'search'
-
-    # Special list
+    # Search for tasks
     if list.id is 'search'
-      tasks = list.tasks
+
       @message.text @template.message.special
+      if list.query? then @input.val list.query
+      @toggleSearch on
+
+      # toggleSearch will display the results for us
+      return
+
+    # If we were in search mode before, but the list isn't search
+    # then turn off search mode
+    else if @search
+      @toggleSearch off
 
     # Standard list
-    else if list?.tasks
+    if list?.tasks
       tasks = list.tasks
       @message.text @template.message.standard
 
@@ -121,14 +136,12 @@ class Tasks extends Base.View
     # Handles Empty List
     @el.toggleClass 'empty', tasks.length is 0
 
-    # Focuses input if not on a touchscreen (virtual keyboard)
-    # TODO: Don't make is_touch_device a global
-    @input.focus() if not is_touch_device()
 
   displayTasks: (tasks) =>
 
-   # Keep a copy of the old views
+    # Keep a copy of the old views
     oldViews = @views.slice()
+
     @views = []
 
     # Unbind existing tasks
@@ -189,6 +202,7 @@ class Tasks extends Base.View
   # Toggles the input box text
   toggleSearch: (@search) =>
     message = if @search
+      @updateSearchResults()
       @template.message.search
     else
       @template.message.addTask
@@ -202,8 +216,7 @@ class Tasks extends Base.View
 
   # Handle keyup events on the input box
   keyup: (e) =>
-    if @search
-      @displayTasks Task.search @input.val()
+    if @search then @updateSearchResults()
 
   # Create a new task
   createNewTask: =>
@@ -213,6 +226,9 @@ class Tasks extends Base.View
       name: name
       list: Lists.active.id
       date: dateDetector.parse name
+
+  updateSearchResults: =>
+    @displayTasks Task.search @input.val()
 
   # ------------
   # COLLAPSE ALL

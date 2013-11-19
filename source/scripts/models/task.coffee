@@ -68,14 +68,13 @@ class TaskCollection extends Base.Collection
       else a.completed - b.completed
 
   # Search through tasks
-  search: (query='') =>
+  search: (query) =>
     return @all() unless query.length > 0
-    query = query.toLowerCase().split(' ')
+    query = query.toLowerCase().split ' '
     @filter (item) ->
-      matches = yes
       for word in query
-        if not item.name?.toLowerCase().match(word) then matches = no
-      return matches
+        if item.name.toLowerCase().indexOf(word) < 0 then return false
+      return true
 
   # TODO: This should be put in a seperate file
 

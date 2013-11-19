@@ -55,7 +55,6 @@ class Panel extends Base.View
   offline: =>
     return unless not Setting.noAccount
     name = Setting.userName
-    console.log 'Name', name
     @setName("#{ name } - Offline")
 
   toggleAccount: ->

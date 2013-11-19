@@ -77,7 +77,7 @@ class App
       parent: $('.tasks')[0]
       query: '.task'
 
-    select.init();
+    select.init()
 
     # Init Modals
     Modal.init()

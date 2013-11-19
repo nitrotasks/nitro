@@ -1,20 +1,21 @@
-List = require '../models/list'
-Base = require 'base'
+Base  = require 'base'
+List  = require '../models/list'
+Task  = require '../models/task'
 event = require '../utils/event'
+Tasks = require '../views/tasks'
 
 class Search
 
   constructor: ->
-    super
 
     event.on 'search', @search
 
-  search: (query='') =>
+  search: (query) =>
 
     List.trigger 'select:model',
       name: 'Search'
       id: 'search'
       permanent: yes
-      tasks: Task.search query
+      query: query
 
 module.exports = Search

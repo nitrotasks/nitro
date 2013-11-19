@@ -13,7 +13,7 @@
           if ((typeof require !== "undefined" && require !== null)) {
             return require(id);
           }
-          console.error("Cannot find module '" + id + "'");
+          console.log("Cannot find module '" + id + "'");
           return null;
         }
         file = cache[id] = {
@@ -35,7 +35,7 @@
     [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/init.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/init.coffee
         */
 
         'jqueryify': 1,
@@ -51,7 +51,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/node_modules/jqueryify/index.js
+          /home/stayrad/Projects/Nitro/node_modules/jqueryify/index.js
         */
 
       }, function(require, module, exports) {
@@ -8891,7 +8891,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/controllers/app.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/controllers/app.coffee
         */
 
         '../vendor/libs': 3,
@@ -8908,13 +8908,13 @@
         '../models/user': 25,
         '../controllers/auth': 26,
         '../controllers/search': 30,
-        '../views/modal': 31,
-        '../views/keys': 32,
-        '../views/loading_screen': 33,
-        '../views/lists': 34,
-        '../views/title': 37,
-        '../views/list_buttons': 38,
-        '../views/tasks': 42,
+        '../views/modal': 37,
+        '../views/keys': 43,
+        '../views/loading_screen': 44,
+        '../views/lists': 32,
+        '../views/title': 45,
+        '../views/list_buttons': 46,
+        '../views/tasks': 31,
         '../views/list/inbox': 50,
         '../views/list/all': 51,
         '../views/list/completed': 52,
@@ -9006,7 +9006,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/vendor/libs.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/vendor/libs.coffee
         */
 
         './jquery-ui': 4,
@@ -9022,7 +9022,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/vendor/jquery-ui.js
+          /home/stayrad/Projects/Nitro/source/scripts/vendor/jquery-ui.js
         */
 
       }, function(require, module, exports) {
@@ -14069,7 +14069,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/vendor/touch.js
+          /home/stayrad/Projects/Nitro/source/scripts/vendor/touch.js
         */
 
       }, function(require, module, exports) {
@@ -14082,7 +14082,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/node_modules/base/index.js
+          /home/stayrad/Projects/Nitro/node_modules/base/index.js
         */
 
       }, function(require, module, exports) {
@@ -14655,7 +14655,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/utils/touchify.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/utils/touchify.coffee
         */
 
         'base': 6
@@ -14671,7 +14671,6 @@
           if (!isMobile) {
             return events;
           }
-          console.log(events);
           for (event in events) {
             action = events[event];
             touchEvent = event.replace(/^click/, 'touchend');
@@ -14687,7 +14686,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/utils/keys.json
+          /home/stayrad/Projects/Nitro/source/scripts/utils/keys.json
         */
 
       }, function(require, module, exports) {
@@ -14742,7 +14741,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/utils/translate.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/utils/translate.coffee
         */
 
         'jqueryify': 1,
@@ -14845,7 +14844,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/models/setting.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/models/setting.coffee
         */
 
         'base': 6,
@@ -14888,7 +14887,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/controllers/local.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/controllers/local.coffee
         */
 
         'base': 6
@@ -14930,7 +14929,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/utils/event.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/utils/event.coffee
         */
 
         'base': 6
@@ -14942,7 +14941,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/languages/languages.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/languages/languages.coffee
         */
 
         './bg.json': 14,
@@ -14964,7 +14963,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/languages/bg.json
+          /home/stayrad/Projects/Nitro/source/scripts/languages/bg.json
         */
 
       }, function(require, module, exports) {
@@ -15097,7 +15096,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/languages/bn-IN.json
+          /home/stayrad/Projects/Nitro/source/scripts/languages/bn-IN.json
         */
 
       }, function(require, module, exports) {
@@ -15230,7 +15229,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/languages/en-pi.json
+          /home/stayrad/Projects/Nitro/source/scripts/languages/en-pi.json
         */
 
       }, function(require, module, exports) {
@@ -15261,7 +15260,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/languages/en-us.json
+          /home/stayrad/Projects/Nitro/source/scripts/languages/en-us.json
         */
 
       }, function(require, module, exports) {
@@ -15272,7 +15271,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/languages/es-ES.json
+          /home/stayrad/Projects/Nitro/source/scripts/languages/es-ES.json
         */
 
       }, function(require, module, exports) {
@@ -15405,7 +15404,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/languages/nl.json
+          /home/stayrad/Projects/Nitro/source/scripts/languages/nl.json
         */
 
       }, function(require, module, exports) {
@@ -15538,7 +15537,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/node_modules/select/source/select.js
+          /home/stayrad/Projects/Nitro/node_modules/select/source/select.js
         */
 
         './box': 21,
@@ -15624,7 +15623,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/node_modules/select/source/box.js
+          /home/stayrad/Projects/Nitro/node_modules/select/source/box.js
         */
 
       }, function(require, module, exports) {
@@ -15723,7 +15722,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/node_modules/select/source/elements.js
+          /home/stayrad/Projects/Nitro/node_modules/select/source/elements.js
         */
 
       }, function(require, module, exports) {
@@ -15826,7 +15825,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/models/task.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/models/task.coffee
         */
 
         'base': 6,
@@ -15941,23 +15940,19 @@
           };
 
           TaskCollection.prototype.search = function(query) {
-            if (query == null) {
-              query = '';
-            }
             if (!(query.length > 0)) {
               return this.all();
             }
             query = query.toLowerCase().split(' ');
             return this.filter(function(item) {
-              var matches, word, _i, _len, _ref1;
-              matches = true;
+              var word, _i, _len;
               for (_i = 0, _len = query.length; _i < _len; _i++) {
                 word = query[_i];
-                if (!((_ref1 = item.name) != null ? _ref1.toLowerCase().match(word) : void 0)) {
-                  matches = false;
+                if (item.name.toLowerCase().indexOf(word) < 0) {
+                  return false;
                 }
               }
-              return matches;
+              return true;
             });
           };
 
@@ -15982,7 +15977,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/models/list.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/models/list.coffee
         */
 
         'base': 6,
@@ -16092,7 +16087,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/models/user.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/models/user.coffee
         */
 
         'base': 6,
@@ -16136,7 +16131,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/controllers/auth.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/controllers/auth.coffee
         */
 
         '../models/user': 25,
@@ -16223,7 +16218,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/auth.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/views/auth.coffee
         */
 
         'base': 6,
@@ -16388,7 +16383,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/templates/auth.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/templates/auth.coffee
         */
 
         '../utils/config': 29
@@ -16412,7 +16407,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/utils/config.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/utils/config.coffee
         */
 
       }, function(require, module, exports) {
@@ -16431,33 +16426,33 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/controllers/search.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/controllers/search.coffee
         */
 
-        '../models/list': 24,
         'base': 6,
-        '../utils/event': 12
+        '../models/list': 24,
+        '../models/task': 23,
+        '../utils/event': 12,
+        '../views/tasks': 31
       }, function(require, module, exports) {
-        var Base, List, Search, event;
-        List = require('../models/list');
+        var Base, List, Search, Task, Tasks, event;
         Base = require('base');
+        List = require('../models/list');
+        Task = require('../models/task');
         event = require('../utils/event');
+        Tasks = require('../views/tasks');
         Search = (function() {
           function Search() {
             this.search = __bind(this.search, this);
-            Search.__super__.constructor.apply(this, arguments);
             event.on('search', this.search);
           }
 
           Search.prototype.search = function(query) {
-            if (query == null) {
-              query = '';
-            }
             return List.trigger('select:model', {
               name: 'Search',
               id: 'search',
               permanent: true,
-              tasks: Task.search(query)
+              query: query
             });
           };
 
@@ -16469,655 +16464,20 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/modal.coffee
-        */
-
-        'base': 6
-      }, function(require, module, exports) {
-        var Base, Modal, container, modals;
-        Base = require('base');
-        container = '.modals';
-        modals = [];
-        Modal = (function(_super) {
-          __extends(Modal, _super);
-
-          Modal.init = function() {
-            var modal, _i, _len, _results;
-            container = $(container);
-            _results = [];
-            for (_i = 0, _len = modals.length; _i < _len; _i++) {
-              modal = modals[_i];
-              _results.push(modal.init());
-            }
-            return _results;
-          };
-
-          function Modal(opts) {
-            this.hide = __bind(this.hide, this);
-            this.show = __bind(this.show, this);
-            this.init = __bind(this.init, this);
-            Base.touchify(opts.events);
-            Modal.__super__.constructor.apply(this, arguments);
-            modals.push(this);
-          }
-
-          Modal.prototype.init = function() {
-            var _this = this;
-            this.el = $(this.selector);
-            this.bind();
-            return this.el.on('click.modal, touchend.modal', function(event) {
-              if (event.target.className.indexOf('modal') > -1) {
-                return _this.hide();
-              }
-            });
-          };
-
-          Modal.prototype.state = false;
-
-          Modal.prototype.show = function() {
-            var _this = this;
-            if (this.state !== false) {
-              return;
-            }
-            this.state = true;
-            container.show();
-            this.el.show();
-            setTimeout(function() {
-              container.addClass('show');
-              return _this.el.addClass('show');
-            }, 1);
-            if (this.onShow) {
-              return this.onShow();
-            }
-          };
-
-          Modal.prototype.hide = function() {
-            var _this = this;
-            if (this.state !== true) {
-              return;
-            }
-            this.state = false;
-            container.removeClass('show');
-            this.el.removeClass('show');
-            return setTimeout(function() {
-              _this.el.hide();
-              container.hide();
-              if (_this.onHide) {
-                return _this.onHide();
-              }
-            }, 350);
-          };
-
-          return Modal;
-
-        })(Base.View);
-        return module.exports = Modal;
-      }
-    ], [
-      {
-        /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/keys.coffee
-        */
-
-        '../utils/keys': 8,
-        'base': 6
-      }, function(require, module, exports) {
-        var Base, Keys, keys;
-        keys = require('../utils/keys');
-        Base = require('base');
-        Keys = (function(_super) {
-          __extends(Keys, _super);
-
-          Keys.prototype.events = {
-            'keyup': 'keyup',
-            'blur .editable, input': 'blur',
-            'focus .editable, input': 'focus'
-          };
-
-          function Keys() {
-            this.keyup = __bind(this.keyup, this);
-            this.blur = __bind(this.blur, this);
-            this.focus = __bind(this.focus, this);
-            Keys.__super__.constructor.apply(this, arguments);
-            this.el = $('body');
-            this.bind();
-            this.input = null;
-            this.focused = false;
-          }
-
-          Keys.prototype.focus = function(e) {
-            this.input = $(e.target);
-            return this.focused = true;
-          };
-
-          Keys.prototype.blur = function() {
-            return this.focused = false;
-          };
-
-          Keys.prototype.keyup = function(e) {
-            var keyCode;
-            keyCode = e.keyCode;
-            if (this.focused) {
-              if (keyCode === keys.escape) {
-                this.input.blur();
-              }
-              return true;
-            }
-            switch (keyCode) {
-              case keys.escape:
-                return this.tasks.collapseAll();
-              case keys.n:
-                return $(".new-task").focus().val("");
-              case keys.l:
-                return $(".new-list").focus().val("");
-              case keys.f:
-                return $(".search input").focus().val("");
-              case keys.p:
-                return $(".buttons .print").trigger("click");
-              case keys.comma:
-                return $(".settingsButton img").trigger("click");
-              case keys.k:
-                if ($(".sidebar .current").prev().length === 0) {
-                  return $(".sidebar .completed").trigger("click");
-                } else {
-                  $(".sidebar .current").prev().trigger("click");
-                  return $(".new-task").blur();
-                }
-                break;
-              case keys.j:
-                if ($(".sidebar .current").next().hasClass("lists")) {
-                  $($(".sidebar .lists").children()[0]).trigger("click");
-                  return $(".new-task").blur();
-                } else {
-                  $(".sidebar .current").next().trigger("click");
-                  return $(".new-task").blur();
-                }
-            }
-          };
-
-          return Keys;
-
-        })(Base.View);
-        return module.exports = Keys;
-      }
-    ], [
-      {
-        /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/loading_screen.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/views/tasks.coffee
         */
 
         'base': 6,
-        '../utils/event': 12
-      }, function(require, module, exports) {
-        var Base, LoadingScreen, event;
-        Base = require('base');
-        event = require('../utils/event');
-        LoadingScreen = (function(_super) {
-          __extends(LoadingScreen, _super);
-
-          function LoadingScreen() {
-            this.show = __bind(this.show, this);
-            this.hide = __bind(this.hide, this);
-            LoadingScreen.__super__.constructor.apply(this, arguments);
-            this.el = $('.loading-screen');
-            this.bind();
-            event.on('app:ready', this.hide);
-          }
-
-          LoadingScreen.prototype.hide = function() {
-            return this.el.fadeOut(300);
-          };
-
-          LoadingScreen.prototype.show = function() {
-            return this.el.fadeIn(300);
-          };
-
-          return LoadingScreen;
-
-        })(Base.View);
-        return module.exports = LoadingScreen;
-      }
-    ], [
-      {
-        /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/lists.coffee
-        */
-
-        'base': 6,
-        '../models/list': 24,
-        '../utils/keys': 8,
-        '../views/list/item': 35
-      }, function(require, module, exports) {
-        var Base, List, ListItem, Lists, keys;
-        Base = require('base');
-        List = require('../models/list');
-        keys = require('../utils/keys');
-        ListItem = require('../views/list/item');
-        Lists = (function(_super) {
-          __extends(Lists, _super);
-
-          Lists.active = null;
-
-          Lists.prototype.elements = {
-            'ul': 'lists',
-            '.create-list': 'input'
-          };
-
-          Lists.prototype.events = {
-            'keyup .create-list': 'keyup'
-          };
-
-          function Lists() {
-            this.select = __bind(this.select, this);
-            this.addAll = __bind(this.addAll, this);
-            this.addOne = __bind(this.addOne, this);
-            this.createNew = __bind(this.createNew, this);
-            this.keyup = __bind(this.keyup, this);
-            Lists.__super__.constructor.apply(this, arguments);
-            this.bind($('.sidebar'));
-            this.listen(List, {
-              'create:model': this.addOne,
-              'refresh': this.addAll,
-              'select:model': this.select
-            });
-          }
-
-          Lists.prototype.keyup = function(e) {
-            if (e.which === keys.enter && this.input.val().length) {
-              this.createNew(this.input.val());
-              return this.input.val('');
-            }
-          };
-
-          Lists.prototype.createNew = function(name) {
-            var list;
-            list = List.create({
-              name: name
-            });
-            return list.trigger('select');
-          };
-
-          Lists.prototype.addOne = function(list) {
-            var listItem;
-            if (list.id === 'inbox') {
-              return;
-            }
-            listItem = new ListItem({
-              list: list
-            });
-            return this.lists.append(listItem.render().el);
-          };
-
-          Lists.prototype.addAll = function() {
-            this.lists.empty();
-            return List.forEach(this.addOne);
-          };
-
-          Lists.prototype.select = function(list) {
-            Lists.active = list;
-            return this.el.find('.current').removeClass('current');
-          };
-
-          return Lists;
-
-        })(Base.View);
-        return module.exports = Lists;
-      }
-    ], [
-      {
-        /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/list/item.coffee
-        */
-
-        'base': 6,
-        '../../templates/list': 36
-      }, function(require, module, exports) {
-        var Base, ListItem;
-        Base = require('base');
-        ListItem = (function(_super) {
-          __extends(ListItem, _super);
-
-          ListItem.prototype.template = require('../../templates/list');
-
-          ListItem.prototype.elements = {
-            '.name': 'name',
-            '.count': 'count'
-          };
-
-          ListItem.prototype.events = {
-            'click': 'click'
-          };
-
-          function ListItem() {
-            this.remove = __bind(this.remove, this);
-            this.select = __bind(this.select, this);
-            this.click = __bind(this.click, this);
-            this.updateName = __bind(this.updateName, this);
-            this.updateCount = __bind(this.updateCount, this);
-            this.render = __bind(this.render, this);
-            Base.touchify(this.events);
-            ListItem.__super__.constructor.apply(this, arguments);
-            if (this.list == null) {
-              return;
-            }
-            this.listen([
-              this.list, {
-                'select': this.select,
-                'change': this.updateName,
-                'before:destroy': this.remove
-              }, this.list.tasks, {
-                'change': this.updateCount
-              }
-            ]);
-          }
-
-          ListItem.prototype.render = function() {
-            this.el = $(this.template(this.list));
-            this.bind();
-            return this;
-          };
-
-          ListItem.prototype.updateCount = function() {
-            return this.count.text(this.list.tasks.length);
-          };
-
-          ListItem.prototype.updateName = function() {
-            return this.name.text(this.list.name);
-          };
-
-          ListItem.prototype.click = function() {
-            return this.list.trigger('select');
-          };
-
-          ListItem.prototype.select = function() {
-            return this.el.addClass('current');
-          };
-
-          ListItem.prototype.remove = function() {
-            this.unbind();
-            return this.el.remove();
-          };
-
-          return ListItem;
-
-        })(Base.View);
-        return module.exports = ListItem;
-      }
-    ], [
-      {
-        /*
-          /Volumes/Home/Projects/Nitro/source/scripts/templates/list.coffee
-        */
-
-        '../models/list': 24
-      }, function(require, module, exports) {
-        var List;
-        List = require('../models/list');
-        return module.exports = function(list) {
-          var _ref;
-          return "<li data-item=\"" + list.id + "\" class=\"list" + (((_ref = List.current) != null ? _ref.id : void 0) === list.id ? " current" : "") + "\">\n  <div class=\"arrow\"></div>\n  <span class=\"name\">" + list.name + "</span>\n  <div class=\"count\">" + list.tasks.length + "</div>\n</li>";
-        };
-      }
-    ], [
-      {
-        /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/title.coffee
-        */
-
-        'base': 6,
-        '../models/list': 24,
-        '../utils/keys': 8
-      }, function(require, module, exports) {
-        var Base, List, Title, keys;
-        Base = require('base');
-        List = require('../models/list');
-        keys = require('../utils/keys');
-        Title = (function(_super) {
-          __extends(Title, _super);
-
-          Title.prototype.elements = {
-            'h1': 'title'
-          };
-
-          Title.prototype.events = {
-            'keyup h1': 'rename',
-            'keypress h1': 'preventer'
-          };
-
-          function Title() {
-            this.rename = __bind(this.rename, this);
-            this.render = __bind(this.render, this);
-            Base.touchify(this.events);
-            Title.__super__.constructor.apply(this, arguments);
-            this.el = $('.tasks .title');
-            this.bind();
-            this.listen(List, {
-              'select:model': this.render
-            });
-          }
-
-          Title.prototype.render = function(list) {
-            this.list = list;
-            this.title.text(this.list.name);
-            if (this.list.permanent) {
-              return this.title.removeAttr('contenteditable');
-            } else {
-              return this.title.attr('contenteditable', true);
-            }
-          };
-
-          Title.prototype.rename = function(e) {
-            return this.list.name = this.title.text();
-          };
-
-          Title.prototype.preventer = function(e) {
-            if (e.keyCode === keys.enter) {
-              return e.preventDefault();
-            }
-          };
-
-          return Title;
-
-        })(Base.View);
-        return module.exports = Title;
-      }
-    ], [
-      {
-        /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/list_buttons.coffee
-        */
-
-        'base': 6,
-        '../models/list': 24,
-        '../views/modal/destroy_list': 39,
-        '../views/modal/share': 40,
-        '../views/modal/email': 41
-      }, function(require, module, exports) {
-        var Base, EmailModal, List, ListButtons, ListModal, ShareModal;
-        Base = require('base');
-        List = require('../models/list');
-        ListModal = require('../views/modal/destroy_list');
-        ShareModal = require('../views/modal/share');
-        EmailModal = require('../views/modal/email');
-        ListButtons = (function(_super) {
-          __extends(ListButtons, _super);
-
-          ListButtons.prototype.elements = {
-            '.trash': 'deleteBtn',
-            '.sort': 'sortBtn'
-          };
-
-          ListButtons.prototype.events = {
-            'click .trash': 'trash',
-            'click .email': 'email',
-            'click .print': 'print',
-            'click .share': 'share',
-            'click .sort': 'sort'
-          };
-
-          function ListButtons() {
-            this.update = __bind(this.update, this);
-            Base.touchify(this.events);
-            ListButtons.__super__.constructor.apply(this, arguments);
-            this.el = $('.list-buttons');
-            this.bind();
-            this.listen(List, {
-              'select:model': this.update
-            });
-          }
-
-          ListButtons.prototype.update = function(list) {
-            if (list.permanent) {
-              this.deleteBtn.fadeOut(150);
-            } else {
-              this.deleteBtn.fadeIn(150);
-            }
-            if (list.disabled) {
-              return this.sortBtn.fadeOut(150);
-            } else {
-              return this.sortBtn.fadeIn(150);
-            }
-          };
-
-          ListButtons.prototype.trash = function() {
-            return ListModal.run();
-          };
-
-          ListButtons.prototype.email = function() {
-            return EmailModal.run();
-          };
-
-          ListButtons.prototype.print = function() {
-            return window.print();
-          };
-
-          ListButtons.prototype.share = function() {
-            return ShareModal.run();
-          };
-
-          ListButtons.prototype.sort = function() {
-            return Setting.toggle('sort');
-          };
-
-          return ListButtons;
-
-        })(Base.View);
-        return module.exports = ListButtons;
-      }
-    ], [
-      {
-        /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/modal/destroy_list.coffee
-        */
-
-        '../../models/setting': 10,
-        '../../views/lists': 34,
-        '../modal': 31
-      }, function(require, module, exports) {
-        var Lists, Modal, Setting, modal;
-        Setting = require('../../models/setting');
-        Lists = require('../../views/lists');
-        Modal = require('../modal');
-        modal = new Modal({
-          selector: '.modal.delete-list',
-          events: {
-            'click .true': 'delete',
-            'click .false': 'hide'
-          },
-          run: function() {
-            if (Setting.confirmDelete) {
-              return modal.show();
-            } else {
-              return this["delete"]();
-            }
-          },
-          "delete": function() {
-            Lists.active.destroy();
-            return modal.hide();
-          }
-        });
-        return module.exports = modal;
-      }
-    ], [
-      {
-        /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/modal/share.coffee
-        */
-
-        '../modal': 31
-      }, function(require, module, exports) {
-        var Modal, modal;
-        Modal = require('../modal');
-        modal = new Modal({
-          selector: '.modal.share'
-        });
-        return module.exports = modal;
-      }
-    ], [
-      {
-        /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/modal/email.coffee
-        */
-
-        '../modal': 31
-      }, function(require, module, exports) {
-        var Modal, modal;
-        Modal = require('../modal');
-        modal = new Modal({
-          selector: '.modal.email',
-          elements: {
-            'input': 'input'
-          },
-          events: {
-            'click button': 'submit',
-            'keyup input': 'keyup'
-          },
-          keyup: function(e) {
-            if (e.keyCode === Keys.ENTER) {
-              return this.submit();
-            }
-          },
-          submit: function() {
-            var email, listId, uid;
-            if (setting.isPro()) {
-              email = this.input.val();
-              if (!email.match(/.+@.+\..+/)) {
-                return;
-              }
-              uid = require('../models/setting').get('uid');
-              listId = require('../models/list').current.id;
-              Sync.emit('emailList', [uid, listId, email]);
-            } else {
-              $('.modal.proventor').modal('show');
-            }
-            return modal.hide();
-          },
-          onShow: function() {
-            return this.input.focus();
-          },
-          onHide: function() {
-            return this.input.val('');
-          }
-        });
-        return module.exports = modal;
-      }
-    ], [
-      {
-        /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/tasks.coffee
-        */
-
-        'base': 6,
-        '../views/lists': 34,
-        '../views/task_item': 43,
+        '../views/lists': 32,
+        '../views/task_item': 35,
         '../models/task': 23,
         '../models/list': 24,
         '../models/setting': 10,
         '../utils/keys': 8,
-        '../utils/date': 46,
-        '../utils/timer': 45,
-        '../templates/task': 47,
-        '../templates/tasks': 49
+        '../utils/date': 39,
+        '../utils/timer': 38,
+        '../templates/task': 40,
+        '../templates/tasks': 42
       }, function(require, module, exports) {
         var Base, List, Lists, Setting, Task, TaskItem, Tasks, dateDetector, delay, keys;
         Base = require('base');
@@ -17154,6 +16514,7 @@
             this.scrollbars = __bind(this.scrollbars, this);
             this.collapseOnClick = __bind(this.collapseOnClick, this);
             this.collapse = __bind(this.collapse, this);
+            this.updateSearchResults = __bind(this.updateSearchResults, this);
             this.createNewTask = __bind(this.createNewTask, this);
             this.keyup = __bind(this.keyup, this);
             this.keydown = __bind(this.keydown, this);
@@ -17210,12 +16571,26 @@
 
           Tasks.prototype.render = function(list) {
             var tasks;
+            if (list.disabled) {
+              this.input.hide();
+            } else {
+              this.input.show();
+              if (!is_touch_device()) {
+                this.input.focus();
+              }
+            }
             this.input.toggle(!list.disabled);
-            this.toggleSearch(list.id === 'search');
             if (list.id === 'search') {
-              tasks = list.tasks;
               this.message.text(this.template.message.special);
-            } else if (list != null ? list.tasks : void 0) {
+              if (list.query != null) {
+                this.input.val(list.query);
+              }
+              this.toggleSearch(true);
+              return;
+            } else if (this.search) {
+              this.toggleSearch(false);
+            }
+            if (list != null ? list.tasks : void 0) {
               tasks = list.tasks;
               this.message.text(this.template.message.standard);
             } else {
@@ -17223,10 +16598,7 @@
               this.message.text(this.template.message.empty);
             }
             this.displayTasks(tasks);
-            this.el.toggleClass('empty', tasks.length === 0);
-            if (!is_touch_device()) {
-              return this.input.focus();
-            }
+            return this.el.toggleClass('empty', tasks.length === 0);
           };
 
           Tasks.prototype.displayTasks = function(tasks) {
@@ -17285,7 +16657,7 @@
           Tasks.prototype.toggleSearch = function(search) {
             var message;
             this.search = search;
-            message = this.search ? this.template.message.search : this.template.message.addTask;
+            message = this.search ? (this.updateSearchResults(), this.template.message.search) : this.template.message.addTask;
             return this.input.attr('placeholder', message);
           };
 
@@ -17297,7 +16669,7 @@
 
           Tasks.prototype.keyup = function(e) {
             if (this.search) {
-              return this.displayTasks(Task.search(this.input.val()));
+              return this.updateSearchResults();
             }
           };
 
@@ -17310,6 +16682,10 @@
               list: Lists.active.id,
               date: dateDetector.parse(name)
             });
+          };
+
+          Tasks.prototype.updateSearchResults = function() {
+            return this.displayTasks(Task.search(this.input.val()));
           };
 
           Tasks.prototype.collapse = function() {
@@ -17392,15 +16768,196 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/task_item.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/views/lists.coffee
         */
 
         'base': 6,
-        '../views/modal/destroy_task': 44,
+        '../models/list': 24,
+        '../utils/keys': 8,
+        '../views/list/item': 33
+      }, function(require, module, exports) {
+        var Base, List, ListItem, Lists, keys;
+        Base = require('base');
+        List = require('../models/list');
+        keys = require('../utils/keys');
+        ListItem = require('../views/list/item');
+        Lists = (function(_super) {
+          __extends(Lists, _super);
+
+          Lists.active = null;
+
+          Lists.prototype.elements = {
+            'ul': 'lists',
+            '.create-list': 'input'
+          };
+
+          Lists.prototype.events = {
+            'keyup .create-list': 'keyup'
+          };
+
+          function Lists() {
+            this.select = __bind(this.select, this);
+            this.addAll = __bind(this.addAll, this);
+            this.addOne = __bind(this.addOne, this);
+            this.createNew = __bind(this.createNew, this);
+            this.keyup = __bind(this.keyup, this);
+            Lists.__super__.constructor.apply(this, arguments);
+            this.bind($('.sidebar'));
+            this.listen(List, {
+              'create:model': this.addOne,
+              'refresh': this.addAll,
+              'select:model': this.select
+            });
+          }
+
+          Lists.prototype.keyup = function(e) {
+            if (e.which === keys.enter && this.input.val().length) {
+              this.createNew(this.input.val());
+              return this.input.val('');
+            }
+          };
+
+          Lists.prototype.createNew = function(name) {
+            var list;
+            list = List.create({
+              name: name
+            });
+            return list.trigger('select');
+          };
+
+          Lists.prototype.addOne = function(list) {
+            var listItem;
+            if (list.id === 'inbox') {
+              return;
+            }
+            listItem = new ListItem({
+              list: list
+            });
+            return this.lists.append(listItem.render().el);
+          };
+
+          Lists.prototype.addAll = function() {
+            this.lists.empty();
+            return List.forEach(this.addOne);
+          };
+
+          Lists.prototype.select = function(list) {
+            Lists.active = list;
+            return this.el.find('.current').removeClass('current');
+          };
+
+          return Lists;
+
+        })(Base.View);
+        return module.exports = Lists;
+      }
+    ], [
+      {
+        /*
+          /home/stayrad/Projects/Nitro/source/scripts/views/list/item.coffee
+        */
+
+        'base': 6,
+        '../../templates/list': 34
+      }, function(require, module, exports) {
+        var Base, ListItem;
+        Base = require('base');
+        ListItem = (function(_super) {
+          __extends(ListItem, _super);
+
+          ListItem.prototype.template = require('../../templates/list');
+
+          ListItem.prototype.elements = {
+            '.name': 'name',
+            '.count': 'count'
+          };
+
+          ListItem.prototype.events = {
+            'click': 'click'
+          };
+
+          function ListItem() {
+            this.remove = __bind(this.remove, this);
+            this.select = __bind(this.select, this);
+            this.click = __bind(this.click, this);
+            this.updateName = __bind(this.updateName, this);
+            this.updateCount = __bind(this.updateCount, this);
+            this.render = __bind(this.render, this);
+            Base.touchify(this.events);
+            ListItem.__super__.constructor.apply(this, arguments);
+            if (this.list == null) {
+              return;
+            }
+            this.listen([
+              this.list, {
+                'select': this.select,
+                'change': this.updateName,
+                'before:destroy': this.remove
+              }, this.list.tasks, {
+                'change': this.updateCount
+              }
+            ]);
+          }
+
+          ListItem.prototype.render = function() {
+            this.el = $(this.template(this.list));
+            this.bind();
+            return this;
+          };
+
+          ListItem.prototype.updateCount = function() {
+            return this.count.text(this.list.tasks.length);
+          };
+
+          ListItem.prototype.updateName = function() {
+            return this.name.text(this.list.name);
+          };
+
+          ListItem.prototype.click = function() {
+            return this.list.trigger('select');
+          };
+
+          ListItem.prototype.select = function() {
+            return this.el.addClass('current');
+          };
+
+          ListItem.prototype.remove = function() {
+            this.unbind();
+            return this.el.remove();
+          };
+
+          return ListItem;
+
+        })(Base.View);
+        return module.exports = ListItem;
+      }
+    ], [
+      {
+        /*
+          /home/stayrad/Projects/Nitro/source/scripts/templates/list.coffee
+        */
+
+        '../models/list': 24
+      }, function(require, module, exports) {
+        var List;
+        List = require('../models/list');
+        return module.exports = function(list) {
+          var _ref;
+          return "<li data-item=\"" + list.id + "\" class=\"list" + (((_ref = List.current) != null ? _ref.id : void 0) === list.id ? " current" : "") + "\">\n  <div class=\"arrow\"></div>\n  <span class=\"name\">" + list.name + "</span>\n  <div class=\"count\">" + list.tasks.length + "</div>\n</li>";
+        };
+      }
+    ], [
+      {
+        /*
+          /home/stayrad/Projects/Nitro/source/scripts/views/task_item.coffee
+        */
+
+        'base': 6,
+        '../views/modal/destroy_task': 36,
         '../models/list': 24,
         '../models/setting': 10,
         '../utils/keys': 8,
-        '../utils/timer': 45,
+        '../utils/timer': 38,
         '../utils/translate': 9,
         '../utils/event': 12
       }, function(require, module, exports) {
@@ -17589,7 +17146,7 @@
             var tag;
             e.stopPropagation();
             tag = $(e.currentTarget).text();
-            return console.log(Task.tag(tag));
+            return event.trigger('search', tag);
           };
 
           return TaskItem;
@@ -17600,11 +17157,11 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/modal/destroy_task.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/views/modal/destroy_task.coffee
         */
 
         '../../models/setting': 10,
-        '../modal': 31
+        '../modal': 37
       }, function(require, module, exports) {
         var Modal, Setting, modal, task,
           _this = this;
@@ -17637,7 +17194,94 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/utils/timer.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/views/modal.coffee
+        */
+
+        'base': 6
+      }, function(require, module, exports) {
+        var Base, Modal, container, modals;
+        Base = require('base');
+        container = '.modals';
+        modals = [];
+        Modal = (function(_super) {
+          __extends(Modal, _super);
+
+          Modal.init = function() {
+            var modal, _i, _len, _results;
+            container = $(container);
+            _results = [];
+            for (_i = 0, _len = modals.length; _i < _len; _i++) {
+              modal = modals[_i];
+              _results.push(modal.init());
+            }
+            return _results;
+          };
+
+          function Modal(opts) {
+            this.hide = __bind(this.hide, this);
+            this.show = __bind(this.show, this);
+            this.init = __bind(this.init, this);
+            Base.touchify(opts.events);
+            Modal.__super__.constructor.apply(this, arguments);
+            modals.push(this);
+          }
+
+          Modal.prototype.init = function() {
+            var _this = this;
+            this.el = $(this.selector);
+            this.bind();
+            return this.el.on('click.modal, touchend.modal', function(event) {
+              if (event.target.className.indexOf('modal') > -1) {
+                return _this.hide();
+              }
+            });
+          };
+
+          Modal.prototype.state = false;
+
+          Modal.prototype.show = function() {
+            var _this = this;
+            if (this.state !== false) {
+              return;
+            }
+            this.state = true;
+            container.show();
+            this.el.show();
+            setTimeout(function() {
+              container.addClass('show');
+              return _this.el.addClass('show');
+            }, 1);
+            if (this.onShow) {
+              return this.onShow();
+            }
+          };
+
+          Modal.prototype.hide = function() {
+            var _this = this;
+            if (this.state !== true) {
+              return;
+            }
+            this.state = false;
+            container.removeClass('show');
+            this.el.removeClass('show');
+            return setTimeout(function() {
+              _this.el.hide();
+              container.hide();
+              if (_this.onHide) {
+                return _this.onHide();
+              }
+            }, 350);
+          };
+
+          return Modal;
+
+        })(Base.View);
+        return module.exports = Modal;
+      }
+    ], [
+      {
+        /*
+          /home/stayrad/Projects/Nitro/source/scripts/utils/timer.coffee
         */
 
       }, function(require, module, exports) {
@@ -17648,7 +17292,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/utils/date.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/utils/date.coffee
         */
 
       }, function(require, module, exports) {
@@ -17767,10 +17411,10 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/templates/task.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/templates/task.coffee
         */
 
-        '../utils/prettydate': 48,
+        '../utils/prettydate': 41,
         '../utils/translate': 9
       }, function(require, module, exports) {
         var prettyDate, tags, text, translate;
@@ -17802,7 +17446,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/utils/prettydate.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/utils/prettydate.coffee
         */
 
         '../utils/translate': 9
@@ -17864,7 +17508,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/templates/tasks.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/templates/tasks.coffee
         */
 
         '../utils/translate': 9
@@ -17876,17 +17520,384 @@
           mex.special = translate('No tasks could be found.');
           mex.standard = translate('You haven\'t added any tasks to this list.');
           mex.empty = translate('There are no tasks in here.');
-          mex.search = translate('What do you want to search for?');
+          mex.search = translate('What are you looking for?');
           return mex.addTask = translate('What do you need to do?');
         });
       }
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/list/inbox.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/views/keys.coffee
         */
 
-        './item': 35
+        '../utils/keys': 8,
+        'base': 6
+      }, function(require, module, exports) {
+        var Base, Keys, keys;
+        keys = require('../utils/keys');
+        Base = require('base');
+        Keys = (function(_super) {
+          __extends(Keys, _super);
+
+          Keys.prototype.events = {
+            'keyup': 'keyup',
+            'blur .editable, input': 'blur',
+            'focus .editable, input': 'focus'
+          };
+
+          function Keys() {
+            this.keyup = __bind(this.keyup, this);
+            this.blur = __bind(this.blur, this);
+            this.focus = __bind(this.focus, this);
+            Keys.__super__.constructor.apply(this, arguments);
+            this.el = $('body');
+            this.bind();
+            this.input = null;
+            this.focused = false;
+          }
+
+          Keys.prototype.focus = function(e) {
+            this.input = $(e.target);
+            return this.focused = true;
+          };
+
+          Keys.prototype.blur = function() {
+            return this.focused = false;
+          };
+
+          Keys.prototype.keyup = function(e) {
+            var keyCode;
+            keyCode = e.keyCode;
+            if (this.focused) {
+              if (keyCode === keys.escape) {
+                this.input.blur();
+              }
+              return true;
+            }
+            switch (keyCode) {
+              case keys.escape:
+                return this.tasks.collapseAll();
+              case keys.n:
+                return $(".new-task").focus().val("");
+              case keys.l:
+                return $(".new-list").focus().val("");
+              case keys.f:
+                return $(".search input").focus().val("");
+              case keys.p:
+                return $(".buttons .print").trigger("click");
+              case keys.comma:
+                return $(".settingsButton img").trigger("click");
+              case keys.k:
+                if ($(".sidebar .current").prev().length === 0) {
+                  return $(".sidebar .completed").trigger("click");
+                } else {
+                  $(".sidebar .current").prev().trigger("click");
+                  return $(".new-task").blur();
+                }
+                break;
+              case keys.j:
+                if ($(".sidebar .current").next().hasClass("lists")) {
+                  $($(".sidebar .lists").children()[0]).trigger("click");
+                  return $(".new-task").blur();
+                } else {
+                  $(".sidebar .current").next().trigger("click");
+                  return $(".new-task").blur();
+                }
+            }
+          };
+
+          return Keys;
+
+        })(Base.View);
+        return module.exports = Keys;
+      }
+    ], [
+      {
+        /*
+          /home/stayrad/Projects/Nitro/source/scripts/views/loading_screen.coffee
+        */
+
+        'base': 6,
+        '../utils/event': 12
+      }, function(require, module, exports) {
+        var Base, LoadingScreen, event;
+        Base = require('base');
+        event = require('../utils/event');
+        LoadingScreen = (function(_super) {
+          __extends(LoadingScreen, _super);
+
+          function LoadingScreen() {
+            this.show = __bind(this.show, this);
+            this.hide = __bind(this.hide, this);
+            LoadingScreen.__super__.constructor.apply(this, arguments);
+            this.el = $('.loading-screen');
+            this.bind();
+            event.on('app:ready', this.hide);
+          }
+
+          LoadingScreen.prototype.hide = function() {
+            return this.el.fadeOut(300);
+          };
+
+          LoadingScreen.prototype.show = function() {
+            return this.el.fadeIn(300);
+          };
+
+          return LoadingScreen;
+
+        })(Base.View);
+        return module.exports = LoadingScreen;
+      }
+    ], [
+      {
+        /*
+          /home/stayrad/Projects/Nitro/source/scripts/views/title.coffee
+        */
+
+        'base': 6,
+        '../models/list': 24,
+        '../utils/keys': 8
+      }, function(require, module, exports) {
+        var Base, List, Title, keys;
+        Base = require('base');
+        List = require('../models/list');
+        keys = require('../utils/keys');
+        Title = (function(_super) {
+          __extends(Title, _super);
+
+          Title.prototype.elements = {
+            'h1': 'title'
+          };
+
+          Title.prototype.events = {
+            'keyup h1': 'rename',
+            'keypress h1': 'preventer'
+          };
+
+          function Title() {
+            this.rename = __bind(this.rename, this);
+            this.render = __bind(this.render, this);
+            Base.touchify(this.events);
+            Title.__super__.constructor.apply(this, arguments);
+            this.el = $('.tasks .title');
+            this.bind();
+            this.listen(List, {
+              'select:model': this.render
+            });
+          }
+
+          Title.prototype.render = function(list) {
+            this.list = list;
+            this.title.text(this.list.name);
+            if (this.list.permanent) {
+              return this.title.removeAttr('contenteditable');
+            } else {
+              return this.title.attr('contenteditable', true);
+            }
+          };
+
+          Title.prototype.rename = function(e) {
+            return this.list.name = this.title.text();
+          };
+
+          Title.prototype.preventer = function(e) {
+            if (e.keyCode === keys.enter) {
+              return e.preventDefault();
+            }
+          };
+
+          return Title;
+
+        })(Base.View);
+        return module.exports = Title;
+      }
+    ], [
+      {
+        /*
+          /home/stayrad/Projects/Nitro/source/scripts/views/list_buttons.coffee
+        */
+
+        'base': 6,
+        '../models/list': 24,
+        '../views/modal/destroy_list': 47,
+        '../views/modal/share': 48,
+        '../views/modal/email': 49
+      }, function(require, module, exports) {
+        var Base, EmailModal, List, ListButtons, ListModal, ShareModal;
+        Base = require('base');
+        List = require('../models/list');
+        ListModal = require('../views/modal/destroy_list');
+        ShareModal = require('../views/modal/share');
+        EmailModal = require('../views/modal/email');
+        ListButtons = (function(_super) {
+          __extends(ListButtons, _super);
+
+          ListButtons.prototype.elements = {
+            '.trash': 'deleteBtn',
+            '.sort': 'sortBtn'
+          };
+
+          ListButtons.prototype.events = {
+            'click .trash': 'trash',
+            'click .email': 'email',
+            'click .print': 'print',
+            'click .share': 'share',
+            'click .sort': 'sort'
+          };
+
+          function ListButtons() {
+            this.update = __bind(this.update, this);
+            Base.touchify(this.events);
+            ListButtons.__super__.constructor.apply(this, arguments);
+            this.el = $('.list-buttons');
+            this.bind();
+            this.listen(List, {
+              'select:model': this.update
+            });
+          }
+
+          ListButtons.prototype.update = function(list) {
+            if (list.permanent) {
+              this.deleteBtn.fadeOut(150);
+            } else {
+              this.deleteBtn.fadeIn(150);
+            }
+            if (list.disabled) {
+              return this.sortBtn.fadeOut(150);
+            } else {
+              return this.sortBtn.fadeIn(150);
+            }
+          };
+
+          ListButtons.prototype.trash = function() {
+            return ListModal.run();
+          };
+
+          ListButtons.prototype.email = function() {
+            return EmailModal.run();
+          };
+
+          ListButtons.prototype.print = function() {
+            return window.print();
+          };
+
+          ListButtons.prototype.share = function() {
+            return ShareModal.run();
+          };
+
+          ListButtons.prototype.sort = function() {
+            return Setting.toggle('sort');
+          };
+
+          return ListButtons;
+
+        })(Base.View);
+        return module.exports = ListButtons;
+      }
+    ], [
+      {
+        /*
+          /home/stayrad/Projects/Nitro/source/scripts/views/modal/destroy_list.coffee
+        */
+
+        '../../models/setting': 10,
+        '../../views/lists': 32,
+        '../modal': 37
+      }, function(require, module, exports) {
+        var Lists, Modal, Setting, modal;
+        Setting = require('../../models/setting');
+        Lists = require('../../views/lists');
+        Modal = require('../modal');
+        modal = new Modal({
+          selector: '.modal.delete-list',
+          events: {
+            'click .true': 'delete',
+            'click .false': 'hide'
+          },
+          run: function() {
+            if (Setting.confirmDelete) {
+              return modal.show();
+            } else {
+              return this["delete"]();
+            }
+          },
+          "delete": function() {
+            Lists.active.destroy();
+            return modal.hide();
+          }
+        });
+        return module.exports = modal;
+      }
+    ], [
+      {
+        /*
+          /home/stayrad/Projects/Nitro/source/scripts/views/modal/share.coffee
+        */
+
+        '../modal': 37
+      }, function(require, module, exports) {
+        var Modal, modal;
+        Modal = require('../modal');
+        modal = new Modal({
+          selector: '.modal.share'
+        });
+        return module.exports = modal;
+      }
+    ], [
+      {
+        /*
+          /home/stayrad/Projects/Nitro/source/scripts/views/modal/email.coffee
+        */
+
+        '../modal': 37
+      }, function(require, module, exports) {
+        var Modal, modal;
+        Modal = require('../modal');
+        modal = new Modal({
+          selector: '.modal.email',
+          elements: {
+            'input': 'input'
+          },
+          events: {
+            'click button': 'submit',
+            'keyup input': 'keyup'
+          },
+          keyup: function(e) {
+            if (e.keyCode === Keys.ENTER) {
+              return this.submit();
+            }
+          },
+          submit: function() {
+            var email, listId, uid;
+            if (setting.isPro()) {
+              email = this.input.val();
+              if (!email.match(/.+@.+\..+/)) {
+                return;
+              }
+              uid = require('../models/setting').get('uid');
+              listId = require('../models/list').current.id;
+              Sync.emit('emailList', [uid, listId, email]);
+            } else {
+              $('.modal.proventor').modal('show');
+            }
+            return modal.hide();
+          },
+          onShow: function() {
+            return this.input.focus();
+          },
+          onHide: function() {
+            return this.input.val('');
+          }
+        });
+        return module.exports = modal;
+      }
+    ], [
+      {
+        /*
+          /home/stayrad/Projects/Nitro/source/scripts/views/list/inbox.coffee
+        */
+
+        './item': 33
       }, function(require, module, exports) {
         var ListInbox, ListItem;
         ListItem = require('./item');
@@ -17917,12 +17928,12 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/list/all.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/views/list/all.coffee
         */
 
         '../../models/task': 23,
         '../../models/list': 24,
-        './item': 35
+        './item': 33
       }, function(require, module, exports) {
         var List, ListAll, ListItem, Task;
         Task = require('../../models/task');
@@ -17963,12 +17974,12 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/list/completed.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/views/list/completed.coffee
         */
 
         '../../models/task': 23,
         '../../models/list': 24,
-        './item': 35
+        './item': 33
       }, function(require, module, exports) {
         var List, ListCompleted, ListItem, Task;
         Task = require('../../models/task');
@@ -18009,14 +18020,15 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/views/list/search.coffee
+          /home/stayrad/Projects/Nitro/source/scripts/views/list/search.coffee
         */
 
-        './item': 35
+        './item': 33,
+        '../../utils/event': 12
       }, function(require, module, exports) {
         var ListItem, ListSearch, event;
         ListItem = require('./item');
-        event = require('.../../utils/event');
+        event = require('../../utils/event');
         ListSearch = (function(_super) {
           __extends(ListSearch, _super);
 
@@ -18039,7 +18051,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/models/default/list.json
+          /home/stayrad/Projects/Nitro/source/scripts/models/default/list.json
         */
 
       }, function(require, module, exports) {
@@ -18055,7 +18067,7 @@
     ], [
       {
         /*
-          /Volumes/Home/Projects/Nitro/source/scripts/models/default/task.json
+          /home/stayrad/Projects/Nitro/source/scripts/models/default/task.json
         */
 
       }, function(require, module, exports) {

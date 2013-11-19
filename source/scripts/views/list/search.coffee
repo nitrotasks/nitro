@@ -1,10 +1,9 @@
 ListItem = require './item'
-event = require '.../../utils/event'
+event = require '../../utils/event'
 
 class ListSearch extends ListItem
 
   constructor: ->
-
     super
 
     @bind $ '.search.list'
