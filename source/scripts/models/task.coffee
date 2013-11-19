@@ -68,8 +68,8 @@ class TaskCollection extends Base.Collection
       else a.completed - b.completed
 
   # Search through tasks
-  search: (query) =>
-    return @all unless query
+  search: (query='') =>
+    return @all() unless query.length > 0
     query = query.toLowerCase().split(' ')
     @filter (item) ->
       matches = yes

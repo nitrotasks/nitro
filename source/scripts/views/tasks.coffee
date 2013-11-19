@@ -22,7 +22,8 @@ class Tasks extends Base.View
   events:
     'click': 'collapseOnClick'
     'scroll': 'scrollbars'
-    'keydown input.new-task': 'createNew'
+    'keydown input.new-task': 'keydown'
+    'keyup input.new-task': 'keyup'
 
   constructor: ->
     Base.touchify @events
@@ -34,7 +35,8 @@ class Tasks extends Base.View
     @views = []
     @timers = {}
 
-    @currentTask
+    @currentTask = null
+    @search = false
 
     @listen [
       Task,
@@ -76,10 +78,10 @@ class Tasks extends Base.View
     # TODO: Set up a method for this
     @el.removeClass 'empty'
 
-
   # Render the current list
   refresh: =>
     @render List.current if List.current
+
 
 
   # Display a list of tasks
@@ -95,19 +97,11 @@ class Tasks extends Base.View
     # Disable task input box
     @input.toggle not list.disabled
 
-    # Keep a copy of the old views
-    oldViews = @views.slice()
-    @views = []
-
-    # Unbind existing tasks
-    delay 1000, ->
-      item.release() for item in oldViews
-
-    # Holds html
-    html = ''
+    # Search box
+    @toggleSearch list.id is 'search'
 
     # Special list
-    if list.id is 'filter'
+    if list.id is 'search'
       tasks = list.tasks
       @message.text @template.message.special
 
@@ -120,6 +114,29 @@ class Tasks extends Base.View
     else
       tasks = Task.list list.id
       @message.text @template.message.empty
+
+    # Display tasks
+    @displayTasks tasks
+
+    # Handles Empty List
+    @el.toggleClass 'empty', tasks.length is 0
+
+    # Focuses input if not on a touchscreen (virtual keyboard)
+    # TODO: Don't make is_touch_device a global
+    @input.focus() if not is_touch_device()
+
+  displayTasks: (tasks) =>
+
+   # Keep a copy of the old views
+    oldViews = @views.slice()
+    @views = []
+
+    # Unbind existing tasks
+    delay 1000, ->
+      item.release() for item in oldViews
+
+    # Holds html
+    html = ''
 
     # TODO: Ignore this for now
     # Sorting tasks
@@ -168,23 +185,34 @@ class Tasks extends Base.View
         @bindTask view
         @views.push view
 
-    # Handles Empty List
-    @el.toggleClass 'empty', tasks.length is 0
 
-    # Focuses input if not on a touchscreen (virtual keyboard)
-    # TODO: Don't make is_touch_device a global
-    @input.focus() if not is_touch_device()
+  # Toggles the input box text
+  toggleSearch: (@search) =>
+    message = if @search
+      @template.message.search
+    else
+      @template.message.addTask
+
+    @input.attr 'placeholder', message
+
+  # Handle keydown events on the input box
+  keydown: (e) =>
+    if not @search and e.keyCode is keys.enter and @input.val().length > 0
+      @createNewTask()
+
+  # Handle keyup events on the input box
+  keyup: (e) =>
+    if @search
+      @displayTasks Task.search @input.val()
 
   # Create a new task
-  # TODO: Maybe seperate the key event and the task create code
-  createNew: (e) =>
-    if e.keyCode is keys.enter and @input.val().length
-      name = @input.val()
-      @input.val ''
-      Task.create
-        name: name
-        list: Lists.active.id
-        date: dateDetector.parse name
+  createNewTask: =>
+    name = @input.val()
+    @input.val ''
+    Task.create
+      name: name
+      list: Lists.active.id
+      date: dateDetector.parse name
 
   # ------------
   # COLLAPSE ALL

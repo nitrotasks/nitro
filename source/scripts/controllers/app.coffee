@@ -35,9 +35,11 @@ ListButtons   = require '../views/list_buttons'
 Tasks         = require '../views/tasks'
 
 # Special Lists
+# TODO: put these in another file
 ListInbox     = require '../views/list/inbox'
 ListAll       = require '../views/list/all'
 ListCompleted = require '../views/list/completed'
+ListSearch    = require '../views/list/search'
 
 class App
 
@@ -103,6 +105,7 @@ class App
     # Load other special lists
     new ListAll()
     new ListCompleted()
+    new ListSearch()
 
     # Doesn't run in the Settings constructor. Bit of a pain
     # TODO: Move somewhere else?

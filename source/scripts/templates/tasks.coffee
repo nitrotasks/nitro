@@ -8,3 +8,6 @@ translate.ready ->
   mex.standard = translate('You haven\'t added any tasks to this list.')
   mex.empty    = translate('There are no tasks in here.')
 
+  mex.search   = translate 'What do you want to search for?'
+  mex.addTask  = translate 'What do you need to do?'
+

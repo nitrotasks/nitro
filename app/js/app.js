@@ -8917,10 +8917,11 @@
         '../views/list/inbox': 49,
         '../views/list/all': 50,
         '../views/list/completed': 51,
-        '../models/default/list.json': 52,
-        '../models/default/task.json': 53
+        '../views/list/search': 52,
+        '../models/default/list.json': 53,
+        '../models/default/task.json': 54
       }, function(require, module, exports) {
-        var $, App, Auth, Base, Event, Keys, List, ListAll, ListButtons, ListCompleted, ListInbox, Lists, LoadingScreen, Modal, Select, Setting, Task, Tasks, Title, User, libs, translate;
+        var $, App, Auth, Base, Event, Keys, List, ListAll, ListButtons, ListCompleted, ListInbox, ListSearch, Lists, LoadingScreen, Modal, Select, Setting, Task, Tasks, Title, User, libs, translate;
         libs = require('../vendor/libs');
         Base = require('base');
         Base.touchify = require('../utils/touchify');
@@ -8944,6 +8945,7 @@
         ListInbox = require('../views/list/inbox');
         ListAll = require('../views/list/all');
         ListCompleted = require('../views/list/completed');
+        ListSearch = require('../views/list/search');
         App = (function() {
           function App() {
             var inbox, select;
@@ -8984,6 +8986,7 @@
             inbox.trigger('select');
             new ListAll();
             new ListCompleted();
+            new ListSearch();
             if (Setting.loggedin) {
               Sync.connect(Setting.uid, Setting.token);
             } else {
@@ -15935,8 +15938,11 @@
           };
 
           TaskCollection.prototype.search = function(query) {
-            if (!query) {
-              return this.all;
+            if (query == null) {
+              query = '';
+            }
+            if (!(query.length > 0)) {
+              return this.all();
             }
             query = query.toLowerCase().split(' ');
             return this.filter(function(item) {
@@ -17099,14 +17105,19 @@
           Tasks.prototype.events = {
             'click': 'collapseOnClick',
             'scroll': 'scrollbars',
-            'keydown input.new-task': 'createNew'
+            'keydown input.new-task': 'keydown',
+            'keyup input.new-task': 'keyup'
           };
 
           function Tasks() {
             this.scrollbars = __bind(this.scrollbars, this);
             this.collapseOnClick = __bind(this.collapseOnClick, this);
             this.collapse = __bind(this.collapse, this);
-            this.createNew = __bind(this.createNew, this);
+            this.createNewTask = __bind(this.createNewTask, this);
+            this.keyup = __bind(this.keyup, this);
+            this.keydown = __bind(this.keydown, this);
+            this.toggleSearch = __bind(this.toggleSearch, this);
+            this.displayTasks = __bind(this.displayTasks, this);
             this.render = __bind(this.render, this);
             this.refresh = __bind(this.refresh, this);
             this.addOne = __bind(this.addOne, this);
@@ -17116,7 +17127,8 @@
             this.bind($('.main'));
             this.views = [];
             this.timers = {};
-            this.currentTask;
+            this.currentTask = null;
+            this.search = false;
             this.listen([
               Task, {
                 'refresh': this.refresh,
@@ -17156,9 +17168,29 @@
           };
 
           Tasks.prototype.render = function(list) {
-            var completed, html, last, oldViews, task, tasks, _i, _len, _ref, _ref1,
-              _this = this;
+            var tasks;
             this.input.toggle(!list.disabled);
+            this.toggleSearch(list.id === 'search');
+            if (list.id === 'search') {
+              tasks = list.tasks;
+              this.message.text(this.template.message.special);
+            } else if (list != null ? list.tasks : void 0) {
+              tasks = list.tasks;
+              this.message.text(this.template.message.standard);
+            } else {
+              tasks = Task.list(list.id);
+              this.message.text(this.template.message.empty);
+            }
+            this.displayTasks(tasks);
+            this.el.toggleClass('empty', tasks.length === 0);
+            if (!is_touch_device()) {
+              return this.input.focus();
+            }
+          };
+
+          Tasks.prototype.displayTasks = function(tasks) {
+            var completed, html, last, oldViews, task, _i, _len, _ref, _ref1,
+              _this = this;
             oldViews = this.views.slice();
             this.views = [];
             delay(1000, function() {
@@ -17171,16 +17203,6 @@
               return _results;
             });
             html = '';
-            if (list.id === 'filter') {
-              tasks = list.tasks;
-              this.message.text(this.template.message.special);
-            } else if (list != null ? list.tasks : void 0) {
-              tasks = list.tasks;
-              this.message.text(this.template.message.standard);
-            } else {
-              tasks = Task.list(list.id);
-              this.message.text(this.template.message.empty);
-            }
             if (false) {
               tasks = Task.sortTasks(tasks);
               last = (_ref = tasks[0]) != null ? _ref.priority : void 0;
@@ -17206,7 +17228,7 @@
               });
             }
             this.tasks.html(html);
-            requestAnimationFrame(function() {
+            return requestAnimationFrame(function() {
               return tasks.forEach(function(task) {
                 var view;
                 view = new TaskItem({
@@ -17217,23 +17239,36 @@
                 return _this.views.push(view);
               });
             });
-            this.el.toggleClass('empty', tasks.length === 0);
-            if (!is_touch_device()) {
-              return this.input.focus();
+          };
+
+          Tasks.prototype.toggleSearch = function(search) {
+            var message;
+            this.search = search;
+            message = this.search ? this.template.message.search : this.template.message.addTask;
+            return this.input.attr('placeholder', message);
+          };
+
+          Tasks.prototype.keydown = function(e) {
+            if (!this.search && e.keyCode === keys.enter && this.input.val().length > 0) {
+              return this.createNewTask();
             }
           };
 
-          Tasks.prototype.createNew = function(e) {
-            var name;
-            if (e.keyCode === keys.enter && this.input.val().length) {
-              name = this.input.val();
-              this.input.val('');
-              return Task.create({
-                name: name,
-                list: Lists.active.id,
-                date: dateDetector.parse(name)
-              });
+          Tasks.prototype.keyup = function(e) {
+            if (this.search) {
+              return this.displayTasks(Task.search(this.input.val()));
             }
+          };
+
+          Tasks.prototype.createNewTask = function() {
+            var name;
+            name = this.input.val();
+            this.input.val('');
+            return Task.create({
+              name: name,
+              list: Lists.active.id,
+              date: dateDetector.parse(name)
+            });
           };
 
           Tasks.prototype.collapse = function() {
@@ -17801,7 +17836,9 @@
         return translate.ready(function() {
           mex.special = translate('No tasks could be found.');
           mex.standard = translate('You haven\'t added any tasks to this list.');
-          return mex.empty = translate('There are no tasks in here.');
+          mex.empty = translate('There are no tasks in here.');
+          mex.search = translate('What do you want to search for?');
+          return mex.addTask = translate('What do you need to do?');
         });
       }
     ], [
@@ -17929,6 +17966,44 @@
 
         })(ListItem);
         return module.exports = ListCompleted;
+      }
+    ], [
+      {
+        /*
+          /Volumes/Home/Projects/Nitro/source/scripts/views/list/search.coffee
+        */
+
+        '../../models/task': 23,
+        '../../models/list': 24,
+        './item': 34
+      }, function(require, module, exports) {
+        var List, ListItem, ListSearch, Task;
+        Task = require('../../models/task');
+        List = require('../../models/list');
+        ListItem = require('./item');
+        ListSearch = (function(_super) {
+          __extends(ListSearch, _super);
+
+          function ListSearch() {
+            this.click = __bind(this.click, this);
+            ListSearch.__super__.constructor.apply(this, arguments);
+            this.bind($('.search.list'));
+          }
+
+          ListSearch.prototype.click = function() {
+            List.trigger('select:model', {
+              name: 'Search',
+              id: 'search',
+              permanent: true,
+              tasks: Task.all()
+            });
+            return this.select();
+          };
+
+          return ListSearch;
+
+        })(ListItem);
+        return module.exports = ListSearch;
       }
     ], [
       {
