@@ -2393,18 +2393,15 @@ body, input {
     height: 17px;
     width: 16px;
     background-repeat: no-repeat; }
+  .list-buttons .trash, .list-buttons .email, .list-buttons .print, .list-buttons .sort {
+    background-image: url("../img/panel/sprite_list.png"); }
   .list-buttons .trash {
-    background-image: url("../img/sprite_list.png");
     background-position: -16px 0; }
-  .list-buttons .email {
-    background-image: url("../img/sprite_list.png"); }
   .list-buttons .print {
-    background-image: url("../img/sprite_list.png");
     background-position: -48px 0; }
   .list-buttons .share {
     background-image: url("../img/share.png"); }
   .list-buttons .sort {
-    background-image: url("../img/sprite_list.png");
     background-position: -32px 0; }
 
 .select_js_box {
@@ -2827,11 +2824,11 @@ html, body {
     font-size: 0; }
   .sidebar .list {
     position: relative;
+    list-style-type: none;
     font-size: 15px;
-    color: #4c4c4c;
     line-height: 40px;
-    border-top: 1px solid #d9d9d9;
-    list-style-type: none; }
+    color: #4c4c4c;
+    border-top: 1px solid #d9d9d9; }
     .sidebar .list.special {
       -webkit-transition: background-position 0.1s ease;
       -moz-transition: background-position 0.1s ease;
@@ -2842,15 +2839,17 @@ html, body {
       .sidebar .list.special.current {
         background-position-x: 32px; }
     .sidebar .list.search {
-      border-top: 0; }
+      border-top: 0;
+      background: url("../img/sidebar/search.png") no-repeat 15px 15px;
+      background-size: 12px 12px; }
     .sidebar .list.inbox {
-      background: url("../img/inbox.png") no-repeat 15px 15px;
+      background: url("../img/sidebar/inbox.png") no-repeat 15px 15px;
       background-size: 12px 12px; }
     .sidebar .list.all {
-      background: url("../img/all.png") no-repeat 15px 14px;
+      background: url("../img/sidebar/all.png") no-repeat 15px 14px;
       background-size: 12px 11px; }
     .sidebar .list.completed {
-      background: url("../img/completed.png") no-repeat 15px 15px;
+      background: url("../img/sidebar/completed.png") no-repeat 15px 15px;
       background-size: 13px 10px; }
     .sidebar .list .name {
       margin-left: 5px;
@@ -2859,14 +2858,22 @@ html, body {
       top: auto;
       bottom: auto;
       left: 10px;
-      right: 45px; }
+      right: 45px;
+      -webkit-transition: all 0.1s ease;
+      -moz-transition: all 0.1s ease;
+      transition: all 0.1s ease; }
     .sidebar .list .arrow {
       display: inline-block;
       margin-top: 10px;
       width: 7px;
       height: 10px;
       position: relative;
-      left: 15px; }
+      left: 15px;
+      background: url("../img/sidebar/arrow.png") no-repeat;
+      opacity: 0;
+      -webkit-transition: opacity 0.1s ease;
+      -moz-transition: opacity 0.1s ease;
+      transition: opacity 0.1s ease; }
     .sidebar .list .count {
       display: inline-block;
       float: right;
@@ -2874,16 +2881,13 @@ html, body {
     .sidebar .list.current {
       font-weight: 700; }
       .sidebar .list.current.special .name {
+        margin-left: 45px;
         width: 155px; }
       .sidebar .list.current .name {
         width: 175px;
         margin-left: 20px; }
       .sidebar .list.current .arrow {
-        background: url("../img/arrow-left-fade.png") no-repeat;
-        -webkit-animation: 200ms steps(10, end) fade-out 1;
-        -moz-animation: 200ms steps(10, end) fade-out 1;
-        -ms-animation: 200ms steps(10, end) fade-out 1;
-        animation: 200ms steps(10, end) fade-out 1; }
+        opacity: 1; }
   .sidebar .create-list {
     border-top: 1px #d9d9d9 solid;
     width: 100%;
@@ -3012,9 +3016,9 @@ html, body {
     height: 29px;
     padding: 0 5px;
     opacity: 1;
-    -webkit-transition: 0.2s, opacity;
-    -moz-transition: 0.2s, opacity;
-    transition: 0.2s, opacity; }
+    -webkit-transition: opacity 0.2s ease;
+    -moz-transition: opacity 0.2s ease;
+    transition: opacity 0.2s ease; }
     .task .delete:hover {
       opacity: 0.6; }
   .task .priority-button {

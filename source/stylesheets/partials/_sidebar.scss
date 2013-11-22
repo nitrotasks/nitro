@@ -44,16 +44,20 @@
   }
 
   // --------------------------------------------------------------------------
-  //    ## LIST
+  //    ## INDIVIDUAL LIST ITEMS
   // --------------------------------------------------------------------------
 
   .list {
+
     position: relative;
-    font-size: 15px;
-    color: $dark-grey;
-    line-height: 40px;
-    border-top: 1px solid darken($light-grey, 10);
     list-style-type: none;
+
+    font-size: 15px;
+    line-height: 40px;
+
+    color: $dark-grey;
+    border-top: 1px solid darken($light-grey, 10);
+
 
     &.special {
       @include transition(background-position 0.1s ease);
@@ -71,20 +75,22 @@
 
     &.search {
       border-top: 0;
+      background: url("../img/sidebar/search.png") no-repeat 15px 15px;
+      background-size: 12px 12px;
     }
 
     &.inbox {
-      background: url("../img/inbox.png") no-repeat 15px 15px;
+      background: url("../img/sidebar/inbox.png") no-repeat 15px 15px;
       background-size: 12px 12px;
     }
 
     &.all {
-      background: url("../img/all.png") no-repeat 15px 14px;
+      background: url("../img/sidebar/all.png") no-repeat 15px 14px;
       background-size: 12px 11px;
     }
 
     &.completed {
-      background: url("../img/completed.png") no-repeat 15px 15px;
+      background: url("../img/sidebar/completed.png") no-repeat 15px 15px;
       background-size: 13px 10px;
     }
 
@@ -93,7 +99,7 @@
       width: $sidebar-width - 55px;
       @extend %ellipsis;
       @include pos(auto, 45px, auto, 10px);
-      // @include transition(margin 0.1s ease);
+      @include transition(all 0.1s ease);
     }
 
     .arrow {
@@ -103,6 +109,9 @@
       height: 10px;
       position: relative;
       left: 15px;
+      background: url("../img/sidebar/arrow.png") no-repeat;
+      opacity: 0;
+      @include transition(opacity 0.1s ease);
     }
 
     .count {
@@ -113,16 +122,19 @@
 
     &.current {
       font-weight: 700;
+
       &.special .name {
+        margin-left: 45px;
         width: $sidebar-width - 95px;
       }
+
       .name {
         width: $sidebar-width - 75px;
         margin-left: 20px;
       }
+
       .arrow {
-        background: url("../img/arrow-left-fade.png") no-repeat;
-        @include animation(200ms steps(10, end) fade-out 1);
+        opacity: 1;
       }
     }
 

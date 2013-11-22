@@ -14,22 +14,22 @@
     background-repeat: no-repeat;
   }
 
+  .trash, .email, .print, .sort {
+    background-image: url("../img/panel/sprite_list.png");
+  }
+
   .trash {
-    background-image: url("../img/sprite_list.png");
     background-position: -16px 0;
   }
   .email {
-    background-image: url("../img/sprite_list.png");
   }
   .print {
-    background-image: url("../img/sprite_list.png");
     background-position: -48px 0;
   }
   .share {
     background-image: url("../img/share.png");
   }
   .sort {
-    background-image: url("../img/sprite_list.png");
     background-position: -32px 0;
   }
 

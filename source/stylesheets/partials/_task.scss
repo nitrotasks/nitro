@@ -119,7 +119,7 @@
     height: 29px;
     padding: 0 5px;
     opacity: 1;
-    @include transition(0.2s, opacity);
+    @include transition(opacity 0.2s ease);
     &:hover {
       opacity: 0.6;
     }
