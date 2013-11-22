@@ -5,7 +5,6 @@ class ListSearch extends ListItem
 
   constructor: ->
     super
-
     @bind $ '.search.list'
 
   click: =>

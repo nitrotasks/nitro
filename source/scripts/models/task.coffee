@@ -76,8 +76,6 @@ class TaskCollection extends Base.Collection
         if item.name.toLowerCase().indexOf(word) < 0 then return false
       return true
 
-  # TODO: This should be put in a seperate file
-
   # Find tasks with matching tags
   tag: (tag) =>
     return [] unless tag
