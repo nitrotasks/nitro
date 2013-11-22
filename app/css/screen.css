@@ -3144,8 +3144,10 @@ html, body {
     background: url("../img/checkmark.png") no-repeat; }
   .task.completed .checkbox, .task.completed .notes {
     border-left-color: #cccccc; }
-  .task.completed .name, .task.completed .tag {
+  .task.completed .name {
     color: #888888; }
+  .task.completed .tag {
+    color: #4c4c4c; }
   .task.completed img, .task.completed time {
     display: none !important; }
 

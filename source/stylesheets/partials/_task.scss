@@ -310,8 +310,13 @@
       border-left-color: $mid-grey;
     }
 
-    .name, .tag {
+    .name {
       color: $half-grey;
+    }
+
+    .tag {
+      // Tags are a slightly darker grey
+      color: $dark-grey;
     }
 
     img, time {
