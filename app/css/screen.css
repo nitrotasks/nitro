@@ -2860,6 +2860,8 @@ html, body {
   .task.selected {
     border-color: #1bc1f5;
     background: #e8f8fe; }
+  .task.selected:before {
+    display: none; }
   .task .tag {
     color: #068dd8;
     cursor: pointer;

@@ -55,6 +55,9 @@
     border-color: $light-blue;
     background: mix($white, $light-blue, 90);
   }
+  &.selected:before {
+    display: none;
+  }
 
 
 
