@@ -736,101 +736,6 @@ table {
     background-position-y: 0px; } }
 
 /*
- * HEIGHT
- */
-@-webkit-keyframes height {
-  0% {
-    height: 0;
-    padding: 0 40px;
-    border-top: 1px transparent solid; }
-
-  100% {
-    height: 40px;
-    padding: 5px 40px;
-    border-top: 1px inherit solid; } }
-
-@-moz-keyframes height {
-  0% {
-    height: 0;
-    padding: 0 40px;
-    border-top: 1px transparent solid; }
-
-  100% {
-    height: 40px;
-    padding: 5px 40px;
-    border-top: 1px inherit solid; } }
-
-@-ms-keyframes height {
-  0% {
-    height: 0;
-    padding: 0 40px;
-    border-top: 1px transparent solid; }
-
-  100% {
-    height: 40px;
-    padding: 5px 40px;
-    border-top: 1px inherit solid; } }
-
-@keyframes height {
-  0% {
-    height: 0;
-    padding: 0 40px;
-    border-top: 1px transparent solid; }
-
-  100% {
-    height: 40px;
-    padding: 5px 40px;
-    border-top: 1px inherit solid; } }
-
-/*
- * HEIGHT - REVERSED
- * TODO: Can we use CSS to reverse the direction instead?
- */
-@-webkit-keyframes rev {
-  0% {
-    height: 40px;
-    padding: 5px 40px;
-    border-top: 1px inherit solid; }
-
-  100% {
-    height: 0;
-    padding: 0 40px;
-    border-top: 1px transparent solid; } }
-
-@-moz-keyframes rev {
-  0% {
-    height: 40px;
-    padding: 5px 40px;
-    border-top: 1px inherit solid; }
-
-  100% {
-    height: 0;
-    padding: 0 40px;
-    border-top: 1px transparent solid; } }
-
-@-ms-keyframes rev {
-  0% {
-    height: 40px;
-    padding: 5px 40px;
-    border-top: 1px inherit solid; }
-
-  100% {
-    height: 0;
-    padding: 0 40px;
-    border-top: 1px transparent solid; } }
-
-@keyframes rev {
-  0% {
-    height: 40px;
-    padding: 5px 40px;
-    border-top: 1px inherit solid; }
-
-  100% {
-    height: 0;
-    padding: 0 40px;
-    border-top: 1px transparent solid; } }
-
-/*
  * NEW TASK
  */
 @-webkit-keyframes new-task {
@@ -2902,24 +2807,46 @@ html, body {
       color: #888888; }
 
 .task {
-  display: block;
-  list-style-type: none;
-  border: 1px #d9d9d9 solid;
   position: relative;
+  list-style-type: none;
   font-size: 14px;
-  color: #4c4c4c;
   line-height: 28px;
-  cursor: default;
+  color: #4c4c4c;
+  border: 1px #d9d9d9 solid;
   border-top: 0;
   border-left: 0;
-  -webkit-transition: 0.15s, ease, margin;
-  -moz-transition: 0.15s, ease, margin;
-  transition: 0.15s, ease, margin;
+  -webkit-transition: margin 0.15s ease;
+  -moz-transition: margin 0.15s ease;
+  transition: margin 0.15s ease;
   -webkit-transform: translate3d(0, 0, 0);
   -moz-transform: translate3d(0, 0, 0);
   -ms-transform: translate3d(0, 0, 0);
   -o-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0); }
+  .task:first-child {
+    border-top: 1px solid #d9d9d9; }
+  .task:after {
+    content: "";
+    display: block;
+    width: 2px;
+    border-left: 1px solid #e6e6e6;
+    border-right: 1px solid #e6e6e6;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 31px;
+    right: auto; }
+  .task:before {
+    display: block;
+    content: "";
+    position: absolute;
+    top: 28px;
+    bottom: auto;
+    left: 4px;
+    right: 0;
+    height: 1px;
+    background: #e6e6e6;
+    z-index: 200; }
   .task.new {
     -webkit-transform: none;
     -moz-transform: none;
@@ -2930,53 +2857,45 @@ html, body {
     -moz-animation: new-task 1 ease 150ms;
     -ms-animation: new-task 1 ease 150ms;
     animation: new-task 1 ease 150ms; }
-  .task:first-child {
-    border-top: 1px solid #d9d9d9; }
   .task.selected {
-    border-color: #1BC1F5;
+    border-color: #1bc1f5;
     background: #e8f8fe; }
-  .task:before {
-    content: "";
+  .task .tag {
+    color: #068dd8;
+    cursor: pointer;
+    -webkit-transition: color 150ms ease;
+    -moz-transition: color 150ms ease;
+    transition: color 150ms ease; }
+    .task .tag:hover {
+      text-decoration: underline; }
+  .task .checkbox {
+    display: inline-block;
+    position: relative;
+    top: -1px;
+    width: 28px;
+    height: 30px;
+    margin-bottom: -11px;
+    border-left: 4px solid #cccccc;
+    -webkit-transition: border-color 0.15s ease;
+    -moz-transition: border-color 0.15s ease;
+    transition: border-color 0.15s ease; }
+  .task .checkbox:before {
     display: block;
-    border-left: 1px solid #e6e6e6;
-    border-right: 1px solid #e6e6e6;
-    width: 2px;
+    content: "";
     position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 31px;
-    right: auto; }
+    top: 9px;
+    bottom: auto;
+    left: 8px;
+    right: auto;
+    border: 1px #d9d9d9 solid;
+    height: 10px;
+    width: 10px; }
   .task.p3 .checkbox, .task.p3 .notes {
     border-left-color: #e15556; }
   .task.p2 .checkbox, .task.p2 .notes {
     border-left-color: #9dd071; }
   .task.p1 .checkbox, .task.p1 .notes {
     border-left-color: #1bc1f5; }
-  .task .tag {
-    color: #068dd8;
-    cursor: pointer;
-    -webkit-transition: 150ms, color, ease;
-    -moz-transition: 150ms, color, ease;
-    transition: 150ms, color, ease; }
-    .task .tag:hover {
-      text-decoration: underline; }
-  .task .checkbox {
-    display: inline-block;
-    position: relative;
-    margin-bottom: -11px;
-    width: 28px;
-    height: 30px;
-    top: -1px;
-    border-left: 4px solid #cccccc; }
-    .task .checkbox:before {
-      display: block;
-      content: "";
-      top: 9px;
-      left: 8px;
-      position: absolute;
-      border: 1px #d9d9d9 solid;
-      height: 10px;
-      width: 10px; }
   .task .name {
     line-height: 18px;
     position: absolute;
@@ -2984,9 +2903,9 @@ html, body {
     bottom: auto;
     left: 44px;
     right: 0;
-    -webkit-transition: 150ms, color, ease;
-    -moz-transition: 150ms, color, ease;
-    transition: 150ms, color, ease; }
+    -webkit-transition: color 150ms ease;
+    -moz-transition: color 150ms ease;
+    transition: color 150ms ease; }
   .task .input-name {
     color: #4c4c4c;
     position: absolute;
@@ -3076,25 +2995,26 @@ html, body {
     border: 0;
     outline: 0;
     width: 80px; }
-  .task.animout .notes {
-    -webkit-animation: 0.15s ease rev 1;
-    -moz-animation: 0.15s ease rev 1;
-    -ms-animation: 0.15s ease rev 1;
-    animation: 0.15s ease rev 1; }
   .task .notes {
+    display: block;
+    position: relative;
     background: #fafafa;
     line-height: 21px;
-    outline: none;
-    height: 0;
     padding: 0 5px 0 40px;
-    overflow: hidden;
-    border-left: 4px solid #cccccc; }
-    .task .notes::-webkit-scrollbar-track {
-      margin: 10px 0; }
-    .task .notes::-webkit-scrollbar {
-      width: 0; }
+    height: 0px;
+    width: 100%;
+    outline: 0;
+    max-height: 400px;
+    overflow: auto;
+    box-sizing: border-box;
+    resize: none;
+    border: 0;
+    border-left: 4px solid #cccccc;
+    -webkit-transition: all 0.15s ease;
+    -moz-transition: all 0.15s ease;
+    transition: all 0.15s ease; }
     .task .notes.placeholder {
-      color: #666666; }
+      color: #888888; }
   .task.expanded {
     border-top: 1px solid #d9d9d9;
     margin: 5px 0; }
@@ -3112,26 +3032,6 @@ html, body {
       display: inline-block;
       cursor: text;
       right: 214px; }
-    .task.expanded .notes {
-      cursor: text;
-      display: block;
-      height: 40px;
-      padding: 5px 5px 5px 40px;
-      border-top: 1px #e6e6e6 solid;
-      -webkit-animation: 0.15s ease height 1;
-      -moz-animation: 0.15s ease height 1;
-      -ms-animation: 0.15s ease height 1;
-      animation: 0.15s ease height 1;
-      overflow: auto;
-      max-height: 200px; }
-      .task.expanded .notes.auto {
-        height: auto; }
-        .task.expanded .notes.auto::-webkit-scrollbar {
-          width: 7px; }
-      .task.expanded .notes .inner {
-        min-height: 40px;
-        width: 100%;
-        outline: 0; }
   .task.completed .checkbox:after {
     content: "";
     width: 10px;
@@ -3148,8 +3048,6 @@ html, body {
     color: #888888; }
   .task.completed .tag {
     color: #4c4c4c; }
-  .task.completed img, .task.completed time {
-    display: none !important; }
 
 .new-task {
   width: 100%;

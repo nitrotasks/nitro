@@ -13,41 +13,6 @@
 }
 
 /*
- * HEIGHT
- */
-
-@include keyframes( height ) {
-  0% {
-    height: 0;
-    padding: 0 40px;
-    border-top: 1px transparent solid;
-  }
-  100% {
-    height: 40px;
-    padding: 5px 40px;
-    border-top: 1px inherit solid;
-  }
-}
-
-/*
- * HEIGHT - REVERSED
- * TODO: Can we use CSS to reverse the direction instead?
- */
-
-@include keyframes( rev ) {
-  0% {
-    height: 40px;
-    padding: 5px 40px;
-    border-top: 1px inherit solid;
-  }
-  100% {
-    height: 0;
-    padding: 0 40px;
-    border-top: 1px transparent solid;
-  }
-}
-
-/*
  * NEW TASK
  */
 

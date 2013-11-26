@@ -13,8 +13,7 @@ class TaskItem extends Base.View
     '.name'         : 'name'
     '.input-name'   : 'inputName'
     '.date'         : 'date'
-    '.notes'        : 'notesParent'
-    '.notes .inner' : 'notes'
+    '.notes'        : 'notes'
     'time'          : 'time'
 
   events:
@@ -37,6 +36,12 @@ class TaskItem extends Base.View
   constructor: ->
     Base.touchify(@events)
     super
+
+    @notes.autosize
+      resizeDelay: false
+      append: '\n'
+
+    @notes.css 'height', '0px'
 
     @expanded = false
 
@@ -77,22 +82,24 @@ class TaskItem extends Base.View
       @trigger 'select'
       @expanded = true
       @inputName.val @task.name
-      @el.addClass('expanded animout')
+      @el.addClass 'expanded'
+      @notes.trigger 'autosize.resize'
 
       # TODO: Fix
       # Disable sortable and draggable
       # @el.draggable({ disabled: true })
       # @el.parent().sortable({ disabled: true })
 
-      notes = @notes.parent()
-      delay 300, ->
-        notes.addClass 'auto'
+      # notes = @notes.parent()
+      # delay 300, ->
+      #   notes.addClass 'auto'
 
   # Collapse the task
   collapse: =>
     if @expanded
       @expanded = false
-      @el.removeClass('expanded')
+      @el.removeClass 'expanded'
+      @notes.css 'height', '0px'
 
   # ----------------------------------------------------------------------------
   # COMPLETED
@@ -170,13 +177,13 @@ class TaskItem extends Base.View
   notesEdit: =>
     if @notes.text() is translate 'Notes'
       @notes.text ''
-    @notesParent.removeClass 'placeholder'
+    @notes.removeClass 'placeholder'
 
   notesSave: =>
-    text = @notes.html()
+    text = @notes.val()
     if text is ''
       @notes.text translate 'Notes'
-      @notesParent.addClass 'placeholder'
+      @notes.addClass 'placeholder'
     else
       @task.notes = text
 

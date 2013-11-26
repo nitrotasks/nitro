@@ -57,11 +57,10 @@ module.exports = (task) ->
         </div>
         <div class="delete"></div>
       </div>
-      <div class='notes#{
-        if not task.notes then " placeholder" else ""
-      }'>
-        <div class='inner editable' contenteditable='true'>#{
-          task.notes or "Notes" }</div>
-      </div>
+      <textarea class='notes editable #{
+        if task.notes then '' else 'placeholder'
+      }'>#{
+        if task.notes then task.notes else 'Notes'
+      }</textarea>
     </li>
   """

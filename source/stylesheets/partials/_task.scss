@@ -5,43 +5,109 @@
 
 .task {
 
-  display: block;
-  list-style-type: none;
-  border: 1px $task-color solid;
   position: relative;
+  list-style-type: none;
+
   font-size: 14px;
-  color: #4c4c4c;
   line-height: 28px;
-  cursor: default;
+  color: #4c4c4c;
+
+  border: 1px $task-color solid;
   border-top: 0;
   border-left: 0;
 
-  @include transition( 0.15s, ease, margin );
-  @include transform( translate3d(0, 0, 0) );
-
-  &.new {
-    @include transform( none );
-    @include animation( new-task 1 ease 150ms );
-  }
+  @include transition(margin 0.15s ease);
+  @include transform(translate3d(0, 0, 0));
 
   &:first-child {
     border-top: 1px solid $task-color;
   }
 
-  &.selected {
-    border-color: #1BC1F5;
-    background: mix(#fff, #1BC1F5, 90);
-  }
-
   // Vertical Stripes
-  &:before {
+  &:after {
     content: "";
     display: block;
-    border-left: 1px solid #e6e6e6;
-    border-right: 1px solid #e6e6e6;
     width: 2px;
+    border-left: 1px solid $task-stripes;
+    border-right: 1px solid $task-stripes;
     @include pos(0, auto, 0, 31px);
   }
+
+  // Notes border
+  &:before {
+    display: block;
+    content: "";
+    @include pos(28px, 0, auto, 4px);
+    height: 1px;
+    background: $task-stripes;
+    z-index: 200;
+  }
+
+
+  // Newly created tasks
+  &.new {
+    @include transform(none);
+    @include animation(new-task 1 ease 150ms);
+  }
+
+  // Selected tasks
+  &.selected {
+    border-color: $light-blue;
+    background: mix($white, $light-blue, 90);
+  }
+
+
+
+
+
+  // --------------------------------------------------------------------------
+  // TAGS
+  // --------------------------------------------------------------------------
+
+  .tag {
+    color: $dark-blue;
+    cursor: pointer;
+    @include transition(color 150ms ease);
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+
+  // --------------------------------------------------------------------------
+  // PRIORITY
+  // --------------------------------------------------------------------------
+
+  .checkbox {
+    display: inline-block;
+    position: relative;
+    top: -1px;
+    width: 28px;
+    height: 30px;
+    margin-bottom: -11px;
+    border-left: 4px solid $mid-grey;
+    @include transition(border-color 0.15s ease);
+  }
+
+
+  // --------------------------------------------------------------------------
+  // CHECKBOX
+  // --------------------------------------------------------------------------
+
+  .checkbox:before {
+    display: block;
+    content: "";
+    @include pos(9px, auto, auto, 8px);
+    border: 1px $task-color solid;
+    height: 10px;
+    width: 10px;
+  }
+
+
+  // --------------------------------------------------------------------------
+  // PRIORITY COLOURS
+  // --------------------------------------------------------------------------
 
   &.p3 .checkbox,
   &.p3 .notes {
@@ -58,42 +124,16 @@
     border-left-color: $light-blue;
   }
 
-  .tag {
-    color: $dark-blue;
-    cursor: pointer;
-    @include transition(150ms, color, ease);
 
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
-  .checkbox {
-    display: inline-block;
-    position: relative;
-    margin-bottom: -11px;
-    width: 28px;
-    height: 30px;
-    top: -1px;
-    border-left: 4px solid $mid-grey;
-
-    &:before {
-      display: block;
-      content: "";
-      top: 9px;
-      left: 8px;
-      position: absolute;
-      border: 1px #d9d9d9 solid;
-      height: 10px;
-      width: 10px;
-    }
-  }
+  // --------------------------------------------------------------------------
+  // NAME
+  // --------------------------------------------------------------------------
 
   .name {
     line-height: 18px;
     @extend %ellipsis;
     @include pos(6px, 0, auto, 44px);
-    @include transition(150ms, color, ease);
+    @include transition(color 150ms ease);
   }
 
   .input-name {
@@ -105,6 +145,11 @@
     outline: none;
     padding: 0;
   }
+
+
+  // --------------------------------------------------------------------------
+  // RIGHT CONTROLS
+  // --------------------------------------------------------------------------
 
   .right-controls {
     @include pos(0, 0, auto, auto);
@@ -197,33 +242,40 @@
     width: 80px;
   }
 
-  &.animout {
-    .notes {
-      @include animation( 0.15s ease rev 1 );
-    }
-  }
+  // &.animout {
+  //   .notes {
+  //     @include animation( 0.15s ease rev 1 );
+  //   }
+  // }
 
-  // Show the notes
+  // --------------------------------------------------------------------------
+  // NOTES
+  // --------------------------------------------------------------------------
+
   .notes {
-    background: #fafafa;
+    display: block;
+    position: relative;
+    background: $task-notes;
     line-height: 21px;
-    outline: none;
-    height: 0;
     padding: 0 5px 0 40px;
-    overflow: hidden;
+    height: 0px;
+    width: 100%;
+    outline: 0;
+    max-height: 400px;
+    overflow: auto;
+    box-sizing: border-box;
+    resize: none;
+
+    // Priority
+    border: 0;
     border-left: 4px solid $mid-grey;
 
-    &::-webkit-scrollbar-track {
-      margin: 10px 0;
-    }
-
-    &::-webkit-scrollbar {
-      width: 0;
-    }
+    @include transition(all 0.15s ease);
 
     &.placeholder {
-      color: hsl(0, 0, 40%);
+      color: $half-grey;
     }
+
   }
 
   // --------------------------------------------------------------------------
@@ -232,6 +284,7 @@
 
   &.expanded {
     border-top: 1px solid $task-color;
+    margin: 5px 0;
 
     &.group {
       margin-bottom: 20px;
@@ -239,13 +292,13 @@
 
     &+ li {
       border-top: 1px solid $task-color;
+
       &.seperator {
         border-top: 0;
       }
     }
 
-    // Add some spacing around the task
-    margin: 5px 0;
+
 
     // Show right buttons
     .date, .delete, .priority-button, img {
@@ -263,33 +316,6 @@
       right: 214px;
     }
 
-    .notes {
-      cursor: text;
-      display: block;
-      height: 40px;
-      padding: 5px 5px 5px 40px;
-      border-top: 1px #e6e6e6 solid;
-      @include animation( 0.15s ease height 1 );
-      overflow: auto;
-      max-height: 200px;
-
-      &.auto {
-        height: auto;
-
-        &::-webkit-scrollbar {
-          width: 7px;
-        }
-
-      }
-
-      .inner {
-        min-height: 40px;
-        width: 100%;
-        outline: 0;
-      }
-
-    }
-
   }
 
   // --------------------------------------------------------------------------
@@ -298,6 +324,7 @@
 
   &.completed {
 
+    // Display the checkmark icon
     .checkbox:after {
       content: "";
       width:  10px;
@@ -306,22 +333,25 @@
       background: url("../img/checkmark.png") no-repeat;
     }
 
+    // Set priority color to grey
     .checkbox, .notes {
       border-left-color: $mid-grey;
     }
 
+    // Dim text
     .name {
       color: $half-grey;
     }
 
+    // Dim tags
     .tag {
-      // Tags are a slightly darker grey
       color: $dark-grey;
     }
 
-    img, time {
-      display: none !important;
-    }
+    // Hide images?
+    // img, time {
+    //   display: none !important;
+    // }
 
   }
 
