@@ -4,7 +4,7 @@
   "dependencies": {
     "jqueryify"      : "~2.0.3",
     "base"           : "git://github.com/stayradiated/base.git#master",
-    "select"         : "git://github.com/stayradiated/select.git#master"
+    "mouse"         : "git://github.com/stayradiated/mouse.git#master"
   },
   "scripts": {
     "lint": "coffeelint -f lint.json -r source/scripts"

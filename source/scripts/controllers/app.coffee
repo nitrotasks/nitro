@@ -10,7 +10,7 @@ $ = require 'jqueryify'
 Keys      = require '../utils/keys'
 translate = require '../utils/translate'
 Event     = require '../utils/event'
-Select    = require 'select'
+Mouse     = require 'mouse'
 
 # Models
 Task    = require '../models/task'
@@ -73,11 +73,10 @@ class App
     # Load views
     @keys = new Keys()
 
-    select = new Select
+    mouse = new Mouse
       parent: $('.tasks')[0]
       query: '.task'
-
-    select.init()
+    mouse.init()
 
     # Init Modals
     Modal.init()
