@@ -73,9 +73,21 @@ class App
     # Load views
     @keys = new Keys()
 
-    mouse = new Mouse
+
+    # TODO: Don't make this global
+    window.mouse = new Mouse
       parent: $('.tasks')[0]
       query: '.task'
+      offsetY: -15
+      helper: (elements) ->
+        if elements.length is 1
+          return elements[0].querySelector('.name').innerText
+        return "Moving #{ elements.length } tasks"
+
+    mouse.on 'drop', (elements, zone) ->
+      console.log 'elements', elements
+      console.log 'zone', zone
+
     mouse.init()
 
     # Init Modals

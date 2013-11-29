@@ -2806,6 +2806,13 @@ html, body {
     .sidebar .create-list:-moz-placeholder {
       color: #888888; }
 
+.drag-helper {
+  position: absolute;
+  line-height: 30px;
+  height: 30px;
+  background: #eee;
+  padding: 0 10px; }
+
 .task {
   position: relative;
   list-style-type: none;
@@ -2823,6 +2830,9 @@ html, body {
   -ms-transform: translate3d(0, 0, 0);
   -o-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0); }
+  .task.hidden {
+    display: block;
+    opacity: 0.4; }
   .task:first-child {
     border-top: 1px solid #d9d9d9; }
   .task:after {

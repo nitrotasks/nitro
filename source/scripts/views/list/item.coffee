@@ -32,6 +32,8 @@ class ListItem extends Base.View
     @el = $ @template @list
     @bind()
 
+    mouse.addDrop @el.get(0)
+
     # TODO: Setup droppable
     # @el.droppable
     #   hoverClass: 'ui-state-active'
