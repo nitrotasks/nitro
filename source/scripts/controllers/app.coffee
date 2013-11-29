@@ -78,7 +78,8 @@ class App
     window.mouse = new Mouse
       parent: $('.tasks')[0]
       query: '.task'
-      offsetY: -15
+      offsetY: -37
+      offsetX: 0
       helper: (elements) ->
         if elements.length is 1
           return elements[0].querySelector('.name').innerText

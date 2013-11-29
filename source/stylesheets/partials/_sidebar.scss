@@ -59,6 +59,11 @@
     border-top: 1px solid darken($light-grey, 10);
 
 
+    &.droppable {
+      background: darken($light-grey, 5);
+    }
+
+
     &.special {
       @include transition(background-position 0.1s ease);
 

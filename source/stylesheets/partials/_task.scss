@@ -5,10 +5,14 @@
 
 .drag-helper {
   position: absolute;
-  line-height: 30px;
-  height: 30px;
-  background: #eee;
-  padding: 0 10px;
+  min-height: 27px;
+  min-width: 80px;
+  line-height: 27px;
+  padding: 5px 10px;
+  background: rgba($white, 0.9);
+  border: 1px solid $mid-grey;
+  font-size: 14px;
+  overflow: hidden;
 }
 
 .task {

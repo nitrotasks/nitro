@@ -2734,6 +2734,8 @@ html, body {
     line-height: 40px;
     color: #4c4c4c;
     border-top: 1px solid #d9d9d9; }
+    .sidebar .list.droppable {
+      background: #e6e6e6; }
     .sidebar .list.special {
       -webkit-transition: background-position 0.1s ease;
       -moz-transition: background-position 0.1s ease;
@@ -2808,10 +2810,14 @@ html, body {
 
 .drag-helper {
   position: absolute;
-  line-height: 30px;
-  height: 30px;
-  background: #eee;
-  padding: 0 10px; }
+  min-height: 27px;
+  min-width: 80px;
+  line-height: 27px;
+  padding: 5px 10px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #cccccc;
+  font-size: 14px;
+  overflow: hidden; }
 
 .task {
   position: relative;
