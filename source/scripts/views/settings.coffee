@@ -6,9 +6,34 @@ setting = require '../models/setting'
 
 Modal   = require '../views/modal/settings'
 
+Tab     = require '../views/settings_tab'
+
+General  = require '../views/tab/general'
+Account  = require '../views/tab/account'
+Language = require '../views/tab/language'
+About    = require '../views/tab/about'
+
 Cookies = require '../vendor/cookies'
 Event   = require '../utils/event'
 config  = require '../utils/config'
+
+class Settings extends Base.View
+
+  events: {}
+
+  constructor: ->
+    super
+
+    # TODO: This is just a placeholder
+    $('#open-settings-button').click =>
+      Modal.show()
+
+    # Bind to the settings modal
+    @bind $ '.modal.settings'
+
+module.exports = Settings
+
+###
 
 class Settings extends Base.View
 
@@ -48,15 +73,19 @@ class Settings extends Base.View
   constructor: ->
     super
 
+    # TODO: This is just a placeholder
     $('#open-settings-button').click =>
       @show()
+
+    # Bind to the settings modal
+    @bind $ '.modal.settings'
 
     # @listen Event,
     #   'settings:show': @show
     #   'login': @account
 
-    # @loadSettings()
-    # @setLanguage()
+    @loadSettings()
+    @setLanguage()
 
     # unless setting.notifications and setting.isPro()
     # @disableNotifications()
@@ -130,12 +159,14 @@ class Settings extends Base.View
     List.forEach (list) ->
       list.moveCompleted()
 
-  tabSwitch: (e) =>
+  tabSwitch: (event) =>
     if $(e.target).hasClass('close')
       @el.modal('hide')
     else
-      @el.find('.current').removeClass 'current'
-      # Switches tabs
+      @currentTab?.removeClass 'current'
+      @currentTab = $ event.target
+      @currentTab.addClass 'current'
+      @getTab(@currentTab.data('id')).addClass('current')
       @el
         .find 'div.' + $(e.target).addClass('current').attr('data-id')
         .addClass 'current'
@@ -312,3 +343,5 @@ class Settings extends Base.View
       @disabler.prop('disabled', true).addClass('disabled')
 
 module.exports = Settings
+
+###

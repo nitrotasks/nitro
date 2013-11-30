@@ -27,8 +27,7 @@ class Modal extends Base.View
     modals.push this
 
   init: =>
-    @el = $ @selector
-    @bind()
+    @bind $ @selector
 
   state: off
 

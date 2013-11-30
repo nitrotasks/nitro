@@ -27,6 +27,7 @@ Search        = require '../controllers/search'
 
 # Views
 Modal         = require '../views/modal'
+Tab           = require '../views/settings_tab'
 Keys          = require '../views/keys'
 LoadingScreen = require '../views/loading_screen'
 Lists         = require '../views/lists'
@@ -50,9 +51,6 @@ class App
     Setting.trigger 'fetch'
     User.trigger 'fetch'
 
-    # Init Settings
-    # Settings = new Settings
-
     # Load translations
     translate.init()
 
@@ -74,7 +72,6 @@ class App
     # Load views
     @keys = new Keys()
 
-
     # TODO: Don't make this global
     window.mouse = new Mouse
       parent: $('.tasks')[0]
@@ -95,6 +92,7 @@ class App
 
     # Init Modals
     Modal.init()
+    Tab.init()
 
     # Load data from disk
     Task.trigger 'fetch'
