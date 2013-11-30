@@ -57,7 +57,7 @@ class Tasks extends Base.View
 
   # Add a single task to the DOM
   addOne: (task) =>
-    # return unless List.current.id in [task.list, 'all']
+    # return unless List.current.id in [task.listId, 'all']
 
     # Add to dom
     @tasks.prepend @template.item task
@@ -185,7 +185,7 @@ class Tasks extends Base.View
         html += @template.item task
 
         # TODO: Add this back in a sane way
-        # if list.id is 'all' then task.listName = List.get(task.list).name
+        # if list.id is 'all' then task.listName = task.list().name
 
     # Render html
     @tasks.html html
@@ -224,7 +224,7 @@ class Tasks extends Base.View
     @input.val ''
     Task.create
       name: name
-      list: Lists.active.id
+      listId: Lists.active.id
       date: dateDetector.parse name
 
   updateSearchResults: =>

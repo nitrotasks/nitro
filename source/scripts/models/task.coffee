@@ -6,12 +6,17 @@ class Task extends Base.Model
 
   defaults:
     id: null
-    list: null
+    listId: null
     date: null
     name: ''
     notes: ''
     priority: 1
     completed: false
+
+  # Get the actual list
+  list: =>
+    List.get @listId
+
 
 class TaskCollection extends Base.Collection
 
@@ -22,12 +27,6 @@ class TaskCollection extends Base.Collection
   constructor: ->
     super
 
-    # Add task to the list.task collection
-    @on 'create:model', (task) =>
-      if List.exists task.list
-        list = List.get task.list
-        list.tasks.add task, silent: true
-        list.tasks.trigger 'change'
 
 
   # Get the active tasks
@@ -41,9 +40,7 @@ class TaskCollection extends Base.Collection
   # Get the matching tasks for a list
   list: (listId) =>
     return [] unless listId
-    if listId is 'all' then return @active()
-    else if listId is 'completed' then return @completed()
-    @filter (task) -> task.list is listId
+    @filter (task) -> task.listId is listId
 
   # Sort the tasks
   sortTasks: (tasks) =>
@@ -85,6 +82,13 @@ class TaskCollection extends Base.Collection
 
 # Create a new TaskCollection to store all tasks
 allTasks = new TaskCollection()
+
+# Add task to the list.task collection
+allTasks.on 'create:model', (task) =>
+  if List.exists task.listId
+    list = task.list()
+    list.tasks.add task, silent: true
+    list.tasks.trigger 'change'
 
 # Add localStorage support
 new Local(allTasks)

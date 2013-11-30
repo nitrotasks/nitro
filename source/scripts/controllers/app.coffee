@@ -86,8 +86,9 @@ class App
         return "Moving #{ elements.length } tasks"
 
     mouse.on 'drop', (elements, zone) ->
-      console.log 'elements', elements
-      console.log 'zone', zone
+      list = zone.list
+      for el in elements
+        el.task.list().moveTask(el.task, list)
 
     mouse.init()
 

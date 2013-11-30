@@ -32,7 +32,9 @@ class ListItem extends Base.View
     @el = $ @template @list
     @bind()
 
-    mouse.addDrop @el.get(0)
+    el = @el[0]
+    el.list = @list
+    mouse.addDrop(el)
 
     # TODO: Setup droppable
     # @el.droppable

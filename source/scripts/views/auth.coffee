@@ -114,9 +114,7 @@ class Auth extends Base.View
     @trigger 'skip'
 
   hideError: =>
-    @errorMessage
-      .removeClass('populated')
-      .empty()
+    @errorMessage.removeClass('populated')
 
   showError: (status, message) ->
     @errorMessage
@@ -125,10 +123,10 @@ class Auth extends Base.View
 
   showSuccess: ->
     @hideError()
-    @loginMessage.addClass('hidden')
-    @successMessage.removeClass('hidden')
+    @loginMessage.addClass 'hidden'
+    @successMessage.removeClass 'hidden'
 
   spinner: (status) ->
-    @buttons.toggleClass('active', status)
+    @buttons.toggleClass 'active', status
 
 module.exports = Auth

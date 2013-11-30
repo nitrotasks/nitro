@@ -37,6 +37,8 @@ class TaskItem extends Base.View
     Base.touchify(@events)
     super
 
+    @el[0].task = @task
+
     @notes.autosize
       resizeDelay: false
       append: '\n'
@@ -47,6 +49,7 @@ class TaskItem extends Base.View
 
     @listen @task,
       'destroy': @release
+      'change:listId': @updateList
       'change:name': @updateName
       'change:priority': @updatePriority
       'change:completed': @updateCompleted
@@ -71,6 +74,9 @@ class TaskItem extends Base.View
   release: =>
     @unbind()
     @el.remove()
+
+  updateList: =>
+    @release()
 
   # ----------------------------------------------------------------------------
   # EXPAND / COLLAPSE
@@ -120,12 +126,12 @@ class TaskItem extends Base.View
     if false # List.current.id is 'completed'
 
       # Clones List
-      order = List.get(@task.list).tasks.slice(0)
+      order = @task.list().tasks.slice()
 
       # Checks if it hasn't been moved
       if order.indexOf(@task.id) is -1
         order.push(@task.id)
-        List.get(@task.list).tasks = order
+        @task.list().tasks = order
 
     else if false # setting.completedDuration is 'instant'
       settings.moveCompleted()
