@@ -20,7 +20,6 @@ User    = require '../models/user'
 
 # Controllers
 # Panel         = require # '../controllers/panel'
-# Settings      = require # '../controllers/Settings'
 # Sync          = require # '../controllers/sync'
 # Pro           = require # '../controllers/pro'
 Auth          = require '../controllers/auth'
@@ -34,6 +33,7 @@ Lists         = require '../views/lists'
 Title         = require '../views/title'
 ListButtons   = require '../views/list_buttons'
 Tasks         = require '../views/tasks'
+Settings      = require '../views/settings'
 
 # Special Lists
 # TODO: put these in another file
@@ -69,6 +69,7 @@ class App
     new Title()
     new ListButtons()
     new LoadingScreen()
+    new Settings()
 
     # Load views
     @keys = new Keys()

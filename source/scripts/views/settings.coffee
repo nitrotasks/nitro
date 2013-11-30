@@ -1,12 +1,11 @@
-# Base
 Base   = require 'base'
 
-# Models
 Task    = require '../models/task'
 List    = require '../models/list'
 setting = require '../models/setting'
 
-# Utils
+Modal   = require '../views/modal/settings'
+
 Cookies = require '../vendor/cookies'
 Event   = require '../utils/event'
 config  = require '../utils/config'
@@ -47,19 +46,21 @@ class Settings extends Base.View
     'click .save'          : 'saveField'
 
   constructor: ->
-    Base.touchify(@events)
     super
 
-    @listen Event,
-      'settings:show': @show
-      'login': @account
+    $('#open-settings-button').click =>
+      @show()
 
-    @loadSettings()
-    @setLanguage()
+    # @listen Event,
+    #   'settings:show': @show
+    #   'login': @account
+
+    # @loadSettings()
+    # @setLanguage()
 
     # unless setting.notifications and setting.isPro()
-    @disableNotifications()
-    @setupNotifications()
+    # @disableNotifications()
+    # @setupNotifications()
 
   # Fill in the form values
   loadSettings: =>
@@ -105,7 +106,7 @@ class Settings extends Base.View
     location.href = 'http://nitrotasks.com/pro?uid=' + setting.uid
 
   show: =>
-    @el.modal()
+    Modal.show()
 
   save: =>
     setting.username = @username.val()
