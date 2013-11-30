@@ -9,7 +9,7 @@ class ListAll extends ListItem
 
     @bind $ '.all.list'
 
-    Task.on 'change', @updateCount
+    Task.on 'change change:completed:model', @updateCount
 
     @updateCount()
 
