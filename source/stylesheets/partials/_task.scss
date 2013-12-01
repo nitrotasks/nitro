@@ -23,6 +23,7 @@
   font-size: 14px;
   line-height: 28px;
   color: #4c4c4c;
+  background: $white;
 
   border: 1px $task-color solid;
   border-top: 0;
@@ -70,7 +71,24 @@
   // Selected tasks
   &.selected {
     border-color: $light-blue;
-    background: mix($white, $light-blue, 90);
+    border-left-width: 1px;
+    border-left-style: solid;
+    box-shadow: 0 -1px $light-blue;
+    background: mix($white, $light-blue, 92);
+
+    // Adding the border offsets stuff a bit
+    &::after {
+      left: 30px;
+    }
+    .checkbox, .notes {
+      border-left-width: 3px;
+    }
+    .checkbox {
+      width: 27px;
+    }
+    .name, .input-name {
+      left: 43px;
+    }
   }
   &.selected:before {
     display: none;

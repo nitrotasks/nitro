@@ -4,14 +4,17 @@
 // ----------------------------------------------------------------------------
 
 .new-task {
-  width: 100%;
   @extend %thin-input;
-  // height: 28px;
-  // padding: 0 0 0 10px;
   font-size: 14px;
+  position: fixed;
+  z-index: 1;
+  top: 90px;
+  right: $sidebar-padding;
+  left: $sidebar-width + $sidebar-padding*3;
+  box-shadow: 15px 15px 10px $light-grey, -15px 15px 10px $light-grey;
 
   &:focus {
-    border-color: #1bc1f5;
+    border-color: $light-blue;
   }
 
   @include placeholder {
@@ -27,9 +30,8 @@
 
 ul.tasks {
   width: 100%;
-  margin: 0;
-  padding: 0;
-  margin-top: 20px;
+  padding: 0 0 40px;
+  margin: 145px 0 0;
 }
 
 
