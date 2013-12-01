@@ -11,7 +11,7 @@ html, body {
 
   .title {
     position: fixed;
-    height: 85px;
+    height: $panelHeight + 45px;
     padding-bottom: $sidebar-padding;
     right: $sidebar-padding;
     left: $sidebar-width + $sidebar-padding*3;
@@ -20,6 +20,7 @@ html, body {
 
     h1 {
       font-size: 30px;
+      line-height: 36px;
       color: $dark-grey;
       margin: 0;
       font-weight: 300;

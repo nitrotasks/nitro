@@ -1,0 +1,42 @@
+.panel {
+  @if $panelHeight == 0 {
+    display: none;
+  }
+  @if $panelHeight <= 16px {
+    visibility: hidden;
+  }
+  height: $panelHeight;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+
+  .avatar {
+    position: absolute;
+    right: $sidebar-padding;
+    color: $half-grey;
+    text-align: right;
+  }
+  .deets, .img {
+    display: inline-block;
+    vertical-align: top;
+  }
+  .name {
+    margin-top: 4px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+  }
+  .pro {
+    font-size: 11px;
+  }
+  .img {
+    margin-left: 10px;
+    width: $panelHeight - 4px;
+    height: $panelHeight - 4px;
+    background: url(../img/avatar.png) 50% 50%;
+    background-size: $panelHeight - 4px $panelHeight - 4px;
+  }
+}

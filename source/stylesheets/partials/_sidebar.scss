@@ -14,7 +14,7 @@
   @include pos(0, auto, 0, 0);
   position: fixed;
   width: $sidebar-width + $sidebar-padding *2;
-  padding: 40px 0 0;
+  padding: $panelHeight 0 0;
 
   overflow-x: hidden;
   overflow-y: auto;

@@ -2365,6 +2365,7 @@ html, body {
     background: #f3f3f3; }
     .main .title h1 {
       font-size: 30px;
+      line-height: 36px;
       color: #4c4c4c;
       margin: 0;
       font-weight: 300;
@@ -2384,6 +2385,36 @@ html, body {
         cursor: text; }
       .main .title h1[contenteditable=true]:focus {
         border-color: #cccccc; }
+
+.panel {
+  height: 40px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2; }
+  .panel .avatar {
+    position: absolute;
+    right: 20px;
+    color: #888888;
+    text-align: right; }
+  .panel .deets, .panel .img {
+    display: inline-block;
+    vertical-align: top; }
+  .panel .name {
+    margin-top: 4px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    text-transform: uppercase; }
+  .panel .pro {
+    font-size: 11px; }
+  .panel .img {
+    margin-left: 10px;
+    width: 36px;
+    height: 36px;
+    background: url(../img/avatar.png) 50% 50%;
+    background-size: 36px 36px; }
 
 .modals {
   display: none;
