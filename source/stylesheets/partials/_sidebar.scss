@@ -29,7 +29,10 @@
   .title {
       color: $sidebar-font;
       font-size: 30px;
-      margin: 0;
+      margin: 0 0 13px;
+      text-indent: 32px;
+      background: url(../img/logo/logo_white.png) $sidebar-padding 50% no-repeat;
+      background-size: 23px;
       font-weight: 300;
       letter-spacing: -1px;
       padding: 0 $sidebar-padding;
@@ -59,10 +62,15 @@
     font-weight: 300;
     line-height: 32px;
     height: 32px;
-    margin: 2px 0;
+    padding: 2px 0;
+    margin: 0;
     text-shadow: 0 -1px 0 lighten($sidebar-color, 10);
     color: $sidebar-font;
     @include transition(all 0.09s ease);
+
+    &:hover {
+      background-color: darken($sidebar-color, 1.5);
+    }
 
     &.droppable {
       background-color: darken($sidebar-color, 10);

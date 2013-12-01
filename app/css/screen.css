@@ -2358,7 +2358,7 @@ html, body {
   .main .title {
     position: fixed;
     height: 85px;
-    padding: 0 20px 63px;
+    padding: 0 20px 65px;
     right: 0;
     left: 290px;
     z-index: 2;
@@ -2373,7 +2373,7 @@ html, body {
       outline: none;
       position: absolute;
       top: auto;
-      bottom: 66px;
+      bottom: 71px;
       left: 20px;
       right: auto;
       -webkit-transition: 0.2s, border-color;
@@ -2742,7 +2742,10 @@ html, body {
   .sidebar .title {
     color: #eeeeee;
     font-size: 30px;
-    margin: 0;
+    margin: 0 0 13px;
+    text-indent: 32px;
+    background: url(../img/logo/logo_white.png) 20px 50% no-repeat;
+    background-size: 23px;
     font-weight: 300;
     letter-spacing: -1px;
     padding: 0 20px; }
@@ -2758,12 +2761,15 @@ html, body {
     font-weight: 300;
     line-height: 32px;
     height: 32px;
-    margin: 2px 0;
+    padding: 2px 0;
+    margin: 0;
     text-shadow: 0 -1px 0 #4a5359;
     color: #eeeeee;
     -webkit-transition: all 0.09s ease;
     -moz-transition: all 0.09s ease;
     transition: all 0.09s ease; }
+    .sidebar .list:hover {
+      background-color: #303539; }
     .sidebar .list.droppable {
       background-color: #1c1f21; }
     .sidebar .list.special {
@@ -3081,7 +3087,7 @@ html, body {
   font-size: 14px;
   position: fixed;
   z-index: 2;
-  top: 92px;
+  top: 94px;
   right: 20px;
   left: 310px;
   box-shadow: 0 20px 0 #f3f3f3, 0 21px 0 #d9d9d9; }
@@ -3098,7 +3104,7 @@ html, body {
 
 ul.tasks {
   padding: 0 20px 40px 20px;
-  margin: 148px 0 0; }
+  margin: 150px 0 0; }
 
 .message {
   display: none;
