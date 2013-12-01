@@ -7,7 +7,7 @@
   @extend %thin-input;
   font-size: 14px;
   position: fixed;
-  z-index: 1;
+  z-index: 2;
   top: $panelHeight + 52px;
   right: $sidebar-padding;
   left: $sidebar-width + $sidebar-padding*3;
@@ -29,8 +29,7 @@
 // ----------------------------------------------------------------------------
 
 ul.tasks {
-  width: 100%;
-  padding: 0 0 40px;
+  padding: 0 $sidebar-padding $sidebar-padding * 2 $sidebar-padding;
   margin: $panelHeight + 108px 0 0;
 }
 

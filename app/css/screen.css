@@ -2297,7 +2297,7 @@ body, input {
     background-position: -32px 0; }
 
 .select_js_box {
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(204, 204, 204, 0.6);
   position: absolute;
   top: 20px;
   left: 20px;
@@ -2305,8 +2305,8 @@ body, input {
   height: 100px;
   opacity: 1;
   transition: opacity 0.2s ease;
-  border: 1px solid rgba(0, 0, 0, 0.58);
-  z-index: 1000;
+  border: 1px solid #bbbbbb;
+  z-index: 1;
   box-sizing: border-box; }
 
 .select_js_box.hide {
@@ -2353,15 +2353,15 @@ html, body {
   bottom: 0;
   left: 290px;
   right: 0;
-  padding: 0 20px 40px;
+  padding: 0 0 40px;
   overflow-y: auto; }
   .main .title {
     position: fixed;
     height: 85px;
-    padding-bottom: 20px;
-    right: 20px;
-    left: 310px;
-    z-index: 1;
+    padding: 0 20px 63px;
+    right: 0;
+    left: 290px;
+    z-index: 2;
     background: #f3f3f3; }
     .main .title h1 {
       font-size: 30px;
@@ -2373,8 +2373,8 @@ html, body {
       outline: none;
       position: absolute;
       top: auto;
-      bottom: 23px;
-      left: 0;
+      bottom: 66px;
+      left: 20px;
       right: auto;
       -webkit-transition: 0.2s, border-color;
       -moz-transition: 0.2s, border-color;
@@ -2735,6 +2735,7 @@ html, body {
   position: fixed;
   width: 290px;
   padding: 40px 0 0;
+  z-index: 2;
   overflow-x: hidden;
   overflow-y: auto;
   background: #33393d; }
@@ -3079,7 +3080,7 @@ html, body {
 .new-task {
   font-size: 14px;
   position: fixed;
-  z-index: 1;
+  z-index: 2;
   top: 92px;
   right: 20px;
   left: 310px;
@@ -3096,8 +3097,7 @@ html, body {
     color: #888888; }
 
 ul.tasks {
-  width: 100%;
-  padding: 0 0 40px;
+  padding: 0 20px 40px 20px;
   margin: 148px 0 0; }
 
 .message {

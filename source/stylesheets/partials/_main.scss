@@ -6,16 +6,16 @@ html, body {
 
 .main {
   @include pos(0, 0, 0, $sidebar-width + $sidebar-padding * 2);
-  padding: 0 $sidebar-padding 40px;
+  padding: 0 0 $sidebar-padding * 2;
   overflow-y: auto;
 
   .title {
     position: fixed;
     height: $panelHeight + 45px;
-    padding-bottom: $sidebar-padding;
-    right: $sidebar-padding;
-    left: $sidebar-width + $sidebar-padding*3;
-    z-index: 1;
+    padding: 0 $sidebar-padding $sidebar-padding + 43px;
+    right: 0;
+    left: $sidebar-width + $sidebar-padding*2;
+    z-index: 2;
     background: $light-grey;
 
     h1 {
@@ -26,7 +26,7 @@ html, body {
       font-weight: 300;
       letter-spacing: -1px;
       outline: none;
-      @include pos(auto, auto, $sidebar-padding + 3px, 0);
+      @include pos(auto, auto, $sidebar-padding + 46px, $sidebar-padding);
       @include transition(0.2s, border-color);
       border: 1px transparent solid;
 

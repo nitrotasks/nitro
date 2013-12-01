@@ -15,6 +15,7 @@
   position: fixed;
   width: $sidebar-width + $sidebar-padding *2;
   padding: $panelHeight 0 0;
+  z-index: 2;
 
   overflow-x: hidden;
   overflow-y: auto;
