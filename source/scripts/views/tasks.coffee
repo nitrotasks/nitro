@@ -7,6 +7,7 @@ Setting      = require '../models/setting'
 keys         = require '../utils/keys'
 dateDetector = require '../utils/date'
 delay        = require '../utils/timer'
+isMobile     = require '../utils/touch'
 
 class Tasks extends Base.View
 
@@ -99,8 +100,7 @@ class Tasks extends Base.View
       @input.hide()
     else
       @input.show()
-      # TODO: Don't make is_touch_device a global
-      @input.focus() if not is_touch_device()
+      @input.focus() unless isMobile
 
     # Disable task input box
     @input.toggle not list.disabled
