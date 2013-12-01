@@ -9,7 +9,7 @@ class ListItem extends Base.View
     '.count': 'count'
 
   events:
-    'click': 'click'
+    'mousedown': 'click'
 
   constructor: ->
     Base.touchify(@events)
