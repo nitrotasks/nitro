@@ -1647,7 +1647,7 @@ button.special, a.special {
   color: #222222;
   margin-top: 15px;
   padding: 8px 15px;
-  font-family: "Lato", sans-serif;
+  font-family: "Open Sans", sans-serif;
   cursor: default; }
   button.special:active, a.special:active {
     background: #555555;
@@ -1751,28 +1751,28 @@ button.special, a.special {
   background-color: rgba(0, 0, 0, 0.4); }
 
 @font-face {
-  font-family: 'Lato';
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: local("Open Sans Light"), local("OpenSans-Light"), url(../fonts/OpenSans-Light.woff) format("woff"); }
+
+@font-face {
+  font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
-  src: local("Lato Regular"), local("Lato-Regular"), url(../fonts/Lato-Regular.woff) format("woff"); }
+  src: local("Open Sans"), local("OpenSans"), url(../fonts/OpenSans.woff) format("woff"); }
 
 @font-face {
-  font-family: 'Lato';
+  font-family: 'Open Sans';
   font-style: normal;
-  font-weight: 700;
-  src: local("Lato Bold"), local("Lato-Bold"), url(../fonts/Lato-Bold.woff) format("woff"); }
+  font-weight: 800;
+  src: local("Open Sans Extrabold"), local("OpenSans-Extrabold"), url(../fonts/OpenSans-Extrabold.woff) format("woff"); }
 
 @font-face {
-  font-family: 'Lato';
+  font-family: 'Open Sans';
   font-style: italic;
   font-weight: 400;
-  src: local("Lato Italic"), local("Lato-Italic"), url(../fonts/Lato-Italic.woff) format("woff"); }
-
-@font-face {
-  font-family: 'Lato';
-  font-style: italic;
-  font-weight: 700;
-  src: local("Lato Bold Italic"), local("Lato-BoldItalic"), url(../fonts/Lato-bold-Italic.woff) format("woff"); }
+  src: local("Open Sans Italic"), local("OpenSans-Italic"), url(../fonts/OpenSans-Italic.woff) format("woff"); }
 
 .auth .auth-name, .auth .auth-password, .auth .auth-email, .new-task {
   color: #4c4c4c;
@@ -1789,7 +1789,7 @@ button.special, a.special {
   background: transparent;
   border: 0;
   height: 40px;
-  padding: 0 0 0 15px;
+  padding: 0 0 0 20px;
   font-size: 15px;
   outline: none; }
 
@@ -1941,7 +1941,7 @@ body {
   width: auto !important; }
 
 body, input {
-  font-family: "Lato", sans-serif; }
+  font-family: "Open Sans", sans-serif; }
 
 .auth {
   position: fixed;
@@ -2363,9 +2363,9 @@ html, body {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 0;
-  right: 310px;
-  padding: 0 30px 40px;
+  left: 290px;
+  right: 0;
+  padding: 0 20px 40px;
   overflow-y: scroll; }
   .main .title {
     border-bottom: 2px #1bc1f5 solid;
@@ -2675,7 +2675,7 @@ html, body {
       margin-left: 5px;
       background: white;
       border: 0;
-      font-family: "Lato", sans-serif;
+      font-family: "Open Sans", sans-serif;
       color: #068dd8;
       cursor: pointer; }
       .modal.settings .account button.save {
@@ -2698,31 +2698,28 @@ html, body {
       margin-top: 16px;
       margin-left: 20px; }
 
+#open-settings-button {
+  position: fixed;
+  bottom: 0; }
+
 .sidebar {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: auto;
-  right: 0;
-  width: 250px;
-  padding: 0 30px;
-  border-left: 1px solid #cccccc;
+  left: 0;
+  right: auto;
+  width: 290px;
+  padding: 40px 0 0;
   overflow-x: hidden;
   overflow-y: auto;
-  background: #f3f3f3; }
+  background: #33393d; }
   .sidebar .title {
-    height: 70px;
-    border-bottom: 2px #1bc1f5 solid;
-    position: relative; }
-    .sidebar .title h2 {
-      position: absolute;
-      top: auto;
-      bottom: 6px;
-      left: 15px;
-      right: auto;
-      color: #068dd8;
-      font-size: 20px;
-      margin: 0; }
+    color: #eeeeee;
+    font-size: 30px;
+    margin: 0;
+    font-weight: 300;
+    letter-spacing: -1px;
+    padding: 0 20px; }
   .sidebar .lists {
     margin: 0;
     padding: 0;
@@ -2730,80 +2727,50 @@ html, body {
   .sidebar .list {
     position: relative;
     list-style-type: none;
-    font-size: 15px;
-    line-height: 40px;
-    color: #4c4c4c;
-    border-top: 1px solid #d9d9d9; }
+    font-size: 17px;
+    letter-spacing: -.3px;
+    font-weight: 300;
+    line-height: 32px;
+    height: 32px;
+    margin: 2px 0;
+    text-shadow: 0 -1px 0 #4a5359;
+    color: #eeeeee;
+    -webkit-transition: all 0.09s ease;
+    -moz-transition: all 0.09s ease;
+    transition: all 0.09s ease; }
     .sidebar .list.droppable {
-      background-color: #e6e6e6; }
+      background-color: #1c1f21; }
     .sidebar .list.special {
-      -webkit-transition: background-position 0.1s ease;
-      -moz-transition: background-position 0.1s ease;
-      transition: background-position 0.1s ease;
       background-repeat: no-repeat; }
       .sidebar .list.special .name {
-        margin-left: 25px;
-        width: 175px; }
-      .sidebar .list.special.current {
-        background-position-x: 32px; }
-    .sidebar .list.search {
-      border-top: 0;
-      background-image: url("../img/sidebar/search.png");
-      background-position: 15px 15px;
-      background-size: 12px 12px; }
+        margin-left: 40px;
+        width: 190px; }
+    .sidebar .list .name {
+      margin-left: 20px;
+      width: 210px;
+      display: inline-block; }
     .sidebar .list.inbox {
       background-image: url("../img/sidebar/inbox.png");
-      background-position: 15px 15px;
+      background-position: 20px 11px;
       background-size: 12px 12px; }
     .sidebar .list.all {
       background-image: url("../img/sidebar/all.png");
-      background-position: 15px 14px;
+      background-position: 20px 10px;
       background-size: 12px 11px; }
     .sidebar .list.completed {
       background-image: url("../img/sidebar/completed.png");
-      background-position: 15px 15px;
+      background-position: 20px 12px;
       background-size: 13px 10px; }
-    .sidebar .list .name {
-      margin-left: 5px;
-      width: 195px;
-      position: absolute;
-      top: auto;
-      bottom: auto;
-      left: 10px;
-      right: 45px;
-      -webkit-transition: all 0.1s ease;
-      -moz-transition: all 0.1s ease;
-      transition: all 0.1s ease; }
-    .sidebar .list .arrow {
-      display: inline-block;
-      margin-top: 10px;
-      width: 7px;
-      height: 10px;
-      position: relative;
-      left: 15px;
-      background: url("../img/sidebar/arrow.png") no-repeat;
-      opacity: 0;
-      -webkit-transition: opacity 0.1s ease;
-      -moz-transition: opacity 0.1s ease;
-      transition: opacity 0.1s ease; }
+    .sidebar .list.current {
+      background-color: #272c2f; }
     .sidebar .list .count {
       display: inline-block;
       float: right;
-      margin-right: 15px; }
-    .sidebar .list.current {
-      font-weight: 700; }
-      .sidebar .list.current.special .name {
-        margin-left: 45px;
-        width: 155px; }
-      .sidebar .list.current .name {
-        width: 175px;
-        margin-left: 20px; }
-      .sidebar .list.current .arrow {
-        opacity: 1; }
+      margin-right: 20px;
+      font-size: 15px; }
   .sidebar .create-list {
-    border-top: 1px #d9d9d9 solid;
     width: 100%;
-    color: #4c4c4c; }
+    color: #eeeeee; }
     .sidebar .create-list:input-placeholder {
       color: #888888; }
     .sidebar .create-list:-ms-input-placeholder {

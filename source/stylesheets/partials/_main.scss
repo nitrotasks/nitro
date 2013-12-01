@@ -4,7 +4,7 @@ html, body {
 }
 
 .main {
-  @include pos(0, $sidebar-width + $sidebar-padding * 2, 0, 0);
+  @include pos(0, 0, 0, $sidebar-width + $sidebar-padding * 2);
   padding: 0 $sidebar-padding 40px;
   overflow-y: scroll;
   @extend %scrollbars;

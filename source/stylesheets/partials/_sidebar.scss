@@ -3,34 +3,34 @@
 //    # SIDEBAR
 // ----------------------------------------------------------------------------
 
+// Remove from the layout
+#open-settings-button {
+  position: fixed;
+  bottom: 0;
+}
+
 .sidebar {
 
-  @include pos(0, 0, 0, auto);
-  width: $sidebar-width;
-  padding: 0 $sidebar-padding;
-  border-left: 1px solid $mid-grey;
+  @include pos(0, auto, 0, 0);
+  width: $sidebar-width + $sidebar-padding *2;
+  padding: 40px 0 0;
 
   overflow-x: hidden;
   overflow-y: auto;
 
-  background: $light-grey;
+  background: $sidebar-color;
 
   // --------------------------------------------------------------------------
   //    ## TITLE
   // --------------------------------------------------------------------------
 
   .title {
-    height: 70px;
-    border-bottom: 2px $light-blue solid;
-    position: relative;
-
-    h2 {
-      @include pos(auto, auto, 6px, 15px);
-      color: $dark-blue;
-      font-size: 20px;
+      color: $sidebar-font;
+      font-size: 30px;
       margin: 0;
-    }
-
+      font-weight: 300;
+      letter-spacing: -1px;
+      padding: 0 $sidebar-padding;
   }
 
   // --------------------------------------------------------------------------
@@ -52,100 +52,62 @@
     position: relative;
     list-style-type: none;
 
-    font-size: 15px;
-    line-height: 40px;
-
-    color: $dark-grey;
-    border-top: 1px solid darken($light-grey, 10);
-
+    font-size: 17px;
+    letter-spacing: -.3px;
+    font-weight: 300;
+    line-height: 32px;
+    height: 32px;
+    margin: 2px 0;
+    text-shadow: 0 -1px 0 lighten($sidebar-color, 10);
+    color: $sidebar-font;
+    @include transition(all 0.09s ease);
 
     &.droppable {
-      background-color: darken($light-grey, 5);
+      background-color: darken($sidebar-color, 10);
     }
-
 
     &.special {
-      @include transition(background-position 0.1s ease);
       background-repeat: no-repeat;
-
       .name {
-        margin-left: 25px;
-        width: $sidebar-width - 75px;
+        margin-left: $sidebar-padding + 20px;
+        width: $sidebar-width - $sidebar-padding *3;
       }
-
-      &.current {
-        background-position-x: 32px;
-      }
-
     }
 
-    &.search {
-      border-top: 0;
-      background-image: url("../img/sidebar/search.png");
-      background-position: 15px 15px;
-      background-size: 12px 12px;
+    .name {
+      margin-left: $sidebar-padding;
+      width: $sidebar-width - $sidebar-padding *2;
+      @extend %ellipsis;
+      display: inline-block;
     }
 
     &.inbox {
       background-image: url("../img/sidebar/inbox.png");
-      background-position: 15px 15px;
+      background-position: 20px 11px;
       background-size: 12px 12px;
     }
 
     &.all {
       background-image: url("../img/sidebar/all.png");
-      background-position: 15px 14px;
+      background-position: 20px 10px;
       background-size: 12px 11px;
     }
 
     &.completed {
       background-image: url("../img/sidebar/completed.png");
-      background-position: 15px 15px;
+      background-position: 20px 12px;
       background-size: 13px 10px;
     }
 
-    .name {
-      margin-left: 5px;
-      width: $sidebar-width - 55px;
-      @extend %ellipsis;
-      @include pos(auto, 45px, auto, 10px);
-      @include transition(all 0.1s ease);
-    }
-
-    .arrow {
-      display: inline-block;
-      margin-top: 10px;
-      width: 7px;
-      height: 10px;
-      position: relative;
-      left: 15px;
-      background: url("../img/sidebar/arrow.png") no-repeat;
-      opacity: 0;
-      @include transition(opacity 0.1s ease);
+    &.current {
+      background-color: darken($sidebar-color, 5);
     }
 
     .count {
       display: inline-block;
       float: right;
-      margin-right: 15px;
-    }
-
-    &.current {
-      font-weight: 700;
-
-      &.special .name {
-        margin-left: 45px;
-        width: $sidebar-width - 95px;
-      }
-
-      .name {
-        width: $sidebar-width - 75px;
-        margin-left: 20px;
-      }
-
-      .arrow {
-        opacity: 1;
-      }
+      margin-right: $sidebar-padding;
+      font-size: 15px;
     }
 
   }
@@ -156,9 +118,8 @@
 
   .create-list {
     @extend %hidden-input;
-    border-top: 1px darken($light-grey, 10) solid;
     width: 100%;
-    color: $dark-grey;
+    color: $sidebar-font;
 
     @include placeholder {
       color: $half-grey;

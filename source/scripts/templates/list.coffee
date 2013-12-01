@@ -8,7 +8,6 @@ module.exports = (list) ->
       else
         ""
     }">
-      <div class="arrow"></div>
       <span class="name">#{ list.name }</span>
       <div class="count">#{ list.tasks.length }</div>
     </li>
