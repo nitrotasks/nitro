@@ -8,10 +8,10 @@
   font-size: 14px;
   position: fixed;
   z-index: 1;
-  top: 90px;
+  top: 92px;
   right: $sidebar-padding;
   left: $sidebar-width + $sidebar-padding*3;
-  box-shadow: 15px 15px 10px $light-grey, -15px 15px 10px $light-grey;
+  box-shadow: 0 20px 0 $light-grey, 0 21px 0 $task-color;
 
   &:focus {
     border-color: $light-blue;
@@ -31,7 +31,7 @@
 ul.tasks {
   width: 100%;
   padding: 0 0 40px;
-  margin: 145px 0 0;
+  margin: 148px 0 0;
 }
 
 

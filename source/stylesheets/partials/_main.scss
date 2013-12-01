@@ -1,11 +1,13 @@
 html, body {
   height: 100%;
   background: $light-grey;
+  overflow: hidden;
 }
 
 .main {
   @include pos(0, 0, 0, $sidebar-width + $sidebar-padding * 2);
   padding: 0 $sidebar-padding 40px;
+  overflow-y: auto;
 
   .title {
     position: fixed;

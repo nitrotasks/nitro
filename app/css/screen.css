@@ -2344,7 +2344,8 @@ body, input {
 
 html, body {
   height: 100%;
-  background: #f3f3f3; }
+  background: #f3f3f3;
+  overflow: hidden; }
 
 .main {
   position: absolute;
@@ -2352,7 +2353,8 @@ html, body {
   bottom: 0;
   left: 290px;
   right: 0;
-  padding: 0 20px 40px; }
+  padding: 0 20px 40px;
+  overflow-y: auto; }
   .main .title {
     position: fixed;
     height: 85px;
@@ -3047,10 +3049,10 @@ html, body {
   font-size: 14px;
   position: fixed;
   z-index: 1;
-  top: 90px;
+  top: 92px;
   right: 20px;
   left: 310px;
-  box-shadow: 15px 15px 10px #f3f3f3, -15px 15px 10px #f3f3f3; }
+  box-shadow: 0 20px 0 #f3f3f3, 0 21px 0 #d9d9d9; }
   .new-task:focus {
     border-color: #1bc1f5; }
   .new-task:input-placeholder {
@@ -3065,7 +3067,7 @@ html, body {
 ul.tasks {
   width: 100%;
   padding: 0 0 40px;
-  margin: 145px 0 0; }
+  margin: 148px 0 0; }
 
 .message {
   display: none;
