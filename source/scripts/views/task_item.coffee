@@ -11,72 +11,37 @@ class TaskItem extends Base.View
 
   elements:
     '.name'         : 'name'
-    '.input-name'   : 'inputName'
     '.date'         : 'date'
-    '.notes'        : 'notes'
     'time'          : 'time'
 
-  events:
-    'click .delete'              : 'remove'
-    'click .priority-button div' : 'setPriority'
+  events: Base.touchify
     'click .checkbox'            : 'toggleCompleted'
     'click .tag'                 : 'tagClick'
-
-    # Editing the actual task
     'click'                      : 'expand'
-    'blur .input-name'           : 'endEdit'
-    'keypress .input-name'       : 'endEditOnEnter'
-
-    # Make notes editable
-    'focus .notes'               : 'notesEdit'
-    'blur .notes'                : 'notesSave'
-    'change .date'               : 'datesSave'
-
 
   constructor: ->
-    Base.touchify(@events)
     super
 
+    # @notes.autosize
+    #   resizeDelay: false
+    #   append: '\n'
+
+    # @notes.css 'height', '0px'
+
     @el[0].task = @task
-
-    @notes.autosize
-      resizeDelay: false
-      append: '\n'
-
-    @notes.css 'height', '0px'
-
     @expanded = false
 
     @listen @task,
       'destroy': @release
-      'change:listId': @updateList
+      'change:listId': @release
       'change:name': @updateName
       'change:priority': @updatePriority
       'change:completed': @updateCompleted
 
-  render: =>
-    # TODO: Setup datepicker
-    # Bind datepicker
-    # @date.datepicker
-    #   firstDay: setting.weekStart
-    #   dateFormat: setting.dateFormat
-    # @date.datepicker('setDate', new Date(@task.date)) if @task.date
-
-    # @el = $ @template @task
-    # @bind()
-    return this
-
-  # Delete Button
-  remove: =>
-    Modal.run @task
-
-  # Remove this view
   release: =>
-    @unbind()
-    @el.remove()
-
-  updateList: =>
-    @release()
+    super
+    delete @el
+    delete @task
 
   # ----------------------------------------------------------------------------
   # EXPAND / COLLAPSE
@@ -84,28 +49,16 @@ class TaskItem extends Base.View
 
   # Expand the task
   expand: (e) =>
-    if not @expanded
-      @trigger 'select'
-      @expanded = true
-      @inputName.val @task.name
-      @el.addClass 'expanded'
-      @notes.trigger 'autosize.resize'
+    return if @expanded
+    return if e.metaKey or e.ctrlKey
 
-      # TODO: Fix
-      # Disable sortable and draggable
-      # @el.draggable({ disabled: true })
-      # @el.parent().sortable({ disabled: true })
-
-      # notes = @notes.parent()
-      # delay 300, ->
-      #   notes.addClass 'auto'
+    @trigger 'select'
+    @expanded = true
 
   # Collapse the task
   collapse: =>
-    if @expanded
-      @expanded = false
-      @el.removeClass 'expanded'
-      @notes.css 'height', '0px'
+    return unless @expanded
+    @expanded = false
 
   # ----------------------------------------------------------------------------
   # COMPLETED
@@ -123,51 +76,26 @@ class TaskItem extends Base.View
       @task.completed = false
 
     # TODO: Move into a model/controller
-    if false # List.current.id is 'completed'
+    # if false # List.current.id is 'completed'
 
-      # Clones List
-      order = @task.list().tasks.slice()
+    #   # Clones List
+    #   order = @task.list().tasks.slice()
 
-      # Checks if it hasn't been moved
-      if order.indexOf(@task.id) is -1
-        order.push(@task.id)
-        @task.list().tasks = order
+    #   # Checks if it hasn't been moved
+    #   if order.indexOf(@task.id) is -1
+    #     order.push(@task.id)
+    #     @task.list().tasks = order
 
-    else if false # setting.completedDuration is 'instant'
-      settings.moveCompleted()
-      @el.remove()
+    # else if false # setting.completedDuration is 'instant'
+    #   settings.moveCompleted()
+    #   @el.remove()
 
   updateCompleted: =>
     @el.toggleClass 'completed', @task.completed
 
-  # ----------------------------------------------------------------------------
-  # PRIORITIES
-  # ----------------------------------------------------------------------------
-
-  setPriority: (e) =>
-    priority = $(e.target).data('id')
-    @task.priority = priority
-
   updatePriority: =>
-    @el
-      .removeClass('p1 p2 p3')
-      .addClass('p' + @task.priority)
-
-  # ----------------------------------------------------------------------------
-  # NAME
-  # ----------------------------------------------------------------------------
-
-  endEdit: =>
-    val = @inputName.val()
-    if val.length
-      @task.name = val
-    else
-      @task.destroy()
-
-  endEditOnEnter: (e) =>
-    if e.which is keys.enter
-      # e.preventDefault()
-      @inputName.blur()
+    @el.removeClass('p1 p2 p3')
+    @el.addClass('p' + @task.priority)
 
   updateName: =>
     @name.html @task.name
@@ -175,42 +103,6 @@ class TaskItem extends Base.View
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
       .replace(/#(\w+)/g, ' <span class="tag">#$1</span>')
-
-  # ----------------------------------------------------------------------------
-  # NOTES
-  # ----------------------------------------------------------------------------
-
-  notesEdit: =>
-    if @notes.text() is translate 'Notes'
-      @notes.text ''
-    @notes.removeClass 'placeholder'
-
-  notesSave: =>
-    text = @notes.val()
-    if text is ''
-      @notes.text translate 'Notes'
-      @notes.addClass 'placeholder'
-    else
-      @task.notes = text
-
-  # ----------------------------------------------------------------------------
-  # DATES
-  # ----------------------------------------------------------------------------
-
-  datesSave: =>
-
-    if @date.val().length > 0
-      @task.updateAttribute 'date', @date.datepicker('getDate').getTime()
-      @el.find('img').css('display', 'inline-block')
-
-      # Pretty Dates Engine
-      @time.text Task.prettyDate(new Date(@task.date)).words
-      @time.attr 'class', Task.prettyDate(new Date(@task.date)).className
-
-    else
-      @task.updateAttribute 'date', ''
-      @el.find('img').removeAttr('style')
-      @time.text ''
 
   # ----------------------------------------------------------------------------
   # TAGS

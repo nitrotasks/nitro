@@ -5,7 +5,7 @@ isMobile = require '../utils/touch'
 Base.touchify = (events={}) ->
   return events unless isMobile
   for event, action of events
-    touchEvent = event.replace /^click/, 'touchend'
+    touchEvent = event.replace /^(click|mousedown)/, 'touchend'
     if touchEvent[0...8] is 'touchend'
       delete events[event]
       events[touchEvent] = action

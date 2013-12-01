@@ -83,8 +83,6 @@ class Tasks extends Base.View
   refresh: =>
     @render List.current if List.current
 
-
-
   # Display a list of tasks
   render: (list) =>
 
@@ -95,15 +93,11 @@ class Tasks extends Base.View
     #   if not Setting.sort
     #     $(@el[1]).sortable({ disabled: false })
 
-
     if list.disabled
       @input.hide()
     else
       @input.show()
       @input.focus() unless isMobile
-
-    # Disable task input box
-    @input.toggle not list.disabled
 
     # Search for tasks
     if list.id is 'search'
@@ -125,7 +119,7 @@ class Tasks extends Base.View
       tasks = list.tasks
       @message.text @template.message.standard
 
-    # Empty list
+    # # Empty list
     else
       tasks = Task.list list.id
       @message.text @template.message.empty
@@ -140,13 +134,15 @@ class Tasks extends Base.View
   displayTasks: (tasks) =>
 
     # Keep a copy of the old views
-    oldViews = @views.slice()
-
+    oldViews = @views
     @views = []
 
     # Unbind existing tasks
-    delay 1000, ->
-      item.release() for item in oldViews
+    delay 1000, =>
+      for item in oldViews
+        item.off 'select'
+        item.release()
+      oldViews = []
 
     # Holds html
     html = ''
@@ -154,50 +150,50 @@ class Tasks extends Base.View
     # TODO: Ignore this for now
     # Sorting tasks
     # if list.id in ['all', 'completed'] or Setting.sort
-    if false
 
-      tasks = Task.sortTasks(tasks)
-      last = tasks[0]?.priority
-      completed = tasks[0]?.completed
+    #   tasks = Task.sortTasks(tasks)
+    #   last = tasks[0]?.priority
+    #   completed = tasks[0]?.completed
 
-      for task in tasks
+    #   for task in tasks
 
-        # Add seperator if it is completed and the last one wasn't
-        if completed and not task.completed
-          completed = false
-          task.group = yes
+    #     # Add seperator if it is completed and the last one wasn't
+    #     if completed and not task.completed
+    #       completed = false
+    #       task.group = yes
 
-        # Add seperator if it is a different priority to the last one
-        if not completed and task.priority isnt last
-          task.group = yes
+    #     # Add seperator if it is a different priority to the last one
+    #     if not completed and task.priority isnt last
+    #       task.group = yes
 
-        last = task.priority
+    #     last = task.priority
 
-        if list.id is 'all'
-          task.listName = List.get(task.list).name
+    #     if list.id is 'all'
+    #       task.listName = List.get(task.list).name
 
-        # Append html
-        html = @template(task) + html
+    #     # Append html
+    #     html = @template(task) + html
 
     # Not sorting
-    else
-      tasks.forEach (task) =>
-        html += @template.item task
+    # else
 
-        # TODO: Add this back in a sane way
-        # if list.id is 'all' then task.listName = task.list().name
+    tasks.forEach (task) =>
+      html += @template.item task
+
+      # TODO: Add this back in a sane way
+      # if list.id is 'all' then task.listName = task.list().name
 
     # Render html
     @tasks.html html
 
     requestAnimationFrame =>
+
       tasks.forEach (task) =>
         view = new TaskItem
           task: task
           el: @tasks.find "#task-#{ task.id }"
         @bindTask view
         @views.push view
-
 
   # Toggles the input box text
   toggleSearch: (@search) =>
