@@ -9,4 +9,8 @@ about = new Tab
 
   events: {}
 
+  methods: []
+
+  load: ->
+
 module.exports = about

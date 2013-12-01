@@ -9,4 +9,8 @@ account = new Tab
 
   events: {}
 
+  methods: []
+
+  load: ->
+
 module.exports = account
