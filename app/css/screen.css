@@ -1841,8 +1841,6 @@ body {
       margin-right: 10px; }
     aside.sidebar .list.current {
       font-weight: normal; }
-      aside.sidebar .list.current .arrow {
-        display: none; }
       aside.sidebar .list.current .name {
         -webkit-transform: translate3d(0, 0, 0);
         -moz-transform: translate3d(0, 0, 0);
@@ -2736,9 +2734,18 @@ html, body {
       margin-top: 16px;
       margin-left: 20px; }
 
-#open-settings-button {
+.prefsbuttons {
   position: fixed;
-  bottom: 0; }
+  bottom: 0;
+  height: 28px;
+  padding: 0 4px; }
+  .prefsbuttons img {
+    width: 12px;
+    height: 12px;
+    opacity: 0.5;
+    padding: 8px 4px; }
+    .prefsbuttons img:hover {
+      opacity: 1; }
 
 .sidebar {
   position: absolute;

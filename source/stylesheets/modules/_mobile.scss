@@ -34,9 +34,6 @@
       }
       &.current {
         font-weight: normal;
-        .arrow {
-          display: none;
-        }
         .name {
           -webkit-transform: translate3d(0, 0, 0);
           -moz-transform: translate3d(0, 0, 0);

@@ -4,11 +4,22 @@
 // ----------------------------------------------------------------------------
 
 // Remove from the layout
-#open-settings-button {
+.prefsbuttons {
   position: fixed;
   bottom: 0;
-}
+  height: 28px;
+  padding: 0 4px;
 
+  img {
+    width: 12px;
+    height: 12px;
+    opacity: 0.5;
+    padding: 8px 4px;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
 .sidebar {
 
   @include pos(0, auto, 0, 0);
