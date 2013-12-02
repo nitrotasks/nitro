@@ -70,7 +70,7 @@ class Modal extends Base.View
   show: =>
     if Modal.current?.displayed
       Modal.current.minimize()
-      setTimeout @show, duration/2
+      setTimeout @show, duration/4
       return
 
     Modal.show()
