@@ -2356,7 +2356,8 @@ html, body {
   left: 290px;
   right: 0;
   padding: 0 0 40px;
-  overflow-y: auto; }
+  overflow-y: auto;
+  z-index: 5; }
   .main .title {
     position: fixed;
     height: 65px;
@@ -2394,7 +2395,7 @@ html, body {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 3; }
+  z-index: 6; }
   .panel .windowcontrols {
     display: none;
     position: absolute;
