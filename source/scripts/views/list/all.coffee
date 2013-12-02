@@ -1,6 +1,7 @@
 Task = require '../../models/task'
 List = require '../../models/list'
 ListItem = require './item'
+event = require '../../utils/event'
 
 class ListAll extends ListItem
 
@@ -13,15 +14,8 @@ class ListAll extends ListItem
 
     @updateCount()
 
-
-  click: =>
-    List.trigger 'select:model',
-      name: 'All Tasks'
-      id: 'all'
-      disabled: yes
-      permanent: yes
-      tasks: Task.active()
-
+  open: =>
+    event.trigger 'search'
     @select()
 
   updateCount: =>

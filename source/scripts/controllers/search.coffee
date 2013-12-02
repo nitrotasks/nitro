@@ -13,7 +13,7 @@ class Search
   search: (query) =>
 
     List.trigger 'select:model',
-      name: 'Search'
+      name: 'All Tasks'
       id: 'search'
       permanent: yes
       query: query
