@@ -1,57 +1,83 @@
 Base = require 'base'
 
-# The container
-container = '.modals'
-
-# Stores all the modals
-modals = []
+# Transition duration
+duration = 350
 
 # The base Modal class
 class Modal extends Base.View
 
+  @modals = []
+
+  @container = '.modals'
+
   @current: null
 
-  @init: ->
-    container = $ container
+  @displayed: no
 
-    for modal in modals
+  @init: =>
+    @container = $ @container
+
+    for modal in @modals
       modal.init()
 
-    container.on 'click', =>
+    @container.on 'click', =>
       if event.target.className.indexOf('modals') > -1
-        Modal.current.hide()
+        @current.hide()
+
+
+  # Show container
+  @show: =>
+    return if @displayed
+    @displayed = yes
+    @container.show()
+    requestAnimationFrame =>
+      @container.addClass 'show'
+
+  # Hide container
+  @hide: =>
+    return unless @displayed
+    @displayed = no
+    @container.removeClass 'show'
+    setTimeout =>
+      @container.hide()
+    , duration
 
   constructor: (opts) ->
     Base.touchify(opts.events) if opts.events
     super
-    modals.push this
+
+    @displayed = no
+    Modal.modals.push this
 
   init: =>
     @bind $ @selector
 
-  state: off
-
-  show: =>
-    return unless @state is off
-    @state = on
-    Modal.current = this
-    container.show()
-    @el.show()
-    setTimeout =>
-      container.addClass 'show'
-      @el.addClass 'show'
-    , 1
-    if @onShow then @onShow()
-
-  hide: =>
-    return unless @state is on
-    @state = off
-    container.removeClass('show')
-    @el.removeClass('show')
+  minimize: =>
+    return unless @displayed
+    @displayed = no
+    @el.removeClass 'show'
     setTimeout =>
       @el.hide()
-      container.hide()
-      if @onHide then @onHide()
-    , 350
+    , duration
+
+  maximize: =>
+    return if @displayed
+    @displayed = yes
+    @el.show()
+    requestAnimationFrame =>
+      @el.addClass 'show'
+
+  show: =>
+    if Modal.displayed
+      Modal.current.minimize()
+    else
+      Modal.show()
+
+    Modal.current = this
+    @maximize()
+
+  hide: =>
+    Modal.hide()
+    @minimize()
 
 module.exports = Modal

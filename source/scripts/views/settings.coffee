@@ -1,5 +1,4 @@
 Base   = require 'base'
-event   = require '../utils/event'
 Modal   = require '../views/modal/settings'
 
 # Load tabs
@@ -15,9 +14,6 @@ class Settings extends Base.View
 
   constructor: ->
     super
-
-    event.on 'settings:hide', ->
-      Modal.hide()
 
     # TODO: This is just a placeholder
     $('#open-settings-button').click =>

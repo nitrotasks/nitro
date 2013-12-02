@@ -1,5 +1,3 @@
-
-event = require '../../utils/event'
 Setting = require '../../models/setting'
 Tab = require '../settings_tab'
 exportModal = require '../../views/modal/export'
@@ -38,12 +36,7 @@ options =
     document.location.reload()
 
   exportData: =>
-    event.trigger 'settings:hide'
-    # TODO: this is a terrible idea
-    setTimeout ->
-      exportModal.run()
-    , 350
-
+    exportModal.run()
 
 # Load settings
 for setting, element of settings

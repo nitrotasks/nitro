@@ -2435,7 +2435,7 @@ html, body {
 
 .modal {
   display: none;
-  z-index: 11;
+  z-index: 12;
   background: #fff;
   font-size: 16px;
   color: #222222;
@@ -2601,7 +2601,8 @@ html, body {
 .modal.settings {
   width: 600px;
   margin-left: -303px;
-  border: 3px solid #9dd071; }
+  border: 3px solid #9dd071;
+  z-index: 11; }
   .modal.settings > div {
     padding: 35px 25px 30px;
     display: none; }
