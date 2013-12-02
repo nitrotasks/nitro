@@ -2359,7 +2359,7 @@ html, body {
   overflow-y: auto; }
   .main .title {
     position: fixed;
-    height: 85px;
+    height: 65px;
     padding: 0 20px 65px;
     right: 0;
     left: 290px;
@@ -2395,6 +2395,14 @@ html, body {
   top: 0;
   left: 0;
   z-index: 3; }
+  .panel .windowcontrols {
+    display: none;
+    position: absolute;
+    left: 0;
+    margin: 16px; }
+    .panel .windowcontrols img {
+      vertical-align: top;
+      margin: 0 3px; }
   .panel .avatar {
     position: absolute;
     right: 20px;
@@ -2739,7 +2747,7 @@ html, body {
   right: auto;
   position: fixed;
   width: 290px;
-  padding: 40px 0 0;
+  padding: 20px 0 0;
   z-index: 2;
   overflow-x: hidden;
   overflow-y: auto;
@@ -3089,7 +3097,7 @@ html, body {
   font-size: 14px;
   position: fixed;
   z-index: 2;
-  top: 94px;
+  top: 74px;
   right: 20px;
   left: 310px;
   box-shadow: 0 20px 0 #f3f3f3, 0 21px 0 #d9d9d9; }
@@ -3106,7 +3114,7 @@ html, body {
 
 ul.tasks {
   padding: 0 20px 40px 20px;
-  margin: 150px 0 0; }
+  margin: 130px 0 0; }
 
 .message {
   display: none;

@@ -11,7 +11,11 @@ html, body {
 
   .title {
     position: fixed;
-    height: $panelHeight + 45px;
+    @if $web == true {
+      height: $panelHeight + 25px;
+    } @else {
+      height: $panelHeight + 50px;
+    }
     padding: 0 $sidebar-padding $sidebar-padding + 45px;
     right: 0;
     left: $sidebar-width + $sidebar-padding*2;

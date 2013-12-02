@@ -12,6 +12,19 @@
   left: 0;
   z-index: 3;
 
+  .windowcontrols {
+    @if $web == true {
+      display: none;
+    }
+    position: absolute;
+    left: 0;
+    margin: 16px;
+    img {
+      vertical-align: top;
+      margin: 0 3px;
+    }
+  }
+
   .avatar {
     position: absolute;
     right: $sidebar-padding;
