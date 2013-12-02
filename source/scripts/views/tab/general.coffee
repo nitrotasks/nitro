@@ -1,6 +1,8 @@
 
+event = require '../../utils/event'
 Setting = require '../../models/setting'
 Tab = require '../settings_tab'
+exportModal = require '../../views/modal/export'
 
 settings =
   'weekStart'         : '#input-week-start'
@@ -16,8 +18,10 @@ options =
   selector: '.general'
 
   elements: {}
-  methods: []
-  events: {}
+  methods: ['clearData', 'exportData']
+  events:
+    'click .clear-data': 'clearData'
+    'click .export-data': 'exportData'
 
   # Load settings from storage
   load: ->
@@ -28,6 +32,17 @@ options =
         el.attr 'checked', val
       else
         el.val val
+
+  clearData: =>
+    localStorage.clear()
+    document.location.reload()
+
+  exportData: =>
+    event.trigger 'settings:hide'
+    # TODO: this is a terrible idea
+    setTimeout ->
+      exportModal.run()
+    , 350
 
 
 # Load settings

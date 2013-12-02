@@ -38,10 +38,9 @@ class TaskItem extends Base.View
       'change:priority': @updatePriority
       'change:completed': @updateCompleted
 
+
   release: =>
     super
-    delete @el
-    delete @task
 
   # ----------------------------------------------------------------------------
   # EXPAND / COLLAPSE

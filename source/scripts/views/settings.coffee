@@ -1,21 +1,13 @@
 Base   = require 'base'
-
-Task    = require '../models/task'
-List    = require '../models/list'
-setting = require '../models/setting'
-
+event   = require '../utils/event'
 Modal   = require '../views/modal/settings'
 
+# Load tabs
 Tab     = require '../views/settings_tab'
-
 General  = require '../views/tab/general'
 Account  = require '../views/tab/account'
 Language = require '../views/tab/language'
 About    = require '../views/tab/about'
-
-Cookies = require '../vendor/cookies'
-Event   = require '../utils/event'
-config  = require '../utils/config'
 
 class Settings extends Base.View
 
@@ -23,6 +15,9 @@ class Settings extends Base.View
 
   constructor: ->
     super
+
+    event.on 'settings:hide', ->
+      Modal.hide()
 
     # TODO: This is just a placeholder
     $('#open-settings-button').click =>
