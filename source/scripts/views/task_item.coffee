@@ -17,7 +17,7 @@ class TaskItem extends Base.View
   events: Base.touchify
     'click .checkbox'            : 'toggleCompleted'
     'click .tag'                 : 'tagClick'
-    'click'                      : 'expand'
+    'mousedown'                  : 'expand'
 
   constructor: ->
     super
@@ -49,7 +49,6 @@ class TaskItem extends Base.View
   # Expand the task
   expand: (e) =>
     return if @expanded
-    return if e.metaKey or e.ctrlKey
 
     @trigger 'select'
     @expanded = true

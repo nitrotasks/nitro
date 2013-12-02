@@ -2297,16 +2297,18 @@ body, input {
     background-position: -32px 0; }
 
 .select_js_box {
-  background: rgba(204, 204, 204, 0.6);
+  background: rgba(76, 76, 76, 0.2);
   position: absolute;
   top: 20px;
   left: 20px;
   width: 100px;
   height: 100px;
-  opacity: 1;
+  opacit: 1;
+  -webkit-transition: opacity 0.2s ease;
+  -moz-transition: opacity 0.2s ease;
   transition: opacity 0.2s ease;
-  border: 1px solid #bbbbbb;
-  z-index: 1;
+  border: 1px solid rgba(76, 76, 76, 0.4);
+  z-index: 10;
   box-sizing: border-box; }
 
 .select_js_box.hide {

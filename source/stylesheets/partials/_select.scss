@@ -1,14 +1,14 @@
 .select_js_box {
-  background: rgba(204, 204, 204, 0.6);
+  background: rgba($dark-grey, 0.20);
   position: absolute;
   top: 20px;
   left: 20px;
   width: 100px;
   height: 100px;
-  opacity: 1;
-  transition: opacity 0.2s ease;
-  border: 1px solid lighten($half-grey, 20);
-  z-index: 1;
+  opacit: 1;
+  @include transition(opacity 0.2s ease);
+  border: 1px solid rgba($dark-grey, 0.4);
+  z-index: 10;
   box-sizing: border-box;
 }
 

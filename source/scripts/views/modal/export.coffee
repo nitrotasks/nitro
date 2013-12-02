@@ -12,10 +12,10 @@ modal = new Modal
     'click .false': 'hide'
 
   run: ->
-    @textarea.val 'hello world'
+    @textarea.val 'TODO: Show all the data here'
     modal.show()
 
   import: ->
-    console.log 'importing data...'
+    console.log 'TODO: importing data...'
 
 module.exports = modal
