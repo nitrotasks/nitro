@@ -14,14 +14,13 @@ class ListCompleted extends ListItem
     @updateCount()
 
 
-  click: =>
+  open: =>
     List.trigger 'select:model',
       name: 'Completed'
       id: 'completed'
       disabled: yes
       permanent: yes
       tasks: Task.completed()
-
     @select()
 
   updateCount: =>

@@ -9,8 +9,8 @@ $ = require 'jqueryify'
 # Utilities
 Keys      = require '../utils/keys'
 translate = require '../utils/translate'
-Event     = require '../utils/event'
-Mouse     = require 'mouse'
+event     = require '../utils/event'
+Mouse     = require '../utils/mouse'
 
 # Models
 Task    = require '../models/task'
@@ -41,7 +41,6 @@ Settings      = require '../views/settings'
 ListInbox     = require '../views/list/inbox'
 ListAll       = require '../views/list/all'
 ListCompleted = require '../views/list/completed'
-ListSearch    = require '../views/list/search'
 
 class App
 
@@ -71,24 +70,7 @@ class App
 
     # Load views
     @keys = new Keys()
-
-    # TODO: Don't make this global
-    window.mouse = new Mouse
-      parent: $('.tasks')[0]
-      query: '.task'
-      offsetY: -37
-      offsetX: 0
-      helper: (elements) ->
-        if elements.length is 1
-          return elements[0].querySelector('.name').innerText
-        return "Moving #{ elements.length } tasks"
-
-    mouse.on 'drop', (elements, zone) ->
-      list = zone.list
-      for el in elements
-        el.task.list().moveTask(el.task, list)
-
-    mouse.init()
+    Mouse.init()
 
     # Init Modals
     Modal.init()
@@ -119,7 +101,6 @@ class App
     # Load other special lists
     new ListAll()
     new ListCompleted()
-    new ListSearch()
 
     # Doesn't run in the Settings constructor. Bit of a pain
     # TODO: Move somewhere else?
@@ -133,9 +114,9 @@ class App
     if Setting.loggedin
       Sync.connect(Setting.uid, Setting.token)
     else
-      Event.trigger 'app:offline'
+      event.trigger 'app:offline'
 
-    Event.trigger 'app:ready'
+    event.trigger 'app:ready'
 
 module.exports = App
 

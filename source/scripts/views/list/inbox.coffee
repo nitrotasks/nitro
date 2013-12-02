@@ -1,3 +1,4 @@
+Mouse = require '../../utils/mouse'
 ListItem = require './item'
 
 class ListInbox extends ListItem
@@ -8,7 +9,7 @@ class ListInbox extends ListItem
     @bind $ '.inbox.list'
 
     @el[0].list = @list
-    mouse.addDrop @el[0]
+    Mouse.mouse.addDrop @el[0]
 
     @updateCount()
 

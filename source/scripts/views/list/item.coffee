@@ -1,3 +1,4 @@
+Mouse = require '../../utils/mouse'
 Base = require 'base'
 
 class ListItem extends Base.View
@@ -9,7 +10,7 @@ class ListItem extends Base.View
     '.count': 'count'
 
   events:
-    'mousedown': 'click'
+    'mousedown': 'mousedown'
 
   constructor: ->
     Base.touchify(@events)
@@ -32,34 +33,34 @@ class ListItem extends Base.View
     @el = $ @template @list
     @bind()
 
+    # Set up droppable handler
     el = @el[0]
     el.list = @list
-    mouse.addDrop(el)
-
-    # TODO: Setup droppable
-    # @el.droppable
-    #   hoverClass: 'ui-state-active'
-    #   tolerance: 'pointer'
-    #   drop: (event, ui) =>
-    #     movedTask = Task.get(ui.draggable.attr('id').slice(5))
-    #     List.current.moveTask(movedTask, @list)
+    Mouse.mouse.addDrop(el)
 
     return this
 
+  mousedown: (e) =>
+    e.preventDefault()
+    e.stopPropagation()
+    @open()
+
+  # Override this method in special lists
   updateCount: =>
     @count.text @list.tasks.length
 
   updateName: =>
     @name.text @list.name
 
-  click: =>
+  # Override this method in special lists
+  open: =>
     @list.trigger 'select'
 
   select: =>
     @el.addClass 'current'
 
   remove: =>
-    @unbind()
-    @el.remove()
+    Mouse.mouse.removeDrop @el[0]
+    @release()
 
 module.exports = ListItem
