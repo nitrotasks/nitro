@@ -1,123 +1,68 @@
-
+body.dark {
+  background: $sidebar-color;
+}
 .dark {
-  body {
-    background: #333333;
-  }
-  .main .title h1, .sidebar .title h2 {
-    color: lighten($light-blue, 10%);
-  }
-  header {
-    @include vbg-gradient(#333, #111);
-    border-bottom: 1px solid black;
-    .logo {
-      background-image: url(../img/logo_light.png);
-      @include breakpoint(retina) {
-        background-image: url("../img/logo_light@2x.png");
-      }
-    }
-    .openSettings {
-      background-image: url("../img/settings_light.png");
-    }
-    .user {
-      &:hover {
-        @include vbg-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.05));
-        border: 1px solid #111111;
-      }
-      &:active {
-        @include vbg-gradient(rgba(0,0,0,0.05), rgba(0,0,0,0.3));
-        border: 1px solid black;
-      }
-      .name {
-        color: white;
-        text-shadow: 0px 1px 0px black;
-      }
+  /* Panel */
+  .panel {
+    .avatar {
+      color: $mid-grey;
     }
   }
-  .search {
-    background: #333333 url("../img/search_light.png") no-repeat 7px 5px;
-    border: 1px solid #111111;
-    background-size: 15px 15px;
-    input {
-      background: #333333;
-      color: white;
+  /* Main */
+  .main .title {
+    background: $sidebar-color;
+    h1 {
+      color: $white;
     }
-  }
-  .clear-search {
-    background: url("../img/clear-search_light.png");
-    background-size: 14px 14px;
   }
   .new-task {
-    background: #2a2a2a;
-    border: 1px solid #222222;
-    color: white;
-  }
-  .group + .task {
-    border-top: 1px solid $dark-border;
+    background: darken($sidebar-color, 4);
+    border-color: darken($sidebar-color, 7);
+    box-shadow: 0 20px 0 $sidebar-color, 0 21px 0 darken($sidebar-color, 7);;
+    color: $light-grey;
+
+    &:focus {
+      border-color: darken($dark-blue, 15);
+      // border-color: $light-blue, 20);
+    }
   }
   .task {
-    border: 1px solid $dark-border;
-    border-top: 0;
-    color: white;
-    &:first-child {
-      border-top: 1px solid $dark-border;
+    background: darken($sidebar-color, 4);
+    border-color: darken($sidebar-color, 7);
+    color: $light-grey;
+
+    &.p3 .checkbox,
+    &.p3 .notes {
+      border-left-color: darken($red, 10);
+    }
+
+    &.p2 .checkbox,
+    &.p2 .notes {
+      border-left-color: darken($dark-green, 10);
+    }
+
+    &.p1 .checkbox,
+    &.p1 .notes {
+      border-left-color: darken($dark-blue, 10);
+    }
+
+    &:first-child, &::after, .checkbox::before {
+      border-color: darken($sidebar-color, 7);
     }
     &::before {
-      border-left: 1px solid $dark-border;
-      border-right: 1px solid $dark-border;
-    }
-    &.completed .name {
-      color: #666666;
-    }
-    .notes {
-      background: #2a2a2a;
-    }
-    .priority-button {
-      border-left: 1px solid $dark-border;
-      border-right: 1px solid $dark-border;
-    }
-    .date {
-      background: #333333;
-      color: white;
-    }
-    .checkbox {
-      &::before {
-        border: 1px solid #222222;
-      }
-    }
-    &.expanded, &.expanded .notes, &.expanded + li {
-      border-top: 1px solid $dark-border;
-    }
-    .input-name {
-      // Or else we don't get a blinky cursor
-      color: white;
-      background: #333333;
+      background: darken($sidebar-color, 7);
     }
   }
+  /* Sidebar */
   .sidebar {
+    background: darken($sidebar-color, 8);
     .list {
-      color: white;
-      border-top: 1px solid #444444;
-      &.current .arrow {
-        background-image: url("../img/arrow-left-fade_light.png");
+      &:hover {
+        background-color: darken($sidebar-color, 9.5);
       }
-      &.inbox {
-        background-image: url("../img/inbox_light.png");
-      }
-      &.all {
-        background-image: url("../img/all_light.png");
-      }
-      &.completed {
-        background-image: url("../img/completed_light.png");
+      &.current {
+        background-color: darken($sidebar-color, 12);
       }
     }
-    .new-list {
-      background: #333333;
-      color: white;
-      border-top: 1px solid #444444;
-    }
-  }
-  .modal {
-    background-color: rgba(0, 0, 0, 0.4);
   }
 }
-
