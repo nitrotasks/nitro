@@ -68,11 +68,12 @@ class Modal extends Base.View
       @el.addClass 'show'
 
   show: =>
-    if Modal.displayed
+    if Modal.current?.displayed
       Modal.current.minimize()
-    else
-      Modal.show()
+      setTimeout @show, duration/2
+      return
 
+    Modal.show()
     Modal.current = this
     @maximize()
 

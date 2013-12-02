@@ -2436,6 +2436,7 @@ html, body {
 .modal {
   display: none;
   z-index: 12;
+  opacity: 0;
   background: #fff;
   font-size: 16px;
   color: #222222;
@@ -2444,9 +2445,9 @@ html, body {
   bottom: auto;
   left: 50%;
   right: auto;
-  -webkit-transition: 0.3s -webkit-transform ease;
-  -moz-transition: 0.3s -webkit-transform ease;
-  transition: 0.3s -webkit-transform ease;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  transition: all 0.3s ease;
   -webkit-transform: scale(0.75);
   -moz-transform: scale(0.75);
   -ms-transform: scale(0.75);
@@ -2460,7 +2461,8 @@ html, body {
     -moz-transform: scale(1);
     -ms-transform: scale(1);
     -o-transform: scale(1);
-    transform: scale(1); }
+    transform: scale(1);
+    opacity: 1; }
   .modal button.special {
     border: 2px solid #e15556; }
     .modal button.special:active {
