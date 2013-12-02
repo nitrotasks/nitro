@@ -66,7 +66,9 @@
     margin: 0;
     text-shadow: 0 -1px 0 lighten($sidebar-color, 10);
     color: $sidebar-font;
-    @include transition(all 0.09s ease);
+
+    // Disabled because of a strange bug with chrome
+    // @include transition(background 0.1s ease);
 
     &:hover {
       background-color: darken($sidebar-color, 1.5);
