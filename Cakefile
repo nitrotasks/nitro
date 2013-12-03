@@ -67,7 +67,7 @@ task 'server', 'Start server', (options) ->
 
   # Compile files
   compile.coffee(options)
-  compile.sass(options)
+  # compile.sass(options)
 
   # Start Server
   port = options.port or config.port
@@ -82,6 +82,6 @@ task 'server', 'Start server', (options) ->
 
 task 'build', 'Compile CoffeeScript and SASS', (options) ->
   compile.coffee(options)
-  compile.sass(options)
+  # compile.sass(options)
 
 task 'minify', 'Minify application.js', compile.minify
