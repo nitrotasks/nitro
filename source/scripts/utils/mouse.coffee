@@ -11,9 +11,7 @@ mouse = new Mouse
 
 mouse.on 'drop', (elements, zone) ->
   list = zone.list
-  console.log 'dropped on list:', list
   for el in elements
-    console.log el.task
     el.task.list().moveTask(el.task, list)
 
 module.exports = mouse

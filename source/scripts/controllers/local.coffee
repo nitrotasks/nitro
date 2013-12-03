@@ -1,6 +1,18 @@
 # Add localStorage support to Base.Collection and Base.Model
 Base = require 'base'
 
+localStore =
+
+  get: (key, fn) =>
+    fn JSON.parse localStorage[key]
+    return
+
+  set: (items) =>
+    console.log items
+    for key, value of items
+      localStorage[key] = JSON.stringify value
+    return
+
 class Local
 
   constructor: (@model) ->
@@ -10,12 +22,12 @@ class Local
       @model.on 'save:model change:model', @save
 
   fetch: =>
-    json = localStorage[@model.className]
-    return unless typeof json is 'string'
-    @model.refresh JSON.parse(json), true
+    localStore.get @model.className, (value) =>
+      @model.refresh value, true
 
   save: =>
-    json = JSON.stringify @model.toJSON()
-    localStorage[@model.className] = json
+    obj = {}
+    obj[@model.className] = @model.toJSON()
+    localStore.set obj
 
 module.exports = Local
