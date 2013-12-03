@@ -7,7 +7,7 @@
     "mouse"          : "git://github.com/stayradiated/mouse.git#master"
   },
   "scripts": {
-    "lint": "coffeelint -f lint.json -r source/scripts"
+    "test": "coffeelint -f lint.json -r source/scripts"
   },
   "devDependencies"  : {
     "coffee-scrunch" : "~0.1.3",
