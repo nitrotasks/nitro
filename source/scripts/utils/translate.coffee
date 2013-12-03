@@ -40,10 +40,10 @@ class Translate
       return @dictionary[text]
     return text
 
+# WARNING: Temporary Placeholder for translate instance
 translate =
   convert: ->
     throw new Error 'Translations not ready'
-
 
 ready = false
 

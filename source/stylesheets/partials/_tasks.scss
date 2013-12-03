@@ -32,14 +32,20 @@
 // # TASKS HOLDER
 // ----------------------------------------------------------------------------
 
-ul.tasks {
-  padding: 0 $sidebar-padding $sidebar-padding * 2 $sidebar-padding;
-  @if $web == true {
-    margin: $panelHeight + 90px 0 0;
-  } @else {
-    margin: $panelHeight + 115px 0 0;
-  }
+.tasks-container {
+  margin-left: $sidebar-padding;
+  margin-right: $sidebar-padding;
+}
 
+ul.tasks {
+  padding: 0;
+  margin: 0;
+
+  @if $web {
+    margin-top: $panelHeight + 90px;
+  } @else {
+    margin-top: $panelHeight + 115px;
+  }
 }
 
 

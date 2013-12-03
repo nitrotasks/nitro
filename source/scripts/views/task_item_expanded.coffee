@@ -1,57 +1,61 @@
 Base    = require 'base'
-Modal   = require '../views/modal/destroy_task'
+DeleteModal   = require '../views/modal/destroy_task'
 List    = require '../models/list'
 setting = require '../models/setting'
 keys    = require '../utils/keys'
-delay   = require '../utils/timer'
 translate = require '../utils/translate'
-event   = require '../utils/event'
+delay = require '../utils/timer'
+
+# Constants
+DURATION = 150
+TEXT = {}
+CLASSNAME =
+  expanded: 'expanded'
+  completed: 'completed'
+  placeholder: 'placeholder'
+
+translate.ready ->
+  TEXT = translate
+    notes: 'Notes'
 
 class ExpandedTaskItem extends Base.View
 
+  template: require '../templates/task_expanded'
+
   elements:
-    '.name'         : 'name'
-    '.input-name'   : 'inputName'
+    '.input-name'   : 'name'
     '.date'         : 'date'
     '.notes'        : 'notes'
     'time'          : 'time'
 
   events: Base.touchify
-    'click .delete'              : 'remove'
-    'click .priority-button div' : 'setPriority'
     'click .checkbox'            : 'toggleCompleted'
-    'click .tag'                 : 'tagClick'
-
-    # Editing the actual task
-    'click'                      : 'expand'
-    'blur .input-name'           : 'endEdit'task.list().tasks.slice()
-
-      # Checks if it hasn't been moved
-      if order.indexOf(@task.id) is -1
-        order.push(@task.id)
-        @task.list().tasks = order
-
-    else if false # setting.completedDuration is 'instant'
-      settings.moveCompleted()
-      @el.remove()
+    'blur .input-name'           : 'endEdit'
     'keypress .input-name'       : 'endEditOnEnter'
-
-    # Make notes editable
     'focus .notes'               : 'notesEdit'
     'blur .notes'                : 'notesSave'
     'change .date'               : 'datesSave'
+    'mousedown': 'mousedown'
+
+  mousedown: (e) ->
+    e.stopPropagation()
 
   constructor: ->
     super
 
-    # @notes.autosize
-    #   resizeDelay: false
-    #   append: '\n'
+    @bind $ @template @task
+    @el.insertAfter @original
 
-    # @notes.css 'height', '0px'
+    requestAnimationFrame =>
+      @expand()
+
+    @notes.autosize
+      resizeDelay: false
+      append: '\n'
+
+    @notes.css 'height', '0px'
 
     @el[0].task = @task
-
     @expanded = false
 
     @listen @task,
@@ -75,48 +79,37 @@ class ExpandedTaskItem extends Base.View
 
   # Delete Button
   remove: =>
-    Modal.run @task
+    DeleteModal.run @task
 
-  # Remove this view
-  release: =>
-    @unbind()
-    @el.remove()
-
+  # Remove view when the task is moved to another list
   updateList: =>
     @release()
 
-  # ----------------------------------------------------------------------------
+  # ---------------------------------------------------------------------------
   # EXPAND / COLLAPSE
-  # ----------------------------------------------------------------------------
+  # ---------------------------------------------------------------------------
 
   # Expand the task
   expand: (e) =>
-    if not @expanded
-      @trigger 'select'
-      @expanded = true
-      @inputName.val @task.name
-      @el.addClass 'expanded'
-      @notes.trigger 'autosize.resize'
-
-      # TODO: Fix
-      # Disable sortable and draggable
-      # @el.draggable({ disabled: true })
-      # @el.parent().sortable({ disabled: true })
-
-      # notes = @notes.parent()
-      # delay 300, ->
-      #   notes.addClass 'auto'
+    return if @expanded
+    @expanded = true
+    @el.addClass CLASSNAME.expanded
+    @notes.trigger 'autosize.resize'
+    @name.focus()
 
   # Collapse the task
   collapse: =>
-    if @expanded
-      @expanded = false
-      @el.removeClass 'expanded'
-      @notes.css 'height', '0px'
+    return unless @expanded
+    @expanded = false
+    @el.removeClass CLASSNAME.expanded
+    @notes.css 'height', '0px'
+    delay DURATION, =>
+      @release()
+      @trigger 'collapse'
 
-  # ----------------------------------------------------------------------------
+  # ---------------------------------------------------------------------------
   # COMPLETED
-  # ----------------------------------------------------------------------------
+  # ---------------------------------------------------------------------------
 
   toggleCompleted: (e) =>
 
@@ -129,43 +122,24 @@ class ExpandedTaskItem extends Base.View
     else
       @task.completed = false
 
-    # TODO: Move into a model/controller
-    if false # List.current.id is 'completed'
-
-      # Clones List
-      order = @task.list().tasks.slice()
-
-      # Checks if it hasn't been moved
-      if order.indexOf(@task.id) is -1
-        order.push(@task.id)
-        @task.list().tasks = order
-
-    else if false # setting.completedDuration is 'instant'
-      settings.moveCompleted()
-      @el.remove()
-
   updateCompleted: =>
-    @el.toggleClass 'completed', @task.completed
+    @el.toggleClass CLASSNAME.completed, @task.completed
 
-  # ----------------------------------------------------------------------------
+  # ---------------------------------------------------------------------------
   # PRIORITIES
-  # ----------------------------------------------------------------------------
-
-  setPriority: (e) =>
-    priority = $(e.target).data('id')
-    @task.priority = priority
+  # ---------------------------------------------------------------------------
 
   updatePriority: =>
     @el
       .removeClass('p1 p2 p3')
       .addClass('p' + @task.priority)
 
-  # ----------------------------------------------------------------------------
+  # ---------------------------------------------------------------------------
   # NAME
-  # ----------------------------------------------------------------------------
+  # ---------------------------------------------------------------------------
 
   endEdit: =>
-    val = @inputName.val()
+    val = @name.val()
     if val.length
       @task.name = val
     else
@@ -173,36 +147,31 @@ class ExpandedTaskItem extends Base.View
 
   endEditOnEnter: (e) =>
     if e.which is keys.enter
-      # e.preventDefault()
-      @inputName.blur()
+      @name.blur()
 
   updateName: =>
-    @name.html @task.name
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/#(\w+)/g, ' <span class="tag">#$1</span>')
+    @name.val @task.name
 
-  # ----------------------------------------------------------------------------
+  # ---------------------------------------------------------------------------
   # NOTES
-  # ----------------------------------------------------------------------------
+  # ---------------------------------------------------------------------------
 
   notesEdit: =>
-    if @notes.text() is translate 'Notes'
+    if @notes.text() is TEXT.notes
       @notes.text ''
-    @notes.removeClass 'placeholder'
+    @notes.removeClass CLASSNAME.placeholder
 
   notesSave: =>
     text = @notes.val()
     if text is ''
-      @notes.text translate 'Notes'
-      @notes.addClass 'placeholder'
-    else
-      @task.notes = text
+      @notes.text TEXT.notes
+      @notes.addClass CLASSNAME.placeholder
+    @task.notes = text
 
-  # ----------------------------------------------------------------------------
+  # ---------------------------------------------------------------------------
   # DATES
-  # ----------------------------------------------------------------------------
+  # TODO: Fix this
+  # ---------------------------------------------------------------------------
 
   datesSave: =>
 
@@ -219,13 +188,5 @@ class ExpandedTaskItem extends Base.View
       @el.find('img').removeAttr('style')
       @time.text ''
 
-  # ----------------------------------------------------------------------------
-  # TAGS
-  # ----------------------------------------------------------------------------
-
-  tagClick: (e) =>
-    e.stopPropagation()
-    tag = $(e.currentTarget).text()
-    event.trigger 'search', tag
 
 module.exports = ExpandedTaskItem

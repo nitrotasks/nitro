@@ -4,14 +4,8 @@ translate = require '../utils/translate'
 text = {}
 
 translate.ready ->
-
   text = translate
-    notes:     'Notes'
-    date:      'Due Date'
     checkbox:  'Mark as completed'
-    low:       'Set priority to low'
-    medium:    'Set priority to medium'
-    high:      'Set priority to high'
 
 tags = (text) ->
   return unless text

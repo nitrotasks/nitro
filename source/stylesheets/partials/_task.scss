@@ -29,7 +29,7 @@
   border-top: 0;
   border-left: 0;
 
-  @include transition(margin 0.15s ease);
+  @include transition(margin 150ms ease);
   @include transform(translate3d(0, 0, 0));
 
   &.hidden {
@@ -125,7 +125,7 @@
     height: 30px;
     margin-bottom: -11px;
     border-left: 4px solid $mid-grey;
-    @include transition(border-color 0.15s ease);
+    @include transition(border-color 150ms ease);
   }
 
 
@@ -175,13 +175,14 @@
   }
 
   .input-name {
+    display: block;
+    @include pos(0, 110px, auto, 35px);
     color: $dark-grey;
-    @include pos(6px, 0, auto, 44px);
-    @include transition(0.2s, background);
-    display: none;
     border: none;
     outline: none;
-    padding: 0;
+    padding: 4px 0 4px 9px;
+    line-height: 21px;
+    cursor: text;
   }
 
 
@@ -195,14 +196,16 @@
     font-size: 0;
   }
 
+  /*
   .delete {
+
     display: none;
     background: url("../img/trashcan_grey.png") 50% 50% no-repeat;
     width: 25px;
     height: 29px;
     padding: 0 5px;
     opacity: 1;
-    @include transition(opacity 0.2s ease);
+    @include transition(opacity 200ms ease);
     &:hover {
       opacity: 0.6;
     }
@@ -221,7 +224,7 @@
       width: 9px;
       height: 9px;
       border: 1px solid rgba(black, 0.2);
-      @include transition(0.1s, border);
+      @include transition(border 100ms ease);
       &:hover {
         border: 1px solid rgba(black, 0.5);
       }
@@ -236,6 +239,7 @@
       background: $red;
     }
   }
+ */
 
   // Date
   // This is so it shows up in the print styles
@@ -257,6 +261,7 @@
     }
   }
 
+  /*
   .listName {
     font-size: 13px;
     padding-right: 10px;
@@ -265,6 +270,7 @@
     background-size: 12px 11px;
     padding-left: 25px;
   }
+  */
 
   .date {
     height: 28px;
@@ -280,11 +286,6 @@
     width: 80px;
   }
 
-  // &.animout {
-  //   .notes {
-  //     @include animation( 0.15s ease rev 1 );
-  //   }
-  // }
 
   // --------------------------------------------------------------------------
   // NOTES
@@ -307,8 +308,9 @@
     // Priority
     border: 0;
     border-left: 4px solid $mid-grey;
+    color: $dark-grey;
 
-    @include transition(all 0.15s ease);
+    @include transition(height 150ms ease);
 
     &.placeholder {
       color: $half-grey;
@@ -320,14 +322,8 @@
   // EXPANDED TASK
   // --------------------------------------------------------------------------
 
-  &.expanded {
+  &.expanded-task {
     border-top: 1px solid $task-color;
-    margin: 5px 0;
-
-    &.group {
-      margin-bottom: 20px;
-    }
-
     &+ li {
       border-top: 1px solid $task-color;
 
@@ -336,24 +332,14 @@
       }
     }
 
-
-
     // Show right buttons
-    .date, .delete, .priority-button, img {
+    .date, img {
       display: inline-block;
     }
+  }
 
-    // Hide List Name
-    .name, time, .listName {
-      display: none;
-    }
-
-    .input-name {
-      display: inline-block;
-      cursor: text;
-      right: 214px;
-    }
-
+  &.expanded {
+    margin: 5px 0;
   }
 
   // --------------------------------------------------------------------------
