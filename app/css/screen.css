@@ -2971,17 +2971,21 @@ html, body {
     line-height: 21px;
     cursor: text; }
   .task .right-controls {
+    opacity: 0;
     position: absolute;
     top: 0;
     bottom: auto;
     left: auto;
     right: 0;
     text-align: right;
-    font-size: 0; }
+    font-size: 0;
+    -webkit-transition: opacity 150ms ease;
+    -moz-transition: opacity 150ms ease;
+    transition: opacity 150ms ease; }
   .task img {
     vertical-align: top;
     padding: 9px 0;
-    display: none; }
+    display: inline-block; }
   .task time {
     font-size: 13px;
     padding: 0 10px;
@@ -2993,7 +2997,7 @@ html, body {
   .task .date {
     height: 28px;
     line-height: 20px;
-    display: none;
+    display: inline-block;
     vertical-align: top;
     font-size: 13px;
     color: #999999;
@@ -3029,10 +3033,10 @@ html, body {
       border-top: 1px solid #d9d9d9; }
       .task.expanded-task + li.seperator {
         border-top: 0; }
-    .task.expanded-task .date, .task.expanded-task img {
-      display: inline-block; }
   .task.expanded {
     margin: 5px 0; }
+    .task.expanded .right-controls {
+      opacity: 1; }
   .task.completed .checkbox:after {
     content: "";
     width: 10px;

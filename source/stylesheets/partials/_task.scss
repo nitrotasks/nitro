@@ -94,10 +94,6 @@
     display: none;
   }
 
-
-
-
-
   // --------------------------------------------------------------------------
   // TAGS
   // --------------------------------------------------------------------------
@@ -191,9 +187,11 @@
   // --------------------------------------------------------------------------
 
   .right-controls {
+    opacity: 0;
     @include pos(0, 0, auto, auto);
     text-align: right;
     font-size: 0;
+    @include transition(opacity 150ms ease);
   }
 
   /*
@@ -246,7 +244,7 @@
   img {
     vertical-align: top;
     padding: 9px 0;
-    display: none;
+    display: inline-block;
   }
 
   time {
@@ -275,7 +273,7 @@
   .date {
     height: 28px;
     line-height: 20px;
-    display: none;
+    display: inline-block;
     vertical-align: top;
     font-size: 13px;
     color: #999999;
@@ -331,15 +329,13 @@
         border-top: 0;
       }
     }
-
-    // Show right buttons
-    .date, img {
-      display: inline-block;
-    }
   }
 
   &.expanded {
     margin: 5px 0;
+    .right-controls {
+      opacity: 1;
+    }
   }
 
   // --------------------------------------------------------------------------
