@@ -58,7 +58,7 @@ task 'server', 'Start server', (options) ->
 
   # Compile files
   compile.coffee(options)
-  # compile.sass(options)
+  compile.sass(options)
 
   # Start Server
   port = options.port or config.port
@@ -73,13 +73,6 @@ task 'server', 'Start server', (options) ->
 
 task 'build', 'Compile CoffeeScript and SASS', (options) ->
   compile.coffee(options)
-  # compile.sass(options)
+  compile.sass(options)
 
-task 'sass', 'Compile only SASS files', compile.sass
-task 'coffee', 'Compile only coffee files', compile.coffee
 task 'minify', 'Minify application.js', compile.minify
-
-task 'open', 'Open the app in a browser', (options) ->
-  {exec} = require 'child_process'
-  port = options.port or config.port
-  exec 'open http://localhost:' + port
