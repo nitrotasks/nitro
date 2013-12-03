@@ -1,22 +1,39 @@
 # Add localStorage support to Base.Collection and Base.Model
 Base = require 'base'
 
+# chrome.storage polyfill that uses localStorage
 localStore =
 
-  get: (key, fn) =>
-    fn JSON.parse localStorage[key]
+  get: (key, fn) ->
+    fn JSON.parse localStorage[key] || '{}'
     return
 
-  set: (items) =>
-    for key, value of items
-      localStorage[key] = JSON.stringify value
-    return
+  set: (key, value) ->
+    localStorage[key] = JSON.stringify value
 
 
+# chrome.storage with a sane api
+chromeStore =
+
+  get: (key, fn) ->
+    console.log 'GET', key
+    chrome.storage.local.get key, (value) ->
+      console.log 'GOT', key, value
+      fn value[key] || {}
+
+  set: (key, value) ->
+    obj = {}
+    obj[key] = value
+    console.log 'SET', key, obj
+    chrome.storage.local.set obj
+    
+
+# Toggle between chrome.storage and localStorage
 if window.chrome?.storage?
-  database = chrome.storage.local
+  database = chromeStore
 else
   database = localStore
+
 
 class Local
 
@@ -31,8 +48,6 @@ class Local
       @model.refresh value, true
 
   save: =>
-    obj = {}
-    obj[@model.className] = @model.toJSON()
-    database.set obj
+    database.set @model.className, @model.toJSON()
 
 module.exports = Local

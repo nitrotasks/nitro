@@ -1,5 +1,7 @@
 Modal = require '../modal'
 
+# TODO: Fix all this code
+
 modal = new Modal
 
   selector: '.modal.email'
@@ -18,8 +20,8 @@ modal = new Modal
     if setting.isPro()
       email = @input.val()
       return unless email.match(/.+@.+\..+/)
-      uid = require('../models/setting').get('uid')
-      listId = require('../models/list').current.id
+      # uid = require #('../../models/setting').get('uid')
+      # listId = require #('../../models/list').current.id
       Sync.emit('emailList', [uid, listId, email])
     else
       $('.modal.proventor').modal('show')
