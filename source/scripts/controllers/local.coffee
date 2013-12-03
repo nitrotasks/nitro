@@ -13,6 +13,12 @@ localStore =
       localStorage[key] = JSON.stringify value
     return
 
+
+if window.chrome?.storage?
+  database = chrome.storage.local
+else
+  database = localStore
+
 class Local
 
   constructor: (@model) ->
@@ -22,12 +28,12 @@ class Local
       @model.on 'save:model change:model', @save
 
   fetch: =>
-    localStore.get @model.className, (value) =>
+    database.get @model.className, (value) =>
       @model.refresh value, true
 
   save: =>
     obj = {}
     obj[@model.className] = @model.toJSON()
-    localStore.set obj
+    database.set obj
 
 module.exports = Local

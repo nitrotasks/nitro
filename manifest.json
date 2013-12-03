@@ -1,23 +1,25 @@
 {
-  "name": "Nitro",
-  "description": "__MSG_appDesc__",
-  "default_locale": "en",
-  "version": "2.1",
-  "manifest_version": 2,
-  "offline_enabled": true,
+
   "app": {
-    "launch": {
-      "local_path": "app/index.html"
+    "background": {
+      "scripts": [
+        "init_chrome.js"
+      ]
     }
   },
-  "permissions": [
-    "cookies",
-    "unlimitedStorage",
-    "http://app.nitrotasks.com/"
-  ],
+  "manifest_version": 2,
+  "name": "Nitro",
+  "version": "2.1.0",
+
+  "default_locale": "en",
+  "description": "__MSG_appDesc__",
   "icons": {
-    "16": "app/img/nitro_16.png",
-    "128": "app/img/nitro_128.png",
-    "256": "app/img/nitro_256.png"
-  }
+    "256": "app/img/logo/icon.png"
+  },
+
+  "author": "CaffeinatedCode",
+  
+  "permissions": [
+    "storage"
+  ]
 }
