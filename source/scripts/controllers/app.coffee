@@ -35,6 +35,7 @@ Title         = require '../views/title'
 ListButtons   = require '../views/list_buttons'
 Tasks         = require '../views/tasks'
 Settings      = require '../views/settings'
+NightMode     = require '../views/night'
 
 # Special Lists
 # TODO: put these in another file
@@ -67,6 +68,7 @@ class App
     new ListButtons()
     new LoadingScreen()
     new Settings()
+    new NightMode()
 
     # Load views
     @keys = new Keys()
