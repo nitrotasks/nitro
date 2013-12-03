@@ -8,7 +8,6 @@ localStore =
     return
 
   set: (items) =>
-    console.log items
     for key, value of items
       localStorage[key] = JSON.stringify value
     return
