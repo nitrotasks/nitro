@@ -35,5 +35,5 @@ Use these commands to compile and minify the app into the public folder.
     # Build and watch
     cake -w build
 
-    # Minify application.js
+    # Optional: minify application.js
     cake minify
