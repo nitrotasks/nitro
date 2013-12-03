@@ -1,28 +1,19 @@
 Mouse = require 'mouse'
 
-initMouse = ->
+mouse = new Mouse
+  parent: '.tasks'
+  query: '.task'
+  offsetY: -31
+  offsetX: 0
+  helper: (elements) ->
+    length = elements.length
+    return "Moving #{ length } task#{ if length > 1 then 's' else ''}"
 
-  mouse = new Mouse
-    parent: $('.tasks')[0]
-    query: '.task'
-    offsetY: -37
-    offsetX: 0
-    helper: (elements) ->
-      if elements.length is 1
-        return elements[0].querySelector('.name').innerText
-      return "Moving #{ elements.length } tasks"
+mouse.on 'drop', (elements, zone) ->
+  list = zone.list
+  console.log 'dropped on list:', list
+  for el in elements
+    console.log el.task
+    el.task.list().moveTask(el.task, list)
 
-  mouse.on 'drop', (elements, zone) ->
-    list = zone.list
-    for el in elements
-      el.task.list().moveTask(el.task, list)
-
-  mouse.init()
-
-  module.exports.mouse = mouse
-
-  return mouse
-
-module.exports = {
-  init: initMouse
-}
+module.exports = mouse

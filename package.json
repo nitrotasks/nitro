@@ -2,18 +2,19 @@
   "name": "Nitro",
   "version": "2.1.0",
   "dependencies": {
-    "jqueryify"      : "~2.0.3",
-    "base"           : "git://github.com/stayradiated/base.git#master",
-    "mouse"          : "git://github.com/stayradiated/mouse.git#master"
+    "jqueryify": "~2.0.3",
+    "base": "git://github.com/stayradiated/base.git#master",
+    "mouse": "git://github.com/stayradiated/mouse.git#master",
+    "node-watch": "~0.3.4"
   },
   "scripts": {
     "test": "coffeelint -f lint.json -r source/scripts"
   },
-  "devDependencies"  : {
-    "coffee-scrunch" : "~0.1.3",
-    "uglify-js"      : "~2.4.0",
-    "node-static"    : "~0.7.1",
-    "node-sass"      : "~0.7.0",
-    "coffeelint"     : "~0.6.1"
+  "devDependencies": {
+    "coffee-scrunch": "~0.1.3",
+    "uglify-js": "~2.4.0",
+    "node-static": "~0.7.1",
+    "node-sass": "~0.7.0",
+    "coffeelint": "~0.6.1"
   }
 }

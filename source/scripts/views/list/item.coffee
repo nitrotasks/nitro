@@ -36,7 +36,7 @@ class ListItem extends Base.View
     # Set up droppable handler
     el = @el[0]
     el.list = @list
-    Mouse.mouse.addDrop(el)
+    Mouse.addDrop(el)
 
     return this
 
@@ -60,7 +60,7 @@ class ListItem extends Base.View
     @el.addClass 'current'
 
   remove: =>
-    Mouse.mouse.removeDrop @el[0]
+    Mouse.removeDrop @el[0]
     @release()
 
 module.exports = ListItem

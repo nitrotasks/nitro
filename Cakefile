@@ -1,4 +1,5 @@
 sass    = require 'node-sass'
+watch   = require 'node-watch'
 Scrunch = require 'coffee-scrunch'
 uglify  = require 'uglify-js'
 server  = require 'node-static'
@@ -14,6 +15,7 @@ config =
     output: 'app/js/app.js'
     min:    'app/js/app.min.js'
   css:
+    folder: 'source/stylesheets'
     input:  'source/stylesheets/screen.scss'
     output: 'app/css/screen.css'
 
@@ -41,6 +43,13 @@ compile =
     scrunch.init()
 
   sass: (options={}) ->
+
+    if options.watch
+      compile.sass()
+      watch config.css.folder, recursive: yes, ->
+        compile.sass()
+      return
+
     sass.render
       file: config.css.input
       success: (css) ->

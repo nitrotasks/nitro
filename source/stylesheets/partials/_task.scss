@@ -5,14 +5,16 @@
 
 .drag-helper {
   position: absolute;
-  min-height: 27px;
+  height: 29px;
   min-width: 80px;
   line-height: 27px;
-  padding: 5px 10px;
-  background: rgba($white, 0.9);
+  padding: 0px 20px;
+  background: rgba($white, 0.85);
   border: 1px solid $mid-grey;
   font-size: 14px;
   overflow: hidden;
+  white-space: pre;
+  z-index: 11;
 }
 
 .task {
@@ -51,17 +53,6 @@
     @include pos(0, auto, 0, 31px);
   }
 
-  // Notes border
-  &:before {
-    display: block;
-    content: "";
-    @include pos(28px, 0, auto, 4px);
-    height: 1px;
-    background: $task-stripes;
-    z-index: 200;
-  }
-
-
   // Newly created tasks
   &.new {
     @include transform(none);
@@ -71,27 +62,7 @@
   // Selected tasks
   &.selected {
     border-color: $light-blue;
-    border-left-width: 1px;
-    border-left-style: solid;
-    box-shadow: 0 -1px $light-blue;
     background: mix($white, $light-blue, 92);
-
-    // Adding the border offsets stuff a bit
-    &::after {
-      left: 30px;
-    }
-    .checkbox, .notes {
-      border-left-width: 3px;
-    }
-    .checkbox {
-      width: 27px;
-    }
-    .name, .input-name {
-      left: 43px;
-    }
-  }
-  &.selected:before {
-    display: none;
   }
 
   // --------------------------------------------------------------------------
@@ -179,6 +150,7 @@
     padding: 4px 0 4px 9px;
     line-height: 21px;
     cursor: text;
+    background: transparent;
   }
 
 
@@ -278,7 +250,7 @@
     font-size: 13px;
     color: #999999;
     padding: 0 5px 0 7px;
-    background: white;
+    background: transparent;
     border: 0;
     outline: 0;
     width: 80px;
@@ -321,6 +293,16 @@
   // --------------------------------------------------------------------------
 
   &.expanded-task {
+
+    &:before {
+      content: "";
+      display: block;
+      @include pos(28px, 0, auto, 4px);
+      height: 1px;
+      background: $task-stripes;
+      z-index: 12;
+    }
+
     border-top: 1px solid $task-color;
     &+ li {
       border-top: 1px solid $task-color;

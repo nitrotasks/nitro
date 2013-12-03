@@ -9,7 +9,7 @@ class ListInbox extends ListItem
     @bind $ '.inbox.list'
 
     @el[0].list = @list
-    Mouse.mouse.addDrop @el[0]
+    Mouse.addDrop @el[0]
 
     @updateCount()
 
