@@ -75,8 +75,8 @@
     font-size: 17px;
     letter-spacing: -.3px;
     font-weight: 300;
-    line-height: 32px;
-    height: 32px;
+    line-height: 36px;
+    height: 36px;
     padding: 2px 0;
     margin: 0;
     text-shadow: 0 -1px 0 lighten($sidebar-color, 10);
@@ -110,19 +110,19 @@
 
     &.inbox {
       background-image: url("../img/sidebar/inbox.png");
-      background-position: 20px 11px;
+      background-position: 20px 50%;
       background-size: 12px 12px;
     }
 
     &.all {
       background-image: url("../img/sidebar/all.png");
-      background-position: 20px 10px;
+      background-position: 20px 50%;
       background-size: 12px 11px;
     }
 
     &.completed {
       background-image: url("../img/sidebar/completed.png");
-      background-position: 20px 12px;
+      background-position: 20px 50%;
       background-size: 13px 10px;
     }
 

@@ -5,13 +5,13 @@
 
 .new-task {
   @extend %thin-input;
-  font-size: 14px;
+  font-size: 15px;
   position: fixed;
   z-index: 2;
   @if $web == true {
-    top: $panelHeight + 34px;
+    top: $panelHeight + 35px;
   } @else {
-    top: $panelHeight + 59px;
+    top: $panelHeight + 60px;
   }
   right: $sidebar-padding;
   left: $sidebar-width + $sidebar-padding*3;
@@ -42,9 +42,9 @@ ul.tasks {
   margin: 0;
 
   @if $web {
-    margin-top: $panelHeight + 90px;
+    margin-top: $panelHeight + 92px;
   } @else {
-    margin-top: $panelHeight + 115px;
+    margin-top: $panelHeight + 117px;
   }
 }
 

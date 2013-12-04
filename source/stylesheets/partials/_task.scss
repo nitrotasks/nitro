@@ -19,11 +19,13 @@
 
 .task {
 
+  $taskHeight: 34px;
+
   position: relative;
   list-style-type: none;
 
-  font-size: 14px;
-  line-height: 28px;
+  font-size: 15px;
+  line-height: $taskHeight;
   color: #4c4c4c;
   background: $white;
 
@@ -50,7 +52,7 @@
     width: 2px;
     border-left: 1px solid $task-stripes;
     border-right: 1px solid $task-stripes;
-    @include pos(0, auto, 0, 31px);
+    @include pos(0, auto, 0, $taskHeight + 2);
   }
 
   // Newly created tasks
@@ -88,9 +90,9 @@
     display: inline-block;
     position: relative;
     top: -1px;
-    width: 28px;
-    height: 30px;
-    margin-bottom: -11px;
+    width: $taskHeight;
+    height: $taskHeight + 2px;
+    margin-bottom: ($taskHeight / 2 - 4px ) * -1;
     border-left: 4px solid $mid-grey;
     @include transition(border-color 150ms ease);
   }
@@ -103,7 +105,7 @@
   .checkbox:before {
     display: block;
     content: "";
-    @include pos(9px, auto, auto, 8px);
+    @include pos(12px, auto, auto, 10px);
     border: 1px $task-color solid;
     height: 10px;
     width: 10px;
@@ -135,9 +137,9 @@
   // --------------------------------------------------------------------------
 
   .name {
-    line-height: 18px;
+    line-height: $taskHeight;
     @extend %ellipsis;
-    @include pos(6px, 0, auto, 44px);
+    @include pos(0, 0, auto, 50px);
     @include transition(color 150ms ease);
   }
 
@@ -243,7 +245,7 @@
   */
 
   .date {
-    height: 28px;
+    height: $taskHeight;
     line-height: 20px;
     display: inline-block;
     vertical-align: top;
@@ -331,7 +333,7 @@
       content: "";
       width:  10px;
       height: 10px;
-      @include pos(10px, auto, auto, 9px);
+      @include pos(13px, auto, auto, 11px);
       background: url("../img/checkmark.png") no-repeat;
     }
 

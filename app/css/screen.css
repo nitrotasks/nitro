@@ -2730,8 +2730,8 @@ html, body {
     font-size: 17px;
     letter-spacing: -.3px;
     font-weight: 300;
-    line-height: 32px;
-    height: 32px;
+    line-height: 36px;
+    height: 36px;
     padding: 2px 0;
     margin: 0;
     text-shadow: 0 -1px 0 #4a5359;
@@ -2751,15 +2751,15 @@ html, body {
       display: inline-block; }
     .sidebar .list.inbox {
       background-image: url("../img/sidebar/inbox.png");
-      background-position: 20px 11px;
+      background-position: 20px 50%;
       background-size: 12px 12px; }
     .sidebar .list.all {
       background-image: url("../img/sidebar/all.png");
-      background-position: 20px 10px;
+      background-position: 20px 50%;
       background-size: 12px 11px; }
     .sidebar .list.completed {
       background-image: url("../img/sidebar/completed.png");
-      background-position: 20px 12px;
+      background-position: 20px 50%;
       background-size: 13px 10px; }
     .sidebar .list.current {
       background-color: #272c2f; }
@@ -2796,8 +2796,8 @@ html, body {
 .task {
   position: relative;
   list-style-type: none;
-  font-size: 14px;
-  line-height: 28px;
+  font-size: 15px;
+  line-height: 34px;
   color: #4c4c4c;
   background: white;
   border: 1px #d9d9d9 solid;
@@ -2879,7 +2879,7 @@ html, body {
     position: absolute;
     top: 0;
     bottom: 0;
-    left: 31px;
+    left: 36px;
     right: auto; }
   .task.new {
     -webkit-transform: none;
@@ -2906,9 +2906,9 @@ html, body {
     display: inline-block;
     position: relative;
     top: -1px;
-    width: 28px;
-    height: 30px;
-    margin-bottom: -11px;
+    width: 34px;
+    height: 36px;
+    margin-bottom: -13px;
     border-left: 4px solid #cccccc;
     -webkit-transition: border-color 150ms ease;
     -moz-transition: border-color 150ms ease;
@@ -2917,9 +2917,9 @@ html, body {
     display: block;
     content: "";
     position: absolute;
-    top: 9px;
+    top: 12px;
     bottom: auto;
-    left: 8px;
+    left: 10px;
     right: auto;
     border: 1px #d9d9d9 solid;
     height: 10px;
@@ -2931,11 +2931,11 @@ html, body {
   .task.p1 .checkbox, .task.p1 .notes {
     border-left-color: #1bc1f5; }
   .task .name {
-    line-height: 18px;
+    line-height: 34px;
     position: absolute;
-    top: 6px;
+    top: 0;
     bottom: auto;
-    left: 44px;
+    left: 50px;
     right: 0;
     -webkit-transition: color 150ms ease;
     -moz-transition: color 150ms ease;
@@ -2979,7 +2979,7 @@ html, body {
     .task time.overdue, .task time.due {
       color: #e15556; }
   .task .date {
-    height: 28px;
+    height: 34px;
     line-height: 20px;
     display: inline-block;
     vertical-align: top;
@@ -3037,9 +3037,9 @@ html, body {
     width: 10px;
     height: 10px;
     position: absolute;
-    top: 10px;
+    top: 13px;
     bottom: auto;
-    left: 9px;
+    left: 11px;
     right: auto;
     background: url("../img/checkmark.png") no-repeat; }
   .task.completed .checkbox, .task.completed .notes {
@@ -3050,10 +3050,10 @@ html, body {
     color: #4c4c4c; }
 
 .new-task {
-  font-size: 14px;
+  font-size: 15px;
   position: fixed;
   z-index: 2;
-  top: 74px;
+  top: 75px;
   right: 20px;
   left: 310px;
   box-shadow: 0 20px 0 #f3f3f3, 0 21px 0 #d9d9d9; }
@@ -3075,7 +3075,7 @@ html, body {
 ul.tasks {
   padding: 0;
   margin: 0;
-  margin-top: 130px; }
+  margin-top: 132px; }
 
 .message {
   display: none;
