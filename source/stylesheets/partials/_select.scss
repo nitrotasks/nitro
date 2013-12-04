@@ -16,3 +16,43 @@
 .select_js_box.hide {
   opacity: 0;
 }
+
+.right-click-menu {
+  position: absolute;
+  cursor: default;
+  background: $white;
+  opacity: 1;
+  @include transition(opacity 300ms ease);
+  z-index: 5;
+
+  font: 13px/21px "Lucida Grande", "Segoe UI", sans-serif;
+
+  border-radius: 4px;
+  min-width: 150px;
+  padding: 4px 0;
+  @include box-shadow(0 1px 4px rgba($black, 0.2));
+
+  &.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .item {
+    padding: 0 10px;
+    color: $black;
+
+    &:hover {
+      color: #fff;
+      background: $dark-blue;
+    }
+  }
+
+  hr {
+    height: 1px;
+    margin: 4px 0;
+    border: 0;
+    background: $mid-grey;
+  }
+
+}
+

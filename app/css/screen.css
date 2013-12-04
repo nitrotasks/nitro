@@ -2262,6 +2262,37 @@ body, input {
 .select_js_box.hide {
   opacity: 0; }
 
+.right-click-menu {
+  position: absolute;
+  cursor: default;
+  background: white;
+  opacity: 1;
+  -webkit-transition: opacity 300ms ease;
+  -moz-transition: opacity 300ms ease;
+  transition: opacity 300ms ease;
+  z-index: 5;
+  font: 13px/21px "Lucida Grande", "Segoe UI", sans-serif;
+  border-radius: 4px;
+  min-width: 150px;
+  padding: 4px 0;
+  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2); }
+  .right-click-menu.hidden {
+    opacity: 0;
+    pointer-events: none; }
+  .right-click-menu .item {
+    padding: 0 10px;
+    color: black; }
+    .right-click-menu .item:hover {
+      color: #fff;
+      background: #068dd8; }
+  .right-click-menu hr {
+    height: 1px;
+    margin: 4px 0;
+    border: 0;
+    background: #cccccc; }
+
 .loading-screen {
   position: absolute;
   top: 0;
@@ -3071,11 +3102,10 @@ html, body {
 .tasks-container {
   margin-left: 20px;
   margin-right: 20px; }
-
-ul.tasks {
-  padding: 0;
-  margin: 0;
-  margin-top: 132px; }
+  .tasks-container ul {
+    padding: 0;
+    margin: 0;
+    margin-top: 132px; }
 
 .message {
   display: none;

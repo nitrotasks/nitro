@@ -16,7 +16,7 @@ class Tasks extends Base.View
     message: require '../templates/tasks'
 
   elements:
-    'ul.tasks': 'tasks'
+    '.tasks-container ul': 'tasks'
     'input.new-task': 'input'
     '.message': 'message'
 

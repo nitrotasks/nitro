@@ -14,4 +14,16 @@ mouse.on 'drop', (elements, zone) ->
   for el in elements
     el.task.list().moveTask(el.task, list)
 
+mouse.addMenu [
+
+  delete: 'Delete'
+,
+  low:  'Low Priority'
+  med:  'Medium Priority'
+  high: 'High Priority'
+,
+  complete: 'Mark Completed'
+
+], fadeOut: 300
+
 module.exports = mouse

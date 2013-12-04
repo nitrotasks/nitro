@@ -35,19 +35,19 @@
 .tasks-container {
   margin-left: $sidebar-padding;
   margin-right: $sidebar-padding;
-}
 
-ul.tasks {
-  padding: 0;
-  margin: 0;
+  ul{
+    padding: 0;
+    margin: 0;
 
-  @if $web {
-    margin-top: $panelHeight + 92px;
-  } @else {
-    margin-top: $panelHeight + 117px;
+    @if $web {
+      margin-top: $panelHeight + 92px;
+    } @else {
+      margin-top: $panelHeight + 117px;
+    }
   }
-}
 
+}
 
 // ----------------------------------------------------------------------------
 // # MESSAGES
