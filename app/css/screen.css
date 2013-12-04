@@ -2819,7 +2819,7 @@ html, body {
   padding: 0px 20px;
   background: rgba(255, 255, 255, 0.85);
   border: 1px solid #cccccc;
-  font-size: 14px;
+  font-size: 15px;
   overflow: hidden;
   white-space: pre;
   z-index: 11; }
@@ -2841,61 +2841,7 @@ html, body {
   -moz-transform: translate3d(0, 0, 0);
   -ms-transform: translate3d(0, 0, 0);
   -o-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
-  /*
-  .delete {
-
-    display: none;
-    background: url("../img/trashcan_grey.png") 50% 50% no-repeat;
-    width: 25px;
-    height: 29px;
-    padding: 0 5px;
-    opacity: 1;
-    @include transition(opacity 200ms ease);
-    &:hover {
-      opacity: 0.6;
-    }
-  }
-
-  .priority-button {
-    display: none;
-    padding: 0 10px;
-    height: 29px;
-    vertical-align: top;
-    border-left: 1px solid $task-color;
-    border-right: 1px solid $task-color;
-    .low, .medium, .high {
-      display: inline-block;
-      margin: 9px 2px 0;
-      width: 9px;
-      height: 9px;
-      border: 1px solid rgba(black, 0.2);
-      @include transition(border 100ms ease);
-      &:hover {
-        border: 1px solid rgba(black, 0.5);
-      }
-    }
-    .low {
-      background: $light-blue;
-    }
-    .medium {
-      background: $green;
-    }
-    .high {
-      background: $red;
-    }
-  }
- */
-  /*
-  .listName {
-    font-size: 13px;
-    padding-right: 10px;
-    color: #999;
-    background: url("../img/all_light.png") no-repeat 5px 50%;
-    background-size: 12px 11px;
-    padding-left: 25px;
-  }
-  */ }
+  transform: translate3d(0, 0, 0); }
   .task.hidden {
     display: block;
     opacity: 0.4; }
@@ -2976,13 +2922,13 @@ html, body {
     position: absolute;
     top: 0;
     bottom: auto;
-    left: 35px;
+    left: 50px;
     right: 110px;
     color: #4c4c4c;
     border: none;
     outline: none;
-    padding: 4px 0 4px 9px;
-    line-height: 21px;
+    padding: 7px 0 7px 0;
+    line-height: 1;
     cursor: text;
     background: transparent; }
   .task .right-controls {
@@ -3002,7 +2948,7 @@ html, body {
     padding: 9px 0;
     display: inline-block; }
   .task time {
-    font-size: 13px;
+    font-size: 15px;
     padding: 0 10px;
     color: #999; }
     .task time.soon {
@@ -3014,7 +2960,7 @@ html, body {
     line-height: 20px;
     display: inline-block;
     vertical-align: top;
-    font-size: 13px;
+    font-size: 15px;
     color: #999999;
     padding: 0 5px 0 7px;
     background: transparent;
@@ -3026,7 +2972,7 @@ html, body {
     position: relative;
     background: #fafafa;
     line-height: 21px;
-    padding: 0 5px 0 40px;
+    padding: 10px 5px 10px 46px;
     height: 0px;
     width: 100%;
     outline: 0;
@@ -3048,7 +2994,7 @@ html, body {
       content: "";
       display: block;
       position: absolute;
-      top: 28px;
+      top: 34px;
       bottom: auto;
       left: 4px;
       right: 0;
