@@ -1,7 +1,7 @@
 Mouse = require 'mouse'
 
 mouse = new Mouse
-  parent: '.tasks'
+  parent: 'section.tasks'
   query: '.task'
   offsetY: -31
   offsetX: 0

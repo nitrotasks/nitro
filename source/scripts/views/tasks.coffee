@@ -22,7 +22,6 @@ class Tasks extends Base.View
 
   events:
     'click': 'collapseOnClick'
-    'scroll': 'scrollbars'
     'keydown input.new-task': 'keydown'
     'keyup input.new-task': 'keyup'
 
@@ -244,38 +243,6 @@ class Tasks extends Base.View
   collapseOnClick: (e) =>
     if e.target.className is 'main tasks'
       @collapse()
-
-  # TODO: Check
-  scrollbars: (e) =>
-    target = $(e.currentTarget)
-    target.addClass('show')
-
-    clearTimeout(@scrollbarTimeout)
-    @scrollbarTimeout = setTimeout ->
-      target.removeClass('show')
-    , 1000
-
-  # TODO: Refactor this
-  setupDraggable: ->
-    $('body').on 'mouseover', '.main .task', ->
-      if Setting.sort and
-      not $(this).hasClass('ui-draggable') and
-      not List.current.disabled
-
-        $(this).draggable
-          distance: 10
-          scroll: false
-          cursorAt:
-            top: 15
-            left: 30
-          helper: (event, task) ->
-            id = $(task).attr('id')
-            element = "<div data-id=\'#{
-              id }\' class=\'helper\'>#{
-              $(this).find('.name').text() }</div>"
-            $('body').append(element)
-            $("[data-id=#{ id }]")
-
 
   # TODO: Refactor this
   setupSortable: ->
