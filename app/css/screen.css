@@ -2302,29 +2302,10 @@ body, input {
   bottom: 0;
   left: 0;
   right: 0;
-  background: white;
+  background: url(../img/logo/bolt.svg) 50% 40% no-repeat;
+  background-color: #33393d;
+  background-size: 100px;
   z-index: 100; }
-  .loading-screen .text {
-    padding: 25px;
-    height: 150px;
-    width: 150px;
-    text-align: center;
-    line-height: 30px;
-    position: absolute;
-    top: 25%;
-    bottom: auto;
-    left: 50%;
-    right: auto;
-    margin-left: -100px;
-    margin-top: 0;
-    color: #4c4c4c; }
-  .loading-screen img {
-    width: 27px;
-    -webkit-animation: 800ms colorpulse ease infinite;
-    -moz-animation: 800ms colorpulse ease infinite;
-    -ms-animation: 800ms colorpulse ease infinite;
-    animation: 800ms colorpulse ease infinite;
-    background: #419dfa; }
 
 html, body {
   height: 100%;

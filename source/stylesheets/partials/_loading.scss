@@ -1,24 +1,7 @@
 .loading-screen {
   @include pos(0, 0, 0, 0);
-  background: white;
+  background: url(../img/logo/bolt.svg) 50% 40% no-repeat;
+  background-color: $sidebar-color;
+  background-size: 100px;
   z-index: $z-loading;
-
-  .text {
-    padding: 25px;
-    height: 150px;
-    width: 150px;
-    text-align: center;
-    line-height: 30px;
-    @include pos(25%, auto, auto, 50%);
-    margin-left: -100px;
-    margin-top: 0;
-    color: $dark-grey;
-  }
-
-  img {
-    width: 27px;
-    @include animation( 800ms colorpulse ease infinite );
-    background: #419dfa;
-  }
-
 }
