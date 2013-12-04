@@ -23,7 +23,8 @@ class Title extends Base.View
 
   # Display listname
   render: (@list) =>
-    @title.text @list.name
+    @title.on "webkitAnimationEnd mozAnimationEnd oAnimationEnd animationEnd", =>
+      @title.text @list.name
 
     if @list.permanent
       @title.removeAttr 'contenteditable'

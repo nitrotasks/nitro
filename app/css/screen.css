@@ -2312,6 +2312,32 @@ html, body {
   background: #f3f3f3;
   overflow: hidden; }
 
+@-webkit-keyframes enterPage {
+  0% {
+    -webkit-transform: translate3d(100px, 0, 0);
+    opacity: 0; }
+
+  17% {
+    opacity: 1; }
+
+  100% {
+    -webkit-transform: translate3d(0, 0, 0); } }
+
+@-webkit-keyframes exitPage {
+  0% {
+    opacity: 1; }
+
+  100% {
+    opacity: 0; } }
+
+.enterPage {
+  -webkit-animation: enterPage 1000ms 1 cubic-bezier(0.1, 0.9, 0.2, 1);
+  /* IE 10+ */ }
+
+.exitPage {
+  -webkit-animation: exitPage 117ms 1 linear;
+  opacity: 0; }
+
 .main {
   position: absolute;
   top: 0;
@@ -3010,13 +3036,16 @@ html, body {
   .task.completed .tag {
     color: #4c4c4c; }
 
-.new-task {
-  font-size: 15px;
+.new-task-container {
   position: fixed;
   z-index: 2;
   top: 75px;
   right: 20px;
-  left: 310px;
+  left: 310px; }
+
+.new-task {
+  font-size: 15px;
+  width: 100%;
   box-shadow: 0 20px 0 #f3f3f3, 0 21px 0 #d9d9d9; }
   .new-task:focus {
     border-color: #1bc1f5; }

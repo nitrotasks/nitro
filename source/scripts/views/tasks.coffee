@@ -183,16 +183,19 @@ class Tasks extends Base.View
       # if list.id is 'all' then task.listName = task.list().name
 
     # Render html
-    @tasks.html html
+    $(".entrance").addClass("exitPage").on "webkitAnimationEnd mozAnimationEnd oAnimationEnd animationEnd", =>
+      @tasks.html html
 
-    requestAnimationFrame =>
+      $(".entrance").removeClass("exitPage").addClass("enterPage").on "webkitAnimationEnd mozAnimationEnd oAnimationEnd animationEnd", =>
+        $(this).removeClass("enterPage")
 
-      tasks.forEach (task) =>
-        view = new TaskItem
-          task: task
-          el: @tasks.find "#task-#{ task.id }"
-        @bindTask view
-        @views.push view
+    # requestAnimationFrame =>
+    #   tasks.forEach (task) =>
+    #     view = new TaskItem
+    #       task: task
+    #       el: @tasks.find "#task-#{ task.id }"
+    #     @bindTask view
+    #     @views.push view
 
   # Toggles the input box text
   toggleSearch: (@search) =>

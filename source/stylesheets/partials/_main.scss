@@ -4,6 +4,29 @@ html, body {
   overflow: hidden;
 }
 
+@-webkit-keyframes enterPage {
+  0% {
+    -webkit-transform: translate3d(100px, 0, 0);
+    opacity: 0;
+  }
+  17% { opacity: 1; }
+  100% { -webkit-transform: translate3d(0, 0, 0); }
+}
+
+@-webkit-keyframes exitPage {
+  0% {  opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.enterPage {
+  -webkit-animation: enterPage 1000ms 1 cubic-bezier(0.1, 0.9, 0.2, 1); /* IE 10+ */
+}
+
+.exitPage {
+  -webkit-animation: exitPage 117ms 1 linear;
+  opacity: 0;
+}
+
 .main {
   @include pos(0, 0, 0, $sidebar-width + $sidebar-padding * 2);
   padding: 0 0 $sidebar-padding * 2;
