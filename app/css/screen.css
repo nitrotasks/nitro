@@ -1658,7 +1658,7 @@ button.special, a.special {
   display: table;
   clear: both; }
 
-body.dark {
+.dark body {
   background: #33393d; }
 
 .dark {
@@ -1682,15 +1682,18 @@ body.dark {
     background: #2a2f32;
     border-color: #23272a;
     color: #f3f3f3; }
+    .dark .task .notes, .dark .task .input-name, .dark .task .date {
+      background: #2a2f32;
+      color: #f3f3f3; }
     .dark .task.p3 .checkbox, .dark .task.p3 .notes {
       border-left-color: #d92a2b; }
     .dark .task.p2 .checkbox, .dark .task.p2 .notes {
       border-left-color: #15692a; }
     .dark .task.p1 .checkbox, .dark .task.p1 .notes {
       border-left-color: #056da6; }
-    .dark .task:first-child, .dark .task::after, .dark .task .checkbox::before {
+    .dark .task:first-child, .dark .task::after, .dark .task .checkbox::before, .dark .task.expanded, .dark .task.expanded-task + li {
       border-color: #23272a; }
-    .dark .task::before {
+    .dark .task::before, .dark .task.expanded-task::before {
       background: #23272a; }
   .dark .sidebar {
     background: #202427; }
@@ -2945,7 +2948,7 @@ html, body {
     transition: opacity 150ms ease; }
   .task img {
     vertical-align: top;
-    padding: 9px 0;
+    padding: 12px 0;
     display: inline-block; }
   .task time {
     font-size: 15px;

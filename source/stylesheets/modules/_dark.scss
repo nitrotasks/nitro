@@ -1,4 +1,4 @@
-body.dark {
+.dark body {
   background: $sidebar-color;
 }
 .dark {
@@ -31,6 +31,11 @@ body.dark {
     border-color: darken($sidebar-color, 7);
     color: $light-grey;
 
+    .notes, .input-name, .date {
+      background: darken($sidebar-color, 4);
+      color: $light-grey;
+    }
+
     &.p3 .checkbox,
     &.p3 .notes {
       border-left-color: darken($red, 10);
@@ -46,10 +51,10 @@ body.dark {
       border-left-color: darken($dark-blue, 10);
     }
 
-    &:first-child, &::after, .checkbox::before {
+    &:first-child, &::after, .checkbox::before, &.expanded, &.expanded-task + li {
       border-color: darken($sidebar-color, 7);
     }
-    &::before {
+    &::before, &.expanded-task::before {
       background: darken($sidebar-color, 7);
     }
   }
