@@ -9,19 +9,17 @@ class Lists extends Base.View
   # Reference the currently open list
   @active: null
 
-  # UI elements
-  elements:
-    'ul': 'lists'
-    '.create-list': 'input'
+  el: '.sidebar'
 
-  # UI events
+  ui:
+    lists: 'ul'
+    input: '.create-list'
+
   events:
     'keyup .create-list': 'keyup'
 
   constructor: ->
     super
-
-    @bind $ '.sidebar'
 
     # Listen to the List collection
     @listen List,
@@ -32,9 +30,9 @@ class Lists extends Base.View
   # Handle input keyboard events
   # - e (Event) : the keyup event
   keyup: (e) =>
-    if e.which is keys.enter and @input.val().length
-      @createNew @input.val()
-      @input.val ''
+    if e.which is keys.enter and @ui.input.val().length
+      @createNew @ui.input.val()
+      @ui.input.val ''
 
   # Create a new list
   # - name (string) : the name of the list
@@ -47,19 +45,21 @@ class Lists extends Base.View
   addOne: (list) =>
     return if list.id is 'inbox'
     listItem = new ListItem list: list
-    @lists.append listItem.render().el
+    @ui.lists.append listItem.render().el
 
   # Render all lists
   addAll: =>
-    @lists.empty()
+    @ui.lists.empty()
     List.forEach @addOne
 
   # Select a list
   # - list (List) : the list to select
   select: (list) =>
     Lists.active = list
+
     # Clear the currently selected tasks
     Mouse.clearSelection()
+
     # Clear the currently selected list
     @el
       .find('.current')

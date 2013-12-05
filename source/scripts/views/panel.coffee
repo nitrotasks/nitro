@@ -3,7 +3,6 @@ Base     = require 'base'
 
 # Controllers
 Settings = require '../controllers/settings'
-Search   = require '../controllers/search'
 
 # Models
 List     = require '../models/list'
@@ -14,23 +13,17 @@ Event    = require '../utils/event'
 class Panel extends Base.View
 
   elements:
-    '.search':      'search'
-    '.user img':    'avatar'
-    '.user .name':  'name'
-    '.sidebar':     'sidebar'
+    avatar: '.user img'
+    name: '.user .name'
+    sidebar: '.sidebar'
 
-  events:
+  events: Base.touchify
     'click .logo':          'toggleMenu'
     'click .user':          'toggleAccount'
     'click .openSettings':  'openSettings'
 
   constructor: ->
-    Base.touchify(@events)
     super
-
-    # Create a search box
-    new Search
-      el: @search
 
     @listen Setting,
       'change:userName':   @setName
@@ -41,16 +34,16 @@ class Panel extends Base.View
         @setAvatar()
 
   toggleMenu: (onOff) =>
-    @sidebar.toggleClass('show', onOff)
+    @ui.sidebar.toggleClass('show', onOff)
 
   setName: (name = setting.userName) =>
-    @name.text(name)
+    @ui.name.text(name)
 
   setAvatar: =>
     email = Setting.userEmail.toLowerCase()
     id = md5(email)
     link = "http://www.gravatar.com/avatar/#{ id }"
-    @avatar.show().attr('src', link)
+    @ui.avatar.show().attr('src', link)
 
   offline: =>
     return unless not Setting.noAccount

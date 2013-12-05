@@ -13,27 +13,25 @@ DURATION = 150 #ms
 
 class Tasks extends Base.View
 
+  el: '.main'
+
   template:
     item:     require '../templates/task'
     message: require '../templates/tasks'
 
-  elements:
-    '.tasks-container ul': 'tasks'
-    '.task-input': 'input'
-    '.message': 'message'
+  ui:
+    tasks: '.tasks-container ul'
+    input: '.task-input'
+    message: '.message'
+    entrance: '.entrance'
 
-    '.entrance': 'entrance'
-
-  events:
+  events: Base.touchify
     'click': 'collapseOnClick'
     'keydown .task-input': 'keydown'
     'keyup .task-input': 'keyup'
 
   constructor: ->
-    Base.touchify @events
     super
-
-    @bind $ '.main'
 
     # Store currently loaded tasks
     @views = []
@@ -64,12 +62,12 @@ class Tasks extends Base.View
     # return unless List.current.id in [task.listId, 'all']
 
     # Add to dom
-    @tasks.prepend @template.item task
+    @ui.tasks.prepend @template.item task
 
     # Create a new view
     view = new TaskItem
       task: task
-      el: @tasks.find "#task-#{ task.id }"
+      el: @ui.tasks.find "#task-#{ task.id }"
 
     # Bind events
     @bindTask(view)
@@ -91,7 +89,7 @@ class Tasks extends Base.View
 
     if not animated
 
-      @entrance.addClass 'exitPage'
+      @ui.entrance.addClass 'exitPage'
 
       delay DURATION, =>
         @render(list, true)
@@ -99,15 +97,15 @@ class Tasks extends Base.View
       return
 
     if list.disabled
-      @input.hide()
+      @ui.input.hide()
     else
-      @input.show()
+      @ui.input.show()
 
     # Search for tasks
     if list.id is 'search'
 
-      @message.text @template.message.special
-      if list.query? then @input.val list.query
+      @ui.message.text @template.message.special
+      if list.query? then @ui.input.val list.query
       @toggleSearch on
 
       # toggleSearch will display the results for us
@@ -121,12 +119,12 @@ class Tasks extends Base.View
     # Standard list
     if list?.tasks
       tasks = list.tasks
-      @message.text @template.message.standard
+      @ui.message.text @template.message.standard
 
     # # Empty list
     else
       tasks = Task.list list.id
-      @message.text @template.message.empty
+      @ui.message.text @template.message.empty
 
     # Display tasks
     @displayTasks tasks
@@ -137,10 +135,10 @@ class Tasks extends Base.View
 
   displayTasks: (tasks, disableAnimation=no) =>
 
-    @entrance.removeClass('exitPage')
+    @ui.entrance.removeClass('exitPage')
 
     unless disableAnimation
-      @entrance.addClass('enterPage')
+      @ui.entrance.addClass('enterPage')
 
     # Keep a copy of the old views
     oldViews = @views
@@ -193,17 +191,17 @@ class Tasks extends Base.View
       # if list.id is 'all' then task.listName = task.list().name
 
     # Render html
-    @tasks.html html
+    @ui.tasks.html html
 
     # Fade out animated stuff
     delay DURATION, =>
-      @entrance.removeClass 'enterPage'
-      @input.focus() unless isMobile
+      @ui.entrance.removeClass 'enterPage'
+      @ui.input.focus() unless isMobile
 
       tasks.forEach (task) =>
         view = new TaskItem
           task: task
-          el: @tasks.find "#task-#{ task.id }"
+          el: @ui.tasks.find "#task-#{ task.id }"
         @bindTask view
         @views.push view
 
@@ -215,12 +213,12 @@ class Tasks extends Base.View
     else
       @template.message.addTask
 
-    @input.attr 'placeholder', message
+    @ui.input.attr 'placeholder', message
 
   # Handle keydown events on the input box
   keydown: (e) =>
     return if @search
-    if e.keyCode is keys.enter and @input.val().length > 0
+    if e.keyCode is keys.enter and @ui.input.val().length > 0
       @createNewTask()
 
   # Handle keyup events on the input box
@@ -229,15 +227,15 @@ class Tasks extends Base.View
 
   # Create a new task
   createNewTask: =>
-    name = @input.val()
-    @input.val ''
+    name = @ui.input.val()
+    @ui.input.val ''
     Task.create
       name: name
       listId: Lists.active.id
       date: dateDetector.parse name
 
   updateSearchResults: (disableAnimation=yes) =>
-    results = Task.search @input.val()
+    results = Task.search @ui.input.val()
     @displayTasks results, disableAnimation
     @el.toggleClass 'empty', results.length is 0
 

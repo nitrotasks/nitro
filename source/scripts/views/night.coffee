@@ -3,10 +3,10 @@ Setting = require '../models/setting'
 
 class NightMode extends Base.View
 
+  el: 'html'
+
   constructor: ->
     super
-
-    @bind $ 'html'
 
     @listen Setting,
       'change:night': @toggle

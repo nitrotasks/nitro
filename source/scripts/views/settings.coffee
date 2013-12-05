@@ -10,7 +10,7 @@ About    = require '../views/tab/about'
 
 class Settings extends Base.View
 
-  events: {}
+  el: '.modal.settings'
 
   constructor: ->
     super
@@ -18,9 +18,6 @@ class Settings extends Base.View
     # TODO: This is just a placeholder
     $('#open-settings-button').click =>
       Modal.show()
-
-    # Bind to the settings modal
-    @bind $ '.modal.settings'
 
 module.exports = Settings
 

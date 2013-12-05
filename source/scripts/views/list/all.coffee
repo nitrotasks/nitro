@@ -5,10 +5,10 @@ event = require '../../utils/event'
 
 class ListAll extends ListItem
 
+  el: '.all.list'
+
   constructor: ->
     super
-
-    @bind $ '.all.list'
 
     Task.on 'change change:completed:model', @updateCount
 
@@ -19,6 +19,6 @@ class ListAll extends ListItem
     @select()
 
   updateCount: =>
-    @count.text Task.active().length
+    @ui.count.text Task.active().length
 
 module.exports = ListAll

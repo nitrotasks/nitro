@@ -22,10 +22,10 @@ class ExpandedTaskItem extends Base.View
 
   template: require '../templates/task_expanded'
 
-  elements:
-    '.input-name'   : 'name'
-    '.input-date'   : 'date'
-    '.notes'        : 'notes'
+  ui:
+    name: '.input-name'
+    date: '.input-date'
+    notes: '.notes'
 
   events: Base.touchify
     'click .checkbox'            : 'toggleCompleted'
@@ -48,11 +48,11 @@ class ExpandedTaskItem extends Base.View
     requestAnimationFrame =>
       @expand()
 
-    @notes.autosize
+    @ui.notes.autosize
       resizeDelay: false
       append: '\n'
 
-    @notes.css 'height', '0px'
+    @ui.notes.css 'height', '0px'
 
     @el[0].task = @task
     @expanded = false
@@ -68,12 +68,12 @@ class ExpandedTaskItem extends Base.View
 
   setupDatepicker: =>
 
-    @date.datepicker
+    @ui.date.datepicker
       firstDay: setting.weekStart
       dateFormat: setting.dateFormat
 
     if @task.date
-      @date.datepicker('setDate', @task.date)
+      @ui.date.datepicker('setDate', @task.date)
 
   # Delete Button
   remove: =>
@@ -92,15 +92,15 @@ class ExpandedTaskItem extends Base.View
     return if @expanded
     @expanded = true
     @el.addClass CLASSNAME.expanded
-    @notes.trigger 'autosize.resize'
-    @name.focus()
+    @ui.notes.trigger 'autosize.resize'
+    @ui.name.focus()
 
   # Collapse the task
   collapse: =>
     return unless @expanded
     @expanded = false
     @el.removeClass CLASSNAME.expanded
-    @notes.css 'height', '0px'
+    @ui.notes.css 'height', '0px'
     delay DURATION, =>
       @release()
       @trigger 'collapse'
@@ -137,7 +137,7 @@ class ExpandedTaskItem extends Base.View
   # ---------------------------------------------------------------------------
 
   endEdit: =>
-    val = @name.val()
+    val = @ui.name.val()
     if val.length
       @task.name = val
     else
@@ -145,25 +145,25 @@ class ExpandedTaskItem extends Base.View
 
   endEditOnEnter: (e) =>
     if e.which is keys.enter
-      @name.blur()
+      @ui.name.blur()
 
   updateName: =>
-    @name.val @task.name
+    @ui.name.val @task.name
 
   # ---------------------------------------------------------------------------
   # NOTES
   # ---------------------------------------------------------------------------
 
   notesEdit: =>
-    if @notes.text() is TEXT.notes
-      @notes.text ''
-    @notes.removeClass CLASSNAME.placeholder
+    if @ui.notes.text() is TEXT.notes
+      @ui.notes.text ''
+    @ui.notes.removeClass CLASSNAME.placeholder
 
   notesSave: =>
-    text = @notes.val()
+    text = @ui.notes.val()
     if text is ''
-      @notes.text TEXT.notes
-      @notes.addClass CLASSNAME.placeholder
+      @ui.notes.text TEXT.notes
+      @ui.notes.addClass CLASSNAME.placeholder
     @task.notes = text
 
   # ---------------------------------------------------------------------------
@@ -172,8 +172,8 @@ class ExpandedTaskItem extends Base.View
 
   datesSave: =>
 
-    if @date.val().length
-      @task.date = @date.datepicker('getDate').getTime()
+    if @ui.date.val().length
+      @task.date = @ui.date.datepicker('getDate').getTime()
 
     else
       @task.date = null

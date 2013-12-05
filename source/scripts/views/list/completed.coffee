@@ -4,10 +4,10 @@ ListItem = require './item'
 
 class ListCompleted extends ListItem
 
+  el: '.completed.list'
+
   constructor: ->
     super
-
-    @bind $ '.completed.list'
 
     Task.on 'change:completed:model', @updateCount
 
@@ -24,6 +24,6 @@ class ListCompleted extends ListItem
     @select()
 
   updateCount: =>
-    @count.text Task.completed().length
+    @ui.count.text Task.completed().length
 
 module.exports = ListCompleted

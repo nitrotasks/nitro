@@ -3,6 +3,8 @@ Base = require 'base'
 
 class Keys extends Base.View
 
+  el: $ document
+
   events:
     'keyup': 'keyup'
     'blur .editable, input': 'blur'
@@ -10,9 +12,6 @@ class Keys extends Base.View
 
   constructor: ->
     super
-
-    @el = $ document
-    @bind()
 
     @input  = null
     @focused = false

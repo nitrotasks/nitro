@@ -4,15 +4,15 @@ modal = new Modal
 
   selector: '.modal.export'
 
-  elements:
-    'textarea': 'textarea'
+  ui:
+    textarea: 'textarea'
 
   events:
     'click .true': 'import'
     'click .false': 'hide'
 
   run: ->
-    @textarea.val 'TODO: Show all the data here'
+    @ui.textarea.val 'TODO: Show all the data here'
     modal.show()
 
   import: ->

@@ -6,8 +6,8 @@ modal = new Modal
 
   selector: '.modal.email'
 
-  elements:
-    'input': 'input'
+  ui:
+    input: 'input'
 
   events:
     'click button': 'submit'
@@ -18,7 +18,7 @@ modal = new Modal
 
   submit: ->
     if setting.isPro()
-      email = @input.val()
+      email = @ui.input.val()
       return unless email.match(/.+@.+\..+/)
       # uid = require #('../../models/setting').get('uid')
       # listId = require #('../../models/list').current.id
@@ -29,9 +29,9 @@ modal = new Modal
     modal.hide()
 
   onShow: ->
-    @input.focus()
+    @ui.input.focus()
 
   onHide: ->
-    @input.val('')
+    @ui.input.val ''
 
 module.exports = modal

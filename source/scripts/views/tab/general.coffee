@@ -3,11 +3,11 @@ Tab = require '../settings_tab'
 exportModal = require '../../views/modal/export'
 
 settings =
-  'weekStart'         : '#input-week-start'
-  'dateFormat'        : '#input-date-format'
-  'completedDuration' : '#input-completed-duration'
-  'confirmDelete'     : '#input-confirm-delete'
-  'night'             : '#input-night-mode'
+  weekStart: '#input-week-start'
+  dateFormat: '#input-date-format'
+  completedDuration: '#input-completed-duration'
+  confirmDelete: '#input-confirm-delete'
+  night: '#input-night-mode'
 
 options =
 
@@ -15,7 +15,7 @@ options =
 
   selector: '.general'
 
-  elements: {}
+  ui: {}
   methods: ['clearData', 'exportData']
   events:
     'click .clear-data': 'clearData'
@@ -24,7 +24,7 @@ options =
   # Load settings from storage
   load: ->
     for setting of settings
-      el = @[setting + 'El']
+      el = @ui[setting]
       val = Setting[setting]
       if el.attr('type') is 'checkbox'
         el.attr 'checked', val
@@ -40,17 +40,16 @@ options =
 
 # Load settings
 for setting, element of settings
-  elementName = setting + 'El'
 
-  # Generate methods, events and elements
+  # Generate methods, events and ui
   options.methods.push setting
-  options.elements[element] = elementName
+  options.ui[setting] = element
   options.events['change ' + element] = setting
 
   # Handle settings being changed
-  do (setting, elementName) ->
+  do (setting, element) ->
     options[setting] = ->
-      el = @[elementName]
+      el = @ui[element]
       if el.attr('type') is 'checkbox'
         val = el.is ':checked'
       else

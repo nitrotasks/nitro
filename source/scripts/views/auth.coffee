@@ -3,27 +3,26 @@ user = require '../models/user'
 
 class Auth extends Base.View
 
+  el: '.auth'
+
   template: require '../templates/auth'
 
-  elements:
+  ui:
 
     # Form
-    '.form':           'form'
-    '.auth-name':      'name'
-    '.auth-email':     'email'
-    '.auth-password':  'password'
+    name: '.auth-name'
+    email: '.auth-email'
+    password: '.auth-password'
 
     # Buttons
-    'button':          'buttons'
-    '.login':          'loginBtn'
-    '.register':       'registerBtn'
+    buttons: 'button'
 
     # Messages
-    '.note-login':     'loginMessage'
-    '.note-success':   'successMessage'
-    '.error':          'errorMessage'
+    loginMessage: '.note-login'
+    successMessage: '.note-success'
+    errorMessage: '.error'
 
-  events:
+  events: Base.touchify
     'click .login':        'submit'
     'click .register':     'submit'
     'click .switch-mode':  'switchMode'
@@ -31,11 +30,7 @@ class Auth extends Base.View
     'keydown input':       'keydown'
 
   constructor: ->
-    Base.touchify(@events)
     super
-
-    @el = $('.auth')
-    @bind()
 
     @mode = 'login'
 
@@ -61,7 +56,7 @@ class Auth extends Base.View
       @el.hide()
     else
       @el.fadeOut(300)
-    @buttons.removeClass('active')
+    @ui.buttons.removeClass('active')
 
   # Show login screen
   show: =>
@@ -77,20 +72,27 @@ class Auth extends Base.View
     if @valid()
       @spinner true
       switch @mode
+
         when 'login'
-          @trigger 'login', @email.val(), @password.val()
+          @trigger 'login',
+            @ui.email.val(),
+            @ui.password.val()
+
         when 'register'
-          @trigger 'register', @name.val(), @email.val(), @password.val()
+          @trigger 'register',
+            @ui.name.val(),
+            @ui.email.val(),
+            @ui.password.val()
 
   # Check if the form is valid
   valid: =>
     if @mode
-      valid = @email.val().length and
-              @password.val().length
+      valid = @ui.email.val().length and
+              @ui.password.val().length
     else
-      valid = @email.val().length and
-              @password.val().length and
-              @name.val().length
+      valid = @ui.email.val().length and
+              @ui.password.val().length and
+              @ui.name.val().length
     if not valid
       @showError('Please  fill out all fields')
     return valid
@@ -105,8 +107,8 @@ class Auth extends Base.View
     @el.toggleClass 'register', @mode is 'register'
     @hideError()
     switch @mode
-      when 'login' then @email.focus()
-      when 'register' then @name.focus()
+      when 'login' then @ui.email.focus()
+      when 'register' then @ui.name.focus()
 
   # Skip authentication
   skipAuth: =>
@@ -114,19 +116,19 @@ class Auth extends Base.View
     @trigger 'skip'
 
   hideError: =>
-    @errorMessage.removeClass('populated')
+    @ui.errorMessage.removeClass('populated')
 
   showError: (status, message) ->
-    @errorMessage
+    @ui.errorMessage
       .addClass('populated')
       .html @template status, message
 
   showSuccess: ->
     @hideError()
-    @loginMessage.addClass 'hidden'
-    @successMessage.removeClass 'hidden'
+    @ui.loginMessage.addClass 'hidden'
+    @ui.successMessage.removeClass 'hidden'
 
   spinner: (status) ->
-    @buttons.toggleClass 'active', status
+    @ui.buttons.toggleClass 'active', status
 
 module.exports = Auth

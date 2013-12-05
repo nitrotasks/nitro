@@ -5,17 +5,18 @@ class ListItem extends Base.View
 
   template: require '../../templates/list'
 
-  elements:
-    '.name':  'name'
-    '.count': 'count'
+  ui:
+    name: '.name'
+    count: '.count'
 
-  events:
-    'mousedown': 'mousedown'
+  events: Base.touchify
+    mousedown: 'mousedown'
 
   constructor: ->
-    Base.touchify(@events)
     super
 
+    # Some lists may not have a list model
+    # such as All Tasks and Completed
     return unless @list?
 
     @listen [
@@ -41,16 +42,14 @@ class ListItem extends Base.View
     return this
 
   mousedown: (e) =>
-    e.preventDefault()
-    e.stopPropagation()
     @open()
 
   # Override this method in special lists
   updateCount: =>
-    @count.text @list.tasks.length
+    @ui.count.text @list.tasks.length
 
   updateName: =>
-    @name.text @list.name
+    @ui.name.text @list.name
 
   # Override this method in special lists
   open: =>

@@ -6,11 +6,10 @@ ExpandedTaskItem = require '../views/task_item_expanded'
 
 class TaskItem extends Base.View
 
-  elements:
-    '.name' : 'name'
-    '.date' : 'date'
-    '.date' : 'date'
-    'time'  : 'time'
+  ui:
+    name: '.name'
+    date: '.date'
+    time: 'time'
 
   events: Base.touchify
     'mousedown .checkbox' : 'toggleCompleted'
@@ -105,7 +104,7 @@ class TaskItem extends Base.View
     @el.addClass('p' + @task.priority)
 
   updateName: =>
-    @name.html @task.name
+    @ui.name.html @task.name
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
@@ -124,11 +123,11 @@ class TaskItem extends Base.View
   updateDate: (date) =>
     if date?
       date = @task.prettyDate()
-      @time.text date.words
-      @time.attr 'class', date.className
-      @date.removeClass 'hidden'
+      @ui.time.text date.words
+      @ui.time.attr 'class', date.className
+      @ui.date.removeClass 'hidden'
     else
-      @time.text ''
-      @date.addClass 'hidden'
+      @ui.time.text ''
+      @ui.date.addClass 'hidden'
 
 module.exports = TaskItem

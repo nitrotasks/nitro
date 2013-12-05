@@ -3,11 +3,10 @@ event = require '../utils/event'
 
 class LoadingScreen extends Base.View
 
+  el: '.loading-screen'
+
   constructor: ->
     super
-
-    @el = $('.loading-screen')
-    @bind()
 
     event.on 'app:ready', @hide
 

@@ -8,11 +8,13 @@ EmailModal = require '../views/modal/email'
 
 class ListButtons extends Base.View
 
-  elements:
-    '.trash': 'deleteBtn'
-    '.sort':  'sortBtn'
+  el: '.list-buttons'
 
-  events:
+  ui:
+    deleteBtn: '.trash'
+    sortBtn: '.sort'
+
+  events: Base.touchify
     'click .trash': 'trash'
     'click .email': 'email'
     'click .print': 'print'
@@ -20,11 +22,7 @@ class ListButtons extends Base.View
     'click .sort':  'sort'
 
   constructor: ->
-    Base.touchify @events
     super
-
-    @el = $('.list-buttons')
-    @bind()
 
     @listen List,
       'select:model': @update
@@ -33,14 +31,14 @@ class ListButtons extends Base.View
   update: (list) =>
 
     if list.permanent
-      @deleteBtn.fadeOut(150)
+      @ui.deleteBtn.fadeOut(150)
     else
-      @deleteBtn.fadeIn(150)
+      @ui.deleteBtn.fadeIn(150)
 
     if list.disabled
-      @sortBtn.fadeOut(150)
+      @ui.sortBtn.fadeOut(150)
     else
-      @sortBtn.fadeIn(150)
+      @ui.sortBtn.fadeIn(150)
 
   trash: ->
     ListModal.run()

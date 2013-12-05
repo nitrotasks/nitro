@@ -3,11 +3,12 @@ ListItem = require './item'
 
 class ListInbox extends ListItem
 
+  el: '.inbox.list'
+
   constructor: ->
     super
 
-    @bind $ '.inbox.list'
-
+    # Make droppable
     @el[0].list = @list
     Mouse.addDrop @el[0]
 
