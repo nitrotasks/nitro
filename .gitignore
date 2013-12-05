@@ -11,6 +11,7 @@ Thumbs.db
 .sass-cache
 node_modules
 app/js/*.js
+app/css/*.css
 
 # Misc
 ######################
