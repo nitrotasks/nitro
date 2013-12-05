@@ -12,7 +12,6 @@ class Title extends Base.View
     'input .list-name': 'rename'
 
   constructor: ->
-    Base.touchify(@events)
     super
 
     @bind $ '.tasks .title'
