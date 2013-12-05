@@ -30,7 +30,7 @@
   } @else {
     padding: $panelHeight + 5px 0 0;
   }
-  z-index: 2;
+  z-index: $z-sidebar;
 
   overflow-x: hidden;
   overflow-y: auto;

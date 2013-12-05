@@ -19,20 +19,20 @@ $duration: 150ms;
   @include pos(0, 0, 0, $sidebar-width + $sidebar-padding * 2);
   padding: 0 0 $sidebar-padding * 2;
   overflow-y: auto;
-  z-index: 5;
 
   .title {
     position: fixed;
+    z-index: $z-title;
+    padding: 0 $sidebar-padding $sidebar-padding + 45px;
+    right: 0;
+    left: $sidebar-width + $sidebar-padding*2;
+    background: $light-grey;
+
     @if $web == true {
       height: $panelHeight + 25px;
     } @else {
       height: $panelHeight + 50px;
     }
-    padding: 0 $sidebar-padding $sidebar-padding + 45px;
-    right: 0;
-    left: $sidebar-width + $sidebar-padding*2;
-    z-index: 2;
-    background: $light-grey;
 
     .list-name {
       background: transparent;
@@ -65,3 +65,34 @@ $duration: 150ms;
     }
   }
 }
+
+// ----------------------------------------------------------------------------
+// # CREATE TASK INPUT BOX
+// ----------------------------------------------------------------------------
+
+.task-input {
+  @extend %thin-input;
+
+  @if $web == true {
+    margin-top: $panelHeight + 35px;
+  } @else {
+    margin-top: $panelHeight + 60px;
+  }
+
+  // right: $sidebar-padding;
+  // left: $sidebar-width + $sidebar-padding*3;
+
+  font-size: 15px;
+  width: 100%;
+  box-shadow: 0 20px 0 $light-grey, 0 21px 0 $task-color;
+
+  &:focus {
+    border-color: $light-blue;
+  }
+
+  @include placeholder {
+    color: $half-grey;
+  }
+
+}
+

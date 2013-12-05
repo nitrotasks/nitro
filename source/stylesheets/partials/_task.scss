@@ -14,7 +14,7 @@
   font-size: 15px;
   overflow: hidden;
   white-space: pre;
-  z-index: 11;
+  z-index: $z-drag-helper;
 }
 
 .task {
@@ -246,7 +246,7 @@
       @include pos($taskHeight, 0, auto, 4px);
       height: 1px;
       background: $task-stripes;
-      z-index: 12;
+      z-index: $z-notes-border;
     }
 
     border-top: 1px solid $task-color;

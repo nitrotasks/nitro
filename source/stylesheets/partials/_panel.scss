@@ -1,28 +1,21 @@
 .panel {
-  @if $panelHeight == 0 {
-    display: none;
-  }
-  @if $panelHeight <= 16px {
-    visibility: hidden;
-  }
-  height: $panelHeight;
-  width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 6;
 
   .windowcontrols {
+
     @if $web == true {
       display: none;
     }
+
     position: absolute;
     left: 0;
     margin: 16px;
+    z-index: $z-panel-controls;
+
     img {
       vertical-align: top;
       margin: 0 3px;
     }
+
   }
 
   .avatar {
@@ -30,6 +23,7 @@
     right: $sidebar-padding;
     color: $half-grey;
     text-align: right;
+    z-index: $z-panel-avatar;
   }
   .deets, .img {
     display: inline-block;

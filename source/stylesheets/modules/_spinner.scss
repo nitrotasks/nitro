@@ -21,7 +21,7 @@
     height: $size;
     margin-left: $size / -2;
     margin-top: $parent_height / 2 - ($width * 2.5);
-    z-index: 2;
+    z-index: $z-spinner;
     opacity: 0;
     @include transform(scale(2.5));
 

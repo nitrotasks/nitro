@@ -9,7 +9,7 @@
   opacit: 1;
   @include transition(opacity 0.2s ease);
   border: 1px solid rgba($dark-grey, 0.4);
-  z-index: 10;
+  z-index: $z-select-box;
   box-sizing: border-box;
 }
 
@@ -23,7 +23,7 @@
   background: $white;
   opacity: 1;
   @include transition(opacity 300ms ease);
-  z-index: 5;
+  z-index: $z-context-menu;
 
   font: 13px/21px "Lucida Grande", "Segoe UI", sans-serif;
 

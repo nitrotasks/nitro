@@ -5,7 +5,7 @@
   opacity: 0;
 
   background-color: rgba(255, 255, 255, 0.7);
-  z-index: 10;
+  z-index: $z-modal-overlay;
   @include pos(0, 0, 0, 0);
 
   @include transition(.3s opacity ease);
@@ -22,7 +22,7 @@
 .modal {
 
   display: none;
-  z-index: 12;
+  z-index: $z-modal;
   opacity: 0;
 
   background: #fff;

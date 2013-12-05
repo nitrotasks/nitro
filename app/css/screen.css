@@ -2026,7 +2026,7 @@ body, input {
   left: 0;
   right: 0;
   background: #f3f3f3;
-  z-index: 50;
+  z-index: 70;
   overflow-y: auto;
   /* Container to position content in the center of the page */ }
   .auth .group {
@@ -2412,7 +2412,7 @@ body, input {
   -webkit-transition: opacity 300ms ease;
   -moz-transition: opacity 300ms ease;
   transition: opacity 300ms ease;
-  z-index: 5;
+  z-index: 20;
   font: 13px/21px "Lucida Grande", "Segoe UI", sans-serif;
   border-radius: 4px;
   min-width: 150px;
@@ -2471,16 +2471,15 @@ html, body {
   left: 290px;
   right: 0;
   padding: 0 0 40px;
-  overflow-y: auto;
-  z-index: 5; }
+  overflow-y: auto; }
   .main .title {
     position: fixed;
-    height: 65px;
+    z-index: 15;
     padding: 0 20px 65px;
     right: 0;
     left: 290px;
-    z-index: 2;
-    background: #f3f3f3; }
+    background: #f3f3f3;
+    height: 65px; }
     .main .title .list-name {
       background: transparent;
       font-size: 30px;
@@ -2509,49 +2508,60 @@ html, body {
         border-color: #cccccc;
         background: white; }
 
-.panel {
-  height: 40px;
+.task-input {
+  margin-top: 75px;
+  font-size: 15px;
   width: 100%;
-  position: fixed;
-  top: 0;
+  box-shadow: 0 20px 0 #f3f3f3, 0 21px 0 #d9d9d9; }
+  .task-input:focus {
+    border-color: #1bc1f5; }
+  .task-input:input-placeholder {
+    color: #888888; }
+  .task-input:-ms-input-placeholder {
+    color: #888888; }
+  .task-input::-webkit-input-placeholder {
+    color: #888888; }
+  .task-input:-moz-placeholder {
+    color: #888888; }
+
+.panel .windowcontrols {
+  display: none;
+  position: absolute;
   left: 0;
-  z-index: 6; }
-  .panel .windowcontrols {
-    display: none;
-    position: absolute;
-    left: 0;
-    margin: 16px; }
-    .panel .windowcontrols img {
-      vertical-align: top;
-      margin: 0 3px; }
-  .panel .avatar {
-    position: absolute;
-    right: 20px;
-    color: #888888;
-    text-align: right; }
-  .panel .deets, .panel .img {
-    display: inline-block;
-    vertical-align: top; }
-  .panel .name {
-    margin-top: 4px;
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    text-transform: uppercase; }
-  .panel .pro {
-    font-size: 11px; }
-  .panel .img {
-    margin-left: 10px;
-    width: 36px;
-    height: 36px;
-    background: url(../img/avatar.png) 50% 50%;
-    background-size: 36px 36px; }
+  margin: 16px;
+  z-index: 16; }
+  .panel .windowcontrols img {
+    vertical-align: top;
+    margin: 0 3px; }
+.panel .avatar {
+  position: absolute;
+  right: 20px;
+  color: #888888;
+  text-align: right;
+  z-index: 16; }
+.panel .deets, .panel .img {
+  display: inline-block;
+  vertical-align: top; }
+.panel .name {
+  margin-top: 4px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  text-transform: uppercase; }
+.panel .pro {
+  font-size: 11px; }
+.panel .img {
+  margin-left: 10px;
+  width: 36px;
+  height: 36px;
+  background: url(../img/avatar.png) 50% 50%;
+  background-size: 36px 36px; }
 
 .modals {
   display: none;
   opacity: 0;
   background-color: rgba(255, 255, 255, 0.7);
-  z-index: 10;
+  z-index: 40;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -2566,7 +2576,7 @@ html, body {
 
 .modal {
   display: none;
-  z-index: 12;
+  z-index: 50;
   opacity: 0;
   background: #fff;
   font-size: 16px;
@@ -2735,7 +2745,7 @@ html, body {
   width: 600px;
   margin-left: -303px;
   border: 3px solid #9dd071;
-  z-index: 11; }
+  z-index: 60; }
   .modal.settings > div {
     padding: 35px 25px 30px;
     display: none; }
@@ -2878,7 +2888,7 @@ html, body {
   position: fixed;
   width: 290px;
   padding: 20px 0 0;
-  z-index: 2;
+  z-index: 20;
   overflow-x: hidden;
   overflow-y: auto;
   background: #33393d; }
@@ -2963,7 +2973,7 @@ html, body {
   font-size: 15px;
   overflow: hidden;
   white-space: pre;
-  z-index: 11; }
+  z-index: 30; }
 
 .task {
   position: relative;
@@ -3141,7 +3151,7 @@ html, body {
       right: 0;
       height: 1px;
       background: #e6e6e6;
-      z-index: 12; }
+      z-index: 5; }
     .task.expanded-task + li {
       border-top: 1px solid #d9d9d9; }
       .task.expanded-task + li.seperator {
@@ -3166,28 +3176,6 @@ html, body {
     color: #888888; }
   .task.completed .tag {
     color: #4c4c4c; }
-
-.task-input-container {
-  position: fixed;
-  z-index: 2;
-  top: 75px;
-  right: 20px;
-  left: 310px; }
-
-.task-input {
-  font-size: 15px;
-  width: 100%;
-  box-shadow: 0 20px 0 #f3f3f3, 0 21px 0 #d9d9d9; }
-  .task-input:focus {
-    border-color: #1bc1f5; }
-  .task-input:input-placeholder {
-    color: #888888; }
-  .task-input:-ms-input-placeholder {
-    color: #888888; }
-  .task-input::-webkit-input-placeholder {
-    color: #888888; }
-  .task-input:-moz-placeholder {
-    color: #888888; }
 
 .tasks-container {
   margin-left: 20px;
