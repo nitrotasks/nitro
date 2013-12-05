@@ -61,6 +61,7 @@ class List extends Base.Model
     id: @id
     name: @name
     tasks: @tasks.pluck 'id'
+    permanent: @permanent or no
 
 class ListCollection extends Base.Collection
 

@@ -9,6 +9,8 @@ dateDetector = require '../utils/date'
 delay        = require '../utils/timer'
 isMobile     = require '../utils/touch'
 
+DURATION = 150 #ms
+
 class Tasks extends Base.View
 
   template:
@@ -17,13 +19,15 @@ class Tasks extends Base.View
 
   elements:
     '.tasks-container ul': 'tasks'
-    'input.new-task': 'input'
+    '.task-input': 'input'
     '.message': 'message'
+
+    '.entrance': 'entrance'
 
   events:
     'click': 'collapseOnClick'
-    'keydown input.new-task': 'keydown'
-    'keyup input.new-task': 'keyup'
+    'keydown .task-input': 'keydown'
+    'keyup .task-input': 'keyup'
 
   constructor: ->
     Base.touchify @events
@@ -83,20 +87,21 @@ class Tasks extends Base.View
     @render List.current if List.current
 
   # Display a list of tasks
-  render: (list) =>
+  render: (list, animated=false) =>
 
-    # TODO: Re-implement sorting
-    # if @list.disabled
-    #     $(@el[1]).sortable({ disabled: true })
-    # else
-    #   if not Setting.sort
-    #     $(@el[1]).sortable({ disabled: false })
+    if not animated
+
+      @entrance.addClass 'exitPage'
+
+      delay DURATION, =>
+        @render(list, true)
+
+      return
 
     if list.disabled
       @input.hide()
     else
       @input.show()
-      @input.focus() unless isMobile
 
     # Search for tasks
     if list.id is 'search'
@@ -130,7 +135,12 @@ class Tasks extends Base.View
     @el.toggleClass 'empty', tasks.length is 0
 
 
-  displayTasks: (tasks) =>
+  displayTasks: (tasks, disableAnimation=no) =>
+
+    @entrance.removeClass('exitPage')
+
+    unless disableAnimation
+      @entrance.addClass('enterPage')
 
     # Keep a copy of the old views
     oldViews = @views
@@ -183,24 +193,24 @@ class Tasks extends Base.View
       # if list.id is 'all' then task.listName = task.list().name
 
     # Render html
-    $(".entrance").addClass("exitPage").on "webkitAnimationEnd mozAnimationEnd oAnimationEnd animationEnd", =>
-      @tasks.html html
+    @tasks.html html
 
-      $(".entrance").removeClass("exitPage").addClass("enterPage").on "webkitAnimationEnd mozAnimationEnd oAnimationEnd animationEnd", =>
-        $(this).removeClass("enterPage")
+    # Fade out animated stuff
+    delay DURATION, =>
+      @entrance.removeClass 'enterPage'
+      @input.focus() unless isMobile
 
-    # requestAnimationFrame =>
-    #   tasks.forEach (task) =>
-    #     view = new TaskItem
-    #       task: task
-    #       el: @tasks.find "#task-#{ task.id }"
-    #     @bindTask view
-    #     @views.push view
+      tasks.forEach (task) =>
+        view = new TaskItem
+          task: task
+          el: @tasks.find "#task-#{ task.id }"
+        @bindTask view
+        @views.push view
 
   # Toggles the input box text
   toggleSearch: (@search) =>
     message = if @search
-      @updateSearchResults()
+      @updateSearchResults(no)
       @template.message.search
     else
       @template.message.addTask
@@ -225,8 +235,10 @@ class Tasks extends Base.View
       listId: Lists.active.id
       date: dateDetector.parse name
 
-  updateSearchResults: =>
-    @displayTasks Task.search @input.val()
+  updateSearchResults: (disableAnimation=yes) =>
+    results = Task.search @input.val()
+    @displayTasks results, disableAnimation
+    @el.toggleClass 'empty', results.length is 0
 
   # ------------
   # COLLAPSE ALL

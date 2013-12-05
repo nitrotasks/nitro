@@ -35,7 +35,9 @@
 
   <section class="main tasks">
     <div class="title entrance">
-      <h1 class="editable" contenteditable="true">List Name</h1>
+
+      <input type="text" class="list-name">
+
       <ul class="list-buttons">
         <li class="l trash hidden" title="Delete List"></li>
         <li class="l sort" title="Toggle Sorting"></li>
@@ -46,15 +48,18 @@
         -->
       </ul>
     </div>
-    <div class="new-task-container">
-      <input class="entrance p new-task" type="text" placeholder="What do you need to do?">
+
+    <div class="task-input-container">
+      <input class="entrance p task-input" type="text" placeholder="What do you need to do?">
     </div>
+
     <div class="tasks-container entrance">
       <ul>
         <!-- tasks go here -->
       </ul>
       <div class="message"></div>
     </div>
+
   </section>
 
   <!--

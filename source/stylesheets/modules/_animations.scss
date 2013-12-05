@@ -1,5 +1,34 @@
 
 /*
+ * STUPID WINDOWS 8 SHIT
+ */
+
+
+@include keyframes ( enterPage ) {
+  0% {
+    @include transform(translate3d(50px, 0, 0));
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    @include transform(translate3d(0, 0, 0));
+  }
+}
+
+@include keyframes( exitPage ) {
+  0% {
+    @include transform(translate3d(0, 0, 0));
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    @include transform(translate3d(-50px, 0, 0));
+  }
+}
+
+
+
+/*
  * FADE OUT
  */
 

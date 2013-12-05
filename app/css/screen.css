@@ -682,7 +682,7 @@ table {
 
 /* Vertical Background Gradient */
 /* Horizontal Background Gradient */
-.auth .auth-name, .auth .auth-password, .auth .auth-email, .new-task, .sidebar .create-list {
+.auth .auth-name, .auth .auth-password, .auth .auth-email, .task-input, .sidebar .create-list {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box; }
@@ -704,6 +704,145 @@ table {
 /*
  * COLORS
  */
+/*
+ * STUPID WINDOWS 8 SHIT
+ */
+@-webkit-keyframes enterPage {
+  0% {
+    -webkit-transform: translate3d(50px, 0, 0);
+    -moz-transform: translate3d(50px, 0, 0);
+    -ms-transform: translate3d(50px, 0, 0);
+    -o-transform: translate3d(50px, 0, 0);
+    transform: translate3d(50px, 0, 0);
+    opacity: 0; }
+
+  100% {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    -o-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0); } }
+
+@-moz-keyframes enterPage {
+  0% {
+    -webkit-transform: translate3d(50px, 0, 0);
+    -moz-transform: translate3d(50px, 0, 0);
+    -ms-transform: translate3d(50px, 0, 0);
+    -o-transform: translate3d(50px, 0, 0);
+    transform: translate3d(50px, 0, 0);
+    opacity: 0; }
+
+  100% {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    -o-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0); } }
+
+@-ms-keyframes enterPage {
+  0% {
+    -webkit-transform: translate3d(50px, 0, 0);
+    -moz-transform: translate3d(50px, 0, 0);
+    -ms-transform: translate3d(50px, 0, 0);
+    -o-transform: translate3d(50px, 0, 0);
+    transform: translate3d(50px, 0, 0);
+    opacity: 0; }
+
+  100% {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    -o-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0); } }
+
+@keyframes enterPage {
+  0% {
+    -webkit-transform: translate3d(50px, 0, 0);
+    -moz-transform: translate3d(50px, 0, 0);
+    -ms-transform: translate3d(50px, 0, 0);
+    -o-transform: translate3d(50px, 0, 0);
+    transform: translate3d(50px, 0, 0);
+    opacity: 0; }
+
+  100% {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    -o-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0); } }
+
+@-webkit-keyframes exitPage {
+  0% {
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    -o-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    opacity: 1; }
+
+  100% {
+    opacity: 0;
+    -webkit-transform: translate3d(-50px, 0, 0);
+    -moz-transform: translate3d(-50px, 0, 0);
+    -ms-transform: translate3d(-50px, 0, 0);
+    -o-transform: translate3d(-50px, 0, 0);
+    transform: translate3d(-50px, 0, 0); } }
+
+@-moz-keyframes exitPage {
+  0% {
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    -o-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    opacity: 1; }
+
+  100% {
+    opacity: 0;
+    -webkit-transform: translate3d(-50px, 0, 0);
+    -moz-transform: translate3d(-50px, 0, 0);
+    -ms-transform: translate3d(-50px, 0, 0);
+    -o-transform: translate3d(-50px, 0, 0);
+    transform: translate3d(-50px, 0, 0); } }
+
+@-ms-keyframes exitPage {
+  0% {
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    -o-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    opacity: 1; }
+
+  100% {
+    opacity: 0;
+    -webkit-transform: translate3d(-50px, 0, 0);
+    -moz-transform: translate3d(-50px, 0, 0);
+    -ms-transform: translate3d(-50px, 0, 0);
+    -o-transform: translate3d(-50px, 0, 0);
+    transform: translate3d(-50px, 0, 0); } }
+
+@keyframes exitPage {
+  0% {
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    -o-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    opacity: 1; }
+
+  100% {
+    opacity: 0;
+    -webkit-transform: translate3d(-50px, 0, 0);
+    -moz-transform: translate3d(-50px, 0, 0);
+    -ms-transform: translate3d(-50px, 0, 0);
+    -o-transform: translate3d(-50px, 0, 0);
+    transform: translate3d(-50px, 0, 0); } }
+
 /*
  * FADE OUT
  */
@@ -1726,7 +1865,7 @@ button.special, a.special {
   font-weight: 400;
   src: local("Open Sans Italic"), local("OpenSans-Italic"), url(../fonts/OpenSans-Italic.woff) format("woff"); }
 
-.auth .auth-name, .auth .auth-password, .auth .auth-email, .new-task {
+.auth .auth-name, .auth .auth-password, .auth .auth-email, .task-input {
   color: #4c4c4c;
   border: 1px #cccccc solid;
   outline: 0;
@@ -1734,7 +1873,7 @@ button.special, a.special {
   -webkit-transition: border-color 0.3s;
   -moz-transition: border-color 0.3s;
   transition: border-color 0.3s; }
-  .auth .auth-name:focus, .auth .auth-password:focus, .auth .auth-email:focus, .new-task:focus {
+  .auth .auth-name:focus, .auth .auth-password:focus, .auth .auth-email:focus, .task-input:focus {
     border-color: #1bc1f5; }
 
 .sidebar .create-list {
@@ -2312,30 +2451,17 @@ html, body {
   background: #f3f3f3;
   overflow: hidden; }
 
-@-webkit-keyframes enterPage {
-  0% {
-    -webkit-transform: translate3d(100px, 0, 0);
-    opacity: 0; }
-
-  17% {
-    opacity: 1; }
-
-  100% {
-    -webkit-transform: translate3d(0, 0, 0); } }
-
-@-webkit-keyframes exitPage {
-  0% {
-    opacity: 1; }
-
-  100% {
-    opacity: 0; } }
-
 .enterPage {
-  -webkit-animation: enterPage 1000ms 1 cubic-bezier(0.1, 0.9, 0.2, 1);
-  /* IE 10+ */ }
+  -webkit-animation: enterPage 150ms 1 ease-out;
+  -moz-animation: enterPage 150ms 1 ease-out;
+  -ms-animation: enterPage 150ms 1 ease-out;
+  animation: enterPage 150ms 1 ease-out; }
 
 .exitPage {
-  -webkit-animation: exitPage 117ms 1 linear;
+  -webkit-animation: exitPage 150ms 1 ease-in;
+  -moz-animation: exitPage 150ms 1 ease-in;
+  -ms-animation: exitPage 150ms 1 ease-in;
+  animation: exitPage 150ms 1 ease-in;
   opacity: 0; }
 
 .main {
@@ -2355,7 +2481,8 @@ html, body {
     left: 290px;
     z-index: 2;
     background: #f3f3f3; }
-    .main .title h1 {
+    .main .title .list-name {
+      background: transparent;
       font-size: 30px;
       line-height: 36px;
       color: #4c4c4c;
@@ -2372,11 +2499,15 @@ html, body {
       -moz-transition: 0.2s, border-color;
       transition: 0.2s, border-color;
       border: 1px transparent solid; }
-      .main .title h1[contenteditable=true]:hover {
+      .main .title .list-name:disabled {
+        border-color: transparent !important;
+        cursor: default !important; }
+      .main .title .list-name:hover {
         border-color: #888888;
         cursor: text; }
-      .main .title h1[contenteditable=true]:focus {
-        border-color: #cccccc; }
+      .main .title .list-name:focus {
+        border-color: #cccccc;
+        background: white; }
 
 .panel {
   height: 40px;
@@ -3036,26 +3167,26 @@ html, body {
   .task.completed .tag {
     color: #4c4c4c; }
 
-.new-task-container {
+.task-input-container {
   position: fixed;
   z-index: 2;
   top: 75px;
   right: 20px;
   left: 310px; }
 
-.new-task {
+.task-input {
   font-size: 15px;
   width: 100%;
   box-shadow: 0 20px 0 #f3f3f3, 0 21px 0 #d9d9d9; }
-  .new-task:focus {
+  .task-input:focus {
     border-color: #1bc1f5; }
-  .new-task:input-placeholder {
+  .task-input:input-placeholder {
     color: #888888; }
-  .new-task:-ms-input-placeholder {
+  .task-input:-ms-input-placeholder {
     color: #888888; }
-  .new-task::-webkit-input-placeholder {
+  .task-input::-webkit-input-placeholder {
     color: #888888; }
-  .new-task:-moz-placeholder {
+  .task-input:-moz-placeholder {
     color: #888888; }
 
 .tasks-container {

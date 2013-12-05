@@ -26,4 +26,10 @@ mouse.addMenu [
 
 ], fadeOut: 300
 
+
+mouse.on 'menu:delete', (items) ->
+  for item in items
+    console.dir item
+    # item.task.destroy()
+
 module.exports = mouse

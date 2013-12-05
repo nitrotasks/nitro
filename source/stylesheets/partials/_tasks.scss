@@ -3,19 +3,24 @@
 // # CREATE TASK INPUT BOX
 // ----------------------------------------------------------------------------
 
-.new-task-container {
+.task-input-container {
+
   position: fixed;
   z-index: 2;
+
   @if $web == true {
     top: $panelHeight + 35px;
   } @else {
     top: $panelHeight + 60px;
   }
+
   right: $sidebar-padding;
   left: $sidebar-width + $sidebar-padding*3;
 }
-.new-task {
+
+.task-input {
   @extend %thin-input;
+
   font-size: 15px;
   width: 100%;
   box-shadow: 0 20px 0 $light-grey, 0 21px 0 $task-color;
