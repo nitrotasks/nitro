@@ -9,8 +9,7 @@ class Title extends Base.View
     '.list-name': 'title'
 
   events:
-    'keyup h1': 'rename'
-    'keypress h1': 'preventer'
+    'input .list-name': 'rename'
 
   constructor: ->
     Base.touchify(@events)
@@ -34,11 +33,6 @@ class Title extends Base.View
 
   # This is fired on keyup when a list is renamed
   rename: (e) =>
-    @list.name = @title.text()
-
-  # Prevents the enter key
-  preventer: (e) ->
-    if e.keyCode is keys.enter
-      e.preventDefault()
+    @list.name = @title.val()
 
 module.exports = Title
