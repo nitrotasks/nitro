@@ -29,7 +29,22 @@ mouse.addMenu [
 
 mouse.on 'menu:delete', (items) ->
   for item in items
-    console.dir item
-    # item.task.destroy()
+    item.task.destroy()
+
+mouse.on 'menu:low', (items) ->
+  for item in items
+    item.task.priority = 1
+
+mouse.on 'menu:med', (items) ->
+  for item in items
+    item.task.priority = 2
+
+mouse.on 'menu:high', (items) ->
+  for item in items
+    item.task.priority = 3
+
+mouse.on 'menu:complete', (items) ->
+  for item in items
+    item.task.completed = Date.now()
 
 module.exports = mouse

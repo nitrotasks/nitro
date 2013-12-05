@@ -36,6 +36,11 @@ class TaskItem extends Base.View
   updateList: =>
     @release()
 
+
+  # TODO: Bind View.release in the Base framework
+  release: =>
+    super
+
   # ---------------------------------------------------------------------------
   # EXPAND / COLLAPSE
   # ---------------------------------------------------------------------------
@@ -73,7 +78,7 @@ class TaskItem extends Base.View
 
     # Does not work in completed list
     if @task.completed is false
-      @task.completed = new Date().getTime()
+      @task.completed = Date.now()
     else
       @task.completed = false
 
@@ -93,7 +98,7 @@ class TaskItem extends Base.View
     #   @el.remove()
 
   updateCompleted: =>
-    @el.toggleClass 'completed', @task.completed
+    @el.toggleClass 'completed', @task.completed isnt false
 
   updatePriority: =>
     @el.removeClass('p1 p2 p3')

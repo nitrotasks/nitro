@@ -219,7 +219,8 @@ class Tasks extends Base.View
 
   # Handle keydown events on the input box
   keydown: (e) =>
-    if not @search and e.keyCode is keys.enter and @input.val().length > 0
+    return if @search
+    if e.keyCode is keys.enter and @input.val().length > 0
       @createNewTask()
 
   # Handle keyup events on the input box

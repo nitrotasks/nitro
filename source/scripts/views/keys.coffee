@@ -11,7 +11,7 @@ class Keys extends Base.View
   constructor: ->
     super
 
-    @el = $ document.body
+    @el = $ document
     @bind()
 
     @input  = null
