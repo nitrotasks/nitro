@@ -20,6 +20,8 @@ class TaskItem extends Base.View
   constructor: ->
     super
 
+    @el[0].task = @task
+
     @expanded = false
 
     @listen @task,
