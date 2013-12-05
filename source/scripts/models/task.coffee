@@ -1,6 +1,7 @@
 Base = require 'base'
 List = require '../models/list'
 Local = require '../controllers/local'
+prettyDate = require '../utils/prettydate'
 
 class Task extends Base.Model
 
@@ -17,17 +18,16 @@ class Task extends Base.Model
   list: =>
     List.get @listId
 
+  prettyDate: =>
+    date = if @date then new Date(@date) else null
+    prettyDate(date)
+
 
 class TaskCollection extends Base.Collection
 
   className: 'task'
 
   model: Task
-
-  constructor: ->
-    super
-
-
 
   # Get the active tasks
   active: =>

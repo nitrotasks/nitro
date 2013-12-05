@@ -160,35 +160,33 @@
   // RIGHT CONTROLS
   // --------------------------------------------------------------------------
 
-  .right-controls {
-    opacity: 0;
+  .date {
+    // opacity: 0;
+    background: red;
     @include pos(0, 0, auto, auto);
     text-align: right;
     font-size: 0;
     @include transition(opacity 150ms ease);
-  }
 
-  // Date
-  // This is so it shows up in the print styles
-  img {
-    vertical-align: top;
-    padding: 12px 0;
-    display: inline-block;
-  }
-
-  time {
-    font-size: 15px;
-    padding: 0 10px;
-    color: #999;
-    &.soon {
-      color: $dark-blue;
+    &:before {
+      content: "";
+      display: block;
+      position: relative;
+      background: url('../img/calendar.png');
+      background-size: 10px 10px;
+      width: 10px;
+      height: 10px;
+      top: 11px;
+      right: 100%;
     }
-    &.overdue, &.due {
-      color: $red;
+
+    &.hidden:before {
+      display: none;
     }
+
   }
 
-  .date {
+  .input-date {
     height: $taskHeight;
     line-height: 20px;
     display: inline-block;
@@ -202,6 +200,19 @@
     width: 80px;
   }
 
+  // Date
+  time {
+    font-size: 15px;
+    padding: 0 10px;
+    color: #999;
+    &.soon {
+      color: $dark-blue;
+    }
+    &.overdue, &.due {
+      color: $red;
+    }
+  }
+
 
   // --------------------------------------------------------------------------
   // NOTES
@@ -212,7 +223,7 @@
     position: relative;
     background: $task-notes;
     line-height: 21px;
-    padding: 10px 5px 10px 46px;
+    padding: 0 5px 0 46px;
     height: 0px;
     width: 100%;
     outline: 0;
@@ -261,7 +272,7 @@
 
   &.expanded {
     margin: 5px 0;
-    .right-controls {
+    .date {
       opacity: 1;
     }
   }

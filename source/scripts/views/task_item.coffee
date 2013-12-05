@@ -7,9 +7,10 @@ ExpandedTaskItem = require '../views/task_item_expanded'
 class TaskItem extends Base.View
 
   elements:
-    '.name'         : 'name'
-    '.date'         : 'date'
-    'time'          : 'time'
+    '.name' : 'name'
+    '.date' : 'date'
+    '.date' : 'date'
+    'time'  : 'time'
 
   events: Base.touchify
     'mousedown .checkbox' : 'toggleCompleted'
@@ -23,6 +24,7 @@ class TaskItem extends Base.View
 
     @listen @task,
       'destroy': @release
+      'change:date': @updateDate
       'change:listId': @updateList
       'change:name': @updateName
       'change:priority': @updatePriority
@@ -110,5 +112,16 @@ class TaskItem extends Base.View
     e.stopPropagation()
     tag = $(e.currentTarget).text()
     event.trigger 'search', tag
+
+
+  updateDate: (date) =>
+    if date?
+      date = @task.prettyDate()
+      @time.text date.words
+      @time.attr 'class', date.className
+      @date.removeClass 'hidden'
+    else
+      @time.text ''
+      @date.addClass 'hidden'
 
 module.exports = TaskItem

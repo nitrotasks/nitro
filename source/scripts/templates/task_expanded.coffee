@@ -1,4 +1,3 @@
-prettyDate = require '../utils/prettydate'
 translate = require '../utils/translate'
 
 text = {}
@@ -20,7 +19,7 @@ tags = (text) ->
 
 module.exports = (task) ->
 
-  date = prettyDate(task.date)
+  date = task.prettyDate()
 
   """
     <li id="task-#{ task.id }" class="expanded-task task#{
@@ -28,20 +27,14 @@ module.exports = (task) ->
     } p#{ task.priority }">
       <div class="checkbox" title="#{ text.checkbox }"></div>
       <input type="text" class="input-name" value="#{ task.name }">
-      <div class="right-controls">#{
-        if task.date
-          "<img width='10' height='10' src='img/calendar.png'>
-          <input class='date' placeholder='#{ text.date
-            }' value='#{ task.date }'>"
-        else
-          "<img width='10' height='10' src='img/calendar.png'>
-          <input class='date' placeholder='#{ text.date }' value=''>"
-      }
+      <div class="date">
+        <input class="input-date" placeholder='#{ text.date
+        }' value='#{ date.words }'>
       </div>
       <textarea class='notes editable #{
         if task.notes then '' else 'placeholder'
       }'>#{
-        if task.notes then task.notes else 'Notes'
+        if task.notes then task.notes else text.notes
       }</textarea>
     </li>
   """

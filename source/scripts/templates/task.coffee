@@ -1,4 +1,3 @@
-prettyDate = require '../utils/prettydate'
 translate = require '../utils/translate'
 
 text = {}
@@ -23,5 +22,13 @@ module.exports = (task) ->
     } p#{ task.priority }">
       <div class="checkbox" title="#{ text.checkbox }"></div>
       <div class="name">#{ tags task.name }</div>
+      <div class="date #{
+        if task.date then '' else 'hidden'
+      }">#{
+        if task.date
+          '<time>' + task.prettyDate().words + '</time>'
+        else
+          '<time></time>'
+      }</div>
     </li>
   """

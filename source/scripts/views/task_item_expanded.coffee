@@ -24,9 +24,8 @@ class ExpandedTaskItem extends Base.View
 
   elements:
     '.input-name'   : 'name'
-    '.date'         : 'date'
+    '.input-date'   : 'date'
     '.notes'        : 'notes'
-    'time'          : 'time'
 
   events: Base.touchify
     'click .checkbox'            : 'toggleCompleted'
@@ -34,7 +33,7 @@ class ExpandedTaskItem extends Base.View
     'keypress .input-name'       : 'endEditOnEnter'
     'focus .notes'               : 'notesEdit'
     'blur .notes'                : 'notesSave'
-    'change .date'               : 'datesSave'
+    'change .input-date'         : 'datesSave'
     'mousedown': 'mousedown'
 
   mousedown: (e) ->
@@ -58,6 +57,8 @@ class ExpandedTaskItem extends Base.View
     @el[0].task = @task
     @expanded = false
 
+    @setupDatepicker()
+
     @listen @task,
       'destroy': @release
       'change:listId': @updateList
@@ -65,17 +66,14 @@ class ExpandedTaskItem extends Base.View
       'change:priority': @updatePriority
       'change:completed': @updateCompleted
 
-  render: =>
-    # TODO: Setup datepicker
-    # Bind datepicker
-    # @date.datepicker
-    #   firstDay: setting.weekStart
-    #   dateFormat: setting.dateFormat
-    # @date.datepicker('setDate', new Date(@task.date)) if @task.date
+  setupDatepicker: =>
 
-    # @el = $ @template @task
-    # @bind()
-    return this
+    @date.datepicker
+      firstDay: setting.weekStart
+      dateFormat: setting.dateFormat
+
+    if @task.date
+      @date.datepicker('setDate', @task.date)
 
   # Delete Button
   remove: =>
@@ -170,23 +168,15 @@ class ExpandedTaskItem extends Base.View
 
   # ---------------------------------------------------------------------------
   # DATES
-  # TODO: Fix this
   # ---------------------------------------------------------------------------
 
   datesSave: =>
 
-    if @date.val().length > 0
-      @task.updateAttribute 'date', @date.datepicker('getDate').getTime()
-      @el.find('img').css('display', 'inline-block')
-
-      # Pretty Dates Engine
-      @time.text Task.prettyDate(new Date(@task.date)).words
-      @time.attr 'class', Task.prettyDate(new Date(@task.date)).className
+    if @date.val().length
+      @task.date = @date.datepicker 'getDate'
 
     else
-      @task.updateAttribute 'date', ''
-      @el.find('img').removeAttr('style')
-      @time.text ''
+      @task.date = null
 
 
 module.exports = ExpandedTaskItem
