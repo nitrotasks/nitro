@@ -23,15 +23,15 @@ $duration: 150ms;
   .title {
     position: fixed;
     z-index: $z-title;
-    padding: 0 $sidebar-padding $sidebar-padding + 45px;
+    margin: 0 $sidebar-padding;
     right: 0;
     left: $sidebar-width + $sidebar-padding*2;
     background: $light-grey;
 
     @if $web == true {
-      height: $panelHeight + 25px;
+      height: $panelHeight + 70px + $sidebar-padding;
     } @else {
-      height: $panelHeight + 50px;
+      height: $panelHeight + 95px;
     }
 
     .list-name {
