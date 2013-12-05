@@ -173,7 +173,7 @@ class ExpandedTaskItem extends Base.View
   datesSave: =>
 
     if @date.val().length
-      @task.date = @date.datepicker 'getDate'
+      @task.date = @date.datepicker('getDate').getTime()
 
     else
       @task.date = null

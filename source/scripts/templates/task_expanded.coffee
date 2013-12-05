@@ -27,7 +27,9 @@ module.exports = (task) ->
     } p#{ task.priority }">
       <div class="checkbox" title="#{ text.checkbox }"></div>
       <input type="text" class="input-name" value="#{ task.name }">
-      <div class="date">
+      <div class="date #{
+        if date.words then '' else 'hidden'
+      }">
         <input class="input-date" placeholder='#{ text.date
         }' value='#{ date.words }'>
       </div>

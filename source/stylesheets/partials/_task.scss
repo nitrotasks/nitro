@@ -161,8 +161,6 @@
   // --------------------------------------------------------------------------
 
   .date {
-    // opacity: 0;
-    background: red;
     @include pos(0, 0, auto, auto);
     text-align: right;
     font-size: 0;
@@ -170,47 +168,37 @@
 
     &:before {
       content: "";
-      display: block;
+      display: inline-block;
+      vertical-align: top;
       position: relative;
       background: url('../img/calendar.png');
       background-size: 10px 10px;
       width: 10px;
       height: 10px;
       top: 11px;
-      right: 100%;
+      left: 0px;
     }
 
-    &.hidden:before {
+    &.hidden {
       display: none;
     }
 
   }
 
-  .input-date {
-    height: $taskHeight;
-    line-height: 20px;
-    display: inline-block;
-    vertical-align: top;
-    font-size: 15px;
-    color: #999999;
-    padding: 0 5px 0 7px;
-    background: transparent;
-    border: 0;
-    outline: 0;
-    width: 80px;
-  }
-
   // Date
   time {
-    font-size: 15px;
+    font-size: 13px;
     padding: 0 10px;
-    color: #999;
+    color: $half-grey;
+
     &.soon {
       color: $dark-blue;
     }
+
     &.overdue, &.due {
       color: $red;
     }
+
   }
 
 
@@ -268,12 +256,32 @@
         border-top: 0;
       }
     }
+
+    .date.hidden {
+      display: block;
+      opacity: 0;
+    }
+
+    .input-date {
+      height: $taskHeight;
+      line-height: 20px;
+      display: inline-block;
+      vertical-align: top;
+      font-size: 13px;
+      color: $half-grey;
+      padding: 0 10px;
+      text-align: right;
+      background: transparent;
+      border: 0;
+      outline: 0;
+      width: 80px;
+    }
   }
 
   &.expanded {
     margin: 5px 0;
     .date {
-      opacity: 1;
+      opacity: 1 !important;
     }
   }
 
