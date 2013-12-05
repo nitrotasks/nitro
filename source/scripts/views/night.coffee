@@ -6,7 +6,7 @@ class NightMode extends Base.View
   constructor: ->
     super
 
-    @bind $ document.body
+    @bind $ 'html'
 
     @listen Setting,
       'change:night': @toggle
