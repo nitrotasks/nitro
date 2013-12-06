@@ -1,4 +1,4 @@
-
+Setting = require '../../models/setting'
 Tab = require '../settings_tab'
 
 language = new Tab
@@ -7,10 +7,17 @@ language = new Tab
 
   selector: '.language'
 
-  events: {}
+  events:
+    'click a': 'setLanguage'
 
   methods: []
 
   load: ->
+    el = $ "[data-value=#{ Setting.language }]"
+    el.addClass 'selected'
+
+  setLanguage: (event) ->
+    Setting.language = $(this).data 'value'
+    document.location.reload()
 
 module.exports = language
