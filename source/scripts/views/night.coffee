@@ -3,6 +3,8 @@ Setting = require '../models/setting'
 delay = require '../utils/timer'
 
 DELAY = 1000 * 60 * 60 * 12 # 12 hours
+MORNING = 7
+NIGHT = MORNING + 12
 
 class NightMode extends Base.View
 
@@ -25,24 +27,26 @@ class NightMode extends Base.View
       nextRun.setMinutes 0
 
       # turn it off at 7am tomorrow
-      if hours > 19
-        nextRun.setHours 7
+      if hours > NIGHT
+        nextRun.setHours MORNING
         nextRun.setDate nextRun.getDate()+1
 
       # turn it off at 7am today
-      else if hours < 7
-        nextRun.setHours 7
+      else if hours < MORNING
+        nextRun.setHours MORNING
 
       # turn it off 7pm today
       else
-        nextRun.setHours 21
+        # turn it off 7pm today
+        nextRun.setHours NIGHT
 
       delay nextRun.getTime() - now.getTime(), =>
         @el.toggleClass 'dark'
         delay DELAY, =>
           @el.toggleClass 'dark'
 
-    if (value is 'dark') or (value is 'auto' and (hours > 19 or hours < 7))
+    if (value is 'dark') or
+    (value is 'auto' and (hours > NIGHT or hours < MORNING))
       @el.addClass 'dark'
 
     else if value is 'light'
