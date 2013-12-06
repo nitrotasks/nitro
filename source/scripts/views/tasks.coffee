@@ -191,7 +191,7 @@ class Tasks extends Base.View
       # if list.id is 'all' then task.listName = task.list().name
 
     # Render html
-    @ui.tasks.html html
+    @ui.tasks[0].innerHTML = html
 
     # Fade out animated stuff
     delay DURATION, =>
