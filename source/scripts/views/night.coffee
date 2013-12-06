@@ -30,14 +30,12 @@ class NightMode extends Base.View
         # turn it off 7pm today
         nextRun.setHours 21
 
-      console.log nextRun
-
       setTimeout(=>
         @el.toggleClass 'dark'
         setInterval(=>
           @el.toggleClass 'dark'
         , 43200000)
-      , nextRun.getTime())
+      , nextRun.getTime() - new Date().getTime())
 
     if value is 'dark' or value is 'auto' and (hours > 19 or hours < 7)
       @el.addClass 'dark'
