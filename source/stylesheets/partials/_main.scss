@@ -39,7 +39,6 @@ $duration: 150ms;
       background: transparent;
       font-size: 30px;
       line-height: 36px;
-      color: $dark-grey;
       margin: 0;
       font-weight: 300;
       letter-spacing: -1px;
@@ -47,8 +46,10 @@ $duration: 150ms;
       @include pos(auto, auto, $sidebar-padding + 51px, $sidebar-padding);
       @include transition(0.2s, border-color);
       border: 1px transparent solid;
+      color: $dark-grey;
 
       &:disabled {
+        color: $dark-grey;
         border-color: transparent !important;
         cursor: default !important;
       }

@@ -11,19 +11,23 @@
   /* Main */
   .main .title {
     background: $sidebar-color;
-    h1 {
+    .list-name, .list-name:disabled {
       color: $white;
     }
   }
   .task-input {
     background: darken($sidebar-color, 4);
     border-color: darken($sidebar-color, 7);
-    box-shadow: 0 20px 0 $sidebar-color, 0 21px 0 darken($sidebar-color, 7);;
+    box-shadow: 0 20px 0 $sidebar-color, 0 21px 0 darken($sidebar-color, 7);
     color: $light-grey;
 
     &:focus {
       border-color: darken($dark-blue, 15);
       // border-color: $light-blue, 20);
+    }
+
+    &.search {
+      background: $sidebar-color;
     }
   }
   .task {
@@ -51,7 +55,7 @@
       border-left-color: darken($dark-blue, 10);
     }
 
-    &:first-child, &::after, .checkbox::before, &.expanded, &.expanded-task + li {
+    &:first-child, &::after, .checkbox::before, &.expanded-task, &.expanded-task + li {
       border-color: darken($sidebar-color, 7);
     }
     &::before, &.expanded-task::before {
