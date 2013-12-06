@@ -1,59 +1,58 @@
-# Base
-Base     = require 'base'
-
-# Controllers
-Settings = require '../controllers/settings'
-
-# Models
-List     = require '../models/list'
-Task     = require '../models/task'
-Setting  = require '../models/setting'
-Event    = require '../utils/event'
+Base = require 'base'
+List = require '../models/list'
+Task = require '../models/task'
+User = require '../models/user'
+event = require '../utils/event'
+md5 = require '../vendor/md5'
 
 class Panel extends Base.View
 
-  elements:
-    avatar: '.user img'
+  el: '.panel'
+
+  ui:
+    avatar: '.avatar img'
     name: '.user .name'
-    sidebar: '.sidebar'
 
   events: Base.touchify
-    'click .logo':          'toggleMenu'
     'click .user':          'toggleAccount'
     'click .openSettings':  'openSettings'
 
   constructor: ->
     super
 
-    @listen Setting,
-      'change:userName':   @setName
-      'change:userEmail':  @setAvatar
-      'offline':           @offline
-      'login': =>
-        @setName()
-        @setAvatar()
+    @listen User,
+      'login':         @login
+      'offline':       @offline
+      'change:name':   @setName
+      'change:email':  @setAvatar
 
-  toggleMenu: (onOff) =>
-    @ui.sidebar.toggleClass('show', onOff)
+    @login()
 
-  setName: (name = setting.userName) =>
+  login: =>
+    console.log 'logging in'
+    @setName()
+    @setAvatar()
+
+  setName: (name=User.name) =>
+    console.log 'setting name'
     @ui.name.text(name)
 
   setAvatar: =>
-    email = Setting.userEmail.toLowerCase()
+    console.log 'setting avatar'
+    email = User.email.toLowerCase()
     id = md5(email)
     link = "http://www.gravatar.com/avatar/#{ id }"
-    @ui.avatar.show().attr('src', link)
+    console.log link
+    @ui.avatar.attr('src', link)
 
   offline: =>
-    return unless not Setting.noAccount
-    name = Setting.userName
-    @setName("#{ name } - Offline")
+    return unless not User.noAccount
+    @setName User.name + ' - Offline'
 
   toggleAccount: ->
-    Event.trigger 'settings:show'
+    event.trigger 'settings:show'
 
   openSettings: ->
-    Event.trigger 'settings:show'
+    event.trigger 'settings:show'
 
 module.exports = Panel

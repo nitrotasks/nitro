@@ -25,10 +25,12 @@
     text-align: right;
     z-index: $z-panel-avatar;
   }
-  .deets, .img {
+
+  .user, .img {
     display: inline-block;
     vertical-align: top;
   }
+
   .name {
     margin-top: 4px;
     font-size: 11px;
@@ -36,14 +38,15 @@
     letter-spacing: -0.5px;
     text-transform: uppercase;
   }
+
   .pro {
     font-size: 11px;
   }
-  .img {
+
+  img {
     margin-left: 10px;
     width: $panelHeight - 4px;
     height: $panelHeight - 4px;
-    background: url(../img/avatar.png) 50% 50%;
-    background-size: $panelHeight - 4px $panelHeight - 4px;
   }
+
 }

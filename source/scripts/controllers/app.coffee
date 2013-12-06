@@ -19,7 +19,6 @@ Setting = require '../models/setting'
 User    = require '../models/user'
 
 # Controllers
-# Panel         = require # '../controllers/panel'
 # Sync          = require # '../controllers/sync'
 # Pro           = require # '../controllers/pro'
 Auth          = require '../controllers/auth'
@@ -36,6 +35,7 @@ ListButtons   = require '../views/list_buttons'
 Tasks         = require '../views/tasks'
 Settings      = require '../views/settings'
 NightMode     = require '../views/night'
+Panel         = require '../views/panel'
 
 # Special Lists
 # TODO: put these in another file
@@ -83,6 +83,7 @@ class App
     new LoadingScreen()
     new Settings()
     new NightMode()
+    new Panel()
 
     # Load views
     @keys = new Keys()
