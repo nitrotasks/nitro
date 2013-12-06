@@ -1,4 +1,4 @@
-user   = require '../models/user'
+User   = require '../models/user'
 View   = require '../views/auth'
 event  = require '../utils/event'
 config = require '../utils/config'
@@ -14,12 +14,12 @@ class Auth
 
   skip: =>
     # TODO: Do we need to set anything here?
-    user.offline = yes
+    User.offline = yes
     event.trigger 'auth:skip'
 
   loadToken: (id, token) ->
-    user.uid = id
-    user.token = token
+    User.uid = id
+    User.token = token
     event.trigger 'auth:token', id, token
 
   register: (name, email, password) =>
@@ -45,9 +45,9 @@ class Auth
       dataType: 'json'
       success: ([uid, token, email, name, pro]) =>
         @view.trigger 'login:success'
-        user.pro   = pro
-        user.name  = name
-        user.email = email
+        User.pro   = pro
+        User.name  = name
+        User.email = email
         @loadToken(uid, token)
       error: (xhr, status, msg) =>
         @view.trigger 'login:fail', xhr.status, xhr.responseText

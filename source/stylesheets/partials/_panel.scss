@@ -43,10 +43,12 @@
     font-size: 11px;
   }
 
-  img {
+  .img {
     margin-left: 10px;
     width: $panelHeight - 4px;
     height: $panelHeight - 4px;
+    background: url(../img/avatar.png) 50% 50%;
+    background-size: $panelHeight - 4px $panelHeight - 4px;
   }
 
 }

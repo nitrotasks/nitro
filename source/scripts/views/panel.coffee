@@ -10,7 +10,7 @@ class Panel extends Base.View
   el: '.panel'
 
   ui:
-    avatar: '.avatar img'
+    avatar: '.avatar .img'
     name: '.user .name'
 
   events: Base.touchify
@@ -26,23 +26,20 @@ class Panel extends Base.View
       'change:name':   @setName
       'change:email':  @setAvatar
 
-    if User.loggedIn() then @login()
+    if User.authenticated then @login()
 
   login: =>
     @setName()
     @setAvatar()
 
   setName: (name=User.name) =>
-    console.log 'setting name'
     @ui.name.text(name)
 
   setAvatar: =>
-    console.log 'setting avatar'
     email = User.email?.toLowerCase()
     id = md5(email)
-    link = "http://www.gravatar.com/avatar/#{ id }"
-    console.log link
-    @ui.avatar.attr('src', link)
+    link = "http://www.gravatar.com/avatar/#{ id }/?d=retro"
+    @ui.avatar.css('background-image', "url(#{ link })")
 
   offline: =>
     return unless not User.noAccount
