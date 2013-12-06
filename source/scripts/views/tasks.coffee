@@ -38,7 +38,7 @@ class Tasks extends Base.View
     @timers = {}
 
     @currentTask = null
-    @search = false
+    @search = no # all, active, completed
 
     @listen [
       Task,
@@ -56,6 +56,9 @@ class Tasks extends Base.View
       # Collapse the last open view
       @collapse()
       @currentTask = view
+
+  releaseTask: (view) =>
+    view.off 'select'
 
   # Add a single task to the DOM
   addOne: (task) =>
@@ -87,26 +90,19 @@ class Tasks extends Base.View
   # Display a list of tasks
   render: (list, animated=false) =>
 
+    # HANDLE ANIMATIONS
     if not animated
-
       @ui.entrance.addClass 'exitPage'
-
       delay DURATION, =>
         @render(list, true)
-
       return
-
-    if list.disabled
-      @ui.input.hide()
-    else
-      @ui.input.show()
 
     # Search for tasks
     if list.id is 'search'
 
       @ui.message.text @template.message.special
       if list.query? then @ui.input.val list.query
-      @toggleSearch on
+      @toggleSearch list.type
 
       # toggleSearch will display the results for us
       return
@@ -147,7 +143,7 @@ class Tasks extends Base.View
     # Unbind existing tasks
     delay 1000, =>
       for item in oldViews
-        item.off 'select'
+        @releaseTask item
         item.release()
       oldViews = []
 
@@ -193,27 +189,28 @@ class Tasks extends Base.View
     # Render html
     @ui.tasks[0].innerHTML = html
 
-    # Fade out animated stuff
-    delay DURATION, =>
+    render = =>
+
+      # Fade out animated stuff
       @ui.entrance.removeClass 'enterPage'
       @ui.input.focus() unless isMobile
 
+      # Connect each task to the actual element
       tasks.forEach (task) =>
+
         view = new TaskItem
           task: task
-          el: @ui.tasks.find "#task-#{ task.id }"
+          el: @ui.tasks.find '#task-' + task.id
+
         @bindTask view
         @views.push view
 
-  # Toggles the input box text
-  toggleSearch: (@search) =>
-    message = if @search
-      @updateSearchResults(no)
-      @template.message.search
+    if disableAnimation
+      render()
     else
-      @template.message.addTask
+      delay DURATION, render
 
-    @ui.input.attr 'placeholder', message
+
 
   # Handle keydown events on the input box
   keydown: (e) =>
@@ -234,24 +231,33 @@ class Tasks extends Base.View
       listId: Lists.active.id
       date: dateDetector.parse name
 
+
+  # --------------
+  # SEARCH RESULTS
+  # --------------
+
+  # Toggles the input box text
+  toggleSearch: (@search) =>
+    message = if @search
+      @updateSearchResults(no)
+      @template.message.search
+    else
+      @template.message.addTask
+
+    @ui.input.attr 'placeholder', message
+
   updateSearchResults: (disableAnimation=yes) =>
-    results = Task.search @ui.input.val()
+    results = Task.search @ui.input.val(), @search
     @displayTasks results, disableAnimation
     @el.toggleClass 'empty', results.length is 0
 
-  # ------------
-  # COLLAPSE ALL
-  # ------------
+
+  # ------------------
+  # COLLAPSE ALL TASKS
+  # ------------------
 
   collapse: =>
     @currentTask.collapse() if @currentTask
-
-    # TODO: fix
-    # if not List.current.disabled
-    #   if Setting.sort
-    #     @el.find('.expanded').draggable({ disabled: false })
-    #   else
-    #     @el.find('.expanded').parent().sortable({ disabled: false })
 
   # Collapsing of tasks
   collapseOnClick: (e) =>

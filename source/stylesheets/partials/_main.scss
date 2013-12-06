@@ -86,6 +86,10 @@ $duration: 150ms;
   width: 100%;
   box-shadow: 0 20px 0 $light-grey, 0 21px 0 $task-color;
 
+  &:disabled {
+    background: $light-grey;
+  }
+
   &:focus {
     border-color: $light-blue;
   }

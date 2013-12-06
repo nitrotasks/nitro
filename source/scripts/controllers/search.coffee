@@ -8,13 +8,25 @@ class Search
 
   constructor: ->
 
-    event.on 'search', @search
+    event.on 'search search:all', @searchAll
+    event.on 'search:completed', @searchCompleted
 
-  search: (query) =>
+
+  searchAll: (query) =>
 
     List.trigger 'select:model',
       name: 'All Tasks'
       id: 'search'
+      type: 'active'
+      permanent: yes
+      query: query
+
+  searchCompleted: (query) =>
+
+    List.trigger 'select:model',
+      name: 'Completed'
+      id: 'search'
+      type: 'completed'
       permanent: yes
       query: query
 

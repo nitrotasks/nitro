@@ -65,10 +65,21 @@ class TaskCollection extends Base.Collection
       else a.completed - b.completed
 
   # Search through tasks
-  search: (query) =>
-    return @all() unless query.length > 0
+  # - type (string) : can be 'all', 'active' or 'completed'
+  search: (query, type='all') =>
+
+    switch type
+      when 'active'
+        tasks = @active()
+      when 'completed'
+        tasks = @completed()
+      when 'all'
+        tasks = @all()
+
+    return tasks unless query.length > 0
     query = query.toLowerCase().split ' '
-    @filter (item) ->
+
+    tasks.filter (item) ->
       for word in query
         if item.name.toLowerCase().indexOf(word) < 0 then return false
       return true

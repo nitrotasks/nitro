@@ -1,5 +1,5 @@
 Task = require '../../models/task'
-List = require '../../models/list'
+event = require '../../utils/event'
 ListItem = require './item'
 
 class ListCompleted extends ListItem
@@ -13,14 +13,8 @@ class ListCompleted extends ListItem
 
     @updateCount()
 
-
   open: =>
-    List.trigger 'select:model',
-      name: 'Completed'
-      id: 'completed'
-      disabled: yes
-      permanent: yes
-      tasks: Task.completed()
+    event.trigger 'search:completed'
     @select()
 
   updateCount: =>

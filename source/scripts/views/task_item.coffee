@@ -19,6 +19,7 @@ class TaskItem extends Base.View
   constructor: ->
     super
 
+    # Link element to task
     @el[0].task = @task
 
     @expanded = false
