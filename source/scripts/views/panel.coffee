@@ -26,10 +26,9 @@ class Panel extends Base.View
       'change:name':   @setName
       'change:email':  @setAvatar
 
-    @login()
+    if User.loggedIn() then @login()
 
   login: =>
-    console.log 'logging in'
     @setName()
     @setAvatar()
 
@@ -39,7 +38,7 @@ class Panel extends Base.View
 
   setAvatar: =>
     console.log 'setting avatar'
-    email = User.email.toLowerCase()
+    email = User.email?.toLowerCase()
     id = md5(email)
     link = "http://www.gravatar.com/avatar/#{ id }"
     console.log link
