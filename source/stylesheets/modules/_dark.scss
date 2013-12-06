@@ -15,7 +15,7 @@
       color: $white;
     }
   }
-  .new-task {
+  .task-input {
     background: darken($sidebar-color, 4);
     border-color: darken($sidebar-color, 7);
     box-shadow: 0 20px 0 $sidebar-color, 0 21px 0 darken($sidebar-color, 7);;
