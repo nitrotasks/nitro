@@ -147,27 +147,6 @@ class Settings extends Base.View
     List.forEach (list) ->
       list.moveCompleted()
 
-  tabSwitch: (event) =>
-    if $(e.target).hasClass('close')
-      @el.modal('hide')
-    else
-      @currentTab?.removeClass 'current'
-      @currentTab = $ event.target
-      @currentTab.addClass 'current'
-      @getTab(@currentTab.data('id')).addClass('current')
-      @el
-        .find 'div.' + $(e.target).addClass('current').attr('data-id')
-        .addClass 'current'
-
-  toggleNight: (e) =>
-    if setting.isPro()
-      $('html').toggleClass 'dark'
-    else
-      @nightMode.prop('checked', false)
-      @el.modal('hide')
-      $('.modal.proventor').modal('show')
-      setting.night = false
-
   #FFFFUCKIT.
   editField: (e) ->
     if $(e.target).hasClass('name') or $(e.target).hasClass('email')
@@ -257,53 +236,6 @@ class Settings extends Base.View
         @setupNotifications()
       , notifyTime - now
 
-  logout: (e) ->
-    Cookies.removeItem('uid')
-    Cookies.removeItem('token')
-    document.location.reload()
-
-  clearData: =>
-    if setting.token
-      localStorage.clear()
-      @logout()
-    else
-      $('.modal.settings').modal 'hide'
-      $('.modal.delete').modal 'show'
-      $('.modal.delete .true').on('click touchend', =>
-        localStorage.clear()
-        @logout()
-        $('.modal.delete').modal 'hide'
-        $('.modal.delete .true').off 'click touchend'
-      )
-
-      $('.modal.delete .false').on('click touchend', (e) ->
-        $('.modal.delete').modal 'hide'
-        $('.modal.delete .false').off 'click touchend'
-      )
-
-  exportData: ->
-    @el.modal('hide')
-    $('.modal.export').modal('show')
-    $('.modal.export textarea').val Spine.Sync.exportData()
-
-    $('.modal.export button').click ->
-      if $(this).hasClass('true')
-        Spine.Sync.importData($('.modal.export textarea').val())
-      $('.modal.export').modal('hide')
-      $(this).off('click')
-
-  changeLanguage: (e) =>
-    # Pirate Speak is a Pro feature
-    if $(e.target).attr('data-value') is 'en-pi' and !setting.isPro()
-      @el.modal('hide')
-      $('.modal.proventor').modal('show')
-    else
-      setting.language = $(e.target).attr('data-value')
-      window.location.reload()
-
-  login: =>
-    $('.auth').fadeIn(300)
-    @el.modal('hide')
 
   toggleNotify: =>
     if @notifyToggle.prop('checked')

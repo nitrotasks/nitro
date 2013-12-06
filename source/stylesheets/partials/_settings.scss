@@ -124,6 +124,7 @@
 
   .account {
     padding-top: 25px;
+
     .special {
       margin-top: 15px;
       margin-left: 0;
@@ -132,9 +133,24 @@
         background-color: $dark-blue;
       }
     }
+
     .signedin {
       display: none;
     }
+
+    button.save {
+      display: none;
+    }
+
+    .control.edit {
+      button.save {
+        display: inline-block;
+      }
+      button.edit {
+        display: none;
+      }
+    }
+
     label {
       width: 170px;
       font-weight: bold;
@@ -143,9 +159,11 @@
         content: ":";
       }
     }
+
     .center {
       text-align: center;
     }
+
     button {
       margin-left: 5px;
       background: white;
@@ -153,13 +171,12 @@
       font-family: $font;
       color: $dark-blue;
       cursor: pointer;
-      &.save {
-        display: none;
-      }
+
       &:hover {
         text-decoration: underline;
       }
     }
+
     input {
       width: 220px;
       color: #444444;
@@ -170,6 +187,7 @@
         box-shadow: none;
       }
     }
+
     span {
       display: inline-block;
       font-size: 14px;
