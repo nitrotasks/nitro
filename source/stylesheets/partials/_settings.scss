@@ -18,7 +18,7 @@
   }
 
   label {
-    color: #222222;
+    color: $dark-grey;
     font-size: 15px;
     width: 265px;
     display: inline-block;
@@ -44,7 +44,7 @@
 
   hr {
     border: 0;
-    border-top: 1px dashed #dddddd;
+    border-top: 1px dashed $dark-grey;
   }
 
   .tabs {
@@ -63,7 +63,7 @@
       font-size: 15px;
       padding: 0 15px;
       font-weight: bold;
-      color: #666666;
+      color: $half-grey;
       cursor: default;
       background-color: white;
       &.close {
@@ -92,21 +92,21 @@
       font-size: 18px;
       // Too lazy to do it properly
       tr:last-child {
-        color: #444444;
-        border-bottom: 1px solid #cccccc;
+        color: $dark-grey;
+        border-bottom: 1px solid $mid-grey;
       }
     }
 
     tr {
-      border-bottom: 1px dotted #cccccc;
-      color: #666666;
+      border-bottom: 1px dotted $mid-grey;
+      color: $half-grey;
       &:last-child {
         border: 0;
       }
     }
 
     a.selected {
-      color: #555555;
+      color: $dark-grey;
       font-weight: bold;
     }
 
@@ -119,23 +119,36 @@
   }
 
   .disabled {
-    color: #888888;
+    color: $half-grey;
   }
 
   .account {
     padding-top: 25px;
 
-    .special {
+    &.logged-in {
+
+      .controls {
+        display: block;
+      }
+
+      .get-started {
+        display: none;
+      }
+
+    }
+
+    .controls {
+      display: none;
+    }
+
+    button.special {
       margin-top: 15px;
       margin-left: 0;
       border: 2px solid $dark-blue;
+
       &:active {
         background-color: $dark-blue;
       }
-    }
-
-    .signedin {
-      display: none;
     }
 
     button.save {
@@ -154,7 +167,7 @@
     label {
       width: 170px;
       font-weight: bold;
-      color: #4c4c4c;
+      color: $dark-grey;
       &::after {
         content: ":";
       }
@@ -179,7 +192,7 @@
 
     input {
       width: 220px;
-      color: #444444;
+      color: $dark-grey;
       padding: 2px 5px;
       margin-bottom: 5px;
       &[disabled] {

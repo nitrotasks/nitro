@@ -10,7 +10,7 @@ account = new Tab
   ui:
     name:      '.name input'
     email:     '.email input'
-    password: '.password input'
+    password:  '.password input'
 
   events:
     'click           button.edit': 'editField'
@@ -23,6 +23,9 @@ account = new Tab
   load: ->
     @ui.name.val User.name
     @ui.email.val User.email
+
+    if User.authenticated
+      @el.addClass 'logged-in'
 
   editField: (event) ->
     control = $(this).parent()
