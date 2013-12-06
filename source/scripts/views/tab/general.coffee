@@ -49,7 +49,7 @@ for setting, element of settings
   # Handle settings being changed
   do (setting, element) ->
     options[setting] = ->
-      el = @ui[element]
+      el = @ui[setting]
       if el.attr('type') is 'checkbox'
         val = el.is ':checked'
       else
