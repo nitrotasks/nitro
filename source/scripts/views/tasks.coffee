@@ -238,12 +238,13 @@ class Tasks extends Base.View
 
   # Toggles the input box text
   toggleSearch: (@search) =>
-    message = if @search
+    if @search
       @updateSearchResults(no)
-      @template.message.search
+      message = @template.message.search
     else
-      @template.message.addTask
+      message = @template.message.addTask
 
+    @ui.input.toggleClass 'search', !! @search
     @ui.input.attr 'placeholder', message
 
   updateSearchResults: (disableAnimation=yes) =>
