@@ -28,7 +28,7 @@ class NightMode extends Base.View
         nextRun.setHours 7
       else
         # turn it off 7pm today
-        nextRun.setHours 21
+        nextRun.setHours 19
 
       setTimeout(=>
         @el.toggleClass 'dark'
