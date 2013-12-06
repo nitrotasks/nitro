@@ -9,7 +9,7 @@ class Setting extends Base.Model
 
     # Settings
     sort:               yes
-    night:              'auto'
+    night:              'light'
     language:           'en-us'
     weekStart:          '1'
     dateFormat:         'dd/mm/yy'
