@@ -26,7 +26,14 @@ class Keys extends Base.View
 
   keyup: (event)  =>
 
-    @handleKeyCode event.keyCode
+    keyCode = event.keyCode
+
+    if @focused
+      if keyCode is keys.escape
+        @input.blur()
+      return true
+
+    @handleKeyCode keyCode
 
   handleKeyCode: (keyCode) =>
 
@@ -35,17 +42,14 @@ class Keys extends Base.View
       when keys.escape
 
         # Escape
-        # - blur inputs
         # - hide modals
         # - collapse tasks
 
-        if @focused
-          return @input.blur()
-
         if Views.modal.displayed
-          return Views.modal.current.hide()
+          Views.modal.current.hide()
 
-        Views.tasks.collapse()
+        else
+          Views.tasks.collapse()
 
       when keys.n
 
