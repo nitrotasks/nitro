@@ -1,5 +1,6 @@
-keys = require '../utils/keys'
 Base = require 'base'
+keys = require '../utils/keys'
+Views = require '../controllers/views'
 
 class Keys extends Base.View
 
@@ -23,59 +24,78 @@ class Keys extends Base.View
   blur: =>
     @focused = false
 
-  keyup: (e)  =>
-    keyCode = e.keyCode
+  keyup: (event)  =>
 
-    # If an input is focused
-    if @focused
-      if keyCode is keys.escape then @input.blur()
-      return true
+    @handleKeyCode event.keyCode
+
+  handleKeyCode: (keyCode) =>
 
     switch keyCode
-      when keys.escape
-        @tasks.collapseAll()
 
-      # TODO: Don't modify the DOM directly
+      when keys.escape
+
+        # Escape
+        # - blur inputs
+        # - hide modals
+        # - collapse tasks
+
+        if @focused
+          return @input.blur()
+
+        if Views.modal.displayed
+          return Views.modal.current.hide()
+
+        Views.tasks.collapse()
 
       when keys.n
+
         # New Task
-        $(".new-task").focus().val("")
+        # - focus the task input box
+
+        Views.tasks.focus()
 
       when keys.l
+
         # New List
-        $(".new-list").focus().val("")
+        # - focus the list input box
+
+        Views.lists.focus()
 
       when keys.f
+
         # Search
-        $(".search input").focus().val("")
+        # - open the all tasks list
+        # - and focus the task input box
+
+        Views.list.all.open()
+        Views.tasks.focus()
 
       when keys.p
+
         # Print
-        $(".buttons .print").trigger("click")
+        # - print the current page
+
+        Views.listButtons.print()
 
       when keys.comma
+
         # Settings
-        $(".settingsButton img").trigger("click")
+        # - show the settings modal
+
+        Views.settings.show()
 
       when keys.k
-        # Go to the prev list
-        if $(".sidebar .current").prev().length is 0
-          # Go to completed
-          $(".sidebar .completed").trigger("click")
-        else
-          $(".sidebar .current").prev().trigger("click")
-          # Cancel the Focus if shortcut is used
-          $(".new-task").blur()
+
+        # Go to the previous list
+        # - load the previous list
+
+        Views.lists.next()
 
       when keys.j
-        # Go to the next list
-        if $(".sidebar .current").next().hasClass("lists")
-          # Go to first list
-          $($(".sidebar .lists").children()[0]).trigger("click")
-          $(".new-task").blur()
-        else
-          $(".sidebar .current").next().trigger("click")
-          $(".new-task").blur()
 
+        # Go to the next list
+        # - load the next list
+
+        Views.lists.prev()
 
 module.exports = Keys

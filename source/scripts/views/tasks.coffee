@@ -193,7 +193,7 @@ class Tasks extends Base.View
 
       # Fade out animated stuff
       @ui.entrance.removeClass 'enterPage'
-      @ui.input.focus() unless isMobile
+      @focus() unless isMobile
 
       # Connect each task to the actual element
       tasks.forEach (task) =>
@@ -211,6 +211,12 @@ class Tasks extends Base.View
       delay DURATION, render
 
 
+  # -------------
+  # INPUT HANDLER
+  # -------------
+
+  focus: =>
+    @ui.input.focus()
 
   # Handle keydown events on the input box
   keydown: (e) =>

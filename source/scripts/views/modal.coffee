@@ -24,7 +24,6 @@ class Modal extends Base.View
       if event.target.className.indexOf('modals') > -1
         @current.hide()
 
-
   # Show container
   @show: =>
     return if @displayed

@@ -65,4 +65,14 @@ class Lists extends Base.View
       .find('.current')
       .removeClass('current')
 
+  # Focus the list input
+  focus: =>
+    @ui.input.focus()
+
+  # Select the next list
+  next: =>
+
+  # Select the previous list
+  prev: =>
+
 module.exports = Lists

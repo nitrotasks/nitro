@@ -7,7 +7,6 @@ Base.touchify = require '../utils/touchify'
 $ = require 'jqueryify'
 
 # Utilities
-Keys      = require '../utils/keys'
 translate = require '../utils/translate'
 event     = require '../utils/event'
 Mouse     = require '../utils/mouse'
@@ -25,23 +24,8 @@ Auth          = require '../controllers/auth'
 Search        = require '../controllers/search'
 
 # Views
-Modal         = require '../views/modal'
-Tab           = require '../views/settings_tab'
-Keys          = require '../views/keys'
-LoadingScreen = require '../views/loading_screen'
-Lists         = require '../views/lists'
-Title         = require '../views/title'
-ListButtons   = require '../views/list_buttons'
-Tasks         = require '../views/tasks'
-Settings      = require '../views/settings'
-NightMode     = require '../views/night'
-Panel         = require '../views/panel'
-
-# Special Lists
-# TODO: put these in another file
-ListInbox     = require '../views/list/inbox'
-ListAll       = require '../views/list/all'
-ListCompleted = require '../views/list/completed'
+Keys  = require '../views/keys'
+Views = require '../controllers/views'
 
 class App
 
@@ -72,26 +56,17 @@ class App
     new Auth()
     new Search()
 
-    if User.loggedIn()
-      User.trigger 'login', animate: false
-
-    # Load Views
-    new Lists()
-    new Tasks()
-    new Title()
-    new ListButtons()
-    new LoadingScreen()
-    new Settings()
-    new NightMode()
-    new Panel()
-
-    # Load views
-    @keys = new Keys()
+    # Load utils
     Mouse.init()
 
-    # Init Modals
-    Modal.init()
-    Tab.init()
+    # Load views
+    Views.load()
+
+    # Load keyboard shortcuts
+    new Keys()
+
+    if User.loggedIn()
+      User.trigger 'login', animate: false
 
     # Login to sync
     if Setting.loggedin
@@ -130,16 +105,8 @@ class App
         name: translate 'Inbox'
         permanent: yes
 
-    # Load inbox
-    inbox = List.get 'inbox'
-    new ListInbox list: inbox
-
     # Show inbox
-    inbox.trigger 'select'
-
-    # Load other special lists
-    new ListAll()
-    new ListCompleted()
+    Views.loadLists()
 
     # Doesn't run in the Settings constructor. Bit of a pain
     # TODO: Move somewhere else?

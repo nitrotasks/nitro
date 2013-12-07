@@ -2,7 +2,6 @@ Base  = require 'base'
 List  = require '../models/list'
 Task  = require '../models/task'
 event = require '../utils/event'
-Tasks = require '../views/tasks'
 
 class Search
 

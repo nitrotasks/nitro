@@ -1,11 +1,14 @@
 Mouse = require '../../utils/mouse'
 ListItem = require './item'
+List = require '../../models/list'
 
 class ListInbox extends ListItem
 
   el: '.inbox.list'
 
   constructor: ->
+    @list = List.get 'inbox'
+
     super
 
     # Make droppable
@@ -14,14 +17,6 @@ class ListInbox extends ListItem
 
     @updateCount()
 
-    ###
-    # Set up draggable on inbox
-    @el.droppable
-      hoverClass: 'ui-state-active'
-      tolerance: 'pointer'
-      drop: (event, ui) =>
-        movedTask = Task.get(ui.draggable.attr('id').slice(5))
-        List.current.moveTask(movedTask, List.get('inbox'))
-    ###
+    @list.trigger 'select'
 
 module.exports = ListInbox

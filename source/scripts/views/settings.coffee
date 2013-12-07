@@ -16,8 +16,10 @@ class Settings extends Base.View
     super
 
     # TODO: This is just a placeholder
-    $('#open-settings-button').click =>
-      Modal.show()
+    $('#open-settings-button').click @show
+
+  show: ->
+    Modal.show()
 
 module.exports = Settings
 
