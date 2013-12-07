@@ -39,7 +39,7 @@ class Local
 
   constructor: (@model) ->
     @model.on 'fetch', @fetch
-    @model.on 'save change', @save
+    @model.on 'refresh save change', @save
     if @model instanceof Base.Collection
       @model.on 'save:model change:model', @save
 

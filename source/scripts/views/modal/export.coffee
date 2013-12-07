@@ -1,4 +1,5 @@
 Modal = require '../modal'
+dataHandler = require '../../controllers/data'
 
 modal = new Modal
 
@@ -12,10 +13,12 @@ modal = new Modal
     'click .false': 'hide'
 
   run: ->
-    @ui.textarea.val 'TODO: Show all the data here'
+    modal.ui.textarea.val dataHandler.export()
     modal.show()
 
   import: ->
-    console.log 'TODO: importing data...'
+    dataHandler.import modal.ui.textarea.val()
+    modal.hide()
+    document.location.reload()
 
 module.exports = modal
