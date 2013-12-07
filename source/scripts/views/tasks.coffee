@@ -193,7 +193,7 @@ class Tasks extends Base.View
 
       # Fade out animated stuff
       @ui.entrance.removeClass 'enterPage'
-      @focus() unless isMobile
+      # @focus() unless isMobile
 
       # Connect each task to the actual element
       tasks.forEach (task) =>

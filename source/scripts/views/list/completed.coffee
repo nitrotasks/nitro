@@ -9,6 +9,8 @@ class ListCompleted extends ListItem
   constructor: ->
     super
 
+    event.on 'list:completed', @open
+
     Task.on 'change:completed:model', @updateCount
 
     @updateCount()

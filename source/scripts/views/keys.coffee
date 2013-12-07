@@ -89,13 +89,13 @@ class Keys extends Base.View
         # Go to the previous list
         # - load the previous list
 
-        Views.lists.next()
+        Views.lists.prev()
 
       when keys.j
 
         # Go to the next list
         # - load the next list
 
-        Views.lists.prev()
+        Views.lists.next()
 
 module.exports = Keys

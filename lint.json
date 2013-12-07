@@ -80,7 +80,7 @@
     },
     "cyclomatic_complexity": {
         "name": "cyclomatic_complexity",
-        "value": 10,
+        "value": 12,
         "level": "warn"
     },
     "newlines_after_classes": {

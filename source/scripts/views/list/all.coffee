@@ -10,6 +10,8 @@ class ListAll extends ListItem
   constructor: ->
     super
 
+    event.on 'list:all', @open
+
     Task.on 'change change:completed:model', @updateCount
 
     @updateCount()

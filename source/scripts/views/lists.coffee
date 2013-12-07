@@ -3,6 +3,7 @@ List     = require '../models/list'
 keys     = require '../utils/keys'
 ListItem = require '../views/list/item'
 Mouse    = require '../utils/mouse'
+event    = require '../utils/event'
 
 class Lists extends Base.View
 
@@ -72,7 +73,42 @@ class Lists extends Base.View
   # Select the next list
   next: =>
 
+    id = Lists.active.id
+
+    if id is 'inbox'
+      event.trigger 'list:all'
+
+    else if id is 'search'
+      if Lists.active.type is 'active'
+        event.trigger 'list:completed'
+      else
+        List.at(1).trigger 'select'
+
+    else
+      index = List.indexOf id
+      list = List.at(index + 1)
+      if list? then list.trigger 'select'
+
   # Select the previous list
   prev: =>
+
+    id = Lists.active.id
+
+    if id is 'inbox'
+      return
+
+    else if id is 'search'
+      if Lists.active.type is 'active'
+        List.get('inbox').trigger 'select'
+      else
+        event.trigger 'list:all'
+
+    else
+      index = List.indexOf id
+      if index is 1
+        event.trigger 'list:completed'
+      else
+        list = List.at(index - 1)
+        list.trigger 'select'
 
 module.exports = Lists
