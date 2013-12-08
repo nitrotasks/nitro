@@ -94,6 +94,8 @@
     }
 
     &.special {
+      background-image: url("../img/sidebar.svg");
+      background-size: 13px;
       background-repeat: no-repeat;
       .name {
         margin-left: $sidebar-padding + 20px;
@@ -109,21 +111,15 @@
     }
 
     &.inbox {
-      background-image: url("../img/sidebar/inbox.png");
-      background-position: 20px 50%;
-      background-size: 12px 12px;
+      background-position: 19px -5px;
     }
 
     &.all {
-      background-image: url("../img/sidebar/all.png");
-      background-position: 20px 50%;
-      background-size: 12px 11px;
+      background-position: 19px -46px;
     }
 
     &.completed {
-      background-image: url("../img/sidebar/completed.png");
-      background-position: 20px 50%;
-      background-size: 13px 10px;
+      background-position: 19px -87px;
     }
 
     &.current {
