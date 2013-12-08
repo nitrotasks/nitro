@@ -95,10 +95,15 @@ $duration: 150ms;
     padding-left: 32px;
     background-size: 14px;
     background-position: 10px 11px;
+    @include transition(
+      border 150ms ease,
+      background-color 150ms ease
+    );
   }
 
   &:focus {
     border-color: $light-blue;
+    background-color: $white;
   }
 
   @include placeholder {
