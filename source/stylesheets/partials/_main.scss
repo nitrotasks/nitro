@@ -89,8 +89,12 @@ $duration: 150ms;
   box-shadow: 0 20px 0 $light-grey, 0 21px 0 $task-color;
 
   &.search {
-    // TODO: Add a search icon
-    background: $light-grey;
+    background-color: $light-grey;
+    background-image: url("../img/main.svg");
+    background-repeat: no-repeat;
+    padding-left: 32px;
+    background-size: 14px;
+    background-position: 10px 11px;
   }
 
   &:focus {
