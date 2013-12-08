@@ -38,17 +38,25 @@
   <section class="main tasks">
     <div class="title entrance">
 
-      <input type="text" class="list-name">
+      <div class="list-name-container">
+        <input type="text" class="list-name">
+        <div class="dropdown-menu">
+          <img src="img/arrow.png">
+          <ul class="menu-contents">
+            <li>Sort Tasks</li>
+            <li>Print List</li>
+            <li>Delete List</li>
+          </ul>
+        </div>
+      </div>
 
-      <ul class="list-buttons">
+      <!-- <ul class="list-buttons">
         <li class="t trash hidden">Delete List</li>
         <li class="t sort">Toggle Sorting</li>
         <li class="t print">Print List</li>
-        <!--
         <li><a href="#" class="l email" title="Email List"></a></li>
         <li><a href="#" class="l share" title="Share List"></a></li>
         -->
-      </ul>
 
       <input class="p task-input" type="text" placeholder="What do you need to do?">
     </div>
@@ -73,19 +81,16 @@
     <h2 class="title">Nitro</h2>
 
     <div class="inbox special list">
-      <div class="arrow"></div>
       <span class="t name">Inbox</span>
       <div class="count"></div>
     </div>
 
     <div class="all special list">
-      <div class="arrow"></div>
       <span class="t name">All Tasks</span>
       <div class="count"></div>
     </div>
 
     <div class="completed special list">
-      <div class="arrow"></div>
       <span class="t name">Completed</span>
       <div class="count"></div>
     </div>

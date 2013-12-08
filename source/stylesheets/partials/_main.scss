@@ -36,6 +36,10 @@ $duration: 150ms;
       height: $panelHeight + 50px;
     }
 
+    .list-name-container {
+      @include pos(auto, auto, $sidebar-padding + 51px, $sidebar-padding);
+    }
+
     .list-name {
       background: transparent;
       font-size: 30px;
@@ -44,10 +48,10 @@ $duration: 150ms;
       font-weight: 300;
       letter-spacing: -1px;
       outline: none;
-      @include pos(auto, auto, $sidebar-padding + 51px, $sidebar-padding);
       @include transition(0.2s, border-color);
       border: 1px transparent solid;
       color: $dark-grey;
+      display: inline-block;
 
       &:disabled {
         color: $dark-grey;
