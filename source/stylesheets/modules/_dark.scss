@@ -1,3 +1,5 @@
+@media not print {
+
 .dark body {
   background: $sidebar-color;
 }
@@ -74,4 +76,6 @@
       }
     }
   }
+}
+
 }

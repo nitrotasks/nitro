@@ -1,12 +1,29 @@
 @media print {
-  header.group, aside.sidebar, .main .tasks-container input.new-task, .buttons {
+  html, body {
+    height: auto !important;
+    overflow: auto !important;
+    background: transparent !important;
+  }
+  header.group, aside.sidebar, .task-input, .buttons, .panel {
     display: none !important;
   }
   section.main {
     position: static;
     padding: 0;
     .title {
-      height: 50px;
+      padding: 10px 0;
+      height: auto;
+      background: transparent !important;;
+    }
+    .title, .title .list-name {
+      position: static;
+      outline: 0;
+    }
+    .tasks-container {
+      margin: 0;
+    }
+    .tasks-container ul {
+      margin-top: 0;
     }
     .tasks-container ul.tasks li.task {
       &:last-child {
