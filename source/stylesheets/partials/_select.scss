@@ -25,12 +25,10 @@
   @include transition(opacity 300ms ease);
   z-index: $z-context-menu;
 
-  font: 13px/21px "Lucida Grande", "Segoe UI", sans-serif;
+  font-family: $font;
+  font-size: 15px;
 
-  border-radius: 4px;
-  min-width: 150px;
-  padding: 4px 0;
-  @include box-shadow(0 1px 4px rgba($black, 0.2));
+  border: 2px solid $dark-blue;
 
   &.hidden {
     opacity: 0;
@@ -38,18 +36,22 @@
   }
 
   .item {
-    padding: 0 10px;
-    color: $black;
+    padding: 7px 15px;
+    color: $dark-grey;
 
     &:hover {
-      color: #fff;
+      background-color: $light-grey;
+    }
+
+    &:active {
+      color: $white;
       background: $dark-blue;
     }
   }
 
   hr {
     height: 1px;
-    margin: 4px 0;
+    margin: 0;
     border: 0;
     background: $mid-grey;
   }
