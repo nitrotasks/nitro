@@ -25,11 +25,14 @@
 
     &:focus {
       border-color: darken($dark-blue, 15);
-      // border-color: $light-blue, 20);
     }
 
     &.search {
       background-color: $sidebar-color;
+
+      &:focus {
+        background-color: darken($sidebar-color, 4);
+      }
     }
   }
   .task {
