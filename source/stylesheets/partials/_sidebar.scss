@@ -10,14 +10,24 @@
   height: 28px;
   padding: 0 4px;
 
-  img {
+  button {
     width: 12px;
     height: 12px;
-    opacity: 0.5;
+    border: 0;
     padding: 8px 4px;
+    box-sizing: content-box;
+    background: url("../img/sidebar.svg") no-repeat;
+    opacity: 0.5;
+
     &:hover {
       opacity: 1;
     }
+  }
+  #open-settings-button {
+    background-position: 4px -128px;
+  }
+  #sync-button {
+    background-position: 4px -172px;
   }
 }
 .sidebar {
