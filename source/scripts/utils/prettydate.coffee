@@ -1,8 +1,9 @@
 translate = require '../utils/translate'
+event = require '../utils/event'
 
 month = []
 
-translate.ready ->
+event.on 'load:language', ->
   month = translate [
     'Jan', 'Feb', 'Mar', 'Apr',
     'May', 'Jun', 'Jul', 'Aug',

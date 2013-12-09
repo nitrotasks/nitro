@@ -1,10 +1,7 @@
-
-# List all languages here
-
 module.exports =
-  'bg'    : require './bg.json'
-  'bn-IN' : require './bn-IN.json'
-  'en-pi' : require './en-pi.json'
-  'en-us' : require './en-us.json'
-  'es-ES' : require './es-ES.json'
-  'nl'    : require './nl.json'
+  'bg': require './compiled/bg.json'
+  'bn-IN': require './compiled/bn-IN.json'
+  'default': require './compiled/default.json'
+  'en-pi': require './compiled/en-pi.json'
+  'es-ES': require './compiled/es-ES.json'
+  'nl': require './compiled/nl.json'

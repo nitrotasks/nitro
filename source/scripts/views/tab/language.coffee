@@ -18,6 +18,6 @@ language = new Tab
 
   setLanguage: (event) ->
     Setting.language = $(this).data 'value'
-    document.location.reload()
+    # document.location.reload()
 
 module.exports = language

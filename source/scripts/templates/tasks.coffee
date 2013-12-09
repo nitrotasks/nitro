@@ -1,13 +1,15 @@
 translate = require '../utils/translate'
+event = require '../utils/event'
 
-mex = module.exports = {}
+template = {}
 
-translate.ready ->
+event.on 'load:language', ->
 
-  mex.special  = translate('No tasks could be found.')
-  mex.standard = translate('You haven\'t added any tasks to this list.')
-  mex.empty    = translate('There are no tasks in here.')
+  template.special  = translate('No tasks could be found.')
+  template.standard = translate('You haven\'t added any tasks to this list.')
+  template.empty    = translate('There are no tasks in here.')
 
-  mex.search   = translate 'What are you looking for?'
-  mex.addTask  = translate 'What do you need to do?'
+  template.search   = translate 'What are you looking for?'
+  template.addTask  = translate 'What do you need to do?'
 
+module.exports = template

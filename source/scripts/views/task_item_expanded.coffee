@@ -5,6 +5,7 @@ setting = require '../models/setting'
 keys    = require '../utils/keys'
 translate = require '../utils/translate'
 delay = require '../utils/timer'
+event = require '../utils/event'
 
 # Constants
 DURATION = 150
@@ -14,7 +15,7 @@ CLASSNAME =
   completed: 'completed'
   placeholder: 'placeholder'
 
-translate.ready ->
+event.on 'load:language', ->
   TEXT = translate
     notes: 'Notes'
 

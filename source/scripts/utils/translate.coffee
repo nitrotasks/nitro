@@ -1,7 +1,9 @@
 $         = require 'jqueryify'
 Setting   = require '../models/setting'
-Event     = require '../utils/event'
+event     = require '../utils/event'
 languages = require '../languages/languages'
+
+lookup = languages.default
 
 ###
   Currently the app can only be translated once, as the original text
@@ -11,41 +13,65 @@ languages = require '../languages/languages'
 
 class Translate
 
-  constructor: (@language) ->
-    @dictionary = languages[@language]
+  constructor: () ->
+    Setting.on 'change:language', @setLanguage
+
+  setLanguage: (@language) =>
+    @dictionary = languages[@language] || {}
+    @elements()
+    event.trigger 'load:language'
+
+  elements: =>
 
     # Text
     $('.t').each (index, el) =>
-      text = el.innerText
-      if @exists text
-        el.innerText = @convert text
+
+      if el.__translate_text
+        text = el.__translate_text
+      else
+        text = el.innerHTML
+        el.__translate_text = text
+
+      el.innerHTML = @convert text
 
     # Placeholder
     $('.p').each (index, el) =>
-      placeholder = el.attributes.placeholder.value
-      if @exists placeholder
-        el.attributes.placeholder.value = @convert placeholder
+
+      if el.__translate_placeholder
+        text = el.__translate_placeholder
+      else
+        text = el.attributes.placeholder.value
+        el.__translate_placeholder = text
+
+      el.attributes.placeholder.value = @convert text
 
     # Title
     $('.l').each (index, el) =>
-      title = el.attributes.title.value
-      if @exists title
-        el.attributes.title.value = @convert title
 
-  exists: (text) =>
-    @dictionary.hasOwnProperty text
+      if el.__translate_title
+        text = el.__translate_title
+      else
+        text = el.attributes.title.value
+        el.__translate_title = text
+
+      el.attributes.title.value = @convert title
+
+  id: (text) =>
+    lookup.indexOf text
+
+  exists: (id) =>
+    @dictionary.hasOwnProperty id
 
   convert: (text) =>
-    if @exists text
-      return @dictionary[text]
+    id = @id text
+    if @exists id
+      return @dictionary[id]
     return text
 
 # WARNING: Temporary Placeholder for translate instance
 translate =
   convert: ->
     throw new Error 'Translations not ready'
-
-ready = false
 
 module.exports = (text) ->
 
@@ -61,11 +87,5 @@ module.exports = (text) ->
     translate.convert(text)
 
 module.exports.init = ->
-  translate = new Translate(Setting.language)
-  ready = true
-  Event.trigger 'translate:ready'
-
-module.exports.ready = (fn) ->
-  if ready then return fn()
-  Event.on 'translate:ready', fn
-
+  translate = new Translate()
+  translate.setLanguage Setting.language
