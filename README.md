@@ -37,3 +37,22 @@ Use these commands to compile and minify the app into the public folder.
 
     # Optional: minify application.js
     cake minify
+
+
+### Translating Nitro ###
+
+To make or edit a language translation.
+
+    # Go to the languages folder
+    cd source/scripts/languages/source
+
+    # Copy the default language into a new file
+    cp default.json es-ES.json
+
+    # Edit the the language
+    # Keep the original on the left, and your translation on the right
+    # 'Lists': 'Listas'
+
+    # Then compile the language to save space
+    cake language
+    
