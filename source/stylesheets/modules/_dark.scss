@@ -17,6 +17,32 @@
       color: $white;
     }
   }
+  .dropdown-menu {
+    &:hover .arrowsvg {
+      fill: $white;
+    }
+    .menu-contents {
+      background: $sidebar-color;
+      border-color: darken($sidebar-color, 7);
+
+      &::before {
+        border-bottom: 6px solid darken($sidebar-color, 7);
+      }
+
+      &::after {
+        border-bottom: 4px solid $sidebar-color;
+      }
+
+      li {
+        color: $light-blue;
+        border-color: darken($sidebar-color, 7);
+
+        &:hover {
+          background: darken($sidebar-color, 4);
+        }
+      }
+    }
+  }
   .task-input {
     background: darken($sidebar-color, 4);
     border-color: darken($sidebar-color, 7);

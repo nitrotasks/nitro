@@ -4,7 +4,7 @@
     overflow: auto !important;
     background: transparent !important;
   }
-  header.group, aside.sidebar, .task-input, .buttons, .panel {
+  header.group, aside.sidebar, .task-input, .buttons, .panel, .dropdown-menu {
     display: none !important;
   }
   section.main {
@@ -13,9 +13,9 @@
     .title {
       padding: 10px 0;
       height: auto;
-      background: transparent !important;;
+      background: transparent !important;
     }
-    .title, .title .list-name {
+    .title, .title .list-name-container {
       position: static;
       outline: 0;
     }

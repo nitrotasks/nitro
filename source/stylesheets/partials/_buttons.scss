@@ -2,6 +2,16 @@
   display: inline-block;
   position: relative;
 
+  svg {
+    padding: 5px 3px;
+  }
+  .arrowsvg {
+    fill: darken($mid-grey, 5);
+  }
+  &:hover .arrowsvg {
+    fill: $dark-grey;
+  }
+
   &:hover {
     .menu-contents {
       visibility: visible;
@@ -13,7 +23,7 @@
     visibility: hidden;
     position: absolute;
     width: 150px;
-    left: -64px;
+    left: -66px;
     text-align: center;
     background: $white;
     list-style-type: none;
