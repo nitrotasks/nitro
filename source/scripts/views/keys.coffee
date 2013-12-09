@@ -79,7 +79,7 @@ class Keys extends Base.View
         # Print
         # - print the current page
 
-        Views.listButtons.print()
+        Views.listMenu.print()
 
       when keys.comma
 
