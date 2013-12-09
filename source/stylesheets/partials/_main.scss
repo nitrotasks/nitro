@@ -53,7 +53,7 @@ $duration: 150ms;
       color: $dark-grey;
       display: inline-block;
 
-      &:disabled {
+      &[contenteditable=false] {
         color: $dark-grey;
         border-color: transparent !important;
         cursor: default !important;

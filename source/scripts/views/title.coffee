@@ -12,6 +12,7 @@ class Title extends Base.View
 
   events:
     'input .list-name': 'rename'
+    'keydown .list-name': 'preventEnter'
 
   constructor: ->
     super
@@ -23,15 +24,18 @@ class Title extends Base.View
   render: (@list) =>
 
     delay 150, =>
-      @ui.title.val @list.name
+      @ui.title.text @list.name
 
-      if @list.permanent
-        @ui.title.prop 'disabled', true
-      else
-        @ui.title.prop 'disabled', false
+      console.log not @list.permanent
+      @ui.title.attr 'contenteditable', not @list.permanent
 
   # This is fired on keyup when a list is renamed
   rename: (e) =>
-    @list.name = @ui.title.val()
+    @list.name = @ui.title.text()
+
+  preventEnter: (e) =>
+    if e.keyCode is keys.enter
+      e.preventDefault()
+      return false
 
 module.exports = Title
