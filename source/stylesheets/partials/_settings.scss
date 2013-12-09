@@ -1,214 +1,46 @@
 
-.modal.settings {
-
-  width: 600px;
-  margin-left: -303px;
-  border: 3px solid $green;
+body .settings {
+  color: $white;
   z-index: $z-settings;
+  opacity: 0;
+  @include transform(translate3d(-1*($sidebar-width + $sidebar-padding*2), 0, 0));
+  @include transition(all 0.4s);
 
-  & > div {
-    padding: 35px 25px 30px;
-    display: none;
-    &.language {
-      padding: 25px 35px;
+  &.show, .pane.show {
+    opacity: 1;
+    @include transform(translate3d(0, 0, 0));
+  }
+
+  .pane {
+    z-index: $z-settings+1;
+    opacity: 0;
+    @include transform(translate3d(-1*($sidebar-width + $sidebar-padding*2), 0, 0));
+    @include transition(all 0.4s);
+
+    & > div {
+      display: none;
     }
-    &.current {
+    .current {
       display: block;
     }
   }
 
-  label {
-    color: $dark-grey;
-    font-size: 15px;
-    width: 265px;
-    display: inline-block;
-    text-align: right;
-    padding-right: 10px;
-  }
+  .title {
+    text-indent: 0;
+    background-image: none;
 
-  select {
-    font-size: 16px;
-  }
-
-  button {
-    font-size: 13px;
-  }
-
-  a {
-    color: $dark-blue;
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
-  hr {
-    border: 0;
-    border-top: 1px dashed $dark-grey;
-  }
-
-  .tabs {
-
-    ul {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      font-size: 0;
-      border-bottom: 3px solid $green;
-    }
-
-    li {
-      display: inline-block;
-      line-height: 30px;
-      font-size: 15px;
-      padding: 0 15px;
-      font-weight: bold;
-      color: $half-grey;
-      cursor: default;
-      background-color: white;
-      &.close {
-        float: right;
-        border-left: 3px solid $green;
-        padding: 0 10px;
-      }
-      &:active {
-        background-color: lighten($green, 75%);
-      }
-      &.current {
-        background-color: $green;
-        text-shadow: 0 -1px 0 darken($green, 30%);
-        color: white;
-      }
-    }
-  }
-
-  table {
-    width: 100%;
-    font-size: 15px;
-    line-height: 1.4;
-
-    thead {
-      font-weight: bold;
-      font-size: 18px;
-      // Too lazy to do it properly
-      tr:last-child {
-        color: $dark-grey;
-        border-bottom: 1px solid $mid-grey;
-      }
-    }
-
-    tr {
-      border-bottom: 1px dotted $mid-grey;
-      color: $half-grey;
-      &:last-child {
-        border: 0;
-      }
-    }
-
-    a.selected {
-      color: $dark-grey;
-      font-weight: bold;
-    }
-
-    td {
-      padding: 5px 10px 5px 0;
-      &:nth-child(2) {
-        padding-right: 25px;
-      }
-    }
-  }
-
-  .disabled {
-    color: $half-grey;
-  }
-
-  .account {
-    padding-top: 25px;
-
-    &.logged-in {
-
-      .controls {
-        display: block;
-      }
-
-      .get-started {
-        display: none;
-      }
-
-    }
-
-    .controls {
-      display: none;
-    }
-
-    button.special {
-      margin-top: 15px;
-      margin-left: 0;
-      border: 2px solid $dark-blue;
-
-      &:active {
-        background-color: $dark-blue;
-      }
-    }
-
-    button.save {
-      display: none;
-    }
-
-    .control.edit {
-      button.save {
-        display: inline-block;
-      }
-      button.edit {
-        display: none;
-      }
-    }
-
-    label {
-      width: 170px;
-      font-weight: bold;
-      color: $dark-grey;
-      &::after {
-        content: ":";
-      }
-    }
-
-    .center {
-      text-align: center;
-    }
-
-    button {
-      margin-left: 5px;
-      background: white;
-      border: 0;
-      font-family: $font;
-      color: $dark-blue;
-      cursor: pointer;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-
-    input {
-      width: 220px;
-      color: $dark-grey;
-      padding: 2px 5px;
-      margin-bottom: 5px;
-      &[disabled] {
-        border-color: transparent;
-        box-shadow: none;
-      }
-    }
-
-    span {
-      display: inline-block;
-      font-size: 14px;
+    img {
+      width: 16px;
+      height: auto;
+      padding: 9px 8px;
+      border: 2px solid white;
+      border-radius: 50%;
       vertical-align: top;
-      width: 410px;
-      margin-top: 16px;
-      margin-left: 20px;
+      margin: 2px 10px 0 0;
     }
+  }
+  .list {
+    padding-left: $sidebar-padding;
+    padding-right: $sidebar-padding;
   }
 }
-

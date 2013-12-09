@@ -25,7 +25,7 @@ class Tab extends Base.View
     return tabs[id]
 
   constructor: (opts) ->
-    Base.touchify @events
+    # Base.touchify @events
     super
 
     # Store record of it
@@ -46,5 +46,8 @@ class Tab extends Base.View
     Tab.current = this
     @el.addClass 'current'
     @tab.addClass 'current'
+
+  close: =>
+    console.log "gu"
 
 module.exports = Tab

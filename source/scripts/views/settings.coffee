@@ -10,7 +10,16 @@ About    = require '../views/tab/about'
 
 class Settings extends Base.View
 
-  el: '.modal.settings'
+  el: '.settings'
+
+  ui:
+    'pane': '.pane'
+    'paneTitle': '.pane .title'
+
+  events:
+    'click .menu .title img': 'back'
+    'click li': 'openTab'
+    'click .pane .title img': 'closeTab'
 
   constructor: ->
     super
@@ -18,8 +27,20 @@ class Settings extends Base.View
     # TODO: This is just a placeholder
     $('#open-settings-button').click @show
 
-  show: ->
-    Modal.show()
+  show: =>
+    @el.addClass "show"
+
+  back: =>
+    @el.removeClass "show"
+
+  openTab: (e) =>
+    @ui.pane.find(".current").removeClass("current")
+    @ui.pane.find(".title span").html($(e.currentTarget).text())
+    @ui.pane.find("."+$(e.currentTarget).attr("data-id")).addClass("current")
+    @ui.pane.addClass "show"
+
+  closeTab: =>
+    @ui.pane.removeClass "show"
 
 module.exports = Settings
 

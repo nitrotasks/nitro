@@ -185,37 +185,36 @@
         <button class="t special">Learn More</button>
       </div>
     </section>
+  </div>
+
+  <!--
+  =============================================================================
+    S E T T I N G S
+  =============================================================================
+  -->
+
+  <section class="settings">
 
     <!--
-    =============================================================================
-      S E T T I N G S
-    =============================================================================
+      Tabs (not actually tabs.)
     -->
 
-    <section class="modal settings">
+    <nav class="menu">
+      <h2 class="title"><img src="img/arrow.png">Settings</h2>
+      <ul class="lists">
+        <li data-id="general" class="list t">General</li>
+        <li data-id="account" class="list t">Account</li>
+        <li data-id="language" class="list t">Language</li>
+        <li data-id="about" class="list t">About</li>
+        <!-- <li class="close">&#10005;</li> -->
+      </ul>
+    </nav>
 
-      <!--
-        Tabs
-      -->
-
-      <nav class="tabs">
-        <ul>
-          <li data-id="general" class="t current">General</li>
-          <li data-id="account" class="t">Account</li>
-          <!--
-          <li data-id="pro" class="t">Pro</li>
-          <li data-id="notifications" class="t">Notifications</li>
-          -->
-          <li data-id="language" class="t">Language</li>
-          <li data-id="about" class="t">About</li>
-          <li class="close">&#10005;</li>
-        </ul>
-      </nav>
-
-      <!--
-        General Settings
-      -->
-
+    <!--
+      General Settings
+    -->
+    <div class="pane">
+      <h2 class="title"><img src="img/arrow.png"><span></span></h2>
       <div class="general current">
 
         <div class="control">
@@ -440,9 +439,9 @@
 
       </div>
 
-      <!--
-        About
-      -->
+    <!--
+      About
+    -->
 
       <div class="about">
         <img src="img/logo/icon.png" width="128" height="128" alt="">
@@ -451,10 +450,9 @@
         <a href="http://nitrotasks.com">nitrotasks.com</a>
         <p class="grey">Made in New Zealand</p>
       </div>
+    </div>
 
-    </section>
-
-  </div>
+  </section>
 
   <!--
   =============================================================================
