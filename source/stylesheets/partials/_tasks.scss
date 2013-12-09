@@ -27,7 +27,6 @@
 
 .message {
   display: none;
-  @include user-select(none);
   text-align: center;
   padding-top: 80px;
   color: $half-grey;

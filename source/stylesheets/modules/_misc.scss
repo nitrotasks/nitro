@@ -7,7 +7,6 @@ img {
   -moz-user-drag: none;
   -ms-user-drag: none;
   user-drag: none;
-  @include user-select(none);
 }
 
 .hidden {
@@ -16,5 +15,9 @@ img {
 
 body {
   cursor: default;
-  -webkit-user-select: none;
+  @include user-select(none);
+}
+
+[contenteditable=true] {
+  @include user-select(text);
 }
