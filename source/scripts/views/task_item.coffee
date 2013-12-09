@@ -3,6 +3,7 @@ Base    = require 'base'
 # setting = require '../models/setting'
 event   = require '../utils/event'
 ExpandedTaskItem = require '../views/task_item_expanded'
+Mouse = require '../utils/mouse'
 
 class TaskItem extends Base.View
 
@@ -47,7 +48,7 @@ class TaskItem extends Base.View
 
   # Expand the task
   expand: (e) =>
-    if @el[0].selected or @el[0]._temp_selected
+    if Mouse.isMoving() or @el[0].selected
       return
     if e.ctrlKey or e.metaKey
       return

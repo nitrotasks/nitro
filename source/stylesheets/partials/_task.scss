@@ -17,6 +17,10 @@
   z-index: $z-drag-helper;
 }
 
+.tasks .placeholder {
+  height: 30px;
+}
+
 .task {
 
   $taskHeight: 34px;

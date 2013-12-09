@@ -23,7 +23,22 @@ class Task extends Base.Model
     prettyDate(date)
 
 
+###*
+ * Basic collection of tasks for each list
+###
+
 class TaskCollection extends Base.Collection
+
+  model: Task
+
+
+###*
+ * Holds every task ever made
+###
+
+class TaskSingleton extends Base.Collection
+
+  Collection: TaskCollection
 
   className: 'task'
 
@@ -92,7 +107,7 @@ class TaskCollection extends Base.Collection
       item.name?.toLowerCase().indexOf('#'+tag) > -1
 
 # Create a new TaskCollection to store all tasks
-allTasks = new TaskCollection()
+allTasks = new TaskSingleton()
 
 # Add task to the list.task collection
 allTasks.on 'create:model', (task) =>

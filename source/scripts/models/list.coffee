@@ -20,7 +20,7 @@ class List extends Base.Model
     # If @tasks is an array of IDs, convert it into a Task collection
     if @tasks instanceof Array
       taskIds = @tasks
-      @tasks = new Task.constructor()
+      @tasks = new Task.Collection()
       taskIds.forEach (id) =>
         if Task.exists id
           task = Task.get id
