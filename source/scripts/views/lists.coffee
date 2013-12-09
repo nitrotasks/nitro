@@ -33,7 +33,7 @@ class Lists extends Base.View
   keyup: (e) =>
     if e.which is keys.enter and @ui.input.val().length
       @createNew @ui.input.val()
-      @ui.input.val ''
+      @ui.input.blur().val ''
 
   # Create a new list
   # - name (string) : the name of the list
