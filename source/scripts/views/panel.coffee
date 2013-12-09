@@ -1,6 +1,4 @@
 Base = require 'base'
-List = require '../models/list'
-Task = require '../models/task'
 User = require '../models/user'
 event = require '../utils/event'
 md5 = require '../vendor/md5'
@@ -26,9 +24,8 @@ class Panel extends Base.View
       'change:name':   @setName
       'change:email':  @setAvatar
 
-    if User.authenticated then @login()
-
   login: =>
+    return unless User.authenticated
     @setName()
     @setAvatar()
 
@@ -46,7 +43,7 @@ class Panel extends Base.View
     @setName User.name + ' - Offline'
 
   toggleAccount: ->
-    event.trigger 'settings:show'
+    event.trigger 'settings:show:account'
 
   openSettings: ->
     event.trigger 'settings:show'
