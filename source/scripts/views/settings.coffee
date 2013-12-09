@@ -1,5 +1,6 @@
 Base   = require 'base'
 Modal   = require '../views/modal/settings'
+event = require '../utils/event'
 
 # Load tabs
 Tab     = require '../views/settings_tab'
@@ -27,6 +28,9 @@ class Settings extends Base.View
     # TODO: This is just a placeholder
     $('#open-settings-button').click @show
 
+    # Show settings
+    event.on 'settings:show', @show
+
   show: =>
     @el.addClass "show"
 
@@ -34,6 +38,8 @@ class Settings extends Base.View
     @el.removeClass "show"
 
   openTab: (e) =>
+
+    #TODO: Cache these elements
     @ui.pane.find(".current").removeClass("current")
     @ui.pane.find(".title span").html($(e.currentTarget).text())
     @ui.pane.find("."+$(e.currentTarget).attr("data-id")).addClass("current")

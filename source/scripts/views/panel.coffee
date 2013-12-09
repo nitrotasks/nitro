@@ -12,8 +12,7 @@ class Panel extends Base.View
     name: '.user .name'
 
   events: Base.touchify
-    'click .user':          'toggleAccount'
-    'click .openSettings':  'openSettings'
+    'click .avatar': 'toggleAccount'
 
   constructor: ->
     super
@@ -43,7 +42,7 @@ class Panel extends Base.View
     @setName User.name + ' - Offline'
 
   toggleAccount: ->
-    event.trigger 'settings:show:account'
+    event.trigger 'settings:show'
 
   openSettings: ->
     event.trigger 'settings:show'

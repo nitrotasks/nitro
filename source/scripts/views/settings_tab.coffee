@@ -1,4 +1,3 @@
-
 Base = require 'base'
 
 container = '.settings'
