@@ -1,46 +1,48 @@
 
 body .settings {
-  color: $white;
-  z-index: $z-settings;
-  opacity: 0;
-  @include transform(translate3d(-1*($sidebar-width + $sidebar-padding*2), 0, 0));
-  @include transition(all 0.4s);
-
-  &.show, .pane.show {
+  &.show .menu, &.show .pane {
     opacity: 1;
     @include transform(translate3d(0, 0, 0));
+    visibility: visible;
   }
-
-  .pane {
-    z-index: $z-settings+1;
+  .menu {
+    color: $white;
+    z-index: $z-settings;
     opacity: 0;
     @include transform(translate3d(-1*($sidebar-width + $sidebar-padding*2), 0, 0));
     @include transition(all 0.4s);
 
-    & > div {
-      display: none;
+    .title {
+      text-indent: 0;
+      background-image: none;
+
+      img {
+        width: 16px;
+        height: auto;
+        padding: 9px 8px;
+        border: 2px solid white;
+        border-radius: 50%;
+        vertical-align: top;
+        margin: 2px 10px 0 0;
+      }
     }
-    .current {
-      display: block;
+    .list {
+      padding-left: $sidebar-padding;
+      padding-right: $sidebar-padding;
     }
   }
+}
 
-  .title {
-    text-indent: 0;
-    background-image: none;
+.pane {
+  visibility: hidden;
+  z-index: $z-settings+1;
+  @include pos(0, 0, 0, $sidebar-width + $sidebar-padding*2);
+  background: $light-grey;
 
-    img {
-      width: 16px;
-      height: auto;
-      padding: 9px 8px;
-      border: 2px solid white;
-      border-radius: 50%;
-      vertical-align: top;
-      margin: 2px 10px 0 0;
-    }
+  & > div {
+    display: none;
   }
-  .list {
-    padding-left: $sidebar-padding;
-    padding-right: $sidebar-padding;
+  .current {
+    display: block;
   }
 }

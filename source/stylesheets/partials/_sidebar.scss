@@ -30,7 +30,7 @@
     background-position: 4px -172px;
   }
 }
-.sidebar, .settings, .pane {
+.sidebar, .settings .menu {
 
   @include pos(0, auto, 0, 0);
   position: fixed;

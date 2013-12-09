@@ -46,7 +46,4 @@ class Tab extends Base.View
     @el.addClass 'current'
     @tab.addClass 'current'
 
-  close: =>
-    console.log "gu"
-
 module.exports = Tab
