@@ -9,6 +9,8 @@ Account  = require '../views/tab/account'
 Language = require '../views/tab/language'
 About    = require '../views/tab/about'
 
+delay        = require '../utils/timer'
+
 class Settings extends Base.View
 
   el: '.settings'
@@ -31,18 +33,19 @@ class Settings extends Base.View
     event.on 'settings:show', @show
 
   show: =>
-    @el.addClass "show"
+    $(".main .entrance").removeClass("enterPage").addClass("exitPage")
+
+    delay(150, =>
+      @el.addClass "show"
+      $(".pane .title, .pane .current").removeClass("exitPage").addClass("enterPage")
+    )
 
   back: =>
-    @el.removeClass "show"
-
-  openTab: (e) =>
-
-    #TODO: Cache these elements
-    # @ui.pane.find(".current").removeClass("current")
-    @ui.pane.find(".title span").html($(e.currentTarget).text())
-    # @ui.pane.find("."+$(e.currentTarget).attr("data-id")).addClass("current")
-    # @ui.pane.addClass "show"
+    $(".pane .title, .pane .current").removeClass("enterPage").addClass("exitPage")
+    delay(150, =>
+      @el.removeClass "show"
+      $(".main .entrance").addClass("enterPage").removeClass("exitPage")
+    )
 
 module.exports = Settings
 

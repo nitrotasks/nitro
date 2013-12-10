@@ -1,16 +1,13 @@
 
 body .settings {
   &.show .menu, &.show .pane {
-    opacity: 1;
-    @include transform(translate3d(0, 0, 0));
-    visibility: visible;
+    // needs a reflow for whatever reason
+    display: block;
   }
   .menu {
+    display: none;
     color: $white;
     z-index: $z-settings;
-    opacity: 0;
-    @include transform(translate3d(-1*($sidebar-width + $sidebar-padding*2), 0, 0));
-    @include transition(all 0.4s);
 
     .title {
       text-indent: 0;
@@ -34,7 +31,7 @@ body .settings {
 }
 
 .pane {
-  visibility: hidden;
+  display: none;
   z-index: $z-settings+1;
   @include pos(0, 0, 0, $sidebar-width + $sidebar-padding*2);
   background: $light-grey;
