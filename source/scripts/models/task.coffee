@@ -31,6 +31,43 @@ class TaskCollection extends Base.Collection
 
   model: Task
 
+  constructor: ->
+    super
+
+    # Cache the sorted tasks
+    @sortCache = null
+
+    # Destroy cache if contents change
+    @on 'change', => @sortCache = null
+
+  # Sort the tasks
+
+  # < 0 :: a comes first
+  # > 0 :: b comes first
+  # = 0 :: no change
+
+  sort: =>
+    if @sortCache then return @sortCache
+    @sortCache = @slice().sort (a, b) ->
+
+      # If logged, move to bottom
+      if a.completed is b.completed
+
+        diff = b.priority - a.priority
+        if diff is 0
+
+          diff = (a.date or Infinity) - (b.date or Infinity)
+
+          # Infinity - Infinity is NaN
+          if isNaN(diff)
+            b.name.localeCompare(a.name)
+          else diff
+
+        else diff
+
+      else if a.completed and not b.completed then 1
+      else if not a.completed and b.completed then -1
+      else b.completed - a.completed
 
 ###*
  * Holds every task ever made
@@ -57,27 +94,7 @@ class TaskSingleton extends Base.Collection
     return [] unless listId
     @filter (task) -> task.listId is listId
 
-  # Sort the tasks
-  sortTasks: (tasks) =>
-    sorted = tasks.sort (a, b) ->
-      # If logged, move to bottom
-      if a.completed is b.completed
-        diff = a.priority - b.priority
-        if diff is 0
-          # If the priorities are the same then sort by date, then by name
-          newA = if a.date is false or a.date is '' then Infinity else a.date
-          newB = if b.date is false or b.date is '' then Infinity else b.date
 
-          diff = newB - newA
-
-          # Infinity - Infinity is NaN
-          if isNaN(diff)
-            b.name.localeCompare(a.name)
-          else diff
-        else diff
-      else if a.completed and not b.completed then -1
-      else if not a.completed and b.completed then 1
-      else a.completed - b.completed
 
   # Search through tasks
   # - type (string) : can be 'all', 'active' or 'completed'

@@ -47,8 +47,13 @@ class Tasks extends Base.View
       List,
         'select:model': @render
       Setting,
-        'change:sort': @render
+        'change:sort': @refresh
     ]
+
+
+  # ---------------------------------------------------------------------------
+  # TASK EVENTS
+  # ---------------------------------------------------------------------------
 
   # Listen to events on the task item view
   bindTask: (view) =>
@@ -57,35 +62,36 @@ class Tasks extends Base.View
       @collapse()
       @currentTask = view
 
+  # Remove event listeners
   releaseTask: (view) =>
     view.off 'select'
 
+
+  # ---------------------------------------------------------------------------
+  # DISPLAYING TASKS
+  # ---------------------------------------------------------------------------
+
+  # Render the current list
+  refresh: =>
+    if Lists.active then @render Lists.active
+
   # Add a single task to the DOM
   addOne: (task) =>
-    # return unless List.current.id in [task.listId, 'all']
-
     # Add to dom
     @ui.tasks.prepend @template.item task
 
     # Create a new view
     view = new TaskItem
+      el: @ui.tasks.find '#task-' + task.id
       task: task
-      el: @ui.tasks.find "#task-#{ task.id }"
 
     # Bind events
-    @bindTask(view)
-
-    # TODO: Can we do this in the template?
-    # view.el.addClass 'new'
-
+    @bindTask view
     @views.push view
 
     # TODO: Set up a method for this
     @el.removeClass 'empty'
 
-  # Render the current list
-  refresh: =>
-    @render List.current if List.current
 
   # Display a list of tasks
   render: (list, animated=false) =>
@@ -114,12 +120,15 @@ class Tasks extends Base.View
 
     # Standard list
     if list?.tasks
-      tasks = list.tasks
+      if Setting.sort
+        tasks = list.tasks.sort()
+      else
+        tasks = list.tasks
       @ui.message.text @template.message.standard
 
-    # # Empty list
+    # Empty list
     else
-      tasks = Task.list list.id
+      # tasks = Task.list list.id
       @ui.message.text @template.message.empty
 
     # Display tasks

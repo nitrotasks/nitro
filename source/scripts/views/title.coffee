@@ -25,8 +25,6 @@ class Title extends Base.View
 
     delay 150, =>
       @ui.title.text @list.name
-
-      console.log not @list.permanent
       @ui.title.attr 'contenteditable', not @list.permanent
 
   # This is fired on keyup when a list is renamed

@@ -31,7 +31,6 @@ class ListMenu extends Base.View
     @ui.delete.toggleClass 'hidden', list.permanent
 
   delete: ->
-    console.log 'deleting list'
     ListModal.run()
 
   # email: ->
