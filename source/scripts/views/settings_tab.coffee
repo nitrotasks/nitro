@@ -42,13 +42,13 @@ class Tab extends Base.View
 
   show: =>
     Tab.current.tab.removeClass 'current'
+    @tab.addClass 'current'
     Tab.current.el.addClass 'exitPage'
     $(".pane .title").addClass('exitPage')
     delay(150, =>
       Tab.current.el.removeClass('current exitPage')
       Tab.current = this
       @el.addClass 'current enterPage'
-      @tab.addClass 'current'
       $(".pane .title").removeClass("exitPage").addClass('enterPage').text(Tab.current.tab.text())
       delay(150, ->
         $(".pane .title").removeClass("enterPage")

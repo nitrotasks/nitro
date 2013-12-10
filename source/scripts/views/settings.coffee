@@ -21,7 +21,6 @@ class Settings extends Base.View
 
   events:
     'click .menu .title img': 'back'
-    'click li': 'openTab'
 
   constructor: ->
     super
@@ -33,18 +32,18 @@ class Settings extends Base.View
     event.on 'settings:show', @show
 
   show: =>
-    $(".main .entrance").removeClass("enterPage").addClass("exitPage")
+    $(".main .entrance, .sidebar .wrapper").removeClass("enterPage").addClass("exitPage")
 
     delay(150, =>
       @el.addClass "show"
-      $(".pane .title, .pane .current").removeClass("exitPage").addClass("enterPage")
+      $(".pane .title, .pane .current, .settings .menu").removeClass("exitPage").addClass("enterPage")
     )
 
   back: =>
-    $(".pane .title, .pane .current").removeClass("enterPage").addClass("exitPage")
+    $(".pane .title, .pane .current, .settings .menu").removeClass("enterPage").addClass("exitPage")
     delay(150, =>
       @el.removeClass "show"
-      $(".main .entrance").addClass("enterPage").removeClass("exitPage")
+      $(".main .entrance, .sidebar .wrapper").addClass("enterPage").removeClass("exitPage")
     )
 
 module.exports = Settings
