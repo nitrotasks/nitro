@@ -1,5 +1,4 @@
 Base   = require 'base'
-Modal   = require '../views/modal/settings'
 event = require '../utils/event'
 
 # Load tabs

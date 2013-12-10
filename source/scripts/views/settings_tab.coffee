@@ -1,25 +1,34 @@
 Base = require 'base'
-delay        = require '../utils/timer'
+delay = require '../utils/timer'
 
-container = '.settings'
-tabBar = '.tabs'
+# Element selectors
+ui =
+  container: '.settings'
+  tabBar: '.tabs'
+  title: '.pane .title'
 
+# Tab settings
 defaultTab = 'general'
-
 tabs = {}
+
+# TODO: Move this into a config file of sorts
+DURATION = 150
 
 class Tab extends Base.View
 
   @current: null
 
   @init: ->
-    container = $ container
-    tabBar = container.find tabBar
+    ui.container = $ ui.container
+    ui.tabBar = ui.container.find ui.tabBar
+    ui.title = ui.container.find ui.title
 
     for id, tab of tabs
       tab.init()
 
+    # Show default tab
     @current = @get defaultTab
+    @current.show()
 
   @get: (id) ->
     return tabs[id]
@@ -35,24 +44,35 @@ class Tab extends Base.View
       @[method] = @[method].bind(this)
 
   init: =>
-    @bind container.find @selector
-    @tab = tabBar.find "li[data-id=#{ @id }]"
+    @bind ui.container.find @selector
+    @tab = ui.tabBar.find "li[data-id=#{ @id }]"
     @tab.on Base.touchify.event, @show
     @load()
 
   show: =>
-    Tab.current.tab.removeClass 'current'
+    
+    # Set current tab in sidebar
+    Tab.current?.tab.removeClass 'current'
     @tab.addClass 'current'
-    Tab.current.el.addClass 'exitPage'
-    $(".pane .title").addClass('exitPage')
-    delay(150, =>
-      Tab.current.el.removeClass('current exitPage')
+
+    # Hide current pane
+    Tab.current?.el.addClass 'exitPage'
+    ui.title.addClass 'exitPage'
+
+    delay DURATION, =>
+
+      # Show new tab
+      Tab.current.el.removeClass 'current exitPage'
       Tab.current = this
       @el.addClass 'current enterPage'
-      $(".pane .title").removeClass("exitPage").addClass('enterPage').text(Tab.current.tab.text())
-      delay(150, ->
-        $(".pane .title").removeClass("enterPage")
-      )
-    )
+
+      # Set pane title
+      ui.title
+        .removeClass('exitPage')
+        .addClass('enterPage')
+        .text Tab.current.tab.text()
+
+      delay DURATION, ->
+        ui.title.removeClass 'enterPage'
 
 module.exports = Tab

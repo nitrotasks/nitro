@@ -18,20 +18,22 @@ views = {}
 
 views.load = ->
 
+  views.loadingScreen = new LoadingScreen()
+
   views.lists         = new Lists()
   views.tasks         = new Tasks()
   views.title         = new Title()
   views.listMenu      = new ListMenu()
-  views.loadingScreen = new LoadingScreen()
+
+  views.tab           = Tab
+  Tab.init()
+
   views.settings      = new Settings()
   views.nightMode     = new NightMode()
+
   views.panel         = new Panel()
   views.modal         = Modal
-  views.tab           = Tab
-
-  # Special views
   Modal.init()
-  Tab.init()
 
 
 views.loadLists = ->
