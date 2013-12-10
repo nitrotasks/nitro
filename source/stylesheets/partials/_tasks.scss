@@ -42,7 +42,9 @@
 }
 
 .group {
-  margin-bottom: 20px;
+  pointer-events: none;
+  list-style-type: none;
+  height: 20px;
   & + .task {
     border-top: 1px $task-color solid;
   }

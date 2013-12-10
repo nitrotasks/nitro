@@ -253,7 +253,7 @@
     }
 
     border-top: 1px solid $task-color;
-    &+ li {
+    & + .task {
       border-top: 1px solid $task-color;
 
       &.seperator {

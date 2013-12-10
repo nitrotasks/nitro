@@ -17,6 +17,7 @@ class Tasks extends Base.View
 
   template:
     item:     require '../templates/task'
+    group:    require '../templates/group'
     message: require '../templates/tasks'
 
   ui:
@@ -159,41 +160,42 @@ class Tasks extends Base.View
     # Holds html
     html = ''
 
-    # TODO: Ignore this for now
     # Sorting tasks
-    # if list.id in ['all', 'completed'] or Setting.sort
+    if Setting.sort
 
-    #   tasks = Task.sortTasks(tasks)
-    #   last = tasks[0]?.priority
-    #   completed = tasks[0]?.completed
+      first = tasks[0]
 
-    #   for task in tasks
+      if first
+        {priority, completed} = first
 
-    #     # Add seperator if it is completed and the last one wasn't
-    #     if completed and not task.completed
-    #       completed = false
-    #       task.group = yes
+      tasks.forEach (task) =>
 
-    #     # Add seperator if it is a different priority to the last one
-    #     if not completed and task.priority isnt last
-    #       task.group = yes
+        # Add seperator if it is completed and the last one wasn't
+        if not completed and task.completed
+          completed = true
+          group = yes
 
-    #     last = task.priority
+        # Add seperator if it is a different priority to the last one
+        else if not completed and task.priority isnt priority
+          group = yes
 
-    #     if list.id is 'all'
-    #       task.listName = List.get(task.list).name
+        # Append html
+        html += @template.group if group
+        html += @template.item task
 
-    #     # Append html
-    #     html = @template(task) + html
+        # Reset values
+        group = no
+        priority = task.priority
+
 
     # Not sorting
-    # else
+    else
 
-    tasks.forEach (task) =>
-      html += @template.item task
+      tasks.forEach (task) =>
+        html += @template.item task
 
-      # TODO: Add this back in a sane way
-      # if list.id is 'all' then task.listName = task.list().name
+        # TODO: Add this back in a sane way
+        # if list.id is 'all' then task.listName = task.list().name
 
     # Render html
     @ui.tasks[0].innerHTML = html
@@ -277,29 +279,8 @@ class Tasks extends Base.View
 
   # Collapsing of tasks
   collapseOnClick: (e) =>
-    if e.target.className is 'main tasks'
+    target = e.target
+    if target.className is 'main tasks' or target.nodeName is 'UL'
       @collapse()
-
-  # TODO: Refactor this
-  setupSortable: ->
-    self = this
-    $(this.el[1]).sortable
-      distance: 10
-      scroll: false
-      cursorAt:
-        top: 15
-        left: 30
-      helper: (event, task) ->
-        id = $(task).attr('id')
-        element = "<div data-id=\'#{
-          id }\' class=\'helper\'>#{
-          $(task).find('.name').text() }</div>"
-        $('body').append(element)
-        $("[data-id=#{ id }]")
-      update: ( event, ui ) ->
-        arr = []
-        $(this).children().each (index) ->
-          arr.unshift $(this).attr('id').slice(5)
-        self.list.updateAttribute('tasks', arr)
 
 module.exports = Tasks

@@ -20,6 +20,8 @@ module.exports = (task) ->
 
   """
     <li id="task-#{ task.id }" class="task#{
+      if task.group then ' group' else ''
+    }#{
       if task.completed then ' completed' else ''
     } p#{ task.priority }">
       <div class="checkbox" title="#{ text.checkbox }"></div>

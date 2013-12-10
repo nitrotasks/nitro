@@ -38,7 +38,12 @@ class TaskCollection extends Base.Collection
     @sortCache = null
 
     # Destroy cache if contents change
-    @on 'change', => @sortCache = null
+    @on 'create:model change:model', =>
+      @sortCache = null
+
+    @on 'before:destroy:model', (task) =>
+      index = @sortCache.indexOf task
+      @sortCache.splice index, 1
 
   # Sort the tasks
 
@@ -60,7 +65,7 @@ class TaskCollection extends Base.Collection
 
           # Infinity - Infinity is NaN
           if isNaN(diff)
-            b.name.localeCompare(a.name)
+            a.name.localeCompare(b.name)
           else diff
 
         else diff
@@ -130,8 +135,7 @@ allTasks = new TaskSingleton()
 allTasks.on 'create:model', (task) =>
   if List.exists task.listId
     list = task.list()
-    list.tasks.add task, silent: true
-    list.tasks.trigger 'change'
+    list.tasks.add task
 
 # Add localStorage support
 new Local(allTasks)
