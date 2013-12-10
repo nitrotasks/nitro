@@ -19,36 +19,37 @@
     }
   }
 
+  .message {
+    display: none;
+    text-align: center;
+    padding-top: 80px;
+    color: $half-grey;
+    font-size: 18px;
+    background: url(../img/notasks.png) no-repeat 50%;
+    background-size: 48px 30px;
+  }
+
+  .empty {
+    .message {
+      display: block;
+    }
+  }
+
+  .group {
+    pointer-events: none;
+    list-style-type: none;
+    height: 20px;
+    & + .task {
+      border-top: 1px $task-color solid;
+    }
+  }
+
 }
 
 // ----------------------------------------------------------------------------
 // # MESSAGES
 // ----------------------------------------------------------------------------
 
-.message {
-  display: none;
-  text-align: center;
-  padding-top: 80px;
-  color: $half-grey;
-  font-size: 18px;
-  background: url(../img/notasks.png) no-repeat 50%;
-  background-size: 48px 30px;
-}
-
-.empty {
-  .message {
-    display: block;
-  }
-}
-
-.group {
-  pointer-events: none;
-  list-style-type: none;
-  height: 20px;
-  & + .task {
-    border-top: 1px $task-color solid;
-  }
-}
 
 .seperator {
   list-style-type: none;
@@ -57,5 +58,3 @@
     border-top: 1px $task-color solid;
   }
 }
-
-
