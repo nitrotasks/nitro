@@ -35,7 +35,8 @@ body .settings {
   z-index: $z-settings - 1;
   @include pos(0, 0, 0, $sidebar-width + $sidebar-padding*2);
   background: $light-grey;
-  padding: 0 20px;
+  padding: 0 20px 20px;
+  overflow-y: auto;
 
   .title {
     font-size: 30px;
@@ -157,7 +158,7 @@ button {
     letter-spacing:-2px;
     color: $black;
   }
-  span {
+  .version {
     font-size: 22px;
     position: relative;
     top: 0px;
@@ -165,6 +166,7 @@ button {
     letter-spacing: -1px;
   }
   .copyright {
+    display: block;
     font-size:11px;
     text-indent: 2px;
     margin: 0;
@@ -181,6 +183,9 @@ button {
   font-size:14px;
   p {
     margin: 0;
+  }
+  strong {
+    font-weight: 800;
   }
   a {
     color: darken($dark-blue, 15);
@@ -202,4 +207,14 @@ h3 {
   font-weight: 800;
   letter-spacing: -1px;
   font-size: 20px;
+}
+.quote {
+  font-size: 24px;
+  font-weight: 300;
+  letter-spacing: -1px;
+  margin: 20px 0;
+}
+.trademarks {
+  max-width: 700px;
+  font-size: 11px;
 }
