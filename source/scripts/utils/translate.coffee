@@ -66,6 +66,7 @@ class Translate
     id = @id text
     if @exists id
       return @dictionary[id]
+    console.log 'NO TRANSLATION', text
     return text
 
 # WARNING: Temporary Placeholder for translate instance

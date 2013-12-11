@@ -22,6 +22,12 @@ $duration: 150ms;
   overflow-x: hidden;
   z-index: $z-main;
 
+  &.empty {
+    .message {
+      display: block;
+    }
+  }
+
   .title {
     position: fixed;
     z-index: $z-title;
