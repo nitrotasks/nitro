@@ -17,3 +17,5 @@ app/css/*.css
 ######################
 codekit-config.json
 .agignore
+*.sublime-project
+*.sublime-workspace

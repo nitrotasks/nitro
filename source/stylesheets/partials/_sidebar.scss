@@ -15,7 +15,7 @@
     height: 12px;
     border: 0;
     padding: 8px 4px;
-    box-sizing: content-box;
+    @extend %content-box;
     background: url("../img/sidebar.svg") no-repeat;
     opacity: 0.5;
 
@@ -121,15 +121,15 @@
     }
 
     &.inbox {
-      background-position: 19px -5px;
+      background-position: 19px -9px;
     }
 
     &.all {
-      background-position: 19px -46px;
+      background-position: 19px -50px;
     }
 
     &.completed {
-      background-position: 19px -87px;
+      background-position: 19px -91px;
     }
 
     &.current {

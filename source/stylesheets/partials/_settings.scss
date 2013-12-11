@@ -35,7 +35,7 @@ body .settings {
   z-index: $z-settings - 1;
   @include pos(0, 0, 0, $sidebar-width + $sidebar-padding*2);
   background: $light-grey;
-  padding: 0 20px 20px;
+  padding: 0 20px;
   overflow-y: auto;
 
   .title {
@@ -78,31 +78,33 @@ $radio_height: 30px;
     background: $light-grey;
     color: $dark-grey;
     -webkit-appearance: none;
+    -moz-appearance: none;
     height: 100%;
     z-index: $z-settings+2;
-    outline: 2px solid $mid-grey;
 
-    &:hover {
-      background: lighten($mid-grey, 10);
-    }
-
-    &:checked, &:active {
-      outline: 2px solid $dark-grey;
-      background: $dark-blue;
-      z-index: $z-settings+3;
-    }
     &:checked + label, &:active + label {
       color: $white;
+      outline: 2px solid $dark-grey;
+      background: $dark-blue;
+      z-index: $z-settings+5;
     }
   }
   label {
+    display: inline-block;
     text-align: center;
     line-height: $radio_height;
+    height: $radio_height;
+    background: $light-grey;
     text-transform: uppercase;
     font-size: 13px;
     position: relative;
     padding: 0 20px;
+    outline: 2px solid $mid-grey;
     z-index: $z-settings+4;
+
+    &:hover {
+      background: lighten($mid-grey, 10);
+    }
   }
 }
 
@@ -181,6 +183,7 @@ button {
 .about {
   color: $dark-grey;
   font-size:14px;
+  padding-bottom: 20px;
   p {
     margin: 0;
   }

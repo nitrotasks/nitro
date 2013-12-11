@@ -17,7 +17,7 @@ about = new Tab
   play: ->
     audio = $('audio')[0]
     if audio.paused
-      audio.src = audio.src # currentTime doesn't work for whatever reason
+      audio.load() # currentTime doesn't work for whatever reason
       audio.play()
 
 module.exports = about

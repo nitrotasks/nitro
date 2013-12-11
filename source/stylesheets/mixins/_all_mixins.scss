@@ -77,6 +77,11 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+%content-box {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
 
 @mixin transition($args...) {
   -webkit-transition: $args;
