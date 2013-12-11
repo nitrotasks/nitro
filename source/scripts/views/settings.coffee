@@ -33,7 +33,7 @@ class Settings extends Base.View
     # Show settings
     event.on 'settings:show', @show
 
-    @ui.menu = $ '.pane .title, .pane .current, .settings .menu'
+    @ui.menu = $ 'pane .title, .pane .current, .settings .menu .title, .settings .menu .tabs'
     @ui.entrance = $ '.main .entrance, .sidebar .wrapper'
 
   show: =>

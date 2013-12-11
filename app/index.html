@@ -212,16 +212,19 @@
 
       <div class="general">
 
-        <div class="control">
-          <label for="input-week-start" class="t">Week starts on:</label>
-          <select id="input-week-start" class="week-start">
-            <option value="1" class="t">Monday</option>
-            <option value="0" class="t">Sunday</option>
-          </select>
+        <div class="control" id="input-week-start">
+          <label class="left-label t">Week starts on</label>
+          <div class="radio-button">
+            <input type="radio" name="week-start" value="1" id="week-start-1">
+            <label for="week-start-1" class="t">Monday</label>
+          </div><div class="radio-button">
+            <input type="radio" name="week-start" value="0" id="week-start-0">
+            <label for="week-start-0" class="t">Sunday</label>
+          </div>
         </div>
 
         <div class="control">
-          <label for="input-date-format" class="t">Date format:</label>
+          <label for="input-date-format" class="left-label t">Date format</label>
           <select id="input-date-format" class="date-format">
             <option value="dd/mm/yy" class="t">Day / Month / Year</option>
             <option value="mm/dd/yy" class="t">Month / Day / Year</option>
@@ -229,34 +232,47 @@
           </select>
         </div>
 
-        <div class="control">
-          <label for="input-completed-duration" class="t">Move to Completed:</label>
-          <select id="input-completed-duration" class="completed-duration">
-            <option value="instant" class="t">Instantly</option>
-            <option value="day" class="t">On App Launch</option>
-            <option value="manual" class="t">Never</option>
-          </select>
+        <div class="control" id="input-completed-duration">
+          <label for="input-completed-duration" class="left-label t">Move to Completed</label>
+          <div class="radio-button">
+            <input type="radio" name="completed-duration" value="instant" id="completed-duration-instant">
+            <label for="completed-duration-instant" class="t">Instantly</label>
+          </div><div class="radio-button">
+            <input type="radio" name="completed-duration" value="day" id="completed-duration-day">
+            <label for="completed-duration-day" class="t">On App Launch</label>
+          </div><div class="radio-button">
+            <input type="radio" name="completed-duration" value="never" id="completed-duration-never">
+            <label for="completed-duration-never" class="t">Never</label>
+          </div>
+        </div>
+
+        <div class="control" id="input-confirm-delete">
+          <label for="input-confirm-delete" class="left-label t">Deletion Confirmation</label>
+          <div class="radio-button">
+            <input type="radio" name="confirm-delete" value="true" id="confirm-delete-true">
+            <label for="confirm-delete-true" class="t">On</label>
+          </div><div class="radio-button">
+            <input type="radio" name="confirm-delete" value="false" id="confirm-delete-false">
+            <label for="confirm-delete-false" class="t">Off</label>
+          </div>
+        </div>
+
+        <div class="control" id="input-night-mode">
+          <label for="input-night-mode" class="left-label t">Theme</label>
+          <div class="radio-button">
+            <input type="radio" name="night-mode" value="auto" id="night-mode-auto">
+            <label for="night-mode-auto" class="t">Auto</label>
+          </div><div class="radio-button">
+            <input type="radio" name="night-mode" value="light" id="night-mode-light">
+            <label for="night-mode-light" class="t">Light</label>
+          </div><div class="radio-button">
+            <input type="radio" name="night-mode" value="dark" id="night-mode-dark">
+            <label for="night-mode-dark" class="t">Dark</label>
+          </div>
         </div>
 
         <div class="control">
-          <label for="input-confirm-delete" class="t">Confirm before deleting items:</label>
-          <input id="input-confirm-delete" class="confirm-delete" type="checkbox">
-        </div>
-
-         <div class="control">
-          <label for="input-night-mode" class="t">Night mode:</label>
-          <select id="input-night-mode" class="night-mode">
-            <option value="light" class="t">Light</option>
-            <option value="dark" class="t">Dark</option>
-            <option value="auto" class="t">Auto</option>
-          </select>
-        </div>
-
-
-        <hr>
-
-        <div class="control">
-          <label class="t clear-data-label">Reset Nitro:</label>
+          <label class="t left-label">Reset Nitro</label>
           <button class="t clear-data">Clear Data</button>
           <button class="t export-data">Import / Export Data</button>
         </div>

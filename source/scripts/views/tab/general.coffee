@@ -28,6 +28,8 @@ options =
       val = Setting[setting]
       if el.attr('type') is 'checkbox'
         el.attr 'checked', val
+      else if el.hasClass('control')
+        el.find('[value=' + val + ']').prop("checked", true)
       else
         el.val val
 
@@ -52,6 +54,8 @@ for setting, element of settings
       el = @ui[setting]
       if el.attr('type') is 'checkbox'
         val = el.is ':checked'
+      else if el.hasClass('control')
+        val = el.find(":checked").val()
       else
         val = el.val()
       Setting[setting] = val

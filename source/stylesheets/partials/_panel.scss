@@ -1,4 +1,6 @@
 .panel {
+  position: relative;
+  z-index: $z-panel;
 
   .windowcontrols {
 
@@ -9,7 +11,6 @@
     position: absolute;
     left: 0;
     margin: 16px;
-    z-index: $z-panel-controls;
 
     img {
       vertical-align: top;
@@ -23,7 +24,7 @@
     right: $sidebar-padding;
     color: $half-grey;
     text-align: right;
-    z-index: $z-panel-avatar;
+    z-index: $z-panel;
   }
 
   .user, .img {

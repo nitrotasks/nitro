@@ -32,14 +32,113 @@ body .settings {
 
 .pane {
   display: none;
-  z-index: $z-settings+1;
+  z-index: $z-settings - 1;
   @include pos(0, 0, 0, $sidebar-width + $sidebar-padding*2);
   background: $light-grey;
+  padding: 0 20px;
+
+  .title {
+    font-size: 30px;
+    font-weight: 300;
+    letter-spacing: -1px;
+    color: $dark-grey;
+    margin: $sidebar-padding 0;
+  }
 
   & > div {
     display: none;
   }
   .current {
     display: block;
+  }
+}
+
+.control {
+  border-bottom: 1px solid $mid-grey;
+  padding: 15px 0;
+
+  &:first-child {
+    border-top: 1px solid $mid-grey;
+  }
+}
+
+$radio_height: 30px;
+.radio-button {
+
+  //offset the radio outline
+  top: 2px;
+  height: $radio_height;
+  position: relative;
+  display: inline-block;
+
+  input[type='radio'] {
+    @include pos(0, 0, 0, 0);
+    width:100%;
+    background: $light-grey;
+    color: $dark-grey;
+    -webkit-appearance: none;
+    height: 100%;
+    z-index: $z-settings+2;
+    outline: 2px solid $mid-grey;
+
+    &:hover {
+      background: lighten($mid-grey, 10);
+    }
+
+    &:checked, &:active {
+      outline: 2px solid $dark-grey;
+      background: $dark-blue;
+      z-index: $z-settings+3;
+    }
+    &:checked + label, &:active + label {
+      color: $white;
+    }
+  }
+  label {
+    text-align: center;
+    line-height: $radio_height;
+    text-transform: uppercase;
+    font-size: 13px;
+    position: relative;
+    padding: 0 20px;
+    z-index: $z-settings+4;
+  }
+}
+
+.left-label {
+  width: 200px;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  vertical-align: top;
+  display: inline-block;
+  line-height: $radio_height + 4px;
+  color: $dark-grey;
+  letter-spacing: -0.8px;
+}
+
+select {
+  vertical-align: top;
+  margin: 5px 0;
+}
+
+button {
+  height: $radio_height + 4px;
+  background: $light-grey;
+  border: 2px solid $mid-grey;
+  color: $dark-grey;
+  font-size: 13px;
+  padding: 0 20px;
+  text-transform: uppercase;
+
+  &.clear-data, &.export-data {
+    color: $white;
+    border-color: $dark-grey;
+  }
+  &.clear-data {
+    background: $red;
+  }
+  &.export-data {
+    background: $dark-green;
   }
 }
