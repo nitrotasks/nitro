@@ -3,15 +3,55 @@ Setting   = require '../models/setting'
 event     = require '../utils/event'
 languages = require '../languages/languages'
 
+# Lookup array to get a text ID
 lookup = languages.default
 
-###
-  Currently the app can only be translated once, as the original text
-  is lost after translation.
-  We could fix this by storing the original text on the element.
-###
+# WARNING: Temporary Placeholder for translate instance
+translate =
+  convert: ->
+    throw new Error 'Translations not ready'
 
 class Translate
+
+  @loaded = false
+
+  ###*
+   * - text (Object) : Must be an array or an object
+  ###
+
+  @bind: (text, alreadyBound) =>
+
+    # Strings don't get auto updating magic
+    if @loaded and typeof text is 'string'
+      return translate.convert text
+
+    # If we have already loaded a language,
+    # then convert the text straight away
+    if @loaded
+
+      if Array.isArray text
+
+        if text.__original
+          arr = text.__original
+        else
+          text.__original = text.slice()
+          arr = text
+
+        for item, i in arr
+          text[i] = translate.convert item
+
+      else
+        for key, val of text
+          text[key] = translate.convert val
+
+    # Automatically reconvert text when the language changes
+    if not alreadyBound
+
+      event.on 'load:language', =>
+        @bind text, true
+
+    return text
+
 
   constructor: () ->
     Setting.on 'change:language', @setLanguage
@@ -19,6 +59,7 @@ class Translate
   setLanguage: (@language) =>
     @dictionary = languages[@language] || {}
     @elements()
+    Translate.loaded = true
     event.trigger 'load:language'
 
   elements: =>
@@ -66,26 +107,9 @@ class Translate
     id = @id text
     if @exists id
       return @dictionary[id]
-    console.log 'NO TRANSLATION', text
     return text
 
-# WARNING: Temporary Placeholder for translate instance
-translate =
-  convert: ->
-    throw new Error 'Translations not ready'
-
-module.exports = (text) ->
-
-  if Array.isArray(text)
-    translate.convert t for t in text
-
-  else if typeof text is 'object'
-    for k, v of text
-      text[k] = translate.convert v
-    text
-
-  else
-    translate.convert(text)
+module.exports = Translate.bind
 
 module.exports.init = ->
   translate = new Translate()

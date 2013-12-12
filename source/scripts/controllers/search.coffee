@@ -2,14 +2,11 @@ Base  = require 'base'
 List  = require '../models/list'
 Task  = require '../models/task'
 event = require '../utils/event'
-Translate = require '../utils/translate'
+translate = require '../utils/translate'
 
-text = {}
-
-event.on 'load:language', ->
-  text = Translate
-    all: 'All Tasks'
-    completed: 'Completed'
+text = translate
+  all: 'All Tasks'
+  completed: 'Completed'
 
 class Search
 

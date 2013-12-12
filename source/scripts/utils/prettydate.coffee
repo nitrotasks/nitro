@@ -1,14 +1,10 @@
 translate = require '../utils/translate'
-event = require '../utils/event'
 
-month = []
-
-event.on 'load:language', ->
-  month = translate [
-    'Jan', 'Feb', 'Mar', 'Apr',
-    'May', 'Jun', 'Jul', 'Aug',
-    'Sep', 'Oct', 'Nov', 'Dec'
-  ]
+month = translate [
+  'Jan', 'Feb', 'Mar', 'Apr',
+  'May', 'Jun', 'Jul', 'Aug',
+  'Sep', 'Oct', 'Nov', 'Dec'
+]
 
 module.exports = (date) ->
 

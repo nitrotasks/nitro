@@ -1,14 +1,9 @@
 translate = require '../utils/translate'
-event = require '../utils/event'
 
-text = {}
-
-event.on 'load:language', ->
-
-  text = translate
-    notes:     'Notes'
-    date:      'Due Date'
-    checkbox:  'Mark as completed'
+text = translate
+  notes:     'Notes'
+  date:      'Due Date'
+  checkbox:  'Mark as completed'
 
 tags = (text) ->
   return unless text
