@@ -11,6 +11,14 @@ translate =
   convert: ->
     throw new Error 'Translations not ready'
 
+clone = (obj) ->
+  if Array.isArray obj
+    return obj.slice()
+  copy = {}
+  for key, value of obj
+    copy[key] = value
+  return copy
+
 class Translate
 
   @loaded = false
@@ -29,19 +37,19 @@ class Translate
     # then convert the text straight away
     if @loaded
 
+      if text.__original
+        obj = text.__original
+      else
+        text.__original = clone text
+        obj = text
+
       if Array.isArray text
 
-        if text.__original
-          arr = text.__original
-        else
-          text.__original = text.slice()
-          arr = text
-
-        for item, i in arr
+        for item, i in obj
           text[i] = translate.convert item
 
       else
-        for key, val of text
+        for key, val of obj
           text[key] = translate.convert val
 
     # Automatically reconvert text when the language changes

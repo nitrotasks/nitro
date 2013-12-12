@@ -102,7 +102,7 @@ class App
     if List.exists('inbox') is false
       List.create
         id: 'inbox'
-        name: translate 'Inbox'
+        name: 'Inbox'
         permanent: yes
 
     # Show inbox
