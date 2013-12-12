@@ -2,6 +2,14 @@ Base  = require 'base'
 List  = require '../models/list'
 Task  = require '../models/task'
 event = require '../utils/event'
+Translate = require '../utils/translate'
+
+text = {}
+
+event.on 'load:language', ->
+  text = Translate
+    all: 'All Tasks'
+    completed: 'Completed'
 
 class Search
 
@@ -14,7 +22,7 @@ class Search
   searchAll: (query) =>
 
     List.trigger 'select:model',
-      name: 'All Tasks'
+      name: text.all
       id: 'search'
       type: 'active'
       permanent: yes
@@ -23,7 +31,7 @@ class Search
   searchCompleted: (query) =>
 
     List.trigger 'select:model',
-      name: 'Completed'
+      name: text.completed
       id: 'search'
       type: 'completed'
       permanent: yes
