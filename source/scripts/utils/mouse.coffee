@@ -9,12 +9,14 @@ Mouse = require 'mouse'
 mouse = new Mouse
   parent: 'section.tasks'
   query: '.task'
-  offsetY: -31
-  offsetX: 0
-  helper: (elements) ->
-    length = elements.length
-    return "Moving #{ length } task#{ if length > 1 then 's' else ''}"
-
+  select: true
+  sort: true
+  drag:
+    offsetY: -31
+    offsetX: 0
+    helper: (elements) ->
+      length = elements.length
+      return "Moving #{ length } task#{ if length > 1 then 's' else ''}"
 
 ###*
  * DROPPABLES
