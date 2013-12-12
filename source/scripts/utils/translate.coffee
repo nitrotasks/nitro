@@ -40,8 +40,7 @@ class Translate
       if text.__original
         obj = text.__original
       else
-        text.__original = clone text
-        obj = text
+        obj = text.__original = clone text
 
       if Array.isArray text
 
