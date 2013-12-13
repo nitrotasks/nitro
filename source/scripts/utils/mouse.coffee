@@ -1,4 +1,5 @@
 Mouse = require 'mouse'
+List = require '../models/list'
 
 
 ###*
@@ -51,6 +52,10 @@ tasks.on 'sort', (items, position) ->
     collection.move item.task, position, true
 
   collection.reindex()
+
+lists.on 'sort', (item, position) ->
+  List.move item[0].list, position
+
 
 ###*
  * MENU ITEMS
