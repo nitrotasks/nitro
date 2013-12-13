@@ -12,11 +12,11 @@ lists = new Mouse
   select: false
   sort: true
   drag:
+    className: 'lists'
     offsetY: -31
     offsetX: 0
-    helper: (elements) ->
-      length = elements.length
-      return "Moving #{ length } list#{ if length > 1 then 's' else ''}"
+    helper: (element) ->
+      return element[0].getElementsByClassName('name')[0].innerText
 
 tasks = new Mouse
   parent: 'section.tasks'
@@ -24,11 +24,12 @@ tasks = new Mouse
   select: true
   sort: true
   drag:
+    className: 'tasks'
     offsetY: -31
     offsetX: 0
     helper: (elements) ->
       length = elements.length
-      return "Moving #{ length } task#{ if length > 1 then 's' else ''}"
+      return "Moving #{ length } list#{ if length > 1 then 's' else ''}"
 
 ###*
  * DROPPABLES
