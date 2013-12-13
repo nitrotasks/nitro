@@ -109,7 +109,7 @@ class Tasks extends Base.View
 
       @ui.message.text @template.message.special
       if list.query? then @ui.input.val list.query
-      @toggleSearch list.type
+      @toggleSearch list
 
       # toggleSearch will display the results for us
       return
@@ -265,7 +265,8 @@ class Tasks extends Base.View
     @ui.input.attr 'placeholder', message
 
   updateSearchResults: (disableAnimation=yes) =>
-    results = Task.search @ui.input.val(), @search
+    results = Task.search @ui.input.val(), @search.type
+    if @search.sort then results = Task.sort results
     @displayTasks results, disableAnimation
     @el.toggleClass 'empty', results.length is 0
 
