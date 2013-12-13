@@ -10,7 +10,7 @@ class ListItem extends Base.View
     count: '.count'
 
   events: Base.touchify
-    mousedown: 'mousedown'
+    mouseup: 'mouseup'
 
   constructor: ->
     super
@@ -41,7 +41,9 @@ class ListItem extends Base.View
 
     return this
 
-  mousedown: (e) =>
+  mouseup: (e) =>
+    if Mouse.lists.isMoving()
+      return
     @open()
 
   # Override this method in special lists

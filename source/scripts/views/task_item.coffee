@@ -48,7 +48,7 @@ class TaskItem extends Base.View
 
   # Expand the task
   expand: (e) =>
-    if Mouse.isMoving() or @el[0].selected
+    if Mouse.tasks.isMoving() or @el[0].selected
       return
     if e.ctrlKey or e.metaKey
       return
