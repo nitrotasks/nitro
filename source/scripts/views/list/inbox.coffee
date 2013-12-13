@@ -18,7 +18,7 @@ class ListInbox extends ListItem
 
     # Make droppable
     @el[0].list = @list
-    Mouse.addDrop @el[0]
+    Mouse.tasks.addDrop @el[0]
 
     @list.name = text.inbox
 

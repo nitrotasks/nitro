@@ -59,7 +59,7 @@ class Lists extends Base.View
     Lists.active = list
 
     # Clear the currently selected tasks
-    Mouse.clearSelection()
+    Mouse.tasks.clearSelection()
 
     # Clear the currently selected list
     @el

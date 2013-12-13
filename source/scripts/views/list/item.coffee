@@ -37,7 +37,7 @@ class ListItem extends Base.View
     # Set up droppable handler
     el = @el[0]
     el.list = @list
-    @drop = Mouse.addDrop(el)
+    @drop = Mouse.tasks.addDrop(el)
 
     return this
 

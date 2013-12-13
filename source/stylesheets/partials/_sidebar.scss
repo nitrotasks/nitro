@@ -77,6 +77,11 @@
   //    ## INDIVIDUAL LIST ITEMS
   // --------------------------------------------------------------------------
 
+  .placeholder {
+    height: 36px;
+    background: lighten($sidebar-color, 10);
+  }
+
   .list {
 
     position: relative;

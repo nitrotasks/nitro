@@ -5,8 +5,19 @@ Mouse = require 'mouse'
  * SELECT BOX + DRAGGABLE
 ###
 
+lists = new Mouse
+  parent: 'ul.lists'
+  query: '.list'
+  select: false
+  sort: true
+  drag:
+    offsetY: -31
+    offsetX: 0
+    helper: (elements) ->
+      length = elements.length
+      return "Moving #{ length } list#{ if length > 1 then 's' else ''}"
 
-mouse = new Mouse
+tasks = new Mouse
   parent: 'section.tasks'
   query: '.task'
   select: true
@@ -22,7 +33,7 @@ mouse = new Mouse
  * DROPPABLES
 ###
 
-mouse.on 'drop', (elements, zone) ->
+tasks.on 'drop', (elements, zone) ->
   list = zone.list
   for el in elements
     el.task.list().moveTask(el.task, list)
@@ -32,7 +43,7 @@ mouse.on 'drop', (elements, zone) ->
  * SORTABLE
 ###
 
-mouse.on 'sort', (items, position) ->
+tasks.on 'sort', (items, position) ->
 
   collection = items[0].task.collection
 
@@ -45,7 +56,7 @@ mouse.on 'sort', (items, position) ->
  * MENU ITEMS
 ###
 
-mouse.addMenu [
+tasks.addMenu [
 
   delete: 'Delete'
 ,
@@ -57,25 +68,29 @@ mouse.addMenu [
 
 ], fadeOut: 300
 
-mouse.on 'menu:delete', (items) ->
+tasks.on 'menu:delete', (items) ->
   for item in items
     item.task.destroy()
 
-mouse.on 'menu:low', (items) ->
+tasks.on 'menu:low', (items) ->
   for item in items
     item.task.priority = 1
 
-mouse.on 'menu:med', (items) ->
+tasks.on 'menu:med', (items) ->
   for item in items
     item.task.priority = 2
 
-mouse.on 'menu:high', (items) ->
+tasks.on 'menu:high', (items) ->
   for item in items
     item.task.priority = 3
 
-mouse.on 'menu:complete', (items) ->
+tasks.on 'menu:complete', (items) ->
   for item in items
     item.task.completed = Date.now()
 
-
-module.exports = mouse
+module.exports =
+  init: ->
+    lists.init()
+    tasks.init()
+  lists: lists
+  tasks: tasks
