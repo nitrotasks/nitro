@@ -94,7 +94,7 @@
     }
   }
   /* Sidebar */
-  .sidebar {
+  .sidebar, body .settings .menu {
     background: darken($sidebar-color, 8);
     .list {
       &:hover {
@@ -104,6 +104,41 @@
         background-color: darken($sidebar-color, 12);
       }
     }
+  }
+  /* Settings */
+  .pane {
+    background: $sidebar-color;
+  }
+  .about-logo {
+    h2 {
+      color: $white;
+    }
+    .copyright {
+      color: $mid-grey;
+    }
+  }
+  .left-label, .about, .pane .title{
+    color: $light-grey;
+  }
+  .blurb {
+    border-color: darken($sidebar-color, 7);
+  }
+  .about a {
+    color: $light-blue;
+  }
+  .radio-button label {
+    background: darken($sidebar-color, 4);
+    color: $light-grey;
+    outline-color: darken($sidebar-color, 8);
+  }
+  .radio-button input[type='radio']:hover + label {
+    background: darken($sidebar-color, 6);
+  }
+  .radio-button input[type='radio']:checked + label, .radio-button input[type='radio']:active + label {
+    outline-color: darken($sidebar-color, 12);
+  }
+  button.clear-data, button.export-data {
+    border-color: darken($sidebar-color, 8);
   }
 }
 
