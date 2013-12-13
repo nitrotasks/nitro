@@ -101,6 +101,7 @@ class TaskSingleton extends Base.Collection
       return true
 
   sort: (tasks) =>
+    return unless tasks
     tasks.sort (a, b) ->
 
       # If logged, move to bottom
