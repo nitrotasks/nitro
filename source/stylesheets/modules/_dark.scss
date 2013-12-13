@@ -120,8 +120,8 @@
   .left-label, .about, .pane .title{
     color: $light-grey;
   }
-  .blurb {
-    border-color: darken($sidebar-color, 7);
+  .blurb, .control, .control:first-child {
+    border-color: darken($sidebar-color, 5);
   }
   .about a {
     color: $light-blue;
