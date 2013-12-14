@@ -4,4 +4,12 @@
   background-color: $sidebar-color;
   background-size: 100px;
   z-index: $z-loading;
+  color: $white;
+
+  noscript {
+    text-align: center;
+    position: absolute;
+    top: 62%;
+    width: 100%;
+  }
 }

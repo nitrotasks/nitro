@@ -136,6 +136,7 @@
   }
   .radio-button input[type='radio']:checked + label, .radio-button input[type='radio']:active + label {
     outline-color: darken($sidebar-color, 12);
+    background: $dark-blue;
   }
   button.clear-data, button.export-data {
     border-color: darken($sidebar-color, 8);
