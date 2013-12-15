@@ -71,9 +71,13 @@ class ExpandedTaskItem extends Base.View
     @ui.dateWrap.datepicker 'option',
       firstDay: setting.weekStart
       dateFormat: setting.dateFormat
+      onSelect: =>
+        @datesSave()
 
     if @task.date
-      @ui.dateWrap.datepicker('setDate', @task.date)
+      @ui.dateWrap.datepicker 'option',
+        altField: @ui.date
+      @ui.dateWrap.datepicker('setDate', new Date(@task.date))
 
   # Delete Button
   remove: =>
@@ -173,6 +177,8 @@ class ExpandedTaskItem extends Base.View
   datesOpen: (e) =>
     @ui.dateCont.addClass('show')
     @ui.dateWrap.css {top: ($($(e.currentTarget).parents().get(1)).position().top) + 50}
+    @ui.dateWrap.datepicker 'option',
+      altField: @ui.date
 
   datesSave: =>
 
