@@ -25,11 +25,13 @@ class Tasks extends Base.View
     input: '.task-input'
     message: '.message'
     entrance: '.entrance'
+    datepickerwrap: '.datepicker-wrapper'
 
   events: Base.touchify
     'click': 'collapseOnClick'
     'keydown .task-input': 'keydown'
     'keyup .task-input': 'keyup'
+    'click .datepicker-wrapper': 'hideDatepicker'
 
   constructor: ->
     super
@@ -41,6 +43,9 @@ class Tasks extends Base.View
     @currentTask = null
     @search = no # all, active, completed
 
+    # It's one line of code George, don't hate.
+    $(".datepicker-container").datepicker()
+
     @listen [
       Task,
         'refresh': @refresh
@@ -51,6 +56,10 @@ class Tasks extends Base.View
         'change:sort': @refresh
     ]
 
+  # Datepicker
+  hideDatepicker: (e, opts) =>
+    if opts is true or !$.contains(this, e.target)
+      @ui.datepickerwrap.removeClass 'show'
 
   # ---------------------------------------------------------------------------
   # TASK EVENTS
@@ -66,7 +75,6 @@ class Tasks extends Base.View
   # Remove event listeners
   releaseTask: (view) =>
     view.off 'select'
-
 
   # ---------------------------------------------------------------------------
   # DISPLAYING TASKS
@@ -96,6 +104,8 @@ class Tasks extends Base.View
 
   # Display a list of tasks
   render: (list, animated=false) =>
+
+    @hideDatepicker(null, true)
 
     # HANDLE ANIMATIONS
     if not animated

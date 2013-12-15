@@ -30,6 +30,7 @@ class ExpandedTaskItem extends Base.View
     'keypress .input-name'       : 'endEditOnEnter'
     'focus .notes'               : 'notesEdit'
     'blur .notes'                : 'notesSave'
+    'click .input-date'          : 'datesOpen'
     'change .input-date'         : 'datesSave'
     'mousedown': 'mousedown'
 
@@ -54,6 +55,8 @@ class ExpandedTaskItem extends Base.View
     @el[0].task = @task
     @expanded = false
 
+    @ui.dateCont = $(".datepicker-wrapper")
+    @ui.dateWrap = $(".datepicker-container")
     @setupDatepicker()
 
     @listen @task,
@@ -65,12 +68,12 @@ class ExpandedTaskItem extends Base.View
 
   setupDatepicker: =>
 
-    @ui.date.datepicker
+    @ui.dateWrap.datepicker 'option',
       firstDay: setting.weekStart
       dateFormat: setting.dateFormat
 
     if @task.date
-      @ui.date.datepicker('setDate', @task.date)
+      @ui.dateWrap.datepicker('setDate', @task.date)
 
   # Delete Button
   remove: =>
@@ -167,10 +170,14 @@ class ExpandedTaskItem extends Base.View
   # DATES
   # ---------------------------------------------------------------------------
 
+  datesOpen: (e) =>
+    @ui.dateCont.addClass('show')
+    @ui.dateWrap.css {top: ($($(e.currentTarget).parents().get(1)).position().top) + 30}
+
   datesSave: =>
 
     if @ui.date.val().length
-      @task.date = @ui.date.datepicker('getDate').getTime()
+      @task.date = @ui.dateWrap.datepicker('getDate').getTime()
 
     else
       @task.date = null
