@@ -141,6 +141,20 @@
   button.clear-data, button.export-data {
     border-color: darken($sidebar-color, 8);
   }
-}
 
+  /* jQuery UI */
+  .ui-widget-content {
+    background: darken($sidebar-color, 8);
+    color: $white;
+  }
+  .ui-widget-content a {
+    color: $white;
+  }
+  .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
+    background: $sidebar-color;
+  }
+  .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+    background: $dark-blue;
+  }
+}
 }

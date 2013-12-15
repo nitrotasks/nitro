@@ -1,6 +1,5 @@
 // Vendor
 @import "./vendor/_normalize";
-@import "./vendor/_jqueryui";
 
 // Mixins
 @import "./mixins/_all_mixins";
@@ -27,6 +26,9 @@
 @import "./modules/_sortable";
 @import "./modules/_spinner";
 @import "./modules/_type";
+
+// Define the variables
+@import "./vendor/_jqueryui";
 
 // Partials
 @import "./partials/_auth";

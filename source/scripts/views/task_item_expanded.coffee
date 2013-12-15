@@ -172,7 +172,7 @@ class ExpandedTaskItem extends Base.View
 
   datesOpen: (e) =>
     @ui.dateCont.addClass('show')
-    @ui.dateWrap.css {top: ($($(e.currentTarget).parents().get(1)).position().top) + 30}
+    @ui.dateWrap.css {top: ($($(e.currentTarget).parents().get(1)).position().top) + 50}
 
   datesSave: =>
 
