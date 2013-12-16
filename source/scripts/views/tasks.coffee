@@ -286,6 +286,7 @@ class Tasks extends Base.View
   # ------------------
 
   collapse: =>
+    @hideDatepicker(null, true)
     @currentTask.collapse() if @currentTask
 
   # Collapsing of tasks
