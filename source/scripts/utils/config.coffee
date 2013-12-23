@@ -1,13 +1,13 @@
 
 servers = {
   official:  'sync.nitrotasks.com:443'
-  localhost: 'localhost:8080'
+  dev:       'localhost:8080'
 }
 
 # Set active server
-active = servers.official
+active = servers.dev
 
 module.exports =
   sync:   active
-  server: active + '/api'
+  server: active
   email:  active + '/email'
