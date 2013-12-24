@@ -142,6 +142,29 @@
     border-color: darken($sidebar-color, 8);
   }
 
+  /* Auth */
+  .auth {
+    background: $sidebar-color;
+
+    .group {
+      border-color: darken($sidebar-color, 10);
+      background: darken($sidebar-color, 8);
+    }
+    .about {
+      h1 {
+        color: $white;
+      }
+    }
+    .auth-name, .auth-password, .auth-email, button.offline {
+      background-color: darken($sidebar-color, 4);
+      border-color: darken($sidebar-color, 10);
+      color: $white;
+    }
+    button.offline:hover {
+      background-color: darken($sidebar-color, 6);
+    }
+  }
+
   /* jQuery UI */
   .ui-widget-content {
     background: darken($sidebar-color, 8);

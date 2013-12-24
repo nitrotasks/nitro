@@ -14,14 +14,14 @@
   overflow-y: auto;
   @extend %smoothScroll;
 
-  $container-width: 620px;
+  $container-width: 300px;
   $contents-margin: 30px;
 
   /* Container to position content in the center of the page */
   .group {
     width: $container-width + $contents-margin;
-    margin: 50px auto 40px;
-    padding: 30px;
+    margin: 40px auto 40px;
+    padding: 20px 30px 30px;
     border: 1px solid $mid-grey;
     background: $white;
   }
@@ -31,29 +31,17 @@
   // --------------------------------------------------------------------------
 
   .about {
-    width: $container-width / 2;
-    float: left;
-    margin-right: $contents-margin;
-
-    img {
-      display: inline-block;
-    }
+    margin: 0 14px;
 
     h1 {
       display: inline-block;
       vertical-align: top;
-      margin: 0 20px;
-      line-height: 128px;
+      font-weight:300;
+      font-size: 62px;
+      margin: 20px 12px;
+      letter-spacing:-3px;
+      color: $black;
     }
-
-    p {
-      max-width: 400px;
-      margin: 25px auto;
-      font-size: 16px;
-      line-height: 1.5;
-      color: $dark-grey;
-    }
-
   }
 
   // --------------------------------------------------------------------------
@@ -62,12 +50,10 @@
 
   .form {
     font-size: 16px;
-    float: right;
-    width: $container-width / 2;
+    width: 100%;
     display: inline-block;
     vertical-align: top;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
+    @include vendor(box-sizing, border-box);
   }
 
   // --------------------------------------------------------------------------
