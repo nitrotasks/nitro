@@ -18,7 +18,7 @@ Setting = require '../models/setting'
 User    = require '../models/user'
 
 # Controllers
-# Sync          = require # '../controllers/sync'
+Sync          = require # '../controllers/sync'
 # Pro           = require # '../controllers/pro'
 Auth          = require '../controllers/auth'
 Search        = require '../controllers/search'

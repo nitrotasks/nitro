@@ -1,7 +1,11 @@
-Base     = require 'base'
-SocketIo = require '../vendor/socket.io.js'
-Event    = require '../utils/event'
-config   = require '../utils/config'
+Base   = require 'base'
+Jandal = require 'jandal'
+SockJS = require '../vendor/sockjs'
+event  = require '../utils/event'
+config = require '../utils/config'
+User   = require '../models/user'
+
+Jandal.handle 'sockjs'
 
 # TODO: Where should we put this?
 # Event.on 'auth:token', Sync.connnect
@@ -23,19 +27,19 @@ Sync =
   queue: JSON.parse localStorage.Queue or '[]'
 
   connect: (uid, token, fn) ->
-    @socket = SocketIo.connect("http://#{
-      config.sync }/?token=#{  token  }&uid=#{ uid }")
+    @connection = new SockJS "http://#{ config.sync }"
+    @socket = new Jandal(@connection)
 
-    # Handle offline modes
-    for event in ['error', 'disconnect', 'connect_failed']
-      Event.trigger 'sync:disconnected'
-      @socket.on event, Sync.goOffline
+    @connection.onclose = (code, reason) =>
+      console.log 'socket closed', code, reason
+      event.trigger 'sync:disconnected'
+      @goOffline()
 
-    @socket.on 'connect', =>
+    @connection.onopen = =>
       @online = yes
       @bindEvents()
       @sync()
-      Event.trigger 'sync:connected'
+      event.trigger 'sync:connected'
       if fn then fn()
 
   bindQueue: []
@@ -83,21 +87,17 @@ Sync =
   disable: (callback) ->
     if @enabled
       @enabled = no
-      try
-        do callback
-      catch e
-        throw e
-      finally
-        @enabled = yes
+      callback()
+      @enabled = yes
     else
-      do callback
+      callback()
 
   # Fetch the user info from the server
   updateInfo: ->
     @emit 'info', null, (info) ->
-      Setting.set('user_name', info.name)
-      Setting.set('user_email', info.email)
-      Setting.set('pro', info.pro)
+      User.name = info.name
+      User.email = info.email
+      User.pro = info.pro
 
   # Check an event, and if it is a model update add it to the queue
   # TODO: Add optimization for duplicate events with timestamps
@@ -257,17 +257,18 @@ class Collection
 
   constructor: (@model) ->
 
+    className = @model.className
+
     # Register with sync
-    Sync.models[@model.className] = @model
+    Sync.models[className] = @model
 
     # Set up bindings for server events
 
     Sync.on 'create', (data) =>
       console.log '(Sync) create ->', data
       [className, item] = data
-      if className is @model.className
-        Sync.disable =>
-          @model.create item
+      if className is className
+        Sync.disable => @model.create item
 
     Sync.on 'update', (data) =>
       console.log '(Sync) update ->', data
@@ -337,37 +338,26 @@ Extend =
 # Extend Model
 # ------------
 
-class Sync.Collection extends Base.Collection
+class Sync
 
-  constructor: ->
-    super
+  constructor: (@model) ->
     # @bind 'change', @syncChange
     # @bind 'updateAttr', @syncUpdate
-    @on 'fetch', @fetch
-    @on 'save:model create:model change:model remove:model', @save
+    @model.on 'fetch', @fetch
+    @model.on 'save:model create:model change:model remove:model', @save
 
-  syncFetch: =>
-    @loadLocal()
+  fetch: =>
+    console.log 'fetching', arguments
     # @sync()#.fetch(arguments...)
 
-  syncChange: (record, type, options = {}) ->
+  change: (record, type, options = {}) ->
     # Update events are handled by syncUpdate
     return if type is 'update'
-    @saveLocal()
     return if options.sync is off
     record.sync()[type](options.sync, options)
 
-  syncUpdate: (record, key, value, old, options) ->
+  update: (record, key, value, old, options) ->
     return if options.sync is off
     record.sync().update.apply(this, arguments)
-
-  fetch: =>
-    result = JSON.parse localStorage[@className] or '[]'
-    console.log 'loading', @className, result
-    @refresh result, true
-
-  save: =>
-    console.log '[' + @className + ']', 'saving', arguments
-    localStorage[@className] = JSON.stringify @toJSON()
 
 module.exports = Sync

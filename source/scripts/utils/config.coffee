@@ -8,6 +8,6 @@ servers = {
 active = servers.dev
 
 module.exports =
-  sync:   active
   server: active
+  sync:   active + '/socket'
   email:  active + '/email'
