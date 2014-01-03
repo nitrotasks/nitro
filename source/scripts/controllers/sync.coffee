@@ -252,6 +252,7 @@ Sync =
     Setting.trigger('offline')
     Sync.online = no
 
+
 # Control all records in the model
 class Collection
 
@@ -265,17 +266,8 @@ class Collection
     # Set up bindings for server events
 
     Sync.on 'create', (data) =>
-      console.log '(Sync) create ->', data
-      [className, item] = data
-      if className is className
-        Sync.disable => @model.create item
 
     Sync.on 'update', (data) =>
-      console.log '(Sync) update ->', data
-      [className, item] = data
-      if className is @model.className
-        Sync.disable =>
-          @model.find(item.id).updateAttributes(item)
 
     Sync.on 'destroy', (data) =>
       console.log '(Sync) delete ->', data
@@ -294,8 +286,6 @@ class Collection
   fetch: (params = {}, options = {}) ->
     @all params, (records) =>
       @model.refresh(records, options)
-
-  # Private
 
   # Fired when records data is returned
   recordsResponse: (data) =>
@@ -327,16 +317,11 @@ class Singleton
   destroy: (params, options) ->
     Sync.emit 'destroy', [@model.className, @record.id]
 
-Include =
-  sync: -> new Singleton(this)
-
-Extend =
-  sync: -> new Collection(this)
 
 
-# ------------
-# Extend Model
-# ------------
+# -----------------------------------------------------------------------------
+# Attach to model instance
+# -----------------------------------------------------------------------------
 
 class Sync
 
@@ -345,6 +330,12 @@ class Sync
     # @bind 'updateAttr', @syncUpdate
     @model.on 'fetch', @fetch
     @model.on 'save:model create:model change:model remove:model', @save
+    @socket = Sync.socket.namespace @model.className
+
+    @socket.on 'create', @sync_create
+    @socket.on 'update', @sync_update
+    @socket.on 'destroy', @sync_destroy
+
 
   fetch: =>
     console.log 'fetching', arguments
@@ -359,5 +350,16 @@ class Sync
   update: (record, key, value, old, options) ->
     return if options.sync is off
     record.sync().update.apply(this, arguments)
+
+  sync_create: (item) =>
+    console.log '(Sync) create ->', item
+    Sync.disable => @model.create item
+
+  sync_update: (item) =>
+    console.log '(Sync) update ->', data
+    Sync.disable => @model.find(item.id).setAttributes(item)
+  sync_destroy: ->
+
+
 
 module.exports = Sync
