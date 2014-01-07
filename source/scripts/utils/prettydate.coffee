@@ -11,7 +11,7 @@ module.exports = (date) ->
   if date not instanceof Date
     return {
       words: ''
-      className: ''
+      classname: ''
     }
 
   # Create Date
@@ -23,7 +23,7 @@ module.exports = (date) ->
   difference = Math.ceil((date.getTime() - now.getTime()) / oneDay)
 
   words = ''
-  className = ''
+  classname = ''
 
   ###
 
@@ -40,7 +40,7 @@ module.exports = (date) ->
   if difference is -1
     # Yesterday
     words = translate 'yesterday'
-    className = 'overdue'
+    classname = 'overdue'
 
   else if difference < -1
     # Overdue
@@ -48,17 +48,17 @@ module.exports = (date) ->
     # Make sure the difference is a positive number
     difference = Math.abs difference
     words = difference + ' ' + translate 'days ago'
-    className = 'overdue'
+    classname = 'overdue'
 
   else if difference is 0
     # Due Today
     words = translate 'today'
-    className = 'due'
+    classname = 'due'
 
   else if difference is 1
     # Due Tomorrow
     words = translate 'tomorrow'
-    className = 'soon'
+    classname = 'soon'
 
   else if difference < 15
     # Due in the next 15 days
@@ -69,5 +69,5 @@ module.exports = (date) ->
 
   return {
     words: words
-    className: className
+    classname: classname
   }

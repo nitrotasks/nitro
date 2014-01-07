@@ -21,4 +21,4 @@ class CollectionSync
   onupdate: ->
   ondestroy: ->
 
-
+module.exports = CollectionSync

@@ -10,11 +10,15 @@ class Queue
   constructor: ->
     @queue = JSON.parse localStorage[CLASSNAME] or '[]'
 
+  save: =>
+    localStorage[CLASSNAME] = JSON.stringify @queue
+
   clear: ->
     @queue = []
     @save()
 
-  push: (event, arg1, arg2, arg3) ->
+  push: ([type, event]) =>
+    console.log arguments
     if event in [CREATE, UPDATE, DESTROY]
       now = Date.now()
       if event is UPDATE
@@ -22,8 +26,9 @@ class Queue
         time[key] = now for own key of arg1 when key isnt 'id'
       else
         time = now
-    @queue.push [item, arg1, arg2, arg3, time]
-    @optimize()
+      @queue.push arguments
+      @save()
+    # @optimize()
 
   # Merges events together to make syncing faster
   # create + update = create
@@ -36,21 +41,21 @@ class Queue
 
     # Sort events into groups by item ID
     for event in @queue
-      [type, [className, model], time] = event
+      [type, [classname, model, time]] = event
       switch type
         when 'create', 'update' then item = model
         when 'destroy' then item = {id: model}
 
-      if not models.hasOwnProperty className
-        models[className] = {}
+      if not models.hasOwnProperty classname
+        models[classname] = {}
 
-      if not models[className].hasOwnProperty(item.id)
-        models[className][item.id] = []
+      if not models[classname].hasOwnProperty(item.id)
+        models[classname][item.id] = []
 
-      models[className][item.id].push event
+      models[classname][item.id].push event
 
     # Loop through each model e.g. Task and List
-    for className, items of models
+    for classname, items of models
 
       # Loop through each item in that model
       for id, events of items
@@ -132,7 +137,7 @@ class Queue
 
           # Add update event(s)
           if section.update.length
-            queue.push ['update', [className, lastUpdate], timestamps]
+            queue.push ['update', [classname, lastUpdate], timestamps]
 
           # Add destroy events
           queue.push section.destroy if section.destroy
@@ -141,8 +146,5 @@ class Queue
     @queue = queue
     @save()
     true
-
-  @save: =>
-    localstorage[CLASSNAME] = JSON.stringify @queue
 
 module.exports = new Queue

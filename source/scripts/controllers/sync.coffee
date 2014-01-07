@@ -1,5 +1,5 @@
 Base           = require 'base'
-Jandal         = require 'jandal'
+Jandal         = require 'jandal/build/client'
 SockJS         = require 'sockjs'
 event          = require '../utils/event'
 config         = require '../utils/config'
@@ -8,7 +8,7 @@ User           = require '../models/user'
 CollectionSync = require './sync/collection'
 ModelSync      = require './sync/model'
 
-Jandal.handle 'socksjs'
+Jandal.handle 'sockjs'
 
 # -----------------------------------------------------------------------------
 # Sync Controller
@@ -30,13 +30,24 @@ Sync =
     console.log 'is online'
 
   namespace: (name) ->
-    ns = @socket.namespace(name)
+
+    console.log 'getting namespace', name
+    namespace = null
+
+    ns = ->
+      if namespace then return namespace
+      return namespace = Sync.socket.namespace(name)
+
     return {}=
+
       on: (event, fn) ->
-        if not @online then queue.push [event, fn]
-        ns.on event, fn
+        ns().on(event,fn)
+
       emit: (event, arg1, arg2, arg3) ->
-        ns.emit(event, arg1, arg2, arg3) if @enabled
+        if @enabled and @online and @socket
+          ns().emit(event, arg1, arg2, arg3)
+        else
+          queue.push [name, event, arg1, arg2, arg3]
 
   disable: (fn) ->
     if @enabled
@@ -83,9 +94,10 @@ Sync.include = (model) ->
   handler.ondestroy = (model, options) ->
     namespace.emit 'destroy', model.id
 
-  namespace.on 'create', handler.create
-  namespace.on 'update', handler.update
-  namespace.on 'destroy', handler.destroy
+  event.once 'sync:open', ->
+    namespace.on 'create', handler.create
+    namespace.on 'update', handler.update
+    namespace.on 'destroy', handler.destroy
 
   handler.listen()
 

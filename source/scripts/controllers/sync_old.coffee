@@ -121,14 +121,14 @@ Sync =
   exportData: (keys=['tasks', 'lists']) ->
     # Export local data to JSON
     output = {}
-    for className, model of @models
-      output[className] = model.toJSON()
+    for classname, model of @models
+      output[classname] = model.toJSON()
     JSON.stringify(output)
 
   importData: (obj) ->
     input = JSON.parse(obj)
-    for className, model of @models
-      model.refresh(input[className])
+    for classname, model of @models
+      model.refresh(input[classname])
 
   goOffline: ->
     console.error 'NitroSync: Couldn\'t connect to server'
@@ -141,10 +141,10 @@ class Collection
 
   constructor: (@model) ->
 
-    className = @model.className
+    classname = @model.classname
 
     # Register with sync
-    Sync.models[className] = @model
+    Sync.models[classname] = @model
 
     # Set up bindings for server events
 
@@ -154,14 +154,14 @@ class Collection
 
     Sync.on 'destroy', (data) =>
       console.log '(Sync) delete ->', data
-      [className, id] = data
-      if className is @model.className
+      [classname, id] = data
+      if classname is @model.classname
         Sync.disable =>
           @model.find(id).destroy()
 
   # Request a copy of all records on the server
   all: (params, callback) ->
-    Sync.emit 'fetch', @model.className, (data) =>
+    Sync.emit 'fetch', @model.classname, (data) =>
       @recordsResponse data
       callback data
 
@@ -185,7 +185,7 @@ class Singleton
     @model = @record.constructor
 
   create: (params, options) ->
-    Sync.emit 'create', [@model.className, @record.toJSON()], (id) =>
+    Sync.emit 'create', [@model.classname, @record.toJSON()], (id) =>
       Sync.disable =>
         @record.changeID(id)
 
@@ -195,10 +195,10 @@ class Singleton
       id: @record.id
     item[key] = val
     console.log '(Sync)', item
-    Sync.emit 'update', [@model.className, item]
+    Sync.emit 'update', [@model.classname, item]
 
   destroy: (params, options) ->
-    Sync.emit 'destroy', [@model.className, @record.id]
+    Sync.emit 'destroy', [@model.classname, @record.id]
 
 
 
@@ -213,7 +213,7 @@ class Sync
     # @bind 'updateAttr', @syncUpdate
     @model.on 'fetch', @fetch
     @model.on 'save:model create:model change:model remove:model', @save
-    @socket = Sync.socket.namespace @model.className
+    @socket = Sync.socket.namespace @model.classname
 
     @socket.on 'create', @sync_create
     @socket.on 'update', @sync_update

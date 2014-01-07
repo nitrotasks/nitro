@@ -26,7 +26,7 @@ module.exports = (task) ->
       }">#{
         if task.date
           date = task.prettyDate()
-          '<time class="' + date.className + '">' + date.words + '</time>'
+          '<time class="' + date.classname + '">' + date.words + '</time>'
         else
           '<time></time>'
       }</div>

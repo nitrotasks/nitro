@@ -3,7 +3,7 @@ class ModelSync
   constructor: (@model) ->
 
   listen: =>
-    @on 'change', @onupdate
+    @model.on 'change', @onupdate
 
   create: =>
 
@@ -17,4 +17,4 @@ class ModelSync
   onupdate: ->
   ondestroy: ->
 
-
+module.exports = ModelSync

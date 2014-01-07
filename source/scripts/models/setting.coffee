@@ -4,7 +4,7 @@ Local = require '../controllers/local'
 
 class Setting extends Base.Model
 
-  className: 'pref'
+  classname: 'pref'
 
   defaults:
 

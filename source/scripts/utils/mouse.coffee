@@ -12,7 +12,7 @@ lists = new Mouse
   select: false
   sort: true
   drag:
-    className: 'lists'
+    classname: 'lists'
     offsetY: -31
     offsetX: 0
     helper: (element) ->
@@ -24,7 +24,7 @@ tasks = new Mouse
   select: true
   sort: true
   drag:
-    className: 'tasks'
+    classname: 'tasks'
     offsetY: -31
     offsetX: 0
     helper: (elements) ->

@@ -9,7 +9,7 @@ $ = require 'jqueryify'
 # Utilities
 translate = require '../utils/translate'
 event     = require '../utils/event'
-# Mouse     = require '../utils/mouse'
+Mouse     = require '../utils/mouse'
 
 # Models
 Task    = require '../models/task'

@@ -66,7 +66,7 @@ class List extends Base.Model
 
 class ListCollection extends Base.Collection
 
-  className: 'list'
+  classname: 'list'
 
   model: List
 

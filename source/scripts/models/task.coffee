@@ -64,7 +64,7 @@ class TaskSingleton extends Base.Collection
 
   Collection: TaskCollection
 
-  className: 'task'
+  classname: 'task'
 
   model: Task
 

@@ -1,4 +1,4 @@
-Mouse = require '../../utils/mouse'
+# Mouse = require '../../utils/mouse'
 ListItem = require './item'
 List = require '../../models/list'
 translate = require '../../utils/translate'
@@ -18,7 +18,7 @@ class ListInbox extends ListItem
 
     # Make droppable
     @el[0].list = @list
-    Mouse.tasks.addDrop @el[0]
+    # Mouse.tasks.addDrop @el[0]
 
     @list.name = text.inbox
 

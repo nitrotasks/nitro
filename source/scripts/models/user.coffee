@@ -3,7 +3,7 @@ Local = require '../controllers/local'
 
 class User extends Base.Model
 
-  className: 'user'
+  classname: 'user'
 
   defaults:
 
