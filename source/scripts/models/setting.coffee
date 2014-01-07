@@ -1,4 +1,5 @@
-Base = require 'base'
+Base  = require 'base'
+Sync  = require '../controllers/sync'
 Local = require '../controllers/local'
 
 class Setting extends Base.Model
@@ -26,6 +27,7 @@ class Setting extends Base.Model
 settings = new Setting()
 
 # Add localStorage support
-new Local(settings)
+Local.include(settings)
+Sync.include(settings)
 
 module.exports = settings

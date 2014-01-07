@@ -10,6 +10,10 @@ class Queue
   constructor: ->
     @queue = JSON.parse localStorage[CLASSNAME] or '[]'
 
+  clear: ->
+    @queue = []
+    @save()
+
   push: (event, arg1, arg2, arg3) ->
     if event in [CREATE, UPDATE, DESTROY]
       now = Date.now()

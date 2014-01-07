@@ -1,5 +1,6 @@
-Base = require 'base'
+Base  = require 'base'
 Local = require '../controllers/local'
+Sync  = require '../controllers/sync'
 
 class List extends Base.Model
 
@@ -76,6 +77,7 @@ class ListCollection extends Base.Collection
 allLists = new ListCollection()
 
 # Add localStorge support
-new Local(allLists)
+Sync.include(allLists)
+Local.include(allLists)
 
 module.exports = allLists

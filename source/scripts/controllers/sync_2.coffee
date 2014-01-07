@@ -27,6 +27,7 @@ Sync =
 
   open: ->
     @online = yes
+    event.trigger 'sync:open'
     console.log 'is online'
 
   on: (event, fn) ->
@@ -47,6 +48,10 @@ Sync =
     else
       fn()
 
+  sync: (fn) ->
+    @emit 'sync', @queue.toJSON(), (data) =>
+      fn(data)
+      @queue.clear()
 
 # -----------------------------------------------------------------------------
 # Sync Model Handler
@@ -59,7 +64,7 @@ Sync =
  * - model (Base.Model)
 ###
 
-AttachSync = (model) ->
+Sync.include = (model) ->
 
   if model instanceof Base.Collection
     handler = new CollectionSync(model)
@@ -86,4 +91,4 @@ AttachSync = (model) ->
 
   handler.listen()
 
-module.exports = AttachSync
+module.exports = Sync

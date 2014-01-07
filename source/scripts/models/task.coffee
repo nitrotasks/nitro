@@ -1,7 +1,7 @@
-Base = require 'base'
-List = require '../models/list'
-Local = require '../controllers/local'
-Sync = require '../controllers/sync'
+Base       = require 'base'
+List       = require '../models/list'
+Local      = require '../controllers/local'
+Sync       = require '../controllers/sync'
 prettyDate = require '../utils/prettydate'
 
 class Task extends Base.Model
@@ -141,9 +141,9 @@ allTasks.on 'create:model', (task) =>
     list.tasks.add task
 
 # Add localStorage support
-new Local(allTasks)
+Local.include(allTasks)
 
 # Add sync support
-new Sync(allTasks)
+Sync.include(allTasks)
 
 module.exports = allTasks

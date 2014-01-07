@@ -25,6 +25,6 @@ class User extends Base.Model
 user = new User()
 
 # Add localStorage support
-new Local(user)
+Local.include(user)
 
 module.exports = user
