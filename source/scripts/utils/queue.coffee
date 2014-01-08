@@ -29,8 +29,10 @@ class Queue
       else
         time = now
       @queue.push [classname, event, model, time]
+      @optimize()
       @save()
-    # @optimize()
+      return time
+    return false
 
   _groupItems: =>
 
@@ -77,6 +79,80 @@ class Queue
 
     return items
 
+  _splitItems: (items) ->
+
+    # Hold the last model to have that ID
+    section =
+      create: null
+      update: []
+      destroy: null
+
+    # Get the last models events that had that id
+    for index in [items.length - 1 .. 0]
+
+      # Stop as soon af we have a create event
+      break if section.create
+
+      item = items[index]
+      type = item[1]
+
+      switch type
+        when 'create'
+          section.create = item
+        when 'update'
+          section.update.unshift item
+        when 'destroy'
+          section.destroy = item
+
+    return section
+
+  _mergeUpdate: (updates) ->
+
+    return [null,null] unless updates.length
+
+    lastUpdate = {}
+    timestamps = {}
+
+    # Merge update items
+    for item in updates
+
+      model = item[2]
+      time  = item[3]
+
+      for own key, value of model
+        if value isnt lastUpdate[key]
+          lastUpdate[key] = value
+          timestamps[key] = time[key] unless key is 'id'
+
+    return [lastUpdate, timestamps]
+
+  _mergeCreate: (create, update, timestamps) ->
+
+    # Push updates onto original task
+    for key, val of update
+      create[2][key] = val
+
+    # Get latest update time
+    times = []
+    times.push time for key, time of timestamps
+    create[3] = Math.max.apply this, times
+
+    return create
+
+  _extractEvent: (event, classname, timestamps) ->
+
+    if not (event.create and event.destroy)
+
+      if event.create
+        return event.create
+
+      if event.update
+        return [classname, 'update', event.update, timestamps]
+
+      if event.destroy
+        return event.destroy
+
+
   # Merges events together to make syncing faster
   # create + update = create
   # create + destroy = nothing
@@ -93,80 +169,23 @@ class Queue
       for id, items of ids
 
         @_sortItems(items)
-
-        # Hold the last model to have that ID
-        section =
-          create: null
-          update: []
-          destroy: null
-
-        # Get the last models events that had that id
-        for index in [items.length - 1 .. 0]
-
-          # Stop as soon af we have a create event
-          break if section.create
-
-          item = items[index]
-          type = item[1]
-
-          switch type
-            when 'create'
-              section.create = item
-            when 'update'
-              section.update.unshift item
-            when 'destroy'
-              section.destroy = item
-
+        event = @_splitItems(items)
 
         # Merge update and destroy items
-        if section.destroy and section.update.length
-          queue.push section.destroy
+        if event.destroy and event.update.length and not event.create
+          queue.push event.destroy
           continue
 
-        lastUpdate = {}
-        timestamps = {}
-
-        # Merge update items
-        for item in section.update
-
-          model = item[2]
-          time  = item[3]
-
-          for own key, value of model
-            if value isnt lastUpdate[key]
-              lastUpdate[key] = value
-              timestamps[key] = time[key] unless key is 'id'
-
+        [event.update, timestamps] = @_mergeUpdate(event.update)
 
         # Merge create and update items
-        if section.create and not section.destroy and section.update.length
-
-          # Push updates onto original task
-          for key, val of lastUpdate
-            section.create[2][key] = val
-
-          # Get latest update time
-          times = []
-          times.push time for key, time of timestamps
-          section.create[3] = Math.max.apply this, times
-
-          # Add to queue
-          queue.push section.create
-
+        if event.create and not event.destroy and event.update
+          queue.push @_mergeCreate event.create, event.update, timestamps
           continue
 
-
         # Present event as a queue
-        if not (section.create and section.destroy)
-
-          if section.create
-            queue.push section.create
-
-          if section.update.length
-            queue.push [classname, 'update', lastUpdate, timestamps]
-
-          if section.destroy
-            queue.push section.destroy
+        event = @_extractEvent(event, classname, timestamps)
+        queue.push event if event
 
     # Save queue
     @queue = queue
