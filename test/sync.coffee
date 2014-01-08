@@ -69,14 +69,14 @@ describe 'Sync', ->
         name: 'Task One'
         listId: 'c0'
 
-
-
-    it 'should update the list details', (done) ->
-
+    it 'should update the list name', (done) ->
       message = 'list.update({"id":"s0","name":"List One - Updated"})'
-
       expect message, done
-
       list.get('s0').name = 'List One - Updated'
+
+    it 'should update the task name', (done) ->
+      message = 'task.update({"id":"s1","name":"Task One - Updated"})'
+      expect message, done
+      task.get('s1').name = 'Task One - Updated'
 
 
