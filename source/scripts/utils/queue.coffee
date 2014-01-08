@@ -18,7 +18,6 @@ class Queue
     @save()
 
   push: ([type, event]) =>
-    console.log arguments
     if event in [CREATE, UPDATE, DESTROY]
       now = Date.now()
       if event is UPDATE

@@ -26,7 +26,7 @@ SockJS.prototype.send = function (message) {
  */
 
 SockJS.reply = function (message) {
-  this._.onmessage(message);
+  this._.onmessage({data: message});
 };
 
 SockJS.read = function (message) {

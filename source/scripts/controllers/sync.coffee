@@ -15,8 +15,8 @@ Jandal.handle 'sockjs'
 
 Sync =
 
-  online: yes
-  enabled: yes
+  online: no
+  disabled: no
 
   connect: () ->
     @connection = new SockJS("http://#{ config.sync }")
@@ -30,7 +30,7 @@ Sync =
 
   auth: ->
     @socket.emit 'user.auth', User.id, User.token, ->
-      console.log 'logged in'
+      console.log 'we are online'
 
   namespace: (name) ->
     namespace = null
@@ -45,21 +45,20 @@ Sync =
         ns().on(event,fn)
 
       emit: (event, arg1, arg2, arg3) ->
-        if @enabled and @online and @socket
+        if Sync.disabled then return
+        if Sync.online and Sync.socket
           ns().emit(event, arg1, arg2, arg3)
         else
           queue.push [name, event, arg1, arg2, arg3]
 
   disable: (fn) ->
-    if @enabled
-      @enabled = no
-      fn()
-      @enabled = yes
-    else
-      fn()
+    if Sync.disabled then return fn()
+    Sync.disabled = yes
+    fn()
+    Sync.disabled = no
 
   sync: (fn) ->
-    @emit 'sync', queue.toJSON(), (data) =>
+    Sync.socket.emit 'sync', queue.toJSON(), (data) ->
       fn(data)
       queue.clear()
 
@@ -83,9 +82,9 @@ Sync.include = (model) ->
 
   namespace = null
 
-  handler.oncreate = (model, options) ->
-    namespace.emit 'create', model.toJSON(), (id) =>
-      Sync.disable => model.id = id
+  handler.oncreate = (item, options) ->
+    namespace.emit 'create', item.toJSON(), (id) =>
+      Sync.disable => item.id = id
 
   handler.onupdate = (model, key, value) ->
     data = id: model.id
