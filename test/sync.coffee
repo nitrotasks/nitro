@@ -1,7 +1,7 @@
 sync = list = task = user = null
 should = require 'should'
 
-describe 'Sync', ->
+describe '[Sync]', ->
 
   before ->
     global.localStorage = {}
@@ -17,6 +17,9 @@ describe 'Sync', ->
     delete global.localStorage
     delete global.window
     delete global.SockJS
+
+  beforeEach ->
+    SockJS.read = (message) -> console.log message
 
   expect = (message, done) ->
     SockJS.read = (text) ->
@@ -79,4 +82,31 @@ describe 'Sync', ->
       expect message, done
       task.get('s1').name = 'Task One - Updated'
 
+    it 'should destroy a list', (done) ->
+      message = 'list.destroy("s0")'
+      expect message, done
+      list.get('s0').destroy()
 
+    it 'should destroy a task', (done) ->
+      message = 'task.destroy("s1")'
+      expect message, done
+      task.get('s1').destroy()
+
+
+  describe 'React to events from the server', ->
+
+    it 'should create a list', ->
+      SockJS.reply 'list.create({"id":"s2","name":"List Two"})'
+      list.get('s2').name.should.equal 'List Two'
+
+    it 'should create a task', ->
+      SockJS.reply 'task.create({"id":"s3","name":"Task Two"})'
+      task.get('s3').name.should.equal 'Task Two'
+
+    it 'should update a list', ->
+      SockJS.reply 'list.update({"id":"s2","name":"List Two - Updated"})'
+      list.get('s2').name.should.equal 'List Two - Updated'
+
+    it 'should update a task', ->
+      SockJS.reply 'task.update({"id":"s3","name":"Task Two - Updated"})'
+      task.get('s3').name.should.equal 'Task Two - Updated'

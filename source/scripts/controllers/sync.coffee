@@ -96,9 +96,9 @@ Sync.include = (model) ->
 
   event.once 'sync:open', ->
     namespace = Sync.namespace model.classname
-    namespace.on 'create', handler.create
-    namespace.on 'update', handler.update
-    namespace.on 'destroy', handler.destroy
+    namespace.on 'create', (item) -> Sync.disable -> handler.create(item)
+    namespace.on 'update', (item) -> Sync.disable -> handler.update(item)
+    namespace.on 'destroy', (id) -> Sync.disable -> handler.destroy(id)
 
   handler.listen()
 
