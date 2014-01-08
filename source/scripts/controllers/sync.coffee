@@ -49,7 +49,7 @@ Sync =
         if Sync.online and Sync.socket
           ns().emit(event, arg1, arg2, arg3)
         else
-          queue.push [name, event, arg1, arg2, arg3]
+          queue.push name, event, arg1, arg2, arg3
 
   disable: (fn) ->
     if Sync.disabled then return fn()
