@@ -1,4 +1,4 @@
-sync = list = task = user = null
+pref = sync = list = task = user = null
 should = require 'should'
 
 describe '[Sync]', ->
@@ -11,6 +11,7 @@ describe '[Sync]', ->
     sync = require '../source/scripts/controllers/sync'
     list = require '../source/scripts/models/list'
     task = require '../source/scripts/models/task'
+    pref = require '../source/scripts/models/setting'
     user = require '../source/scripts/models/user'
 
   after ->
@@ -92,6 +93,11 @@ describe '[Sync]', ->
       expect message, done
       task.get('s1').destroy()
 
+    it 'should update a pref', (done) ->
+      message = 'pref.update({"language":"en-nz"})'
+      expect message, done
+      pref.language = 'en-nz'
+
 
   describe 'React to events from the server', ->
 
@@ -110,3 +116,15 @@ describe '[Sync]', ->
     it 'should update a task', ->
       SockJS.reply 'task.update({"id":"s3","name":"Task Two - Updated"})'
       task.get('s3').name.should.equal 'Task Two - Updated'
+
+    it 'should destroy a list', ->
+      SockJS.reply 'list.destroy("s2")'
+      should.equal list.get('s2'), undefined
+
+    it 'should destroy a task', ->
+      SockJS.reply 'task.destroy("s3")'
+      should.equal task.get('s3'), undefined
+
+    it 'should update a pref', ->
+      SockJS.reply 'pref.update({"language":"en-us"})'
+      pref.language.should.equal 'en-us'

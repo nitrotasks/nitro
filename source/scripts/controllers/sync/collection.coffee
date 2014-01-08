@@ -17,8 +17,8 @@ class CollectionSync
     @model.get(id).destroy()
 
   # override these
-  oncreate: ->
-  onupdate: ->
-  ondestroy: ->
+  oncreate: null
+  onupdate: null
+  ondestroy: null
 
 module.exports = CollectionSync

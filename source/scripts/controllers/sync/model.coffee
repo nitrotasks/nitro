@@ -3,7 +3,8 @@ class ModelSync
   constructor: (@model) ->
 
   listen: =>
-    @model.on 'change', @onupdate
+    @model.on 'change', (key, value) =>
+      @onupdate(this, key, value)
 
   create: =>
 
