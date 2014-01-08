@@ -1,6 +1,5 @@
 Base           = require 'base'
 Jandal         = require 'jandal/build/client'
-SockJS         = require 'sockjs'
 event          = require '../utils/event'
 config         = require '../utils/config'
 queue          = require '../utils/queue'
@@ -19,19 +18,21 @@ Sync =
   online: yes
   enabled: yes
 
-  connect: (fn) ->
+  connect: () ->
     @connection = new SockJS("http://#{ config.sync }")
     @socket = new Jandal(@connection)
     @connection.onopen = @open
 
   open: ->
-    @online = yes
+    Sync.online = yes
+    Sync.auth()
     event.trigger 'sync:open'
-    console.log 'is online'
+
+  auth: ->
+    @socket.emit 'user.auth', User.id, User.token, ->
+      console.log 'logged in'
 
   namespace: (name) ->
-
-    console.log 'getting namespace', name
     namespace = null
 
     ns = ->
@@ -80,7 +81,7 @@ Sync.include = (model) ->
   else
     handler = new ModelSync(model)
 
-  namespace = Sync.namespace model.classname
+  namespace = null
 
   handler.oncreate = (model, options) ->
     namespace.emit 'create', model.toJSON(), (id) =>
@@ -95,6 +96,7 @@ Sync.include = (model) ->
     namespace.emit 'destroy', model.id
 
   event.once 'sync:open', ->
+    namespace = Sync.namespace model.classname
     namespace.on 'create', handler.create
     namespace.on 'update', handler.update
     namespace.on 'destroy', handler.destroy
