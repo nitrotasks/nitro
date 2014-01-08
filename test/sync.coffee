@@ -44,6 +44,8 @@ describe 'Sync', ->
 
       callback = ->
         SockJS.reply 'Jandal.fn_1("s0")'
+        list.get('s0').name.should.equal 'List One'
+        should.equal list.get('c0'), undefined
         done()
 
       expect message, callback
@@ -57,6 +59,8 @@ describe 'Sync', ->
 
       callback = ->
         SockJS.reply 'Jandal.fn_2("s1")'
+        task.get('s1').name.should.equal 'Task One'
+        should.equal task.get('c0'), undefined
         done()
 
       expect message, callback
@@ -64,5 +68,15 @@ describe 'Sync', ->
       task.create
         name: 'Task One'
         listId: 'c0'
+
+
+
+    it 'should update the list details', (done) ->
+
+      message = 'list.update({"id":"s0","name":"List One - Updated"})'
+
+      expect message, done
+
+      list.get('s0').name = 'List One - Updated'
 
 
