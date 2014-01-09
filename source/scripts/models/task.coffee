@@ -43,6 +43,8 @@ class TaskCollection extends Base.Collection
       @sortCache = null
 
     @on 'before:destroy:model', (task) =>
+      return unless @sortCache
+      console.log 'deleting from sortCache'
       index = @sortCache.indexOf task
       @sortCache.splice index, 1
 
@@ -54,7 +56,7 @@ class TaskCollection extends Base.Collection
 
   sort: =>
     if @sortCache then return @sortCache
-    allTasks.sort @slice()
+    @sortCache = allTasks.sort @slice()
 
 ###*
  * Holds every task ever made
