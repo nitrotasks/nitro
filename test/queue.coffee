@@ -5,7 +5,7 @@ describe '[Queue]', ->
 
   before ->
     global.localStorage = {}
-    queue = require '../source/scripts/utils/queue'
+    queue = require '../source/scripts/controllers/queue'
 
   after ->
     queue.clear()

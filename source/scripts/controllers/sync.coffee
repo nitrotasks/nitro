@@ -2,10 +2,10 @@ Base           = require 'base'
 Jandal         = require 'jandal/build/client'
 event          = require '../utils/event'
 config         = require '../utils/config'
-queue          = require '../utils/queue'
-User           = require '../models/user'
-CollectionSync = require './sync/collection'
-ModelSync      = require './sync/model'
+user           = require '../models/user'
+queue          = require '../controllers/queue'
+CollectionSync = require '../controllers/sync/collection'
+ModelSync      = require '../controllers/sync/model'
 
 Jandal.handle 'sockjs'
 
@@ -29,7 +29,7 @@ Sync =
     event.trigger 'sync:open'
 
   auth: ->
-    @socket.emit 'user.auth', User.id, User.token, ->
+    @socket.emit 'user.auth', user.id, user.token, ->
       console.log 'we are online'
 
   namespace: (name) ->
