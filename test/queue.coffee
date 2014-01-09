@@ -20,13 +20,13 @@ describe '[Queue]', ->
     ]
 
   it 'should save to localStorage', ->
-    json = '[["task","create",{"id":20,"name":"Test"},' + timestamp + ']]'
+    json = '{"task":{"20":[["create",{"id":20,"name":"Test"},'+timestamp+']]}}'
     global.localStorage.queue.should.equal json
 
   it 'should clear the queue', ->
     queue.clear()
-    queue.toJSON().should.eql []
-    global.localStorage.queue.should.equal '[]'
+    queue.toJSON().should.eql {}
+    global.localStorage.queue.should.equal '{}'
 
   describe '[optimize]', ->
 

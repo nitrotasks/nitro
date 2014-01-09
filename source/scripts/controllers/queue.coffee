@@ -11,9 +11,16 @@ class Queue
     @queue = {}
     @load()
 
+  # Convert queue into old style array
   toJSON: =>
-    return @queue
+    json = []
+    for classname, ids of @queue
+      for id, items of ids
+        for item in items
+          json.push [classname, item[0], item[1], item[2]]
+    return json
 
+  # Load data from localStorage
   load: =>
     json = localStorage[CLASSNAME]
     try
@@ -21,6 +28,7 @@ class Queue
     catch e
       delete localStorage.queue
 
+  # Save data to localStorage
   save: =>
     localStorage[CLASSNAME] = JSON.stringify @queue
 
@@ -31,61 +39,54 @@ class Queue
   push: (classname, event, model) =>
     if event in [CREATE, UPDATE, DESTROY]
       now = Date.now()
-      if event is UPDATE
-        time = {}
-        time[key] = now for own key of model when key isnt 'id'
-      else
-        time = now
-      @queue.push [classname, event, model, time]
+
+      switch event
+        when CREATE
+          id = model.id
+          time = now
+        when UPDATE
+          id = model.id
+          time = {}
+          time[key] = now for own key of model when key isnt 'id'
+        when DESTROY
+          id = model
+          time = now
+
+      obj = @queue[classname] ?= {}
+      arr = obj[id] ?= []
+      arr.push [event, model, time]
+
       @optimize()
       @save()
+
       return time
     return false
 
-  _groupItems: =>
-
-    models = {}
-
-    # Sort into groups by classname and item.id
-    for item in @queue
-      [classname, event, model, time] = item
-
-      switch event
-        when 'create', 'update' then id = model.id
-        when 'destroy' then id = model
-
-      models[classname] ?= {}
-      models[classname][id] ?= []
-      models[classname][id].push item
-
-    return models
 
   # Sort events into chronological order
-  _sortItems: (items)  ->
+  _sortItems: (a, b)  ->
 
-    items.sort (a,b) ->
-      time =
-        a: 0
-        b: 0
+    time =
+      a: 0
+      b: 0
 
-      for item, i in [a,b]
-        model = item[2]
+    for item, i in [a, b]
+      model = item[1]
 
-        if typeof model is 'object'
-          times = []
-          times.push time for key, time of model
-          value = Math.max.apply this, times
-        else
-          value = model
+      if typeof model is 'object'
+        times = []
+        times.push time for key, time of model
+        value = Math.max.apply this, times
+      else
+        value = model
 
-        if i is 0
-          time.a = value
-        else
-          time.b = value
+      if i is 0
+        time.a = value
+      else
+        time.b = value
 
-      time.a - time.b
+    time.a - time.b
 
-    return items
 
   _splitItems: (items) ->
 
@@ -102,7 +103,7 @@ class Queue
       break if section.create
 
       item = items[index]
-      type = item[1]
+      type = item[0]
 
       switch type
         when 'create'
@@ -124,8 +125,8 @@ class Queue
     # Merge update items
     for item in updates
 
-      model = item[2]
-      time  = item[3]
+      model = item[1]
+      time  = item[2]
 
       for own key, value of model
         if value isnt lastUpdate[key]
@@ -138,16 +139,16 @@ class Queue
 
     # Push updates onto original task
     for key, val of update
-      create[2][key] = val
+      create[1][key] = val
 
     # Get latest update time
     times = []
     times.push time for key, time of timestamps
-    create[3] = Math.max.apply this, times
+    create[2] = Math.max.apply this, times
 
     return create
 
-  _extractEvent: (event, classname, timestamps) ->
+  _extractEvent: (event, timestamps) ->
 
     if not (event.create and event.destroy)
 
@@ -155,10 +156,18 @@ class Queue
         return event.create
 
       if event.update
-        return [classname, 'update', event.update, timestamps]
+        return ['update', event.update, timestamps]
 
       if event.destroy
         return event.destroy
+
+
+  _addToQueue: ([event, model, time], classname, queue=@queue) ->
+    if event is DESTROY then id = model else id = model.id
+    obj = queue[classname] ?= {}
+    arr = obj[id] ?= []
+    arr.push [event, model, time]
+    return queue
 
 
   # Merges events together to make syncing faster
@@ -167,33 +176,37 @@ class Queue
   # update + destroy = destroy
   # update + update + update = update
   optimize: ->
-    queue = []
+    queue = {}
+    models = @queue
 
-    models = @_groupItems()
+    # console.log '\n\n', JSON.stringify(@queue, null, 2), '\n\n'
 
+    # Loop through each class
     for classname, ids of models
 
-      # Loop through each item in that class
+      # Loop through each id in that class
       for id, items of ids
 
-        @_sortItems(items)
+        items.sort @_sortItems
         event = @_splitItems(items)
 
         # Merge update and destroy items
         if event.destroy and event.update.length and not event.create
-          queue.push event.destroy
+          @_addToQueue event.destroy, classname, queue
           continue
 
         [event.update, timestamps] = @_mergeUpdate(event.update)
 
         # Merge create and update items
         if event.create and not event.destroy and event.update
-          queue.push @_mergeCreate event.create, event.update, timestamps
+          event = @_mergeCreate event.create, event.update, timestamps
+          @_addToQueue event, classname, queue
           continue
 
         # Present event as a queue
-        event = @_extractEvent(event, classname, timestamps)
-        queue.push event if event
+        event = @_extractEvent(event, timestamps)
+        if event
+          @_addToQueue event, classname, queue
 
     # Save queue
     @queue = queue
