@@ -31,8 +31,11 @@ Sync =
     event.trigger 'sync:open'
 
   auth: ->
-    @socket.emit 'user.auth', user.id, user.token, ->
-      console.log 'we are online'
+    @socket.emit 'user.auth', user.uid, user.token, (status) ->
+      if status
+        console.log 'we are online'
+      else
+        console.log 'could not auth with server'
 
   namespace: (name) ->
     namespace = Sync.socket.namespace(name)
@@ -53,10 +56,21 @@ Sync =
     fn()
     Sync.disabled = no
 
+  info: ->
+    Sync.socket.emit 'user.info', (info) ->
+      console.log info
+      user.setAttributes info
+
   sync: (fn) ->
     Sync.socket.emit 'sync', queue.toJSON(), (data) ->
       fn(data)
       queue.clear()
+
+# -----------------------------------------------------------------------------
+# Events
+# -----------------------------------------------------------------------------
+
+event.on 'auth:token', -> Sync.connect()
 
 # -----------------------------------------------------------------------------
 # Sync Model Handler

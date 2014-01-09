@@ -34,7 +34,7 @@ class Panel extends Base.View
   setAvatar: =>
     email = User.email?.toLowerCase()
     id = md5(email)
-    link = "http://www.gravatar.com/avatar/#{ id }/?d=retro"
+    link = "http://www.gravatar.com/avatar/#{ id }?d=retro"
     @ui.avatar.css('background-image', "url(#{ link })")
 
   offline: =>

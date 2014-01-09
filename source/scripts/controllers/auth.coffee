@@ -20,6 +20,7 @@ class Auth
   loadToken: (id, token) ->
     User.uid = id
     User.token = token
+    User.authenticated = true
     event.trigger 'auth:token', id, token
 
   register: (name, email, password) =>
