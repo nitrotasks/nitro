@@ -83,7 +83,6 @@ Sync.include = (model) ->
       Sync.disable => item.id = id
 
   handler.onupdate = (model, key, value) ->
-    console.log arguments
     data = id: model.id
     data[key] = value
     namespace.emit 'update', data

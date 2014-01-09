@@ -94,7 +94,7 @@ describe '[Sync]', ->
       task.get('s1').destroy()
 
     it 'should update a pref', (done) ->
-      message = 'pref.update({"language":"en-nz"})'
+      message = 'pref.update({"id":0,"language":"en-nz"})'
       expect message, done
       pref.language = 'en-nz'
 
