@@ -190,8 +190,6 @@ class Queue
     queue = {}
     models = @queue
 
-    # console.log '\n\n', JSON.stringify(@queue, null, 2), '\n\n'
-
     # Loop through each class
     for classname, ids of models
 

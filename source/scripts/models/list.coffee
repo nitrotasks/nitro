@@ -30,7 +30,7 @@ class List extends Base.Model
           console.log 'could not find task', id
 
     else if @tasks is null
-      @tasks = new Task.constructor()
+      @tasks = new Task.Collection()
 
     @tasks.on 'change', =>
       @trigger 'save'
