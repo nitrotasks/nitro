@@ -8,6 +8,9 @@ class Setting extends Base.Model
 
   defaults:
 
+    # Work with sync
+    id: 0
+
     # Settings
     sort:               yes
     night:              'light'

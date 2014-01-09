@@ -1,6 +1,10 @@
 queue = null
 should = require 'should'
 
+CREATE = 0
+UPDATE = 1
+DESTROY = 2
+
 describe '[Queue]', ->
 
   before ->
@@ -16,11 +20,11 @@ describe '[Queue]', ->
   it 'should add to the queue', ->
     timestamp = queue.push 'task', 'create', {id: 20, name: 'Test'}
     queue.toJSON().should.eql [
-      ['task', 'create', {id: 20, name: 'Test'}, timestamp]
+      ['task', CREATE, {id: 20, name: 'Test'}, timestamp]
     ]
 
   it 'should save to localStorage', ->
-    json = '{"task":{"20":[["create",{"id":20,"name":"Test"},'+timestamp+']]}}'
+    json = '{"task":{"20":[['+CREATE+',{"name":"Test"},'+timestamp+']]}}'
     global.localStorage.queue.should.equal json
 
   it 'should clear the queue', ->
@@ -62,7 +66,7 @@ describe '[Queue]', ->
         ['task', 'update', {id: 20, name: 'Test - Updated'}]
         ['task', 'update', {id: 20, name: 'Test - Updated Again'}]
       ], [
-        ['task', 'create', {id: 20, name: 'Test - Updated Again'}, 'ts_2_name']
+        ['task', CREATE, {id: 20, name: 'Test - Updated Again'}, 'ts_2_name']
       ]
 
     it 'create + destroy = nothing', ->
@@ -86,7 +90,7 @@ describe '[Queue]', ->
         ['list', 'update', {id:15, name: 'List - Updated'}]
         ['list', 'destroy', 15]
       ], [
-        ['list', 'destroy', 15, 'ts_1']
+        ['list', DESTROY, 15, 'ts_1']
       ]
 
     it 'update + update = update', ->
@@ -96,7 +100,7 @@ describe '[Queue]', ->
         ['task', 'update', {id: 5, listId: 30}]
         ['task', 'update', {id: 5, notes: 'notes'}]
       ], [
-        ['task', 'update', {
+        ['task', UPDATE, {
           id: 5
           name: 'Task'
           listId: 30
@@ -108,4 +112,34 @@ describe '[Queue]', ->
         }]
       ]
 
+    it 'optimizing multiple items', ->
 
+      test [
+        ['list', 'create', {id: 0, name: 'List Zero'}]
+        ['list', 'create', {id: 1, name: 'List One'}]
+        ['list', 'create', {id: 2, name: 'List Two'}]
+        ['list', 'update', {id: 1, name: 'List One - Updated'}]
+        ['task', 'update', {id: 10, name: 'Task Ten - Updated'}]
+        ['task', 'create', {id: 11, name: 'Task Eleven'}]
+        ['pref', 'update', {id: 0, sort: false}]
+        ['pref', 'update', {id: 0, sort: true}]
+        ['list', 'update', {id: 2, name: 'List Two - Updated'}]
+        ['task', 'create', {id: 12, name: 'Task Twelve'}]
+        ['list', 'destroy', 0]
+        ['list', 'destroy', 1]
+        ['task', 'destroy', 10]
+        ['task', 'create', {id: 13, name: 'Task Thirteen'}]
+        ['task', 'update', {id: 14, name: 'Task Fourteen - Updated'}]
+      ], [
+        ['list', CREATE, {id: 2, name: 'List Two - Updated'}, 'ts_8_name']
+        ['task', DESTROY, 10, 'ts_12']
+        ['task', CREATE, {id: 11, name: 'Task Eleven'}, 'ts_5']
+        ['task', CREATE, {id: 12, name: 'Task Twelve'}, 'ts_9']
+        ['task', CREATE, {id: 13, name: 'Task Thirteen'}, 'ts_13']
+        ['task', UPDATE, {id: 14, name: 'Task Fourteen - Updated'}, {
+          name: 'ts_14_name'
+        }]
+        ['pref', UPDATE, {id: 0, sort: true}, {
+          sort: 'ts_7_sort'
+        }]
+      ]

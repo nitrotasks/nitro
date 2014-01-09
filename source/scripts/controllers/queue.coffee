@@ -1,9 +1,9 @@
 
 CLASSNAME = 'queue'
 
-CREATE = 'create'
-UPDATE = 'update'
-DESTROY = 'destroy'
+CREATE = 0
+UPDATE = 1
+DESTROY = 2
 
 class Queue
 
@@ -17,7 +17,13 @@ class Queue
     for classname, ids of @queue
       for id, items of ids
         for item in items
-          json.push [classname, item[0], item[1], item[2]]
+          model = item[1]
+          if typeof model is 'object'
+            obj = { id: id }
+            obj[key] = value for key, value of model
+          else
+            obj = model
+          json.push [classname, item[0], obj, item[2]]
     return json
 
   # Load data from localStorage
@@ -37,15 +43,21 @@ class Queue
     @save()
 
   push: (classname, event, model) =>
+    if event is 'create' then event = CREATE
+    if event is 'update' then event = UPDATE
+    if event is 'destroy' then event = DESTROY
+
     if event in [CREATE, UPDATE, DESTROY]
       now = Date.now()
 
       switch event
         when CREATE
           id = model.id
+          delete model.id
           time = now
         when UPDATE
           id = model.id
+          delete model.id
           time = {}
           time[key] = now for own key of model when key isnt 'id'
         when DESTROY
@@ -106,11 +118,11 @@ class Queue
       type = item[0]
 
       switch type
-        when 'create'
+        when CREATE
           section.create = item
-        when 'update'
+        when UPDATE
           section.update.unshift item
-        when 'destroy'
+        when DESTROY
           section.destroy = item
 
     return section
@@ -156,14 +168,13 @@ class Queue
         return event.create
 
       if event.update
-        return ['update', event.update, timestamps]
+        return [UPDATE, event.update, timestamps]
 
       if event.destroy
         return event.destroy
 
 
-  _addToQueue: ([event, model, time], classname, queue=@queue) ->
-    if event is DESTROY then id = model else id = model.id
+  _addToQueue: ([event, model, time], id, classname, queue=@queue) ->
     obj = queue[classname] ?= {}
     arr = obj[id] ?= []
     arr.push [event, model, time]
@@ -192,7 +203,7 @@ class Queue
 
         # Merge update and destroy items
         if event.destroy and event.update.length and not event.create
-          @_addToQueue event.destroy, classname, queue
+          @_addToQueue event.destroy, id, classname, queue
           continue
 
         [event.update, timestamps] = @_mergeUpdate(event.update)
@@ -200,13 +211,13 @@ class Queue
         # Merge create and update items
         if event.create and not event.destroy and event.update
           event = @_mergeCreate event.create, event.update, timestamps
-          @_addToQueue event, classname, queue
+          @_addToQueue event, id, classname, queue
           continue
 
         # Present event as a queue
         event = @_extractEvent(event, timestamps)
         if event
-          @_addToQueue event, classname, queue
+          @_addToQueue event, id, classname, queue
 
     # Save queue
     @queue = queue

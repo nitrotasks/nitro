@@ -4,7 +4,7 @@ class ModelSync
 
   listen: =>
     @model.on 'change', (key, value) =>
-      @onupdate(this, key, value)
+      @onupdate(@model, key, value)
 
   create: =>
 
