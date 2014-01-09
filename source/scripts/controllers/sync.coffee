@@ -56,7 +56,7 @@ Sync =
     fn()
     Sync.disabled = no
 
-  info: ->
+  getUserInfo: ->
     Sync.socket.emit 'user.info', (info) ->
       console.log info
       user.setAttributes info
@@ -71,6 +71,7 @@ Sync =
 # -----------------------------------------------------------------------------
 
 event.on 'auth:token', -> Sync.connect()
+event.on 'sync:open',  -> Sync.getUserInfo()
 
 # -----------------------------------------------------------------------------
 # Sync Model Handler
