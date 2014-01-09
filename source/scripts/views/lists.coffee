@@ -2,7 +2,7 @@ Base     = require 'base'
 List     = require '../models/list'
 keys     = require '../utils/keys'
 ListItem = require '../views/list/item'
-# Mouse    = require '../utils/mouse'
+Mouse    = require '../utils/mouse'
 event    = require '../utils/event'
 
 class Lists extends Base.View
@@ -59,7 +59,7 @@ class Lists extends Base.View
     Lists.active = list
 
     # Clear the currently selected tasks
-    # Mouse.tasks.clearSelection()
+    Mouse.tasks.clearSelection()
 
     # Clear the currently selected list
     @el

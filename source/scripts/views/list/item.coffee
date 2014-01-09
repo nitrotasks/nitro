@@ -1,4 +1,4 @@
-# Mouse = require '../../utils/mouse'
+Mouse = require '../../utils/mouse'
 Base = require 'base'
 
 class ListItem extends Base.View
@@ -42,7 +42,7 @@ class ListItem extends Base.View
     return this
 
   mouseup: (e) =>
-    # if Mouse.lists.isMoving() then return
+    if Mouse.lists.isMoving() then return
     @open()
 
   # Override this method in special lists

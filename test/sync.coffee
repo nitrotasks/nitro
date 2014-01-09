@@ -33,21 +33,21 @@ describe '[Sync]', ->
       sync.connect()
 
     it 'should send auth code to server', (done) ->
-      user.id = 10
+      user.uid = 10
       user.token = 'i-miss-the-internet'
 
-      expect "user.auth(#{ user.id },\"#{ user.token }\").fn(0)", ->
+      expect "user.auth(#{ user.uid },\"#{ user.token }\").fn(0)", ->
+        expect "user.info().fn(1)", done
         SockJS.reply 'Jandal.fn_0(true)'
-        done()
 
   describe 'Emit events to the server', ->
 
     it 'should create a list', (done) ->
 
-      message = 'list.create({"id":"c0","name":"List One","tasks":[],"permanent":false}).fn(1)'
+      message = 'list.create({"id":"c0","name":"List One","tasks":[],"permanent":false}).fn(2)'
 
       callback = ->
-        SockJS.reply 'Jandal.fn_1("s0")'
+        SockJS.reply 'Jandal.fn_2("s0")'
         list.get('s0').name.should.equal 'List One'
         should.equal list.get('c0'), undefined
         done()
@@ -59,10 +59,10 @@ describe '[Sync]', ->
 
     it 'should create a task', (done) ->
 
-      message = 'task.create({"id":"c0","listId":"c0","date":null,"name":"Task One","notes":"","priority":1,"completed":false}).fn(2)'
+      message = 'task.create({"id":"c0","listId":"c0","date":null,"name":"Task One","notes":"","priority":1,"completed":false}).fn(3)'
 
       callback = ->
-        SockJS.reply 'Jandal.fn_2("s1")'
+        SockJS.reply 'Jandal.fn_3("s1")'
         task.get('s1').name.should.equal 'Task One'
         should.equal task.get('c0'), undefined
         done()

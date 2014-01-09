@@ -11,6 +11,7 @@ class CollectionSync
     @model.create(item)
 
   update: (item) =>
+    console.log 'updating', item, @model
     @model.get(item.id).setAttributes(item)
 
   destroy: (id) =>

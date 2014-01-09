@@ -3,7 +3,7 @@ Base    = require 'base'
 # setting = require '../models/setting'
 event   = require '../utils/event'
 ExpandedTaskItem = require '../views/task_item_expanded'
-# Mouse = require '../utils/mouse'
+Mouse = require '../utils/mouse'
 
 class TaskItem extends Base.View
 
