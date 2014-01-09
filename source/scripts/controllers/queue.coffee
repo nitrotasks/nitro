@@ -8,16 +8,24 @@ DESTROY = 'destroy'
 class Queue
 
   constructor: ->
-    @queue = JSON.parse localStorage[CLASSNAME] or '[]'
+    @queue = {}
+    @load()
 
   toJSON: =>
     return @queue
+
+  load: =>
+    json = localStorage[CLASSNAME]
+    try
+      @queue = JSON.parse localStorage[CLASSNAME]
+    catch e
+      delete localStorage.queue
 
   save: =>
     localStorage[CLASSNAME] = JSON.stringify @queue
 
   clear: ->
-    @queue = []
+    @queue = {}
     @save()
 
   push: (classname, event, model) =>

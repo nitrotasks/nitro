@@ -18,9 +18,11 @@ Sync =
   online: no
   disabled: no
 
+  socket: new Jandal()
+
   connect: () ->
     @connection = new SockJS("http://#{ config.sync }")
-    @socket = new Jandal(@connection)
+    @socket.connect @connection
     @connection.onopen = @open
 
   open: ->
@@ -33,23 +35,17 @@ Sync =
       console.log 'we are online'
 
   namespace: (name) ->
-    namespace = null
+    namespace = Sync.socket.namespace(name)
 
-    ns = ->
-      if namespace then return namespace
-      return namespace = Sync.socket.namespace(name)
+    emit = namespace.emit
+    namespace.emit = (event, arg1, arg2, arg3) ->
+      if Sync.disabled then return
+      if Sync.online
+        emit.call(namespace, event, arg1, arg2, arg3)
+      else
+        queue.push name, event, arg1, arg2, arg3
 
-    return {}=
-
-      on: (event, fn) ->
-        ns().on(event,fn)
-
-      emit: (event, arg1, arg2, arg3) ->
-        if Sync.disabled then return
-        if Sync.online and Sync.socket
-          ns().emit(event, arg1, arg2, arg3)
-        else
-          queue.push name, event, arg1, arg2, arg3
+    return namespace
 
   disable: (fn) ->
     if Sync.disabled then return fn()
@@ -80,7 +76,7 @@ Sync.include = (model) ->
   else
     handler = new ModelSync(model)
 
-  namespace = null
+  namespace = Sync.namespace model.classname
 
   handler.oncreate = (item, options) ->
     namespace.emit 'create', item.toJSON(), (id) =>
@@ -94,12 +90,11 @@ Sync.include = (model) ->
   handler.ondestroy = (model, options) ->
     namespace.emit 'destroy', model.id
 
-  event.once 'sync:open', ->
-    namespace = Sync.namespace model.classname
-    namespace.on 'create', (item) -> Sync.disable -> handler.create(item)
-    namespace.on 'update', (item) -> Sync.disable -> handler.update(item)
-    namespace.on 'destroy', (id) -> Sync.disable -> handler.destroy(id)
+  namespace.on 'create', (item) -> Sync.disable -> handler.create(item)
+  namespace.on 'update', (item) -> Sync.disable -> handler.update(item)
+  namespace.on 'destroy', (id) -> Sync.disable -> handler.destroy(id)
 
   handler.listen()
+
 
 module.exports = Sync
