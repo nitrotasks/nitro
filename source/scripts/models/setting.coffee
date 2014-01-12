@@ -7,9 +7,7 @@ class Setting extends Base.Model
   classname: 'pref'
 
   defaults:
-
-    # Work with sync
-    id: 0
+    id: 's0'
 
     # Settings
     sort:               yes
@@ -19,12 +17,6 @@ class Setting extends Base.Model
     dateFormat:         'dd/mm/yy'
     confirmDelete:      yes
     completedDuration:  'day'
-
-    # Notifications
-    notifyTime:         9
-    notifyEmail:        no
-    notifyRegular:      'upcoming'
-    notifications:      no
 
 # Create a new instance of Setting
 settings = new Setting()
