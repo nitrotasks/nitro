@@ -35,6 +35,10 @@ else
   database = localStore
 
 
+database.include = (model) ->
+  new Local(model)
+
+
 class Local
 
   constructor: (@model) ->
@@ -44,10 +48,10 @@ class Local
       @model.on 'save:model change:model', @save
 
   fetch: =>
-    database.get @model.className, (value) =>
+    database.get @model.classname, (value) =>
       @model.refresh value, true
 
   save: =>
-    database.set @model.className, @model.toJSON()
+    database.set @model.classname, @model.toJSON()
 
-module.exports = Local
+module.exports = database

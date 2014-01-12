@@ -18,8 +18,8 @@ class Settings extends Base.View
   el: '.settings'
 
   ui:
-    'pane': '.pane'
-    'paneTitle': '.pane .title'
+    pane: '.pane'
+    paneTitle: '.pane .title'
 
   events:
     'click .menu .title img': 'back'

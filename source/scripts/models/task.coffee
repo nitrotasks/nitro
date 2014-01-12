@@ -1,6 +1,7 @@
-Base = require 'base'
-List = require '../models/list'
-Local = require '../controllers/local'
+Base       = require 'base'
+List       = require '../models/list'
+Local      = require '../controllers/local'
+Sync       = require '../controllers/sync'
 prettyDate = require '../utils/prettydate'
 
 class Task extends Base.Model
@@ -42,6 +43,7 @@ class TaskCollection extends Base.Collection
       @sortCache = null
 
     @on 'before:destroy:model', (task) =>
+      return unless @sortCache
       index = @sortCache.indexOf task
       @sortCache.splice index, 1
 
@@ -53,7 +55,7 @@ class TaskCollection extends Base.Collection
 
   sort: =>
     if @sortCache then return @sortCache
-    allTasks.sort @slice()
+    @sortCache = allTasks.sort @slice()
 
 ###*
  * Holds every task ever made
@@ -63,7 +65,7 @@ class TaskSingleton extends Base.Collection
 
   Collection: TaskCollection
 
-  className: 'task'
+  classname: 'task'
 
   model: Task
 
@@ -140,6 +142,9 @@ allTasks.on 'create:model', (task) =>
     list.tasks.add task
 
 # Add localStorage support
-new Local(allTasks)
+Local.include(allTasks)
+
+# Add sync support
+Sync.include(allTasks)
 
 module.exports = allTasks

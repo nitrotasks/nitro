@@ -40,6 +40,9 @@ options =
   exportData: =>
     exportModal.run()
 
+Setting.on 'change', ->
+  module.exports.load()
+
 # Load settings
 for setting, element of settings
 
@@ -51,6 +54,7 @@ for setting, element of settings
   # Handle settings being changed
   do (setting, element) ->
     options[setting] = ->
+
       el = @ui[setting]
       if el.attr('type') is 'checkbox'
         val = el.is ':checked'

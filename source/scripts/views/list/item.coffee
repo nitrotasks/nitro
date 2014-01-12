@@ -42,8 +42,7 @@ class ListItem extends Base.View
     return this
 
   mouseup: (e) =>
-    if Mouse.lists.isMoving()
-      return
+    if Mouse.lists.isMoving() then return
     @open()
 
   # Override this method in special lists

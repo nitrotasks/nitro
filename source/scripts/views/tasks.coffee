@@ -86,6 +86,10 @@ class Tasks extends Base.View
 
   # Add a single task to the DOM
   addOne: (task) =>
+
+    # Only display the task if we are displaying the right list
+    return unless Lists.active.tasks.exists task
+
     # Add to dom
     @ui.tasks.prepend @template.item task
 
@@ -130,17 +134,17 @@ class Tasks extends Base.View
       @toggleSearch off
 
     # Standard list
-    if list?.tasks
-      if Setting.sort
-        tasks = list.tasks.sort()
-      else
-        tasks = list.tasks
+    if list.tasks.length
       @ui.message.text @template.message.standard
 
     # Empty list
     else
-      # tasks = Task.list list.id
       @ui.message.text @template.message.empty
+
+    if Setting.sort
+      tasks = list.tasks.sort()
+    else
+      tasks = list.tasks
 
     # Display tasks
     @displayTasks tasks

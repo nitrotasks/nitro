@@ -18,7 +18,7 @@ Setting = require '../models/setting'
 User    = require '../models/user'
 
 # Controllers
-# Sync          = require # '../controllers/sync'
+Sync          = require '../controllers/sync'
 # Pro           = require # '../controllers/pro'
 Auth          = require '../controllers/auth'
 Search        = require '../controllers/search'
@@ -69,8 +69,9 @@ class App
       User.trigger 'login', animate: false
 
     # Login to sync
-    if Setting.loggedin
-      Sync.connect(Setting.uid, Setting.token)
+    if User.authenticated
+      Sync.connect()
+      window.Sync = Sync
     else
       event.trigger 'app:offline'
 

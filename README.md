@@ -55,4 +55,3 @@ To make or edit a language translation.
 
     # Then compile the language to save space
     cake language
-    

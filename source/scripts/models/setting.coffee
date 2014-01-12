@@ -1,11 +1,13 @@
-Base = require 'base'
+Base  = require 'base'
+Sync  = require '../controllers/sync'
 Local = require '../controllers/local'
 
 class Setting extends Base.Model
 
-  className: 'setting'
+  classname: 'pref'
 
   defaults:
+    id: 's0'
 
     # Settings
     sort:               yes
@@ -16,16 +18,11 @@ class Setting extends Base.Model
     confirmDelete:      yes
     completedDuration:  'day'
 
-    # Notifications
-    notifyTime:         9
-    notifyEmail:        no
-    notifyRegular:      'upcoming'
-    notifications:      no
-
 # Create a new instance of Setting
 settings = new Setting()
 
 # Add localStorage support
-new Local(settings)
+Local.include(settings)
+Sync.include(settings)
 
 module.exports = settings

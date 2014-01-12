@@ -126,7 +126,7 @@ class TaskItem extends Base.View
     if date?
       date = @task.prettyDate()
       @ui.time.text date.words
-      @ui.time.attr 'class', date.className
+      @ui.time.attr 'class', date.classname
       @ui.date.removeClass 'hidden'
     else
       @ui.time.text ''

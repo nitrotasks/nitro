@@ -1,4 +1,3 @@
-$         = require 'jqueryify'
 Setting   = require '../models/setting'
 event     = require '../utils/event'
 languages = require '../languages/languages'
@@ -70,6 +69,8 @@ class Translate
     event.trigger 'load:language'
 
   elements: =>
+
+    $ = require 'jqueryify'
 
     # Text
     $('.t').each (index, el) =>

@@ -16,6 +16,8 @@
     "uglify-js": "~2.4.0",
     "node-static": "~0.7.1",
     "node-sass": "~0.7.0",
-    "coffeelint": "~0.6.1"
+    "coffeelint": "~0.6.1",
+    "mocha": "*",
+    "should": "*"
   }
 }

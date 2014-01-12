@@ -20,6 +20,7 @@ class Auth
   loadToken: (id, token) ->
     User.uid = id
     User.token = token
+    User.authenticated = true
     event.trigger 'auth:token', id, token
 
   register: (name, email, password) =>
@@ -43,11 +44,8 @@ class Auth
         email: email
         password: password
       dataType: 'json'
-      success: ([uid, token, email, name, pro]) =>
+      success: ([uid, token]) =>
         @view.trigger 'login:success'
-        User.pro   = pro
-        User.name  = name
-        User.email = email
         @loadToken(uid, token)
       error: (xhr, status, msg) =>
         @view.trigger 'login:fail', xhr.status, xhr.responseText
