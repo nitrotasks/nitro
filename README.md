@@ -38,6 +38,15 @@ Use these commands to compile and minify the app into the public folder.
     # Optional: minify application.js
     cake minify
 
+### Stylesheets ###
+
+To generate `app/css/style.css` you will need to install the [Sass
+compiler](http://sass-lang.com/).
+
+    # Start sass
+    npm run-script sass
+
+    # Press Ctrl-C to exit Sass
 
 ### Translating Nitro ###
 

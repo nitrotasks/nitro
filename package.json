@@ -3,6 +3,7 @@
   "version": "2.1.0",
   "dependencies": {
     "jqueryify": "~2.0.3",
+    "jandal": "0.0.x",
     "base": "git://github.com/stayradiated/base.git#master",
     "mouse": "git://github.com/stayradiated/mouse.git#master"
   },
@@ -15,7 +16,6 @@
     "node-watch": "~0.3.4",
     "uglify-js": "~2.4.0",
     "node-static": "~0.7.1",
-    "node-sass": "~0.7.0",
     "coffeelint": "~0.6.1",
     "mocha": "*",
     "should": "*"
