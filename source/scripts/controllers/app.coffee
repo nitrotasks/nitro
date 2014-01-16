@@ -71,7 +71,6 @@ class App
     # Login to sync
     if User.authenticated
       Sync.connect()
-      window.Sync = Sync
     else
       event.trigger 'app:offline'
 
@@ -117,4 +116,3 @@ class App
     event.trigger 'app:ready'
 
 module.exports = App
-
