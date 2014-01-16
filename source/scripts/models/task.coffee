@@ -47,12 +47,7 @@ class TaskCollection extends Base.Collection
       index = @sortCache.indexOf task
       @sortCache.splice index, 1
 
-  # Sort the tasks
-
-  # < 0 :: a comes first
-  # > 0 :: b comes first
-  # = 0 :: no change
-
+  # Sort the tasks, and cache the result
   sort: =>
     if @sortCache then return @sortCache
     @sortCache = allTasks.sort @slice()
@@ -102,6 +97,11 @@ class TaskSingleton extends Base.Collection
         if item.name.toLowerCase().indexOf(word) < 0 then return false
       return true
 
+
+  ###
+   * Sort
+  ###
+
   sort: (tasks) =>
     return unless tasks
     tasks.sort (a, b) ->
@@ -137,7 +137,7 @@ allTasks = new TaskSingleton()
 
 # Add task to the list.task collection
 allTasks.on 'create:model', (task) =>
-  if List.exists task.listId
+  if List.exists(task.listId)
     list = task.list()
     list.tasks.add task
 

@@ -217,4 +217,3 @@ describe '[Sync]', ->
         language: 'en-us'
 
       pref.language.should.equal 'en-us'
-###

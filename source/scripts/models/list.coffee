@@ -77,7 +77,9 @@ class ListCollection extends Base.Collection
 allLists = new ListCollection()
 
 # Add localStorge support
-Sync.include(allLists)
 Local.include(allLists)
+
+# Add sync support
+Sync.include(allLists)
 
 module.exports = allLists

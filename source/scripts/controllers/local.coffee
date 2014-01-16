@@ -26,7 +26,7 @@ chromeStore =
     obj[key] = value
     console.log 'SET', key, obj
     chrome.storage.local.set obj
-    
+
 
 # Toggle between chrome.storage and localStorage
 if window.chrome?.storage?

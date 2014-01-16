@@ -55,8 +55,8 @@ dateParser = (text) ->
   for trigger, obj of triggers
     if match = text.match(obj.regexp)
       date = obj.fn(new Now(), match)
-      return date?.value() or false
-  return false
+      return date?.value() or 0
+  return 0
 
 
 # Default Triggers
