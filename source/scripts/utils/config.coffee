@@ -1,11 +1,12 @@
 
 servers = {
-  official:  'sync.nitrotasks.com:443'
-  dev:       'localhost:8080'
+  official: 'sync.nitrotasks.com:443'
+  local:    'localhost:8080'
+  heroku:   'nitro-server.herokuapp.com'
 }
 
 # Set active server
-active = servers.dev
+active = servers.local
 
 module.exports =
   server: active
