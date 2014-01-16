@@ -103,7 +103,7 @@ Sync.include = (model) ->
     namespace.emit 'update', data
 
   handler.ondestroy = (model, options) ->
-    namespace.emit 'destroy', model.id
+    namespace.emit 'destroy', {id: model.id}
 
   namespace.on 'create', (item) -> Sync.disable -> handler.create(item)
   namespace.on 'update', (item) -> Sync.disable -> handler.update(item)

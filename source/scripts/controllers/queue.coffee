@@ -50,7 +50,7 @@ class Queue
           time = {}
           time[key] = now for own key of model when key isnt 'id'
         when DESTROY
-          id = model
+          id = model.id
           time = now
 
       obj = @queue[classname] ?= {}

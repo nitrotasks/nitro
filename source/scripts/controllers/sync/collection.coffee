@@ -11,11 +11,14 @@ class CollectionSync
     @model.create(item)
 
   update: (item) =>
-    console.log 'updating', item, @model
-    @model.get(item.id).setAttributes(item)
+    model = @model.get(item.id)
+    return unless model
+    model.setAttributes(item)
 
-  destroy: (id) =>
-    @model.get(id).destroy()
+  destroy: (item) =>
+    model = @model.get(item.id)
+    return unless model
+    model.destroy()
 
   # override these
   oncreate: null

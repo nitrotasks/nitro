@@ -84,17 +84,17 @@ describe '[Sync]', ->
       task.get('s1').name = 'Task One - Updated'
 
     it 'should destroy a list', (done) ->
-      message = 'list.destroy("s0")'
+      message = 'list.destroy({"id":"s0"})'
       expect message, done
       list.get('s0').destroy()
 
     it 'should destroy a task', (done) ->
-      message = 'task.destroy("s1")'
+      message = 'task.destroy({"id":"s1"})'
       expect message, done
       task.get('s1').destroy()
 
     it 'should update a pref', (done) ->
-      message = 'pref.update({"id":0,"language":"en-nz"})'
+      message = 'pref.update({"id":"s0","language":"en-nz"})'
       expect message, done
       pref.language = 'en-nz'
 
@@ -118,11 +118,11 @@ describe '[Sync]', ->
       task.get('s3').name.should.equal 'Task Two - Updated'
 
     it 'should destroy a list', ->
-      SockJS.reply 'list.destroy("s2")'
+      SockJS.reply 'list.destroy({"id":"s2"})'
       should.equal list.get('s2'), undefined
 
     it 'should destroy a task', ->
-      SockJS.reply 'task.destroy("s3")'
+      SockJS.reply 'task.destroy({"id":"s3"})'
       should.equal task.get('s3'), undefined
 
     it 'should update a pref', ->

@@ -73,7 +73,7 @@ describe '[Queue]', ->
 
       test [
         ['list', 'create', {id: 30, name: 'List'}]
-        ['list', 'destroy', 30]
+        ['list', 'destroy', {id: 30}]
       ], list: {}
 
     it 'create + update + destroy = nothing', ->
@@ -81,15 +81,15 @@ describe '[Queue]', ->
       test [
         ['task', 'create', {id: 10, name: 'Task'}]
         ['task', 'update', {id: 10, name: 'Task - Updated'}]
-        ['task', 'destroy', 10]
+        ['task', 'destroy', {id: 10}]
       ], task: {}
 
     it 'update + destroy = destroy', ->
 
       test [
         ['list', 'update', {id:15, name: 'List - Updated'}]
-        ['list', 'destroy', 15]
-      ], list: '15': [DESTROY, 15, 'ts_1']
+        ['list', 'destroy', {id: 15}]
+      ], list: '15': [DESTROY, {id: 15}, 'ts_1']
 
     it 'update + update = update', ->
 
@@ -122,16 +122,16 @@ describe '[Queue]', ->
         ['pref', 'update', {id: 0, sort: true}]
         ['list', 'update', {id: 2, name: 'List Two - Updated'}]
         ['task', 'create', {id: 12, name: 'Task Twelve'}]
-        ['list', 'destroy', 0]
-        ['list', 'destroy', 1]
-        ['task', 'destroy', 10]
+        ['list', 'destroy', {id: 0}]
+        ['list', 'destroy', {id: 1}]
+        ['task', 'destroy', {id: 10}]
         ['task', 'create', {id: 13, name: 'Task Thirteen'}]
         ['task', 'update', {id: 14, name: 'Task Fourteen - Updated'}]
       ],
         list:
           '2': [CREATE, {name: 'List Two - Updated'}, 'ts_8_name']
         task:
-          '10': [DESTROY, 10, 'ts_12']
+          '10': [DESTROY, {id: 10}, 'ts_12']
           '11': [CREATE, {name: 'Task Eleven'}, 'ts_5']
           '12': [CREATE, {name: 'Task Twelve'}, 'ts_9']
           '13': [CREATE, {name: 'Task Thirteen'}, 'ts_13']
