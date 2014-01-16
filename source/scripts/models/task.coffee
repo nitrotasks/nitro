@@ -9,7 +9,7 @@ class Task extends Base.Model
   defaults:
     id: null
     listId: null
-    date: null
+    date: 0
     name: ''
     notes: ''
     priority: 1

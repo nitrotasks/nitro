@@ -28,14 +28,16 @@ Sync =
   open: ->
     Sync.online = yes
     Sync.auth()
-    event.trigger 'sync:open'
+    event.trigger 'socket:open'
 
   auth: ->
-    @socket.emit 'user.auth', user.uid, user.token, (status) ->
+    @socket.emit 'user.auth', user.uid, user.token, (err, status) ->
+      if err
+        return console.log err
       if status
-        console.log 'we are online'
+        event.trigger 'socket:auth:success'
       else
-        console.log 'could not auth with server'
+        event.trigger 'socket:auth:fail'
 
   namespace: (name) ->
     namespace = Sync.socket.namespace(name)
@@ -57,12 +59,12 @@ Sync =
     Sync.disabled = no
 
   getUserInfo: ->
-    Sync.socket.emit 'user.info', (info) ->
-      console.log info
+    Sync.socket.emit 'user.info', (err, info) ->
+      console.log err, info
       user.setAttributes info
 
   sync: (fn) ->
-    Sync.socket.emit 'sync', queue.toJSON(), (data) ->
+    Sync.socket.emit 'queue.sync', queue.toJSON(), (err, data) ->
       fn(data)
       queue.clear()
 
@@ -71,11 +73,20 @@ Sync =
 # -----------------------------------------------------------------------------
 
 event.on 'auth:token', -> Sync.connect()
-event.on 'sync:open',  -> Sync.getUserInfo()
+event.on 'socket:auth:success',  ->
+  Sync.getUserInfo()
+  Sync.sync (data) -> console.log data
 
 # -----------------------------------------------------------------------------
 # Sync Model Handler
 # -----------------------------------------------------------------------------
+
+timestamps = (obj) ->
+  time = {}
+  now = Date.now()
+  for key of obj when key isnt 'id'
+    time[key] = now
+  return time
 
 ###
  * Takes one model and listens to events on it
@@ -94,16 +105,17 @@ Sync.include = (model) ->
   namespace = Sync.namespace model.classname
 
   handler.oncreate = (item, options) ->
-    namespace.emit 'create', item.toJSON(), (id) =>
+    namespace.emit 'create', item.toJSON(), Date.now(), (err, id) =>
+      if err or not id then return
       Sync.disable => item.id = id
 
   handler.onupdate = (model, key, value) ->
     data = id: model.id
     data[key] = value
-    namespace.emit 'update', data
+    namespace.emit 'update', data, timestamps(data)
 
   handler.ondestroy = (model, options) ->
-    namespace.emit 'destroy', {id: model.id}
+    namespace.emit 'destroy', {id: model.id}, Date.now()
 
   namespace.on 'create', (item) -> Sync.disable -> handler.create(item)
   namespace.on 'update', (item) -> Sync.disable -> handler.update(item)

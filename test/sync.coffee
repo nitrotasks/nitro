@@ -1,5 +1,6 @@
 pref = sync = list = task = user = null
 should = require 'should'
+client = require './mock_client'
 
 describe '[Sync]', ->
 
@@ -21,13 +22,24 @@ describe '[Sync]', ->
 
   beforeEach ->
     SockJS.read = (message) -> console.log message
+    client.callback = true
 
   expect = (message, done) ->
     SockJS.read = (text) ->
-      text.should.equal message
+
+      if message.match('"<ts>"')
+        timestamp = text.match(/\d{13}/)[0]
+        _message = message.replace('"<ts>"', timestamp)
+      else
+        _message = message
+
+      text.should.equal _message
       done()
 
   describe 'Connection', ->
+
+    before ->
+      client.timestamp = -> return '<ts>'
 
     it 'should connect to server', ->
       sync.connect()
@@ -36,18 +48,28 @@ describe '[Sync]', ->
       user.uid = 10
       user.token = 'i-miss-the-internet'
 
-      expect "user.auth(#{ user.uid },\"#{ user.token }\").fn(0)", ->
-        expect "user.info().fn(1)", done
-        SockJS.reply 'Jandal.fn_0(true)'
+      message = client.user.auth(user.uid, user.token)
+
+      expect message, ->
+        expect client.user.info(), ->
+          expect client.queue.sync({}), done
+        SockJS.replyFn 0, 'null,true'
 
   describe 'Emit events to the server', ->
 
+    before ->
+      client.timestamp = -> return '<ts>'
+
     it 'should create a list', (done) ->
 
-      message = 'list.create({"id":"c0","name":"List One","tasks":[],"permanent":false}).fn(2)'
+      message = client.list.create
+        id: 'c0'
+        name: 'List One'
+        tasks: []
+        permanent: false
 
       callback = ->
-        SockJS.reply 'Jandal.fn_2("s0")'
+        SockJS.replyFn client.id, 'null,"s0"'
         list.get('s0').name.should.equal 'List One'
         should.equal list.get('c0'), undefined
         done()
@@ -59,10 +81,17 @@ describe '[Sync]', ->
 
     it 'should create a task', (done) ->
 
-      message = 'task.create({"id":"c0","listId":"c0","date":null,"name":"Task One","notes":"","priority":1,"completed":false}).fn(3)'
+      message = client.task.create
+        id: 'c0'
+        listId: 'c0'
+        date: 0
+        name: 'Task One'
+        notes: ''
+        priority: 1
+        completed: false
 
       callback = ->
-        SockJS.reply 'Jandal.fn_3("s1")'
+        SockJS.replyFn client.id, 'null,"s1"'
         task.get('s1').name.should.equal 'Task One'
         should.equal task.get('c0'), undefined
         done()
@@ -74,57 +103,118 @@ describe '[Sync]', ->
         listId: 'c0'
 
     it 'should update the list name', (done) ->
-      message = 'list.update({"id":"s0","name":"List One - Updated"})'
+
+      client.callback = false
+
+      message = client.list.update
+        id: 's0'
+        name: 'List One - Updated'
+
       expect message, done
       list.get('s0').name = 'List One - Updated'
 
     it 'should update the task name', (done) ->
-      message = 'task.update({"id":"s1","name":"Task One - Updated"})'
+
+      client.callback = false
+
+      message = client.task.update
+        id: 's1'
+        name: 'Task One - Updated'
+
       expect message, done
       task.get('s1').name = 'Task One - Updated'
 
     it 'should destroy a list', (done) ->
-      message = 'list.destroy({"id":"s0"})'
+
+      client.callback = false
+
+      message = client.list.destroy
+        id: 's0'
+
       expect message, done
       list.get('s0').destroy()
 
     it 'should destroy a task', (done) ->
-      message = 'task.destroy({"id":"s1"})'
+
+      client.callback = false
+
+      message = client.task.destroy
+        id: 's1'
+
       expect message, done
       task.get('s1').destroy()
 
     it 'should update a pref', (done) ->
-      message = 'pref.update({"id":"s0","language":"en-nz"})'
+
+      client.callback = false
+
+      message = client.pref.update
+        id: 's0'
+        language: 'en-NZ'
+
       expect message, done
-      pref.language = 'en-nz'
+      pref.language = 'en-NZ'
 
 
   describe 'React to events from the server', ->
 
+    # Save keystrokes
+    exec = (message) -> SockJS.reply(message)
+
+    before ->
+      client.timestamp = -> return Date.now()
+
     it 'should create a list', ->
-      SockJS.reply 'list.create({"id":"s2","name":"List Two"})'
+
+      exec client.list.create
+        id: 's2'
+        name: 'List Two'
+
       list.get('s2').name.should.equal 'List Two'
 
     it 'should create a task', ->
-      SockJS.reply 'task.create({"id":"s3","name":"Task Two"})'
+
+      exec client.task.create
+        id: 's3'
+        name: 'Task Two'
+
       task.get('s3').name.should.equal 'Task Two'
 
     it 'should update a list', ->
-      SockJS.reply 'list.update({"id":"s2","name":"List Two - Updated"})'
+
+      exec client.list.update
+        id: 's2'
+        name: 'List Two - Updated'
+
       list.get('s2').name.should.equal 'List Two - Updated'
 
     it 'should update a task', ->
-      SockJS.reply 'task.update({"id":"s3","name":"Task Two - Updated"})'
+
+      exec client.task.update
+        id: 's3'
+        name: 'Task Two - Updated'
+
       task.get('s3').name.should.equal 'Task Two - Updated'
 
     it 'should destroy a list', ->
-      SockJS.reply 'list.destroy({"id":"s2"})'
+
+      exec client.list.destroy
+        id: 's2'
+
       should.equal list.get('s2'), undefined
 
     it 'should destroy a task', ->
-      SockJS.reply 'task.destroy({"id":"s3"})'
+
+      exec client.task.destroy
+        id: 's3'
+
       should.equal task.get('s3'), undefined
 
     it 'should update a pref', ->
-      SockJS.reply 'pref.update({"language":"en-us"})'
+
+      exec client.pref.update
+        id: 's0'
+        language: 'en-us'
+
       pref.language.should.equal 'en-us'
+###

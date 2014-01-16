@@ -29,6 +29,10 @@ SockJS.reply = function (message) {
   this._.onmessage({data: message});
 };
 
+SockJS.replyFn = function (id, message) {
+  this.reply('Jandal.fn_' + id + '(' + message + ')');
+};
+
 SockJS.read = function (message) {
   console.log('[SockJS]', message);
 };
