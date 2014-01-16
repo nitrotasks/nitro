@@ -13,6 +13,7 @@ class ListInbox extends ListItem
 
   constructor: ->
     @list = List.get 'inbox'
+    @list.permanent = true
 
     super
 
