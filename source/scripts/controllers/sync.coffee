@@ -73,9 +73,13 @@ Sync =
 # -----------------------------------------------------------------------------
 
 event.on 'auth:token', -> Sync.connect()
-event.on 'socket:auth:success',  ->
+event.on 'socket:auth:success', ->
   Sync.getUserInfo()
-  Sync.sync (data) -> console.log data
+  Sync.sync (data) ->
+    event.trigger 'sync:refresh:task', data.task
+    event.trigger 'sync:refresh:list', data.list
+    event.trigger 'sync:refresh:pref', data.pref
+
 
 # -----------------------------------------------------------------------------
 # Sync Model Handler
@@ -96,6 +100,10 @@ timestamps = (obj) ->
 ###
 
 Sync.include = (model) ->
+
+  event.on 'sync:refresh:' + model.classname, (data) ->
+    console.log 'refreshing', model.classname, data
+    model.refresh(data, true)
 
   if model instanceof Base.Collection
     handler = new CollectionSync(model)
