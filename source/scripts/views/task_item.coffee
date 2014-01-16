@@ -78,10 +78,10 @@ class TaskItem extends Base.View
     e.stopPropagation()
 
     # Does not work in completed list
-    if @task.completed is false
+    if not @task.completed
       @task.completed = Date.now()
     else
-      @task.completed = false
+      @task.completed = 0
 
     # TODO: Move into a model/controller
     # if false # List.current.id is 'completed'
@@ -99,7 +99,7 @@ class TaskItem extends Base.View
     #   @el.remove()
 
   updateCompleted: =>
-    @el.toggleClass 'completed', @task.completed isnt false
+    @el.toggleClass 'completed', @task.completed
 
   updatePriority: =>
     @el.removeClass('p1 p2 p3')

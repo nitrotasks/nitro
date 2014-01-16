@@ -13,7 +13,7 @@ class Task extends Base.Model
     name: ''
     notes: ''
     priority: 1
-    completed: false
+    completed: 0
 
   # Get the actual list
   list: =>
