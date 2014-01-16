@@ -1,4 +1,4 @@
-class CollectionSync
+class ListSync
 
   constructor: (@model) ->
 
@@ -28,4 +28,4 @@ class CollectionSync
   onupdate: null
   ondestroy: null
 
-module.exports = CollectionSync
+module.exports = ListSync

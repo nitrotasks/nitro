@@ -36,6 +36,8 @@ class Queue
     if event is 'update' then event = UPDATE
     if event is 'destroy' then event = DESTROY
 
+    console.log event, classname, model
+
     if event in [CREATE, UPDATE, DESTROY]
       now = Date.now()
 

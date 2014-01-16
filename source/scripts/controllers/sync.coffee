@@ -4,8 +4,6 @@ event          = require '../utils/event'
 config         = require '../utils/config'
 user           = require '../models/user'
 queue          = require '../controllers/queue'
-CollectionSync = require '../controllers/sync/collection'
-ModelSync      = require '../controllers/sync/model'
 
 Jandal.handle 'sockjs'
 
@@ -63,9 +61,11 @@ Sync =
       console.log err, info
       user.setAttributes info
 
-  sync: (fn) ->
+  queue: ->
     Sync.socket.emit 'queue.sync', queue.toJSON(), (err, data) ->
-      fn(data)
+      event.trigger 'sync:refresh:task', data.task
+      event.trigger 'sync:refresh:list', data.list
+      event.trigger 'sync:refresh:pref', data.pref
       queue.clear()
 
 # -----------------------------------------------------------------------------
@@ -75,11 +75,9 @@ Sync =
 event.on 'auth:token', -> Sync.connect()
 event.on 'socket:auth:success', ->
   Sync.getUserInfo()
-  Sync.sync (data) ->
-    event.trigger 'sync:refresh:task', data.task
-    event.trigger 'sync:refresh:list', data.list
-    event.trigger 'sync:refresh:pref', data.pref
 
+# TEMP
+window.Sync = Sync
 
 # -----------------------------------------------------------------------------
 # Sync Model Handler
@@ -99,17 +97,13 @@ timestamps = (obj) ->
  * - model (Base.Model)
 ###
 
-Sync.include = (model) ->
+Sync.include = (model, Handler) ->
 
   event.on 'sync:refresh:' + model.classname, (data) ->
     console.log 'refreshing', model.classname, data
     model.refresh(data, true)
 
-  if model instanceof Base.Collection
-    handler = new CollectionSync(model)
-  else
-    handler = new ModelSync(model)
-
+  handler = new Handler(model)
   namespace = Sync.namespace model.classname
 
   handler.oncreate = (item, options) ->

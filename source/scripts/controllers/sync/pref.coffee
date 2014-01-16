@@ -1,4 +1,4 @@
-class ModelSync
+class PrefSync
 
   constructor: (@model) ->
 
@@ -7,17 +7,17 @@ class ModelSync
       @onupdate(@model, key, value)
 
   create: =>
+    throw new Error('Cannot create new pref')
 
   update: (item) =>
     @model.setAttributes(item)
 
   destroy: =>
+    throw new Error('Cannot destroy pref')
 
   # override these
-  oncreate: ->
-  onupdate: ->
-  ondestroy: ->
+  oncreate: null
+  onupdate: null
+  ondestroy: null
 
-
-
-module.exports = ModelSync
+module.exports = PrefSync

@@ -1,6 +1,7 @@
 Base  = require 'base'
 Local = require '../controllers/local'
 Sync  = require '../controllers/sync'
+Handler = require '../controllers/sync/list'
 
 class List extends Base.Model
 
@@ -34,6 +35,7 @@ class List extends Base.Model
 
     @tasks.on 'change', =>
       @trigger 'save'
+      allLists.trigger 'change:model', this, 'tasks', @tasks.pluck('id')
 
     @tasks.type = 'minor'
 
@@ -79,6 +81,6 @@ allLists = new ListCollection()
 Local.include(allLists)
 
 # Add sync support
-Sync.include(allLists)
+Sync.include(allLists, Handler)
 
 module.exports = allLists

@@ -2,6 +2,7 @@ Base       = require 'base'
 List       = require '../models/list'
 Local      = require '../controllers/local'
 Sync       = require '../controllers/sync'
+Handler    = require '../controllers/sync/task'
 prettyDate = require '../utils/prettydate'
 
 class Task extends Base.Model
@@ -145,6 +146,6 @@ allTasks.on 'create:model', (task) =>
 Local.include(allTasks)
 
 # Add sync support
-Sync.include(allTasks)
+Sync.include(allTasks, Handler)
 
 module.exports = allTasks

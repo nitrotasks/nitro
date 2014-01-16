@@ -1,8 +1,9 @@
 Base  = require 'base'
 Sync  = require '../controllers/sync'
 Local = require '../controllers/local'
+Handler = require '../controllers/sync/pref'
 
-class Setting extends Base.Model
+class Pref extends Base.Model
 
   classname: 'pref'
 
@@ -19,10 +20,12 @@ class Setting extends Base.Model
     completedDuration:  'day'
 
 # Create a new instance of Setting
-settings = new Setting()
+prefs = new Pref()
 
 # Add localStorage support
-Local.include(settings)
-Sync.include(settings)
+Local.include(prefs)
 
-module.exports = settings
+# Add sync support
+Sync.include(prefs, Handler)
+
+module.exports = prefs

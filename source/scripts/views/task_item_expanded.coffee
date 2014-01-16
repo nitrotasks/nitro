@@ -186,7 +186,7 @@ class ExpandedTaskItem extends Base.View
       @task.date = @ui.dateWrap.datepicker('getDate').getTime()
 
     else
-      @task.date = null
+      @task.date = 0
 
 
 module.exports = ExpandedTaskItem
