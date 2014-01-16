@@ -99,7 +99,7 @@ class TaskItem extends Base.View
     #   @el.remove()
 
   updateCompleted: =>
-    @el.toggleClass 'completed', @task.completed
+    @el.toggleClass 'completed', !! @task.completed
 
   updatePriority: =>
     @el.removeClass('p1 p2 p3')

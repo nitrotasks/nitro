@@ -8,14 +8,17 @@ class CollectionSync
     @model.on 'before:destroy:model', @ondestroy
 
   create: (item) =>
+    console.log 'creating', item
     @model.create(item)
 
   update: (item) =>
+    console.log 'updating', item
     model = @model.get(item.id)
     return unless model
     model.setAttributes(item)
 
   destroy: (item) =>
+    console.log 'destroying', item
     model = @model.get(item.id)
     return unless model
     model.destroy()
@@ -24,7 +27,5 @@ class CollectionSync
   oncreate: null
   onupdate: null
   ondestroy: null
-
-
 
 module.exports = CollectionSync

@@ -34,20 +34,40 @@ class App
     Setting.once 'refresh', =>
       console.log 'Loaded settings'
       @settingsReady = true
-      @ready()
+      @syncWithServer()
 
     User.once 'refresh', =>
       console.log 'Loaded user'
       @userReady = true
-      @ready()
+      @syncWithServer()
 
     # Load Settings
     Setting.trigger 'fetch'
     User.trigger 'fetch'
 
+  syncWithServer: =>
+
+    return unless not @started and @settingsReady and @userReady
+    @started = true
+
+    console.log 'syncing with server'
+
+    @ready()
+
+    # Login to sync
+    if User.authenticated
+      Sync.connect()
+    else
+      console.log 'we are offline'
+      event.trigger 'app:offline'
+      # Load data from disk
+      Task.trigger 'fetch'
+      List.trigger 'fetch'
+
+
   ready: =>
 
-    return unless @settingsReady and @userReady
+    console.log 'running ready'
 
     # Load translations
     translate.init()
@@ -68,12 +88,6 @@ class App
     if User.loggedIn()
       User.trigger 'login', animate: false
 
-    # Login to sync
-    if User.authenticated
-      Sync.connect()
-    else
-      event.trigger 'app:offline'
-
     List.once 'refresh', =>
       console.log 'Loaded lists'
       @listReady = true
@@ -84,13 +98,11 @@ class App
       @taskReady = true
       @displayData()
 
-    # Load data from disk
-    Task.trigger 'fetch'
-    List.trigger 'fetch'
 
   displayData: =>
 
-    return unless @listReady and @taskReady
+    return unless not @displayed and @listReady and @taskReady
+    @displayed = true
 
     # Load default lists and tasks
     # if Task.length is 0
