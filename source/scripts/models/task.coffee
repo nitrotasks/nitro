@@ -67,7 +67,7 @@ class TaskSingleton extends Base.Collection
 
   # Get the active tasks
   active: =>
-    @filter (task) -> !task.completed
+    @filter (task) -> not task.completed
 
   # Get the completed tasks
   completed: =>
@@ -101,6 +101,15 @@ class TaskSingleton extends Base.Collection
 
   ###
    * Sort
+   *
+   * Sorts an task collection in a specific order:
+   *   1. Completed tasks are at the bottom of everything
+   *   2. Highest priority at the top, lowest at the bottom
+   *   3. Closest due date at the top, no due date at the bottom
+   *   4. Alphabetically sort the name, A: top, Z: bottom
+   *
+   * - tasks (collection) : tasks to sort
+   * > sorted array
   ###
 
   sort: (tasks) =>
@@ -130,8 +139,8 @@ class TaskSingleton extends Base.Collection
   tag: (tag) =>
     return [] unless tag
     tag = tag.toLowerCase()
-    @filter (item) ->
-      item.name?.toLowerCase().indexOf('#'+tag) > -1
+    regex = new RegExp("##{ tag }\\b", 'i')
+    @filter (item) -> item.name?.match(regex)
 
 # Create a new TaskCollection to store all tasks
 allTasks = new TaskSingleton()
