@@ -62,9 +62,7 @@ class Lists extends Base.View
     Mouse.tasks.clearSelection()
 
     # Clear the currently selected list
-    @el
-      .find('.current')
-      .removeClass('current')
+    @el.find('.active').removeClass('active')
 
   # Focus the list input
   focus: =>

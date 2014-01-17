@@ -100,7 +100,7 @@
       &:hover {
         background-color: darken($sidebar-color, 9.5);
       }
-      &.current {
+      &.active {
         background-color: darken($sidebar-color, 12);
       }
     }

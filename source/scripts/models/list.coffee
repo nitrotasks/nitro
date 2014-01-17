@@ -10,10 +10,6 @@ class List extends Base.Model
     name: ''
     tasks: null
 
-  # Reference active list
-  # Should proabably be in a controller
-  @current: null
-
   constructor: ->
     super
 

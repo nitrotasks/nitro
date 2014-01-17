@@ -57,7 +57,7 @@ class ListItem extends Base.View
     @list.trigger 'select'
 
   select: =>
-    @el.addClass 'current'
+    @el.addClass 'active'
 
   remove: =>
     @drop.remove()
