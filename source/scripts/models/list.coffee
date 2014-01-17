@@ -46,7 +46,8 @@ class List extends Base.Model
 
   # Remove completed tasks from list
   moveCompleted: =>
-    @tasks.refresh @tasks.active(), true
+    active = @tasks.filter (task) -> not task.completed
+    @tasks.refresh active, true
 
   # TODO: Hook up to the before:destroy event
   destroyTasks: =>
