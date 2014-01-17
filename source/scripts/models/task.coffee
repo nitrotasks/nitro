@@ -82,20 +82,28 @@ class TaskSingleton extends Base.Collection
   # - type (string) : can be 'all', 'active' or 'completed'
   search: (query, type='all') =>
 
-    switch type
-      when 'active'
-        tasks = @active()
-      when 'completed'
-        tasks = @completed()
-      when 'all'
-        tasks = @all()
+    if query.length is 0
+      if type is 'active' then return @active()
+      if type is 'completed' then return @completed()
+      return @all()
+
+    tasks = @all()
 
     return tasks unless query.length > 0
-    query = query.toLowerCase().split ' '
+    query = query.toLowerCase().split(' ')
 
     tasks.filter (item) ->
+
+      if type is 'active'
+        return false if item.completed
+
+      if type is 'completed'
+        return false unless item.completed
+
       for word in query
-        if item.name.toLowerCase().indexOf(word) < 0 then return false
+        if item.name.toLowerCase().indexOf(word) < 0
+          return false
+
       return true
 
 

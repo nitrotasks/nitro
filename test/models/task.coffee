@@ -199,11 +199,11 @@ describe 'Task', ->
 
     it 'should search through tasks', ->
 
-      task1 = Task.create name: 'a b c'
-      task2 = Task.create name: 'b c d'
-      task3 = Task.create name: 'c d e'
-      task4 = Task.create name: 'd e a'
-      task5 = Task.create name: 'e a b'
+      task1 = Task.create name: 'a b c', completed: 1
+      task2 = Task.create name: 'b c d', completed: 0
+      task3 = Task.create name: 'c d e', completed: 1
+      task4 = Task.create name: 'd e a', completed: 0
+      task5 = Task.create name: 'e a b', completed: 1
 
       Task.search('').should.eql [task1, task2, task3, task4, task5]
       Task.search(' ').should.eql [task1, task2, task3, task4, task5]
@@ -216,6 +216,12 @@ describe 'Task', ->
 
       Task.search('x').should.eql []
       Task.search('abc').should.eql []
+
+      Task.search('', 'completed').should.eql [task1, task3, task5]
+      Task.search('a', 'completed').should.eql [task1, task5]
+
+      Task.search('', 'active').should.eql [task2, task4]
+      Task.search('a', 'active').should.eql [task4]
 
     it 'should match tags', ->
 
