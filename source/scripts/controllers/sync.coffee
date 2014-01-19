@@ -75,9 +75,8 @@ Sync =
 event.on 'auth:token', -> Sync.connect()
 event.on 'socket:auth:success', ->
   Sync.getUserInfo()
+  Sync.queue()
 
-# TEMP
-window.Sync = Sync
 
 # -----------------------------------------------------------------------------
 # Sync Model Handler
@@ -111,9 +110,7 @@ Sync.include = (model, Handler) ->
       if err or not id then return
       Sync.disable => item.id = id
 
-  handler.onupdate = (model, key, value) ->
-    data = id: model.id
-    data[key] = value
+  handler.onupdate = (data) ->
     namespace.emit 'update', data, timestamps(data)
 
   handler.ondestroy = (model, options) ->

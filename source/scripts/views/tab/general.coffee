@@ -60,6 +60,18 @@ for setting, element of settings
         val = el.is ':checked'
       else if el.hasClass('control')
         val = el.find(":checked").val()
+
+        if val is 'true'
+          val = true
+        else if val is 'false'
+          val = false
+        else
+          num = parseInt val, 10
+          if not isNaN num
+            val = num
+
+        console.log val
+
       else
         val = el.val()
       Setting[setting] = val

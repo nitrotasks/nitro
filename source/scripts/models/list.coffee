@@ -31,7 +31,9 @@ class List extends Base.Model
 
     @tasks.on 'change', =>
       @trigger 'save'
-      allLists.trigger 'change:model', this, 'tasks', @tasks.pluck('id')
+
+    @tasks.on 'move:model', =>
+      allLists.trigger 'update:model', this, 'tasks', @tasks.pluck 'id'
 
     @tasks.type = 'minor'
 

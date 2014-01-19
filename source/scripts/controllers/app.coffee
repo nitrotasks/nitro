@@ -61,9 +61,9 @@ class App
       console.log 'we are offline'
       event.trigger 'app:offline'
 
-    # Load data from disk
-    Task.trigger 'fetch'
-    List.trigger 'fetch'
+      # Load data from disk
+      Task.trigger 'fetch'
+      List.trigger 'fetch'
 
 
   ready: =>

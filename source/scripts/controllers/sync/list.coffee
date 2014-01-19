@@ -4,7 +4,7 @@ class ListSync
 
   listen: =>
     @model.on 'create:model', @oncreate
-    @model.on 'change:model', @onupdate
+    @model.on 'change:model', @handleUpdate
     @model.on 'before:destroy:model', @ondestroy
 
   create: (item) =>
@@ -22,6 +22,11 @@ class ListSync
     model = @model.get(item.id)
     return unless model
     model.destroy()
+
+  handleUpdate: (model, key, value) =>
+    data = id: model.id
+    data[key] = value
+    @onupdate(data)
 
   # override these
   oncreate: null
