@@ -22,6 +22,7 @@ Sync          = require '../controllers/sync'
 # Pro           = require # '../controllers/pro'
 Auth          = require '../controllers/auth'
 Search        = require '../controllers/search'
+Inbox         = require '../controllers/inbox'
 
 # Views
 Keys  = require '../views/keys'
@@ -50,13 +51,13 @@ class App
     return unless not @started and @settingsReady and @userReady
     @started = true
 
-    console.log 'syncing with server'
-
     @ready()
 
     # Login to sync
     if User.authenticated
+      console.log 'going to connect to the server'
       Sync.connect()
+
     else
       console.log 'we are offline'
       event.trigger 'app:offline'
@@ -109,14 +110,6 @@ class App
     # if Task.length is 0
     #     List.refresh require '../models/default/list.json'
     #     Task.refresh require '../models/default/task.json'
-
-    # Make sure inbox list exists
-    # TODO: Move somewhere elese
-    if List.exists('inbox') is false
-      List.create
-        id: 'inbox'
-        name: 'Inbox'
-        permanent: yes
 
     # Show inbox
     Views.loadLists()
