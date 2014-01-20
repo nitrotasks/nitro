@@ -106,15 +106,15 @@ Sync.include = (model, Handler) ->
   namespace = Sync.namespace model.classname
 
   handler.oncreate = (item, options) ->
-    namespace.emit 'create', item.toJSON(), Date.now(), (err, id) =>
+    namespace.emit 'create', item.toJSON(), (err, id) =>
       if err or not id then return
       Sync.disable => item.id = id
 
   handler.onupdate = (data) ->
-    namespace.emit 'update', data, timestamps(data)
+    namespace.emit 'update', data # , timestamps(data)
 
   handler.ondestroy = (model, options) ->
-    namespace.emit 'destroy', {id: model.id}, Date.now()
+    namespace.emit 'destroy', {id: model.id} #, Date.now()
 
   namespace.on 'create', (item) -> Sync.disable -> handler.create(item)
   namespace.on 'update', (item) -> Sync.disable -> handler.update(item)

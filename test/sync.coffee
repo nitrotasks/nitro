@@ -26,20 +26,10 @@ describe '[Sync]', ->
 
   expect = (message, done) ->
     SockJS.read = (text) ->
-
-      if message.match('"<ts>"')
-        timestamp = text.match(/\d{13}/)[0]
-        _message = message.replace('"<ts>"', timestamp)
-      else
-        _message = message
-
-      text.should.equal _message
+      text.should.equal message
       done()
 
   describe 'Connection', ->
-
-    before ->
-      client.timestamp = -> return '<ts>'
 
     it 'should connect to server', ->
       sync.connect()
@@ -57,16 +47,12 @@ describe '[Sync]', ->
 
   describe 'Emit events to the server', ->
 
-    before ->
-      client.timestamp = -> return '<ts>'
-
     it 'should create a list', (done) ->
 
       message = client.list.create
         id: 'c0'
         name: 'List One'
         tasks: []
-        permanent: false
 
       callback = ->
         SockJS.replyFn client.id, 'null,"s0"'
@@ -88,7 +74,7 @@ describe '[Sync]', ->
         name: 'Task One'
         notes: ''
         priority: 1
-        completed: false
+        completed: 0
 
       callback = ->
         SockJS.replyFn client.id, 'null,"s1"'
@@ -149,7 +135,6 @@ describe '[Sync]', ->
       client.callback = false
 
       message = client.pref.update
-        id: 's0'
         language: 'en-NZ'
 
       expect message, done
@@ -160,9 +145,6 @@ describe '[Sync]', ->
 
     # Save keystrokes
     exec = (message) -> SockJS.reply(message)
-
-    before ->
-      client.timestamp = -> return Date.now()
 
     it 'should create a list', ->
 

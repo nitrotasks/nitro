@@ -1,12 +1,6 @@
 # Generate strings for Jandal
 # CLIENT VERSION
 
-timestamps = (obj) ->
-  time = {}
-  for key of obj when key isnt 'id'
-    time[key] = client.timestamp()
-  return time
-
 emit = (event, args...) ->
   string = event
   string += '('
@@ -24,8 +18,6 @@ client =
 
   id: -1
   callback: true
-  timestamp: -> return Date.now()
-
   setId: (id) ->
     client.id = id - 1
 
@@ -48,29 +40,29 @@ client =
       emit 'task.fetch'
 
     create: (model) ->
-      emit 'task.create', model, client.timestamp()
+      emit 'task.create', model
 
     update: (model) ->
-      emit 'task.update', model, timestamps(model)
+      emit 'task.update', model
 
     destroy: (model) ->
-      emit 'task.destroy', model, client.timestamp()
+      emit 'task.destroy', model
 
   list:
 
     create: (model) ->
-      emit 'list.create', model, client.timestamp()
+      emit 'list.create', model
 
     update: (model) ->
-      emit 'list.update', model, timestamps(model)
+      emit 'list.update', model
 
     destroy: (model) ->
-      emit 'list.destroy', model, client.timestamp()
+      emit 'list.destroy', model
 
   pref:
 
     update: (model) ->
-      emit 'pref.update', model, timestamps(model)
+      emit 'pref.update', model
 
 
 module.exports = client
