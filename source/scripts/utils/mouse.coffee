@@ -50,9 +50,7 @@ tasks.on 'sort', (items, position) ->
   collection = items[0].task.collection
 
   for item in items by -1
-    collection.move item.task, position, true
-
-  collection.reindex()
+    collection.move item.task, position
 
 lists.on 'sort', (item, position) ->
   List.move item[0].list, position
