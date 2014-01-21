@@ -42,6 +42,11 @@ class App
       @userReady = true
       @syncWithServer()
 
+    event.on 'app:offline', ->
+      # Load data from disk
+      Task.trigger 'fetch'
+      List.trigger 'fetch'
+
     # Load Settings
     Setting.trigger 'fetch'
     User.trigger 'fetch'
@@ -61,10 +66,6 @@ class App
     else
       console.log 'we are offline'
       event.trigger 'app:offline'
-
-      # Load data from disk
-      Task.trigger 'fetch'
-      List.trigger 'fetch'
 
 
   ready: =>

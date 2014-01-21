@@ -5,7 +5,7 @@ config         = require '../utils/config'
 user           = require '../models/user'
 queue          = require '../controllers/queue'
 
-Jandal.handle 'sockjs'
+Jandal.handle 'websockets'
 
 # -----------------------------------------------------------------------------
 # Sync Controller
@@ -21,12 +21,29 @@ Sync =
   connect: () ->
     @connection = new SockJS("http://#{ config.sync }")
     @socket.connect @connection
-    @connection.onopen = @open
+    @socket.on('socket.open', @open)
+    @socket.on('socket.error', @error)
+    @socket.on('socket.close', @close)
 
   open: ->
     Sync.online = yes
     Sync.auth()
     event.trigger 'socket:open'
+
+  error: (code) ->
+    console.log 'error with socket', arguments
+
+  close: ({ code, reason }) ->
+    console.log code, reason
+
+    switch code
+      when 1002
+        console.log 'Client cannot connect to server'
+      when 3002
+        console.log 'Could not auth with server'
+        event.trigger 'auth:old_token'
+
+    event.trigger 'app:offline'
 
   auth: ->
     @socket.emit 'user.auth', user.uid, user.token, (err, status) ->
