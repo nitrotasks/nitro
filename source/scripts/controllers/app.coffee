@@ -113,6 +113,7 @@ class App
 
     # Show inbox
     Views.loadLists()
+    List.get('inbox').trigger('select')
 
     # Doesn't run in the Settings constructor. Bit of a pain
     # TODO: Move somewhere else?

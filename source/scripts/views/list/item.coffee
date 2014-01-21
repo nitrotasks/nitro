@@ -30,16 +30,16 @@ class ListItem extends Base.View
 
   # Create the list element
   render: =>
-
     @el = $ @template @list
     @bind()
+    @makeDroppable()
+    return this
 
-    # Set up droppable handler
+  # Set up droppable handler
+  makeDroppable: =>
     el = @el[0]
     el.list = @list
     @drop = Mouse.tasks.addDrop(el)
-
-    return this
 
   mouseup: (e) =>
     if Mouse.tasks.isMoving() then return

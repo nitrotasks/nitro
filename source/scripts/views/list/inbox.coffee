@@ -14,36 +14,22 @@ class ListInbox extends ListItem
   constructor: ->
     super
 
-    @getInbox()
-
-    # Make droppable
-    Mouse.tasks.addDrop @el[0]
-
+    @list.permanent = true
     @list.name = text.inbox
 
+    @makeDroppable()
+
+    @updateCount()
+
+    # @list.trigger 'select'
+
     # Change name with translations
-    event.on 'load:language', =>
+    @listen event, 'load:language': =>
       @list.name = text.inbox
 
-    List.on 'refresh', @getInbox
+  remove: ->
+    @drop.remove()
+    @unbind()
+    @stopListening()
 
-  getInbox: =>
-    # FIXME: Mem Leak
-
-    @list = List.get 'inbox'
-    console.log 'getting inbox', @list
-
-    @list.permanent = true
-    @el[0].list = @list
-    @updateCount()
-    @list.trigger 'select'
-
-    @listen [
-      @list,
-        'select': @select
-        'change': @updateName
-        'before:destroy': @remove
-      @list.tasks,
-        'change': @updateCount
-    ]
 module.exports = ListInbox

@@ -99,7 +99,6 @@ timestamps = (obj) ->
 Sync.include = (model, Handler) ->
 
   event.on 'sync:refresh:' + model.classname, (data) ->
-    console.log 'refreshing', model.classname, data
     model.refresh(data, true)
 
   handler = new Handler(model)

@@ -10,7 +10,6 @@ Settings      = require '../views/settings'
 NightMode     = require '../views/night'
 Panel         = require '../views/panel'
 
-ListInbox     = require '../views/list/inbox'
 ListAll       = require '../views/list/all'
 ListCompleted = require '../views/list/completed'
 
@@ -40,7 +39,6 @@ views.loadLists = ->
 
   views.list =
     all: new ListAll()
-    inbox: new ListInbox()
     completed: new ListCompleted()
 
 module.exports = views

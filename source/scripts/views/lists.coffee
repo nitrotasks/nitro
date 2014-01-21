@@ -4,6 +4,7 @@ keys     = require '../utils/keys'
 ListItem = require '../views/list/item'
 Mouse    = require '../utils/mouse'
 event    = require '../utils/event'
+Inbox    = require '../views/list/inbox'
 
 class Lists extends Base.View
 
@@ -21,6 +22,9 @@ class Lists extends Base.View
 
   constructor: ->
     super
+
+    # Store views so we can release them later
+    @views = []
 
     # Listen to the List collection
     @listen List,
@@ -46,11 +50,20 @@ class Lists extends Base.View
   addOne: (list) =>
     return if list.id is 'inbox'
     listItem = new ListItem list: list
+    @views.push listItem
     @ui.lists.append listItem.render().el
+
+  # Render the inbox
+  addInbox: =>
+    inbox = List.get 'inbox'
+    view = new Inbox list: inbox
+    @views.push view
 
   # Render all lists
   addAll: =>
-    @ui.lists.empty()
+    view.remove() for view in @views
+    @views = []
+    @addInbox()
     List.forEach @addOne
 
   # Select a list
