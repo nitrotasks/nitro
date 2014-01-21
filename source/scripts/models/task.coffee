@@ -16,6 +16,22 @@ class Task extends Base.Model
     priority: 1
     completed: 0
 
+  constructor: ->
+    super
+
+    currentList = @listId
+
+    @on 'change:listId', (listId) =>
+      list = List.get(listId)
+      old  = List.get(currentList)
+
+      if old
+        old.moveTask(this, list)
+      else
+        list.tasks.add this
+
+      currentList = listId
+
   # Get the actual list
   list: =>
     List.get @listId
@@ -23,6 +39,7 @@ class Task extends Base.Model
   prettyDate: =>
     date = if @date then new Date(@date) else null
     prettyDate(date)
+
 
 
 ###*

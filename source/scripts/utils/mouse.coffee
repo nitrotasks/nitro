@@ -29,7 +29,7 @@ tasks = new Mouse
     offsetX: 0
     helper: (elements) ->
       length = elements.length
-      return "Moving #{ length } list#{ if length > 1 then 's' else ''}"
+      return "Moving #{ length } task#{ if length > 1 then 's' else ''}"
 
 ###*
  * DROPPABLES
@@ -38,8 +38,7 @@ tasks = new Mouse
 tasks.on 'drop', (elements, zone) ->
   list = zone.list
   for el in elements
-    el.task.list().moveTask(el.task, list)
-
+    el.task.listId = list.id
 
 ###*
  * SORTABLE

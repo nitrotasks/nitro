@@ -15,6 +15,7 @@ class ListSync
     console.log 'updating', item
     model = @model.get(item.id)
     return unless model
+    delete item.id
     model.setAttributes(item)
 
   destroy: (item) =>
