@@ -1,5 +1,5 @@
 Base = require 'base'
-Setting = require '../models/setting'
+Pref = require '../models/pref'
 
 PRO_CLASS = 'nitro_pro'
 
@@ -9,10 +9,10 @@ class Pro extends Base.View
     super
     @set()
 
-    @listen Setting,
+    @listen Pref,
       'change:pro': @set
 
-  set: (status: Setting.pro) =>
+  set: (status: Pref.pro) =>
     @el.toggleClass(PRO_CLASS, status)
 
 module.exports = Pro

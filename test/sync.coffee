@@ -12,7 +12,7 @@ describe '[Sync]', ->
     sync = require '../source/scripts/controllers/sync'
     list = require '../source/scripts/models/list'
     task = require '../source/scripts/models/task'
-    pref = require '../source/scripts/models/setting'
+    pref = require '../source/scripts/models/pref'
     user = require '../source/scripts/models/user'
 
   after ->

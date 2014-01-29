@@ -1,5 +1,5 @@
 Base = require 'base'
-Setting = require '../models/setting'
+Pref = require '../models/pref'
 delay = require '../utils/timer'
 
 DELAY = 1000 * 60 * 60 * 12 # 12 hours
@@ -13,10 +13,10 @@ class NightMode extends Base.View
   constructor: ->
     super
 
-    @listen Setting,
+    @listen Pref,
       'change:night': @toggle
 
-    @toggle Setting.night
+    @toggle Pref.night
 
   toggle: (value) =>
     now = new Date()

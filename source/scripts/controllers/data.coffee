@@ -1,7 +1,7 @@
 List = require '../models/list'
 Task = require '../models/task'
 User = require '../models/user'
-Setting = require '../models/setting'
+Pref = require '../models/pref'
 
 module.exports =
 
@@ -10,7 +10,7 @@ module.exports =
       task: Task.toJSON()
       list: List.toJSON()
       user: User.toJSON()
-      setting: Setting.toJSON()
+      pref: Pref.toJSON()
     , null, 2
 
   import: (json) ->
@@ -18,4 +18,4 @@ module.exports =
     Task.refresh data.task, true
     List.refresh data.list, true
     User.refresh data.user, true
-    Setting.refresh data.setting, true
+    Pref.refresh data.pref, true

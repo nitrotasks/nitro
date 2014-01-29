@@ -1,11 +1,11 @@
-Setting = require '../../models/setting'
+Pref = require '../../models/pref'
 Tab = require '../settings_tab'
 exportModal = require '../../views/modal/export'
 
 settings =
   weekStart: '#input-week-start'
   dateFormat: '#input-date-format'
-  completedDuration: '#input-completed-duration'
+  moveCompleted: '#input-move-completed'
   confirmDelete: '#input-confirm-delete'
   night: '#input-night-mode'
 
@@ -25,7 +25,7 @@ options =
   load: ->
     for setting of settings
       el = @ui[setting]
-      val = Setting[setting]
+      val = Pref[setting]
       if el.attr('type') is 'checkbox'
         el.attr 'checked', val
       else if el.hasClass('control')
@@ -40,7 +40,7 @@ options =
   exportData: =>
     exportModal.run()
 
-Setting.on 'change', ->
+Pref.on 'change', ->
   module.exports.load()
 
 # Load settings
@@ -61,20 +61,16 @@ for setting, element of settings
       else if el.hasClass('control')
         val = el.find(":checked").val()
 
-        if val is 'true'
-          val = true
-        else if val is 'false'
-          val = false
-        else
-          num = parseInt val, 10
-          if not isNaN num
-            val = num
-
-        console.log val
+        num = parseInt val, 10
+        if not isNaN num
+          val = num
 
       else
         val = el.val()
-      Setting[setting] = val
+
+      console.log setting, val
+
+      Pref[setting] = val
 
 
 module.exports = new Tab options

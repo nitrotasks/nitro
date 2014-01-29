@@ -3,7 +3,7 @@
 Base = require 'base'
 List = require '../models/list'
 ListModal = require '../views/modal/destroy_list'
-Setting = require '../models/setting'
+Pref = require '../models/pref'
 
 # ShareModal = require '../views/modal/share'
 # EmailModal = require '../views/modal/email'
@@ -43,6 +43,6 @@ class ListMenu extends Base.View
   #   ShareModal.run()
 
   sort: ->
-    Setting.sort = !Setting.sort
+    Pref.sort = if Pref.sort then 0 else 1
 
 module.exports = ListMenu

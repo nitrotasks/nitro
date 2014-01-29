@@ -235,27 +235,27 @@
           </select>
         </div>
 
-        <div class="control" id="input-completed-duration">
-          <label for="input-completed-duration" class="left-label t">Move to Completed</label>
+        <div class="control" id="input-move-completed">
+          <label for="input-move-completed" class="left-label t">Move to Completed</label>
           <div class="radio-button">
-            <input type="radio" name="completed-duration" value="instant" id="completed-duration-instant">
-            <label for="completed-duration-instant" class="t">Instantly</label>
+            <input type="radio" name="move-completed" value="0" id="move-completed-instant">
+            <label for="move-completed-instant" class="t">Instantly</label>
           </div><div class="radio-button">
-            <input type="radio" name="completed-duration" value="day" id="completed-duration-day">
-            <label for="completed-duration-day" class="t">On App Launch</label>
+            <input type="radio" name="move-completed" value="1" id="move-completed-day">
+            <label for="move-completed-day" class="t">On App Launch</label>
           </div><div class="radio-button">
-            <input type="radio" name="completed-duration" value="never" id="completed-duration-never">
-            <label for="completed-duration-never" class="t">Never</label>
+            <input type="radio" name="move-completed" value="2" id="move-completed-never">
+            <label for="move-completed-never" class="t">Never</label>
           </div>
         </div>
 
         <div class="control" id="input-confirm-delete">
           <label for="input-confirm-delete" class="left-label t">Deletion Confirmation</label>
           <div class="radio-button">
-            <input type="radio" name="confirm-delete" value="true" id="confirm-delete-true">
+            <input type="radio" name="confirm-delete" value="1" id="confirm-delete-true">
             <label for="confirm-delete-true" class="t">On</label>
           </div><div class="radio-button">
-            <input type="radio" name="confirm-delete" value="false" id="confirm-delete-false">
+            <input type="radio" name="confirm-delete" value="0" id="confirm-delete-false">
             <label for="confirm-delete-false" class="t">Off</label>
           </div>
         </div>
@@ -263,13 +263,13 @@
         <div class="control" id="input-night-mode">
           <label for="input-night-mode" class="left-label t">Theme</label>
           <div class="radio-button">
-            <input type="radio" name="night-mode" value="auto" id="night-mode-auto">
+            <input type="radio" name="night-mode" value="2" id="night-mode-auto">
             <label for="night-mode-auto" class="t">Auto</label>
           </div><div class="radio-button">
-            <input type="radio" name="night-mode" value="light" id="night-mode-light">
+            <input type="radio" name="night-mode" value="1" id="night-mode-light">
             <label for="night-mode-light" class="t">Light</label>
           </div><div class="radio-button">
-            <input type="radio" name="night-mode" value="dark" id="night-mode-dark">
+            <input type="radio" name="night-mode" value="0" id="night-mode-dark">
             <label for="night-mode-dark" class="t">Dark</label>
           </div>
         </div>

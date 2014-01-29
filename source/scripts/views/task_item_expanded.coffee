@@ -1,7 +1,7 @@
 Base    = require 'base'
 DeleteModal   = require '../views/modal/destroy_task'
 List    = require '../models/list'
-setting = require '../models/setting'
+Pref = require '../models/pref'
 keys    = require '../utils/keys'
 translate = require '../utils/translate'
 delay = require '../utils/timer'
@@ -69,8 +69,8 @@ class ExpandedTaskItem extends Base.View
   setupDatepicker: =>
 
     @ui.dateWrap.datepicker 'option',
-      firstDay: setting.weekStart
-      dateFormat: setting.dateFormat
+      firstDay: Pref.weekStart
+      dateFormat: Pref.dateFormat
       onSelect: =>
         @datesSave()
 

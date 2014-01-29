@@ -1,4 +1,4 @@
-Setting = require '../../models/setting'
+Pref = require '../../models/pref'
 Tab = require '../settings_tab'
 
 language = new Tab
@@ -13,11 +13,11 @@ language = new Tab
   methods: []
 
   load: ->
-    el = $ "[data-value=#{ Setting.language }]"
+    el = $ "[data-value=#{ Pref.language }]"
     el.addClass 'selected'
 
   setLanguage: (event) ->
-    Setting.language = $(this).data 'value'
+    Pref.language = $(this).data 'value'
     # document.location.reload()
 
 module.exports = language

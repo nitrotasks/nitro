@@ -2,6 +2,7 @@ Base  = require 'base'
 Local = require '../controllers/local'
 Sync  = require '../controllers/sync'
 Handler = require '../controllers/sync/list'
+User  = require '../models/user'
 
 class List extends Base.Model
 
@@ -57,7 +58,7 @@ class List extends Base.Model
       if task.completed
         task.destroy sync:no
       else
-        task.listId = 'inbox'
+        task.listId = User.inbox
 
   toJSON: =>
     id: @id

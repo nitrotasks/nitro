@@ -1,5 +1,6 @@
 Base     = require 'base'
 List     = require '../models/list'
+User     = require '../models/user'
 keys     = require '../utils/keys'
 ListItem = require '../views/list/item'
 Mouse    = require '../utils/mouse'
@@ -48,14 +49,14 @@ class Lists extends Base.View
   # Render a single list
   # - list (List) : the list to render
   addOne: (list) =>
-    return if list.id is 'inbox'
+    return if list.id is User.inbox
     listItem = new ListItem list: list
     @views.push listItem
     @ui.lists.append listItem.render().el
 
   # Render the inbox
   addInbox: =>
-    inbox = List.get 'inbox'
+    inbox = List.get User.inbox
     view = new Inbox list: inbox
     @views.push view
 
@@ -86,7 +87,7 @@ class Lists extends Base.View
 
     id = Lists.active.id
 
-    if id is 'inbox'
+    if id is User.inbox
       event.trigger 'list:all'
 
     else if id is 'search'
@@ -105,12 +106,12 @@ class Lists extends Base.View
 
     id = Lists.active.id
 
-    if id is 'inbox'
+    if id is User.inbox
       return
 
     else if id is 'search'
       if Lists.active.type is 'active'
-        List.get('inbox').trigger 'select'
+        List.get(User.inbox).trigger 'select'
       else
         event.trigger 'list:all'
 

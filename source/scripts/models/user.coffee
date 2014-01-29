@@ -18,6 +18,9 @@ class User extends Base.Model
     name: null
     email: null
 
+    # Misc
+    inbox: -1
+
   loggedIn: =>
     @offline or @authenticated
 

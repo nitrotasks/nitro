@@ -5,6 +5,15 @@ Sync       = require '../controllers/sync'
 Handler    = require '../controllers/sync/task'
 prettyDate = require '../utils/prettydate'
 
+Base.Collection::generateId = ->
+  this._index -= 2
+
+Base.Collection::parseId = (id) ->
+  return id
+
+Base.Collection::updateId = (id) ->
+  this._index = id - 1
+
 class Task extends Base.Model
 
   defaults:

@@ -1,4 +1,4 @@
-Setting   = require '../models/setting'
+Pref      = require '../models/pref'
 event     = require '../utils/event'
 languages = require '../languages/languages'
 
@@ -60,7 +60,7 @@ class Translate
 
 
   constructor: () ->
-    Setting.on 'change:language', @setLanguage
+    Pref.on 'change:language', @setLanguage
 
   setLanguage: (@language) =>
     @dictionary = languages[@language] || {}
@@ -121,4 +121,4 @@ module.exports = Translate.bind
 
 module.exports.init = ->
   translate = new Translate()
-  translate.setLanguage Setting.language
+  translate.setLanguage Pref.language

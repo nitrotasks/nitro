@@ -1,4 +1,4 @@
-Setting = require '../../models/setting'
+Pref = require '../../models/pref'
 Modal = require '../modal'
 
 task = null
@@ -13,7 +13,7 @@ modal = new Modal
 
   run: (_task) ->
     task = _task
-    if Setting.confirmDelete
+    if Pref.confirmDelete
       modal.show()
     else
       @delete()

@@ -3,7 +3,7 @@ Lists        = require '../views/lists'
 TaskItem     = require '../views/task_item'
 Task         = require '../models/task'
 List         = require '../models/list'
-Setting      = require '../models/setting'
+Pref         = require '../models/pref'
 keys         = require '../utils/keys'
 dateDetector = require '../utils/date'
 delay        = require '../utils/timer'
@@ -52,7 +52,7 @@ class Tasks extends Base.View
         'create:model': @addOne
       List,
         'select:model': @render
-      Setting,
+      Pref,
         'change:sort': @refresh
     ]
 
@@ -141,7 +141,7 @@ class Tasks extends Base.View
     else
       @ui.message.text @template.message.empty
 
-    if Setting.sort
+    if Pref.sort
       tasks = list.tasks.sort()
     else
       tasks = list.tasks
@@ -175,7 +175,7 @@ class Tasks extends Base.View
     html = ''
 
     # Sorting tasks
-    if Setting.sort
+    if Pref.sort
 
       first = tasks[0]
 

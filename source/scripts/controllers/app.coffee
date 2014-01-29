@@ -14,7 +14,7 @@ Mouse     = require '../utils/mouse'
 # Models
 Task    = require '../models/task'
 List    = require '../models/list'
-Setting = require '../models/setting'
+Pref    = require '../models/pref'
 User    = require '../models/user'
 
 # Controllers
@@ -32,9 +32,9 @@ class App
 
   constructor: ->
 
-    Setting.once 'refresh', =>
-      console.log 'Loaded settings'
-      @settingsReady = true
+    Pref.once 'refresh', =>
+      console.log 'Loaded prefs'
+      @prefReady = true
       @syncWithServer()
 
     User.once 'refresh', =>
@@ -47,13 +47,13 @@ class App
       Task.trigger 'fetch'
       List.trigger 'fetch'
 
-    # Load Settings
-    Setting.trigger 'fetch'
+    # Load Pref
+    Pref.trigger 'fetch'
     User.trigger 'fetch'
 
   syncWithServer: =>
 
-    return unless not @started and @settingsReady and @userReady
+    return unless not @started and @prefReady and @userReady
     @started = true
 
     @ready()
@@ -114,12 +114,12 @@ class App
 
     # Show inbox
     Views.loadLists()
-    List.get('inbox').trigger('select')
+    List.get(User.inbox).trigger('select')
 
-    # Doesn't run in the Settings constructor. Bit of a pain
+    # Doesn't run in the Pref constructor. Bit of a pain
     # TODO: Move somewhere else?
-    # if Setting.completedDuration is 'day'
-      # Settings.moveCompleted()
+    # if Pref.completedDuration is 'day'
+      # Pref.moveCompleted()
 
     event.trigger 'app:ready'
 

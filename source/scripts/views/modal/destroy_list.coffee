@@ -1,4 +1,4 @@
-Setting = require '../../models/setting'
+Pref  = require '../../models/pref'
 Lists = require '../../views/lists'
 Modal = require '../modal'
 
@@ -11,7 +11,7 @@ modal = new Modal
     'click .false': 'hide'
 
   run: ->
-    if Setting.confirmDelete
+    if Pref.confirmDelete
       modal.show()
     else
       @delete()

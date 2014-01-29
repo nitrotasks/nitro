@@ -1,6 +1,4 @@
 Base    = require 'base'
-# List    = require '../models/list'
-# setting = require '../models/setting'
 event   = require '../utils/event'
 ExpandedTaskItem = require '../views/task_item_expanded'
 Mouse = require '../utils/mouse'

@@ -79,7 +79,7 @@ Sync =
       user.setAttributes info
 
   queue: ->
-    Sync.socket.emit 'queue.sync', queue.toJSON(), (err, data) ->
+    Sync.socket.emit 'queue.sync', queue.toJSON(), Date.now(), (err, data) ->
       event.trigger 'sync:refresh:task', data.task
       event.trigger 'sync:refresh:list', data.list
       event.trigger 'sync:refresh:pref', data.pref
