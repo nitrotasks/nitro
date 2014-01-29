@@ -11,9 +11,19 @@ class Queue
     @queue = {}
     @load()
 
-  # Convert queue into old style array
+  # Convert queue into an array
   toJSON: =>
-    return @queue
+
+    queue = {}
+
+    for classname in ['list', 'task', 'pref']
+      continue unless @queue[classname]?
+      arr = queue[classname] = []
+      for id, event of @queue[classname]
+        arr.push event
+
+
+    return queue
 
   # Load data from localStorage
   load: =>
@@ -42,11 +52,9 @@ class Queue
       switch event
         when CREATE
           id = model.id
-          delete model.id
           time = now
         when UPDATE
           id = model.id
-          delete model.id
           time = {}
           time[key] = now for own key of model when key isnt 'id'
         when DESTROY
@@ -56,10 +64,8 @@ class Queue
       obj = @queue[classname] ?= {}
       original = obj[id]
       optimized = @optimize original, [event, model, time]
-      if optimized
-        obj[id] = optimized
-      else
-        delete obj[id]
+      if optimized then obj[id] = optimized
+      else delete obj[id]
       @save()
 
       return time

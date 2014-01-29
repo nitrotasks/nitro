@@ -8,7 +8,9 @@ class Pref extends Base.Model
   classname: 'pref'
 
   defaults:
-    id: 's0'
+
+    # Default id
+    id: 0
 
     # Settings
     sort:               yes

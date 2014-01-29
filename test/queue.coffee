@@ -20,10 +20,10 @@ describe '[Queue]', ->
   it 'should add to the queue', ->
     timestamp = queue.push 'task', 'create', {id: 20, name: 'Test'}
     queue.toJSON().should.eql
-      task: '20': [CREATE, {name: 'Test'}, timestamp]
+      task: [[CREATE, {id: 20, name: 'Test'}, timestamp]]
 
   it 'should save to localStorage', ->
-    json = '{"task":{"20":[0,{"name":"Test"},'+timestamp+']}}'
+    json = '{"task":{"20":[0,{"id":20,"name":"Test"},'+timestamp+']}}'
     global.localStorage.queue.should.equal json
 
   it 'should clear the queue', ->
@@ -55,51 +55,75 @@ describe '[Queue]', ->
                 continue unless typeof text is 'string'
                 item[i][key] = replace(text)
 
-
-
-
       queue.toJSON().should.eql result
       queue.clear()
 
     it 'create + update = create', ->
 
-      test [
+      input = [
         ['task', 'create', {id: 20, name: 'Test'}]
         ['task', 'update', {id: 20, name: 'Test - Updated'}]
         ['task', 'update', {id: 20, name: 'Test - Updated Again'}]
-      ], task: '20': [CREATE, {name: 'Test - Updated Again'}, 'ts_2_name']
+      ]
+
+      output =
+        task: [
+          [CREATE, {id: 20, name: 'Test - Updated Again'}, 'ts_2_name']
+        ]
+
+      test input, output
 
     it 'create + destroy = nothing', ->
 
-      test [
+      input = [
         ['list', 'create', {id: 30, name: 'List'}]
         ['list', 'destroy', {id: 30}]
-      ], list: {}
+      ]
+
+      output =
+        list: []
+
+      test input, output
 
     it 'create + update + destroy = nothing', ->
 
-      test [
+      input = [
         ['task', 'create', {id: 10, name: 'Task'}]
         ['task', 'update', {id: 10, name: 'Task - Updated'}]
         ['task', 'destroy', {id: 10}]
-      ], task: {}
+      ]
+
+      output =
+        task: []
+
+      test input, output
 
     it 'update + destroy = destroy', ->
 
-      test [
+      input = [
         ['list', 'update', {id:15, name: 'List - Updated'}]
         ['list', 'destroy', {id: 15}]
-      ], list: '15': [DESTROY, {id: 15}, 'ts_1']
+      ]
+
+      output =
+        list: [
+          [DESTROY, {id: 15}, 'ts_1']
+        ]
+
+      test input, output
 
     it 'update + update = update', ->
 
-      test [
+      input = [
         ['task', 'update', {id: 5, name: 'Task'}]
         ['task', 'update', {id: 5, listId: 30}]
         ['task', 'update', {id: 5, notes: 'notes'}]
-      ],
-        task:
-          '5': [ UPDATE, {
+      ]
+
+      output =
+        task: [
+          [ UPDATE, {
+            id: 5
             name: 'Task'
             listId: 30
             notes: 'notes'
@@ -108,10 +132,13 @@ describe '[Queue]', ->
             listId: 'ts_1_listId'
             notes: 'ts_2_notes'
           }]
+        ]
+
+      test input, output
 
     it 'optimizing multiple items', ->
 
-      test [
+      input = [
         ['list', 'create', {id: 0, name: 'List Zero'}]
         ['list', 'create', {id: 1, name: 'List One'}]
         ['list', 'create', {id: 2, name: 'List Two'}]
@@ -127,18 +154,23 @@ describe '[Queue]', ->
         ['task', 'destroy', {id: 10}]
         ['task', 'create', {id: 13, name: 'Task Thirteen'}]
         ['task', 'update', {id: 14, name: 'Task Fourteen - Updated'}]
-      ],
-        list:
-          '2': [CREATE, {name: 'List Two - Updated'}, 'ts_8_name']
-        task:
-          '10': [DESTROY, {id: 10}, 'ts_12']
-          '11': [CREATE, {name: 'Task Eleven'}, 'ts_5']
-          '12': [CREATE, {name: 'Task Twelve'}, 'ts_9']
-          '13': [CREATE, {name: 'Task Thirteen'}, 'ts_13']
-          '14': [UPDATE, {name: 'Task Fourteen - Updated'}, {
+      ]
+
+      output =
+        list: [
+          [CREATE, {id: 2, name: 'List Two - Updated'}, 'ts_8_name']
+        ]
+        task: [
+          [DESTROY, {id: 10}, 'ts_12']
+          [CREATE, {id: 11, name: 'Task Eleven'}, 'ts_5']
+          [CREATE, {id: 12, name: 'Task Twelve'}, 'ts_9']
+          [CREATE, {id: 13, name: 'Task Thirteen'}, 'ts_13']
+          [UPDATE, {id: 14, name: 'Task Fourteen - Updated'}, {
             name: 'ts_14_name'
           }]
-        pref:
-          '0': [UPDATE, {sort: true}, {
-            sort: 'ts_7_sort'
-          }]
+        ]
+        pref: [
+          [UPDATE, {id: 0, sort: true}, { sort: 'ts_7_sort' }]
+        ]
+
+      test input, output
