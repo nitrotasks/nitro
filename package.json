@@ -2,10 +2,10 @@
   "name": "Nitro",
   "version": "2.1.0",
   "dependencies": {
-    "jqueryify": "~2.0.3",
     "jandal": "0.0.x",
     "base": "git://github.com/stayradiated/base.git#master",
-    "mouse": "git://github.com/stayradiated/mouse.git#master"
+    "mouse": "git://github.com/stayradiated/mouse.git#master",
+    "jquery": "2.1.x"
   },
   "scripts": {
     "test": "coffeelint -f lint.json -r source/scripts",
@@ -13,11 +13,11 @@
   },
   "devDependencies": {
     "coffee-scrunch": "0.1.x",
-    "node-watch": "~0.3.4",
-    "uglify-js": "~2.4.0",
-    "node-static": "~0.7.1",
-    "coffeelint": "~0.6.1",
-    "mocha": "*",
-    "should": "*"
+    "node-watch": "0.3.x",
+    "uglify-js": "2.4.x",
+    "node-static": "0.7.x",
+    "coffeelint": "1.0.x",
+    "mocha": "1.17.x",
+    "should": "3.1.x"
   }
 }

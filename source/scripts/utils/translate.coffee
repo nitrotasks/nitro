@@ -70,8 +70,6 @@ class Translate
 
   elements: =>
 
-    $ = require 'jqueryify'
-
     # Text
     $('.t').each (index, el) =>
 

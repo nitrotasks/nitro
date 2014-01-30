@@ -4,7 +4,6 @@ libs = require '../vendor/libs'
 # Base
 Base = require 'base'
 Base.touchify = require '../utils/touchify'
-$ = require 'jqueryify'
 
 # Utilities
 translate = require '../utils/translate'
