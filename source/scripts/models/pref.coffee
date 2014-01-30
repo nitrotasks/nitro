@@ -9,9 +9,6 @@ class Pref extends Base.Model
 
   defaults:
 
-    # Default id
-    id: 0
-
     # Settings
     sort:          1 # 0: no, 1: yes
     night:         0 # 0: light, 1: dark, 2:auto
@@ -20,6 +17,17 @@ class Pref extends Base.Model
     dateFormat:    'dd/mm/yy'
     confirmDelete: 1 # 0: no, 1: yes
     moveCompleted: 1 # 0: instantly, 1: on app launch, 2: never
+
+  constructor: ->
+    super
+
+    @id = 0
+
+    # Replace null values with default ones
+    @on 'refresh', ->
+      for key, value of Pref::defaults
+        if this[key] is null
+          this[key] = value
 
 # Create a new instance of Setting
 prefs = new Pref()
