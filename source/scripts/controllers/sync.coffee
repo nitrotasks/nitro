@@ -1,5 +1,5 @@
 Base           = require 'base'
-Jandal         = require 'jandal/build/client'
+Jandal         = require 'jandal/client'
 event          = require '../utils/event'
 config         = require '../utils/config'
 user           = require '../models/user'
