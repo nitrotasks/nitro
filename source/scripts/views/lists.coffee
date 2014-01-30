@@ -5,7 +5,6 @@ keys     = require '../utils/keys'
 ListItem = require '../views/list/item'
 Mouse    = require '../utils/mouse'
 event    = require '../utils/event'
-Inbox    = require '../views/list/inbox'
 
 class Lists extends Base.View
 
@@ -49,22 +48,14 @@ class Lists extends Base.View
   # Render a single list
   # - list (List) : the list to render
   addOne: (list) =>
-    return if list.id is User.inbox
     listItem = new ListItem list: list
     @views.push listItem
     @ui.lists.append listItem.render().el
-
-  # Render the inbox
-  addInbox: =>
-    inbox = List.get User.inbox
-    view = new Inbox list: inbox
-    @views.push view
 
   # Render all lists
   addAll: =>
     view.remove() for view in @views
     @views = []
-    @addInbox()
     List.forEach @addOne
 
   # Select a list
@@ -87,10 +78,7 @@ class Lists extends Base.View
 
     id = Lists.active.id
 
-    if id is User.inbox
-      event.trigger 'list:all'
-
-    else if id is 'search'
+    if id is 'search'
       if Lists.active.type is 'active'
         event.trigger 'list:completed'
       else
@@ -106,12 +94,9 @@ class Lists extends Base.View
 
     id = Lists.active.id
 
-    if id is User.inbox
-      return
-
-    else if id is 'search'
+    if id is 'search'
       if Lists.active.type is 'active'
-        List.get(User.inbox).trigger 'select'
+        return
       else
         event.trigger 'list:all'
 

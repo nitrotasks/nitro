@@ -21,7 +21,6 @@ Sync          = require '../controllers/sync'
 # Pro           = require # '../controllers/pro'
 Auth          = require '../controllers/auth'
 Search        = require '../controllers/search'
-Inbox         = require '../controllers/inbox'
 
 # Views
 Keys  = require '../views/keys'
@@ -107,13 +106,12 @@ class App
     @displayed = true
 
     # Load default lists and tasks
-    # if Task.length is 0
-    #     List.refresh require '../models/default/list.json'
-    #     Task.refresh require '../models/default/task.json'
+    if User.firstRun
+      User.firstRun = false
+      Task.refresh require '../models/default/task.json'
+      List.refresh require '../models/default/list.json'
 
-    # Show inbox
     Views.loadLists()
-    List.get(User.inbox).trigger('select')
 
     # Doesn't run in the Pref constructor. Bit of a pain
     # TODO: Move somewhere else?

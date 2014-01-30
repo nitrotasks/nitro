@@ -52,14 +52,6 @@ class List extends Base.Model
     active = @tasks.filter (task) -> not task.completed
     @tasks.refresh active, true
 
-  # TODO: Hook up to the before:destroy event
-  destroyTasks: =>
-    @tasks.each (task) ->
-      if task.completed
-        task.destroy sync:no
-      else
-        task.listId = User.inbox
-
   toJSON: =>
     id: @id
     name: @name

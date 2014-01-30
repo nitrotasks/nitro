@@ -41,4 +41,6 @@ views.loadLists = ->
     all: new ListAll()
     completed: new ListCompleted()
 
+  views.list.all.open()
+
 module.exports = views

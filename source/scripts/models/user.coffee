@@ -10,6 +10,7 @@ class User extends Base.Model
     # Status
     authenticated: no
     offline: no
+    firstRun: yes
 
     # Details
     uid: null
@@ -17,9 +18,6 @@ class User extends Base.Model
     token: null
     name: null
     email: null
-
-    # Misc
-    inbox: -1
 
   loggedIn: =>
     @offline or @authenticated
