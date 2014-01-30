@@ -5,6 +5,10 @@ User = require '../models/user'
 
 setupInbox = ->
 
+  List.forEach (list) ->
+    if list.name is 'Inbox'
+      User.inbox = list.id
+
   return if List.exists User.inbox
 
   List.create
