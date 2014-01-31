@@ -280,7 +280,7 @@ class Tasks extends Base.View
 
   updateSearchResults: (disableAnimation=yes) =>
     results = Task.search @ui.input.val(), @search.type
-    if @search.sort then results = Task.sort results
+    if Pref.sort then results = Task.sort results
     @displayTasks results, disableAnimation
     @el.toggleClass 'empty', results.length is 0
 
