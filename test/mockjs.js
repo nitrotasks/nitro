@@ -20,7 +20,6 @@ SockJS.prototype.send = function (message) {
   SockJS.read(message);
 };
 
-
 /**
  * Testing methods
  */

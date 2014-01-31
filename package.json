@@ -5,10 +5,12 @@
     "jandal": "0.0.x",
     "base": "git://github.com/stayradiated/base.git#master",
     "mouse": "git://github.com/stayradiated/mouse.git#master",
-    "jquery": "2.1.x"
+    "jquery": "2.1.x",
+    "coffee-script": "1.7.x"
   },
   "scripts": {
-    "test": "coffeelint -f lint.json -r source/scripts",
+    "test": "mocha --compilers coffee:coffee-script/register -R spec test",
+    "lint": "coffeelint -f lint.json -r source/scripts",
     "sass": "sass --watch source/stylesheets/screen.scss:app/css/screen.css"
   },
   "devDependencies": {
