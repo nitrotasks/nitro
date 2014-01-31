@@ -88,7 +88,7 @@ class Tasks extends Base.View
   addOne: (task) =>
 
     # Only display the task if we are displaying the right list
-    return unless Lists.active.tasks.exists task
+    return unless Lists.active?.tasks?.exists task
 
     # Add to dom
     @ui.tasks.prepend @template.item task

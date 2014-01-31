@@ -79,11 +79,29 @@ Sync =
       user.setAttributes info
 
   queue: ->
-    Sync.socket.emit 'queue.sync', queue.toJSON(), Date.now(), (err, data) ->
+    Sync.socket.emit 'queue.sync', queue.toJSON(), Date.now(), Sync._queue
+
+  _queue: (err, data) =>
+
+      console.log 'queue.sync', err, data
+
+      queue.clear()
+
+      if err
+        console.log err
+        return
+
       event.trigger 'sync:refresh:task', data.task
       event.trigger 'sync:refresh:list', data.list
       event.trigger 'sync:refresh:pref', data.pref
-      queue.clear()
+
+      if not data.task.length and not data.list.length and data.pref.sort is null
+        Sync.online = false
+        defaultData = require '../controllers/default'
+        defaultData.load()
+        Sync.online = true
+        Sync.queue()
+
 
 # -----------------------------------------------------------------------------
 # Events

@@ -10,7 +10,6 @@ class User extends Base.Model
     # Status
     authenticated: no
     offline: no
-    firstRun: yes
 
     # Details
     uid: null

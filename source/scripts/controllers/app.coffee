@@ -102,14 +102,8 @@ class App
 
   displayData: =>
 
-    return unless not @displayed and @listReady and @taskReady
+    return if not @displayed and @listReady and @taskReady
     @displayed = true
-
-    # Load default lists and tasks
-    if User.firstRun
-      User.firstRun = false
-      Task.refresh require '../models/default/task.json'
-      List.refresh require '../models/default/list.json'
 
     Views.loadLists()
 
