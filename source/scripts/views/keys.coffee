@@ -1,6 +1,7 @@
 Base = require 'base'
 keys = require '../utils/keys'
 Views = require '../controllers/views'
+Mouse = require '../utils/mouse'
 
 class Keys extends Base.View
 
@@ -74,13 +75,6 @@ class Keys extends Base.View
         Views.list.all.open()
         Views.tasks.focus()
 
-      when keys.p
-
-        # Print
-        # - print the current page
-
-        Views.listMenu.print()
-
       when keys.comma
 
         # Settings
@@ -101,5 +95,15 @@ class Keys extends Base.View
         # - load the next list
 
         Views.lists.next()
+
+      when keys.p
+
+        # Priority
+        # - Cycle between priority
+
+        # Views.tasks.
+        selected = Mouse.tasks.selected()
+        for el in selected
+          el.task.increasePriority()
 
 module.exports = Keys

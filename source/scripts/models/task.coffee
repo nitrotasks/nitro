@@ -49,6 +49,12 @@ class Task extends Base.Model
     date = if @date then new Date(@date) else null
     prettyDate(date)
 
+  increasePriority: =>
+    if @priority is 3
+      @priority = 1
+    else
+      @priority += 1
+
 
 
 ###*
