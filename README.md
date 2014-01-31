@@ -1,5 +1,9 @@
 # Nitro 2.1 #
 
+[![Build Status](https://travis-ci.org/stayradiated/Nitro.png?branch=master)](https://travis-ci.org/stayradiated/Nitro)
+[![Dependency Status](https://david-dm.org/stayradiated/Nitro.png?theme=shields.io)](https://david-dm.org/stayradiated/Nitro)
+[![devDependency Status](https://david-dm.org/stayradiated/Nitro/dev-status.png?theme=shields.io)](https://david-dm.org/stayradiated/Nitro#info=devDependencies)
+
 ## Installation ##
 
 Nitro is written in [CoffeeScript](http://coffeescript.org/) and uses the [Base](http://github.com/stayradiated/base) framework.
