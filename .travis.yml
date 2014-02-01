@@ -8,4 +8,4 @@ env:
 after_success:
   - "cake build"
   - "npm run-script sass"
-  - "find app -type f -exec curl -u $FTP_USER:$FTP_PASSWORD --ftp-create-dirs -T * ftp://ftp.beta.nitrotasks.com/beta.nitrotasks.com/travis"
+  - "find app -type f -exec curl -u $FTP_USER:$FTP_PASSWORD --ftp-create-dirs -T {} ftp://ftp.beta.nitrotasks.com/beta.nitrotasks.com/travis/{} \;"
