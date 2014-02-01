@@ -11,7 +11,8 @@
   "scripts": {
     "test": "mocha --compilers coffee:coffee-script/register -R spec test",
     "lint": "coffeelint -f lint.json -r source/scripts",
-    "sass": "sass --watch source/stylesheets/screen.scss:app/css/screen.css"
+    "sass": "sass source/stylesheets/screen.scss:app/css/screen.css",
+    "sass-watch": "sass --watch source/stylesheets/screen.scss:app/css/screen.css"
   },
   "devDependencies": {
     "coffee-scrunch": "0.1.x",
