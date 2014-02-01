@@ -9,4 +9,4 @@ after_success:
   - "cake build"
   - "gem install sass"
   - "npm run-script sass"
-  - "find app -type f -exec curl -u $FTP_USER:$FTP_PASSWORD --ftp-create-dirs -T {} ftp://ftp.beta.nitrotasks.com/beta.nitrotasks.com/travis/{} \\;"
+  - "find app/**/*.(js|css|html) -type f -exec curl -u $FTP_USER:$FTP_PASSWORD --ftp-create-dirs -T {} ftp://ftp.beta.nitrotasks.com/beta.nitrotasks.com/travis/{} \\;"
