@@ -7,6 +7,7 @@ env:
   - secure: WPVmo8nVa2tFCwsQnB3JTqEpGDWJiy/GNeVkkUfqlZyM+VVK/mmPEJw1uRj1KvjzR+ObbC3oHOwrFIX9fMZ/i8IV9fdRxUTNe8aacmUqZobsu8UTDoxJ7fFl8YmzJE89/agxThj8zoJ1kYijcKX436YlP7WxWifEf6iPMD0DcOs=
 after_success:
   - "cake build"
+  - "cake minify"
   - "gem install sass"
   - "npm run-script sass"
   - "find app/**/*.(js|css|html) -type f -exec curl -u $FTP_USER:$FTP_PASSWORD --ftp-create-dirs -T {} ftp://ftp.beta.nitrotasks.com/beta.nitrotasks.com/travis/{} \\;"

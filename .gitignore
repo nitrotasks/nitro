@@ -12,6 +12,8 @@ Thumbs.db
 node_modules
 app/js/*.js
 app/css/*.css
+source/scripts/languages/compiled/*
+source/scripts/languages/languages.coffee
 
 # Misc
 ######################
