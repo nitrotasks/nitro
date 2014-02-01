@@ -62,11 +62,45 @@ compile =
     js = uglify.minify(config.js.output).code
     fs.writeFile config.js.min, js
 
+  language: ->
+
+    path = 'source/scripts/languages/'
+    coffeeFile = 'languages.coffee'
+    mainFile = 'default.json'
+    main = null
+    source = {}
+    compiled = {}
+    coffee = 'module.exports =\n'
+
+    fs.readdir path + 'source', (err, files) ->
+      throw err if err
+
+      for file in files
+        language = require './' + path + 'source/' + file
+        if file is mainFile
+          main = language
+          compiled[mainFile] = []
+        else
+          source[file] = language
+          compiled[file] = {}
+        coffee += "  '#{ file[0..-6] }': require './compiled/#{ file }'\n"
+
+      for text of main
+        index = compiled[mainFile].push(text) - 1
+        for file, language of source
+          compiled[file][index] = language[text]
+
+      for file, contents of compiled
+        fs.writeFile path + 'compiled/' + file, JSON.stringify contents, null, 2
+
+      fs.writeFile path + coffeeFile, coffee
+
 # Tasks
 task 'server', 'Start server', (options) ->
 
   # Compile files
   compile.coffee(options)
+  compile.language(options)
   # compile.sass(options)
 
   # Start Server
@@ -82,42 +116,9 @@ task 'server', 'Start server', (options) ->
 
 task 'build', 'Compile CoffeeScript and SASS', (options) ->
   compile.coffee(options)
-  # compile.sass(options)
+  compile.language(options)
 
 task 'minify', 'Minify application.js', compile.minify
 
-
-
-task 'language', 'Minify language files', ->
-
-  path = 'source/scripts/languages/'
-  coffeeFile = 'languages.coffee'
-  mainFile = 'default.json'
-  main = null
-  source = {}
-  compiled = {}
-  coffee = 'module.exports =\n'
-
-  fs.readdir path + 'source', (err, files) ->
-    throw err if err
-
-    for file in files
-      language = require './' + path + 'source/' + file
-      if file is mainFile
-        main = language
-        compiled[mainFile] = []
-      else
-        source[file] = language
-        compiled[file] = {}
-      coffee += "  '#{ file[0..-6] }': require './compiled/#{ file }'\n"
-
-    for text of main
-      index = compiled[mainFile].push(text) - 1
-      for file, language of source
-        compiled[file][index] = language[text]
-
-    for file, contents of compiled
-      fs.writeFile path + 'compiled/' + file, JSON.stringify contents, null, 2
-
-    fs.writeFile path + coffeeFile, coffee
+task 'language', 'Compile language files', compile.language
 
