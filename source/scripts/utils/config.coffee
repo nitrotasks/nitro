@@ -7,7 +7,7 @@ servers = {
 }
 
 # Set active server
-active = servers.local
+active = servers.heroku
 
 module.exports =
   server: active
