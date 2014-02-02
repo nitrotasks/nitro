@@ -13,7 +13,7 @@ config =
   js:
     input:  'source/scripts/init.coffee'
     output: 'app/js/app.js'
-    min:    'app/js/app.min.js'
+    min:    'app/js/app.js'
   css:
     folder: 'source/stylesheets'
     input:  'source/stylesheets/screen.scss'

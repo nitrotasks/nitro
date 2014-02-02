@@ -1,8 +1,8 @@
 # Nitro 2.1 #
 
-[![Build Status](https://travis-ci.org/stayradiated/Nitro.png?branch=master)](https://travis-ci.org/stayradiated/Nitro)
-[![Dependency Status](https://david-dm.org/stayradiated/Nitro.png?theme=shields.io)](https://david-dm.org/stayradiated/Nitro)
-[![devDependency Status](https://david-dm.org/stayradiated/Nitro/dev-status.png?theme=shields.io)](https://david-dm.org/stayradiated/Nitro#info=devDependencies)
+[![Build Status](https://travis-ci.org/CaffeinatedCode/nitro.png?branch=master)](https://travis-ci.org/CaffeinatedCode/nitro)
+[![Dependency Status](https://david-dm.org/CaffeinatedCode/nitro.png?theme=shields.io)](https://david-dm.org/CaffeinatedCode/nitro)
+[![devDependency Status](https://david-dm.org/CaffeinatedCode/nitro/dev-status.png?theme=shields.io)](https://david-dm.org/CaffeinatedCode/nitro#info=devDependencies)
 
 ## Installation ##
 
@@ -10,7 +10,7 @@ Nitro is written in [CoffeeScript](http://coffeescript.org/) and uses the [Base]
 
 ### Installing ###
 
-    git clone https://github.com/stayradiated/Nitro.git
+    git clone https://github.com/CaffeinatedCode/nitro.git
     cd Nitro
     npm install
 

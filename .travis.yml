@@ -11,4 +11,4 @@ after_success:
   - "cake minify"
   - "gem install sass"
   - "npm run-script sass"
-  - "find app/**/*.(js|css|html) -type f -exec curl -u $FTP_USER:$FTP_PASSWORD --ftp-create-dirs -T {} ftp://ftp.beta.nitrotasks.com/beta.nitrotasks.com/travis/{} \\;"
+  - "find ./app -type f \\( -iname \\*.css -o -iname \\*.js -o -iname \\*.html \\) -exec echo {} -exec curl -u $FTP_USER:$FTP_PASSWORD --ftp-create-dirs -T {} ftp://ftp.beta.nitrotasks.com/beta.nitrotasks.com/travis/{} \\;"
