@@ -31,7 +31,7 @@ class Auth
         name: name
         email: email
         password: password
-      success: (status) =>
+      success: =>
         @view.trigger 'register:success'
       error: (xhr, status, msg) =>
         @view.trigger 'register:fail', xhr.status, xhr.responseText

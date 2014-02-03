@@ -104,8 +104,10 @@
     color: $red;
     font-weight: bold;
     text-align: center;
+    display: none;
 
     &.populated {
+      display: block;
       margin-top: 16px;
     }
 
