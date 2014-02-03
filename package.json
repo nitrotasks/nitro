@@ -15,7 +15,7 @@
     "sass-watch": "sass --watch source/stylesheets/screen.scss:app/css/screen.css"
   },
   "devDependencies": {
-    "coffee-scrunch": "0.1.x",
+    "coffee-scrunch": "0.2.x",
     "node-watch": "0.3.x",
     "uglify-js": "2.4.x",
     "node-static": "0.7.x",

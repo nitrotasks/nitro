@@ -1,5 +1,5 @@
 # sass    = require 'node-sass'
-# watch   = require 'node-watch'
+watch   = require 'node-watch'
 Scrunch = require 'coffee-scrunch'
 uglify  = require 'uglify-js'
 server  = require 'node-static'
@@ -11,6 +11,7 @@ config =
   port: 9294
   public: 'app'
   js:
+    folder: 'source/'
     input:  'source/scripts/init.coffee'
     output: 'app/js/app.js'
     min:    'app/js/app.js'
@@ -27,20 +28,12 @@ compile =
 
   coffee: (options={}) ->
 
-    scrunch = new Scrunch
-      path: config.js.input
-      compile: true
-      verbose: true
-      watch: options.watch
+    if options.watch
+      watch config.js.folder, ->
+        console.log('compiling')
+        Scrunch(config.js).end()
 
-    scrunch.vent.on 'init', ->
-      scrunch.scrunch()
-
-    scrunch.vent.on 'scrunch', (data) ->
-      console.log '[JS] Writing'
-      fs.writeFile config.js.output, data
-
-    scrunch.init()
+    Scrunch(config.js).end()
 
   sass: (options={}) ->
 
