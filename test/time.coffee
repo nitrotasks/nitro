@@ -18,7 +18,7 @@ describe 'Time', ->
 
   it 'should convert an existing timestamp to seconds', ->
 
-    date = new Date('01/02/03').getTime()
+    date = new Date('Thu Jan 02 2003 00:00:00 GMT+1300 (NZDT)').getTime()
     date.should.equal 1041418800000
     time = Time.from date
     time.should.equal 1041418800
