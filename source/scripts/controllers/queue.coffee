@@ -1,9 +1,8 @@
-
-CLASSNAME = 'queue'
-
+# Constants
 CREATE = 0
 UPDATE = 1
 DESTROY = 2
+CLASSNAME = 'queue'
 
 class Queue
 

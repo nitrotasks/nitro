@@ -1,14 +1,13 @@
-Base   = require 'base'
+Base  = require 'base'
 event = require '../utils/event'
+delay = require '../utils/delay'
 
 # Load tabs
-Tab     = require '../views/settings_tab'
+Tab      = require '../views/settings_tab'
 General  = require '../views/tab/general'
 Account  = require '../views/tab/account'
 Language = require '../views/tab/language'
 About    = require '../views/tab/about'
-
-delay        = require '../utils/timer'
 
 # Animation duration
 DURATION = 150

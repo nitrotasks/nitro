@@ -1,6 +1,6 @@
 Base = require 'base'
 Pref = require '../models/pref'
-delay = require '../utils/timer'
+delay = require '../utils/delay'
 
 DELAY = 1000 * 60 * 60 * 12 # 12 hours
 MORNING = 7

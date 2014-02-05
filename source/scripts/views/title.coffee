@@ -1,7 +1,7 @@
 Base = require 'base'
 List = require '../models/list'
 keys = require '../utils/keys'
-delay = require '../utils/timer'
+delay = require '../utils/delay'
 
 class Title extends Base.View
 

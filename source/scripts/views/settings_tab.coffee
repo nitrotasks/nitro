@@ -1,5 +1,5 @@
 Base = require 'base'
-delay = require '../utils/timer'
+delay = require '../utils/delay'
 
 # Element selectors
 ui =
@@ -50,7 +50,7 @@ class Tab extends Base.View
     @load()
 
   show: =>
-    
+
     # Set current tab in sidebar
     Tab.current?.tab.removeClass 'current'
     @tab.addClass 'current'

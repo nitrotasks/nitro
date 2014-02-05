@@ -6,7 +6,7 @@ List         = require '../models/list'
 Pref         = require '../models/pref'
 keys         = require '../utils/keys'
 dateDetector = require '../utils/date'
-delay        = require '../utils/timer'
+delay        = require '../utils/delay'
 isMobile     = require '../utils/touch'
 
 DURATION = 150 #ms

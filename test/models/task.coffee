@@ -1,4 +1,5 @@
 require 'should'
+Time = require '../../source/scripts/utils/time'
 
 Task = List = null
 
@@ -22,7 +23,7 @@ describe 'Task', ->
 
     it 'should create a new Task', ->
 
-      now = new Date()
+      now = Time.now()
 
       task = Task.create
         listId: 's0'
@@ -44,26 +45,26 @@ describe 'Task', ->
 
     it 'should make the date pretty', ->
 
-      now = Date.now()
+      now = Time.now()
       task = Task.create(date: now)
 
       task.prettyDate().should.eql
         words: 'today'
         classname: 'due'
 
-      task.date += 86400000
+      task.date += 86400
 
       task.prettyDate().should.eql
         words: 'tomorrow'
         classname: 'soon'
 
-      task.date += 86400000
+      task.date += 86400
 
       task.prettyDate().should.eql
         words: 'in 2 days'
         classname: ''
 
-      task.date += 86400000
+      task.date += 86400
 
       task.prettyDate().should.eql
         words: 'in 3 days'

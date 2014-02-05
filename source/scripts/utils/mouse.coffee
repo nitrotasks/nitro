@@ -89,7 +89,7 @@ tasks.on 'menu:high', (items) ->
 
 tasks.on 'menu:complete', (items) ->
   for item in items
-    item.task.completed = Date.now()
+    item.task.toggleCompleted()
 
 module.exports =
   init: ->

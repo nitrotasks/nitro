@@ -76,10 +76,7 @@ class TaskItem extends Base.View
     e.stopPropagation()
 
     # Does not work in completed list
-    if not @task.completed
-      @task.completed = Date.now()
-    else
-      @task.completed = 0
+    @task.toggleCompleted()
 
     # TODO: Move into a model/controller
     # if false # List.current.id is 'completed'

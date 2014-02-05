@@ -4,6 +4,7 @@ Local      = require '../controllers/local'
 Sync       = require '../controllers/sync'
 Handler    = require '../controllers/sync/task'
 prettyDate = require '../utils/prettydate'
+Time       = require '../utils/time'
 
 Base.Collection::generateId = ->
   this._index -= 2
@@ -46,7 +47,7 @@ class Task extends Base.Model
     List.get @listId
 
   prettyDate: =>
-    date = if @date then new Date(@date) else null
+    date = if @date then Time.toDate(@date) else null
     prettyDate(date)
 
   increasePriority: =>
@@ -55,6 +56,8 @@ class Task extends Base.Model
     else
       @priority += 1
 
+  toggleCompleted: =>
+    @completed = if @completed then 0 else Time.now()
 
 
 ###*

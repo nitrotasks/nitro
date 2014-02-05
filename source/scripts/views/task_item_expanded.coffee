@@ -1,10 +1,11 @@
-Base    = require 'base'
-DeleteModal   = require '../views/modal/destroy_task'
-List    = require '../models/list'
-Pref = require '../models/pref'
-keys    = require '../utils/keys'
-translate = require '../utils/translate'
-delay = require '../utils/timer'
+Base        = require 'base'
+DeleteModal = require '../views/modal/destroy_task'
+List        = require '../models/list'
+Pref        = require '../models/pref'
+keys        = require '../utils/keys'
+translate   = require '../utils/translate'
+delay       = require '../utils/delay'
+Time        = require '../utils/time'
 
 # Constants
 DURATION = 150
@@ -77,7 +78,7 @@ class ExpandedTaskItem extends Base.View
     if @task.date
       @ui.dateWrap.datepicker 'option',
         altField: @ui.date
-      @ui.dateWrap.datepicker('setDate', new Date(@task.date))
+      @ui.dateWrap.datepicker('setDate', Time.toDate(@task.date))
 
   # Delete Button
   remove: =>
@@ -183,7 +184,7 @@ class ExpandedTaskItem extends Base.View
   datesSave: =>
 
     if @ui.date.val().length
-      @task.date = @ui.dateWrap.datepicker('getDate').getTime()
+      @task.date = Time.from @ui.dateWrap.datepicker('getDate').getTime()
 
     else
       @task.date = 0

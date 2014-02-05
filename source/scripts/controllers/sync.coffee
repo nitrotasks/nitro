@@ -117,13 +117,6 @@ event.on 'socket:auth:success', ->
 # Sync Model Handler
 # -----------------------------------------------------------------------------
 
-timestamps = (obj) ->
-  time = {}
-  now = Date.now()
-  for key of obj when key isnt 'id'
-    time[key] = now
-  return time
-
 ###
  * Takes one model and listens to events on it
  *
@@ -145,16 +138,15 @@ Sync.include = (model, Handler) ->
       Sync.disable => item.id = id
 
   handler.onupdate = (data) ->
-    namespace.emit 'update', data # , timestamps(data)
+    namespace.emit 'update', data
 
   handler.ondestroy = (model, options) ->
-    namespace.emit 'destroy', {id: model.id} #, Date.now()
+    namespace.emit 'destroy',  id: model.id
 
   namespace.on 'create', (item) -> Sync.disable -> handler.create(item)
   namespace.on 'update', (item) -> Sync.disable -> handler.update(item)
   namespace.on 'destroy', (id) -> Sync.disable -> handler.destroy(id)
 
   handler.listen()
-
 
 module.exports = Sync
