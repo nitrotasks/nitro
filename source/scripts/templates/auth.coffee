@@ -9,7 +9,7 @@ module.exports = (status, message) ->
   switch message
 
     when 'err_bad_pass'
-      return "Incorrect email or password. <a href=\"http://#{
+      return "Incorrect email or password. <a href=\"#{
         config.server
       }/forgot\">Want to reset?</a>"
 

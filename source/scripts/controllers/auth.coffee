@@ -26,7 +26,7 @@ class Auth
   register: (name, email, password) =>
     $.ajax
       type: 'post'
-      url: "http://#{ config.server }/register"
+      url: config.server + '/register'
       data:
         name: name
         email: email
@@ -39,7 +39,7 @@ class Auth
   login: (email, password) =>
     $.ajax
       type: 'post'
-      url: "http://#{ config.server }/login"
+      url: config.server + '/login'
       data:
         email: email
         password: password
