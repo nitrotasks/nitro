@@ -56,14 +56,14 @@ describe '[Sync]', ->
       expect 'list.create', (_list) ->
 
         _list.should.eql
-          id: -2
+          id: -1
           name: 'List One'
           tasks: []
 
         SockJS.replyFn 3, 'null,10'
 
         list.get(10).name.should.equal 'List One'
-        should.equal list.get(-2), undefined
+        should.equal list.get(-1), undefined
         done()
 
       list.create
@@ -74,7 +74,7 @@ describe '[Sync]', ->
       expect 'task.create', (_task) ->
 
         _task.should.eql
-          id: -2
+          id: -1
           listId: -1
           date: 0
           name: 'Task One'
@@ -84,7 +84,7 @@ describe '[Sync]', ->
 
         SockJS.replyFn 4, 'null,11'
         task.get(11).name.should.equal 'Task One'
-        should.equal task.get(-2), undefined
+        should.equal task.get(-1), undefined
         done()
 
       task.create
@@ -156,10 +156,10 @@ describe '[Sync]', ->
     it 'should create a list', ->
 
       exec client.list.create
-        id: -2
+        id: -1
         name: 'List Two'
 
-      list.get(-2).name.should.equal 'List Two'
+      list.get(-1).name.should.equal 'List Two'
 
     it 'should create a task', ->
 
@@ -172,10 +172,10 @@ describe '[Sync]', ->
     it 'should update a list', ->
 
       exec client.list.update
-        id: -2
+        id: -1
         name: 'List Two - Updated'
 
-      list.get(-2).name.should.equal 'List Two - Updated'
+      list.get(-1).name.should.equal 'List Two - Updated'
 
     it 'should update a task', ->
 
@@ -188,9 +188,9 @@ describe '[Sync]', ->
     it 'should destroy a list', ->
 
       exec client.list.destroy
-        id: -2
+        id: -1
 
-      should.equal list.get(-2), undefined
+      should.equal list.get(-1), undefined
 
     it 'should destroy a task', ->
 
