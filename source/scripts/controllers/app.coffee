@@ -51,7 +51,7 @@ class App
 
   syncWithServer: =>
 
-    return unless not @started and @prefReady and @userReady
+    return if @started or not (@prefReady and @userReady)
     @started = true
 
     @ready()
@@ -102,7 +102,7 @@ class App
 
   displayData: =>
 
-    return if not @displayed and @listReady and @taskReady
+    return if @displayed or not (@listReady and @taskReady)
     @displayed = true
 
     Views.loadLists()

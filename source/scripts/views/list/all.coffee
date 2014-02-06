@@ -11,13 +11,11 @@ class ListAll extends ListItem
     super
 
     event.on 'list:all', @open
-
     Task.on 'change change:completed:model', @updateCount
-
     @updateCount()
 
   open: =>
-    event.trigger 'search'
+    event.trigger 'search:all'
     @select()
 
   updateCount: =>
