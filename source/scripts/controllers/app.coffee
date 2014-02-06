@@ -109,7 +109,7 @@ class App
 
     # Doesn't run in the Pref constructor. Bit of a pain
     # TODO: Move somewhere else?
-    # if Pref.completedDuration is 'day'
+    # if Pref.moveCompleted is 1
       # Pref.moveCompleted()
 
     event.trigger 'app:ready'

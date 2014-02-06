@@ -22,7 +22,7 @@ class NightMode extends Base.View
     now = new Date()
     hours = now.getHours()
 
-    if value is 'auto'
+    if value is Pref.NIGHT_AUTO
       nextRun = new Date()
       nextRun.setMinutes 0
 
@@ -45,11 +45,11 @@ class NightMode extends Base.View
         delay DELAY, =>
           @el.toggleClass 'dark'
 
-    if (value is 'dark') or
-    (value is 'auto' and (hours > NIGHT or hours < MORNING))
+    if (value is Pref.NIGHT_DARK) or
+    (value is Pref.NIGHT_AUTO and (hours > NIGHT or hours < MORNING))
       @el.addClass 'dark'
 
-    else if value is 'light'
+    else if value is Pref.NIGHT_LIGHT
       @el.removeClass 'dark'
 
 module.exports = NightMode

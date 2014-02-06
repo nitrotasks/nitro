@@ -89,7 +89,8 @@ class TaskItem extends Base.View
     #     order.push(@task.id)
     #     @task.list().tasks = order
 
-    # else if false # setting.completedDuration is 'instant'
+    # else if false # setting.moveCompleted is 0
+    #   task.list().moveCompleted()
     #   settings.moveCompleted()
     #   @el.remove()
 

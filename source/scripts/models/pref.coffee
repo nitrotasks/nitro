@@ -5,6 +5,13 @@ Handler = require '../controllers/sync/pref'
 
 class Pref extends Base.Model
 
+  CONFIRM_DELETE_ON: 1
+  CONFIRM_DELETE_OFF: 0
+
+  NIGHT_AUTO: 2
+  NIGHT_LIGHT: 1
+  NIGHT_DARK: 0
+
   classname: 'pref'
 
   defaults:

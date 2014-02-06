@@ -1,7 +1,7 @@
 Pref = require '../../models/pref'
 Modal = require '../modal'
 
-task = null
+tasks = null
 
 modal = new Modal
 
@@ -11,15 +11,16 @@ modal = new Modal
     'click .true': 'delete'
     'click .false': 'hide'
 
-  run: (_task) ->
-    task = _task
-    if Pref.confirmDelete
+  run: (_tasks) ->
+    tasks = _tasks
+    if Pref.confirmDelete is Pref.CONFIRM_DELETE_ON
       modal.show()
     else
       @delete()
 
   delete: =>
-    task?.destroy()
+    if tasks?
+      task.destroy() for task in tasks
     modal.hide()
 
 module.exports = modal

@@ -1,5 +1,6 @@
 Mouse = require 'mouse'
 List = require '../models/list'
+DestroyTask = require '../views/modal/destroy_task'
 
 
 ###*
@@ -72,8 +73,8 @@ tasks.addMenu [
 ], fadeOut: 300
 
 tasks.on 'menu:delete', (items) ->
-  for item in items
-    item.task.destroy()
+  tasks = (item.task for item in items)
+  DestroyTask.run(tasks)
 
 tasks.on 'menu:low', (items) ->
   for item in items

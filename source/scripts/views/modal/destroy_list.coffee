@@ -11,7 +11,7 @@ modal = new Modal
     'click .false': 'hide'
 
   run: ->
-    if Pref.confirmDelete
+    if Pref.confirmDelete is Pref.CONFIRM_DELETE_ON
       modal.show()
     else
       @delete()
