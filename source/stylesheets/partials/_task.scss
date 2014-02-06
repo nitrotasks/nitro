@@ -150,6 +150,8 @@
   .input-name {
     display: block;
     @include pos(0, 110px, auto, 50px);
+    // Chrome OSX Fix. It's really quite wat.
+    width: calc(100% - 160px);
     color: $dark-grey;
     border: none;
     outline: none;
