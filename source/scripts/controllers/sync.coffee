@@ -19,7 +19,7 @@ Sync =
   socket: new Jandal()
 
   connect: () ->
-    @connection = new SockJS("http://#{ config.sync }")
+    @connection = new SockJS("https://#{ config.sync }")
     @socket.connect @connection
     @socket.on('socket.open', @open)
     @socket.on('socket.error', @error)
