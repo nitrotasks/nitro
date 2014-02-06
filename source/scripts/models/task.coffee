@@ -6,14 +6,15 @@ Handler    = require '../controllers/sync/task'
 prettyDate = require '../utils/prettydate'
 Time       = require '../utils/time'
 
-Base.Collection::generateId = ->
-  this._index -= 2
+Base.Collection::_generateId = ->
+  --this._index
 
-Base.Collection::parseId = (id) ->
+Base.Collection::_parseId = (id) ->
   return id
 
-Base.Collection::updateId = (id) ->
-  this._index = id - 1
+Base.Collection::_updateIndex = (id) ->
+  return unless id < this._index
+  this._index = Math.abs(id) * -1
 
 class Task extends Base.Model
 

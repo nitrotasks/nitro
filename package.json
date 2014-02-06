@@ -6,7 +6,8 @@
     "base": "git://github.com/stayradiated/base.git#master",
     "mouse": "git://github.com/stayradiated/mouse.git#master",
     "jquery": "2.1.x",
-    "coffee-script": "1.7.x"
+    "coffee-script": "1.7.x",
+    "mousetrap": "0.0.1"
   },
   "scripts": {
     "test": "mocha --compilers coffee:coffee-script/register -R spec test",

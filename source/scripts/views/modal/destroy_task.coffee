@@ -20,7 +20,7 @@ modal = new Modal
 
   delete: =>
     if tasks?
-      task.destroy() for task in tasks
+      task.destroy() for task in tasks by -1
     modal.hide()
 
 module.exports = modal

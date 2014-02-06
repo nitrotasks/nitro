@@ -9,8 +9,8 @@ class Pref extends Base.Model
   CONFIRM_DELETE_OFF: 0
 
   NIGHT_AUTO: 2
-  NIGHT_LIGHT: 1
-  NIGHT_DARK: 0
+  NIGHT_DARK: 1
+  NIGHT_LIGHT: 0
 
   classname: 'pref'
 

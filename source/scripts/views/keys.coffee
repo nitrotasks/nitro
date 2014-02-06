@@ -1,109 +1,105 @@
 Base = require 'base'
+mousetrap = require 'mousetrap'
 keys = require '../utils/keys'
 Views = require '../controllers/views'
 Mouse = require '../utils/mouse'
 
-class Keys extends Base.View
+class Keys
 
-  el: $ document
+  bind: (key, fn) ->
+    # keys = [ 'meta+' + key,  'ctrl+' + key ]
+    mousetrap.bind key, (e) ->
+      e.preventDefault()
+      fn(e)
 
-  events:
-    'keyup': 'keyup'
-    'blur .editable, input': 'blur'
-    'focus .editable, input': 'focus'
 
   constructor: ->
-    super
 
-    @input  = null
-    @focused = false
+    @bind 'j', @nextList
+    @bind 'k', @prevList
+    @bind 'f', @search
+    @bind ',', @settings
+    @bind 'n', @newTask
+    @bind 'l', @newList
+    @bind 'p', @priority
 
-  focus: (e) =>
-    @input = $(e.target)
-    @focused = true
+    @bind ['del', 'backspace'], @deleteTasks
 
-  blur: =>
-    @focused = false
 
-  keyup: (event)  =>
+  ###
+   * ACTIONS
+  ###
 
-    keyCode = event.keyCode
+  escape: ->
 
-    if @focused
-      if keyCode is keys.escape
-        @input.blur()
-      return true
+    # Escape
+    # - hide modals
+    # - collapse tasks
 
-    @handleKeyCode keyCode
+    console.log 'escaping'
 
-  handleKeyCode: (keyCode) =>
+    if Views.modal.displayed
+      Views.modal.current.hide()
 
-    switch keyCode
+    else
+      Views.tasks.collapse()
 
-      when keys.escape
+  newTask: ->
 
-        # Escape
-        # - hide modals
-        # - collapse tasks
+    # New Task
+    # - focus the task input box
 
-        if Views.modal.displayed
-          Views.modal.current.hide()
+    Views.tasks.focus()
 
-        else
-          Views.tasks.collapse()
+  newList: ->
 
-      when keys.n
+    # New List
+    # - focus the list input box
 
-        # New Task
-        # - focus the task input box
+    Views.lists.focus()
 
-        Views.tasks.focus()
+  search:  ->
 
-      when keys.l
+    # Search
+    # - open the all tasks list
+    # - and focus the task input box
 
-        # New List
-        # - focus the list input box
+    Views.list.all.open()
+    Views.tasks.focus()
 
-        Views.lists.focus()
+  settings: ->
 
-      when keys.f
+    # Settings
+    # - show the settings modal
 
-        # Search
-        # - open the all tasks list
-        # - and focus the task input box
+    Views.settings.show()
 
-        Views.list.all.open()
-        Views.tasks.focus()
+  prevList: ->
 
-      when keys.comma
+    # Go to the previous list
+    # - load the previous list
 
-        # Settings
-        # - show the settings modal
+    Views.lists.prev()
 
-        Views.settings.show()
+  nextList: ->
 
-      when keys.k
+    # Go to the next list
+    # - load the next list
 
-        # Go to the previous list
-        # - load the previous list
+    Views.lists.next()
 
-        Views.lists.prev()
+  priority: ->
 
-      when keys.j
+    # Priority
+    # - Cycle between priority
 
-        # Go to the next list
-        # - load the next list
+    # Views.tasks.
+    selected = Mouse.tasks.selected()
+    for el in selected
+      el.task.increasePriority()
 
-        Views.lists.next()
+  deleteTasks: ->
+    Mouse.tasks.trigger 'menu:delete', Mouse.tasks.selected()
 
-      when keys.p
-
-        # Priority
-        # - Cycle between priority
-
-        # Views.tasks.
-        selected = Mouse.tasks.selected()
-        for el in selected
-          el.task.increasePriority()
 
 module.exports = Keys
