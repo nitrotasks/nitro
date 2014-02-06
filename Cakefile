@@ -26,12 +26,19 @@ option '-w', '--watch', 'Watch the folder for changes'
 
 compile =
 
+  watch_coffee: ->
+    watch config.js.folder, ->
+      date = new Date()
+      h = date.getHours()
+      m = date.getMinutes()
+      s = date.getSeconds()
+      console.log("#{h}:#{m}:#{s} - compiling")
+      compile.coffee()
+
   coffee: (options={}) ->
 
     if options.watch
-      watch config.js.folder, ->
-        console.log('compiling')
-        Scrunch(config.js).end()
+      return compile.watch_coffee()
 
     Scrunch(config.js).end()
 
