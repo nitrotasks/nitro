@@ -2,3 +2,4 @@
 require './jquery-ui'
 require './jquery.autosize'
 require './sockjs'
+require './mousetrap'

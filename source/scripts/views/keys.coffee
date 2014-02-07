@@ -1,14 +1,18 @@
 Base = require 'base'
-mousetrap = require 'mousetrap'
 keys = require '../utils/keys'
 Views = require '../controllers/views'
 Mouse = require '../utils/mouse'
+
+originalStopCallback = Mousetrap.stopCallback
+Mousetrap.stopCallback = (ev, el, key) ->
+  return false if key is 'escape'
+  originalStopCallback(ev, el, key)
 
 class Keys
 
   bind: (key, fn) ->
     # keys = [ 'meta+' + key,  'ctrl+' + key ]
-    mousetrap.bind key, (e) ->
+    Mousetrap.bind key, (e) ->
       e.preventDefault()
       fn(e)
 
@@ -23,6 +27,7 @@ class Keys
     @bind 'l', @newList
     @bind 'p', @priority
 
+    @bind 'escape', @escape
     @bind ['del', 'backspace'], @deleteTasks
 
 
@@ -30,15 +35,16 @@ class Keys
    * ACTIONS
   ###
 
-  escape: ->
+  escape: (e) ->
 
     # Escape
     # - hide modals
     # - collapse tasks
 
-    console.log 'escaping'
+    if e.target.nodeName is 'INPUT'
+      $(e.target).blur()
 
-    if Views.modal.displayed
+    else if Views.modal.displayed
       Views.modal.current.hide()
 
     else

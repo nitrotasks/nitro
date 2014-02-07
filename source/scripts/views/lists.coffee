@@ -81,8 +81,8 @@ class Lists extends Base.View
     if id is 'search'
       if Lists.active.type is 'active'
         event.trigger 'list:completed'
-      else
-        List.at(1).trigger 'select'
+      else if List.length
+        List.at(0).trigger 'select'
 
     else
       index = List.indexOf id
@@ -102,7 +102,7 @@ class Lists extends Base.View
 
     else
       index = List.indexOf id
-      if index is 1
+      if index is 0
         event.trigger 'list:completed'
       else
         list = List.at(index - 1)
