@@ -1,3 +1,5 @@
+Time = require '../utils/time'
+
 # Constants
 CREATE = 0
 UPDATE = 1
@@ -46,7 +48,7 @@ class Queue
     if event is 'destroy' then event = DESTROY
 
     if event in [CREATE, UPDATE, DESTROY]
-      now = Date.now()
+      now = Time.now()
 
       switch event
         when CREATE

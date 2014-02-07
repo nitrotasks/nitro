@@ -38,9 +38,12 @@ compile =
   coffee: (options={}) ->
 
     if options.watch
-      return compile.watch_coffee()
+      compile.watch_coffee()
 
-    Scrunch(config.js).end()
+    Scrunch(config.js)
+      .then ->
+        console.log '... compiled'
+      .end()
 
   sass: (options={}) ->
 

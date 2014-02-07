@@ -1,6 +1,6 @@
 [
   {
-    "name": "Welcome to Nitro!",
+    "name": "1. Welcome to Nitro!",
     "date": 0,
     "notes": "",
     "completed": 0,
@@ -9,7 +9,7 @@
     "id": -1
   },
   {
-    "name": "Add a new task by using the box above",
+    "name": "2. Add a new task by using the box above",
     "date": 0,
     "notes": "",
     "completed": 0,
@@ -18,7 +18,7 @@
     "id": -2
   },
   {
-    "name": "Create a new list by using the box in the sidebar",
+    "name": "3. Create a new list by using the box in the sidebar",
     "date": 0,
     "notes": "",
     "completed": 0,
@@ -27,7 +27,7 @@
     "id": -3
   },
   {
-    "name": "You can see all your tasks and completed tasks by clicking on the list in the sidebar",
+    "name": "4. You can see all your tasks and completed tasks by clicking on the list in the sidebar",
     "date": 0,
     "notes": "",
     "completed": 0,
@@ -36,16 +36,16 @@
     "id": -4
   },
   {
-    "name": "Click on a task to expand it",
+    "name": "5. Click on a task to expand it",
     "date": 0,
-    "notes": "<div>You can add notes, due dates and change the priority</div>",
+    "notes": "You can add notes, due dates and change the priority.",
     "completed": 0,
     "priority": 2,
     "listId": -1,
     "id": -5
   },
   {
-    "name": "Group your tasks by clicking the lists icon to the right of the list title",
+    "name": "6. Sort, delete and print lists from the dropdown menu next to the list name.",
     "date": 0,
     "notes": "",
     "completed": 0,
@@ -54,7 +54,7 @@
     "id": -6
   },
   {
-    "name": "Get Nitro Pro to unlock more features and be awesome",
+    "name": "7. Rename lists at the top of the screen.",
     "date": 0,
     "notes": "",
     "completed": 0,
@@ -63,7 +63,7 @@
     "id": -7
   },
   {
-    "name": "Thanks for checking out Nitro! We hope you enjoy it as much as we did creating it.",
+    "name": "8. Thanks for checking out Nitro! We hope you enjoy using it.",
     "date": 0,
     "notes": "",
     "completed": 0,

@@ -2,6 +2,7 @@ Base           = require 'base'
 Jandal         = require 'jandal/client'
 event          = require '../utils/event'
 config         = require '../utils/config'
+Time           = require '../utils/time'
 user           = require '../models/user'
 queue          = require '../controllers/queue'
 
@@ -78,10 +79,14 @@ Sync =
       console.log err, info
       user.setAttributes info
 
-  queue: ->
-    Sync.socket.emit 'queue.sync', queue.toJSON(), Date.now(), Sync._queue
+  loadDefaultData: ->
+    defaultData = require '../controllers/default'
+    defaultData.load()
 
-  _queue: (err, data) =>
+  queue: ->
+    Sync.socket.emit 'queue.sync', queue.toJSON(), Time.now(), Sync._queue
+
+  _queue: (err, data) ->
 
       console.log 'queue.sync', err, data
 
@@ -97,8 +102,7 @@ Sync =
 
       if not data.task.length and not data.list.length and data.pref.sort is null
         Sync.online = false
-        defaultData = require '../controllers/default'
-        defaultData.load()
+        Sync.loadDefaultData()
         Sync.online = true
         Sync.queue()
 
@@ -111,6 +115,10 @@ event.on 'auth:token', -> Sync.connect()
 event.on 'socket:auth:success', ->
   Sync.getUserInfo()
   Sync.queue()
+
+event.on 'auth:skip', ->
+  console.log 'Skipping auth'
+  Sync.loadDefaultData()
 
 
 # -----------------------------------------------------------------------------
