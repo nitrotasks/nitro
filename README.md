@@ -6,13 +6,23 @@
 
 ## Installation ##
 
-Nitro is written in [CoffeeScript](http://coffeescript.org/) and uses the [Base](http://github.com/stayradiated/base) framework.
+Nitro is written in [CoffeeScript](http://coffeescript.org/) and currently uses the [Base](http://github.com/stayradiated/base) framework (based on Backbone).
 
 ### Installing ###
 
+    # Clone repo
     git clone https://github.com/CaffeinatedCode/nitro.git
-    cd Nitro
+
+    # Open folder
+    cd nitro
+
+    # Install dependencies
     npm install
+
+    # Start server
+    cake server
+
+    # Now browse to http://localhost:9294
 
 ### Local Development Server ###
 
@@ -45,12 +55,14 @@ Use these commands to compile and minify the app into the public folder.
 ### Stylesheets ###
 
 To generate `app/css/style.css` you will need to install the [Sass
-compiler](http://sass-lang.com/).
+compiler](http://sass-lang.com/). If you have ruby installed you can use `gem install sass`.
 
-    # Start sass
+    # Compile sass once
     npm run-script sass
 
+    # Compile sass and watch folder for changes
     # Press Ctrl-C to exit Sass
+    npm run-script sass-watch
 
 ### Translating Nitro ###
 
@@ -62,9 +74,6 @@ To make or edit a language translation.
     # Copy the default language into a new file
     cp default.json es-ES.json
 
-    # Edit the the language
-    # Keep the original on the left, and your translation on the right
+    # When editing the the language, keep the original on the left, and your translation on the right
     # 'Lists': 'Listas'
 
-    # Then compile the language to save space
-    cake language
