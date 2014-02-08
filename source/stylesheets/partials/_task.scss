@@ -167,7 +167,7 @@
   // --------------------------------------------------------------------------
 
   .date {
-    @include pos(0, 0, auto, auto);
+    @include pos(0, 35px, auto, auto);
     text-align: right;
     font-size: 0;
     @include transition(opacity 150ms ease);
@@ -207,6 +207,48 @@
 
   }
 
+  // --------------------------------------------------------------------------
+  // PRIORITY
+  // --------------------------------------------------------------------------
+  .priority-toggle {
+    @include pos(0, 0, auto, auto);
+    @include transition(opacity 250ms ease);
+    padding: 10px;
+    line-height: 0;
+    border-left: 1px solid $task-color;
+    &:hover {
+      background: $light-grey;
+    }
+    &:active svg {
+      fill: #fff;
+    }
+    svg {
+      width: 14px;
+      height: 15px;
+      vertical-align: top;
+    }
+  }
+
+  &.p2 svg {
+    fill: $red;
+  }
+  &.p1 svg {
+    fill: $dark-green;
+  }
+  &.p3 svg {
+    fill: $dark-blue;
+  }
+  &.p2 .priority-toggle:active {
+    background: $red;
+  }
+
+  &.p1 .priority-toggle:active {
+    background: $dark-green;
+  }
+
+  &.p3 .priority-toggle:active {
+    background: $dark-blue;
+  }
 
   // --------------------------------------------------------------------------
   // NOTES
