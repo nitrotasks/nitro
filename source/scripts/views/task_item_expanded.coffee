@@ -31,6 +31,7 @@ class ExpandedTaskItem extends Base.View
     'keypress .input-name'       : 'endEditOnEnter'
     'focus .notes'               : 'notesEdit'
     'blur .notes'                : 'notesSave'
+    'click .priority-toggle'     : 'togglePriority'
     'click .input-date'          : 'datesOpen'
     'change .input-date'         : 'datesSave'
     'mousedown': 'mousedown'
@@ -131,6 +132,12 @@ class ExpandedTaskItem extends Base.View
   # ---------------------------------------------------------------------------
   # PRIORITIES
   # ---------------------------------------------------------------------------
+
+  togglePriority: =>
+    if @task.priority is 3
+      @task.priority = 1
+    else
+      @task.priority++
 
   updatePriority: =>
     @el
