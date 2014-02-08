@@ -134,10 +134,7 @@ class ExpandedTaskItem extends Base.View
   # ---------------------------------------------------------------------------
 
   togglePriority: =>
-    if @task.priority is 3
-      @task.priority = 1
-    else
-      @task.priority++
+    @task.increasePriority()
 
   updatePriority: =>
     @el

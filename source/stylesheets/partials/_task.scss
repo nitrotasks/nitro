@@ -273,7 +273,7 @@
     border-left: 4px solid $mid-grey;
     color: $dark-grey;
 
-    @include transition(height 150ms ease);
+    @include transition(all 150ms ease);
 
     &.placeholder {
       color: $half-grey;
