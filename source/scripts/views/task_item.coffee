@@ -102,11 +102,12 @@ class TaskItem extends Base.View
     @el.addClass('p' + @task.priority)
 
   updateName: =>
-    @ui.name.html @task.name
+    text = @task.name
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
       .replace(/#(\w+)/g, ' <span class="tag">#$1</span>')
+    @ui.name.html(text)
 
   # ---------------------------------------------------------------------------
   # TAGS
