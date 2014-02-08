@@ -28,7 +28,7 @@ class ListMenu extends Base.View
 
   # Show/Hide buttons depending on the list attributes
   update: (list) =>
-    @ui.delete.toggleClass 'hidden', list.permanent
+    @ui.delete.toggleClass 'hidden', !! list.permanent
 
   delete: ->
     ListModal.run()
