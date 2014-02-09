@@ -5,6 +5,9 @@ Handler = require '../controllers/sync/pref'
 
 class Pref extends Base.Model
 
+  SORT_ON: 1
+  SORT_OFF: 0
+
   CONFIRM_DELETE_ON: 1
   CONFIRM_DELETE_OFF: 0
 
