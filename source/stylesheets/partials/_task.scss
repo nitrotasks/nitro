@@ -65,10 +65,12 @@
     @include animation(new-task 1 ease 150ms);
   }
 
-  // Selected tasks
   &.selected {
     border-color: $light-blue;
     background: mix($white, $light-blue, 92);
+    &:not(:first-child) {
+      box-shadow: 0 -1px 0 $light-blue;
+    }
   }
 
   // --------------------------------------------------------------------------
@@ -166,8 +168,12 @@
   // RIGHT CONTROLS
   // --------------------------------------------------------------------------
 
-  .date {
+  &.expanded-task .date {
     @include pos(0, 35px, auto, auto);
+  }
+
+  .date {
+    @include pos(0, 0, auto, auto);
     text-align: right;
     font-size: 0;
     @include transition(opacity 150ms ease);
