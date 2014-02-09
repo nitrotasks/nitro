@@ -1,5 +1,6 @@
 Mouse = require 'mouse'
 List = require '../models/list'
+Pref = require '../models/pref'
 DestroyTask = require '../views/modal/destroy_task'
 
 
@@ -51,6 +52,8 @@ tasks.on 'sort', (items, position) ->
 
   for item in items by -1
     collection.move item.task, position
+
+  Pref.sort = false
 
 lists.on 'sort', (item, position) ->
   List.move item[0].list, position
