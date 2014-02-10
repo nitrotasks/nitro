@@ -32,7 +32,7 @@ class Auth
         email: email
         password: password
       success: ([uid, token]) =>
-        @view.trigger 'login:sucess'
+        @view.trigger 'login:success'
         @loadToken(uid, token)
       error: (xhr, status, msg) =>
         @view.trigger 'register:fail', xhr.status, xhr.responseText
