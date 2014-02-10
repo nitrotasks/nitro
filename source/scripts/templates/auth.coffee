@@ -16,4 +16,7 @@ module.exports = (status, message) ->
     when 'err_old_email'
       return 'Sorry, but that email address has already been used'
 
+    when 'err_server'
+      return 'Server Error'
+
   return message
