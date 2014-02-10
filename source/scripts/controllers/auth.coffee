@@ -31,8 +31,9 @@ class Auth
         name: name
         email: email
         password: password
-      success: =>
-        @view.trigger 'register:success'
+      success: ([uid, token]) =>
+        @view.trigger 'login:sucess'
+        @loadToken(uid, token)
       error: (xhr, status, msg) =>
         @view.trigger 'register:fail', xhr.status, xhr.responseText
 
