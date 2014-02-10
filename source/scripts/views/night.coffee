@@ -4,7 +4,7 @@ delay = require '../utils/delay'
 
 DELAY = 1000 * 60 * 60 * 12 # 12 hours
 MORNING = 7
-NIGHT = MORNING + 12
+EVENING = MORNING + 12
 
 class NightMode extends Base.View
 
@@ -18,38 +18,73 @@ class NightMode extends Base.View
 
     @toggle Pref.night
 
-  toggle: (value) =>
+
+  ###
+   * (private) Turn
+   *
+   * Set night mode. Default on.
+   *
+   * - [value] (boolean) - turn it off or on
+  ###
+
+  _turn: (value=true) ->
+    @el.toggleClass 'dark', value
+
+
+  ###
+   * (private) Auto Timer
+   *
+   * Starts a recursive timer for the 'auto' mode
+  ###
+
+  _autoTimer: ->
     now = new Date()
     hours = now.getHours()
 
-    if value is Pref.NIGHT_AUTO
-      nextRun = new Date()
-      nextRun.setMinutes 0
+    nextRun = new Date()
+    nextRun.setMinutes 0
+    nextRun.setSeconds 0
 
-      # turn it off at 7am tomorrow
-      if hours > NIGHT
-        nextRun.setHours MORNING
-        nextRun.setDate nextRun.getDate()+1
+    # Run it tomorrow morning
+    if hours > EVENING
+      nextRun.setHours MORNING
+      nextRun.setDate nextRun.getDate() + 1
 
-      # turn it off at 7am today
-      else if hours < MORNING
-        nextRun.setHours MORNING
+    # Run it this morning
+    else if hours < MORNING
+      nextRun.setHours MORNING
 
-      # turn it off 7pm today
-      else
-        # turn it off 7pm today
-        nextRun.setHours NIGHT
+    # Run it this evening
+    else
+      nextRun.setHours EVENING
 
-      delay nextRun.getTime() - now.getTime(), =>
-        @el.toggleClass 'dark'
-        delay DELAY, =>
-          @el.toggleClass 'dark'
+    state = (hours > EVENING or hours < MORNING)
+    @_turn state
 
-    if (value is Pref.NIGHT_DARK) or
-    (value is Pref.NIGHT_AUTO and (hours > NIGHT or hours < MORNING))
-      @el.addClass 'dark'
+    delay nextRun.getTime() - now.getTime(), =>
+      @_turn not state
+      @_autoTimer()
 
-    else if value is Pref.NIGHT_LIGHT
-      @el.removeClass 'dark'
+
+  ###
+   * Toggle
+   *
+   * Handles light, dark, and auto modes
+   *
+   * - value (int) : value to set to
+  ###
+
+  toggle: (value) =>
+
+    switch value
+
+      when Pref.NIGHT_LIGHT
+        @_turn off
+
+      when Pref.NIGHT_DARK
+        @_turn on
+
+      when Pref.NIGHT_AUTO
+        @_autoTimer()
 
 module.exports = NightMode
