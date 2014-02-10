@@ -1,15 +1,10 @@
+escape    = require '../utils/escape'
 translate = require '../utils/translate'
+tags      = require '../utils/tags'
 
 text = translate
   checkbox:  'Mark as completed'
 
-tags = (text) ->
-  return unless text
-  return text
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/#(\S+)/g, ' <span class="tag">#$1</span>')
 
 module.exports = (task) ->
 

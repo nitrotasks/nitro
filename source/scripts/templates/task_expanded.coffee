@@ -1,17 +1,10 @@
 translate = require '../utils/translate'
+escape    = require '../utils/escape'
 
 text = translate
   notes:     'Notes'
   date:      'Due Date'
   checkbox:  'Mark as completed'
-
-tags = (text) ->
-  return unless text
-  return text
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/#(\S+)/g, ' <span class="tag">#$1</span>')
 
 module.exports = (task) ->
 
@@ -22,7 +15,7 @@ module.exports = (task) ->
       if task.completed then ' completed' else ''
     } p#{ task.priority }">
       <div class="checkbox" title="#{ text.checkbox }"></div>
-      <input type="text" class="input-name" value="#{ task.name }">
+      <input type="text" class="input-name" value="#{ escape task.name }">
       <div class="date #{
         if date.words then '' else 'hidden'
       }">

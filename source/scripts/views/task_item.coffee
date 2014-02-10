@@ -1,5 +1,6 @@
 Base    = require 'base'
 event   = require '../utils/event'
+tags    = require '../utils/tags'
 ExpandedTaskItem = require '../views/task_item_expanded'
 Mouse = require '../utils/mouse'
 
@@ -66,7 +67,7 @@ class TaskItem extends Base.View
       @el.show()
 
   # ---------------------------------------------------------------------------
-  # COMPLETED
+  # CHANGING VALUES
   # ---------------------------------------------------------------------------
 
   toggleCompleted: (e) =>
@@ -102,22 +103,7 @@ class TaskItem extends Base.View
     @el.addClass('p' + @task.priority)
 
   updateName: =>
-    text = @task.name
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/#(\w+)/g, ' <span class="tag">#$1</span>')
-    @ui.name.html(text)
-
-  # ---------------------------------------------------------------------------
-  # TAGS
-  # ---------------------------------------------------------------------------
-
-  tagClick: (e) =>
-    e.stopPropagation()
-    tag = $(e.currentTarget).text()
-    event.trigger 'search', tag
-
+    @ui.name.html tags @task.name
 
   updateDate: (date) =>
     if date?
@@ -128,5 +114,14 @@ class TaskItem extends Base.View
     else
       @ui.time.text ''
       @ui.date.addClass 'hidden'
+
+  # ---------------------------------------------------------------------------
+  # TAGS
+  # ---------------------------------------------------------------------------
+
+  tagClick: (e) =>
+    e.stopPropagation()
+    tag = $(e.currentTarget).text()
+    event.trigger 'search', tag
 
 module.exports = TaskItem
