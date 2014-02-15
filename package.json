@@ -11,7 +11,7 @@
   "scripts": {
     "test": "mocha --compilers coffee:coffee-script/register -R spec test",
     "lint": "coffeelint -f lint.json -r source/scripts",
-    "sass": "sass source/stylesheets/screen.scss:app/css/screen.css",
+    "sass": "sass --style compressed source/stylesheets/screen.scss:app/css/screen.css",
     "sass-watch": "sass --watch source/stylesheets/screen.scss:app/css/screen.css"
   },
   "devDependencies": {
@@ -21,6 +21,7 @@
     "node-static": "0.7.x",
     "coffeelint": "1.0.x",
     "mocha": "1.17.x",
-    "should": "3.1.x"
+    "should": "3.1.x",
+    "minify": "0.2.x"
   }
 }

@@ -9,6 +9,7 @@ before_script:
   - "cake build"
 after_success:
   - "cake minify"
+  - "minify app/index.html app/index.html"
   - "gem install sass"
   - "npm run-script sass"
   - "find app -type f \\( -iname \\*.css -o -iname \\*.js -o -iname \\*.html \\) -exec curl -u $FTP_USER:$FTP_PASSWORD --ftp-create-dirs -T {} ftp://ftp.beta.nitrotasks.com/beta.nitrotasks.com/travis/{} \\;"
