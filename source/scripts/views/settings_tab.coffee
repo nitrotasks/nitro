@@ -34,12 +34,11 @@ class Tab extends Base.View
     return tabs[id]
 
   constructor: (opts) ->
+    super
 
     # Merge methods into instance
     for method in @methods
       @[method] = @[method].bind(this)
-
-    super
 
     # Store record of it
     tabs[@id] = this

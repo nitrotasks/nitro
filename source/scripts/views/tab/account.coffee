@@ -8,24 +8,27 @@ account = new Tab
   selector: '.account'
 
   ui:
-    name:      'span.name'
-    email:     'span.email'
+    name:  'span.name'
+    email: 'span.email'
 
-  methods: ["updateDetails"]
+  methods: ['updateDetails']
   events: {}
 
   load: ->
+
     @listen User,
-      'login':         @updateDetails
-      'change:name':   @updateDetails
-      'change:email':  @updateDetails
+      'login':        @updateDetails
+      'change:name':  @updateDetails
+      'change:email': @updateDetails
 
-  updateDetails: =>
+  updateDetails: ->
+
     return unless User.authenticated
-      @ui.name.text User.name
-      @ui.email.text User.email
 
-      if User.authenticated
-        @el.addClass 'logged-in'
+    @ui.name.text User.name
+    @ui.email.text User.email
+
+    if User.authenticated
+      @el.addClass 'logged-in'
 
 module.exports = account
