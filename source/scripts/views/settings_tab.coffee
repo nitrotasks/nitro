@@ -34,14 +34,15 @@ class Tab extends Base.View
     return tabs[id]
 
   constructor: (opts) ->
-    # Base.touchify @events
+
+    # Merge methods into instance
+    for method in @methods
+      @[method] = @[method].bind(this)
+
     super
 
     # Store record of it
     tabs[@id] = this
-
-    for method in @methods
-      @[method] = @[method].bind(this)
 
   init: =>
     @bind ui.container.find @selector
