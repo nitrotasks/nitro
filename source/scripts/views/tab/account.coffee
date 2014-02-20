@@ -8,47 +8,24 @@ account = new Tab
   selector: '.account'
 
   ui:
-    name:      '.name input'
-    email:     '.email input'
-    password:  '.password input'
+    name:      'span.name'
+    email:     'span.email'
 
-  events:
-    'click           button.edit': 'editField'
-    'blur .name input': 'saveName'
-    'blur .email input': 'saveEmail'
-    'blur .password input': 'savePassword'
-
-  methods: ['saveName', 'saveEmail', 'savePassword']
+  methods: ["updateDetails"]
+  events: {}
 
   load: ->
-    @ui.name.val User.name
-    @ui.email.val User.email
+    @listen User,
+      'login':         @updateDetails
+      'change:name':   @updateDetails
+      'change:email':  @updateDetails
 
-    if User.authenticated
-      @el.addClass 'logged-in'
+  updateDetails: =>
+    return unless User.authenticated
+      @ui.name.text User.name
+      @ui.email.text User.email
 
-  editField: (event) ->
-    control = $(this).parent()
-    control.addClass 'edit'
-    control.find('input')
-      .prop('disabled', false)
-      .focus()
-
-  saveName: (e) ->
-    @ui.name.prop 'disabled', true
-    User.name = @ui.name.val()
-    account.saveField(e)
-
-  saveEmail: (e) ->
-    @ui.email.prop 'disabled', true
-    User.email = @ui.email.val()
-    account.saveField(e)
-
-  savePassword: (e) ->
-    @ui.password.prop 'disabled', true
-    account.saveField(e)
-
-  saveField: (event) ->
-    $(event.target).parent().removeClass('edit')
+      if User.authenticated
+        @el.addClass 'logged-in'
 
 module.exports = account

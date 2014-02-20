@@ -145,6 +145,15 @@ button {
     background: $dark-green;
   }
 }
+.account {
+  .control {
+    padding: 1.5em 0;
+    p {
+      margin-top: 0;
+      margin-bottom:0.65em;
+    }
+  }
+}
 
 .about-logo {
   img {
