@@ -4,7 +4,7 @@
   display: none;
   opacity: 0;
 
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.5);
   z-index: $z-modal-overlay;
   @include pos(0, 0, 0, 0);
 
@@ -43,27 +43,8 @@
     opacity: 1;
   }
 
-  button.special {
-    border: 2px solid $red;
-    &:active {
-      background: $red;
-    }
-  }
-
   .buttons {
     text-align: center;
-
-    button {
-      background: white;
-      border: 2px solid $dark-blue;
-
-      &:active {
-        background: $dark-blue;
-        color: white;
-      }
-
-    }
-
   }
 
 }
@@ -75,17 +56,10 @@
   border: 3px solid $red;
   padding: 25px;
   text-align: center;
-  font-size: 16px;
-  color: #222222;
-  span {
-    display: inline-block;
-    margin: 5px 0;
-  }
-  button.special {
-    border: 2px solid $red;
-    &:active {
-      background: $red;
-    }
+  p {
+    font-size: 17px;
+    color: #222222;
+    font-weight: 300;
   }
 }
 

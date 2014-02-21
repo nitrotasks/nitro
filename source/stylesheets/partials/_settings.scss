@@ -28,6 +28,9 @@ body .settings {
       padding-right: $sidebar-padding;
     }
   }
+  button.special {
+    margin-top: 0;
+  }
 }
 
 .pane {
@@ -127,23 +130,6 @@ select {
 
 button {
   height: $radio_height + 4px;
-  background: $light-grey;
-  border: 2px solid $mid-grey;
-  color: $dark-grey;
-  font-size: 13px;
-  padding: 0 20px;
-  text-transform: uppercase;
-
-  &.clear-data, &.export-data {
-    color: $white;
-    border-color: $dark-grey;
-  }
-  &.clear-data {
-    background: $red;
-  }
-  &.export-data {
-    background: $dark-green;
-  }
 }
 .account {
   .control {

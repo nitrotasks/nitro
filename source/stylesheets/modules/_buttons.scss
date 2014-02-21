@@ -60,20 +60,45 @@ button {
 }
 
 button.special, a.special {
-  display: inline-block;
-  text-decoration: none;
-  border: 2px solid #555555;
-  background: white;
-  font-size: 16px;
-  color: #222222;
-  margin-top: 15px;
-  padding: 8px 15px;
-  font-family: $font;
   cursor: default;
+  margin-top: 15px;
+  font-size: 13px;
+  background: $light-grey;
+  border: 2px solid $mid-grey;
+  color: $dark-grey;
+  text-transform: uppercase;
+  padding: 0 20px;
 
+  &:hover {
+    background: lighten($mid-grey, 10);
+  }
   &:active {
-    background: #555555;
-    color: white;
+    color: $white;
+    border-color: $dark-grey;
+    background: $dark-blue;
   }
 
+  &.false, &.true {
+    color: $white;
+    border-color: $dark-grey;
+  }
+
+  &.false {
+    background: $dark-green;
+    &:hover {
+      background: darken($dark-green, 7);
+    }
+    &:active {
+      background: darken($dark-green, 15);
+    }
+  }
+  &.true {
+    background: $red;
+    &:hover {
+      background: darken($red, 7);
+    }
+    &:active {
+      background: darken($red, 15);
+    }
+  }
 }
