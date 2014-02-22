@@ -1,9 +1,10 @@
 Jandal = require('jandal')
+JandalC = require('jandal/client')
 {EventEmitter} = require 'events'
 
 setup = ->
 
-  Jandal.handle
+  handler =
 
     write: (socket, message) ->
       socket.emit('write', message)
@@ -20,6 +21,8 @@ setup = ->
     open: (socket, fn) ->
       process.nextTick(fn)
 
+  Jandal.handle(handler)
+  JandalC.handle(handler)
 
 class Socket extends EventEmitter
 
