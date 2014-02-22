@@ -41,7 +41,6 @@ class Tasks extends Base.View
     @timers = {}
 
     @currentTask = null
-    @currentTasks = []
     @search = no # all, active, completed
 
     # It's one line of code George, don't hate.
@@ -175,8 +174,6 @@ class Tasks extends Base.View
     # Holds html
     html = ''
 
-    @currentTasks = tasks
-
     # Sorting tasks
     if Pref.sort
 
@@ -294,51 +291,7 @@ class Tasks extends Base.View
 
   collapse: =>
     @hideDatepicker(null, true)
-
-    task = @currentTask
-
-    return unless task
-
-    task.collapse()
-
-    return unless Pref.sort
-
-    # Find where the task is now
-    oldPos = @currentTasks.indexOf task.task
-
-    # Find where the task should be
-    tasks = @currentTasks = Task.sort @currentTasks
-    newPos = tasks.indexOf task.task
-
-    console.log
-      oldPos: oldPos
-      newPos: newPos
-
-    # Position doesn't change
-    if oldPos is newPos then return
-
-    # Move to end of the list
-    if newPos is tasks.length - 1
-      console.log 'moving to end of list'
-      return @ui.tasks.append task.el
-
-    # Move to start of the list
-    if newPos is 0
-      console.log 'moving to start of list'
-      return @ui.tasks.prepend task.el
-
-    # Move to arbitrary part of list
-    children = @ui.tasks.children('.task:not(.expanded-task)')
-
-    if oldPos < newPos
-      newPos++
-
-    posEl = children.eq(newPos)
-
-    console.log 'Need to move task to', posEl
-
-    posEl.before(task.el)
-
+    @currentTask.collapse() if @currentTask
 
   # Collapsing of tasks
   collapseOnClick: (e) =>
