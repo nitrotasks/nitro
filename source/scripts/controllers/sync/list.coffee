@@ -3,7 +3,12 @@ class ListSync
   constructor: (@model) ->
 
   listen: =>
-    @model.on 'create:model', @oncreate
+    @model.on 'create:model', (model) =>
+      data = model.toJSON()
+      delete data.id
+      delete data.tasks
+      @oncreate(model, data)
+
     @model.on 'change:model', @handleUpdate
     @model.on 'before:destroy:model', @ondestroy
 
@@ -33,5 +38,7 @@ class ListSync
   oncreate: null
   onupdate: null
   ondestroy: null
+
+
 
 module.exports = ListSync

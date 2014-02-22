@@ -19,7 +19,7 @@ Sync =
 
   socket: new Jandal()
 
-  connect: () ->
+  connect: (@socketToken) ->
     @connection = new SockJS(config.sync)
     @socket.connect @connection
     @socket.on('socket.open', @open)
@@ -46,14 +46,12 @@ Sync =
 
     event.trigger 'app:offline'
 
-  auth: ->
-    @socket.emit 'user.auth', user.uid, user.token, (err, status) ->
+  auth: (socketToken) ->
+    @socket.emit 'user.auth', @socketToken, (err, status) ->
       if err
-        return console.log err
-      if status
-        event.trigger 'socket:auth:success'
-      else
         event.trigger 'socket:auth:fail'
+        return console.log err
+      event.trigger 'socket:auth:success'
 
   namespace: (name) ->
     namespace = Sync.socket.namespace(name)
@@ -88,30 +86,35 @@ Sync =
 
   _queue: (err, data) ->
 
-      console.log 'queue.sync', err, data
+    console.log 'queue.sync', err, data
 
-      queue.clear()
+    queue.clear()
 
-      if err
-        console.log err
-        return
+    if err
+      console.log err
+      return
 
-      event.trigger 'sync:refresh:task', data.task
-      event.trigger 'sync:refresh:list', data.list
-      event.trigger 'sync:refresh:pref', data.pref
+    event.trigger 'sync:refresh:task', data.task
+    event.trigger 'sync:refresh:list', data.list
+    event.trigger 'sync:refresh:pref', data.pref
 
-      if not data.task.length and not data.list.length and data.pref.sort is null
-        Sync.online = false
-        Sync.loadDefaultData()
-        Sync.online = true
-        Sync.queue()
+    if not data.task.length and
+    not data.list.length and
+    data.pref.sort is null
+      Sync.online = false
+      Sync.loadDefaultData()
+      Sync.online = true
+      Sync.queue()
 
 
 # -----------------------------------------------------------------------------
 # Events
 # -----------------------------------------------------------------------------
 
-event.on 'auth:token', -> Sync.connect()
+event.on 'auth:socket:token', (token) ->
+  console.log 'got auth:socket:token', token
+  Sync.connect(token)
+
 event.on 'socket:auth:success', ->
   Sync.getUserInfo()
   Sync.queue()
@@ -140,15 +143,16 @@ Sync.include = (model, Handler) ->
   handler = new Handler(model)
   namespace = Sync.namespace model.classname
 
-  handler.oncreate = (item, options) ->
-    namespace.emit 'create', item.toJSON(), (err, id) =>
+  handler.oncreate = (model, data) ->
+    namespace.emit 'create', data, (err, id) ->
       if err or not id then return
-      Sync.disable => item.id = id
+      Sync.disable -> model.id = id
 
-  handler.onupdate = (data) ->
-    namespace.emit 'update', data
+  handler.onupdate = (model, data) ->
+    console.log model.id, data
+    namespace.emit 'update', model.id, data
 
-  handler.ondestroy = (model, options) ->
+  handler.ondestroy = (model) ->
     namespace.emit 'destroy',  id: model.id
 
   namespace.on 'create', (item) -> Sync.disable -> handler.create(item)

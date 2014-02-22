@@ -3,7 +3,7 @@ class TaskSync
   constructor: (@model) ->
 
   listen: =>
-    @model.on 'create:model', @oncreate
+    @model.on 'create:model', @handleCreate
     @model.on 'change:model', @handleUpdate
     @model.on 'before:destroy:model', @ondestroy
 
@@ -21,14 +21,21 @@ class TaskSync
     return unless model
     model.destroy()
 
+  handleCreate: (model) =>
+    data = model.toJSON()
+    delete data.id
+    @oncreate(model, data)
+
   handleUpdate: (model, key, value) =>
-    data = id: model.id
-    data[key] = value
-    @onupdate(data)
+    obj = {}
+    obj[key] = value
+    @onupdate(model, obj)
 
   # override these
   oncreate: null
   onupdate: null
   ondestroy: null
+
+
 
 module.exports = TaskSync

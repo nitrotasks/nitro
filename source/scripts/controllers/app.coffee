@@ -54,12 +54,14 @@ class App
     return if @started or not (@prefReady and @userReady)
     @started = true
 
+    auth = new Auth()
+
     @ready()
 
     # Login to sync
     if User.authenticated
       console.log 'going to connect to the server'
-      Sync.connect()
+      auth.socket()
 
     else
       console.log 'we are offline'
@@ -74,7 +76,6 @@ class App
     translate.init()
 
     # Load controllers
-    new Auth()
     new Search()
 
     # Load utils
