@@ -9,6 +9,7 @@ before_script:
   - "cake build"
 after_success:
   - "cake minify"
+  - "cake absoluteify"
   - "minify app/index.html app/index.html"
   - "gem install sass"
   - "npm run-script sass"

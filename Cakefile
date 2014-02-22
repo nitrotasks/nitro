@@ -124,3 +124,15 @@ task 'minify', 'Minify application.js', compile.minify
 
 task 'language', 'Compile language files', compile.language
 
+task 'absoluteify', 'Use absolute urls', ->
+
+  path = config.public + '/index.html'
+  domain = 'http://beta.nitrotasks.com/'
+
+  index = fs.readFileSync(path).toString()
+
+  index = index
+    .replace(/\ssrc="/g, " src=\"#{ domain }")
+    .replace(/\<link\shref="/g, "<link href=\"#{ domain }")
+
+  fs.writeFileSync(path, index)
