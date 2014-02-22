@@ -13,26 +13,23 @@ class ListSync
     @model.on 'before:destroy:model', @ondestroy
 
   create: (item) =>
-    console.log 'creating', item
     @model.create(item)
 
   update: (item) =>
-    console.log 'updating', item
     model = @model.get(item.id)
     return unless model
     delete item.id
     model.setAttributes(item)
 
   destroy: (item) =>
-    console.log 'destroying', item
     model = @model.get(item.id)
     return unless model
     model.destroy()
 
   handleUpdate: (model, key, value) =>
-    data = id: model.id
+    data = {}
     data[key] = value
-    @onupdate(data)
+    @onupdate(model, data)
 
   # override these
   oncreate: null

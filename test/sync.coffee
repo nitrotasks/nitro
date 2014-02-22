@@ -1,208 +1,251 @@
-pref = sync = list = task = user = null
-should = require 'should'
-client = require './mock_client'
-Jandal = require 'jandal'
+
+should = require('should')
+Jandal = require('jandal')
+Sandal  = require('./sandal')
 
 describe '[Sync]', ->
+
+  client = null
+  pref = sync = list = task = user = null
 
   before ->
     global.localStorage = {}
     global.window = {}
-    global.SockJS = require './mockjs'
+    global.SockJS = -> return client.serverSocket
 
-    sync = require '../source/scripts/controllers/sync'
-    list = require '../source/scripts/models/list'
-    task = require '../source/scripts/models/task'
-    pref = require '../source/scripts/models/pref'
-    user = require '../source/scripts/models/user'
+    sync = require('../source/scripts/controllers/sync')
+    list = require('../source/scripts/models/list')
+    task = require('../source/scripts/models/task')
+    pref = require('../source/scripts/models/pref')
+    user = require('../source/scripts/models/user')
+
+    Sandal.setup()
+    client = new Sandal()
 
   after ->
     delete global.localStorage
     delete global.window
     delete global.SockJS
 
-  beforeEach ->
-    SockJS.read = (message) -> console.log message
-    client.callback = true
-
-  expect = (event, fn) ->
-    SockJS.read = (text) ->
-      res = Jandal::parse(text)
-      event.should.equal(res.namespace + '.' + res.event)
-      fn res.arg1, res.arg2, res.arg3
 
   describe 'Connection', ->
 
-    it 'should connect to server', ->
-      sync.connect()
-
     it 'should send auth code to server', (done) ->
-      user.uid = 10
-      user.token = 'i-miss-the-internet'
 
-      message = client.user.auth(user.uid, user.token)
+      client.namespace('user').once 'auth', (token, fn) ->
+        token.should.equal('token')
 
-      expect 'user.auth', (id, token) ->
-        id.should.equal user.uid
-        token.should.equal user.token
-        expect 'user.info', ->
-          expect 'queue.sync', -> done()
-        SockJS.replyFn 0, 'null,true'
+        client.namespace('queue').once 'sync', (data, time, fn) ->
+
+          data.should.eql({})
+          time.toString().length.should.equal(10)
+
+          fn null,
+            list: []
+            task: []
+            pref: {}
+
+          done()
+
+        fn(null, true)
+
+      sync.connect('token')
 
   describe 'Emit events to the server', ->
 
-    it 'should create a list', (done) ->
+    describe ':list', ->
 
-      expect 'list.create', (_list) ->
+      clientList = null
 
-        _list.should.eql
-          id: -1
+      beforeEach ->
+        clientList = client.namespace('list')
+
+      it ':create', (done) ->
+
+        clientList.once 'create', (data, fn) ->
+
+          data.should.eql name: 'List One'
+          fn(null, 10)
+
+          list.get(10).name.should.equal 'List One'
+          should.equal list.get(-1), undefined
+
+          done()
+
+        list.create
           name: 'List One'
-          tasks: []
 
-        SockJS.replyFn 3, 'null,10'
+      it ':update', (done) ->
 
-        list.get(10).name.should.equal 'List One'
-        should.equal list.get(-1), undefined
-        done()
+        clientList.once 'update', (id, data) ->
 
-      list.create
-        name: 'List One'
+          id.should.equal(10)
+          data.should.eql
+            name: 'List One - Updated'
 
-    it 'should create a task', (done) ->
+          done()
 
-      expect 'task.create', (_task) ->
+        list.get(10).name = 'List One - Updated'
 
-        _task.should.eql
-          id: -1
-          listId: -1
-          date: 0
+      it ':destroy', (done) ->
+
+        clientList.once 'destroy', (data) ->
+
+          data.should.eql
+            id: 10
+
+          done()
+
+        list.get(10).destroy()
+
+
+    describe ':task', ->
+
+      clientTask = null
+
+      beforeEach ->
+        clientTask = client.namespace('task')
+
+      it ':create', (done) ->
+
+        clientTask.once 'create', (data, fn) ->
+
+          data.should.eql
+            listId: -1
+            date: 0
+            name: 'Task One'
+            notes: ''
+            priority: 1
+            completed: 0
+
+          fn(null, 11)
+
+          task.get(11).name.should.equal 'Task One'
+          should.equal task.get(-1), undefined
+
+          done()
+
+        task.create
           name: 'Task One'
-          notes: ''
-          priority: 1
-          completed: 0
+          listId: -1
 
-        SockJS.replyFn 4, 'null,11'
-        task.get(11).name.should.equal 'Task One'
-        should.equal task.get(-1), undefined
-        done()
+      it ':update', (done) ->
 
-      task.create
-        name: 'Task One'
-        listId: -1
+        clientTask.once 'update', (id, data) ->
 
-    it 'should update the list name', (done) ->
+          id.should.equal(11)
 
-      expect 'list.update', (_list) ->
+          data.should.eql
+            name: 'Task One - Updated'
 
-        _list.should.eql
-          id: 10
-          name: 'List One - Updated'
+          done()
 
-        done()
-
-      list.get(10).name = 'List One - Updated'
-
-    it 'should update the task name', (done) ->
-
-      expect 'task.update', (_task) ->
-
-        _task.should.eql
-          id: 11
-          name: 'Task One - Updated'
-
-        done()
-
-      task.get(11).name = 'Task One - Updated'
-
-    it 'should destroy a list', (done) ->
-
-      expect 'list.destroy', (_list) ->
-
-        _list.should.eql
-          id: 10
-
-        done()
-      list.get(10).destroy()
-
-    it 'should destroy a task', (done) ->
-
-      expect 'task.destroy', (_task) ->
-
-        _task.should.eql
-          id: 11
-
-        done()
-
-      task.get(11).destroy()
-
-    it 'should update a pref', (done) ->
-
-      expect 'pref.update', (_pref) ->
-
-        _pref.should.eql
-          language: 'en-NZ'
-
-        done()
-
-      pref.language = 'en-NZ'
+        task.get(11).name = 'Task One - Updated'
 
 
-  describe 'React to events from the server', ->
+      it ':destroy', (done) ->
 
-    # Save keystrokes
-    exec = (message) -> SockJS.reply(message)
+        clientTask.once 'destroy', (data) ->
 
-    it 'should create a list', ->
+          data.should.eql
+            id: 11
 
-      exec client.list.create
-        id: -1
-        name: 'List Two'
+          done()
 
-      list.get(-1).name.should.equal 'List Two'
+        task.get(11).destroy()
 
-    it 'should create a task', ->
+    describe ':pref', ->
 
-      exec client.task.create
-        id: -3
-        name: 'Task Two'
+      clientPref = null
 
-      task.get(-3).name.should.equal 'Task Two'
+      beforeEach ->
+        clientPref = client.namespace('pref')
 
-    it 'should update a list', ->
+      it ':update', (done) ->
 
-      exec client.list.update
-        id: -1
-        name: 'List Two - Updated'
+        clientPref.once 'update', (_null, data) ->
 
-      list.get(-1).name.should.equal 'List Two - Updated'
+          data.should.eql
+            language: 'en-NZ'
 
-    it 'should update a task', ->
+          done()
 
-      exec client.task.update
-        id: -3
-        name: 'Task Two - Updated'
+        pref.language = 'en-NZ'
 
-      task.get(-3).name.should.equal 'Task Two - Updated'
 
-    it 'should destroy a list', ->
+  describe 'Server events', ->
 
-      exec client.list.destroy
-        id: -1
+    describe ':list', ->
 
-      should.equal list.get(-1), undefined
+      describe ':create', ->
 
-    it 'should destroy a task', ->
+        it 'should create a list', ->
 
-      exec client.task.destroy
-        id: -3
+          client.emit 'list.create',
+            id: -1
+            name: 'List Two'
 
-      should.equal task.get(-3), undefined
+          list.get(-1).name.should.equal 'List Two'
 
-    it 'should update a pref', ->
+      describe ':update', ->
 
-      exec client.pref.update
-        id: -0
-        language: 'en-us'
+        it 'should update a list', ->
 
-      pref.language.should.equal 'en-us'
+          client.emit 'list.update',
+            id: -1
+            name: 'List Two - Updated'
+
+          list.get(-1).name.should.equal 'List Two - Updated'
+
+      describe ':destroy', ->
+
+        it 'should destroy a list', ->
+
+          client.emit 'list.destroy',
+            id: -1
+
+          should.equal list.get(-1), undefined
+
+    describe ':task', ->
+
+      describe ':create', ->
+
+        it 'should create a task', ->
+
+          client.emit 'task.create',
+            id: -3
+            name: 'Task Two'
+
+          task.get(-3).name.should.equal 'Task Two'
+
+
+      describe ':update', ->
+
+        it 'should update a task', ->
+
+          client.emit 'task.update',
+            id: -3
+            name: 'Task Two - Updated'
+
+          task.get(-3).name.should.equal 'Task Two - Updated'
+
+      describe ':destroy', ->
+
+        it 'should destroy a task', ->
+
+          client.emit 'task.destroy',
+            id: -3
+
+          should.equal task.get(-3), undefined
+
+    describe ':pref', ->
+
+      describe ':update', ->
+
+        it 'should update a pref', ->
+
+          client.emit 'pref.update',
+            id: -0
+            language: 'en-us'
+
+          pref.language.should.equal 'en-us'

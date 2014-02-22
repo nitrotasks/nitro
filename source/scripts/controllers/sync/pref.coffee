@@ -18,7 +18,7 @@ class PrefSync
   handleUpdate: (key, value) =>
     data = {}
     data[key] = value
-    @onupdate(data)
+    @onupdate({}, data)
 
   # override these
   oncreate: null

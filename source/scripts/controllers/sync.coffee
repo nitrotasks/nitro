@@ -1,5 +1,5 @@
 Base           = require 'base'
-Jandal         = require 'jandal/client'
+Jandal         = require 'jandal'
 event          = require '../utils/event'
 config         = require '../utils/config'
 Time           = require '../utils/time'
@@ -21,10 +21,10 @@ Sync =
 
   connect: (@socketToken) ->
     @connection = new SockJS(config.sync)
-    @socket.connect @connection
-    @socket.on('socket.open', @open)
-    @socket.on('socket.error', @error)
-    @socket.on('socket.close', @close)
+    @socket.once('socket.open', @open)
+    @socket.once('socket.error', @error)
+    @socket.once('socket.close', @close)
+    @socket.connect(@connection)
 
   open: ->
     Sync.online = yes
@@ -34,8 +34,7 @@ Sync =
   error: (code) ->
     console.log 'error with socket', arguments
 
-  close: ({ code, reason }) ->
-    console.log code, reason
+  close: (code, reason) ->
 
     switch code
       when 1002
@@ -47,7 +46,9 @@ Sync =
     event.trigger 'app:offline'
 
   auth: (socketToken) ->
+
     @socket.emit 'user.auth', @socketToken, (err, status) ->
+
       if err
         event.trigger 'socket:auth:fail'
         return console.log err
@@ -74,7 +75,7 @@ Sync =
 
   getUserInfo: ->
     Sync.socket.emit 'user.info', (err, info) ->
-      console.log err, info
+      console.log 'getUserInfo', err, info
       user.setAttributes info
 
   loadDefaultData: ->
@@ -149,7 +150,6 @@ Sync.include = (model, Handler) ->
       Sync.disable -> model.id = id
 
   handler.onupdate = (model, data) ->
-    console.log model.id, data
     namespace.emit 'update', model.id, data
 
   handler.ondestroy = (model) ->
