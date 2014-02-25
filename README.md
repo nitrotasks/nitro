@@ -76,4 +76,10 @@ To make or edit a language translation.
 
     # When editing the the language, keep the original on the left, and your translation on the right
     # 'Lists': 'Listas'
+    
+### Donations
+
+- Bitcoin: 194kvQtZrb3d2Br3FxyJCf1sLUeD6pD2B
+- Dogecoin: <address>
+- Paypal: <link>
 
