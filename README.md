@@ -79,7 +79,9 @@ To make or edit a language translation.
     
 ### Donations
 
-- Bitcoin: 194kvQtZrb3d2Br3FxyJCf1sLUeD6pD2B
-- Dogecoin: <address>
-- Paypal: <link>
+#### Bitcoins
+
+Address: `1Ch9V7LKdhWkPGnUmcocuYdYWRRWK16who`
+
+<a href="https://coinbase.com/checkouts/02892be5bc7f42ad2004be4c0c1e171c?c=nitrodonation" target="_blank">Donate Bitcoins via Coinbase</a>
 
