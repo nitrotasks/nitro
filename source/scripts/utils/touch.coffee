@@ -1,2 +1,2 @@
-isMobile = !!('ontouchstart' of window) or !!('onmsgesturechange' of window)
+isMobile = !!('ontouchstart' of window) or navigator.msMaxTouchPoints
 module.exports = isMobile
