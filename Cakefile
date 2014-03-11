@@ -43,7 +43,7 @@ compile =
     Scrunch(config.js)
       .then ->
         console.log '... compiled'
-      .end()
+      .done()
 
   sass: (options={}) ->
 
