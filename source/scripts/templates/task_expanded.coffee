@@ -5,6 +5,7 @@ text = translate
   notes:     'Notes'
   date:      'Due Date'
   checkbox:  'Mark as completed'
+  priority:  'Change Priority'
 
 module.exports = (task) ->
 
@@ -22,7 +23,7 @@ module.exports = (task) ->
         <input class="input-date" placeholder='#{ text.date
         }' value='#{ date.words }'>
       </div>
-      <div class="priority-toggle">
+      <div class="priority-toggle" title='#{ text.priority }'>
         <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
            width="10px" height="11px" viewBox="0 0 10 11" enable-background="new 0 0 10 11" xml:space="preserve">
         <g id="flag">

@@ -219,6 +219,7 @@
   .priority-toggle {
     @include pos(0, 0, auto, auto);
     @include transition(opacity 250ms ease);
+    opacity: 0;
     padding: 10px;
     line-height: 0;
     border-left: 1px solid $task-color;
@@ -333,7 +334,7 @@
 
   &.expanded {
     margin: 5px 0;
-    .date {
+    .date, .priority-toggle {
       opacity: 1 !important;
     }
   }
