@@ -1,6 +1,7 @@
 Pref  = require '../../models/pref'
 Lists = require '../../views/lists'
 Modal = require '../modal'
+event = require '../../utils/event'
 
 modal = new Modal
 
@@ -19,5 +20,6 @@ modal = new Modal
   delete: ->
     Lists.active.destroy()
     modal.hide()
+    event.trigger 'list:all'
 
 module.exports = modal

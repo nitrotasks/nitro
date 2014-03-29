@@ -66,6 +66,9 @@ class ListCollection extends Base.Collection
   constructor: ->
     super
 
+    @on 'before:destroy:model', (list) =>
+      task.destroy() for task in list.tasks._models
+
 # Create a new ListCollection to store all the lists
 allLists = new ListCollection()
 
