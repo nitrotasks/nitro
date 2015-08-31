@@ -1,13 +1,20 @@
 {
-  "name": "app",
-  "version": "0.0.1",
+  "name": "Nitro",
+  "version": "2.0.0",
+  "license": "BSD-3-Clause",
+  "main": "init_electron.js",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/CaffeinatedCode/nitro.git"
+  },
   "dependencies": {
     "underscore"     : "1.4.x",
     "jqueryify"      : "~1.9.1",
-    "spine"          : "~1.1.x"
+    "spine"          : "~1.1.x",
+    "coffee-script"  : "1.7.x"
   },
   "devDependencies"  : {
-    "coffee-scrunch" : ">=0.1.0",
+    "coffee-scrunch" : "0.1.x",
     "uglify-js"      : "*",
     "node-static"    : "*",
     "node-sass"      : "*"
