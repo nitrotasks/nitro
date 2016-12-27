@@ -2,8 +2,11 @@
   "name": "nitro",
   "version": "3.0.0-alpha",
   "description": "Not just another todo list app",
-  "main": "index.js",
   "scripts": {
+    "build": "webpack --progress --colors -p",
+    "watch": "webpack --progress --colors --watch",
+    "build-css": "node-sass source/scss -o dist/generated",
+    "watch-css": "npm run build-css && node-sass source/scss -o dist/generated --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +18,15 @@
   "bugs": {
     "url": "https://github.com/CaffeinatedCode/nitro/issues"
   },
-  "homepage": "http://nitrotasks.com"
+  "homepage": "http://nitrotasks.com",
+  "devDependencies": {
+    "babel-core": "^6.21.0",
+    "babel-loader": "^6.2.10",
+    "babel-plugin-transform-react-jsx": "^6.8.0",
+    "node-sass": "^4.1.1",
+    "webpack": "^2.2.0-rc.2"
+  },
+  "dependencies": {
+    "preact": "^7.1.0"
+  }
 }

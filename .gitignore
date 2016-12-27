@@ -44,3 +44,5 @@ jspm_packages
 
 *report.html
 *report.json
+
+dist/generated/*
