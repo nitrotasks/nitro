@@ -1,7 +1,0 @@
-@mixin pos($top: auto, $right: auto, $bottom: auto, $left: auto, $pos: absolute) {
-  position: $pos;
-  top: $top;
-  bottom: $bottom;
-  left: $left;
-  right: $right;
-}

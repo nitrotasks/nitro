@@ -1,27 +1,19 @@
 {
-  "name": "Nitro",
-  "version": "2.1.0",
-  "dependencies": {
-    "jandal": "0.0.x",
-    "base": "git://github.com/stayradiated/base.git#master",
-    "mouse": "git://github.com/stayradiated/mouse.git#master",
-    "jquery": "2.1.x",
-    "coffee-script": "1.7.x"
-  },
+  "name": "nitro",
+  "version": "3.0.0-alpha",
+  "description": "Not just another todo list app",
+  "main": "index.js",
   "scripts": {
-    "test": "mocha --compilers coffee:coffee-script/register -R spec test",
-    "lint": "coffeelint -f lint.json -r source/scripts",
-    "sass": "sass --style compressed source/stylesheets/screen.scss:app/css/screen.css",
-    "sass-watch": "sass --watch source/stylesheets/screen.scss:app/css/screen.css"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "devDependencies": {
-    "coffee-scrunch": "0.2.x",
-    "node-watch": "0.3.x",
-    "uglify-js": "2.4.x",
-    "node-static": "0.7.x",
-    "coffeelint": "1.0.x",
-    "mocha": "1.17.x",
-    "should": "3.1.x",
-    "minify": "0.2.x"
-  }
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CaffeinatedCode/nitro.git"
+  },
+  "author": "",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/CaffeinatedCode/nitro/issues"
+  },
+  "homepage": "http://nitrotasks.com"
 }
