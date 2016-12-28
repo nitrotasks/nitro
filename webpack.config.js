@@ -1,6 +1,6 @@
 module.exports = {
   entry: {
-    app: './source/index.jsx'
+    app: './source/js/index.jsx'
   },
   output: {
     filename: 'generated/[name].js',
