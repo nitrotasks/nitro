@@ -1,4 +1,5 @@
 import preact from 'preact'
+import { TasksCollection } from '../models/tasks.js'
 
 export default class Tasks extends preact.Component {
   render() {
