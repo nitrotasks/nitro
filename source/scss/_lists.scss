@@ -1,0 +1,29 @@
+.material-header {
+  background: #ddd;
+  padding: 0 $indent-width;
+
+  .back {
+    display: inline-block;
+    line-height: $header-height;
+    margin-right: 5px;
+  }
+
+  h1 {
+    display: inline-block;
+    font-size: 1.4em;
+    line-height: $header-height;
+    margin: 0;
+  }
+}
+
+.lists-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+
+  li {
+    border-bottom: 1px solid #ddd;
+    line-height: 48px;
+    text-indent: $indent-width;
+  }
+}

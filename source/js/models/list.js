@@ -1,5 +1,6 @@
 export default class List {
   constructor(props) {
-    this.name = this.props.name
+    this.id = props.id
+    this.name = props.name
   }
 }
