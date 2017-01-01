@@ -2,16 +2,24 @@
   background: #ddd;
   padding: 0 $indent-width;
 
-  .back {
+  .back, h1 {
     display: inline-block;
     line-height: $header-height;
-    margin-right: 5px;
+    vertical-align: top;
+  }
+
+  .back {
+    padding-right: $indent-width / 2;
+
+    img {
+      height: 24px;
+      vertical-align: top;
+      padding-top: 16px;
+    }
   }
 
   h1 {
-    display: inline-block;
     font-size: 1.4em;
-    line-height: $header-height;
     margin: 0;
   }
 }

@@ -1,8 +1,11 @@
+import Events from './events.js'
 import List from './list.js'
 
 // the main thing that holds all the tasks
-export class lists {
-  constructor() {
+export class lists extends Events {
+  constructor(props) {
+    super(props)
+    
     this.collection = new Map()
     console.log('lists store created')
 

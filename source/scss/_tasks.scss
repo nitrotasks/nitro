@@ -6,3 +6,11 @@
   height: 100%;
   background: #fff;
 }
+
+.tasks-creator {
+  display: block;
+  width: calc(100% - 30px);
+  margin: 15px;
+  box-sizing: border-box;
+  padding: 5px;
+}
