@@ -3,4 +3,10 @@ export default class List {
     this.id = props.id
     this.name = props.name
   }
+  toObject() {
+    return {
+      id: this.id,
+      name: this.name
+    }
+  }
 }

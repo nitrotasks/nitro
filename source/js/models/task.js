@@ -4,4 +4,11 @@ export default class Task {
     this.name = props.name
     this.list = props.list
   }
+  toObject() {
+    return {
+      id: this.id,
+      name: this.name,
+      list: this.list
+    }
+  }
 }

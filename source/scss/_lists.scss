@@ -33,5 +33,10 @@
     border-bottom: 1px solid #ddd;
     line-height: 48px;
     text-indent: $indent-width;
+    cursor: default;
+
+    &:hover {
+      background: #f4f4f4;
+    }
   }
 }
