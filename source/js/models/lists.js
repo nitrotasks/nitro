@@ -51,6 +51,10 @@ export class lists extends Events {
       id: 'all',
       name: 'All'
     }))
+    this.collection.set('test', new List({
+      id: 'test',
+      name: 'Test'
+    }))
   }
   toObject() {
     // TODO: when this is patched to have an order

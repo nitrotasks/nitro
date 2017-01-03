@@ -1,26 +1,45 @@
 .material-header {
-  background: #ddd;
+  background: #fff;
   padding: 0 $indent-width;
 
-  .back, h1 {
+  .back, h1, .logo {
     display: inline-block;
     line-height: $header-height;
     vertical-align: top;
+    font-weight: 900;
+    text-transform: uppercase;
   }
 
-  .back {
+  .logo, .back {
     padding-right: $indent-width / 2;
 
     img {
-      height: 24px;
       vertical-align: top;
-      padding-top: 16px;
     }
   }
 
+  .logo img {
+    height: 31px;
+    padding-top: 13px;
+  }
+
+  .back img {
+    height: 24px;
+    padding-top: 16px;
+  }
+
   h1 {
-    font-size: 1.4em;
+    font-size: 24px;
     margin: 0;
+  }
+}
+.lists-sidebar {
+  h2 {
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 1em;
+    text-indent: $indent-width;
+    margin: $indent-width/(2/3) 0 9px;
   }
 }
 
@@ -28,15 +47,41 @@
   margin: 0;
   padding: 0;
   list-style-type: none;
+  background: #fff;
 
   li {
-    border-bottom: 1px solid #ddd;
-    line-height: 48px;
-    text-indent: $indent-width;
+    border-bottom: 1px solid $line-color;
+    line-height: 52px;
+    padding: 0 $indent-width;
     cursor: default;
+    font-size: 20px;
+    display: flex;
+
+    .icon {
+      font-family: 'Segoe MDL2 Assets';
+      vertical-align: top;
+      display: inline-block;
+      text-indent: 0;
+      padding-right: $indent-width * (2/3);
+      font-size: 18px;
+      color: #777;
+    }
+
+    .label {
+      flex: 1;
+    }
+
+    .count {
+      font-size: 16px;
+      color: #777;
+    }
+
+    &:last-child {
+      border-bottom: 0;
+    }
 
     &:hover {
-      background: #f4f4f4;
+      background: #f8f8f8;
     }
   }
 }

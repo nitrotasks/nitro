@@ -1,9 +1,16 @@
+// Nitro 3 Styles
+
 @import "_normalize";
 @import "_vars";
-@import "_lists";
-@import "_tasks";
 
+body {
+  background: #eee;
+  font-family: 'Raleway', sans-serif;
+}
 
 .hidden {
   display: none;
 }
+
+@import "_lists";
+@import "_tasks";
