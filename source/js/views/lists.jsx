@@ -29,9 +29,12 @@ export default class Lists extends preact.Component {
       <div class="lists-sidebar">
         <header class="material-header"> 
           <div class="logo">
-            <img src="/img/icons/logo.png" />
+            <img src="/img/icons/logo.svg" />
           </div>
           <h1>Nitro</h1>
+          <div class="menu">
+            <img src="/img/icons/menu.svg" />
+          </div>
         </header>
         <h2>Focus</h2>
         <ul class="lists-list">
@@ -40,6 +43,10 @@ export default class Lists extends preact.Component {
         <h2>Lists</h2>
         <ul class="lists-list">
           {lists}
+          <li class="create">
+            <span class="icon"></span>
+            <span class="label">Create List</span>
+          </li>
         </ul>
       </div>
     )
