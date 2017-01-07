@@ -6,6 +6,17 @@ import { TasksCollection } from '../models/tasks.js'
 
 import Task from './task.jsx'
 
+let supportsPassive = false
+try {
+  let opts = Object.defineProperty({}, 'passive', {
+    get: function() {
+      supportsPassive = true
+    }
+  })
+  window.addEventListener("test", null, opts)
+} catch (e) {}
+const OPTS = supportsPassive ? { passive: true } : false
+
 export default class Tasks extends preact.Component {
   constructor(props) {
     super(props)
@@ -26,10 +37,13 @@ export default class Tasks extends preact.Component {
     })
   }
   componentDidMount() {
-    this.fancyScroll = document.getElementById('fancy-scroll')
+    // TODO: Polyfill this for Edge, Safari & Older Browsers
+    this.passiveScroll = document.getElementById('passive-scroll')
+    this.passiveScroll.addEventListener('scroll', this.triggerScroll, OPTS)
   }
   componentWillUnmount() {
     TasksCollection.unbind('update', this.tasksUpdate)
+    this.passiveScroll.removeEventListener('scroll', this.triggerScroll, OPTS)
   }
   componentWillReceiveProps(nextProps) {
     this.setState({
@@ -95,7 +109,7 @@ export default class Tasks extends preact.Component {
           </div>
           <h1>{list.name}</h1>
         </header>
-        <div class="tasks-content" onScroll={this.triggerScroll}> 
+        <div class="tasks-content" id="passive-scroll"> 
           <div class="tasks-scrollwrap">
             <div class="tasks-fancy-header">
               <h1>{list.name}</h1>
