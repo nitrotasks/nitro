@@ -31,7 +31,7 @@ export default class Lists extends preact.Component {
           <div class="logo">
             <img src="/img/icons/logo.svg" />
           </div>
-          <h1>Nitro</h1>
+          <h1>NITRO</h1>
           <div class="menu">
             <img src="/img/icons/menu.svg" />
           </div>

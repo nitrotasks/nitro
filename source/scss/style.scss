@@ -5,6 +5,8 @@
 
 body {
   background: #eee;
+}
+body, input, button {
   font-family: 'Raleway', sans-serif;
 }
 
@@ -14,3 +16,4 @@ body {
 
 @import "_lists";
 @import "_tasks";
+@import "_task";

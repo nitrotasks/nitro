@@ -1,0 +1,22 @@
+.task-item {
+  display: flex;
+  .check {
+    $box-height: 15px;
+    width: 38px;
+    // background: #0f0;
+    text-align: center;
+
+    .box {
+      display: inline-block;
+      vertical-align: top;
+      margin-top: $task-height / 2 - ($box-height / 2) - 1;
+      width: $box-height;
+      height: $box-height;
+      border: 1px solid #bbb;
+      border-radius: 2px;
+    }
+  }
+  .label {
+    flex: 1;
+  }
+}

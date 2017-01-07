@@ -8,7 +8,7 @@
     line-height: $header-height;
     vertical-align: top;
     font-weight: 900;
-    text-transform: uppercase;
+    // text-transform: uppercase;
 
     img {
       vertical-align: top;
@@ -38,6 +38,13 @@
     font-size: 24px;
     margin: 0;
     flex: 1;
+    transition: 150ms ease opacity;
+  }
+
+  &.hide-header {
+    h1 {
+      opacity: 0;
+    }
   }
 }
 .lists-sidebar {
