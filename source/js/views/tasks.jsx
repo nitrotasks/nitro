@@ -5,6 +5,7 @@ import { ListsCollection } from '../models/lists.js'
 import { TasksCollection } from '../models/tasks.js'
 
 import Task from './task.jsx'
+import TaskEditor from './taskeditor.jsx'
 
 let supportsPassive = false
 try {
@@ -21,14 +22,12 @@ export default class Tasks extends preact.Component {
   constructor(props) {
     super(props)
     this.state = {
+      selectedTask: props.task || null,
       inputValue: '',
       taskList: [],
-      hideHeader: true
+      hideHeader: true,
+      disposing: false
     }
-    this.tasksUpdate = this.tasksUpdate.bind(this)
-    this.triggerChange = this.triggerChange.bind(this)
-    this.triggerKeyUp = this.triggerKeyUp.bind(this)
-    this.triggerScroll = this.triggerScroll.bind(this)
   }
   componentWillMount() {
     TasksCollection.bind('update', this.tasksUpdate)
@@ -46,27 +45,42 @@ export default class Tasks extends preact.Component {
     this.passiveScroll.removeEventListener('scroll', this.triggerScroll, OPTS)
   }
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      taskList: TasksCollection.getList(nextProps.list)
-    })
+    let newProps = {
+      selectedTask: null
+    }
+    if (nextProps.task) {
+      newProps.selectedTask = nextProps.task
+    }
+    if (this.props.list !== nextProps.list) {
+      newProps.taskList = TasksCollection.getList(nextProps.list)
+    }
+    this.setState(newProps)
   }
-  tasksUpdate(listId) {
+  tasksUpdate = (listId) => {
     if (listId === this.props.list) {
       this.setState({
         taskList: TasksCollection.getList(this.props.list)
       })
     }
   }
-  triggerBack() {
-    route('/')
+  triggerBack = () => {
+    this.setState({
+      disposing: true
+    })
+    // waits till the thing has disappeared
+    setTimeout(function() {
+      requestAnimationFrame(function() {
+        route('/')
+      })
+    }, 300)
   }
-  triggerChange(e) {
+  triggerChange = (e) => {
     this.setState({
       inputValue: e.currentTarget.value,
       tasks: []
     })
   }
-  triggerKeyUp(e) {
+  triggerKeyUp = (e) => {
     let taskName = e.currentTarget.value
     if (e.keyCode === 13 && taskName !== '') {
       this.setState({
@@ -79,7 +93,7 @@ export default class Tasks extends preact.Component {
       })
     }
   }
-  triggerScroll(e) {
+  triggerScroll = (e) => {
     let scrollPos = e.currentTarget.scrollTop
     if (scrollPos <= 48 && this.state.hideHeader === false) {
       this.setState({
@@ -89,6 +103,15 @@ export default class Tasks extends preact.Component {
       this.setState({
         hideHeader: false
       })
+    }
+  }
+  triggerTask = (task) => {
+    return () => {
+      if (!task) {
+        route('/lists/' + this.props.list)
+      } else {
+        route(this.props.url + '/' + task.id)
+      }
     }
   }
   render() {
@@ -101,8 +124,12 @@ export default class Tasks extends preact.Component {
     if (this.state.hideHeader) {
       headerClass += ' hide-header'
     }
+    let className = 'tasks-pane'
+    if (this.state.disposing === true) {
+      className += ' hide'
+    }
     return (
-      <div class="tasks-pane">
+      <div class={className}>
         <header class={headerClass}>
           <div class="back" onClick={this.triggerBack}>
             <img src="/img/icons/back.svg" />
@@ -122,12 +149,13 @@ export default class Tasks extends preact.Component {
               onKeyUp={this.triggerKeyUp}
             />
             <ul className="tasks-list">
-              {this.state.taskList.map(function(task) {
-                return <Task data={task}/>
+              {this.state.taskList.map((task) => {
+                return <Task data={task} onClick={this.triggerTask(task)} />
               })}
             </ul>
           </div>
         </div>
+        <TaskEditor task={this.state.selectedTask} back={this.triggerTask(null)} />
       </div>
     )
   }

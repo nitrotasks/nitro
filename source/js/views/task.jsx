@@ -6,7 +6,7 @@ export default class Task extends preact.Component {
   render() {
     let data = this.props.data
     return (
-      <li class="task-item">
+      <li class="task-item" onClick={this.props.onClick}>
         <div class="check">
           <div class="box" />
         </div>

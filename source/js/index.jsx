@@ -12,11 +12,18 @@ const App = () => (
     <Router>
       <Home path="/" />
       <Tasks path="/lists/:list" />
+      <Tasks path="/lists/:list/:task" />
       <NotFound default />
     </Router>
   </div>
 )
 
-let elem = document.getElementById('app-shell')
-elem.innerHTML = ''
-preact.render(App(), elem)
+document.addEventListener('DOMContentLoaded', function() {
+  let elem = document.getElementById('app-shell')
+  elem.innerHTML = ''
+  preact.render(App(), elem)
+
+  setTimeout(function() {
+    elem.className = ''
+  }, 500)
+})

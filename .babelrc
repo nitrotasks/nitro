@@ -1,5 +1,6 @@
 {
   "plugins": [
-    ["transform-react-jsx", { "pragma":"preact.h" }]
+    ["transform-class-properties"],
+    ["transform-react-jsx", { "pragma":"preact.h" } ]
   ]
 }

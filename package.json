@@ -20,11 +20,12 @@
   },
   "homepage": "http://nitrotasks.com",
   "devDependencies": {
-    "babel-core": "^6.21.0",
+    "babel-core": "^6.22.1",
     "babel-loader": "^6.2.10",
-    "babel-plugin-transform-react-jsx": "^6.8.0",
-    "node-sass": "^4.1.1",
-    "webpack": "^2.2.0-rc.2"
+    "babel-plugin-transform-class-properties": "^6.22.0",
+    "babel-plugin-transform-react-jsx": "^6.22.0",
+    "node-sass": "^4.3.0",
+    "webpack": "^2.2.0"
   },
   "dependencies": {
     "express": "^4.14.0",

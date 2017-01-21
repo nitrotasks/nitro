@@ -1,8 +1,8 @@
 # Nitro 3
 
-[![Build Status](https://travis-ci.org/nitrotasks/nitro.png?branch=master)](https://travis-ci.org/CaffeinatedCode/nitro)
-[![Dependency Status](https://david-dm.org/nitrotasks/nitro.png?theme=shields.io)](https://david-dm.org/CaffeinatedCode/nitro)
-[![devDependency Status](https://david-dm.org/nitrotasks/nitro/dev-status.png?theme=shields.io)](https://david-dm.org/CaffeinatedCode/nitro#info=devDependencies)
+[![Build Status](https://travis-ci.org/nitrotasks/nitro.svg?branch=master)](https://travis-ci.org/CaffeinatedCode/nitro)
+[![Dependency Status](https://david-dm.org/nitrotasks/nitro.svg?theme=shields.io)](https://david-dm.org/nitrotasks/nitro)
+[![devDependency Status](https://david-dm.org/nitrotasks/nitro/dev-status.svg?theme=shields.io)](https://david-dm.org/nitrotasks/nitro#info=devDependencies)
 
 A brand new rewrite. Check out the [Wiki](https://github.com/nitrotasks/nitro/wiki) for what's new and happening, or tweet me [@consindo](https://twitter.com/consindo).
 

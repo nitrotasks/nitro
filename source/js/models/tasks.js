@@ -19,8 +19,9 @@ export class tasks extends Events {
     this.trigger('update', props.list)
     this.saveLocal()
   }
-  all() {
-    return this.collection
+  // this might be enhanced in the future to get task from server?
+  get(task) {
+    return this.collection.get(task)
   }
   getList(list, completed) {
     let returned = []
