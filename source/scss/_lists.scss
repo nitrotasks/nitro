@@ -6,6 +6,10 @@
   .back, h1, .logo, .menu {
     display: inline-block;
     line-height: $header-height;
+    height: $header-height;
+    overflow-x: hidden;
+    white-space: pre;
+    text-overflow: ellipsis;
     vertical-align: top;
     font-weight: 900;
     // text-transform: uppercase;

@@ -23,6 +23,7 @@
   height: 100%;
   background: $back-color;
   will-change: transform;
+  overflow-x: hidden;
   animation: show-tasks $default-timing $default-curve 1;
 
   &.hide {

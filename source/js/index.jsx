@@ -1,6 +1,8 @@
 import preact from 'preact'
 import Router from 'preact-router'
 
+import authenticationStore from './stores/auth.js'
+
 import Home from './views/home.jsx'
 import Lists from './views/lists.jsx'
 import Tasks from './views/tasks.jsx'
@@ -17,6 +19,8 @@ const App = () => (
     </Router>
   </div>
 )
+
+window.auth = authenticationStore
 
 document.addEventListener('DOMContentLoaded', function() {
   let elem = document.getElementById('app-shell')

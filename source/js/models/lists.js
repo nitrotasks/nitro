@@ -1,5 +1,6 @@
 import Events from './events.js'
 import List from './list.js'
+import Sync from './sync.js'
 
 // the main thing that holds all the tasks
 export class lists extends Events {
@@ -8,12 +9,19 @@ export class lists extends Events {
     
     this.collection = new Map()
     this.loadLocal()
+    this.sync = new Sync({
+      endpoint: 'lists',
+      model: this
+    })
   }
   add(props) {
     // TODO: collision detection
     let id = Math.round(Math.random()*100000).toString()
     props.id = id
     this.collection.set(id, new List(props))
+    this.trigger('update')
+    this.saveLocal()
+    this.sync.post(id)
   }
   find(id) {
     return this.collection.get(id)
@@ -50,10 +58,6 @@ export class lists extends Events {
     this.collection.set('all', new List({
       id: 'all',
       name: 'All'
-    }))
-    this.collection.set('test', new List({
-      id: 'test',
-      name: 'Test'
     }))
   }
   toObject() {

@@ -45,6 +45,9 @@ export class tasks extends Events {
     }
     return returned
   }
+  getListCount(list, completed = true) {
+    return this.getList(list, completed).length
+  }
   saveLocal() {
     requestAnimationFrame(() => {
       let data = this.toObject()

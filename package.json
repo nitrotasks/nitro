@@ -11,12 +11,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CaffeinatedCode/nitro.git"
+    "url": "git+https://github.com/nitrotasks/nitro.git"
   },
   "author": "",
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/CaffeinatedCode/nitro/issues"
+    "url": "https://github.com/nitrotasks/nitro/issues"
   },
   "homepage": "http://nitrotasks.com",
   "devDependencies": {
