@@ -2,7 +2,7 @@ import Events from './events.js'
 import List from './list.js'
 import Sync from './sync.js'
 
-// the main thing that holds all the tasks
+// the main thing that holds all the lists
 export class lists extends Events {
   constructor(props) {
     super(props)
@@ -22,6 +22,13 @@ export class lists extends Events {
     this.trigger('update')
     this.saveLocal()
     this.sync.post(id)
+  }
+  delete(id) {
+    this.trigger('update')
+    this.saveLocal()
+    this.sync.delete(id)
+    this.collection.delete(id)
+    return 'true'
   }
   find(id) {
     return this.collection.get(id)
@@ -71,3 +78,4 @@ export class lists extends Events {
   }
 }
 export let ListsCollection = new lists()
+window.list = ListsCollection

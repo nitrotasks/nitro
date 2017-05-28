@@ -54,10 +54,41 @@ export default class Sync extends Events {
           if (this.queue.post.length > 0) {
             postItem(this.queue.post[0])
           } else {
-            console.log('Finished uploading', this.endpoint)
+            console.info('Finished uploading', this.endpoint)
           }
         })
       })
+    }
+    const deleteItems = (items) => {
+      const finalDeletions = []
+      items.forEach((item) => {
+        // if the item is in the post queue, just remove from everything
+        const index = this.queue.post.indexOf(item[0])
+        if (index > -1) {
+          console.info('IGNORING', item[0])
+          this.queue.post.splice(index, 1)
+        } else {
+          finalDeletions.push(item[1])
+        }
+      })
+      this.saveQueue()
+
+      fetch(`${config.endpoint}/${this.endpoint}`, {
+        method: 'DELETE',
+        headers: authenticationStore.authHeader(true),
+        body: JSON.stringify({
+          lists: finalDeletions
+        })
+      }).then(checkStatus).then((response) => {
+        this.queue.delete = []
+        this.saveQueue()
+        console.info('Finished deleting', this.endpoint)
+      }).catch((err) => {
+        console.warn(err)
+      })
+    }
+    if (this.queue.delete.length > 0) {
+      deleteItems(this.queue.delete)
     }
     if (this.queue.post.length > 0) {
       postItem(this.queue.post[0])
@@ -67,8 +98,7 @@ export default class Sync extends Events {
 
   }
   post(id) {
-    console.log('Adding...')
-    console.log(this.collection, id)
+    console.info(this.endpoint, 'POST Requested')
     this.queue.post.push(id)
     this.saveQueue()
     this.processQueue()
@@ -76,7 +106,10 @@ export default class Sync extends Events {
   patch(id) {
 
   }
-  delete() {
-
+  delete(id) {
+    console.info(this.endpoint, 'DELETE Requested')
+    this.queue.delete.push([id, this.model.find(id).serverId])
+    this.saveQueue()
+    this.processQueue()
   }
 }

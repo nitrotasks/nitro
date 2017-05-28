@@ -52,6 +52,9 @@
   }
 }
 .lists-sidebar {
+  height: calc(100vh - #{$header-height});
+  overflow-y: scroll;
+
   h2 {
     color: #333;
     font-weight: 900;

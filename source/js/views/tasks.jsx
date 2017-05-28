@@ -114,6 +114,12 @@ export default class Tasks extends preact.Component {
       }
     }
   }
+  deleteList = () => {
+    this.triggerBack()
+    requestAnimationFrame(() => {
+      ListsCollection.delete(this.props.list)
+    })
+  }
   render() {
     let list = ListsCollection.find(this.props.list)
     let creatorClass = 'tasks-creator'
@@ -153,6 +159,7 @@ export default class Tasks extends preact.Component {
                 return <Task data={task} onClick={this.triggerTask(task)} />
               })}
             </ul>
+            <button onClick={this.deleteList}>Delete List</button>
           </div>
         </div>
         <TaskEditor task={this.state.selectedTask} back={this.triggerTask(null)} />

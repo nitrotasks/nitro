@@ -54,7 +54,7 @@ export default class Lists extends preact.Component {
       }
     })
     return (
-      <div class="lists-sidebar">
+      <div>
         <header class="material-header"> 
           <div class="logo">
             <img src="/img/icons/logo.svg" />
@@ -64,18 +64,20 @@ export default class Lists extends preact.Component {
             <img src="/img/icons/menu.svg" />
           </div>
         </header>
-        <h2>Focus</h2>
-        <ul class="lists-list">
-          {focus}
-        </ul>
-        <h2>Lists</h2>
-        <ul class="lists-list">
-          {lists}
-          <li class="create" onClick={this.createList}>
-            <span class="icon"></span>
-            <span class="label">Create List</span>
-          </li>
-        </ul>
+        <div class="lists-sidebar">
+          <h2>Focus</h2>
+          <ul class="lists-list">
+            {focus}
+          </ul>
+          <h2>Lists</h2>
+          <ul class="lists-list">
+            {lists}
+            <li class="create" onClick={this.createList}>
+              <span class="icon"></span>
+              <span class="label">Create List</span>
+            </li>
+          </ul>
+        </div>
       </div>
     )
   }
