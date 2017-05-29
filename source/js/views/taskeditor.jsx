@@ -16,7 +16,7 @@ export default class TaskEditor extends preact.Component {
   }
   buildState(props) {
     if (props.task !== null) {
-      const task = TasksCollection.get(props.task)
+      const task = TasksCollection.find(props.task)
       return {
         name: task.name,
         list: task.list

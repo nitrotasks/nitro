@@ -1,5 +1,7 @@
 import Events from './events.js'
 import Task from './task.js'
+import { ListsCollection } from './lists.js'
+import Sync from './sync.js'
 
 // the main thing that holds all the tasks
 export class tasks extends Events {
@@ -9,6 +11,13 @@ export class tasks extends Events {
     this.collection = new Map()
     this.completedcollection = new Map()
     this.loadLocal()
+    this.sync = new Sync({
+      identifier: 'tasks',
+      endpoint: 'lists',
+      arrayParam: 'tasks',
+      parentModel: ListsCollection,
+      model: this
+    })
   }
   add(props) {
     // todo: collision detection
@@ -18,12 +27,14 @@ export class tasks extends Events {
 
     this.trigger('update', props.list)
     this.saveLocal()
+
+    this.sync.post([props.list, id])
   }
   // this might be enhanced in the future to get task from server?
-  get(task) {
+  find(task) {
     return this.collection.get(task)
   }
-  getList(list, completed) {
+  findList(list, completed) {
     let returned = []
     if (list === 'all') {
       // return all tasks, ignore ids
@@ -45,8 +56,8 @@ export class tasks extends Events {
     }
     return returned
   }
-  getListCount(list, completed = true) {
-    return this.getList(list, completed).length
+  findListCount(list, completed = true) {
+    return this.findList(list, completed).length
   }
   saveLocal() {
     requestAnimationFrame(() => {

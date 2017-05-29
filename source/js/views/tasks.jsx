@@ -32,7 +32,7 @@ export default class Tasks extends preact.Component {
   componentWillMount() {
     TasksCollection.bind('update', this.tasksUpdate)
     this.setState({
-      taskList: TasksCollection.getList(this.props.list)
+      taskList: TasksCollection.findList(this.props.list)
     })
   }
   componentDidMount() {
@@ -52,14 +52,14 @@ export default class Tasks extends preact.Component {
       newProps.selectedTask = nextProps.task
     }
     if (this.props.list !== nextProps.list) {
-      newProps.taskList = TasksCollection.getList(nextProps.list)
+      newProps.taskList = TasksCollection.findList(nextProps.list)
     }
     this.setState(newProps)
   }
   tasksUpdate = (listId) => {
     if (listId === this.props.list) {
       this.setState({
-        taskList: TasksCollection.getList(this.props.list)
+        taskList: TasksCollection.findList(this.props.list)
       })
     }
   }

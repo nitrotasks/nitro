@@ -38,7 +38,7 @@ export default class Lists extends preact.Component {
     let focus = []
     let lists = []
     this.state.lists.forEach((item) => {
-      const count = TasksCollection.getListCount(item.id)
+      const count = TasksCollection.findListCount(item.id)
 
       let el = (
         <li onClick={this.navigate(item.id)}>

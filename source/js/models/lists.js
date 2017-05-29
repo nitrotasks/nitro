@@ -10,7 +10,9 @@ export class lists extends Events {
     this.collection = new Map()
     this.loadLocal()
     this.sync = new Sync({
+      identifier: 'lists',
       endpoint: 'lists',
+      arrayParam: 'lists',
       model: this
     })
   }
