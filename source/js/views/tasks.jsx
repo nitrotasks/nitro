@@ -23,6 +23,7 @@ export default class Tasks extends preact.Component {
     super(props)
     this.state = {
       selectedTask: props.task || null,
+      header: ListsCollection.find(this.props.list).name,
       inputValue: '',
       taskList: [],
       hideHeader: true,
@@ -31,6 +32,7 @@ export default class Tasks extends preact.Component {
   }
   componentWillMount() {
     TasksCollection.bind('update', this.tasksUpdate)
+    ListsCollection.bind('update', this.listsUpdate)
     this.setState({
       taskList: TasksCollection.findList(this.props.list)
     })
@@ -42,6 +44,7 @@ export default class Tasks extends preact.Component {
   }
   componentWillUnmount() {
     TasksCollection.unbind('update', this.tasksUpdate)
+    ListsCollection.unbind('update', this.listsUpdate)
     this.passiveScroll.removeEventListener('scroll', this.triggerScroll, OPTS)
   }
   componentWillReceiveProps(nextProps) {
@@ -62,6 +65,12 @@ export default class Tasks extends preact.Component {
         taskList: TasksCollection.findList(this.props.list)
       })
     }
+  }
+  listsUpdate = () => {
+    let list = ListsCollection.find(this.props.list) || {}
+    this.setState({
+      header: list.name
+    })
   }
   triggerBack = () => {
     this.setState({
@@ -114,6 +123,9 @@ export default class Tasks extends preact.Component {
       }
     }
   }
+  changeList = () => {
+    ListsCollection.update(this.props.list)
+  }
   deleteList = () => {
     this.triggerBack()
     requestAnimationFrame(() => {
@@ -121,7 +133,6 @@ export default class Tasks extends preact.Component {
     })
   }
   render() {
-    let list = ListsCollection.find(this.props.list)
     let creatorClass = 'tasks-creator'
     if (this.props.list === 'all') {
       creatorClass += ' hidden'
@@ -140,12 +151,12 @@ export default class Tasks extends preact.Component {
           <div class="back" onClick={this.triggerBack}>
             <img src="/img/icons/back.svg" />
           </div>
-          <h1>{list.name}</h1>
+          <h1>{this.state.header}</h1>
         </header>
         <div class="tasks-content" id="passive-scroll"> 
           <div class="tasks-scrollwrap">
             <div class="tasks-fancy-header">
-              <h1>{list.name}</h1>
+              <h1>{this.state.header}</h1>
             </div>
             <input type="text"
               placeholder="Add a task..."
@@ -159,6 +170,7 @@ export default class Tasks extends preact.Component {
                 return <Task data={task} onClick={this.triggerTask(task)} />
               })}
             </ul>
+            <button onClick={this.changeList}>Change List Name</button>
             <button onClick={this.deleteList}>Delete List</button>
           </div>
         </div>

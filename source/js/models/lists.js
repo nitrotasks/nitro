@@ -25,11 +25,17 @@ export class lists extends Events {
     this.saveLocal()
     this.sync.post(id)
   }
-  delete(id) {
+  update(id) {
+    this.find(id).name = Math.round(Math.random()*100000).toString()
+    this.sync.patch(id)
     this.trigger('update')
     this.saveLocal()
+  }
+  delete(id) {
     this.sync.delete(id)
     this.collection.delete(id)
+    this.trigger('update')
+    this.saveLocal()
     return 'true'
   }
   find(id) {

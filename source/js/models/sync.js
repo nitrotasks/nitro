@@ -4,6 +4,12 @@ import { checkStatus } from '../helpers/fetch.js'
 
 import authenticationStore from '../stores/auth.js'
 
+const findDeleteIndex = function(item) {
+  return function(element) {
+    return element[1] === item
+  }
+}
+
 export default class Sync extends Events {
   constructor(props) {
     super(props)
@@ -22,6 +28,10 @@ export default class Sync extends Events {
     this.parentModel = props.parentModel
     this.loadQueue()
   }
+  logger() {
+    const data = [...arguments]  
+    console.log('%c' + data.join(' '), 'background: #ececec; color: #3a7df8;')
+  }
   saveQueue() {
     requestAnimationFrame(() => {
       localStorage.setItem('nitro3-sync-' + this.identifier, JSON.stringify(this.queue))
@@ -34,7 +44,7 @@ export default class Sync extends Events {
       return
     }
     this.queue = JSON.parse(data)
-    console.log(`Loaded ${this.identifier} queue from localStorage`)
+    this.logger(`Loaded ${this.identifier} queue from localStorage`)
   }
   processQueue() {
     // TODO: Call this whenever.
@@ -86,7 +96,7 @@ export default class Sync extends Events {
           if (this.queue.post.length > 0) {
             postItem(this.queue.post[0])
           } else {
-            console.info('Finished uploading', this.identifier)
+            this.logger('Finished uploading', this.identifier)
           }
         })
       })
@@ -97,7 +107,7 @@ export default class Sync extends Events {
         // if the item is in the post queue, just remove from everything
         const index = this.queue.post.indexOf(item[0])
         if (index > -1) {
-          console.info('IGNORING', item[0])
+          this.logger('IGNORING', item[0])
           this.queue.post.splice(index, 1)
         } else {
           finalDeletions.push(item[1])
@@ -114,9 +124,17 @@ export default class Sync extends Events {
       }).then(checkStatus).then((response) => {
         this.queue.delete = []
         this.saveQueue()
-        console.info('Finished deleting', this.identifier)
+        this.logger('Finished deleting', this.identifier)
       }).catch((err) => {
-        console.warn(err)
+        if (err.status === 404) {
+          err.response.items.forEach((item) => {
+            this.queue.delete.splice(this.queue.delete.findIndex(findDeleteIndex(item)), 1)
+          })
+          this.saveQueue()
+          this.logger('Skipped a couple of deletions', this.identifier)
+        } else {
+          console.warn(err)
+        }
       })
     }
     if (this.queue.delete.length > 0) {
@@ -130,7 +148,7 @@ export default class Sync extends Events {
 
   }
   post(id) {
-    console.info(this.identifier, 'POST Requested')
+    this.logger(this.identifier, 'POST Requested')
     // batches the objects together
     if (typeof(id) === 'object') {
       const index = this.queue.post.findIndex(function(element) {
@@ -151,9 +169,14 @@ export default class Sync extends Events {
 
   }
   delete(id) {
-    console.info(this.identifier, 'DELETE Requested')
-    this.queue.delete.push([id, this.model.find(id).serverId])
-    this.saveQueue()
+    this.logger(this.identifier, 'DELETE Requested')
+    const serverId = this.model.find(id).serverId
+    if (!this.queue.delete.find(findDeleteIndex(serverId))) {
+      this.queue.delete.push([id, serverId])
+      this.saveQueue()
+    } else {
+      this.logger(this.identifier, 'Skipping DELETE Request - Already Added')
+    }
     this.processQueue()
   }
 }

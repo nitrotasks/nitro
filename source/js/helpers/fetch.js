@@ -4,6 +4,7 @@ export function checkStatus(response) {
   } else {
     return response.json().then(function(data) {
       let error = new Error(response.status)
+      error.status = response.status
       error.response = data
       throw error
     })
