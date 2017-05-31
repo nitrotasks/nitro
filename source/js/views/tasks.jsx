@@ -1,8 +1,8 @@
 import preact from 'preact'
 import { route } from 'preact-router'
 
-import { ListsCollection } from '../models/lists.js'
-import { TasksCollection } from '../models/tasks.js'
+import { ListsCollection } from '../models/listsCollection.js'
+import { TasksCollection } from '../models/tasksCollection.js'
 
 import Task from './task.jsx'
 import TaskEditor from './taskeditor.jsx'

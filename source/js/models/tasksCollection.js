@@ -1,6 +1,6 @@
 import Events from './events.js'
 import Task from './task.js'
-import { ListsCollection } from './lists.js'
+import { ListsCollection } from './listsCollection.js'
 import Sync from './sync.js'
 
 // the main thing that holds all the tasks

@@ -1,6 +1,6 @@
 import preact from 'preact'
 
-import { TasksCollection } from '../models/tasks.js'
+import { TasksCollection } from '../models/tasksCollection.js'
 
 export default class TaskEditor extends preact.Component {
   /* PROPS */

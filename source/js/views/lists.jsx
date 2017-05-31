@@ -1,7 +1,7 @@
 import preact from 'preact'
 import { route } from 'preact-router'
-import { ListsCollection } from '../models/lists.js'
-import { TasksCollection } from '../models/tasks.js'
+import { ListsCollection } from '../models/listsCollection.js'
+import { TasksCollection } from '../models/tasksCollection.js'
 
 export default class Lists extends preact.Component {
   constructor(props) {
