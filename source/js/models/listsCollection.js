@@ -1,6 +1,5 @@
 import Events from './events.js'
 import List from './list.js'
-import Sync from './sync.js'
 
 // the main thing that holds all the lists
 export class lists extends Events {
@@ -9,13 +8,9 @@ export class lists extends Events {
     
     this.collection = new Map()
     this.loadLocal()
-    this.sync = new Sync({
-      identifier: 'lists',
-      endpoint: 'lists',
-      arrayParam: 'lists',
-      model: this,
-      serverParams: ['name', 'notes']
-    })
+  }
+  setSync(sync) {
+    this.sync = sync
   }
   add(props) {
     // TODO: collision detection
@@ -86,4 +81,3 @@ export class lists extends Events {
   }
 }
 export let ListsCollection = new lists()
-window.list = ListsCollection

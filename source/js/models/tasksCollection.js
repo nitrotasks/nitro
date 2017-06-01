@@ -1,7 +1,5 @@
 import Events from './events.js'
 import Task from './task.js'
-import { ListsCollection } from './listsCollection.js'
-import Sync from './sync.js'
 
 // the main thing that holds all the tasks
 export class tasks extends Events {
@@ -11,14 +9,9 @@ export class tasks extends Events {
     this.collection = new Map()
     this.completedcollection = new Map()
     this.loadLocal()
-    this.sync = new Sync({
-      identifier: 'tasks',
-      endpoint: 'lists',
-      arrayParam: 'tasks',
-      parentModel: ListsCollection,
-      model: this,
-      serverParams: ['name', 'notes']
-    })
+  }
+  setSync(sync) {
+    this.sync = sync
   }
   add(props) {
     // todo: collision detection

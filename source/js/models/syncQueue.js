@@ -47,6 +47,9 @@ export default class Sync extends Events {
     this.queue = JSON.parse(data)
     this.logger(`Loaded ${this.identifier} queue from localStorage`)
   }
+  requestProcess() {
+    this.trigger('request-process')
+  }
   processQueue() {
     // TODO: Call this whenever.
 
@@ -219,7 +222,7 @@ export default class Sync extends Events {
       this.queue.post.push(id)
     }
     this.saveQueue()
-    this.processQueue()
+    this.requestProcess()
   }
   patch(id) {
     this.logger(this.identifier, 'PATCH Requested')
@@ -235,7 +238,7 @@ export default class Sync extends Events {
       this.saveQueue()
     }
     // ? what if race conditions :O
-    this.processQueue()
+    this.requestProcess()
   }
   delete(id) {
     this.logger(this.identifier, 'DELETE Requested')
@@ -246,6 +249,6 @@ export default class Sync extends Events {
       this.queue.delete.push([id, serverId])
       this.saveQueue()
     }
-    this.processQueue()
+    this.requestProcess()
   }
 }
