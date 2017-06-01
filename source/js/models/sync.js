@@ -86,11 +86,13 @@ export default class Sync extends Events {
           if (typeof(id) === 'object') {
             data[this.arrayParam].forEach(function(item) {
               resource[item.originalId].serverId = item.id
+              resource[item.originalId].lastSync = item.updatedAt
             })
           } else {
             // copies data back in
             // only selected params
             resource.serverId = data.id
+            resource.lastSync = data.updatedAt
             this.serverParams.forEach((param) => {
               resource[param] = data[param]
             })
@@ -120,7 +122,7 @@ export default class Sync extends Events {
         additionalEndpoint = '/' + id[1] // the server id
         resource = this.model.find(id[0]) // data we are updating
         body = resource.toObject()
-        body.lastUpdated = id[2] // server decides which data to use
+        body.updatedAt = id[2] // server decides which data to use
       }
       fetch(`${config.endpoint}/${this.endpoint}${additionalEndpoint}`, {
         method: 'PATCH',
@@ -131,6 +133,7 @@ export default class Sync extends Events {
           // copies data back in
           // only selected params
           resource.serverId = data.id
+          resource.lastSync = data.updatedAt
           this.serverParams.forEach((param) => {
             resource[param] = data[param]
           })

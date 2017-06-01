@@ -5,6 +5,7 @@ export default class Task {
     this.notes = props.notes || null
     this.list = props.list
     this.serverId = props.serverId || null
+    this.lastSync = props.lastSync || null
   }
   toObject() {
     return {
@@ -13,6 +14,7 @@ export default class Task {
       notes: this.notes,
       list: this.list,
       serverId: this.serverId,
+      lastSync: this.lastSync,
     }
   }
 }
