@@ -37,7 +37,6 @@ export class lists extends Events {
     this.collection.delete(id)
     this.trigger('update')
     this.saveLocal()
-    return 'true'
   }
   find(id) {
     return this.collection.get(id)

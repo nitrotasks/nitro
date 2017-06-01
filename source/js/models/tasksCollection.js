@@ -60,6 +60,14 @@ export class tasks extends Events {
   findListCount(list, completed = true) {
     return this.findList(list, completed).length
   }
+  deleteAllFromList(list) {
+    this.collection.forEach((task, key) => {
+      if (task.list === list) {
+        this.collection.delete(key)
+      }
+    })
+    this.saveLocal()
+  }
   saveLocal() {
     requestAnimationFrame(() => {
       let data = this.toObject()

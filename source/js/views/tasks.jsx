@@ -3,6 +3,7 @@ import { route } from 'preact-router'
 
 import { ListsCollection } from '../models/listsCollection.js'
 import { TasksCollection } from '../models/tasksCollection.js'
+import { CombinedCollection } from '../models/combinedCollection.js'
 
 import Task from './task.jsx'
 import TaskEditor from './taskeditor.jsx'
@@ -129,7 +130,7 @@ export default class Tasks extends preact.Component {
   deleteList = () => {
     this.triggerBack()
     requestAnimationFrame(() => {
-      ListsCollection.delete(this.props.list)
+      CombinedCollection.deleteList(this.props.list)
     })
   }
   render() {
