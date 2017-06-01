@@ -16,7 +16,8 @@ export class tasks extends Events {
       endpoint: 'lists',
       arrayParam: 'tasks',
       parentModel: ListsCollection,
-      model: this
+      model: this,
+      serverParams: ['name', 'notes']
     })
   }
   add(props) {

@@ -13,7 +13,8 @@ export class lists extends Events {
       identifier: 'lists',
       endpoint: 'lists',
       arrayParam: 'lists',
-      model: this
+      model: this,
+      serverParams: ['name', 'notes']
     })
   }
   add(props) {
@@ -27,8 +28,8 @@ export class lists extends Events {
   }
   update(id) {
     this.find(id).name = Math.round(Math.random()*100000).toString()
-    this.sync.patch(id)
     this.trigger('update')
+    this.sync.patch(id)
     this.saveLocal()
   }
   delete(id) {

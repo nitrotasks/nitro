@@ -4,7 +4,7 @@ import { checkStatus } from '../helpers/fetch.js'
 
 import authenticationStore from '../stores/auth.js'
 
-const findDeleteIndex = function(item) {
+const findQueueIndex = function(item) {
   return function(element) {
     return element[1] === item
   }
@@ -26,6 +26,7 @@ export default class Sync extends Events {
     this.arrayParam = props.arrayParam
     this.model = props.model
     this.parentModel = props.parentModel
+    this.serverParams = props.serverParams
     this.loadQueue()
   }
   logger() {
@@ -87,7 +88,12 @@ export default class Sync extends Events {
               resource[item.originalId].serverId = item.id
             })
           } else {
+            // copies data back in
+            // only selected params
             resource.serverId = data.id
+            this.serverParams.forEach((param) => {
+              resource[param] = data[param]
+            })
           }
           this.queue.post.splice(0, 1)
           this.saveQueue()
@@ -96,9 +102,53 @@ export default class Sync extends Events {
           if (this.queue.post.length > 0) {
             postItem(this.queue.post[0])
           } else {
-            this.logger('Finished uploading', this.identifier)
+            this.logger('Finished POSTING', this.identifier)
+            this.model.trigger('update')
           }
         })
+      })
+    }
+    const patchItem = (id) => {
+      let body = null
+      let resource = null
+      let additionalEndpoint = ''
+      if (!length in id) {
+        // todo, batched updates
+        console.error('not implemented!')
+        return
+      } else {
+        additionalEndpoint = '/' + id[1] // the server id
+        resource = this.model.find(id[0]) // data we are updating
+        body = resource.toObject()
+        body.lastUpdated = id[2] // server decides which data to use
+      }
+      fetch(`${config.endpoint}/${this.endpoint}${additionalEndpoint}`, {
+        method: 'PATCH',
+        headers: authenticationStore.authHeader(true),
+        body: JSON.stringify(body)
+      }).then(checkStatus).then((response) => {
+        response.json().then((data) => {
+          // copies data back in
+          // only selected params
+          resource.serverId = data.id
+          this.serverParams.forEach((param) => {
+            resource[param] = data[param]
+          })
+
+          // removes from queue & saves
+          this.queue.patch.splice(0, 1)
+          this.saveQueue()
+          this.model.saveLocal()
+
+          if (this.queue.patch.length > 0) {
+            patchItem(this.queue.patch[0])
+          } else {
+            this.logger('Finished PATCHING', this.identifier)
+            this.model.trigger('update')
+          }
+        })
+      }).catch((err) => {
+        console.error(err)
       })
     }
     const deleteItems = (items) => {
@@ -124,11 +174,11 @@ export default class Sync extends Events {
       }).then(checkStatus).then((response) => {
         this.queue.delete = []
         this.saveQueue()
-        this.logger('Finished deleting', this.identifier)
+        this.logger('Finished DELETING', this.identifier)
       }).catch((err) => {
         if (err.status === 404) {
           err.response.items.forEach((item) => {
-            this.queue.delete.splice(this.queue.delete.findIndex(findDeleteIndex(item)), 1)
+            this.queue.delete.splice(this.queue.delete.findIndex(findQueueIndex(item)), 1)
           })
           this.saveQueue()
           this.logger('Skipped a couple of deletions', this.identifier)
@@ -136,12 +186,15 @@ export default class Sync extends Events {
           console.warn(err)
         }
       })
-    }
+    } 
     if (this.queue.delete.length > 0) {
       deleteItems(this.queue.delete)
     }
     if (this.queue.post.length > 0) {
       postItem(this.queue.post[0])
+    }
+    if (this.queue.patch.length > 0) {
+      patchItem(this.queue.patch[0]) 
     }
   }
   get() {
@@ -166,16 +219,29 @@ export default class Sync extends Events {
     this.processQueue()
   }
   patch(id) {
-
+    this.logger(this.identifier, 'PATCH Requested')
+    const serverId = this.model.find(id).serverId
+    if (!serverId) {
+      this.logger(this.identifier, 'Skipping PATCH Request - Still in POST queue.')
+    } else if (this.queue.patch.find(findQueueIndex(serverId))) {
+      this.logger(this.identifier, 'Skipping PATCH Request - Updating Time')
+      this.queue.patch.find(findQueueIndex(serverId))[2] = new Date().toISOString()
+    } else {
+      // includes the last updated time
+      this.queue.patch.push([id, serverId, new Date().toISOString()])
+      this.saveQueue()
+    }
+    // ? what if race conditions :O
+    this.processQueue()
   }
   delete(id) {
     this.logger(this.identifier, 'DELETE Requested')
     const serverId = this.model.find(id).serverId
-    if (!this.queue.delete.find(findDeleteIndex(serverId))) {
+    if (this.queue.delete.find(findQueueIndex(serverId))) {
+      this.logger(this.identifier, 'Skipping DELETE Request - Already Added')
+    } else {
       this.queue.delete.push([id, serverId])
       this.saveQueue()
-    } else {
-      this.logger(this.identifier, 'Skipping DELETE Request - Already Added')
     }
     this.processQueue()
   }

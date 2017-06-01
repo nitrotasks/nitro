@@ -20,6 +20,20 @@ class AuthenticationStore extends Events {
     }
     return 'Bearer ' + this.accessToken.access_token
   }
+  createAccount(username, password) {
+    fetch(`${config.endpoint}/users/create`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password
+      })
+    }).then(checkStatus).then((response) => {
+      this.authenticate(username, password)
+    })
+  }
   authenticate(username, password) {
     fetch(`${config.endpoint}/auth/authorize`, {
       method: 'POST',
