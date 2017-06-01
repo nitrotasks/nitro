@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "express": "^4.14.0",
-    "preact": "^7.1.0",
-    "preact-router": "^2.3.2"
+    "preact": "^8.1.0",
+    "preact-router": "^2.5.1"
   }
 }

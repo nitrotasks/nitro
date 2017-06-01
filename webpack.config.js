@@ -1,10 +1,11 @@
+var path = require('path')
 module.exports = {
   entry: {
-    app: './source/js/index.jsx'
+    app: path.resolve( __dirname, 'source/js/index.jsx'),
   },
   output: {
     filename: 'generated/[name].js',
-    path: './dist'
+    path: path.resolve( __dirname, 'dist'),
   },
   devtool: 'source-map',
   module: {
