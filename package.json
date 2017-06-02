@@ -7,7 +7,8 @@
     "watch": "webpack --progress --colors --watch",
     "build-css": "node-sass source/scss -o dist/generated",
     "watch-css": "npm run build-css && node-sass source/scss -o dist/generated --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --compilers js:babel-core/register",
+    "coverage": "nyc mocha --compilers js:babel-core/register && nyc report --reporter=html"
   },
   "repository": {
     "type": "git",
@@ -24,11 +25,14 @@
     "babel-loader": "^6.2.10",
     "babel-plugin-transform-class-properties": "^6.22.0",
     "babel-plugin-transform-react-jsx": "^6.22.0",
+    "babel-preset-env": "^1.5.1",
+    "express": "^4.15.3",
+    "mocha": "^3.4.2",
     "node-sass": "^4.3.0",
+    "nyc": "^11.0.1",
     "webpack": "^2.2.0"
   },
   "dependencies": {
-    "express": "^4.14.0",
     "preact": "^8.1.0",
     "preact-router": "^2.5.1"
   }
