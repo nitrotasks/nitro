@@ -203,9 +203,6 @@ export default class Sync extends Events {
       patchItem(this.queue.patch[0]) 
     }
   }
-  get() {
-
-  }
   post(id) {
     this.logger(this.identifier, 'POST Requested')
     // batches the objects together
