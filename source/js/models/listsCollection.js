@@ -12,19 +12,27 @@ export class lists extends Events {
   setSync(sync) {
     this.sync = sync
   }
-  add(props) {
+  add(props, sync = true) {
     // TODO: collision detection
-    let id = Math.round(Math.random()*100000).toString()
+    const id = Math.round(Math.random()*100000).toString()
     props.id = id
     this.collection.set(id, new List(props))
     this.trigger('update')
     this.saveLocal()
-    this.sync.post(id)
+    if (sync) this.sync.post(id)
   }
-  update(id) {
-    this.find(id).name = Math.round(Math.random()*100000).toString()
+  update(id, props, sync = true) {
+    // temp hack for ui
+    if (sync) this.find(id).name = Math.round(Math.random()*100000).toString()
+
+    // finds by serverId if not sync mode
+    const resource = this.find(id, !sync)
+    // not allowed to update the id
+    Object.keys(props).forEach(function(key) {
+      if (key !== 'id') resource[key] = props[key]
+    })
     this.trigger('update')
-    this.sync.patch(id)
+    if (sync) this.sync.patch(id)
     this.saveLocal()
   }
   delete(id) {
@@ -33,7 +41,18 @@ export class lists extends Events {
     this.trigger('update')
     this.saveLocal()
   }
-  find(id) {
+  find(id, serverId = false) {
+    // ugh there's no find() method :|
+    // or reduce method
+    if (serverId) {
+      let match = null
+      this.collection.forEach((item) => {
+        if (item.serverId === id) {
+          match = item
+        }
+      })
+      return match
+    }
     return this.collection.get(id)
   }
   all() {

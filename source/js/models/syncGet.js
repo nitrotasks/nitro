@@ -35,10 +35,10 @@ export default class SyncGet extends Events {
 							if(new Date(item.updatedAt) > new Date(listItem.lastSync)) {
 								patches.push(item.id)	
 							}
+							delete mapper[item.id]
 						} else {
 							gets.push(item.id)
 						}
-						delete mapper[item.id]
 					})
 					const deletes = Object.keys(mapper).map(function(key) {
 						return mapper[key]
@@ -52,6 +52,94 @@ export default class SyncGet extends Events {
 			}).catch((err) => {
 				reject(err)
 			})
+		})
+	}
+	downloadFullLists(serverIdArray) {
+		const downloadList = (done) => {
+			const serverId = serverIdArray[0]
+			fetch(`${config.endpoint}/lists/${serverId}/tasks`, {
+				headers: authenticationStore.authHeader(true)
+			}).then(checkStatus).then((response) => {
+				response.json().then((data) => {
+					// creates a new list with no sync
+					data.lastSync = data.updatedAt
+					data.serverId = data.id
+					this.lists.add(data, false)
+
+					// TODO: copy the task data in
+
+					// goes to next list, or resolves
+					serverIdArray.splice(0,1)
+					if (serverIdArray.length > 0) {
+						downloadList(done)
+					} else {
+						done()
+					}
+				})
+			}).catch((err) => {
+				console.warn('offline?')
+			})
+		}
+		return new Promise((resolve, reject) => {
+			if (serverIdArray.length === 0) {
+				resolve()
+			} else {
+				downloadList(resolve)
+			}
+		})
+	}
+	downloadPartialLists(serverIdArray) {
+		const downloadList = (done) => {
+			const serverId = serverIdArray[0]
+			fetch(`${config.endpoint}/lists/${serverId}`, {
+				headers: authenticationStore.authHeader(true)
+			}).then(checkStatus).then((response) => {
+				response.json().then((data) => {
+					// creates a new list with no sync
+					data.lastSync = data.updatedAt
+					data.serverId = data.id
+					this.lists.update(data.id, data, false)
+
+					// TODO: copy the task data in
+
+					// goes to next list, or resolves
+					serverIdArray.splice(0,1)
+					if (serverIdArray.length > 0) {
+						downloadList(done)
+					} else {
+						done()
+					}
+				})
+			}).catch((err) => {
+				console.warn('offline?')
+			})
+		}
+		return new Promise((resolve, reject) => {
+			if (serverIdArray.length === 0) {
+				resolve()
+			} else {
+				downloadList(resolve)
+			}
+		})
+	}
+	updateLocal(data) {
+		return new Promise((resolve, reject) => {
+			const promises = [
+				// handle new & updated lists
+				this.downloadFullLists(data.new),
+				this.downloadPartialLists(data.updates),
+			]
+
+			// handles deleted lists
+			data.localdelete.forEach((localid) => {
+				this.tasks.deleteAllFromList(localid)
+				this.lists.collection.delete(localid)
+			})
+			this.lists.trigger('update')
+    	this.lists.saveLocal()
+
+    	// mostly this is just for the tests, but it's nice to have it resolve at once
+    	Promise.all(promises).then(resolve)
 		})
 	}
 }

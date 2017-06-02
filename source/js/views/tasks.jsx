@@ -125,7 +125,7 @@ export default class Tasks extends preact.Component {
     }
   }
   changeList = () => {
-    ListsCollection.update(this.props.list)
+    ListsCollection.update(this.props.list, {})
   }
   deleteList = () => {
     this.triggerBack()
