@@ -16,10 +16,12 @@ export class lists extends Events {
     // TODO: collision detection
     const id = Math.round(Math.random()*100000).toString()
     props.id = id
-    this.collection.set(id, new List(props))
+    const newList = new List(props)
+    this.collection.set(id, newList)
     this.trigger('update')
     this.saveLocal()
     if (sync) this.sync.post(id)
+    return newList
   }
   update(id, props, sync = true) {
     // temp hack for ui

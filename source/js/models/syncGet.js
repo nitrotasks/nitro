@@ -64,9 +64,10 @@ export default class SyncGet extends Events {
 					// creates a new list with no sync
 					data.lastSync = data.updatedAt
 					data.serverId = data.id
-					this.lists.add(data, false)
+					const newList = this.lists.add(data, false)
 
-					// TODO: copy the task data in
+					// add the task data in
+					this.tasks.addListFromServer(data.tasks, newList.id)
 
 					// goes to next list, or resolves
 					serverIdArray.splice(0,1)

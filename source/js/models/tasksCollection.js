@@ -24,9 +24,35 @@ export class tasks extends Events {
 
     this.sync.post([props.list, id])
   }
+  // maybe roll these into one function?
+  addListFromServer(tasks, listId) {
+    if (tasks.length < 1) return
+    tasks.forEach((props) => {
+      // todo: collision detection
+      let id = Math.round(Math.random()*100000).toString()
+      props.serverId = props.id
+      props.lastSync = props.updatedAt
+      props.id = id
+      props.list = listId
+      this.collection.set(id, new Task(props))
+    })
+    this.trigger('update', listId)
+    this.saveLocal()
+  }
   // this might be enhanced in the future to get task from server?
-  find(task) {
-    return this.collection.get(task)
+  find(id, serverId = false) {
+    // ugh there's no find() method :|
+    // or reduce method
+    if (serverId) {
+      let match = null
+      this.collection.forEach((item) => {
+        if (item.serverId === id) {
+          match = item
+        }
+      })
+      return match
+    }
+    return this.collection.get(id)
   }
   findList(list, completed) {
     let returned = []

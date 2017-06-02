@@ -60,6 +60,7 @@ export default class Sync extends Events {
       let additionalEndpoint = ''
       // has to loop to get all the tasks
       if (typeof(id) === 'object') {
+        // TODO, what is the data is missing from the client?
         additionalEndpoint = this.parentModel.find(id[0]).serverId
 
         // kill if the parents are not made
