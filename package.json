@@ -7,8 +7,8 @@
     "watch": "webpack --progress --colors --watch",
     "build-css": "node-sass source/scss -o dist/generated",
     "watch-css": "npm run build-css && node-sass source/scss -o dist/generated --watch",
-    "test": "mocha tests.js --compilers js:babel-core/register",
-    "coverage": "nyc mocha tests.js --compilers js:babel-core/register && nyc report --reporter=html"
+    "test": "cross-env NODE_ENV=test mocha tests.js --compilers js:babel-core/register",
+    "coverage": "cross-env NODE_ENV=test nyc mocha tests.js"
   },
   "repository": {
     "type": "git",
@@ -20,12 +20,27 @@
     "url": "https://github.com/nitrotasks/nitro/issues"
   },
   "homepage": "http://nitrotasks.com",
+  "nyc": {
+    "require": [
+      "babel-register"
+    ],
+    "sourceMap": false,
+    "instrument": false,
+    "reporter": [
+      "lcov",
+      "text",
+      "html"
+    ]
+  },
   "devDependencies": {
     "babel-core": "^6.22.1",
     "babel-loader": "^6.2.10",
+    "babel-plugin-istanbul": "^4.1.4",
     "babel-plugin-transform-class-properties": "^6.22.0",
     "babel-plugin-transform-react-jsx": "^6.22.0",
     "babel-preset-env": "^1.5.1",
+    "babel-register": "^6.24.1",
+    "cross-env": "^5.0.0",
     "express": "^4.15.3",
     "isomorphic-fetch": "^2.2.1",
     "mocha": "^3.4.2",
