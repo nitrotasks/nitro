@@ -21,7 +21,7 @@ class AuthenticationStore extends Events {
     return 'Bearer ' + this.accessToken.access_token
   }
   createAccount(username, password) {
-    fetch(`${config.endpoint}/users/create`, {
+    return fetch(`${config.endpoint}/users/create`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -34,26 +34,34 @@ class AuthenticationStore extends Events {
       this.authenticate(username, password)
     })
   }
+  deleteAccount() {
+    return fetch(`${config.endpoint}/users`, {
+      method: 'DELETE',
+      headers: this.authHeader(true)
+    }).then(checkStatus)
+  }
   authenticate(username, password) {
-    fetch(`${config.endpoint}/auth/authorize`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        username: username,
-        password: password
-      })
-    }).then(checkStatus).then((response) => {
-      response.json().then((data) => {
-        this.refreshToken = data
-        localStorage.setItem('nitro3-auth', JSON.stringify(this.refreshToken))
-        this.getToken().then(function() {
-          console.log('Logged in!')
+    return new Promise((resolve, reject) => {
+      fetch(`${config.endpoint}/auth/authorize`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password
         })
+      }).then(checkStatus).then((response) => {
+        response.json().then((data) => {
+          this.refreshToken = data
+          localStorage.setItem('nitro3-auth', JSON.stringify(this.refreshToken))
+          this.getToken().then(function() {
+            resolve('Logged In!')
+          })
+        })
+      }).catch(function(err) {
+        reject(err)
       })
-    }).catch(function(err) {
-      console.error(err.response)
     })
   }
   getToken() {

@@ -30,6 +30,7 @@ export default class Sync extends Events {
     this.loadQueue()
   }
   logger() {
+    if (typeof(testMode) !== 'undefined') return // doesn't log in test
     const data = [...arguments]  
     console.log('%c' + data.join(' '), 'background: #ececec; color: #3a7df8;')
   }
