@@ -16,7 +16,7 @@ const patchList = function(id) {
 	return fetch(config.endpoint + '/lists/' + id, {
 		method: 'PATCH',
 		headers: authenticationStore.authHeader(true),
-		body: JSON.stringify({ name: 'A modified list.', updatedAt: new Date()})
+		body: JSON.stringify({ name: 'A modified list.' + Math.random(), updatedAt: new Date()})
 	})
 }
 const checkUpdates = function(updates) {
@@ -132,13 +132,15 @@ describe('syncGet', function() {
 		})
 	})
 	describe('tasks', function() {
+		let listId = null
 		let newData = null
 		let createdTasks = null
 		describe('download-full', function() {
 			it('testrunner should create a list and some tasks', function(done) {
 				createList().then((response) => {
 					response.json().then((data) => {
-						fetch(config.endpoint + '/lists/' + data.id, {
+						listId = data.id
+						fetch(config.endpoint + '/lists/' + listId, {
 							method: 'POST',
 							headers: authenticationStore.authHeader(true),
 							body: JSON.stringify({
@@ -164,9 +166,45 @@ describe('syncGet', function() {
 			})
 			it('client should apply those new tasks downloaded the server', function(done) {
 				CombinedCollection.syncGet.updateLocal(newData).then(function() {
-					try { // weird assert isn't working properly.
-						assert(TasksCollection.find(createdTasks[0].id, true) !== null)
-						assert(TasksCollection.find(createdTasks[1].id, true) !== null)
+					try { // weird assert isn't working properly.:
+						assert(!(TasksCollection.find(createdTasks[0].id, true) === null))
+						assert(!(TasksCollection.find(createdTasks[1].id, true) === null))
+						done()
+					} catch(err) {
+						done(err)
+					}
+				})
+			})
+		})
+		describe('download-partial', function() {
+			it('testrunner should add some new tasks to an existing list', function(done) {
+				fetch(config.endpoint + '/lists/' + listId, {
+					method: 'POST',
+					headers: authenticationStore.authHeader(true),
+					body: JSON.stringify({
+						tasks: [
+							{name: 'A brand new task.'},
+							{name: 'Another brand new task.'}
+						]
+					})
+				}).then((response) => {
+					response.json().then((data) => {
+						createdTasks = data.tasks
+						done()
+					})
+				})
+			})
+			it('client should have new lists to update', function(done) {
+				checkUpdates([0,1,0]).then(function(data) {
+					newData = data
+					done()
+				}).catch(done)
+			})
+			it('client should download the new tasks found', function(done) {
+				CombinedCollection.syncGet.updateLocal(newData).then(function() {
+					try { // weird assert isn't working properly
+						assert(!(TasksCollection.find(createdTasks[0].id, true) === null))
+						assert(!(TasksCollection.find(createdTasks[1].id, true) === null))
 						done()
 					} catch(err) {
 						done(err)

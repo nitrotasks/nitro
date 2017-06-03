@@ -39,6 +39,22 @@ export class tasks extends Events {
     this.trigger('update', listId)
     this.saveLocal()
   }
+  patchListFromServer(tasks, listId) {
+    const findFromServer = function(serverId) {
+      return function(item) {
+        return item.serverId === serverId
+      }
+    }
+    if (tasks.length < 1) return
+    const currentTasks = this.findList(listId)
+    tasks.forEach((props) => {
+      const task = currentTasks.find(findFromServer(props.id))
+      task.name = props.name
+      task.notes = props.notes
+    })
+    this.trigger('update', listId)
+    this.saveLocal()
+  }
   // this might be enhanced in the future to get task from server?
   find(id, serverId = false) {
     // ugh there's no find() method :|
@@ -52,7 +68,7 @@ export class tasks extends Events {
       })
       return match
     }
-    return this.collection.get(id)
+    return this.collection.get(id) || null
   }
   findList(list, completed) {
     let returned = []

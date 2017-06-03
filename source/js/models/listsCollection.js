@@ -29,13 +29,14 @@ export class lists extends Events {
 
     // finds by serverId if not sync mode
     const resource = this.find(id, !sync)
-    // not allowed to update the id
+    // not allowed to update the id or tasks
     Object.keys(props).forEach(function(key) {
-      if (key !== 'id') resource[key] = props[key]
+      if (key !== 'id' && key !== 'tasks') resource[key] = props[key]
     })
     this.trigger('update')
     if (sync) this.sync.patch(id)
     this.saveLocal()
+    return resource
   }
   delete(id) {
     this.sync.delete(id)

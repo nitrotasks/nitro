@@ -90,6 +90,7 @@ export default class SyncGet extends Events {
 		})
 	}
 	downloadPartialLists(serverIdArray) {
+		const taskPromises = []
 		const downloadList = (done) => {
 			const serverId = serverIdArray[0]
 			fetch(`${config.endpoint}/lists/${serverId}`, {
@@ -99,16 +100,20 @@ export default class SyncGet extends Events {
 					// creates a new list with no sync
 					data.lastSync = data.updatedAt
 					data.serverId = data.id
-					this.lists.update(data.id, data, false)
+					const list = this.lists.update(data.id, data, false)
 
-					// TODO: copy the task data in
+					// copy the task data in
+					taskPromises.push(this.downloadTasksForList(list, data.tasks))
 
 					// goes to next list, or resolves
 					serverIdArray.splice(0,1)
 					if (serverIdArray.length > 0) {
 						downloadList(done)
 					} else {
-						done()
+						// resolves when all the tasks are downloaded
+						Promise.all(taskPromises).then(function() {
+							done()
+						})
 					}
 				})
 			}).catch((err) => {
@@ -121,6 +126,72 @@ export default class SyncGet extends Events {
 			} else {
 				downloadList(resolve)
 			}
+		})
+	}
+	downloadTasksForList(list, simpleTasks) {
+		const downloadTasks = (gets, patches) => {
+			const getsMap = gets.map((item) => { return item.id })
+			const patchesMap = patches.map((item) => { return item.id })
+			const queryString = getsMap.concat(patchesMap).join(',')
+
+			return new Promise((resolve, reject) => {
+				if (queryString.length === 0) {
+					return resolve()
+				}
+				fetch(`${config.endpoint}/lists/${list.serverId}?tasks=${queryString}`, {
+					headers: authenticationStore.authHeader(true)
+				}).then(checkStatus).then((response) => {
+					response.json().then((data) => {
+						// maps data back out to get gets and patches
+						const toAdd = []
+						const toPatch = []
+						data.forEach((blob) => {
+							if (getsMap.indexOf(blob.id) > -1) {
+								toAdd.push(blob)
+							} else {
+								toPatch.push(blob)
+							}
+						})
+						// add the new tasks to the client
+						this.tasks.addListFromServer(toAdd, list.id)
+						this.tasks.patchListFromServer(toPatch, list.id)
+
+						resolve()
+					})
+				}).catch(reject)
+			})
+		}
+		return new Promise((resolve, reject) => {
+			// compares the server tasks to the localTasks
+			const mapper = new Map()
+			this.tasks.findList(list.id, false).forEach(function(item) {
+				if (item.serverId !== null) {
+					mapper[item.serverId] = item.id
+				}
+			})
+			const gets  = []
+			const patches = []
+			simpleTasks.forEach((task) => {
+				if (task.id in mapper) {
+					if(new Date(task.updatedAt) > new Date(mapper[task.id].lastSync)) {
+						patches.push(task)
+					}	
+					delete mapper[task.id]
+				} else {
+					gets.push(task)
+				}
+			})
+			const deletes = Object.keys(mapper).map(function(key) {
+				return mapper[key]
+			})
+			// todo: delete tasks no longer on server
+
+			downloadTasks(gets, patches).then(function() {
+				resolve()
+			}).catch(function(err) {
+				console.log(err)
+				reject()
+			})
 		})
 	}
 	updateLocal(data) {
