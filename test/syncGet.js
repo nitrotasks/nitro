@@ -211,6 +211,68 @@ describe('syncGet', function() {
 					}
 				})
 			})
+			it('testrunner should change some tasks in an existing list', function(done) {
+				fetch(config.endpoint + '/lists/' + listId + '/tasks', {
+					method: 'PATCH',
+					headers: authenticationStore.authHeader(true),
+					body: JSON.stringify({
+						tasks: {
+							[createdTasks[0].id]: {name: 'bang', updatedAt: new Date()}
+						}
+					})
+				}).then((response) => {
+					response.json().then(function(data) {
+						done()
+					})
+				})
+			})
+			it('client should have new lists to update', function(done) {
+				checkUpdates([0,1,0]).then(function(data) {
+					newData = data
+					done()
+				}).catch(done)
+			})
+			it('client should update the new tasks found', function(done) {
+				CombinedCollection.syncGet.updateLocal(newData).then(function() {
+					try { // weird assert isn't working properly
+						assert((TasksCollection.find(createdTasks[0].id, true).name === 'bang'))
+						done()
+					} catch(err) {
+						done(err)
+					}
+				})
+			})
+			it('testrunner should delete some tasks in an existing list', function(done) {
+				fetch(config.endpoint + '/lists/' + listId, {
+					method: 'DELETE',
+					headers: authenticationStore.authHeader(true),
+					body: JSON.stringify({
+						tasks: [createdTasks[0].id]
+					})
+				}).then((response) => {
+					response.json().then(function(data) {
+						done()
+					})
+				})
+			})
+			it('client should have new lists to update', function(done) {
+				checkUpdates([0,1,0]).then(function(data) {
+					newData = data
+					done()
+				}).catch(done)
+			})
+			it('client should delete the tasks found', function(done) {
+				CombinedCollection.syncGet.updateLocal(newData).then(function() {
+					try { // weird assert isn't working properly
+						// makes sure that it only deletes the tasks we want
+						assert((TasksCollection.find(createdTasks[0].id, true) === null))
+						assert(!(TasksCollection.find(createdTasks[1].id, true) === null))
+						done()
+					} catch(err) {
+						done(err)
+					}
+				})
+			})
 		})
 	})
 })

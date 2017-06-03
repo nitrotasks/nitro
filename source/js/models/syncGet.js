@@ -166,7 +166,7 @@ export default class SyncGet extends Events {
 			const mapper = new Map()
 			this.tasks.findList(list.id, false).forEach(function(item) {
 				if (item.serverId !== null) {
-					mapper[item.serverId] = item.id
+					mapper[item.serverId] = item
 				}
 			})
 			const gets  = []
@@ -181,11 +181,14 @@ export default class SyncGet extends Events {
 					gets.push(task)
 				}
 			})
-			const deletes = Object.keys(mapper).map(function(key) {
-				return mapper[key]
-			})
-			// todo: delete tasks no longer on server
 
+			// deletes the tasks that are no longer on server
+			const deletes = Object.keys(mapper).map(function(key) {
+				return mapper[key].id
+			})
+			this.tasks.deleteTasks(deletes)
+
+			// resolves only once all the web requests are done
 			downloadTasks(gets, patches).then(function() {
 				resolve()
 			}).catch(function(err) {

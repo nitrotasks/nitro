@@ -95,6 +95,14 @@ export class tasks extends Events {
   findListCount(list, completed = true) {
     return this.findList(list, completed).length
   }
+  deleteTasks(tasks) {
+    this.collection.forEach((task, key) => {
+      if (tasks.indexOf(task.id) !== -1) {
+        this.collection.delete(key)
+      }
+    })
+    this.saveLocal()
+  }
   deleteAllFromList(list) {
     this.collection.forEach((task, key) => {
       if (task.list === list) {
