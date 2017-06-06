@@ -89,6 +89,7 @@
   height: calc(#{var(--real-height)} - #{$header-height});
   padding: 1rem 0;
   overflow-y: auto; 
+  touch-action: pan-y;
 
   @media (min-width: $mobile-breakpoint + 1) {
     padding: 0.5rem 0;    

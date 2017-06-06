@@ -22,14 +22,21 @@ const OPTS = supportsPassive ? { passive: true } : false
 export default class Tasks extends preact.Component {
   constructor(props) {
     super(props)
+    let header = ''
+    let disposing = true
+    if (this.props.list) {
+      header = ListsCollection.find(this.props.list).name 
+      disposing = false
+    }
     this.state = {
       selectedTask: props.task || null,
-      header: ListsCollection.find(this.props.list).name,
+      header: header,
       inputValue: '',
       taskList: [],
       hideHeader: true,
-      disposing: false
+      disposing: disposing
     }
+    this.theme = document.getElementById('theme')
   }
   componentWillMount() {
     TasksCollection.bind('update', this.tasksUpdate)
@@ -42,17 +49,11 @@ export default class Tasks extends preact.Component {
     // TODO: Polyfill this for Edge, Safari & Older Browsers
     this.passiveScroll = document.getElementById('passive-scroll')
     this.passiveScroll.addEventListener('scroll', this.triggerScroll, OPTS)
-    if (window.matchMedia('all and (display-mode: standalone)').matches) {
-      document.getElementById('theme').content = '#000000'
-    }
   }
   componentWillUnmount() {
     TasksCollection.unbind('update', this.tasksUpdate)
     ListsCollection.unbind('update', this.listsUpdate)
     this.passiveScroll.removeEventListener('scroll', this.triggerScroll, OPTS)
-    if (window.matchMedia('all and (display-mode: standalone)').matches) {
-      document.getElementById('theme').content = '#3a7df8'
-    }
   }
   componentWillReceiveProps(nextProps) {
     let newProps = {
@@ -61,8 +62,19 @@ export default class Tasks extends preact.Component {
     if (nextProps.task) {
       newProps.selectedTask = nextProps.task
     }
-    if (this.props.list !== nextProps.list) {
-      newProps.taskList = TasksCollection.findList(nextProps.list)
+    if (nextProps.list) {
+      if (this.props.list !== nextProps.list) {
+        newProps.taskList = TasksCollection.findList(nextProps.list)
+      }
+      const list = ListsCollection.find(nextProps.list) || {}
+      this.setState({
+        disposing: false,
+        header: list.name || ''
+      })
+    } else {
+      this.setState({
+        disposing: true
+      })
     }
     this.setState(newProps)
   }
@@ -80,15 +92,8 @@ export default class Tasks extends preact.Component {
     })
   }
   triggerBack = () => {
-    this.setState({
-      disposing: true
-    })
-    // waits till the thing has disappeared
-    setTimeout(function() {
-      requestAnimationFrame(function() {
-        route('/')
-      })
-    }, 300)
+    // todo, hook it to the history
+    route('/')
   }
   triggerChange = (e) => {
     this.setState({

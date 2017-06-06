@@ -3,7 +3,6 @@ import Router from 'preact-router'
 
 import authenticationStore from './stores/auth.js'
 
-import Home from './views/home.jsx'
 import Lists from './views/lists.jsx'
 import Tasks from './views/tasks.jsx'
 import NotFound from './views/notfound.jsx'
@@ -12,7 +11,7 @@ const App = () => (
   <div class="app">
     <Lists />
     <Router>
-      <Home path="/" />
+      <Tasks path="/" />
       <Tasks path="/lists/:list" />
       <Tasks path="/lists/:list/:task" />
       <NotFound default />
