@@ -52,16 +52,25 @@
   }
 }
 .lists-sidebar {
-  height: calc(100vh - #{$header-height});
+  height: calc(100vh - #{$footer-height});
   overflow-y: scroll;
+}
 
-  h2 {
-    color: #333;
-    font-weight: 900;
-    text-transform: uppercase;
-    font-size: 1em;
-    text-indent: $indent-width;
-    margin: $indent-width/(2/3) 0 9px;
+.search-container {
+  padding: $indent-width;
+  input {
+    box-sizing: border-box;
+    width: 100%;
+    border: 0;
+    background-color: rgba(#000, 0.06);
+    border-radius: 3px;
+    padding: 0.5rem 0.75rem;
+    outline: 0;
+
+    background-image: url('/img/icons/search.svg');
+    background-repeat: no-repeat;
+    background-size: 1.3rem;
+    background-position: calc(100% - 0.5rem) 50%;
   }
 }
 
@@ -69,52 +78,101 @@
   margin: 0;
   padding: 0;
   list-style-type: none;
-  background: #fff;
 
   li {
-    border-bottom: 1px solid $line-color;
-    line-height: 52px;
+    line-height: 3rem;
     padding: 0 $indent-width;
     cursor: default;
-    font-size: 20px;
     display: flex;
+    font-weight: 600;
 
     .icon {
-      font-family: 'Segoe MDL2 Assets';
-      vertical-align: top;
-      display: inline-block;
-      text-indent: 0;
-      padding-right: $indent-width * (2/3);
-      font-size: 18px;
-      color: #777;
-      text-align: center;
-      width: 27px;
+      margin-right: $indent-width * (2/3);
+      width: 2rem;
+      background-repeat: no-repeat;
+      background-position: 50%;
+      background-size: 1.5rem;
+      background-image: url('/img/icons/list.svg');
+    }
+    &.inbox .icon {
+      background-image: url('/img/icons/inbox.svg');
+    }
+    &.today .icon {
+      background-image: url('/img/icons/today.svg');
+    }
+    &.next .icon {
+      background-image: url('/img/icons/next.svg');
+    }
+    &.all .icon {
+      background-image: url('/img/icons/all.svg');
+    }
+
+    &.inbox, &.all {
+      margin-bottom: 0.7rem;
     }
 
     .label {
       flex: 1;
+      color: #444;
+      font-size: 1.2rem;
     }
 
     .count {
-      font-size: 16px;
+      font-size: 1.1rem;
       color: #777;
+      padding-right: 0.5rem;
     }
 
     &:last-child {
       border-bottom: 0;
     }
 
-    &:hover {
-      background: #f8f8f8;
+    &:active {
+      background: rgba(#000, 0.06);
     }
 
-    &.create {
-      background: transparent;
-      color: $brand-color;
-
-      .icon {
-        color: #3a7df8
+    &.add {
+      .label {
+        color: rgba(#000, 0.5);
+        font-size: 1.1rem;
       }
+      .icon {
+        background-image: url('/img/icons/add.svg');
+        opacity: 0.4;
+      }
+    }
+  }
+}
+
+.subtle-footer {
+  border-top: 1px solid rgba(#000, 0.1);
+  height: $footer-height; 
+  text-align: right;
+  box-sizing: border-box;
+  padding: 0 0.25rem;
+  overflow: hidden;
+
+  button {
+    width: $footer-height;
+    height: 100%;
+    border: 0;
+    color: transparent;
+    background-color: transparent;
+    background-size: 1.5rem;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    outline: 0;
+    opacity: 0.45;
+
+    &:active {
+      opacity: 0.7;
+    }
+
+    &.feedback {
+      background-image: url('/img/icons/feedback.svg');
+    }
+    &.settings {
+      background-image: url('/img/icons/settings.svg');
     }
   }
 }

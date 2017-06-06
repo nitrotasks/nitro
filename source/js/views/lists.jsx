@@ -41,13 +41,13 @@ export default class Lists extends preact.Component {
       const count = TasksCollection.findListCount(item.id)
 
       let el = (
-        <li onClick={this.navigate(item.id)}>
-          <span class="icon"></span>
+        <li onClick={this.navigate(item.id)} class={item.id}>
+          <span class="icon"></span>
           <span class="label">{item.name}</span>
           <span class="count">{count}</span>
         </li>
       )
-      if (item.id === 'today' || item.id === 'next' || item.id === 'all') {
+      if (item.id === 'inbox' || item.id === 'today' || item.id === 'next' || item.id === 'all') {
         focus.push(el)
       } else {
         lists.push(el)
@@ -55,7 +55,7 @@ export default class Lists extends preact.Component {
     })
     return (
       <div>
-        <header class="material-header"> 
+        {/*<header class="material-header"> 
           <div class="logo">
             <img src="/img/icons/logo.svg" />
           </div>
@@ -64,20 +64,26 @@ export default class Lists extends preact.Component {
             <img src="/img/icons/menu.svg" />
           </div>
         </header>
+      */}
         <div class="lists-sidebar">
-          <h2>Focus</h2>
+          <div class="search-container">
+            <input type="text" placeholder="Search Everything"/>
+          </div>
           <ul class="lists-list">
             {focus}
           </ul>
-          <h2>Lists</h2>
           <ul class="lists-list">
             {lists}
-            <li class="create" onClick={this.createList}>
-              <span class="icon"></span>
-              <span class="label">Create List</span>
+            <li class="add" onClick={this.createList}>
+              <span class="icon"></span>
+              <span class="label">Add List</span>
             </li>
           </ul>
         </div>
+        <footer class="subtle-footer">
+          <button class="feedback" aria-label="Feedback"/>
+          <button class="settings" aria-label="Settings"/>
+        </footer>
       </div>
     )
   }

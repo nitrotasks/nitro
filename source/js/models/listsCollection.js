@@ -34,8 +34,8 @@ export class lists extends Events {
       if (key !== 'id' && key !== 'tasks') resource[key] = props[key]
     })
     this.trigger('update')
-    if (sync) this.sync.patch(id)
     this.saveLocal()
+    if (sync) this.sync.patch(id)
     return resource
   }
   delete(id) {
@@ -79,6 +79,10 @@ export class lists extends Events {
     console.log('Loaded Lists from localStorage')
   }
   createLocal() {
+    this.collection.set('inbox', new List({
+      id: 'inbox',
+      name: 'Inbox'
+    }))
     this.collection.set('today', new List({
       id: 'today',
       name: 'Today'
@@ -89,7 +93,7 @@ export class lists extends Events {
     }))
     this.collection.set('all', new List({
       id: 'all',
-      name: 'All'
+      name: 'Everything'
     }))
   }
   toObject() {
