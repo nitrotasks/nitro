@@ -1,5 +1,5 @@
 .material-header {
-  padding: 0 $indent-width + 0.3rem;
+  padding: 0 $indent-width - 0.1rem 0 $indent-width + 0.3rem;
   display: flex;
 
   .brand {
@@ -20,6 +20,11 @@
       box-shadow: 0 1px 3px rgba(#000, 0.15);
     }
   }
+  @media (min-width: $mobile-breakpoint + 1) {
+    .search {
+      display: none;
+    }
+  }
 
   @media all and (display-mode: standalone) {
     .brand {
@@ -30,13 +35,13 @@
       color: #fff;
       box-shadow: 0 1px 3px rgba(#000, 0.2);
 
-      .menu {
+      img {
         filter: invert(100);
       }
     }
   }
 
-  .back, h1, .logo, .menu {
+  .back, h1, .logo, .menu, .search {
     line-height: $header-height;
     height: $header-height;
     overflow-x: hidden;
@@ -44,10 +49,10 @@
     text-overflow: ellipsis;
     vertical-align: top;
     font-weight: 600;
-    // text-transform: uppercase;
 
     img {
       vertical-align: top;
+      width: 1.5rem;
     }
   }
 
@@ -60,7 +65,8 @@
   }
 
   .menu img {
-    margin-right: -3px;
+    margin-left: 1rem;
+    margin-right: 0;
   }
 
   h1 {
@@ -81,12 +87,13 @@
   box-sizing: border-box;
   height: calc(100vh - #{$header-height});
   height: calc(#{var(--real-height)} - #{$header-height});
-  padding: 0.5rem 0;
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
+  padding: 1rem 0;
+  overflow-y: auto; 
 
-  @media (max-width: $mobile-breakpoint) {
-    padding: 1rem 0;
+  @media (min-width: $mobile-breakpoint + 1) {
+    padding: 0.5rem 0;    
+    height: calc(100vh - #{$header-height} - #{$footer-height});
+    height: calc(#{var(--real-height)} - #{$header-height} - #{$footer-height});
   }
 }
 

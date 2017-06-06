@@ -42,11 +42,17 @@ export default class Tasks extends preact.Component {
     // TODO: Polyfill this for Edge, Safari & Older Browsers
     this.passiveScroll = document.getElementById('passive-scroll')
     this.passiveScroll.addEventListener('scroll', this.triggerScroll, OPTS)
+    if (window.matchMedia('all and (display-mode: standalone)').matches) {
+      document.getElementById('theme').content = '#000000'
+    }
   }
   componentWillUnmount() {
     TasksCollection.unbind('update', this.tasksUpdate)
     ListsCollection.unbind('update', this.listsUpdate)
     this.passiveScroll.removeEventListener('scroll', this.triggerScroll, OPTS)
+    if (window.matchMedia('all and (display-mode: standalone)').matches) {
+      document.getElementById('theme').content = '#3a7df8'
+    }
   }
   componentWillReceiveProps(nextProps) {
     let newProps = {

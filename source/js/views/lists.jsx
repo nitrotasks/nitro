@@ -61,6 +61,9 @@ export default class Lists extends preact.Component {
             Nitro
           </h1>
           <h1 class="pwa">Lists</h1>
+          <div class="search">
+            <img src="/img/icons/search.svg" />
+          </div>
           <div class="menu">
             <img src="/img/icons/menu.svg" />
           </div>
