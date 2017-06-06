@@ -55,24 +55,23 @@ export default class Lists extends preact.Component {
     })
     return (
       <div>
-        {/*<header class="material-header"> 
-          <div class="logo">
+        <header class="material-header main-nav"> 
+          <h1 class="brand">
             <img src="/img/icons/logo.svg" />
-          </div>
-          <h1>NITRO</h1>
+            Nitro
+          </h1>
+          <h1 class="pwa">Lists</h1>
           <div class="menu">
             <img src="/img/icons/menu.svg" />
           </div>
         </header>
-      */}
+      
         <div class="lists-sidebar">
           <div class="search-container">
             <input type="text" placeholder="Search Everything"/>
           </div>
           <ul class="lists-list">
             {focus}
-          </ul>
-          <ul class="lists-list">
             {lists}
             <li class="add" onClick={this.createList}>
               <span class="icon"></span>

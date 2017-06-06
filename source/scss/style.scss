@@ -10,6 +10,14 @@ body, input, button {
   font-family: 'Raleway', sans-serif;
   overflow-x: hidden;
 }
+.pwa {
+  display: none;
+}
+@media all and (display-mode: standalone) {
+  .pwa {
+    display: block;
+  }
+}
 
 .hidden {
   display: none;

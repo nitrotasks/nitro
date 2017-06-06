@@ -1,11 +1,14 @@
-$header-height: 56px;
+$header-height: calc(2.8rem + (2vh);
 $indent-width: 0.9rem;
+$list-height: 3.1rem;
 $task-height: 42px;
 $footer-height: 3rem;
 
-$back-color: #fafafa;
+$back-color: #f4f4f4;
 $brand-color: #3a7df8;
 $line-color: #eee;
 
 $default-timing: 300ms;
 $default-curve: ease;
+
+$mobile-breakpoint: 480px;

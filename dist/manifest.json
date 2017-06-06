@@ -1,0 +1,9 @@
+{
+  "short_name": "Nitro",
+  "name": "Nitro",
+  "description": "The best.",
+  "start_url": "/",
+  "background_color": "#ffffff",
+  "theme_color": "#3a7df8",
+  "display": "standalone"
+}

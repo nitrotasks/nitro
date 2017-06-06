@@ -1,17 +1,49 @@
 .material-header {
-  background: #fff;
-  padding: 0 $indent-width;
+  padding: 0 $indent-width + 0.3rem;
   display: flex;
 
+  .brand {
+    font-weight: 900;
+    text-transform: uppercase;
+
+    img {
+      height: 1.8rem;
+      vertical-align: middle;
+      margin-top: -0.2rem;
+      margin-right: 0.5rem;
+    }
+  }
+
+  &.main-nav {
+    @media (max-width: $mobile-breakpoint) {
+      background: #fff;
+      box-shadow: 0 1px 3px rgba(#000, 0.15);
+    }
+  }
+
+  @media all and (display-mode: standalone) {
+    .brand {
+      display: none;
+    }
+    &.main-nav {
+      background: $brand-color;
+      color: #fff;
+      box-shadow: 0 1px 3px rgba(#000, 0.2);
+
+      .menu {
+        filter: invert(100);
+      }
+    }
+  }
+
   .back, h1, .logo, .menu {
-    display: inline-block;
     line-height: $header-height;
     height: $header-height;
     overflow-x: hidden;
     white-space: pre;
     text-overflow: ellipsis;
     vertical-align: top;
-    font-weight: 900;
+    font-weight: 600;
     // text-transform: uppercase;
 
     img {
@@ -23,26 +55,20 @@
     padding-right: $indent-width / 2;
   }
 
-  .logo img {
-    height: 31px;
-    padding-top: 13px;
-  }
-
-  .back img {
-    height: 24px;
-    padding-top: 16px;
+  > div {
+    display: flex;
   }
 
   .menu img {
-    padding-top: 15px;
     margin-right: -3px;
   }
 
   h1 {
-    font-size: 24px;
+    font-size: 1.3rem;
     margin: 0;
     flex: 1;
     transition: 150ms ease opacity;
+    font-weight: 600;
   }
 
   &.hide-header {
@@ -52,12 +78,24 @@
   }
 }
 .lists-sidebar {
-  height: calc(100vh - #{$footer-height});
+  box-sizing: border-box;
+  height: calc(100vh - #{$header-height});
+  height: calc(#{var(--real-height)} - #{$header-height});
+  padding: 0.5rem 0;
   overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+
+  @media (max-width: $mobile-breakpoint) {
+    padding: 1rem 0;
+  }
 }
 
 .search-container {
-  padding: $indent-width;
+  padding: 0 $indent-width $indent-width;
+
+  @media (max-width: $mobile-breakpoint) {
+    display: none;
+  }
   input {
     box-sizing: border-box;
     width: 100%;
@@ -80,7 +118,7 @@
   list-style-type: none;
 
   li {
-    line-height: 3rem;
+    line-height: $list-height;
     padding: 0 $indent-width;
     cursor: default;
     display: flex;
@@ -107,8 +145,8 @@
       background-image: url('/img/icons/all.svg');
     }
 
-    &.inbox, &.all {
-      margin-bottom: 0.7rem;
+    &.today, &.all + li {
+      margin-top: 0.7rem;
     }
 
     .label {
@@ -128,7 +166,7 @@
     }
 
     &:active {
-      background: rgba(#000, 0.06);
+      background: rgba(#000, 0.05);
     }
 
     &.add {
@@ -151,6 +189,10 @@
   box-sizing: border-box;
   padding: 0 0.25rem;
   overflow: hidden;
+
+  @media (max-width: $mobile-breakpoint) {
+    display: none;
+  }
 
   button {
     width: $footer-height;
