@@ -1,3 +1,13 @@
+.sidebar-container {
+
+  @media (min-width: $tablet-breakpoint) {
+    max-width: $sidebar-width-small;
+  }
+  @media (min-width: $desktop-breakpoint) {
+    max-width: $sidebar-width-desktop;
+  }
+}
+
 .material-header {
   padding: 0 $indent-width - 0.1rem 0 $indent-width + 0.3rem;
   display: flex;
@@ -21,6 +31,8 @@
     }
   }
   @media (min-width: $mobile-breakpoint + 1) {
+    padding: 0 $indent-width + 0.1rem 0 $indent-width + 0.3rem;
+
     .search {
       display: none;
     }
@@ -99,7 +111,7 @@
 }
 
 .search-container {
-  padding: 0 $indent-width $indent-width;
+  padding: 0 $indent-width - 0.3rem $indent-width - 0.3rem;
 
   @media (max-width: $mobile-breakpoint) {
     display: none;
@@ -138,19 +150,19 @@
       background-repeat: no-repeat;
       background-position: 50%;
       background-size: 1.5rem;
-      background-image: url('/img/icons/list.svg');
+      background-image: url('/img/icons/'+ $icon-style +'/list.svg');
     }
     &.inbox .icon {
-      background-image: url('/img/icons/inbox.svg');
+      background-image: url('/img/icons/'+ $icon-style +'/inbox.svg');
     }
     &.today .icon {
-      background-image: url('/img/icons/today.svg');
+      background-image: url('/img/icons/'+ $icon-style +'/today.svg');
     }
     &.next .icon {
-      background-image: url('/img/icons/next.svg');
+      background-image: url('/img/icons/'+ $icon-style +'/next.svg');
     }
     &.all .icon {
-      background-image: url('/img/icons/all.svg');
+      background-image: url('/img/icons/'+ $icon-style +'/all.svg');
     }
 
     &.today, &.all + li {
@@ -166,7 +178,11 @@
     .count {
       font-size: 1.1rem;
       color: #777;
-      padding-right: 0.5rem;
+      padding-right: 0.3rem;
+
+      @media (min-width: $mobile-breakpoint + 1) {
+        padding-right: 0.5rem;
+      }
     }
 
     &:last-child {
@@ -183,7 +199,7 @@
         font-size: 1.1rem;
       }
       .icon {
-        background-image: url('/img/icons/add.svg');
+        background-image: url('/img/icons/'+ $icon-style +'/add.svg');
         opacity: 0.4;
       }
     }
@@ -219,10 +235,10 @@
     }
 
     &.feedback {
-      background-image: url('/img/icons/feedback.svg');
+      background-image: url('/img/icons/'+ $icon-style +'/feedback.svg');
     }
     &.settings {
-      background-image: url('/img/icons/settings.svg');
+      background-image: url('/img/icons/'+ $icon-style +'/settings.svg');
     }
   }
 }

@@ -23,6 +23,9 @@ window.auth = authenticationStore
 
 document.addEventListener('DOMContentLoaded', function() {
   document.body.style.setProperty('--real-height', document.documentElement.clientHeight + 'px')
+  window.addEventListener('resize', function() {
+    document.body.style.setProperty('--real-height', document.documentElement.clientHeight + 'px')
+  })
 
   let elem = document.getElementById('app-shell')
   elem.innerHTML = ''

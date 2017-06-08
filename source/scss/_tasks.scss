@@ -30,6 +30,23 @@
     transform: translate3d(100vw, 0, 0);
   }
 
+  @media (min-width: $tablet-breakpoint) {
+    left: $sidebar-width-small;
+    animation: none;
+
+    &.hide {
+      transform: none;
+      animation: none;
+    }
+
+    .material-header .back {
+      display: none;
+    }
+  }
+  @media (min-width: $desktop-breakpoint) {
+    left: $sidebar-width-desktop;
+  }
+
   .material-header {
     background: transparent;
   }

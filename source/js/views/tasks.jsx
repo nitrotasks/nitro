@@ -8,6 +8,9 @@ import { CombinedCollection } from '../models/combinedCollection.js'
 import Task from './task.jsx'
 import TaskEditor from './taskeditor.jsx'
 
+const defaultList = 'inbox'
+const defaultHeader = ListsCollection.find(defaultList).name
+
 let supportsPassive = false
 try {
   let opts = Object.defineProperty({}, 'passive', {
@@ -22,7 +25,7 @@ const OPTS = supportsPassive ? { passive: true } : false
 export default class Tasks extends preact.Component {
   constructor(props) {
     super(props)
-    let header = ''
+    let header = defaultHeader
     let disposing = true
     if (this.props.list) {
       header = ListsCollection.find(this.props.list).name 
@@ -42,18 +45,20 @@ export default class Tasks extends preact.Component {
     TasksCollection.bind('update', this.tasksUpdate)
     ListsCollection.bind('update', this.listsUpdate)
     this.setState({
-      taskList: TasksCollection.findList(this.props.list)
+      taskList: TasksCollection.findList(this.props.list || defaultList)
     })
   }
   componentDidMount() {
     // TODO: Polyfill this for Edge, Safari & Older Browsers
     this.passiveScroll = document.getElementById('passive-scroll')
     this.passiveScroll.addEventListener('scroll', this.triggerScroll, OPTS)
+    window.addEventListener('resize', this.windowResize)
   }
   componentWillUnmount() {
     TasksCollection.unbind('update', this.tasksUpdate)
     ListsCollection.unbind('update', this.listsUpdate)
     this.passiveScroll.removeEventListener('scroll', this.triggerScroll, OPTS)
+    window.removeEventListener('resize', this.windowResize)
   }
   componentWillReceiveProps(nextProps) {
     let newProps = {
@@ -67,26 +72,33 @@ export default class Tasks extends preact.Component {
         newProps.taskList = TasksCollection.findList(nextProps.list)
       }
       const list = ListsCollection.find(nextProps.list) || {}
-      this.setState({
-        disposing: false,
-        header: list.name || ''
-      })
+      newProps.disposing = false,
+      newProps.header = list.name || 'today'
     } else {
-      this.setState({
-        disposing: true
-      })
+      const list = ListsCollection.find(defaultList) || {}
+      newProps.disposing = true
     }
     this.setState(newProps)
   }
+  // allows desktop to reset to default list when resized
+  windowResize = () => {
+    // wish css & js variables could cross over sometimes
+    if (document.documentElement.clientWidth >= 700 && typeof(this.props.list) === 'undefined') {
+      if (this.state.header !== defaultHeader) {
+        this.listsUpdate()
+        this.tasksUpdate()
+      }
+    }
+  }
   tasksUpdate = (listId) => {
-    if (listId === this.props.list) {
+    if (listId === this.props.list || listId === defaultList) {
       this.setState({
-        taskList: TasksCollection.findList(this.props.list)
+        taskList: TasksCollection.findList(this.props.list || defaultList)
       })
     }
   }
   listsUpdate = () => {
-    let list = ListsCollection.find(this.props.list) || {}
+    let list = ListsCollection.find(this.props.list || defaultList) || {}
     this.setState({
       header: list.name
     })
@@ -110,7 +122,7 @@ export default class Tasks extends preact.Component {
 
       TasksCollection.add({
         name: taskName,
-        list: this.props.list
+        list: this.props.list || defaultList
       })
     }
   }

@@ -5,6 +5,9 @@ $list-height: 3.1rem;
 $task-height: 42px;
 $footer-height: 3rem;
 
+$sidebar-width-small: 20rem;
+$sidebar-width-desktop: 24rem;
+
 $back-color: #f4f4f4;
 $brand-color: #3a7df8;
 $line-color: #eee;
@@ -13,3 +16,7 @@ $default-timing: 300ms;
 $default-curve: ease;
 
 $mobile-breakpoint: 480px;
+$tablet-breakpoint: 700px;
+$desktop-breakpoint: 900px;
+
+$icon-style: 'feather';

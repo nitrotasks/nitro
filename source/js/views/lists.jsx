@@ -54,7 +54,7 @@ export default class Lists extends preact.Component {
       }
     })
     return (
-      <div>
+      <div class="sidebar-container">
         <header class="material-header main-nav"> 
           <h1 class="brand">
             <img src="/img/icons/logo.svg" />
