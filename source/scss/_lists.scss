@@ -106,7 +106,7 @@
   touch-action: pan-y;
 
   @media (min-width: $mobile-breakpoint + 1) {
-    padding: 0.5rem 0;    
+    padding: 0.25rem 0 0.5rem;    
     height: calc(100vh - #{$header-height} - #{$footer-height});
     height: calc(#{var(--real-height)} - #{$header-height} - #{$footer-height});
   }

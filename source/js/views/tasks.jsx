@@ -37,6 +37,7 @@ export default class Tasks extends preact.Component {
       inputValue: '',
       taskList: [],
       hideHeader: true,
+      stickyScale: false,
       disposing: disposing
     }
     this.theme = document.getElementById('theme')
@@ -53,14 +54,14 @@ export default class Tasks extends preact.Component {
     this.passiveScroll = document.getElementById('passive-scroll')
     this.passiveScrollWrapper = document.getElementById('passive-scroll-wrapper')
     this.passiveScroll.addEventListener('scroll', this.triggerScroll, OPTS)
-    this.passiveScrollWrapper.addEventListener('scroll', this.triggerScroll, OPTS)
+    this.passiveScrollWrapper.addEventListener('scroll', this.triggerStickyScroll, OPTS)
     window.addEventListener('resize', this.windowResize)
   }
   componentWillUnmount() {
     TasksCollection.unbind('update', this.tasksUpdate)
     ListsCollection.unbind('update', this.listsUpdate)
     this.passiveScroll.removeEventListener('scroll', this.triggerScroll, OPTS)
-    this.passiveScrollWrapper.removeEventListener('scroll', this.triggerScroll, OPTS)
+    this.passiveScrollWrapper.removeEventListener('scroll', this.triggerStickyScroll, OPTS)
     window.removeEventListener('resize', this.windowResize)
   }
   componentWillReceiveProps(nextProps) {
@@ -142,6 +143,19 @@ export default class Tasks extends preact.Component {
       })
     }
   }
+  triggerStickyScroll = (e) => {
+    const magicNumber = 16 * 3
+    let scrollPos = e.currentTarget.scrollTop
+    if (scrollPos <= magicNumber - 5 && this.state.stickyScale === true) {
+      this.setState({
+        stickyScale: false
+      })
+    } else if (scrollPos > magicNumber + 5 && this.state.stickyScale === false) {
+      this.setState({
+        stickyScale: true
+      })
+    }
+  }
   triggerTask = (task) => {
     return () => {
       if (!task) {
@@ -169,6 +183,10 @@ export default class Tasks extends preact.Component {
     if (this.state.hideHeader) {
       headerClass += ' hide-header'
     }
+    let stickyScale = 'tasks-sticky-container'
+    if (this.state.stickyScale) {
+      stickyScale += ' scale-header'
+    }
     let className = 'tasks-pane'
     if (this.state.disposing === true) {
       className += ' hide'
@@ -181,21 +199,24 @@ export default class Tasks extends preact.Component {
           </div>
           <h1>{this.state.header}</h1>
         </header>
-        <div class="tasks-creator-wrap">
-          <div class="tasks-creator-background">
-            <input type="text"
-              placeholder="Add a task..."
-              class={creatorClass}
-              value={this.state.inputValue}
-              onChange={this.triggerChange}
-              onKeyUp={this.triggerKeyUp}
-            />
-          </div>
-        </div>
         <div class="tasks-content" id="passive-scroll"> 
           <div class="tasks-scrollwrap">
-            <div class="tasks-fancy-header">
-              <h1>{this.state.header}</h1>
+            <div class={stickyScale}>
+              <div class="tasks-fancy-header">
+                <h1>
+                  <img src="/img/icons/feather/inbox.svg" />
+                  <span>{this.state.header}</span>
+                </h1>
+              </div>
+              <div class="tasks-creator-background">
+                <input type="text"
+                  placeholder="Add a task..."
+                  class={creatorClass}
+                  value={this.state.inputValue}
+                  onChange={this.triggerChange}
+                  onKeyUp={this.triggerKeyUp}
+                />
+              </div>
             </div>
             <ul className="tasks-list">
               {this.state.taskList.map((task) => {

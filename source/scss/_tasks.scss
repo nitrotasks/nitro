@@ -15,6 +15,8 @@
   }
 }
 
+$desktop-max-width: 92%;
+
 .tasks-pane {
   position: absolute;
   top: 0;
@@ -50,14 +52,9 @@
   }
 
   .material-header {
-    background: #fff;
-    position: absolute;
-    position: sticky;
-    top: 0;
-    left: 0;
-    box-sizing: border-box;
-    width: calc(100% - 2 * #{$indent-width});
-    z-index: 1;
+    @media (min-width: $tablet-breakpoint) {
+      display: none;
+    }
   }
 }
 
@@ -76,32 +73,75 @@
     position: static;
     overflow-y: visible;
   }
+  @media (min-width: $desktop-breakpoint) {
+    width: $desktop-max-width;
+    margin: 0 auto;
+  }
 }
 
-.tasks-fancy-header {
-  h1 {
-    margin: $indent-width;
+@media (min-width: $tablet-breakpoint) {
+  .tasks-sticky-container {
+    position: sticky;
+    top: -1px;
+    background: #fff;
+    margin-top: $header-height;
+  }
+}
+.scale-header {
+  .tasks-fancy-header {
+    h1 {
+      font-size: 1.5rem;
 
-    @media (min-width: $tablet-breakpoint) {
-      font-size: 2.25rem;
-      line-height: 3rem;
-      margin: (-2 * $header-height + 0.5rem) $indent-width $header-height $indent-width;
+      span {
+        transform: translate3d(-0.4rem, 0.5rem, 0);
+      }
+
+      img {
+        transform: scale(calc(2/3)) translate3d(0, 0.75rem, 0);
+      }
     }
   }
 }
 
-.tasks-creator-wrap {
-  padding-top: $header-height;
-  position: sticky;
-  top: -1px;
+.tasks-fancy-header {
+  $speed: 250ms;
+  h1 {
+    margin: $indent-width;
+
+    img {
+      margin: 0.2rem 0.5rem 0 0.2rem;
+      vertical-align: top;
+      width: 2rem;
+      height: 2rem;
+    }
+
+    @media (min-width: $tablet-breakpoint) {
+      transition: $speed ease font;
+      font-size: 2.25rem;
+      line-height: $header-height - 0.5rem;
+      margin: $indent-width $indent-width 0.5rem;
+
+      img {
+        width: 2.25rem;
+        height: 2.25rem;
+        margin: 0.3rem 0.6rem 0 0;
+        transition: $speed ease transform;
+      }
+
+      span {
+        display: inline-block;
+        vertical-align: top;
+        transition: $speed ease transform;
+      }
+    }
+  }
+}
+.tasks-creator-background {
+  padding: 0.25rem $indent-width 0.75rem;
 
   @media (max-width: $tablet-breakpoint - 1) {
     display: none;
   }
-}
-.tasks-creator-background {
-  padding: 0.5rem $indent-width;
-  background: #fff;
 }
 
 .tasks-creator {
@@ -109,7 +149,7 @@
   box-sizing: border-box;
   width: 100%;
   border: 1px solid transparent;
-  background-color: rgba(#000, 0.06);
+  background-color: rgba(#000, 0.05);
   border-radius: 3px;
   padding: 0.5rem 0.75rem;
   outline: 0;
@@ -129,9 +169,7 @@
   list-style-type: none;
 
   li {
-    background: #fff;
     margin: 0 $indent-width 1px;
-    font-size: 16px;
     line-height: $task-height;
   }
 }
