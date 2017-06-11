@@ -19,7 +19,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  right: 0;
   height: 100%;
   background: #fff;
   overflow-x: hidden;
@@ -33,6 +33,8 @@
   @media (min-width: $tablet-breakpoint) {
     left: $sidebar-width-small;
     animation: none;
+    border-left: 1px solid $line-color;
+    width: auto;
 
     &.hide {
       transform: none;
@@ -48,7 +50,14 @@
   }
 
   .material-header {
-    background: transparent;
+    background: #fff;
+    position: absolute;
+    position: sticky;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    width: calc(100% - 2 * #{$indent-width});
+    z-index: 1;
   }
 }
 
@@ -62,25 +71,55 @@
   top: $header-height;
   bottom: 0;
   width: 100%;
+
+  @media (min-width: $tablet-breakpoint) {
+    position: static;
+    overflow-y: visible;
+  }
 }
 
 .tasks-fancy-header {
   h1 {
-    margin: $indent-width $indent-width;
+    margin: $indent-width;
+
+    @media (min-width: $tablet-breakpoint) {
+      font-size: 2.25rem;
+      line-height: 3rem;
+      margin: (-2 * $header-height + 0.5rem) $indent-width $header-height $indent-width;
+    }
   }
 }
 
-.tasks-creator {
-  display: block;
-  width: calc(100% - #{$indent-width * 2});
-  margin: $indent-width;
-  box-sizing: border-box;
-  padding: 10px 14px;
-  font-size: 16px;
-  border: 0;
+.tasks-creator-wrap {
+  padding-top: $header-height;
+  position: sticky;
+  top: -1px;
 
+  @media (max-width: $tablet-breakpoint - 1) {
+    display: none;
+  }
+}
+.tasks-creator-background {
+  padding: 0.5rem $indent-width;
+  background: #fff;
+}
+
+.tasks-creator {
+  $timing: 250ms;
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid transparent;
+  background-color: rgba(#000, 0.06);
+  border-radius: 3px;
+  padding: 0.5rem 0.75rem;
+  outline: 0;
+  font-size: 0.9rem;
+  line-height: 1.1rem;
+  transition: $timing ease border-color, $timing ease background-color;
+  
   &:focus {
-    outline: $brand-color auto 5px;
+    border-color: $brand-color;
+    background-color: rgba(#000, 0.03);
   }
 }
 
@@ -91,7 +130,6 @@
 
   li {
     background: #fff;
-    // border-bottom: 1px solid $line-color;
     margin: 0 $indent-width 1px;
     font-size: 16px;
     line-height: $task-height;

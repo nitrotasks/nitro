@@ -1,7 +1,9 @@
 .sidebar-container {
+  background: $neutral-back-color;
 
   @media (min-width: $tablet-breakpoint) {
     max-width: $sidebar-width-small;
+    background: $neutral-back-color-transparent;
   }
   @media (min-width: $desktop-breakpoint) {
     max-width: $sidebar-width-desktop;
@@ -111,7 +113,7 @@
 }
 
 .search-container {
-  padding: 0 $indent-width - 0.3rem $indent-width - 0.3rem;
+  padding: 0 $indent-width - 0.3rem $indent-width;
 
   @media (max-width: $mobile-breakpoint) {
     display: none;
@@ -124,6 +126,8 @@
     border-radius: 3px;
     padding: 0.5rem 0.75rem;
     outline: 0;
+    font-size: 0.9rem;
+    line-height: 1.1rem;
 
     background-image: url('/img/icons/search.svg');
     background-repeat: no-repeat;
@@ -172,11 +176,11 @@
     .label {
       flex: 1;
       color: #444;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
     }
 
     .count {
-      font-size: 1.1rem;
+      font-size: 1rem;
       color: #777;
       padding-right: 0.3rem;
 
@@ -196,7 +200,7 @@
     &.add {
       .label {
         color: rgba(#000, 0.5);
-        font-size: 1.1rem;
+        font-size: 1rem;
       }
       .icon {
         background-image: url('/img/icons/'+ $icon-style +'/add.svg');
@@ -207,7 +211,7 @@
 }
 
 .subtle-footer {
-  border-top: 1px solid rgba(#000, 0.1);
+  border-top: 1px solid $line-color;
   height: $footer-height; 
   text-align: right;
   box-sizing: border-box;

@@ -51,13 +51,16 @@ export default class Tasks extends preact.Component {
   componentDidMount() {
     // TODO: Polyfill this for Edge, Safari & Older Browsers
     this.passiveScroll = document.getElementById('passive-scroll')
+    this.passiveScrollWrapper = document.getElementById('passive-scroll-wrapper')
     this.passiveScroll.addEventListener('scroll', this.triggerScroll, OPTS)
+    this.passiveScrollWrapper.addEventListener('scroll', this.triggerScroll, OPTS)
     window.addEventListener('resize', this.windowResize)
   }
   componentWillUnmount() {
     TasksCollection.unbind('update', this.tasksUpdate)
     ListsCollection.unbind('update', this.listsUpdate)
     this.passiveScroll.removeEventListener('scroll', this.triggerScroll, OPTS)
+    this.passiveScrollWrapper.removeEventListener('scroll', this.triggerScroll, OPTS)
     window.removeEventListener('resize', this.windowResize)
   }
   componentWillReceiveProps(nextProps) {
@@ -119,6 +122,7 @@ export default class Tasks extends preact.Component {
       this.setState({
         inputValue: ''
       })
+      e.currentTarget.blur()
 
       TasksCollection.add({
         name: taskName,
@@ -170,18 +174,15 @@ export default class Tasks extends preact.Component {
       className += ' hide'
     }
     return (
-      <div class={className}>
+      <div class={className} id="passive-scroll-wrapper">
         <header class={headerClass}>
           <div class="back" onClick={this.triggerBack}>
             <img src="/img/icons/back.svg" />
           </div>
           <h1>{this.state.header}</h1>
         </header>
-        <div class="tasks-content" id="passive-scroll"> 
-          <div class="tasks-scrollwrap">
-            <div class="tasks-fancy-header">
-              <h1>{this.state.header}</h1>
-            </div>
+        <div class="tasks-creator-wrap">
+          <div class="tasks-creator-background">
             <input type="text"
               placeholder="Add a task..."
               class={creatorClass}
@@ -189,6 +190,13 @@ export default class Tasks extends preact.Component {
               onChange={this.triggerChange}
               onKeyUp={this.triggerKeyUp}
             />
+          </div>
+        </div>
+        <div class="tasks-content" id="passive-scroll"> 
+          <div class="tasks-scrollwrap">
+            <div class="tasks-fancy-header">
+              <h1>{this.state.header}</h1>
+            </div>
             <ul className="tasks-list">
               {this.state.taskList.map((task) => {
                 return <Task data={task} onClick={this.triggerTask(task)} />

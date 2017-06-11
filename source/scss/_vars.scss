@@ -8,9 +8,13 @@ $footer-height: 3rem;
 $sidebar-width-small: 20rem;
 $sidebar-width-desktop: 24rem;
 
-$back-color: #f4f4f4;
+// gonna figure something else out later with custom
+$neutral-back-color: #f4f4f4;
+$back-color: $neutral-back-color;
+$neutral-back-color-transparent: $neutral-back-color;
+// $neutral-back-color-transparent: rgba($neutral-back-color, 0.75);
 $brand-color: #3a7df8;
-$line-color: #eee;
+$line-color: rgba(#000, 0.1);
 
 $default-timing: 300ms;
 $default-curve: ease;

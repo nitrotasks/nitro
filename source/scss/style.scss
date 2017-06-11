@@ -4,7 +4,11 @@
 @import "_vars";
 
 body {
-  background: $back-color;
+  background: $neutral-back-color;
+
+  @media (min-width: $tablet-breakpoint) {
+    background: $back-color;
+  }
 }
 body, input, button {
   font-family: 'Raleway', sans-serif;
