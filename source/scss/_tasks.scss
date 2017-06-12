@@ -16,7 +16,7 @@
 }
 
 $desktop-max-width: 92%;
-$background-speed: 250ms;
+$background-speed: 400ms;
 
 .tasks-pane {
   position: absolute;
@@ -114,7 +114,7 @@ $background-speed: 250ms;
 }
 
 .tasks-fancy-header {
-  $speed: 250ms;
+  $speed: 200ms;
   h1 {
     margin: $indent-width;
 
@@ -183,7 +183,6 @@ $background-speed: 250ms;
   margin: 0;
   padding: 0 0 $indent-width;
   list-style-type: none;
-  line-height: $task-height;
 
   li {
     margin: 0;

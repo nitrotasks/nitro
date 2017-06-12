@@ -1,16 +1,22 @@
 .task-item {
-  $speed: 200ms;
-  display: flex;
+  $speed: 250ms;
   font-size: 1rem;
-  padding: 0 $indent-width;
+  padding: 0;
   margin: 0;
   height: $task-height;
   cursor: default;
   user-select: none;
-  transition: $speed ease-in-out height, $speed ease-in-out margin, $speed ease-in-out box-shadow;
+  transition: $speed ease height, $speed ease margin, $speed ease box-shadow;
+  overflow: hidden;
+
+  .outer {
+    display: flex;
+    width: 100%;
+    padding: 0 $indent-width;
+  }
 
   &.expanded {
-    height: 5rem;
+    height: 9.2rem; // needs to be dynamically calculated later
     box-shadow: 0 1px 3px rgba(#000, 0.15);
     border-radius: 3px;
     margin: $indent-width 0;
@@ -19,10 +25,14 @@
     @media (min-width: $tablet-breakpoint) {
       margin: 1.5rem 0;
     }
+
+    .inner {
+      opacity: 1;
+    }
   }
 
   .check {
-    $box-height: 15px;
+    $box-height: 0.9rem;
     width: 1.75rem;
     // background: #0f0;
     // text-align: center;
@@ -30,7 +40,7 @@
     .box {
       display: inline-block;
       vertical-align: top;
-      margin-top: $task-height / 2 - ($box-height / 2) - 1;
+      margin-top: $task-height / 2 - ($box-height / 2);
       width: $box-height;
       height: $box-height;
       border: 1px solid #bbb;
@@ -39,5 +49,50 @@
   }
   .label {
     flex: 1;
+    line-height: $task-height;
+  }
+
+  .inner {
+    // padding: 0 0 0 1.75rem;
+    opacity: 0;
+    transition: $speed ease opacity;
+  }
+
+  textarea {
+    border: 0;
+    padding: 0;
+    background: transparent;
+    width: 100%;
+    outline: 0;
+    font-size: 0.9rem;
+    line-height: 1.1rem;
+    resize: none;
+    min-height: 1.1rem * 3 + $indent-width;
+    display: block;
+    padding: 0 $indent-width $indent-width 1.75rem + $indent-width;
+    box-sizing: border-box;
+  }
+
+  .button-bar {
+    background: lighten($neutral-back-color, 3);
+    padding: 0 $indent-width 0 1.75rem + $indent-width;
+    box-shadow: 0 1px 0 rgba(#000, 0.05) inset;
+    display: flex;
+    align-items: center;
+    height: 2.4rem;
+
+    img {
+      height: 1.2rem;
+      vertical-align: top;
+      opacity: 0.4;
+      margin-right: 0.8rem;
+
+      &:hover {
+        opacity: 0.5;
+      }
+      &:active {
+        opacity: 0.6;
+      }
+    }
   }
 }

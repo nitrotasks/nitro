@@ -8,28 +8,23 @@ import { CombinedCollection } from '../models/combinedCollection.js'
 import Task from './task.jsx'
 
 const defaultList = 'inbox'
+const defaultHeader = 'Inbox'
 
 let supportsPassive = false
 try {
   let opts = Object.defineProperty({}, 'passive', {
     get: function() {
-      supportsPassive = true
+      supportsPassive = true;
     }
   })
-  window.addEventListener("test", null, opts)
+  window.addEventListener('test', null, opts)
 } catch (e) {}
 const OPTS = supportsPassive ? { passive: true } : false
 
 export default class Tasks extends preact.Component {
   constructor(props) {
     super(props)
-    // let header = defaultHeader
-    // let disposing = true
-    // if (this.props.list) {
-    //   header = ListsCollection.find(this.props.list).name 
-    //   disposing = false
-    // }
-    this.state = this.installProps(props, true)
+    this.state = this.installProps(props, true);
     this.theme = document.getElementById('theme')
   }
   componentWillMount() {
@@ -42,16 +37,26 @@ export default class Tasks extends preact.Component {
   componentDidMount() {
     // TODO: Polyfill this for Edge, Safari & Older Browsers
     this.passiveScroll = document.getElementById('passive-scroll')
-    this.passiveScrollWrapper = document.getElementById('passive-scroll-wrapper')
+    this.passiveScrollWrapper = document.getElementById(
+      'passive-scroll-wrapper'
+    )
     this.passiveScroll.addEventListener('scroll', this.triggerScroll, OPTS)
-    this.passiveScrollWrapper.addEventListener('scroll', this.triggerStickyScroll, OPTS)
+    this.passiveScrollWrapper.addEventListener(
+      'scroll',
+      this.triggerStickyScroll,
+      OPTS
+    )
     window.addEventListener('resize', this.windowResize)
   }
   componentWillUnmount() {
     TasksCollection.unbind('update', this.tasksUpdate)
     ListsCollection.unbind('update', this.listsUpdate)
     this.passiveScroll.removeEventListener('scroll', this.triggerScroll, OPTS)
-    this.passiveScrollWrapper.removeEventListener('scroll', this.triggerStickyScroll, OPTS)
+    this.passiveScrollWrapper.removeEventListener(
+      'scroll',
+      this.triggerStickyScroll,
+      OPTS
+    )
     window.removeEventListener('resize', this.windowResize)
   }
   componentWillReceiveProps(nextProps) {
@@ -78,7 +83,7 @@ export default class Tasks extends preact.Component {
       }
       const list = ListsCollection.find(nextProps.list) || {}
       newProps.disposing = false
-      newProps.header = list.name || 'today'
+      newProps.header = list.name || 'inbox'
       newProps.headerIcon = false
       newProps.taskNotes = null
       if (['inbox', 'today', 'next', 'all'].indexOf(nextProps.list) > -1) {
@@ -93,14 +98,17 @@ export default class Tasks extends preact.Component {
   // allows desktop to reset to default list when resized
   windowResize = () => {
     // wish css & js variables could cross over sometimes
-    if (document.documentElement.clientWidth >= 700 && typeof(this.props.list) === 'undefined') {
+    if (
+      document.documentElement.clientWidth >= 700 &&
+      typeof this.props.list === 'undefined'
+    ) {
       if (this.state.header !== defaultHeader) {
         this.listsUpdate()
         this.tasksUpdate()
       }
     }
   }
-  tasksUpdate = (listId) => {
+  tasksUpdate = listId => {
     if (listId === this.props.list || listId === defaultList) {
       this.setState({
         taskList: TasksCollection.findList(this.props.list || defaultList)
@@ -117,13 +125,13 @@ export default class Tasks extends preact.Component {
     // todo, hook it to the history
     route('/')
   }
-  triggerChange = (e) => {
+  triggerChange = e => {
     this.setState({
       inputValue: e.currentTarget.value,
       tasks: []
     })
   }
-  triggerKeyUp = (e) => {
+  triggerKeyUp = e => {
     let taskName = e.currentTarget.value
     if (e.keyCode === 13 && taskName !== '') {
       this.setState({
@@ -137,7 +145,7 @@ export default class Tasks extends preact.Component {
       })
     }
   }
-  triggerScroll = (e) => {
+  triggerScroll = e => {
     let scrollPos = e.currentTarget.scrollTop
     if (scrollPos <= 48 && this.state.hideHeader === false) {
       this.setState({
@@ -149,24 +157,27 @@ export default class Tasks extends preact.Component {
       })
     }
   }
-  triggerStickyScroll = (e) => {
+  triggerStickyScroll = e => {
     const magicNumber = 16 * 3
     let scrollPos = e.currentTarget.scrollTop
     if (scrollPos <= magicNumber - 5 && this.state.stickyScale === true) {
       this.setState({
         stickyScale: false
       })
-    } else if (scrollPos > magicNumber + 5 && this.state.stickyScale === false) {
+    } else if (
+      scrollPos > magicNumber + 5 &&
+      this.state.stickyScale === false
+    ) {
       this.setState({
         stickyScale: true
       })
     }
   }
-  triggerTask = (task) => {
+  triggerTask = task => {
     return () => {
       if (!task) {
         route('/lists/' + this.props.list)
-      } else if (typeof(this.props.task) !== 'undefined') {
+      } else if (typeof this.props.task !== 'undefined') {
         window.history.back()
       } else {
         route('/lists/' + this.props.list + '/' + task.id)
@@ -206,20 +217,30 @@ export default class Tasks extends preact.Component {
 
     let taskNotes = null
     if (this.state.taskNotes) {
-      taskNotes = (<p class="tasks-notes">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </p>)
+      taskNotes = (
+        <p class="tasks-notes">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+          eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+          veniam,
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+          commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+          esse
+          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+          cupidatat non
+          proident, sunt in culpa qui officia deserunt mollit anim id est
+          laborum.
+        </p>
+      )
     }
 
     // TODO: add emoji support
     let listIcon = null
     if (this.state.headerIcon) {
-      listIcon = <img src={'/img/icons/feather/' + this.state.headerIcon + '.svg'} />
+      listIcon = (
+        <img src={'/img/icons/feather/' + this.state.headerIcon + '.svg'} />
+      )
     }
     return (
       <div class={className} id="passive-scroll-wrapper">
@@ -229,7 +250,7 @@ export default class Tasks extends preact.Component {
           </div>
           <h1>{this.state.header}</h1>
         </header>
-        <div class="tasks-content" id="passive-scroll"> 
+        <div class="tasks-content" id="passive-scroll">
           <div class="tasks-scrollwrap">
             <div class={stickyScale}>
               <div class="tasks-fancy-header">
@@ -239,7 +260,8 @@ export default class Tasks extends preact.Component {
                 </h1>
               </div>
               <div class="tasks-creator-background">
-                <input type="text"
+                <input
+                  type="text"
                   placeholder="Add a task..."
                   class={creatorClass}
                   value={this.state.inputValue}
@@ -250,8 +272,14 @@ export default class Tasks extends preact.Component {
             </div>
             {taskNotes}
             <ul className="tasks-list">
-              {this.state.taskList.map((task) => {
-                return <Task data={task} selectedTask={this.props.task} onClick={this.triggerTask(task)} />
+              {this.state.taskList.map(task => {
+                return (
+                  <Task
+                    data={task}
+                    selectedTask={this.props.task}
+                    onClick={this.triggerTask(task)}
+                  />
+                )
               })}
             </ul>
             <button onClick={this.changeList}>Change List Name</button>

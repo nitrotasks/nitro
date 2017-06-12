@@ -208,6 +208,20 @@
         opacity: 0.4;
       }
     }
+
+    @media (min-width: $tablet-breakpoint) and (max-width: $desktop-breakpoint - 1) {
+      line-height: $list-height - 0.2rem;
+
+      .label {
+        font-size: 1rem;
+      }
+      .count {
+        font-size: 0.9rem;
+      }
+      &.add .label {
+        font-size: 0.9rem;
+      }
+    }
   }
 }
 
@@ -233,11 +247,18 @@
     background-repeat: no-repeat;
     background-position: 50%;
     outline: 0;
-    opacity: 0.45;
+    opacity: 0.4;
+
+    &:hover {
+      opacity: 0.45;
+    }
 
     &:active {
-      opacity: 0.7;
+      opacity: 0.6;
     }
+
+    // these icons work better here
+    $icon-style: 'material';
 
     &.feedback {
       background-image: url('/img/icons/'+ $icon-style +'/feedback.svg');
