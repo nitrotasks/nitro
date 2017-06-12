@@ -1,12 +1,31 @@
 .task-item {
+  $speed: 200ms;
   display: flex;
-  font-size: 1.1rem;
+  font-size: 1rem;
+  padding: 0 $indent-width;
+  margin: 0;
+  height: $task-height;
+  cursor: default;
+  user-select: none;
+  transition: $speed ease-in-out height, $speed ease-in-out margin, $speed ease-in-out box-shadow;
+
+  &.expanded {
+    height: 5rem;
+    box-shadow: 0 1px 3px rgba(#000, 0.15);
+    border-radius: 3px;
+    margin: $indent-width 0;
+    background: #fff;
+
+    @media (min-width: $tablet-breakpoint) {
+      margin: 1.5rem 0;
+    }
+  }
 
   .check {
     $box-height: 15px;
-    width: 38px;
+    width: 1.75rem;
     // background: #0f0;
-    text-align: center;
+    // text-align: center;
 
     .box {
       display: inline-block;

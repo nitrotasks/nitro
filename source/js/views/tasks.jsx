@@ -6,10 +6,8 @@ import { TasksCollection } from '../models/tasksCollection.js'
 import { CombinedCollection } from '../models/combinedCollection.js'
 
 import Task from './task.jsx'
-import TaskEditor from './taskeditor.jsx'
 
 const defaultList = 'inbox'
-const defaultHeader = ListsCollection.find(defaultList).name
 
 let supportsPassive = false
 try {
@@ -25,21 +23,13 @@ const OPTS = supportsPassive ? { passive: true } : false
 export default class Tasks extends preact.Component {
   constructor(props) {
     super(props)
-    let header = defaultHeader
-    let disposing = true
-    if (this.props.list) {
-      header = ListsCollection.find(this.props.list).name 
-      disposing = false
-    }
-    this.state = {
-      selectedTask: props.task || null,
-      header: header,
-      inputValue: '',
-      taskList: [],
-      hideHeader: true,
-      stickyScale: false,
-      disposing: disposing
-    }
+    // let header = defaultHeader
+    // let disposing = true
+    // if (this.props.list) {
+    //   header = ListsCollection.find(this.props.list).name 
+    //   disposing = false
+    // }
+    this.state = this.installProps(props, true)
     this.theme = document.getElementById('theme')
   }
   componentWillMount() {
@@ -65,24 +55,40 @@ export default class Tasks extends preact.Component {
     window.removeEventListener('resize', this.windowResize)
   }
   componentWillReceiveProps(nextProps) {
+    this.setState(this.installProps(nextProps))
+  }
+  installProps(nextProps, firstRun = false) {
     let newProps = {
       selectedTask: null
     }
     if (nextProps.task) {
       newProps.selectedTask = nextProps.task
     }
+    if (firstRun) {
+      newProps.hideHeader = true
+      newProps.stickyScale = false
+
+      if (!nextProps.list) {
+        nextProps.list = defaultList
+      }
+    }
     if (nextProps.list) {
       if (this.props.list !== nextProps.list) {
         newProps.taskList = TasksCollection.findList(nextProps.list)
       }
       const list = ListsCollection.find(nextProps.list) || {}
-      newProps.disposing = false,
+      newProps.disposing = false
       newProps.header = list.name || 'today'
+      newProps.headerIcon = false
+      newProps.taskNotes = null
+      if (['inbox', 'today', 'next', 'all'].indexOf(nextProps.list) > -1) {
+        newProps.headerIcon = nextProps.list
+        newProps.taskNotes = false
+      }
     } else {
-      const list = ListsCollection.find(defaultList) || {}
       newProps.disposing = true
     }
-    this.setState(newProps)
+    return newProps
   }
   // allows desktop to reset to default list when resized
   windowResize = () => {
@@ -160,8 +166,10 @@ export default class Tasks extends preact.Component {
     return () => {
       if (!task) {
         route('/lists/' + this.props.list)
+      } else if (typeof(this.props.task) !== 'undefined') {
+        window.history.back()
       } else {
-        route(this.props.url + '/' + task.id)
+        route('/lists/' + this.props.list + '/' + task.id)
       }
     }
   }
@@ -176,6 +184,7 @@ export default class Tasks extends preact.Component {
   }
   render() {
     let creatorClass = 'tasks-creator'
+    // todo: FIX THIS ON BACK
     if (this.props.list === 'all') {
       creatorClass += ' hidden'
     }
@@ -191,6 +200,27 @@ export default class Tasks extends preact.Component {
     if (this.state.disposing === true) {
       className += ' hide'
     }
+    if (this.props.task) {
+      className += ' selected-task'
+    }
+
+    let taskNotes = null
+    if (this.state.taskNotes) {
+      taskNotes = (<p class="tasks-notes">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </p>)
+    }
+
+    // TODO: add emoji support
+    let listIcon = null
+    if (this.state.headerIcon) {
+      listIcon = <img src={'/img/icons/feather/' + this.state.headerIcon + '.svg'} />
+    }
     return (
       <div class={className} id="passive-scroll-wrapper">
         <header class={headerClass}>
@@ -204,7 +234,7 @@ export default class Tasks extends preact.Component {
             <div class={stickyScale}>
               <div class="tasks-fancy-header">
                 <h1>
-                  <img src="/img/icons/feather/inbox.svg" />
+                  {listIcon}
                   <span>{this.state.header}</span>
                 </h1>
               </div>
@@ -218,16 +248,16 @@ export default class Tasks extends preact.Component {
                 />
               </div>
             </div>
+            {taskNotes}
             <ul className="tasks-list">
               {this.state.taskList.map((task) => {
-                return <Task data={task} onClick={this.triggerTask(task)} />
+                return <Task data={task} selectedTask={this.props.task} onClick={this.triggerTask(task)} />
               })}
             </ul>
             <button onClick={this.changeList}>Change List Name</button>
             <button onClick={this.deleteList}>Delete List</button>
           </div>
         </div>
-        <TaskEditor task={this.state.selectedTask} back={this.triggerTask(null)} />
       </div>
     )
   }

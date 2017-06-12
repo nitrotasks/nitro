@@ -16,6 +16,7 @@
 }
 
 $desktop-max-width: 92%;
+$background-speed: 250ms;
 
 .tasks-pane {
   position: absolute;
@@ -26,6 +27,11 @@ $desktop-max-width: 92%;
   background: #fff;
   overflow-x: hidden;
   animation: show-tasks $default-timing $default-curve 1;
+  transition: $background-speed ease background-color;
+
+  &.selected-task {
+    background-color: lighten($neutral-back-color, 2);
+  }
 
   &.hide {
     animation: hide-tasks $default-timing $default-curve 1;
@@ -85,6 +91,10 @@ $desktop-max-width: 92%;
     top: -1px;
     background: #fff;
     margin-top: $header-height;
+    transition: $background-speed ease background-color;
+  }
+  .selected-task .tasks-sticky-container {
+    background-color: lighten($neutral-back-color, 2);
   }
 }
 .scale-header {
@@ -93,7 +103,7 @@ $desktop-max-width: 92%;
       font-size: 1.5rem;
 
       span {
-        transform: translate3d(-0.4rem, 0.5rem, 0);
+        transform: translate3d(-0.5rem, 0.5rem, 0);
       }
 
       img {
@@ -122,8 +132,8 @@ $desktop-max-width: 92%;
       margin: $indent-width $indent-width 0.5rem;
 
       img {
-        width: 2.25rem;
-        height: 2.25rem;
+        width: 2.3rem; // this random number helps with the aliasing
+        height: auto;
         margin: 0.3rem 0.6rem 0 0;
         transition: $speed ease transform;
       }
@@ -137,7 +147,7 @@ $desktop-max-width: 92%;
   }
 }
 .tasks-creator-background {
-  padding: 0.25rem $indent-width 0.75rem;
+  padding: 0.25rem $indent-width - 0.2rem 0.75rem;
 
   @media (max-width: $tablet-breakpoint - 1) {
     display: none;
@@ -150,7 +160,7 @@ $desktop-max-width: 92%;
   width: 100%;
   border: 1px solid transparent;
   background-color: rgba(#000, 0.05);
-  border-radius: 3px;
+  border-radius: 4px;
   padding: 0.5rem 0.75rem;
   outline: 0;
   font-size: 0.9rem;
@@ -163,13 +173,19 @@ $desktop-max-width: 92%;
   }
 }
 
+.tasks-notes {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0.25rem $indent-width 1rem;
+}
+
 .tasks-list {
   margin: 0;
   padding: 0 0 $indent-width;
   list-style-type: none;
+  line-height: $task-height;
 
   li {
-    margin: 0 $indent-width 1px;
-    line-height: $task-height;
+    margin: 0;
   }
 }

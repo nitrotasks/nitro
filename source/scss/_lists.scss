@@ -147,6 +147,7 @@
     cursor: default;
     display: flex;
     font-weight: 600;
+    user-select: none;
 
     .icon {
       margin-right: $indent-width * (2/3);
