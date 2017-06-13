@@ -14,7 +14,7 @@ let supportsPassive = false
 try {
   let opts = Object.defineProperty({}, 'passive', {
     get: function() {
-      supportsPassive = true;
+      supportsPassive = true
     }
   })
   window.addEventListener('test', null, opts)
@@ -24,7 +24,7 @@ const OPTS = supportsPassive ? { passive: true } : false
 export default class Tasks extends preact.Component {
   constructor(props) {
     super(props)
-    this.state = this.installProps(props, true);
+    this.state = this.installProps(props, true)
     this.theme = document.getElementById('theme')
   }
   componentWillMount() {
@@ -184,6 +184,13 @@ export default class Tasks extends preact.Component {
       }
     }
   }
+  closeTasks = e => {
+    if (e.target === e.currentTarget || e.target.className === 'tasks-list') {
+      if (window.location.pathname.split('/').length === 4) {
+        window.history.back()
+      }
+    }
+  }
   changeList = () => {
     ListsCollection.update(this.props.list, {})
   }
@@ -243,7 +250,11 @@ export default class Tasks extends preact.Component {
       )
     }
     return (
-      <div class={className} id="passive-scroll-wrapper">
+      <div
+        class={className}
+        id="passive-scroll-wrapper"
+        onClick={this.closeTasks}
+      >
         <header class={headerClass}>
           <div class="back" onClick={this.triggerBack}>
             <img src="/img/icons/back.svg" />
@@ -275,6 +286,7 @@ export default class Tasks extends preact.Component {
               {this.state.taskList.map(task => {
                 return (
                   <Task
+                    key={task.id}
                     data={task}
                     selectedTask={this.props.task}
                     onClick={this.triggerTask(task)}

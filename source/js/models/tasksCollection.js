@@ -15,7 +15,7 @@ export class tasks extends Events {
   }
   add(props) {
     // todo: collision detection
-    let id = Math.round(Math.random()*100000).toString()
+    let id = Math.round(Math.random() * 100000).toString()
     props.id = id
     this.collection.set(id, new Task(props))
 
@@ -24,12 +24,24 @@ export class tasks extends Events {
 
     this.sync.post([props.list, id])
   }
+  update(id, props, sync = true) {
+    const resource = this.find(id, !sync)
+
+    // not allowed to update the id
+    Object.keys(props).forEach(function(key) {
+      if (key !== 'id') resource[key] = props[key]
+    })
+    this.trigger('update')
+    this.saveLocal()
+    if (sync) this.sync.patch(id)
+    return resource
+  }
   // maybe roll these into one function?
   addListFromServer(tasks, listId) {
     if (tasks.length < 1) return
-    tasks.forEach((props) => {
+    tasks.forEach(props => {
       // todo: collision detection
-      let id = Math.round(Math.random()*100000).toString()
+      let id = Math.round(Math.random() * 100000).toString()
       props.serverId = props.id
       props.lastSync = props.updatedAt
       props.id = id
@@ -47,7 +59,7 @@ export class tasks extends Events {
     }
     if (tasks.length < 1) return
     const currentTasks = this.findList(listId)
-    tasks.forEach((props) => {
+    tasks.forEach(props => {
       const task = currentTasks.find(findFromServer(props.id))
       task.name = props.name
       task.notes = props.notes
@@ -61,7 +73,7 @@ export class tasks extends Events {
     // or reduce method
     if (serverId) {
       let match = null
-      this.collection.forEach((item) => {
+      this.collection.forEach(item => {
         if (item.serverId === id) {
           match = item
         }
@@ -126,10 +138,10 @@ export class tasks extends Events {
       this.saveLocal()
       return
     }
-    JSON.parse(data).forEach((item) => {
+    JSON.parse(data).forEach(item => {
       this.collection.set(item.id, new Task(item))
     })
-    JSON.parse(dataCompleted).forEach((item) => {
+    JSON.parse(dataCompleted).forEach(item => {
       this.collection.set(item.id, new Task(item))
     })
     console.log('Loaded Tasks from localStorage')
