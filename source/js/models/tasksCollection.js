@@ -33,7 +33,7 @@ export class tasks extends Events {
     })
     this.trigger('update')
     this.saveLocal()
-    if (sync) this.sync.patch(id)
+    if (sync) this.sync.patch([resource.list, id])
     return resource
   }
   // maybe roll these into one function?

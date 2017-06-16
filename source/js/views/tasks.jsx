@@ -123,7 +123,11 @@ export default class Tasks extends preact.Component {
   }
   triggerBack = () => {
     // todo, hook it to the history
-    route('/')
+    if (window.innerWidth < 700) {
+      route('/')  
+    } else {
+      route('/lists/inbox')
+    }
   }
   triggerChange = e => {
     this.setState({
@@ -195,9 +199,10 @@ export default class Tasks extends preact.Component {
     ListsCollection.update(this.props.list, {})
   }
   deleteList = () => {
+    const toDelete = this.props.list
     this.triggerBack()
     requestAnimationFrame(() => {
-      CombinedCollection.deleteList(this.props.list)
+      CombinedCollection.deleteList(toDelete)
     })
   }
   render() {

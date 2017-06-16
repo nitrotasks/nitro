@@ -119,15 +119,28 @@ export default class Sync extends Events {
       let body = null
       let resource = null
       let additionalEndpoint = ''
-      if (!length in id) {
-        // todo, batched updates
-        console.error('not implemented!')
-        return
-      } else {
+      
+      // different lengths have different levels of sync
+      // so far, 3 is just used for lists, 4 is just used for tasks
+      if (id.length === 3) {
         additionalEndpoint = '/' + id[1] // the server id
         resource = this.model.find(id[0]) // data we are updating
         body = resource.toObject()
         body.updatedAt = id[2] // server decides which data to use
+      } else if (id.length === 4) {
+        additionalEndpoint = '/' + id[1] + '/' + this.identifier // lists server id + /tasks for now
+        
+        const toSync = {}
+        id[2].forEach((item) => {
+          toSync[item[1]] = this.model.find(item[0])
+          toSync[item[1]].updatedAt = item[2]
+        })
+        body = {
+          tasks: toSync,
+          updatedAt: id[3]
+        }
+      } else {
+        return
       }
       fetch(`${config.endpoint}/${this.endpoint}${additionalEndpoint}`, {
         method: 'PATCH',
@@ -135,13 +148,18 @@ export default class Sync extends Events {
         body: JSON.stringify(body)
       }).then(checkStatus).then((response) => {
         response.json().then((data) => {
-          // copies data back in
-          // only selected params
-          resource.serverId = data.id
-          resource.lastSync = data.updatedAt
-          this.serverParams.forEach((param) => {
-            resource[param] = data[param]
-          })
+
+          if (id.length === 3) {
+            // copies data back in
+            // only selected params
+            resource.serverId = data.id
+            resource.lastSync = data.updatedAt
+            this.serverParams.forEach((param) => {
+              resource[param] = data[param]
+            })
+          } else if (id.length === 4) {
+            this.model.patchListFromServer(data.tasks, id[0])
+          }
 
           // removes from queue & saves
           this.queue.patch.splice(0, 1)
@@ -225,16 +243,53 @@ export default class Sync extends Events {
   }
   patch(id) {
     this.logger(this.identifier, 'PATCH Requested')
-    const serverId = this.model.find(id).serverId
-    if (!serverId) {
-      this.logger(this.identifier, 'Skipping PATCH Request - Still in POST queue.')
-    } else if (this.queue.patch.find(findQueueIndex(serverId))) {
-      this.logger(this.identifier, 'Skipping PATCH Request - Updating Time')
-      this.queue.patch.find(findQueueIndex(serverId))[2] = new Date().toISOString()
-    } else {
-      // includes the last updated time
-      this.queue.patch.push([id, serverId, new Date().toISOString()])
+    // this is for tasks, so we look at the parent model
+    if (typeof(id) === 'object') {
+      const listServerId = this.parentModel.find(id[0]).serverId
+      const taskServerId = this.model.find(id[1]).serverId
+
+      // I realize this is duplicated logic, but it's a bit easier to work with in my head.
+      if (!listServerId) {
+        return this.logger(this.identifier, 'Skipping PATCH - Parent still in POST queue')
+      }
+      if (!taskServerId) {
+        return this.logger(this.identifier, 'Skipping PATCH - Still in POST Queue')
+      }
+
+      const index = this.queue.patch.findIndex(function(element) {
+        return element[0] === id[0]
+      })
+      // rev the queue details
+      if (index > -1) {
+        // if it's already in there, just rev the time
+        const taskIndex = this.queue.patch[index][2].findIndex(function(element) {
+          return element[0] === id[1]
+        })
+        if (taskIndex > -1) {
+          this.logger(this.identifier, 'Skipping PATCH Queue - Updating Time')
+          this.queue.patch[index][2][taskIndex][2] = new Date().toISOString()
+        } else {
+          this.logger(this.identifier, 'Adding PATCH to previous queue.')
+          this.queue.patch[index][2].push([id[1], taskServerId, new Date().toISOString()])          
+        }
+      } else {
+        this.logger(this.identifier, 'Adding PATCH Queue.')
+        this.queue.patch.push([id[0], listServerId, [[id[1], taskServerId, new Date().toISOString()]], new Date().toISOString()])
+      }
       this.saveQueue()
+    } else {
+      const serverId = this.model.find(id).serverId
+      if (!serverId) {
+        this.logger(this.identifier, 'Skipping PATCH Request - Still in POST queue.')
+      } else if (this.queue.patch.find(findQueueIndex(serverId))) {
+        this.logger(this.identifier, 'Skipping PATCH Request - Updating Time')
+        this.queue.patch.find(findQueueIndex(serverId))[2] = new Date().toISOString()
+        this.saveQueue()
+      } else {
+        // includes the last updated time
+        this.queue.patch.push([id, serverId, new Date().toISOString()])
+        this.saveQueue()
+      }
     }
     // ? what if race conditions :O
     this.requestProcess()

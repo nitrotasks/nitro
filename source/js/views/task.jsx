@@ -42,6 +42,11 @@ export default class Task extends preact.Component {
         })
       }, 275)
     }
+
+    // TODO: handle this better
+    this.setState({
+      name: nextProps.data.name
+    })
   }
   render() {
     let className = 'task-item'

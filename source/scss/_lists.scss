@@ -194,6 +194,10 @@
       border-bottom: 0;
     }
 
+    &:hover {
+      background: rgba(#000, 0.02);
+    }
+
     &:active {
       background: rgba(#000, 0.05);
     }
