@@ -7,6 +7,7 @@ export default class Task extends preact.Component {
     super(props)
     this.state = {
       name: props.data.name,
+      notes: props.data.notes,
       expanded: props.selectedTask === props.data.id
     }
   }
@@ -15,19 +16,21 @@ export default class Task extends preact.Component {
       expanded: !this.state.expanded
     })
   }
-  triggerChange = e => {
-    const value = e.currentTarget.value
-    requestAnimationFrame(() => {
-      this.setState({
-        name: value
+  // TODO: Also save things after a timeout.
+  triggerChange = prop => {
+    return e => {
+      const value = e.currentTarget.value
+      requestAnimationFrame(() => {
+        this.setState({
+          [prop]: value
+        })
       })
-    })
-
-    // Update value in the model
-    TasksCollection.update(this.props.data.id, { name: value })
+      // Update value in the model
+      TasksCollection.update(this.props.data.id, { [prop]: value })
+    }
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.selectedTask === nextProps.data.id) {
+    if (nextProps.selectedTask === nextProps.data.id && this.state.expanded === false) {
       requestAnimationFrame(() => {
         this.setState({ expanded: true })
 
@@ -35,7 +38,7 @@ export default class Task extends preact.Component {
           this.taskInput.focus()
         }, 250)
       })
-    } else if (this.state.expanded === true) {
+    } else if (nextProps.selectedTask !== nextProps.data.id && this.state.expanded === true) {
       setTimeout(() => {
         requestAnimationFrame(() => {
           this.setState({ expanded: false })
@@ -60,7 +63,7 @@ export default class Task extends preact.Component {
     if (this.state.expanded) {
       expandedItems = (
         <div class="inner">
-          <textarea placeholder="Notes" />
+          <textarea placeholder="Notes" onChange={this.triggerChange('notes')} value={this.state.notes} />
           <div class="button-bar">
             <img src="/img/icons/material/task-duedate.svg" />
             <img src="/img/icons/material/task-deadline.svg" />
@@ -76,7 +79,7 @@ export default class Task extends preact.Component {
       label = (
         <input
           value={this.state.name}
-          onChange={this.triggerChange}
+          onChange={this.triggerChange('name')}
           ref={input => {
             this.taskInput = input
           }}
