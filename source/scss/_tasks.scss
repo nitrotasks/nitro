@@ -118,6 +118,28 @@ $background-speed: 400ms;
   h1 {
     margin: $indent-width;
 
+    input {
+      font-weight: 900;
+      border: 0;
+      padding: $indent-width / 2;
+      background: transparent;
+      outline: 0;
+      transition: 150ms ease background;
+      border-radius: 3px;
+      max-width: 250px;
+
+      &:disabled {
+        color: inherit;
+      }
+
+      &:not(:disabled):hover {
+        background: rgba(#000, 0.02);
+      }
+      &:not(:disabled):focus {
+        background: rgba(#000, 0.06);
+      }
+    }
+
     img {
       margin: 0.2rem 0.5rem 0 0.2rem;
       vertical-align: top;
@@ -129,7 +151,7 @@ $background-speed: 400ms;
       transition: $speed ease font;
       font-size: 2.25rem;
       line-height: $header-height - 0.5rem;
-      margin: $indent-width $indent-width 0.5rem;
+      margin: $indent-width / 2 $indent-width / 2 0.5rem;
 
       img {
         width: 2.3rem; // this random number helps with the aliasing
@@ -147,7 +169,7 @@ $background-speed: 400ms;
   }
 }
 .tasks-creator-background {
-  padding: 0.25rem $indent-width - 0.2rem 0.75rem;
+  padding: 0.25rem $indent-width / 2 0.75rem;
 
   @media (max-width: $tablet-breakpoint - 1) {
     display: none;

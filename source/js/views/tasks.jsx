@@ -83,6 +83,7 @@ export default class Tasks extends preact.Component {
       }
       const list = ListsCollection.find(nextProps.list) || {}
       newProps.disposing = false
+      newProps.list = nextProps.list
       newProps.header = list.name || 'inbox'
       newProps.headerIcon = false
       newProps.taskNotes = null
@@ -109,14 +110,14 @@ export default class Tasks extends preact.Component {
     }
   }
   tasksUpdate = listId => {
-    if (listId === this.props.list || listId === defaultList) {
+    if (listId === this.state.list) {
       this.setState({
-        taskList: TasksCollection.findList(this.props.list || defaultList)
+        taskList: TasksCollection.findList(this.state.list)
       })
     }
   }
   listsUpdate = () => {
-    let list = ListsCollection.find(this.props.list || defaultList) || {}
+    let list = ListsCollection.find(this.state.list) || {}
     this.setState({
       header: list.name
     })
@@ -129,12 +130,6 @@ export default class Tasks extends preact.Component {
       route('/lists/inbox')
     }
   }
-  triggerChange = e => {
-    this.setState({
-      inputValue: e.currentTarget.value,
-      tasks: []
-    })
-  }
   triggerKeyUp = e => {
     let taskName = e.currentTarget.value
     if (e.keyCode === 13 && taskName !== '') {
@@ -145,7 +140,7 @@ export default class Tasks extends preact.Component {
 
       TasksCollection.add({
         name: taskName,
-        list: this.props.list || defaultList
+        list: this.state.list
       })
     }
   }
@@ -177,14 +172,38 @@ export default class Tasks extends preact.Component {
       })
     }
   }
+  triggerListKeyUp = e => {
+    if (e.keyCode === 27) { // ESC
+      e.currentTarget.value = this.state.header
+      e.currentTarget.blur()
+    } else if (e.keyCode === 13) { // ENTER
+      e.currentTarget.blur()
+    }
+  }
+  triggerListChange = e => {
+    const value = e.currentTarget.value
+    // resets the header
+    if (value === '') {
+      this.setState({
+        header: this.state.header
+      })
+    } else {
+      this.setState({
+        header: value
+      })
+      ListsCollection.update(this.state.list, {
+        name: value
+      })
+    }
+  }
   triggerTask = task => {
     return () => {
       if (!task) {
-        route('/lists/' + this.props.list)
+        route('/lists/' + this.state.list)
       } else if (typeof this.props.task !== 'undefined') {
         window.history.back()
       } else {
-        route('/lists/' + this.props.list + '/' + task.id)
+        route('/lists/' + this.state.list + '/' + task.id)
       }
     }
   }
@@ -195,11 +214,8 @@ export default class Tasks extends preact.Component {
       }
     }
   }
-  changeList = () => {
-    ListsCollection.update(this.props.list, {})
-  }
   deleteList = () => {
-    const toDelete = this.props.list
+    const toDelete = this.state.list
     this.triggerBack()
     requestAnimationFrame(() => {
       CombinedCollection.deleteList(toDelete)
@@ -208,7 +224,7 @@ export default class Tasks extends preact.Component {
   render() {
     let creatorClass = 'tasks-creator'
     // todo: FIX THIS ON BACK
-    if (this.props.list === 'all') {
+    if (this.state.list === 'all') {
       creatorClass += ' hidden'
     }
     let headerClass = 'material-header'
@@ -272,7 +288,12 @@ export default class Tasks extends preact.Component {
               <div class="tasks-fancy-header">
                 <h1>
                   {listIcon}
-                  <span>{this.state.header}</span>
+                  <input 
+                    value={this.state.header}
+                    onChange={this.triggerListChange}
+                    onKeyUp={this.triggerListKeyUp}
+                    // disabled={true}
+                  />
                 </h1>
               </div>
               <div class="tasks-creator-background">
@@ -281,7 +302,6 @@ export default class Tasks extends preact.Component {
                   placeholder="Add a task..."
                   class={creatorClass}
                   value={this.state.inputValue}
-                  onChange={this.triggerChange}
                   onKeyUp={this.triggerKeyUp}
                 />
               </div>
@@ -299,7 +319,6 @@ export default class Tasks extends preact.Component {
                 )
               })}
             </ul>
-            <button onClick={this.changeList}>Change List Name</button>
             <button onClick={this.deleteList}>Delete List</button>
           </div>
         </div>
