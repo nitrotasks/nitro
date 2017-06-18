@@ -106,10 +106,34 @@ $background-speed: 400ms;
         transform: translate3d(-0.5rem, 0.5rem, 0);
       }
 
-      img {
+      .icon {
         transform: scale(0.6666) translate3d(0, 0.35rem, 0);
       }
     }
+  }
+}
+
+.list-context {
+  background: transparent;
+  opacity: 0.5;
+  border: 0;
+  outline: 0;
+  vertical-align: top;
+  padding: 0;
+
+  img {
+    height: 1.8rem;
+    margin: 0.9rem 0 0 -0.3rem;
+  }
+
+  &:hover {
+    opacity: 0.7;
+  }
+  &:active {
+    opacity: 0.9;
+  }
+  &:focus {
+    opacity: 0.8;
   }
 }
 
@@ -123,12 +147,13 @@ $background-speed: 400ms;
     input {
       font-weight: 900;
       border: 0;
-      padding: $indent-width / 2;
+      padding: $indent-width / 2 $indent-width / 3 $indent-width / 2 $indent-width / 2;
       background: transparent;
       outline: 0;
       transition: 150ms ease background;
       border-radius: 3px;
-      max-width: calc(100% - #{$indent-width});
+      min-width: 25px;
+      max-width: calc(100% - #{$indent-width + 1.5rem});
       transition: $speed ease transform;
 
       &:disabled {
@@ -152,7 +177,7 @@ $background-speed: 400ms;
       pointer-events: none;
     }
 
-    img {
+    .icon {
       margin: 0.2rem 0.5rem 0 0.2rem;
       vertical-align: top;
       width: 2rem;
@@ -165,7 +190,7 @@ $background-speed: 400ms;
       line-height: $header-height - 0.5rem;
       margin: $indent-width / 2 $indent-width / 2 0.5rem;
 
-      img {
+      .icon {
         width: 2.3rem; // this random number helps with the aliasing
         height: auto;
         margin: 0.6rem 0.2rem 0 0;

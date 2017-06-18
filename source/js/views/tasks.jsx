@@ -5,6 +5,8 @@ import { ListsCollection } from '../models/listsCollection.js'
 import { TasksCollection } from '../models/tasksCollection.js'
 import { CombinedCollection } from '../models/combinedCollection.js'
 
+import ContextMenuStore from '../stores/contextmenu.js'
+
 import Task from './task.jsx'
 
 const defaultList = 'inbox'
@@ -133,7 +135,7 @@ export default class Tasks extends preact.Component {
   triggerBack = () => {
     // todo, hook it to the history
     if (window.innerWidth < 700) {
-      route('/')  
+      route('/')
     } else {
       route('/lists/inbox')
     }
@@ -181,10 +183,12 @@ export default class Tasks extends preact.Component {
     }
   }
   triggerListKeyUp = e => {
-    if (e.keyCode === 27) { // ESC
+    if (e.keyCode === 27) {
+      // ESC
       e.currentTarget.value = this.state.header
       e.currentTarget.blur()
-    } else if (e.keyCode === 13) { // ENTER
+    } else if (e.keyCode === 13) {
+      // ENTER
       e.currentTarget.blur()
     }
   }
@@ -201,7 +205,8 @@ export default class Tasks extends preact.Component {
     })
   }
   triggerListChange = e => {
-    const value = e.currentTarget.value
+    const value = e.currentTarget.value.trim()
+    this.fakeInput.textContent = value
     // resets the header
     if (value === '') {
       this.setState({
@@ -229,12 +234,28 @@ export default class Tasks extends preact.Component {
       }
     }
   }
+  triggerMenu = e => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    ContextMenuStore.create(
+      rect.top,
+      rect.left,
+      'top',
+      'left',
+      [
+        {title: 'Rename List', action: this.renameList},
+        {title: 'Delete List', action: this.deleteList},
+      ]
+    )
+  }
   closeTasks = e => {
     if (e.target === e.currentTarget || e.target.className === 'tasks-list') {
       if (window.location.pathname.split('/').length === 4) {
         window.history.back()
       }
     }
+  }
+  renameList = () => {
+    this.realInput.select()
   }
   deleteList = () => {
     const toDelete = this.state.list
@@ -289,7 +310,7 @@ export default class Tasks extends preact.Component {
     let listIcon = null
     if (this.state.headerIcon) {
       listIcon = (
-        <img src={'/img/icons/feather/' + this.state.headerIcon + '.svg'} />
+        <img class="icon" src={'/img/icons/feather/' + this.state.headerIcon + '.svg'} />
       )
     }
     return (
@@ -310,15 +331,26 @@ export default class Tasks extends preact.Component {
               <div class="tasks-fancy-header">
                 <h1>
                   {listIcon}
-                  <input 
+                  <input
                     value={this.state.header}
                     onChange={this.triggerListChange}
                     onKeyUp={this.triggerListKeyUp}
                     onInput={this.triggerListKeyPress}
-                    ref={e => {this.realInput = e}}
-                    style={{width: this.state.innerWidth}}
+                    ref={e => {
+                      this.realInput = e
+                    }}
+                    style={{ width: this.state.innerWidth }}
                   />
-                  <span ref={e => {this.fakeInput = e}}>{this.state.header}</span>
+                  <button class="list-context" onClick={this.triggerMenu}>
+                    <img src="/img/icons/material/more.svg" />
+                  </button>
+                  <span
+                    ref={e => {
+                      this.fakeInput = e
+                    }}
+                  >
+                    {this.state.header}
+                  </span>
                 </h1>
               </div>
               <div class="tasks-creator-background">
@@ -344,7 +376,6 @@ export default class Tasks extends preact.Component {
                 )
               })}
             </ul>
-            <button onClick={this.deleteList}>Delete List</button>
           </div>
         </div>
       </div>

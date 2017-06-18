@@ -5,6 +5,7 @@ import authenticationStore from './stores/auth.js'
 
 import Lists from './views/lists.jsx'
 import Tasks from './views/tasks.jsx'
+import ContextMenu from './views/contextmenu.jsx'
 import NotFound from './views/notfound.jsx'
 
 const App = () => (
@@ -16,6 +17,7 @@ const App = () => (
       <Tasks path="/lists/:list/:task" />
       <NotFound default />
     </Router>
+    <ContextMenu />
   </div>
 )
 
