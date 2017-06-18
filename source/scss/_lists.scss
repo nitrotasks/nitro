@@ -178,15 +178,18 @@
       flex: 1;
       color: #444;
       font-size: 1.1rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .count {
       font-size: 1rem;
       color: #777;
-      padding-right: 0.3rem;
+      padding: 0 0.3rem;
 
       @media (min-width: $mobile-breakpoint + 1) {
-        padding-right: 0.5rem;
+        padding: 0 0.5rem;
       }
     }
 

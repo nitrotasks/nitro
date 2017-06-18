@@ -9,6 +9,7 @@ import Task from './task.jsx'
 
 const defaultList = 'inbox'
 const defaultHeader = 'Inbox'
+const widthOffset = 3
 
 let supportsPassive = false
 try {
@@ -25,6 +26,7 @@ export default class Tasks extends preact.Component {
   constructor(props) {
     super(props)
     this.state = this.installProps(props, true)
+    this.state.innerWidth = '100%'
     this.theme = document.getElementById('theme')
   }
   componentWillMount() {
@@ -47,6 +49,8 @@ export default class Tasks extends preact.Component {
       OPTS
     )
     window.addEventListener('resize', this.windowResize)
+
+    this.sizeInput()
   }
   componentWillUnmount() {
     TasksCollection.unbind('update', this.tasksUpdate)
@@ -61,6 +65,10 @@ export default class Tasks extends preact.Component {
   }
   componentWillReceiveProps(nextProps) {
     this.setState(this.installProps(nextProps))
+
+    setTimeout(() => {
+      this.sizeInput()
+    }, 5)
   }
   installProps(nextProps, firstRun = false) {
     let newProps = {
@@ -180,16 +188,30 @@ export default class Tasks extends preact.Component {
       e.currentTarget.blur()
     }
   }
+  triggerListKeyPress = e => {
+    const value = e.currentTarget.value
+    this.fakeInput.textContent = value + String.fromCharCode(e.which)
+    const newWidth = this.fakeInput.offsetWidth
+    this.realInput.style.width = newWidth + widthOffset + 'px'
+  }
+  sizeInput = () => {
+    const newWidth = this.fakeInput.offsetWidth + widthOffset
+    this.setState({
+      innerWidth: newWidth + 'px'
+    })
+  }
   triggerListChange = e => {
     const value = e.currentTarget.value
     // resets the header
     if (value === '') {
       this.setState({
-        header: this.state.header
+        header: this.state.header,
+        innerWidth: this.fakeInput.offsetWidth + widthOffset + 'px'
       })
     } else {
       this.setState({
-        header: value
+        header: value,
+        innerWidth: this.fakeInput.offsetWidth + widthOffset + 'px'
       })
       ListsCollection.update(this.state.list, {
         name: value
@@ -292,8 +314,11 @@ export default class Tasks extends preact.Component {
                     value={this.state.header}
                     onChange={this.triggerListChange}
                     onKeyUp={this.triggerListKeyUp}
-                    // disabled={true}
+                    onInput={this.triggerListKeyPress}
+                    ref={e => {this.realInput = e}}
+                    style={{width: this.state.innerWidth}}
                   />
+                  <span ref={e => {this.fakeInput = e}}>{this.state.header}</span>
                 </h1>
               </div>
               <div class="tasks-creator-background">

@@ -102,12 +102,12 @@ $background-speed: 400ms;
     h1 {
       font-size: 1.5rem;
 
-      span {
+      input {
         transform: translate3d(-0.5rem, 0.5rem, 0);
       }
 
       img {
-        transform: scale(0.6666) translate3d(0, 0.75rem, 0);
+        transform: scale(0.6666) translate3d(0, 0.35rem, 0);
       }
     }
   }
@@ -117,6 +117,8 @@ $background-speed: 400ms;
   $speed: 200ms;
   h1 {
     margin: $indent-width;
+    position: relative;
+    overflow: hidden;
 
     input {
       font-weight: 900;
@@ -126,7 +128,8 @@ $background-speed: 400ms;
       outline: 0;
       transition: 150ms ease background;
       border-radius: 3px;
-      max-width: 250px;
+      max-width: calc(100% - #{$indent-width});
+      transition: $speed ease transform;
 
       &:disabled {
         color: inherit;
@@ -138,6 +141,15 @@ $background-speed: 400ms;
       &:not(:disabled):focus {
         background: rgba(#000, 0.06);
       }
+    }
+
+    span {
+      white-space: pre;
+      position: absolute;
+      visibility: hidden;
+      top: 0;
+      left: 0;
+      pointer-events: none;
     }
 
     img {
@@ -156,13 +168,7 @@ $background-speed: 400ms;
       img {
         width: 2.3rem; // this random number helps with the aliasing
         height: auto;
-        margin: 0.3rem 0.6rem 0 0;
-        transition: $speed ease transform;
-      }
-
-      span {
-        display: inline-block;
-        vertical-align: top;
+        margin: 0.6rem 0.2rem 0 0;
         transition: $speed ease transform;
       }
     }
