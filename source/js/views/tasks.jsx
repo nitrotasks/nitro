@@ -71,7 +71,13 @@ export default class Tasks extends preact.Component {
 
     setTimeout(() => {
       this.sizeInput()
+      
+      // called on new list on desktop
+      if (window.location.hash === '#rename') {
+        this.realInput.select()
+      }
     }, 5)
+
   }
   installProps(nextProps, firstRun = false) {
     let newProps = {

@@ -3,6 +3,8 @@ import { route } from 'preact-router'
 import { ListsCollection } from '../models/listsCollection.js'
 import { TasksCollection } from '../models/tasksCollection.js'
 
+import DialogBoxStore from '../stores/dialogbox.js'
+
 export default class Lists extends preact.Component {
   constructor(props) {
     super(props)
@@ -30,9 +32,27 @@ export default class Lists extends preact.Component {
     }
   }
   createList() {
-    ListsCollection.add({
-      name: Math.random().toString()
-    })
+    if (document.documentElement.clientWidth >= 700) {
+      const newList = ListsCollection.add({
+        name: 'Untitled List'
+      })
+      route('/lists/' + newList.id + '#rename')
+    } else {
+      // mobile shows a dialog instead of creating a blank list
+      DialogBoxStore.create({
+        header: 'Create List',
+        content: 'List Name',
+        confirm: 'Create List',
+        cancel: 'Cancel',
+        type: 'input',
+        callback: name => {
+          const newList = ListsCollection.add({
+            name: name
+          })
+          route('/lists/' + newList.id)
+        }
+      })
+    }
   }
   render() {
     let focus = []
