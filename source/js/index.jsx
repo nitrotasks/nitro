@@ -6,6 +6,7 @@ import authenticationStore from './stores/auth.js'
 import Lists from './views/lists.jsx'
 import Tasks from './views/tasks.jsx'
 import ContextMenu from './views/contextmenu.jsx'
+import DialogBox from './views/dialogbox.jsx'
 import NotFound from './views/notfound.jsx'
 
 const App = () => (
@@ -18,6 +19,7 @@ const App = () => (
       <NotFound default />
     </Router>
     <ContextMenu />
+    <DialogBox />
   </div>
 )
 

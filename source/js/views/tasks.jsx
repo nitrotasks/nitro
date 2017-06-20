@@ -6,6 +6,7 @@ import { TasksCollection } from '../models/tasksCollection.js'
 import { CombinedCollection } from '../models/combinedCollection.js'
 
 import ContextMenuStore from '../stores/contextmenu.js'
+import DialogBoxStore from '../stores/dialogbox.js'
 
 import Task from './task.jsx'
 
@@ -82,7 +83,9 @@ export default class Tasks extends preact.Component {
     if (firstRun) {
       newProps.hideHeader = true
       newProps.stickyScale = false
+    }
 
+    if (document.documentElement.clientWidth >= 700) {
       if (!nextProps.list) {
         nextProps.list = defaultList
       }
@@ -146,7 +149,7 @@ export default class Tasks extends preact.Component {
       this.setState({
         inputValue: ''
       })
-      e.currentTarget.blur()
+      // e.currentTarget.blur()
 
       TasksCollection.add({
         name: taskName,
@@ -259,9 +262,22 @@ export default class Tasks extends preact.Component {
   }
   deleteList = () => {
     const toDelete = this.state.list
-    this.triggerBack()
-    requestAnimationFrame(() => {
-      CombinedCollection.deleteList(toDelete)
+    const name = this.state.header
+
+    const cb = () => {
+      route('/', true)
+      requestAnimationFrame(() => {
+        CombinedCollection.deleteList(toDelete)
+      })
+    }
+
+    DialogBoxStore.create({
+      header: 'Delete List',
+      content: <span>Your list <strong>{name}</strong> and associated tasks will be deleted forever.</span>,
+      confirm: 'Delete List',
+      cancel: 'Keep List',
+      context: 'danger',
+      callback: cb
     })
   }
   render() {
