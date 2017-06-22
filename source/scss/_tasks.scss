@@ -15,6 +15,7 @@
   }
 }
 
+$tablet-max-width: 96%;
 $desktop-max-width: 92%;
 $background-speed: 400ms;
 
@@ -78,10 +79,11 @@ $background-speed: 400ms;
   @media (min-width: $tablet-breakpoint) {
     position: static;
     overflow-y: visible;
+    width: $tablet-max-width;
+    margin: 0 auto;
   }
   @media (min-width: $desktop-breakpoint) {
     width: $desktop-max-width;
-    margin: 0 auto;
   }
 }
 
@@ -236,8 +238,5 @@ $background-speed: 400ms;
   margin: 0;
   padding: 0 0 $indent-width;
   list-style-type: none;
-
-  li {
-    margin: 0;
-  }
+  position: relative;
 }

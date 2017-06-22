@@ -8,7 +8,7 @@ import { CombinedCollection } from '../models/combinedCollection.js'
 import ContextMenuStore from '../stores/contextmenu.js'
 import DialogBoxStore from '../stores/dialogbox.js'
 
-import Task from './task.jsx'
+import Sortable from './sortable.jsx'
 
 const defaultList = 'inbox'
 const defaultHeader = 'Inbox'
@@ -71,7 +71,7 @@ export default class Tasks extends preact.Component {
 
     setTimeout(() => {
       this.sizeInput()
-      
+
       // called on new list on desktop
       if (window.location.hash === '#rename') {
         this.realInput.select()
@@ -386,18 +386,11 @@ export default class Tasks extends preact.Component {
               </div>
             </div>
             {taskNotes}
-            <ul className="tasks-list">
-              {this.state.taskList.map(task => {
-                return (
-                  <Task
-                    key={task.id}
-                    data={task}
-                    selectedTask={this.props.task}
-                    onClick={this.triggerTask(task)}
-                  />
-                )
-              })}
-            </ul>
+            <Sortable 
+              task={this.props.task}
+              taskList={this.state.taskList}
+              triggerTask={this.triggerTask}
+            />
           </div>
         </div>
       </div>

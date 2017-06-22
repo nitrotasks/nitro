@@ -1,6 +1,11 @@
 .selected-task .task-item:not(.expanded):hover, .selected-task .task-item:not(.expanded):active {
   background: none;
 }
+
+.tasks-transition .task-item {
+  transition: 200ms ease transform;
+}
+
 .task-item {
   $speed: 250ms;
   font-size: 1rem;
@@ -12,8 +17,10 @@
   transition: $speed ease height, $speed ease margin, $speed ease box-shadow;
   overflow: hidden;
 
-  &:hover {
-    background: rgba(#000, 0.01);
+  @media (pointer: fine) {
+    &:hover {
+      background: rgba(#000, 0.01);
+    }
   }
   &:active {
     background: rgba($brand-color, 0.04);

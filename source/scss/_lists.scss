@@ -220,6 +220,7 @@
 
     @media (min-width: $tablet-breakpoint) and (max-width: $desktop-breakpoint - 1) {
       line-height: $list-height - 0.2rem;
+      padding: 0 $indent-width - 0.3rem;
 
       .label {
         font-size: 1rem;

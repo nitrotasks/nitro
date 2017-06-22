@@ -87,7 +87,13 @@ export default class Task extends preact.Component {
       )
     }
     return (
-      <li class={className}>
+      <li 
+        class={className} 
+        onTouchStart={this.props.onTouchStart}
+        onTouchMove={this.props.onTouchMove}
+        onTouchEnd={this.props.onTouchEnd}
+        onTouchCancel={this.props.onTouchCancel}
+      >
         <div class="outer">
           <div class="check">
             <div class="box" />
