@@ -5,7 +5,16 @@ import Task from './task.jsx'
 export default class Sortable extends preact.Component {
   constructor(props) {
     super(props)
+
+    this.taskMap = new Map()
+    const taskOrder = [] // load in future
+    this.props.taskList.forEach(task => {
+      this.taskMap.set(task.id, task)
+      taskOrder.push(task.id)
+    })
+
     this.state = {
+      order: taskOrder,
       listTransforms: false
     }
   }
@@ -26,6 +35,7 @@ export default class Sortable extends preact.Component {
     this.setState({
       listTransforms: true
     })
+
   }
   triggerTouchMove = e => {
     e.preventDefault()
@@ -65,7 +75,7 @@ export default class Sortable extends preact.Component {
       bounds[0] = 0
       bounds[1] = index
 
-      if (this.currentIndex !== this.sizes.length) {
+      if (this.currentIndex !== this.sizes.length - 1) {
         // these are workarounds for skipping weirdness??
         rafDispatch.set(this.currentIndex + 1, ['transform', ''])
       }
@@ -84,7 +94,6 @@ export default class Sortable extends preact.Component {
     // movement of the mouseover
     rafDispatch.set(this.currentIndex, ['transform', `translate3d(0, ${offset}px, 0)`])
 
-
     // Runs all the transitions batched
     requestAnimationFrame(() => {
       rafDispatch.forEach(function(item, key) {
@@ -94,33 +103,51 @@ export default class Sortable extends preact.Component {
   }
   triggerTouchEnd = e => {
     const style = e.currentTarget.style
-    if (this.newPos) {
+    if (this.newPos !== this.currentIndex) {
       const offset = this.sizes[this.newPos][0]
       requestAnimationFrame(() => {
-        style.transition = '200ms ease transform'
+        style.transition = '150ms ease transform'
         style.transform = `translate3d(0, ${offset}px, 0)`
       })
+
+      const newOrder = this.state.order.slice()
+      const idToMove = newOrder.splice(this.currentIndex, 1)[0]
+      newOrder.splice(this.newPos, 0, idToMove)
+
+
+      const children = Array.from(e.currentTarget.parentElement.children)
+      setTimeout(() => {
+        children.forEach((item) => {
+          item.style.transform = ''
+        })
+
+        this.setState({
+          listTransforms: false,
+          order: newOrder,
+        })
+
+      }, 200)
     } else {
       requestAnimationFrame(() => {
-        style.transition = '200ms ease transform'
+        style.transition = '150ms ease transform'
         style.transform = ''
+      })
+
+      this.setState({
+        listTransforms: false
       })
     }
 
     setTimeout(() => {
       style.transition = ''
-    }, 225)
-
-
-    this.setState({
-      listTransforms: false
-    })
+    }, 175)
   }
   render() {
     const className = 'tasks-list' + (this.state.listTransforms ? ' tasks-transition' : '')
     return (
       <ul className={className}>
-        {this.props.taskList.map(task => {
+        {this.state.order.map(item => {
+          const task = this.taskMap.get(item)
           return (
             <Task
               key={task.id}
