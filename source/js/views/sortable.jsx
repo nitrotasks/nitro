@@ -22,24 +22,31 @@ export default class Sortable extends preact.Component {
     // TODO: Distinguish between click & drag drop
     this.currentElement = e.currentTarget.offsetTop
     this.currentIndex = Array.from(e.currentTarget.parentElement.children).indexOf(e.currentTarget)
-    e.currentTarget.style.transition = 'none'
-
-    this.sizes = Array.from(e.currentTarget.parentElement.children).map((item) => {
-      // cumualitive position, height of elem, has transformed?
-      return [item.offsetTop - this.currentElement, item.offsetHeight, false]
-    })
-    this.stepSize = e.currentTarget.offsetHeight
-    this.originalTouch = e.touches[0]
+    this.newPos = this.currentIndex
     this.hasBeenMoved = false
 
-    this.setState({
-      listTransforms: true
-    })
-
+    if (!this.props.task) {
+      this.sizes = Array.from(e.currentTarget.parentElement.children).map((item) => {
+        // cumualitive position, height of elem, has transformed?
+        return [item.offsetTop - this.currentElement, item.offsetHeight, false]
+      })
+      this.stepSize = e.currentTarget.offsetHeight
+      this.originalTouch = e.touches[0]
+    }
   }
   triggerTouchMove = e => {
+    if (this.props.task) {
+      return
+    }
+
     e.preventDefault()
-    this.hasBeenMoved = true
+    if (this.hasBeenMoved === false) {
+      e.currentTarget.style.transition = 'none'
+      this.hasBeenMoved = true
+      this.setState({
+        listTransforms: true
+      })
+    }
     const offset = e.changedTouches[0].clientY - this.originalTouch.clientY
     // console.log(offset)
     const children = e.currentTarget.parentElement.children
@@ -103,7 +110,17 @@ export default class Sortable extends preact.Component {
   }
   triggerTouchEnd = e => {
     const style = e.currentTarget.style
-    if (this.newPos !== this.currentIndex) {
+    if (this.hasBeenMoved === false) {
+      const currentId = this.state.order[this.currentIndex]
+      if (this.props.task && this.props.task === currentId) {
+        return
+      } else if (this.props.task) {
+        // allows the onChange event to fire.
+        requestAnimationFrame(() => window.history.back())
+      } else {
+        this.props.triggerTask({id: currentId})()
+      }
+    } else if (this.newPos !== this.currentIndex) {
       const offset = this.sizes[this.newPos][0]
       requestAnimationFrame(() => {
         style.transition = '150ms ease transform'
@@ -153,7 +170,6 @@ export default class Sortable extends preact.Component {
               key={task.id}
               data={task}
               selectedTask={this.props.task}
-              onClick={this.props.triggerTask(task)}
               onTouchStart={this.triggerTouchStart}
               onTouchMove={this.triggerTouchMove}
               onTouchEnd={this.triggerTouchEnd}

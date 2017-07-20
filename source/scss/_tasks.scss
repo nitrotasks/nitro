@@ -94,6 +94,7 @@ $background-speed: 400ms;
     background: #fff;
     margin-top: $header-height;
     transition: $background-speed ease background-color;
+    z-index: 2;
   }
   .selected-task .tasks-sticky-container {
     background-color: lighten($neutral-back-color, 2);
@@ -122,6 +123,7 @@ $background-speed: 400ms;
   outline: 0;
   vertical-align: top;
   padding: 0;
+  overflow: hidden;
 
   img {
     height: 1.8rem;
