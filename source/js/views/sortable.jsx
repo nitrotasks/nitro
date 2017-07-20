@@ -6,16 +6,32 @@ export default class Sortable extends preact.Component {
   constructor(props) {
     super(props)
 
-    this.taskMap = new Map()
+    const newState = this.updateProps(props)
+    this.taskMap = newState.taskMap
+
+    this.state = {
+      order: newState.order,
+      listTransforms: false
+    }
+  }
+  componentWillReceiveProps(newProps) {
+    const newState = this.updateProps(newProps)
+    this.taskMap = newState.taskMap
+    this.setState({
+      order: newState.order
+    })
+  }
+  updateProps(props) {
+    const taskMap = new Map()
     const taskOrder = [] // load in future
-    this.props.taskList.forEach(task => {
-      this.taskMap.set(task.id, task)
+    props.taskList.forEach(task => {
+      taskMap.set(task.id, task)
       taskOrder.push(task.id)
     })
 
-    this.state = {
+    return {
       order: taskOrder,
-      listTransforms: false
+      taskMap: taskMap
     }
   }
   triggerTouchStart = e => {
