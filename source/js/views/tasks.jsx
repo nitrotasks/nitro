@@ -105,6 +105,7 @@ export default class Tasks extends preact.Component {
       newProps.list = nextProps.list
       newProps.header = list.name || 'inbox'
       newProps.headerIcon = false
+      newProps.order = list.order
       newProps.taskNotes = null
       if (['inbox', 'today', 'next', 'all'].indexOf(nextProps.list) > -1) {
         newProps.headerIcon = nextProps.list
@@ -138,7 +139,8 @@ export default class Tasks extends preact.Component {
   listsUpdate = () => {
     let list = ListsCollection.find(this.state.list) || {}
     this.setState({
-      header: list.name
+      header: list.name,
+      order: list.order
     })
   }
   triggerBack = () => {
@@ -157,7 +159,7 @@ export default class Tasks extends preact.Component {
       })
       // e.currentTarget.blur()
 
-      TasksCollection.add({
+      CombinedCollection.addTask({
         name: taskName,
         list: this.state.list
       })
@@ -389,6 +391,8 @@ export default class Tasks extends preact.Component {
             <Sortable 
               task={this.props.task}
               taskList={this.state.taskList}
+              list={this.props.list}
+              listOrder={this.state.order}
               triggerTask={this.triggerTask}
             />
           </div>

@@ -24,9 +24,6 @@ export class lists extends Events {
     return newList
   }
   update(id, props, sync = true) {
-    // temp hack for ui
-    if (sync) this.find(id).name = Math.round(Math.random()*100000).toString()
-
     // finds by serverId if not sync mode
     const resource = this.find(id, !sync)
     // not allowed to update the id or tasks
@@ -37,6 +34,14 @@ export class lists extends Events {
     this.saveLocal()
     if (sync) this.sync.patch(id)
     return resource
+  }
+  updateOrder(id, order) {
+    const resource = this.find(id)
+    resource.order = order
+    this.saveLocal()
+
+    // SYNC NEEDS SPECIAL FLAG.
+    // this.sync.
   }
   delete(id) {
     this.sync.delete(id)

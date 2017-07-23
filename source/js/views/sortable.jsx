@@ -1,6 +1,7 @@
 import preact from 'preact'
 
 import Task from './task.jsx'
+import { ListsCollection } from '../models/listsCollection.js'
 
 export default class Sortable extends preact.Component {
   constructor(props) {
@@ -23,14 +24,12 @@ export default class Sortable extends preact.Component {
   }
   updateProps(props) {
     const taskMap = new Map()
-    const taskOrder = [] // load in future
     props.taskList.forEach(task => {
       taskMap.set(task.id, task)
-      taskOrder.push(task.id)
     })
 
     return {
-      order: taskOrder,
+      order: props.listOrder,
       taskMap: taskMap
     }
   }
@@ -147,6 +146,7 @@ export default class Sortable extends preact.Component {
       const idToMove = newOrder.splice(this.currentIndex, 1)[0]
       newOrder.splice(this.newPos, 0, idToMove)
 
+      ListsCollection.updateOrder(this.props.list, newOrder)
 
       const children = Array.from(e.currentTarget.parentElement.children)
       setTimeout(() => {

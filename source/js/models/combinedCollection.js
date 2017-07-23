@@ -46,6 +46,12 @@ export class combined {
       this.syncGet.updateLocal(data)
     })
   }
+  addTask(task) {
+    const id = TasksCollection.add(task)
+    const order = ListsCollection.find(task.list).order
+    order.push(id)
+    ListsCollection.update(task.list, {order: order})
+  }
   deleteList(list) {
     TasksCollection.deleteAllFromList(list)
     ListsCollection.delete(list)

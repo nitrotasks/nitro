@@ -23,6 +23,7 @@ export class tasks extends Events {
     this.saveLocal()
 
     this.sync.post([props.list, id])
+    return id
   }
   update(id, props, sync = true) {
     const resource = this.find(id, !sync)
