@@ -11,6 +11,9 @@ class AuthenticationStore extends Events {
 
     this.getToken()
   }
+  isSignedIn() {
+    return this.accessToken !== null
+  }
   authHeader(json = false) {
     if (json) {
       return {

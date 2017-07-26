@@ -1,7 +1,8 @@
 import SyncQueue from '../models/syncQueue.js'
 import SyncGet from '../models/syncGet.js'
-import { ListsCollection } from '../models/listsCollection.js'
-import { TasksCollection } from '../models/tasksCollection.js'
+import { ListsCollection } from './listsCollection.js'
+import { TasksCollection } from './tasksCollection.js'
+import authenticationStore from '../stores/auth.js'
 
 // helpers
 export class combined {
@@ -33,12 +34,16 @@ export class combined {
 
     // TODO: schedule this
     this.listsQueue.bind('request-process', function() {
-      console.log('requested-lists')
-      this.processQueue()
+      if (authenticationStore.isSignedIn()) {
+        console.log('requested-lists')
+        this.processQueue()
+      }
     })
     this.tasksQueue.bind('request-process', function() {
-      console.log('requested-tasks')
-      this.processQueue()
+      if (authenticationStore.isSignedIn()) {
+        console.log('requested-tasks')
+        this.processQueue()
+      }
     })
   }
   downloadData() {

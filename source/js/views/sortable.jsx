@@ -148,17 +148,11 @@ export default class Sortable extends preact.Component {
 
       ListsCollection.updateOrder(this.props.list, newOrder)
 
-      const children = Array.from(e.currentTarget.parentElement.children)
       setTimeout(() => {
-        children.forEach((item) => {
-          item.style.transform = ''
-        })
-
         this.setState({
           listTransforms: false,
           order: newOrder,
         })
-
       }, 200)
     } else {
       requestAnimationFrame(() => {
@@ -190,6 +184,8 @@ export default class Sortable extends preact.Component {
               onTouchMove={this.triggerTouchMove}
               onTouchEnd={this.triggerTouchEnd}
               onTouchCancel={this.triggerTouchEnd}
+              // best way to clean out the style prop
+              ref={el => { if (el) el.base.style.transform = '' }}
             />
           )
         })}
