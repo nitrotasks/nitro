@@ -3,7 +3,7 @@
   "version": "3.0.0-alpha",
   "description": "Not just another todo list app",
   "scripts": {
-    "build": "webpack --progress --colors -p",
+    "build": "webpack --progress --colors -p --display-optimization-bailout",
     "watch": "webpack --progress --colors --watch",
     "build-css": "node-sass source/scss -o dist/generated",
     "watch-css": "npm run build-css && node-sass source/scss -o dist/generated --watch",
@@ -33,26 +33,26 @@
     ]
   },
   "devDependencies": {
-    "babel-core": "^6.22.1",
+    "babel-core": "^6.25.0",
     "babel-eslint": "^7.2.3",
-    "babel-loader": "^6.2.10",
+    "babel-loader": "^7.1.1",
     "babel-plugin-istanbul": "^4.1.4",
     "babel-plugin-transform-class-properties": "^6.22.0",
     "babel-plugin-transform-react-jsx": "^6.22.0",
-    "babel-preset-env": "^1.5.1",
+    "babel-preset-env": "^1.6.0",
     "babel-register": "^6.24.1",
-    "cross-env": "^5.0.0",
-    "eslint": "^4.0.0",
-    "eslint-plugin-react": "^7.0.1",
+    "cross-env": "^5.0.1",
+    "eslint": "^4.3.0",
+    "eslint-plugin-react": "^7.1.0",
     "express": "^4.15.3",
     "isomorphic-fetch": "^2.2.1",
     "mocha": "^3.4.2",
     "node-sass": "^4.5.3",
-    "nyc": "^11.0.1",
-    "webpack": "^2.2.0"
+    "nyc": "^11.1.0",
+    "webpack": "^3.4.1"
   },
   "dependencies": {
-    "preact": "^8.1.0",
-    "preact-router": "^2.5.1"
+    "preact": "^8.2.1",
+    "preact-router": "^2.5.5"
   }
 }

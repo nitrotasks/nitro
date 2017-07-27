@@ -1,16 +1,24 @@
-var path = require('path')
+var path = require('path');
+var baseDirectory = __dirname
+var buildPath = path.resolve(baseDirectory, './dist')
+var webpack = require('webpack')
+
 module.exports = {
+  context: baseDirectory,
   entry: {
-    app: path.resolve( __dirname, 'source/js/index.jsx'),
+    app: './source/js/index.jsx',
   },
   output: {
     filename: 'generated/[name].js',
-    path: path.resolve( __dirname, 'dist'),
+    path: buildPath,
   },
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
   module: {
     loaders: [
       { test: /\.(js|jsx)$/, exclude: /node_modules/, loader: "babel-loader" }
     ]
-  }
+  },
+  plugins: [
+    new webpack.optimize.ModuleConcatenationPlugin()
+  ]
 }
