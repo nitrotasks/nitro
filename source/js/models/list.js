@@ -6,6 +6,7 @@ export default class List {
     this.serverId = props.serverId || null
     this.lastSync = props.lastSync || null
     this.order = props.order || []
+    this.localOrder = props.localOrder || []
   }
   toObject() {
     return {
@@ -14,7 +15,8 @@ export default class List {
       notes: this.notes,
       serverId: this.serverId,
       lastSync: this.lastSync,
-      order: this.order
+      order: this.order,
+      localOrder: this.localOrder
     }
   }
 }

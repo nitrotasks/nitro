@@ -105,6 +105,11 @@ export class tasks extends Events {
     }
     return returned
   }
+  mapToLocal(list) {
+    return list.map(item => {
+      return this.find(item, true).id
+    })
+  }
   findListCount(list, completed = true) {
     return this.findList(list, completed).length
   }

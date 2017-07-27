@@ -2,6 +2,7 @@ import preact from 'preact'
 
 import Task from './task.jsx'
 import { ListsCollection } from '../models/listsCollection.js'
+import { CombinedCollection } from '../models/combinedCollection.js'
 
 export default class Sortable extends preact.Component {
   constructor(props) {
@@ -18,9 +19,13 @@ export default class Sortable extends preact.Component {
   componentWillReceiveProps(newProps) {
     const newState = this.updateProps(newProps)
     this.taskMap = newState.taskMap
-    this.setState({
-      order: newState.order
-    })
+
+    // prevents unecessary updates
+    if (JSON.stringify(this.state.order) !== JSON.stringify(newState.order)) {
+      this.setState({
+        order: newState.order
+      })
+    }
   }
   updateProps(props) {
     const taskMap = new Map()
@@ -146,13 +151,13 @@ export default class Sortable extends preact.Component {
       const idToMove = newOrder.splice(this.currentIndex, 1)[0]
       newOrder.splice(this.newPos, 0, idToMove)
 
-      ListsCollection.updateOrder(this.props.list, newOrder)
 
       setTimeout(() => {
         this.setState({
           listTransforms: false,
           order: newOrder,
         })
+        CombinedCollection.updateOrder(this.props.list, newOrder)
       }, 200)
     } else {
       requestAnimationFrame(() => {

@@ -36,7 +36,7 @@ export default class SyncGet extends Events {
                 patches.push(item.id)  
               }
               delete mapper[item.id]
-            } else {
+            } else {              
               gets.push(item.id)
             }
           })
@@ -68,6 +68,10 @@ export default class SyncGet extends Events {
 
           // add the task data in
           this.tasks.addListFromServer(data.tasks, newList.id)
+
+          // update the local order
+          const localOrder = this.tasks.mapToLocal(newList.order)
+          this.lists.update(newList.serverId, {localOrder: localOrder}, false)
 
           // goes to next list, or resolves
           serverIdArray.splice(0,1)
@@ -103,7 +107,11 @@ export default class SyncGet extends Events {
           const list = this.lists.update(data.id, data, false)
 
           // copy the task data in
-          taskPromises.push(this.downloadTasksForList(list, data.tasks))
+          taskPromises.push(this.downloadTasksForList(list, data.tasks).then(() => {
+            // update the local order
+            const localOrder = this.tasks.mapToLocal(list.order)
+            this.lists.update(list.serverId, {localOrder: localOrder}, false)
+          }))
 
           // goes to next list, or resolves
           serverIdArray.splice(0,1)

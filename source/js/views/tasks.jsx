@@ -105,7 +105,7 @@ export default class Tasks extends preact.Component {
       newProps.list = nextProps.list
       newProps.header = list.name || 'inbox'
       newProps.headerIcon = false
-      newProps.order = list.order
+      newProps.order = list.localOrder
       newProps.taskNotes = null
       if (['inbox', 'today', 'next', 'all'].indexOf(nextProps.list) > -1) {
         newProps.headerIcon = nextProps.list
@@ -140,7 +140,7 @@ export default class Tasks extends preact.Component {
     let list = ListsCollection.find(this.state.list) || {}
     this.setState({
       header: list.name,
-      order: list.order
+      order: list.localOrder
     })
   }
   triggerBack = () => {

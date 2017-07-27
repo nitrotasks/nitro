@@ -28,20 +28,12 @@ export class lists extends Events {
     const resource = this.find(id, !sync)
     // not allowed to update the id or tasks
     Object.keys(props).forEach(function(key) {
-      if (key !== 'id' && key !== 'tasks') resource[key] = props[key]
+      if (key !== 'id' && key !== 'tasks') resource[key] = props[key] 
     })
     this.trigger('update')
     this.saveLocal()
     if (sync) this.sync.patch(id)
     return resource
-  }
-  updateOrder(id, order) {
-    const resource = this.find(id)
-    resource.order = order
-    this.saveLocal()
-
-    // SYNC NEEDS SPECIAL FLAG.
-    // this.sync.
   }
   delete(id) {
     this.sync.delete(id)

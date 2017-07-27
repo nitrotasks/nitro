@@ -53,9 +53,21 @@ export class combined {
   }
   addTask(task) {
     const id = TasksCollection.add(task)
-    const order = ListsCollection.find(task.list).order
+    const order = ListsCollection.find(task.list).localOrder
     order.push(id)
-    ListsCollection.update(task.list, {order: order})
+    this.updateOrder(task.list, order, false)
+  }
+  updateOrder(id, order, sync = true) {
+    const resource = ListsCollection.find(id)
+
+    // updates the local order, then the server order
+    resource.localOrder = order
+    resource.order = order.map(localId => {
+      return TasksCollection.find(localId).serverId
+    }).filter(item => item !== null)
+  
+    ListsCollection.saveLocal()
+    if (sync) ListsCollection.sync.patch(id)
   }
   deleteList(list) {
     TasksCollection.deleteAllFromList(list)
