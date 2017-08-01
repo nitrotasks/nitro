@@ -86,13 +86,28 @@ export default class Task extends preact.Component {
         />
       )
     }
+    let onPointerDown, onPointerMove, onPointerUp,
+      onTouchStart, onTouchMove, onTouchEnd, onTouchCancel
+    if (this.props.eventMode === 'pointer') {
+      onPointerDown = this.props.onDown
+      onPointerMove = this.props.onMove
+      onPointerUp = this.props.onUp
+    } else if (this.props.eventMode === 'touch') {
+      onTouchStart = this.props.onDown
+      onTouchMove = this.props.onMove
+      onTouchEnd = this.props.onUp
+      onTouchCancel = this.props.onUp
+    }
     return (
       <li 
         class={className} 
-        onTouchStart={this.props.onTouchStart}
-        onTouchMove={this.props.onTouchMove}
-        onTouchEnd={this.props.onTouchEnd}
-        onTouchCancel={this.props.onTouchCancel}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+        onTouchCancel={onTouchCancel}
       >
         <div class="outer">
           <div class="check">

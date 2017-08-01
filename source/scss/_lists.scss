@@ -148,6 +148,9 @@
     display: flex;
     font-weight: 600;
     user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
 
     .icon {
       margin-right: $indent-width * (2/3);

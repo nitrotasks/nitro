@@ -10,10 +10,17 @@ export default class Sortable extends preact.Component {
 
     const newState = this.updateProps(props)
     this.taskMap = newState.taskMap
+    this.isBeingMoved = false
+
+    let eventMode = 'touch'
+    if (window.PointerEvent) {
+      eventMode = 'pointer'
+    }
 
     this.state = {
       order: newState.order,
-      listTransforms: false
+      listTransforms: false,
+      eventMode: eventMode
     }
   }
   componentWillReceiveProps(newProps) {
@@ -38,7 +45,12 @@ export default class Sortable extends preact.Component {
       taskMap: taskMap
     }
   }
-  triggerTouchStart = e => {
+  onDown = e => {
+    // tests for primary mouse button
+    if (this.state.eventMode === 'pointer' && e.which && e.which !== 1) {
+      return
+    }
+
     // TODO: Distinguish between click & drag drop
     this.currentElement = e.currentTarget.offsetTop
     this.currentIndex = Array.from(e.currentTarget.parentElement.children).indexOf(e.currentTarget)
@@ -51,13 +63,28 @@ export default class Sortable extends preact.Component {
         return [item.offsetTop - this.currentElement, item.offsetHeight, false]
       })
       this.stepSize = e.currentTarget.offsetHeight
-      this.originalTouch = e.touches[0]
+
+      if (this.state.eventMode === 'pointer') {
+        this.isBeingMoved = true
+        this.originalTouch = e
+        e.currentTarget.setPointerCapture(e.pointerId)
+      } else if (this.state.eventMode === 'touch') {
+        this.originalTouch = e.touches[0]
+      }
     }
   }
-  triggerTouchMove = e => {
+  onMove = e => {
     if (this.props.task) {
       return
     }
+
+    // makes sure the same cursor is moving things
+    if (this.state.eventMode === 'pointer' &&
+        (!this.isBeingMoved || this.originalTouch.pointerId !== e.pointerId)) {
+      return
+    }
+
+    // console.log(e.currentTarget)
 
     e.preventDefault()
     if (this.hasBeenMoved === false) {
@@ -67,7 +94,14 @@ export default class Sortable extends preact.Component {
         listTransforms: true
       })
     }
-    const offset = e.changedTouches[0].clientY - this.originalTouch.clientY
+
+    let offset
+    if (this.state.eventMode === 'pointer') {
+      offset = e.y - this.originalTouch.y
+    } else if (this.state.eventMode === 'touch') {
+      offset = e.changedTouches[0].clientY - this.originalTouch.clientY
+    }
+    // console.log(offset)
     // console.log(offset)
     const children = e.currentTarget.parentElement.children
     let index = this.sizes.findIndex((item) => {
@@ -128,7 +162,8 @@ export default class Sortable extends preact.Component {
       })
     })
   }
-  triggerTouchEnd = e => {
+  onUp = e => {
+    this.isBeingMoved = false
     const style = e.currentTarget.style
     if (this.hasBeenMoved === false) {
       const currentId = this.state.order[this.currentIndex]
@@ -165,9 +200,11 @@ export default class Sortable extends preact.Component {
         style.transform = ''
       })
 
-      this.setState({
-        listTransforms: false
-      })
+      setTimeout(() => {
+        this.setState({
+          listTransforms: false
+        })
+      }, 200)
     }
 
     setTimeout(() => {
@@ -185,10 +222,10 @@ export default class Sortable extends preact.Component {
               key={task.id}
               data={task}
               selectedTask={this.props.task}
-              onTouchStart={this.triggerTouchStart}
-              onTouchMove={this.triggerTouchMove}
-              onTouchEnd={this.triggerTouchEnd}
-              onTouchCancel={this.triggerTouchEnd}
+              eventMode={this.state.eventMode}
+              onDown={this.onDown}
+              onMove={this.onMove}
+              onUp={this.onUp}
               // best way to clean out the style prop
               ref={el => { if (el) el.base.style.transform = '' }}
             />
