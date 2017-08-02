@@ -4,6 +4,8 @@ import Task from './task.jsx'
 import { ListsCollection } from '../models/listsCollection.js'
 import { CombinedCollection } from '../models/combinedCollection.js'
 
+const pressDelay = 600
+
 export default class Sortable extends preact.Component {
   constructor(props) {
     super(props)
@@ -11,10 +13,13 @@ export default class Sortable extends preact.Component {
     const newState = this.updateProps(props)
     this.taskMap = newState.taskMap
     this.isBeingMoved = false
+    this.timeouts = []
 
-    let eventMode = 'touch'
-    if (window.PointerEvent) {
-      eventMode = 'pointer'
+    let eventMode = 'pointer'
+    // maybe do some checking for android / ios and touch scroll :|
+    // need to get the pointer events to work in harmony 
+    if ('ontouchstart' in window) {
+      eventMode = 'touch'
     }
 
     this.state = {
@@ -41,7 +46,7 @@ export default class Sortable extends preact.Component {
     })
 
     return {
-      order: props.listOrder,
+      order: props.listOrder || [],
       taskMap: taskMap
     }
   }
@@ -56,6 +61,20 @@ export default class Sortable extends preact.Component {
     this.currentIndex = Array.from(e.currentTarget.parentElement.children).indexOf(e.currentTarget)
     this.newPos = this.currentIndex
     this.hasBeenMoved = false
+    this.pressedAt = Date.now()
+
+    const node = e.currentTarget
+    this.currentOffset = 0
+    this.canMove = false
+
+    this.timeouts.push(setTimeout(() => {
+      if (Math.abs(this.currentOffset) < 20) {
+        requestAnimationFrame(() => {
+          node.classList.add('active')
+        })
+        this.canMove = true
+      }
+    }, pressDelay))
 
     if (!this.props.task) {
       this.sizes = Array.from(e.currentTarget.parentElement.children).map((item) => {
@@ -84,7 +103,22 @@ export default class Sortable extends preact.Component {
       return
     }
 
-    // console.log(e.currentTarget)
+    // calculates how much it's moved
+    let offset
+    if (this.state.eventMode === 'pointer') {
+      offset = e.y - this.originalTouch.y
+    } else if (this.state.eventMode === 'touch') {
+      offset = e.changedTouches[0].clientY - this.originalTouch.clientY
+    }
+    this.currentOffset = offset
+
+    // prevents if they're just trying to click it
+    if (!this.canMove) {
+      if (Date.now() - this.pressedAt > pressDelay) {
+        e.currentTarget.classList.remove('active')
+      }
+      return
+    }
 
     e.preventDefault()
     if (this.hasBeenMoved === false) {
@@ -95,14 +129,6 @@ export default class Sortable extends preact.Component {
       })
     }
 
-    let offset
-    if (this.state.eventMode === 'pointer') {
-      offset = e.y - this.originalTouch.y
-    } else if (this.state.eventMode === 'touch') {
-      offset = e.changedTouches[0].clientY - this.originalTouch.clientY
-    }
-    // console.log(offset)
-    // console.log(offset)
     const children = e.currentTarget.parentElement.children
     let index = this.sizes.findIndex((item) => {
       return offset < item[0] + (item[1] / 2) && offset > item[0] - item[1]
@@ -164,7 +190,26 @@ export default class Sortable extends preact.Component {
   }
   onUp = e => {
     this.isBeingMoved = false
+    const node = e.currentTarget
     const style = e.currentTarget.style
+
+    // offset calculations
+    const oldOffset = this.currentOffset
+    this.timeouts.forEach(i => clearTimeout(i))
+    this.timeouts = []
+    requestAnimationFrame(() => {
+      node.classList.remove('active')
+    })
+    // finds the actual offset
+    let offset
+    if (typeof this.originalTouch === 'undefined') {
+      offset = 0
+    } else if (this.state.eventMode === 'pointer') {
+      offset = e.y - this.originalTouch.y
+    } else if (this.state.eventMode === 'touch') {
+      offset = e.changedTouches[0].clientY - this.originalTouch.clientY
+    }
+
     if (this.hasBeenMoved === false) {
       const currentId = this.state.order[this.currentIndex]
       if (this.props.task && this.props.task === currentId) {
@@ -172,6 +217,8 @@ export default class Sortable extends preact.Component {
       } else if (this.props.task) {
         // allows the onChange event to fire.
         requestAnimationFrame(() => window.history.back())
+      } else if (Math.abs(offset) > 20 || Math.abs(oldOffset) > 20) {
+        return
       } else {
         this.props.triggerTask({id: currentId})()
       }

@@ -17,7 +17,7 @@
   -webkit-user-select: none;
   -ms-user-select: none;
   -moz-user-select: none;
-  touch-action: none;
+  
   transition: $speed ease height, $speed ease margin, $speed ease box-shadow;
   overflow: hidden;
 
@@ -28,6 +28,9 @@
   }
   &:active {
     background: rgba($brand-color, 0.04);
+  }
+  &.active {
+    background: rgba($brand-color, 0.1);
   }
 
   .outer {

@@ -35,7 +35,7 @@ export default class Task extends preact.Component {
         this.setState({ expanded: true })
 
         requestAnimationFrame(() => {
-          this.taskInput.focus()
+          // this.taskInput.focus()
         }, 250)
       })
     } else if (nextProps.selectedTask !== nextProps.data.id && this.state.expanded === true) {
