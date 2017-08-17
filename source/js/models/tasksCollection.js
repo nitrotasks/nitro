@@ -8,7 +8,7 @@ export class tasks extends Events {
     // two stores, one for current tasks, one for completed
     this.collection = new Map()
     this.completedcollection = new Map()
-    this.loadLocal()
+    this.loadLocal()          
   }
   setSync(sync) {
     this.sync = sync

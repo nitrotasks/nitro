@@ -334,7 +334,7 @@ export default class Tasks extends preact.Component {
     let listIcon = null
     if (this.state.headerIcon) {
       listIcon = (
-        <img class="icon" src={'/img/icons/feather/' + this.state.headerIcon + '.svg'} />
+        <img class="icon" src={'/img/icons/feather/' + this.state.headerIcon + '.svg'} alt="" />
       )
     }
     return (
@@ -345,7 +345,7 @@ export default class Tasks extends preact.Component {
       >
         <header class={headerClass}>
           <div class="back" onClick={this.triggerBack}>
-            <img src="/img/icons/back.svg" />
+            <img src="/img/icons/back.svg" alt="Back Icon" title="Back" />
           </div>
           <h1>{this.state.header}</h1>
         </header>
@@ -363,10 +363,11 @@ export default class Tasks extends preact.Component {
                     ref={e => {
                       this.realInput = e
                     }}
+                    alt="List Name"
                     style={{ width: this.state.innerWidth }}
                   />
-                  <button class="list-context" onClick={this.triggerMenu}>
-                    <img src="/img/icons/material/more.svg" />
+                  <button class="list-context" onClick={this.triggerMenu} alt="List Options" title="List Options">
+                    <img src="/img/icons/material/more.svg" alt="" />
                   </button>
                   <span
                     ref={e => {

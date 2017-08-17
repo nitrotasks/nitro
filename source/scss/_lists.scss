@@ -188,7 +188,7 @@
 
     .count {
       font-size: 1rem;
-      color: #777;
+      color: #666;
       padding: 0 0.3rem;
 
       @media (min-width: $mobile-breakpoint + 1) {
@@ -212,12 +212,12 @@
 
     &.add {
       .label {
-        color: rgba(#000, 0.5);
+        color: rgba(#000, 0.6);
         font-size: 1rem;
       }
       .icon {
         background-image: url('/img/icons/'+ $icon-style +'/add.svg');
-        opacity: 0.4;
+        opacity: 0.6;
       }
     }
 

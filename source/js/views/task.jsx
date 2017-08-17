@@ -11,6 +11,9 @@ export default class Task extends preact.Component {
       expanded: props.selectedTask === props.data.id
     }
   }
+  onContextMenu = e => {
+    e.preventDefault()
+  }
   triggerClick = () => {
     this.setState({
       expanded: !this.state.expanded
@@ -108,6 +111,7 @@ export default class Task extends preact.Component {
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
         onTouchCancel={onTouchCancel}
+        onContextMenu={this.onContextMenu}
       >
         <div class="outer">
           <div class="check">

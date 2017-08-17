@@ -77,15 +77,15 @@ export default class Lists extends preact.Component {
       <div class="sidebar-container">
         <header class="material-header main-nav"> 
           <h1 class="brand">
-            <img src="/img/icons/logo.svg" />
+            <img src="/img/icons/logo.svg" alt="Nitro Logo" />
             Nitro
           </h1>
           <h1 class="pwa">Lists</h1>
           <div class="search">
-            <img src="/img/icons/search.svg" />
+            <img src="/img/icons/search.svg" alt="Search" />
           </div>
           <div class="menu">
-            <img src="/img/icons/menu.svg" />
+            <img src="/img/icons/menu.svg" alt="Menu" />
           </div>
         </header>
       

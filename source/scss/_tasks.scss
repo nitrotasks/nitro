@@ -31,7 +31,7 @@ $background-speed: 400ms;
   transition: $background-speed ease background-color;
 
   &.selected-task {
-    background-color: lighten($neutral-back-color, 2);
+    background-color: lighten($neutral-back-color, 0);
   }
 
   &.hide {
@@ -97,7 +97,7 @@ $background-speed: 400ms;
     z-index: 2;
   }
   .selected-task .tasks-sticky-container {
-    background-color: lighten($neutral-back-color, 2);
+    background-color: lighten($neutral-back-color, 0);
   }
 }
 .scale-header {
@@ -165,10 +165,10 @@ $background-speed: 400ms;
       }
 
       &:not(:disabled):hover {
-        background: rgba(#000, 0.02);
+        background: rgba(#000, 0.04);
       }
       &:not(:disabled):focus {
-        background: rgba(#000, 0.06);
+        background: rgba(#000, 0.08);
       }
     }
 
@@ -217,7 +217,7 @@ $background-speed: 400ms;
   box-sizing: border-box;
   width: 100%;
   border: 1px solid transparent;
-  background-color: rgba(#000, 0.05);
+  background-color: rgba(#000, 0.08);
   border-radius: 4px;
   padding: 0.5rem 0.75rem;
   outline: 0;
@@ -227,7 +227,7 @@ $background-speed: 400ms;
   
   &:focus {
     border-color: $brand-color;
-    background-color: rgba(#000, 0.03);
+    background-color: rgba(#000, 0.04);
   }
 }
 
