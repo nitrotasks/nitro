@@ -32,6 +32,7 @@ export default class Tasks extends preact.Component {
     this.state.innerWidth = '100%'
     this.theme = document.getElementById('theme')
   }
+  resizeCb = -1
   componentWillMount() {
     TasksCollection.bind('update', this.tasksUpdate)
     ListsCollection.bind('update', this.listsUpdate)
@@ -53,7 +54,8 @@ export default class Tasks extends preact.Component {
     )
     window.addEventListener('resize', this.windowResize)
 
-    this.sizeInput()
+    // delay so it has time to render
+    setTimeout(this.sizeInput, 200)
   }
   componentWillUnmount() {
     TasksCollection.unbind('update', this.tasksUpdate)
@@ -128,6 +130,8 @@ export default class Tasks extends preact.Component {
         this.tasksUpdate()
       }
     }
+    clearTimeout(this.resizeCb)
+    this.resizeCb = setTimeout(this.sizeInput, 50)
   }
   tasksUpdate = listId => {
     if (listId === this.state.list) {
@@ -337,6 +341,12 @@ export default class Tasks extends preact.Component {
         <img class="icon" src={'/img/icons/feather/' + this.state.headerIcon + '.svg'} alt="" />
       )
     }
+    let moreBtn = null
+    if (this.state.innerWidth !== '100%') {
+      moreBtn = <button class="list-context" onClick={this.triggerMenu} alt="List Options" title="List Options">
+        <img src="/img/icons/material/more.svg" alt="" />
+      </button>
+    }
     return (
       <div
         class={className}
@@ -366,9 +376,7 @@ export default class Tasks extends preact.Component {
                     alt="List Name"
                     style={{ width: this.state.innerWidth }}
                   />
-                  <button class="list-context" onClick={this.triggerMenu} alt="List Options" title="List Options">
-                    <img src="/img/icons/material/more.svg" alt="" />
-                  </button>
+                  {moreBtn}
                   <span
                     ref={e => {
                       this.fakeInput = e

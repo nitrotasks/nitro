@@ -103,14 +103,9 @@ $background-speed: 400ms;
 .scale-header {
   .tasks-fancy-header {
     h1 {
-      font-size: 1.5rem;
-
-      input {
-        transform: translate3d(-0.5rem, 0.5rem, 0);
-      }
-
-      .icon {
-        transform: scale(0.6666) translate3d(0, 0.35rem, 0);
+      transform: scale(0.7);
+      button {
+        opacity: 0;
       }
     }
   }
@@ -172,6 +167,10 @@ $background-speed: 400ms;
       }
     }
 
+    button {
+      transition: $speed/2 ease-out opacity;
+    }
+
     span {
       font-weight: 900;
       white-space: pre;
@@ -190,16 +189,16 @@ $background-speed: 400ms;
     }
 
     @media (min-width: $tablet-breakpoint) {
-      transition: $speed ease font;
+      transform-origin: left bottom; // RTL?
+      transition: $speed ease-out transform;
       font-size: 2.25rem;
       line-height: $header-height - 0.5rem;
-      margin: $indent-width / 2 $indent-width / 2 0.5rem;
+      margin: $indent-width / 2 $indent-width / 2 0.15rem;
 
       .icon {
         width: 2.3rem; // this random number helps with the aliasing
         height: auto;
         margin: 0.6rem 0.2rem 0 0;
-        transition: $speed ease transform;
       }
     }
   }
