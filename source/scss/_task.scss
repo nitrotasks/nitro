@@ -3,7 +3,7 @@
 }
 
 .tasks-transition .task-item {
-  transition: 200ms ease transform;
+  transition: 200ms ease-out transform;
 }
 
 .task-item {
@@ -18,19 +18,22 @@
   -ms-user-select: none;
   -moz-user-select: none;
   
-  transition: $speed ease height, $speed ease margin, $speed ease box-shadow;
+  transition: $speed ease-out height, $speed ease-out margin, $speed ease-out box-shadow;
   overflow: hidden;
 
   @media (pointer: fine) {
     &:hover {
       background: rgba(#000, 0.01);
+      border-radius: 3px;
     }
   }
   &:active {
     background: rgba($brand-color, 0.04);
+    border-radius: 3px;
   }
   &.active {
     background: rgba($brand-color, 0.1);
+    border-radius: 3px;
   }
 
   .outer {
@@ -90,7 +93,7 @@
   .inner {
     // padding: 0 0 0 1.75rem;
     opacity: 0;
-    transition: $speed ease opacity;
+    transition: $speed ease-out opacity;
   }
 
   textarea {

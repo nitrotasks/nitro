@@ -15,10 +15,12 @@ export default class Sortable extends preact.Component {
     this.isBeingMoved = false
     this.timeouts = []
 
-    let eventMode = 'pointer'
+    let eventMode = 'mouse'
+    if (window.matchMedia('(any-pointer:fine)').matches && window.PointerEvent) {
+      eventMode = 'pointer'
     // maybe do some checking for android / ios and touch scroll :|
     // need to get the pointer events to work in harmony 
-    if ('ontouchstart' in window) {
+    } else if ('ontouchstart' in window) {
       eventMode = 'touch'
     }
 
@@ -67,14 +69,16 @@ export default class Sortable extends preact.Component {
     this.currentOffset = 0
     this.canMove = false
 
-    this.timeouts.push(setTimeout(() => {
-      if (Math.abs(this.currentOffset) < 20) {
-        requestAnimationFrame(() => {
-          node.classList.add('active')
-        })
-        this.canMove = true
-      }
-    }, pressDelay))
+    if (this.state.eventMode === 'touch') {
+      this.timeouts.push(setTimeout(() => {
+        if (Math.abs(this.currentOffset) < 20) {
+          requestAnimationFrame(() => {
+            node.classList.add('active')
+          })
+          this.canMove = true
+        }
+      }, pressDelay))
+    }
 
     if (!this.props.task) {
       this.sizes = Array.from(e.currentTarget.parentElement.children).map((item) => {
@@ -112,6 +116,18 @@ export default class Sortable extends preact.Component {
     }
     this.currentOffset = offset
 
+    if (this.state.eventMode === 'pointer' && Math.abs(offset) > 15 && !this.canMove) {
+      const node = e.currentTarget
+      requestAnimationFrame(() => {
+        node.classList.add('active')
+        node.style.transition = '100ms ease-out transform'
+        setTimeout(() => {
+          node.style.transition = 'none'
+        }, 101)
+      })
+      this.canMove = true
+    }
+
     // prevents if they're just trying to click it
     if (!this.canMove) {
       if (Date.now() - this.pressedAt > pressDelay) {
@@ -130,65 +146,71 @@ export default class Sortable extends preact.Component {
     }
 
     const children = e.currentTarget.parentElement.children
-    let index = this.sizes.findIndex((item) => {
-      return offset < item[0] + (item[1] / 2) && offset > item[0] - item[1]
-    })
-    if (index === -1) {
-      if (Math.sign(offset) === -1) {
-        index = 0
-      } else {
-        index = this.sizes.length - 1
-      }
-    }
-    this.newPos = index
-
-    // item index, prop, value
-    const rafDispatch = new Map()
-
-    // The initial move up and down
-    // loops through array to adjust all elements according to position
-    for (let i=0; i<Math.abs(index - this.currentIndex); i++) {
-      const j = i * Math.sign(offset) * -1 + index
-      if (j < this.sizes.length) {
-        const childDir = this.stepSize * Math.sign(offset) * -1
-        rafDispatch.set(j, ['transform', `translate3d(0, ${childDir}px, 0)`])
-        this.sizes[j][2] = true
-      }
-    }
-
-    // When they move it back in the other direction, we have to reset
-    const bounds = [index + 1, this.sizes.length]
-    if (Math.sign(offset) === -1) {
-      bounds[0] = 0
-      bounds[1] = index
-
-      if (this.currentIndex !== this.sizes.length - 1) {
-        // these are workarounds for skipping weirdness??
-        rafDispatch.set(this.currentIndex + 1, ['transform', ''])
-      }
-    } else {
-      if (this.currentIndex !== 0) {
-        rafDispatch.set(this.currentIndex - 1, ['transform', ''])
-      }
-    }
-    for (let i=bounds[0]; i<bounds[1]; i++) {
-      if (this.sizes[i][2]) {
-        rafDispatch.set(i, ['transform', ''])
-        this.sizes[i][2] = false
-      }
-    }
-
-    // movement of the mouseover
-    rafDispatch.set(this.currentIndex, ['transform', `translate3d(0, ${offset}px, 0)`])
-
-    // Runs all the transitions batched
     requestAnimationFrame(() => {
+      let index = this.sizes.findIndex((item) => {
+        return offset < item[0] + (item[1] / 2) && offset > item[0] - item[1]
+      })
+      if (index === -1) {
+        if (Math.sign(offset) === -1) {
+          index = 0
+        } else {
+          index = this.sizes.length - 1
+        }
+      }
+      this.newPos = index
+
+      // item index, prop, value
+      const rafDispatch = new Map()
+
+      // The initial move up and down
+      // loops through array to adjust all elements according to position
+      for (let i=0; i<Math.abs(index - this.currentIndex); i++) {
+        const j = i * Math.sign(offset) * -1 + index
+        if (j < this.sizes.length) {
+          const childDir = this.stepSize * Math.sign(offset) * -1
+          rafDispatch.set(j, ['transform', `translate3d(0, ${childDir}px, 0)`])
+          this.sizes[j][2] = true
+        }
+      }
+
+      // When they move it back in the other direction, we have to reset
+      const bounds = [index + 1, this.sizes.length]
+      if (Math.sign(offset) === -1) {
+        bounds[0] = 0
+        bounds[1] = index
+
+        if (this.currentIndex !== this.sizes.length - 1) {
+          // these are workarounds for skipping weirdness??
+          rafDispatch.set(this.currentIndex + 1, ['transform', ''])
+        }
+      } else {
+        if (this.currentIndex !== 0) {
+          rafDispatch.set(this.currentIndex - 1, ['transform', ''])
+        }
+      }
+      for (let i=bounds[0]; i<bounds[1]; i++) {
+        if (this.sizes[i][2]) {
+          rafDispatch.set(i, ['transform', ''])
+          this.sizes[i][2] = false
+        }
+      }
+
+      // movement of the mouseover
+      rafDispatch.set(this.currentIndex, ['transform', `translate3d(0, ${offset}px, 0)`])
+
+      // Runs all the transitions batched
+      // requestAnimationFrame(() => {
       rafDispatch.forEach(function(item, key) {
         children[key].style[item[0]] = item[1]
       })
+    // })
     })
   }
   onUp = e => {
+    if (this.state.eventMode === 'pointer' && e.which && e.which !== 1) {
+      return
+    }
+
     this.isBeingMoved = false
     const node = e.currentTarget
     const style = e.currentTarget.style
@@ -225,7 +247,7 @@ export default class Sortable extends preact.Component {
     } else if (this.newPos !== this.currentIndex) {
       const offset = this.sizes[this.newPos][0]
       requestAnimationFrame(() => {
-        style.transition = '150ms ease transform'
+        style.transition = '150ms ease-out transform'
         style.transform = `translate3d(0, ${offset}px, 0)`
       })
 
@@ -243,7 +265,7 @@ export default class Sortable extends preact.Component {
       }, 200)
     } else {
       requestAnimationFrame(() => {
-        style.transition = '150ms ease transform'
+        style.transition = '150ms ease-out transform'
         style.transform = ''
       })
 
