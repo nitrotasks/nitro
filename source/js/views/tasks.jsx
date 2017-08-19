@@ -36,6 +36,7 @@ export default class Tasks extends preact.Component {
   componentWillMount() {
     TasksCollection.bind('update', this.tasksUpdate)
     ListsCollection.bind('update', this.listsUpdate)
+    ListsCollection.bind('order', this.orderUpdate)
     this.setState({
       taskList: TasksCollection.findList(this.props.list || defaultList)
     })
@@ -60,6 +61,7 @@ export default class Tasks extends preact.Component {
   componentWillUnmount() {
     TasksCollection.unbind('update', this.tasksUpdate)
     ListsCollection.unbind('update', this.listsUpdate)
+    ListsCollection.unbind('order', this.orderUpdate)
     this.passiveScroll.removeEventListener('scroll', this.triggerScroll, OPTS)
     this.passiveScrollWrapper.removeEventListener(
       'scroll',
@@ -144,6 +146,12 @@ export default class Tasks extends preact.Component {
     let list = ListsCollection.find(this.state.list) || {}
     this.setState({
       header: list.name,
+      order: list.localOrder
+    })
+  }
+  orderUpdate = () => {
+    let list = ListsCollection.find(this.state.list) || {}
+    this.setState({
       order: list.localOrder
     })
   }

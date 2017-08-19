@@ -66,6 +66,7 @@ export class combined {
       return TasksCollection.find(localId).serverId
     }).filter(item => item !== null)
   
+    ListsCollection.trigger('order')
     ListsCollection.saveLocal()
     if (sync) ListsCollection.sync.patch(id)
   }
