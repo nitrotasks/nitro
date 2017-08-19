@@ -1,12 +1,14 @@
 import preact from 'preact'
 
 import { TasksCollection } from '../models/tasksCollection.js'
+import ContextMenuStore from '../stores/contextmenu.js'
 
 export default class Task extends preact.Component {
   constructor(props) {
     super(props)
     this.state = {
       name: props.data.name,
+      type: props.data.type,
       notes: props.data.notes,
       expanded: props.selectedTask === props.data.id
     }
@@ -32,6 +34,11 @@ export default class Task extends preact.Component {
       TasksCollection.update(this.props.data.id, { [prop]: value })
     }
   }
+  triggerKeyUp = e => {
+    if (e.keyCode === 13) {
+      e.currentTarget.blur()
+    }
+  }
   componentWillReceiveProps(nextProps) {
     if (nextProps.selectedTask === nextProps.data.id && this.state.expanded === false) {
       requestAnimationFrame(() => {
@@ -54,6 +61,29 @@ export default class Task extends preact.Component {
       name: nextProps.data.name
     })
   }
+  headingConvert = () => {
+    window.history.back()
+    this.setState({
+      type: 'header'
+    })
+    TasksCollection.update(this.props.data.id, { type: 'header' })
+  }
+  deleteTask = e => {
+    alert('implement me!')
+  }
+  triggerMenu = e => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    ContextMenuStore.create(
+      rect.top,
+      rect.left,
+      'top',
+      'left',
+      [
+        {title: 'Change to Heading', action: this.headingConvert},
+        {title: 'Delete Task', action: this.deleteTask},
+      ]
+    )
+  }
   render() {
     let className = 'task-item'
     let expandedItems = null
@@ -74,7 +104,7 @@ export default class Task extends preact.Component {
               src="/img/icons/material/task-subtasks.svg"
               style={{ margin: '0 0.3rem 0 0' }}
             />
-            <img src="/img/icons/material/task-more.svg" />
+            <img src="/img/icons/material/task-more.svg" onClick={this.triggerMenu} />
           </div>
         </div>
       )
@@ -83,44 +113,66 @@ export default class Task extends preact.Component {
         <input
           value={this.state.name}
           onChange={this.triggerChange('name')}
+          onKeyUp={this.triggerKeyUp}
           ref={input => {
             this.taskInput = input
           }}
         />
       )
     }
-    let onPointerDown, onPointerMove, onPointerUp,
-      onTouchStart, onTouchMove, onTouchEnd, onTouchCancel
-    if (this.props.eventMode === 'pointer') {
-      onPointerDown = this.props.onDown
-      onPointerMove = this.props.onMove
-      onPointerUp = this.props.onUp
-    } else if (this.props.eventMode === 'touch') {
-      onTouchStart = this.props.onDown
-      onTouchMove = this.props.onMove
-      onTouchEnd = this.props.onUp
-      onTouchCancel = this.props.onUp
-    }
-    return (
-      <li 
-        class={className} 
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={onPointerUp}
-        onTouchStart={onTouchStart}
-        onTouchMove={onTouchMove}
-        onTouchEnd={onTouchEnd}
-        onTouchCancel={onTouchCancel}
-        onContextMenu={this.onContextMenu}
-      >
-        <div class="outer">
-          <div class="check">
-            <div class="box" />
+    if (this.state.type === 'header') {
+      className = 'header-item'
+      return (
+        <li 
+          class={className} 
+          onContextMenu={this.onContextMenu}
+        >
+          <div class="outer">
+            <input
+              value={this.state.name}
+              onChange={this.triggerChange('name')}
+              onKeyUp={this.triggerKeyUp}
+              ref={input => {
+                this.taskInput = input
+              }}
+            />
           </div>
-          {label}
-        </div>
-        {expandedItems}
-      </li>
-    )
+        </li>
+      )
+    } else {
+      let onPointerDown, onPointerMove, onPointerUp,
+        onTouchStart, onTouchMove, onTouchEnd, onTouchCancel
+      if (this.props.eventMode === 'pointer') {
+        onPointerDown = this.props.onDown
+        onPointerMove = this.props.onMove
+        onPointerUp = this.props.onUp
+      } else if (this.props.eventMode === 'touch') {
+        onTouchStart = this.props.onDown
+        onTouchMove = this.props.onMove
+        onTouchEnd = this.props.onUp
+        onTouchCancel = this.props.onUp
+      }
+      return (
+        <li 
+          class={className} 
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+          onTouchCancel={onTouchCancel}
+          onContextMenu={this.onContextMenu}
+        >
+          <div class="outer">
+            <div class="check">
+              <div class="box" />
+            </div>
+            {label}
+          </div>
+          {expandedItems}
+        </li>
+      )
+    }
   }
 }
