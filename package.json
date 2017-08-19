@@ -6,7 +6,7 @@
     "build": "webpack --progress --colors -p --display-optimization-bailout",
     "watch": "webpack --progress --colors --watch",
     "build-css": "node-sass source/scss -o dist/generated",
-    "watch-css": "npm run build-css && node-sass source/scss -o dist/generated --watch",
+    "watch-css": "npm run build-css && node-sass source/scss -o dist/generated --watch --source-map-root file://${PWD}/ --source-map-embed true",
     "test": "cross-env NODE_ENV=test mocha tests.js --compilers js:babel-core/register",
     "coverage": "cross-env NODE_ENV=test nyc mocha tests.js"
   },

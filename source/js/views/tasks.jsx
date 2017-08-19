@@ -155,8 +155,13 @@ export default class Tasks extends preact.Component {
       route('/lists/inbox')
     }
   }
+  triggerInput = e => {
+    this.setState({
+      inputValue: e.currentTarget.value
+    })
+  }
   triggerKeyUp = e => {
-    let taskName = e.currentTarget.value
+    const taskName = e.currentTarget.value
     if (e.keyCode === 13 && taskName !== '') {
       this.setState({
         inputValue: ''
@@ -392,6 +397,7 @@ export default class Tasks extends preact.Component {
                   placeholder="Add a task..."
                   class={creatorClass}
                   value={this.state.inputValue}
+                  onInput={this.triggerInput}
                   onKeyUp={this.triggerKeyUp}
                 />
               </div>

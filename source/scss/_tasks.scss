@@ -62,6 +62,26 @@ $background-speed: 400ms;
     @media (min-width: $tablet-breakpoint) {
       display: none;
     }
+    position: relative;
+    z-index: 0;
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      box-shadow: 0 1px 4px rgba(#000, 0.25);
+      transition: 150ms ease-out opacity;
+      z-index: -1;
+    }
+
+    &.hide-header {
+      h1, &::after {
+        opacity: 0;
+      }
+    }
   }
 }
 
@@ -139,9 +159,10 @@ $background-speed: 400ms;
 .tasks-fancy-header {
   $speed: 200ms;
   h1 {
-    margin: $indent-width;
+    margin: $indent-width / 3 $indent-width;
     position: relative;
     overflow: hidden;
+    font-size: 2rem;
 
     input {
       font-weight: 900;
@@ -151,7 +172,7 @@ $background-speed: 400ms;
       outline: 0;
       transition: 150ms ease background;
       border-radius: 3px;
-      min-width: 25px;
+      min-width: 25px; 
       max-width: calc(100% - #{$indent-width + 1.5rem});
       transition: $speed ease transform;
 
@@ -182,7 +203,7 @@ $background-speed: 400ms;
     }
 
     .icon {
-      margin: 0.2rem 0.5rem 0 0.2rem;
+      margin: 0.5rem $indent-width / 4 $indent-width / 2 $indent-width / 4;
       vertical-align: top;
       width: 2rem;
       height: 2rem;

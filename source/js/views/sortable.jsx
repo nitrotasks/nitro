@@ -69,16 +69,15 @@ export default class Sortable extends preact.Component {
     this.currentOffset = 0
     this.canMove = false
 
-    if (this.state.eventMode === 'touch') {
-      this.timeouts.push(setTimeout(() => {
-        if (Math.abs(this.currentOffset) < 20) {
-          requestAnimationFrame(() => {
-            node.classList.add('active')
-          })
-          this.canMove = true
-        }
-      }, pressDelay))
-    }
+    // press and hold, works on both mouse and touch cause why not :) 
+    this.timeouts.push(setTimeout(() => {
+      if (Math.abs(this.currentOffset) < 20) {
+        requestAnimationFrame(() => {
+          node.classList.add('active')
+        })
+        this.canMove = true
+      }
+    }, pressDelay))
 
     if (!this.props.task) {
       this.sizes = Array.from(e.currentTarget.parentElement.children).map((item) => {
