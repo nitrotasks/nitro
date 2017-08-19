@@ -265,8 +265,8 @@ export default class Tasks extends preact.Component {
   triggerMenu = e => {
     const rect = e.currentTarget.getBoundingClientRect()
     ContextMenuStore.create(
-      rect.top,
       rect.left,
+      rect.top,
       'top',
       'left',
       [

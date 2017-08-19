@@ -62,11 +62,18 @@ export default class Task extends preact.Component {
     })
   }
   headingConvert = () => {
-    window.history.back()
-    this.setState({
-      type: 'header'
-    })
-    TasksCollection.update(this.props.data.id, { type: 'header' })
+    if (this.state.type === 'header') {
+      this.setState({
+        type: 'task'
+      })
+      TasksCollection.update(this.props.data.id, { type: 'task' })
+    } else {
+      window.history.back()
+      this.setState({
+        type: 'header'
+      })
+      TasksCollection.update(this.props.data.id, { type: 'header' })
+    }
   }
   deleteTask = e => {
     alert('implement me!')
@@ -74,13 +81,26 @@ export default class Task extends preact.Component {
   triggerMenu = e => {
     const rect = e.currentTarget.getBoundingClientRect()
     ContextMenuStore.create(
-      rect.top,
       rect.left,
+      rect.top,
       'top',
       'left',
       [
         {title: 'Change to Heading', action: this.headingConvert},
         {title: 'Delete Task', action: this.deleteTask},
+      ]
+    )
+  }
+  triggerHeaderMenu = e => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    ContextMenuStore.create(
+      rect.left,
+      rect.top,
+      'top',
+      'right',
+      [
+        {title: 'Change to Task', action: this.headingConvert},
+        {title: 'Delete Heading', action: this.deleteTask},
       ]
     )
   }
@@ -136,6 +156,9 @@ export default class Task extends preact.Component {
                 this.taskInput = input
               }}
             />
+            <button alt="Sublist Menu">
+              <img src="/img/icons/material/task-more.svg" onClick={this.triggerHeaderMenu} />
+            </button>
           </div>
         </li>
       )

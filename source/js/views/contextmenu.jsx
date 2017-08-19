@@ -19,7 +19,6 @@ export default class ContextMenu extends preact.Component {
     ContextMenuStore.unbind('create', this.createMenu)
   }
   createMenu = params => {
-    console.log(params)
     const [x, y, anchor, secondAnchor, items] = params
     const newState = {}
     if (anchor === 'top') {
@@ -27,6 +26,8 @@ export default class ContextMenu extends preact.Component {
     }
     if (secondAnchor === 'left') {
       newState.x = x
+    } else if (secondAnchor === 'right') {
+      newState.x = (window.innerWidth - x) * -1
     }
     newState.show = true
     newState.items = items
@@ -42,12 +43,17 @@ export default class ContextMenu extends preact.Component {
     if (!this.state.show) {
       mainClass += ' hide'
     }
+    const style = {
+      top: this.state.y,
+    }
+    if (this.state.x > 0) {
+      style.left = this.state.x
+    } else {
+      style.right = Math.abs(this.state.x)
+    }
     return (
       <div class={mainClass} onClick={this.triggerHide}>
-        <ul class="contextmenu" style={{
-          top: this.state.x,
-          left: this.state.y,
-        }}>
+        <ul class="contextmenu" style={style}>
           {this.state.items.map((item, key) => {
             return <li key={key} onClick={item.action}>{item.title}</li>
           })}

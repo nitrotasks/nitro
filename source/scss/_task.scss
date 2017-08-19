@@ -8,10 +8,7 @@
 
 .task-item, .header-item {
   cursor: default;
-  user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  -moz-user-select: none;
+  @include user-select(none);
 
   .outer {
     display: flex;
@@ -24,8 +21,6 @@
 .header-item {
   font-size: 1.125rem;
   line-height: 2.5rem;
-  // 
-  // padding: 0 $indent-width;
   padding: $indent-width $indent-width 0.5rem;
 
   .outer {
@@ -46,6 +41,27 @@
       &:focus {
         border-color: rgba($brand-color, 0.8);
       }
+    }
+
+    button {
+      @include button-blank();
+      position: absolute;
+      right: 0;
+      padding: 0.25rem 0.5rem 0.25rem 2rem;
+
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
+
+  @media (max-width: $tablet-breakpoint) {
+    font-size: 1.2rem;
+    line-height: 2.6rem;
+    padding: $indent-width + 0.5rem $indent-width + 0.3rem 0.5rem;
+
+    .outer button {
+      padding-right: 0.5rem + 0.3rem;
     }
   }
 }
