@@ -37,6 +37,13 @@ export class tasks extends Events {
     if (sync) this.sync.patch([resource.list, id])
     return resource
   }
+  delete(id) {
+    const resource = this.find(id)
+    this.sync.delete([resource.list, id])
+    this.collection.delete(id)
+    this.trigger('update')
+    this.saveLocal()
+  }
   // maybe roll these into one function?
   addListFromServer(tasks, listId) {
     if (tasks.length < 1) return
@@ -124,6 +131,9 @@ export class tasks extends Events {
   deleteAllFromList(list) {
     this.collection.forEach((task, key) => {
       if (task.list === list) {
+        if (task.serverId === null) {
+          this.sync.delete([task.list, key])
+        }
         this.collection.delete(key)
       }
     })

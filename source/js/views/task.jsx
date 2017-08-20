@@ -1,6 +1,7 @@
 import preact from 'preact'
 
 import { TasksCollection } from '../models/tasksCollection.js'
+import { CombinedCollection } from '../models/combinedCollection.js'
 import ContextMenuStore from '../stores/contextmenu.js'
 
 export default class Task extends preact.Component {
@@ -76,7 +77,8 @@ export default class Task extends preact.Component {
     }
   }
   deleteTask = e => {
-    alert('implement me!')
+    window.history.back()
+    CombinedCollection.deleteTask(this.props.data)
   }
   triggerMenu = e => {
     const rect = e.currentTarget.getBoundingClientRect()

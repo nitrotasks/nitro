@@ -61,6 +61,12 @@ export class combined {
     order.push(id)
     this.updateOrder(task.list, order, false)
   }
+  deleteTask(task) {
+    const order = ListsCollection.find(task.list).localOrder
+    order.splice(order.indexOf(task.id), 1)
+    this.updateOrder(task.list, order, false)
+    TasksCollection.delete(task.id)
+  }
   updateOrder(id, order, sync = true) {
     const resource = ListsCollection.find(id)
 

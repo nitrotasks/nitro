@@ -109,7 +109,7 @@ export default class Sync extends Events {
           if (this.queue.post.length > 0) {
             postItem(this.queue.post[0])
           } else {
-            this.logger('Finished POSTING', this.identifier)
+            this.logger(this.identifier, 'Finished POSTING')
             this.model.trigger('update')
           }
         })
@@ -169,7 +169,7 @@ export default class Sync extends Events {
           if (this.queue.patch.length > 0) {
             patchItem(this.queue.patch[0])
           } else {
-            this.logger('Finished PATCHING', this.identifier)
+            this.logger(this.identifier, 'Finished PATCHING')
             this.model.trigger('update')
           }
         })
@@ -177,20 +177,49 @@ export default class Sync extends Events {
         console.error(err)
       })
     }
-    const deleteItems = (items) => {
-      const finalDeletions = []
-      items.forEach((item) => {
-        // if the item is in the post queue, just remove from everything
-        const index = this.queue.post.indexOf(item[0])
-        if (index > -1) {
-          this.logger('IGNORING', item[0])
-          this.queue.post.splice(index, 1)
+    const deleteItem = (id) => {
+      const additionalEndpoint = '/' + id[1] + '/'
+      const finalDeletions = id[2].map(item => item[1])
+      fetch(`${config.endpoint}/${this.endpoint}${additionalEndpoint}`, {
+        method: 'DELETE',
+        headers: authenticationStore.authHeader(true),
+        body: JSON.stringify({
+          [this.arrayParam]: finalDeletions
+        })
+      }).then(checkStatus).then(() => {
+        this.queue.delete.splice(0, 1)
+        this.saveQueue()
+
+        if (this.queue.delete.length > 0) {
+          deleteItem(this.queue.delete[0])
         } else {
-          finalDeletions.push(item[1])
+          this.logger(this.identifier, 'Finished DELETING')
+        }
+      }).catch((err) => {
+        if (err.status === 404) {
+          err.response.items.forEach((item) => {
+            this.queue.delete[0][2].splice(this.queue.delete[0][2].findIndex(function(element) {
+              return element[1] === item
+            }), 1)
+          })
+          if (this.queue.delete[0][2].length === 0) {
+            this.queue.delete.splice(0, 1)
+          }
+          this.saveQueue()
+          this.logger(this.identifier, 'Skipped a couple of deletions... going for retry.')
+
+          if (this.queue.delete.length > 0) {
+            deleteItem(this.queue.delete[0])
+          } else {
+            this.logger(this.identifier, 'Finished DELETING')
+          }
+        } else {
+          console.warn(err)
         }
       })
-      this.saveQueue()
-
+    }
+    const deleteItems = (items) => {
+      const finalDeletions = items.map(item => item[1])      
       fetch(`${config.endpoint}/${this.endpoint}`, {
         method: 'DELETE',
         headers: authenticationStore.authHeader(true),
@@ -200,21 +229,25 @@ export default class Sync extends Events {
       }).then(checkStatus).then((response) => {
         this.queue.delete = []
         this.saveQueue()
-        this.logger('Finished DELETING', this.identifier)
+        this.logger(this.identifier, 'Finished DELETING')
       }).catch((err) => {
         if (err.status === 404) {
           err.response.items.forEach((item) => {
             this.queue.delete.splice(this.queue.delete.findIndex(findQueueIndex(item)), 1)
           })
           this.saveQueue()
-          this.logger('Skipped a couple of deletions', this.identifier)
+          this.logger(this.identifier, 'Skipped a couple of deletions.')
         } else {
           console.warn(err)
         }
       })
     } 
     if (this.queue.delete.length > 0) {
-      deleteItems(this.queue.delete)
+      if (this.queue.delete[0].length === 2) {
+        deleteItems(this.queue.delete)
+      } else {
+        deleteItem(this.queue.delete[0])
+      }
     }
     if (this.queue.post.length > 0) {
       postItem(this.queue.post[0])
@@ -296,12 +329,86 @@ export default class Sync extends Events {
   }
   delete(id) {
     this.logger(this.identifier, 'DELETE Requested')
-    const serverId = this.model.find(id).serverId
-    if (this.queue.delete.find(findQueueIndex(serverId))) {
-      this.logger(this.identifier, 'Skipping DELETE Request - Already Added')
-    } else {
-      this.queue.delete.push([id, serverId])
+    if (typeof(id) === 'object') {
+      const deleteFromPostQueue = () => {
+        this.queue.post = this.queue.post.map((item) => {
+          const index = item[1].indexOf(id[1])
+          if (index > -1) {
+            item[1].splice(index, 1)
+          }
+          return item
+        }).filter((item) => {
+          if (item[1].length > 0) {
+            return true
+          }
+          return false
+        })
+      }
+      const deleteFromPatchQueue = () => {
+        this.queue.patch = this.queue.patch.map((item) => {
+          if (item[0] === id[0]) {
+            const index = item[2].findIndex((patchItem) => {
+              if (patchItem[0] === id[1]) {
+                return true
+              }
+              return false
+            })
+            if (index > -1) {
+              item[2].splice(index, 1)
+              this.logger(this.identifier, 'DELETE forced removal from PATCH Queue')
+            }
+          }
+          return item
+        }).filter((item) => {
+          if (item[2].length > 0) {
+            return true
+          }
+          return false
+        })
+      }
+
+      const listServerId = this.parentModel.find(id[0]).serverId
+      const taskServerId = this.model.find(id[1]).serverId
+
+      const index = this.queue.delete.findIndex(function(element) {
+        return element[0] === id[0]
+      })
+
+      if (!listServerId) {
+        this.logger(this.identifier, 'Skipping DELETE - Parent still in POST queue')
+        deleteFromPostQueue()
+      } else if (!taskServerId) {
+        this.logger(this.identifier, 'Skipping DELETE - Still in POST Queue')
+        deleteFromPostQueue()
+      } else if (index > -1) {
+        const taskIndex = this.queue.delete[index][2].findIndex(function(element) {
+          return element[0] === id[1]
+        })
+        if (taskIndex > -1) {
+          this.logger(this.identifier, 'Skipping DELETE Queue - Already in there')
+        } else {
+          this.logger(this.identifier, 'Adding DELETE to previous queue.')
+          this.queue.delete[index][2].push([id[1], taskServerId])
+          deleteFromPatchQueue()
+        }
+      } else {
+        this.logger(this.identifier, 'Adding DELETE Queue.')
+        this.queue.delete.push([id[0], listServerId, [[id[1], taskServerId]]])
+        deleteFromPatchQueue()
+      }
       this.saveQueue()
+    } else {
+      const serverId = this.model.find(id).serverId
+      if (serverId === null) {
+        this.logger(this.identifier, 'Skipping DELETE Request - Deleting from POST queue.')
+        this.queue.post.splice(this.queue.post.indexOf(id), 1)
+        this.saveQueue()
+      } else if (this.queue.delete.find(findQueueIndex(serverId))) {
+        this.logger(this.identifier, 'Skipping DELETE Request - Already Added')
+      } else {
+        this.queue.delete.push([id, serverId])
+        this.saveQueue()
+      }
     }
     this.requestProcess()
   }
