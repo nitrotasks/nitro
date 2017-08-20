@@ -11,10 +11,9 @@
 }
 
 .material-header {
-  padding: 0 $indent-width - 0.1rem 0 $indent-width + 0.3rem;
   display: flex;
 
-  .brand {
+  .brand.header-child {
     font-weight: 900;
     text-transform: uppercase;
 
@@ -33,8 +32,6 @@
     }
   }
   @media (min-width: $mobile-breakpoint + 1) {
-    padding: 0 $indent-width + 0.1rem 0 $indent-width + 0.3rem;
-
     .search {
       display: none;
     }
@@ -55,32 +52,31 @@
     }
   }
 
-  .back, h1, .logo, .menu, .search {
+  .header-child {
     line-height: $header-height;
     height: $header-height;
     overflow-x: hidden;
     white-space: pre;
     text-overflow: ellipsis;
     vertical-align: top;
-    font-weight: 600;
 
     img {
       vertical-align: top;
       width: 1.5rem;
     }
-  }
 
-  .logo, .back {
-    padding-right: $indent-width / 2;
+    &.header-left {
+      padding-left: $indent-width + 0.3rem;
+      padding-right: $indent-width / 2;
+    }
+    &.header-right {
+      padding-left: 1rem;
+      padding-right: $indent-width + 0.1rem;
+    }
   }
 
   > div {
     display: flex;
-  }
-
-  .menu img {
-    margin-left: 1rem;
-    margin-right: 0;
   }
 
   h1 {

@@ -55,7 +55,7 @@
     }
   }
 
-  @media (max-width: $tablet-breakpoint) {
+  @media (max-width: $tablet-breakpoint - 1) {
     font-size: 1.2rem;
     line-height: 2.6rem;
     padding: $indent-width + 0.5rem $indent-width + 0.3rem 0.5rem;
@@ -137,7 +137,7 @@
   }
 
   // MOBILE HAS BIGGER TASKS
-  @media (max-width: $tablet-breakpoint) {
+  @media (max-width: $tablet-breakpoint - 1) {
     height: $task-height-mobile;
 
     .outer {

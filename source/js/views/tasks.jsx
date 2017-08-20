@@ -30,6 +30,8 @@ export default class Tasks extends preact.Component {
     super(props)
     this.state = this.installProps(props, true)
     this.state.innerWidth = '100%'
+    this.state.inputValue = ''
+    this.state.showCreator = null
     this.theme = document.getElementById('theme')
   }
   resizeCb = -1
@@ -54,6 +56,7 @@ export default class Tasks extends preact.Component {
       OPTS
     )
     window.addEventListener('resize', this.windowResize)
+    this.lastHeight = document.documentElement.clientHeight
 
     // delay so it has time to render
     setTimeout(this.sizeInput, 200)
@@ -134,6 +137,15 @@ export default class Tasks extends preact.Component {
     }
     clearTimeout(this.resizeCb)
     this.resizeCb = setTimeout(this.sizeInput, 50)
+
+    // very specific to android. probably won't work on iOS.
+    if (this.lastHeight < document.documentElement.clientHeight && this.state.showCreator === true) {
+      this.setState({
+        showCreator: false
+      })
+    }
+
+    this.lastHeight = document.documentElement.clientHeight
   }
   tasksUpdate = listId => {
     if (listId === this.state.list) {
@@ -169,17 +181,42 @@ export default class Tasks extends preact.Component {
     })
   }
   triggerKeyUp = e => {
-    const taskName = e.currentTarget.value
-    if (e.keyCode === 13 && taskName !== '') {
+    if (e.keyCode === 13) {
+      this.createTask()
+    }
+  }
+  createTask = () => {
+    if (this.state.inputValue.trim() !== '') {
+      CombinedCollection.addTask({
+        name: this.state.inputValue.trim(),
+        list: this.state.list
+      })
       this.setState({
         inputValue: ''
       })
-      // e.currentTarget.blur()
-
-      CombinedCollection.addTask({
-        name: taskName,
-        list: this.state.list
-      })
+    }
+  }
+  triggerCreateHide = () => {
+    this.setState({
+      showCreator: false
+    })
+    this.createTask()
+  }
+  triggerCreate = () => {
+    this.setState({
+      showCreator: true
+    })
+    setTimeout(() => {
+      this.taskInput.focus()
+    }, 250)
+  }
+  hideCreate = () => {
+    if (this.state.showCreator === true) {
+      setTimeout(() => {
+        this.setState({
+          showCreator: false
+        })
+      }, 100)
     }
   }
   triggerScroll = e => {
@@ -360,6 +397,16 @@ export default class Tasks extends preact.Component {
         <img src="/img/icons/material/more.svg" alt="" />
       </button>
     }
+    let fab = 'floating-button'
+    let tcreate = 'tasks-creator-background'
+    // can be null so weirder logic
+    if (this.state.showCreator === true) {
+      fab += ' hide'
+      tcreate += ' show'
+    } else if (this.state.showCreator === false) {
+      fab += ' show'
+      tcreate += ' hide'
+    }
     return (
       <div
         class={className}
@@ -367,10 +414,10 @@ export default class Tasks extends preact.Component {
         onClick={this.closeTasks}
       >
         <header class={headerClass}>
-          <div class="back" onClick={this.triggerBack}>
+          <div class="header-child header-left" onClick={this.triggerBack}>
             <img src="/img/icons/back.svg" alt="Back Icon" title="Back" />
           </div>
-          <h1>{this.state.header}</h1>
+          <h1 class="header-child">{this.state.header}</h1>
         </header>
         <div class="tasks-content" id="passive-scroll">
           <div class="tasks-scrollwrap">
@@ -399,15 +446,20 @@ export default class Tasks extends preact.Component {
                   </span>
                 </h1>
               </div>
-              <div class="tasks-creator-background">
+              <div class={tcreate}>
                 <input
                   type="text"
+                  ref={e => this.taskInput = e}
                   placeholder="Add a task..."
                   class={creatorClass}
                   value={this.state.inputValue}
                   onInput={this.triggerInput}
                   onKeyUp={this.triggerKeyUp}
+                  required={true}
                 />
+                <button alt="Create Task" class="tasks-create-button" onClick={this.triggerCreateHide}>
+                  <span class="img-vert-inverse" />
+                </button>
               </div>
             </div>
             {taskNotes}
@@ -419,6 +471,9 @@ export default class Tasks extends preact.Component {
               triggerTask={this.triggerTask}
             />
           </div>
+          <button alt="Create Task" class={fab} onClick={this.triggerCreate}>
+            <img class="img-vert-inverse" src="/img/icons/material/add.svg" />
+          </button>
         </div>
       </div>
     )
