@@ -10,5 +10,11 @@ A brand new rewrite. Check out the [Wiki](https://github.com/nitrotasks/nitro/wi
 - You will need node.js & npm installed.
 - Then run `npm install`
 - Then run `npm run build && npm run build-css`
-- Start the server, `node server.js` and head to <http://localhost:8010>
+
+## Development
 - For development, use `npm run watch` & `npm run watch-css` respectively.
+- Go to <https://github.com/nitrotasks/nitro-server> to use the server.
+- You'll need to change the endpoint in `config.js` to this server to use it, otherwise you can set it to the live server.
+
+## Production
+- This is published as a npm package, prebuilt with the API route as /a.

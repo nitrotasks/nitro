@@ -1,14 +1,16 @@
 {
-  "name": "nitro",
-  "version": "3.0.0-alpha",
+  "name": "nitrotasks",
+  "version": "3.0.0-alpha.1.3",
   "description": "Not just another todo list app",
   "scripts": {
     "build": "webpack --progress --colors -p --display-optimization-bailout",
     "watch": "webpack --progress --colors --watch",
+    "clean": "rm -f dist/generated/*",
     "build-css": "node-sass source/scss -o dist/generated",
     "watch-css": "npm run build-css && node-sass source/scss -o dist/generated --watch --source-map-root file://${PWD}/ --source-map-embed true",
     "test": "cross-env NODE_ENV=test mocha tests.js --compilers js:babel-core/register",
-    "coverage": "cross-env NODE_ENV=test nyc mocha tests.js"
+    "coverage": "cross-env NODE_ENV=test nyc mocha tests.js",
+    "prepublishOnly": "npm run clean && npm run build && npm run build-css"
   },
   "repository": {
     "type": "git",
