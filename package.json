@@ -3,10 +3,11 @@
   "version": "3.0.0-alpha.1.3",
   "description": "Not just another todo list app",
   "scripts": {
-    "build": "webpack --progress --colors -p --display-optimization-bailout",
+    "build": "cross-env NODE_ENV=production webpack --progress --colors -p --display-optimization-bailout",
+    "report": "cross-env NODE_ENV=report webpack --progress --colors -p --display-optimization-bailout",
     "watch": "webpack --progress --colors --watch",
     "clean": "rm -f dist/generated/*",
-    "build-css": "node-sass source/scss -o dist/generated",
+    "build-css": "node-sass source/scss -o dist/generated --output-style compressed",
     "watch-css": "npm run build-css && node-sass source/scss -o dist/generated --watch --source-map-root file://${PWD}/ --source-map-embed true",
     "test": "cross-env NODE_ENV=test mocha tests.js --compilers js:babel-core/register",
     "coverage": "cross-env NODE_ENV=test nyc mocha tests.js",
@@ -43,7 +44,7 @@
     "babel-plugin-transform-react-jsx": "^6.22.0",
     "babel-preset-env": "^1.6.0",
     "babel-register": "^6.24.1",
-    "cross-env": "^5.0.1",
+    "cross-env": "^5.0.5",
     "eslint": "^4.3.0",
     "eslint-plugin-react": "^7.1.0",
     "express": "^4.15.3",
@@ -55,6 +56,7 @@
   },
   "dependencies": {
     "preact": "^8.2.1",
-    "preact-router": "^2.5.5"
+    "preact-router": "^2.5.5",
+    "webpack-bundle-analyzer": "^2.9.0"
   }
 }
