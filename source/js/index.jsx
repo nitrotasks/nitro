@@ -5,9 +5,10 @@ import authenticationStore from './stores/auth.js'
 
 import Lists from './views/lists.jsx'
 import Tasks from './views/tasks.jsx'
+import NotFound from './views/notfound.jsx'
+import Login from './views/login.jsx'
 import ContextMenu from './views/contextmenu.jsx'
 import DialogBox from './views/dialogbox.jsx'
-import NotFound from './views/notfound.jsx'
 
 const App = () => (
   <div class="app">
@@ -18,6 +19,7 @@ const App = () => (
       <Tasks path="/lists/:list/:task" />
       <NotFound default />
     </Router>
+    <Login />
     <ContextMenu />
     <DialogBox />
   </div>

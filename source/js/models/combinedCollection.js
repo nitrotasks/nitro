@@ -45,6 +45,10 @@ export class combined {
         this.processQueue()
       }
     })
+
+    authenticationStore.bind('token', () => {
+      this.downloadData()
+    })
   }
   downloadData() {
     this.syncGet.downloadLists().then((data) => {

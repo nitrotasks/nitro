@@ -12,7 +12,19 @@ class AuthenticationStore extends Events {
     this.getToken()
   }
   isSignedIn() {
-    return this.accessToken !== null
+    return Object.keys(this.refreshToken).length > 0
+  }
+  formSignIn(username, password) {
+    if (username === 'local@nitrotasks.com') {
+      this.refreshToken = {local: true}
+      this.trigger('sign-in-status')
+    } else {
+      this.authenticate(username, password).then(() => {
+        this.trigger('sign-in-status')
+      }).catch((err) => {
+        this.trigger('sign-in-error', err)
+      })
+    }
   }
   authHeader(json = false) {
     if (json) {
@@ -67,6 +79,11 @@ class AuthenticationStore extends Events {
       })
     })
   }
+  // do not use
+  signOut() {
+    localStorage.clear()
+    window.location.reload()
+  }
   getToken() {
     if (JSON.stringify(this.refreshToken) === '{}') {
       return
@@ -75,6 +92,7 @@ class AuthenticationStore extends Events {
       fetch(`${config.endpoint}/auth/token/${this.refreshToken.refresh_token}`).then(checkStatus).then((response) => {
         response.json().then((data) => {
           this.accessToken = data
+          this.trigger('token')
           resolve(data)
         })
       }).catch(function(err) {

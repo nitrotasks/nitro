@@ -1,0 +1,58 @@
+.button-box {
+  display: flex;  
+
+  .button {
+    flex: 1;
+
+    &:first-child {
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+.input {
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  background-color: rgba(#000, 0.08);
+  border-radius: 3px;
+  padding: 0.5rem 0.5rem;
+  outline: 0;
+  font-size: 0.9rem;
+  line-height: 1.1rem;
+  margin-bottom: 0.75rem;
+
+  &:invalid {
+  	border-color: $danger-color;
+    box-shadow: none;
+  }
+  &:focus {
+    border-color: $brand-color;
+  }
+
+}
+
+.button {
+  border: 1px solid rgba(#000, 0.3);
+  border-radius: 3px;
+  font-weight: 600;
+  padding: 0.5rem 0;
+  font-size: 1rem;
+
+  &:focus {
+    outline: 0;
+    border-color: $brand-color;
+  }
+
+  &.primary {
+    background: $brand-color;
+    border-color: $brand-color;
+    color: #fff;
+
+    &:focus {
+      background: darken($brand-color, 10);
+    }
+  }
+  &.secondary {
+    background: #fff;
+  }
+}

@@ -271,6 +271,7 @@ $background-speed: 400ms;
   font-size: 0.9rem;
   line-height: 1.1rem;
   transition: $timing ease border-color, $timing ease background-color;
+  box-shadow: none;
   
   &:focus {
     border-color: $brand-color;

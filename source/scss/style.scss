@@ -16,6 +16,14 @@ body, input, button, textarea {
   font-family: 'Raleway', sans-serif;
   overflow-x: hidden;
 }
+a {
+  color: darken($brand-color, 10);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
 .pwa {
   display: none;
 }
@@ -29,8 +37,11 @@ body, input, button, textarea {
   display: none;
 }
 
+@import "_forms";
+
 @import "_lists";
 @import "_tasks";
 @import "_task";
+@import "_login";
 @import "_contextmenu";
 @import "_dialogbox";
