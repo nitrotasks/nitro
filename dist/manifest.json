@@ -1,9 +1,31 @@
 {
   "short_name": "Nitro",
   "name": "Nitro",
-  "description": "The best.",
+  "description": "The fast and easy way to get things done.",
   "start_url": "/",
   "background_color": "#ffffff",
   "theme_color": "#3a7df8",
-  "display": "standalone"
+  "display": "standalone",
+	"icons": [{
+    "src": "/img/icons/app-icon.svg",
+    "type": "image/svg",
+    "sizes": "70x70"
+  },
+  {
+    "src": "/img/icons/app-icon.png",
+    "type": "image/png",
+    "sizes": "70x70"
+  }, {
+    "src": "/img/icons/app-icon@2x.png",
+    "type": "image/png",
+    "sizes": "140x140"
+  }, {
+    "src": "/img/icons/app-icon@3x.png",
+    "type": "image/png",
+    "sizes": "210x210"
+  }, {
+    "src": "/img/icons/app-icon-512.png",
+    "type": "image/png",
+    "sizes": "512x512"
+  }]
 }

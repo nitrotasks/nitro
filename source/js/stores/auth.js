@@ -18,6 +18,7 @@ class AuthenticationStore extends Events {
     if (username === 'local@nitrotasks.com') {
       this.refreshToken = {local: true}
       this.trigger('sign-in-status')
+      localStorage.setItem('nitro3-auth', JSON.stringify(this.refreshToken))
     } else {
       this.authenticate(username, password).then(() => {
         this.trigger('sign-in-status')
@@ -85,7 +86,7 @@ class AuthenticationStore extends Events {
     window.location.reload()
   }
   getToken() {
-    if (JSON.stringify(this.refreshToken) === '{}') {
+    if (JSON.stringify(this.refreshToken) === '{}' || 'local' in this.refreshToken) {
       return
     }
     return new Promise((resolve, reject) => {

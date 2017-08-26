@@ -111,7 +111,7 @@ export class tasks extends Events {
     })
   }
   findListCount(list, completed = true) {
-    return this.findList(list, completed).length
+    return this.findList(list, completed).filter(task => task.type === 'task').length
   }
   deleteTasks(tasks) {
     this.collection.forEach((task, key) => {
