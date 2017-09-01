@@ -1,3 +1,6 @@
+// css
+import style from '../scss/style.scss'
+
 import preact from 'preact'
 import Router from 'preact-router'
 

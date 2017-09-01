@@ -3,6 +3,10 @@ const baseDirectory = __dirname
 const buildPath = path.resolve(baseDirectory, './dist')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const webpack = require('webpack')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const extractSass = new ExtractTextPlugin({
+  filename: 'generated/[name].css'
+})
 
 const webpackConfig = {
   context: baseDirectory,
@@ -16,10 +20,32 @@ const webpackConfig = {
   devtool: 'cheap-module-source-map',
   module: {
     loaders: [
-      { test: /\.(js|jsx)$/, exclude: /node_modules/, loader: 'babel-loader' }
+      { test: /\.(js|jsx)$/, exclude: /node_modules/, loader: 'babel-loader' },
+      {
+        test: /\.scss$/,
+        use: extractSass.extract({
+          use: [{
+            loader: 'css-loader',
+            options: {
+              sourceMap: true
+            },
+          }, {
+            loader: 'resolve-url-loader'
+          }, {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true
+            },
+          }],
+          // use style-loader in development
+          fallback: 'style-loader'
+        })
+      },
     ]
   },
-  plugins: []
+  plugins: [
+    extractSass,
+  ]
 }
 
 
