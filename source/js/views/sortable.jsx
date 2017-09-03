@@ -58,6 +58,12 @@ export default class Sortable extends preact.Component {
       return
     }
 
+    // there should be a better way to do this
+    // but cause of hacked up pointer and touchevents, you can't just stop propagation
+    if (e.target.className === 'check' || e.target.className === 'box') {
+      return
+    }
+
     // TODO: Distinguish between click & drag drop
     this.currentElement = e.currentTarget.offsetTop
     this.currentIndex = Array.from(e.currentTarget.parentElement.children).indexOf(e.currentTarget)
@@ -207,6 +213,12 @@ export default class Sortable extends preact.Component {
   }
   onUp = e => {
     if (this.state.eventMode === 'pointer' && e.which && e.which !== 1) {
+      return
+    }
+
+    // there should be a better way to do this
+    // but cause of hacked up pointer and touchevents, you can't just stop propagation
+    if (e.target.className === 'check' || e.target.className === 'box') {
       return
     }
 

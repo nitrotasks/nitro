@@ -5,6 +5,7 @@ export default class Task {
     this.type = props.type || 'task'
     this.notes = props.notes || null
     this.list = props.list
+    this.completed = props.completed || null
     this.serverId = props.serverId || null
     this.lastSync = props.lastSync || null
   }
@@ -15,6 +16,7 @@ export default class Task {
       type: this.type,
       notes: this.notes,
       list: this.list,
+      completed: this.completed,
       serverId: this.serverId,
       lastSync: this.lastSync,
     }

@@ -7,20 +7,24 @@ import ContextMenuStore from '../stores/contextmenu.js'
 export default class Task extends preact.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      name: props.data.name,
-      type: props.data.type,
-      notes: props.data.notes,
-      expanded: props.selectedTask === props.data.id
-    }
+    this.state = this.installState(props.data.id)
+    this.state.expanded =  props.selectedTask === props.data.id
+  }
+  componentDidMount() {
+    TasksCollection.bind('updateTask', this.triggerUpdate)
+  }
+  componentWillUnmount() {
+    TasksCollection.unbind('updateTask', this.triggerUpdate)
   }
   onContextMenu = e => {
     e.preventDefault()
   }
-  triggerClick = () => {
-    this.setState({
-      expanded: !this.state.expanded
-    })
+  triggerCheck = () => {
+    if (this.state.completed === null) {
+      TasksCollection.update(this.props.data.id, { completed: new Date() })
+    } else {
+      TasksCollection.update(this.props.data.id, { completed: null })
+    }
   }
   // TODO: Also save things after a timeout.
   triggerChange = prop => {
@@ -33,6 +37,20 @@ export default class Task extends preact.Component {
       })
       // Update value in the model
       TasksCollection.update(this.props.data.id, { [prop]: value })
+    }
+  }
+  triggerUpdate = data => {
+    if (data === this.props.data.id) {
+      this.setState(this.installState(this.props.data.id))
+    }
+  }
+  installState = id => {
+    const data = TasksCollection.find(id)
+    return {
+      name: data.name,
+      type: data.type,
+      notes: data.notes,
+      completed: data.completed,
     }
   }
   triggerKeyUp = e => {
@@ -112,6 +130,9 @@ export default class Task extends preact.Component {
     if (this.props.selectedTask === this.props.data.id) {
       className += ' expanded'
     }
+    if (this.state.completed !== null) {
+      className += ' completed'
+    }
     let label = (
       <div class="label" onClick={this.props.onClick}>{this.state.name}</div>
     )
@@ -190,7 +211,7 @@ export default class Task extends preact.Component {
           onContextMenu={this.onContextMenu}
         >
           <div class="outer">
-            <div class="check">
+            <div class="check" onClick={this.triggerCheck}>
               <div class="box" />
             </div>
             {label}

@@ -1,6 +1,6 @@
 {
   "name": "nitrotasks",
-  "version": "3.0.0-alpha.1.5",
+  "version": "3.0.0-alpha.1.6",
   "description": "Not just another todo list app",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --progress --colors -p --display-optimization-bailout",

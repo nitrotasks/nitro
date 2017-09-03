@@ -33,6 +33,7 @@ export class tasks extends Events {
       if (key !== 'id') resource[key] = props[key]
     })
     this.trigger('update')
+    this.trigger('updateTask', id)
     this.saveLocal()
     if (sync) this.sync.patch([resource.list, id])
     return resource
@@ -71,6 +72,8 @@ export class tasks extends Events {
       const task = currentTasks.find(findFromServer(props.id))
       task.name = props.name
       task.notes = props.notes
+      task.completed = props.completed
+      this.trigger('updateTask', task.id)
     })
     this.trigger('update', listId)
     this.saveLocal()
