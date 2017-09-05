@@ -126,9 +126,13 @@ export default class Task extends preact.Component {
   }
   render() {
     let className = 'task-item'
-    let expandedItems = null
+    let expandedItems = <div class="inner" />
     if (this.props.selectedTask === this.props.data.id) {
       className += ' expanded'
+    } else if (this.state.expanded === true) {
+      className += ' closing'
+    } else if (this.props.shouldMove) {
+      className += ' offset-down'
     }
     if (this.state.completed !== null) {
       className += ' completed'
@@ -164,7 +168,7 @@ export default class Task extends preact.Component {
       )
     }
     if (this.state.type === 'header') {
-      className = 'header-item'
+      className = className.replace('task-item', 'header-item')
       return (
         <li 
           class={className} 

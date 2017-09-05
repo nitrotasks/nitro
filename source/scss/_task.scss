@@ -18,10 +18,12 @@
   }
 }
 
+$speed: 250ms;
 .header-item {
   font-size: 1.125rem;
   line-height: 2.5rem;
   padding: $indent-width $indent-width 0.5rem;
+  transition: $speed ease transform;
 
   .outer {
     padding: 0;
@@ -66,15 +68,16 @@
   }
 }
 
+.offset-down {
+  transform: translate3d(0, 150px, 0);
+}
+
 .task-item {
-  $speed: 250ms;
   font-size: 1rem;
   padding: 0;
   margin: 0;
   height: $task-height;
-  
-  transition: $speed ease-out height, $speed ease-out margin, $speed ease-out box-shadow;
-  overflow: hidden;
+  transition: $speed ease transform;
 
   @media (pointer: fine) {
     &:hover {
@@ -92,20 +95,53 @@
   }
 
   &.expanded {
-    height: 9.2rem; // needs to be dynamically calculated later
-    box-shadow: 0 1px 3px rgba(#000, 0.2);
-    border-radius: 3px;
-    margin: $indent-width 0;
+    border-radius: 3px 0 0 3px;
     background: #fff;
-
-    @media (min-width: $tablet-breakpoint) {
-      margin: 1.5rem 0;
-    }
+    transform: translate3d(0, 16px, 0);
 
     .inner {
-      opacity: 1;
+      height: 105px;
+      border: 1px solid;
+      border-top: 0;
+    }
+    .inner, .outer {
+      animation: 250ms ease border-color-nice 1;
+      border-color: #e5e6e9 #dfe0e4 #d0d1d5;
     }
   }
+  @keyframes border-color-nice {
+    0% {
+      border-color: #fff;
+    }
+    100% {
+      border-color: #e5e6e9 #dfe0e4 #d0d1d5;
+    }
+  }
+
+  &.closing {
+    background: #fff;
+    .inner {
+      border: 1px solid transparent;
+      border-top: 0;
+      border-radius: 0 3px 3px 0;
+    }
+  }
+
+  .outer {
+    border: 1px solid transparent;
+    border-bottom: 0;
+  }
+
+  .inner {
+    background: #fff;
+    height: 0;
+    transition: $speed ease height;
+    overflow: hidden;
+    border: 0;
+    border-color: #fff;
+    margin-top: -1px;
+  }
+
 
   .check {
     $box-height: 1rem; 
@@ -176,6 +212,10 @@
     .outer {
       padding: 0 $indent-width + 0.1rem 0 $indent-width + 0.3rem;
     }
+    .outer, .inner {
+      border-left: 0 !important;
+      border-right: 0 !important;
+    }
 
     .label {
       line-height: $task-height-mobile;
@@ -184,25 +224,21 @@
 
     input {
       line-height: $task-height-mobile - $padding-size * 2;
+      font-size: 1.1rem;
     }
 
 
     .check {
       $box-height: 1.125rem;
       width: 2rem;
+      padding: 0;
 
       .box {
         margin-top: $task-height-mobile / 2 - ($box-height / 2);
-        width: $box-height;
-        height: $box-height;
+        width: $box-height + 0.125rem;
+        height: $box-height + 0.125rem;
       }
     }
-  }
-
-  .inner {
-    // padding: 0 0 0 1.75rem;
-    opacity: 0;
-    transition: $speed ease-out opacity;
   }
 
   textarea {
@@ -223,7 +259,6 @@
   .button-bar {
     background: lighten($neutral-back-color, 3);
     padding: 0 $indent-width 0 1.75rem + $indent-width;
-    box-shadow: 0 1px 0 rgba(#000, 0.05) inset;
     display: flex;
     align-items: center;
     height: 2.4rem;

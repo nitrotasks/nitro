@@ -293,15 +293,20 @@ export default class Sortable extends preact.Component {
   }
   render() {
     const className = 'tasks-list' + (this.state.listTransforms ? ' tasks-transition' : '')
+    let shouldMove = false
     return (
       <ul className={className}>
         {this.state.order.map(item => {
           const task = this.taskMap.get(item)
+          if (this.props.task === task.id) {
+            shouldMove = true
+          }
           return (
             <Task
               key={task.id}
               data={task}
               selectedTask={this.props.task}
+              shouldMove={shouldMove}
               eventMode={this.state.eventMode}
               onDown={this.onDown}
               onMove={this.onMove}
