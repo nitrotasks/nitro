@@ -93,7 +93,7 @@ export class tasks extends Events {
     }
     return this.collection.get(id) || null
   }
-  findList(list, completed) {
+  findList(list) {
     let returned = []
     if (list === 'all') {
       // return all tasks, ignore ids
@@ -120,8 +120,8 @@ export class tasks extends Events {
       return this.find(item, true).id
     })
   }
-  findListCount(list, completed = true) {
-    return this.findList(list, completed).filter(task => task.type === 'task').length
+  findListCount(list) {
+    return this.findList(list).filter(task => task.type === 'task' && task.completed === null).length
   }
   deleteTasks(tasks) {
     this.collection.forEach((task, key) => {
@@ -146,21 +146,16 @@ export class tasks extends Events {
     requestAnimationFrame(() => {
       let data = this.toObject()
       localStorage.setItem('nitro3-tasks', JSON.stringify(data[0]))
-      localStorage.setItem('nitro3-tasks-completed', JSON.stringify(data[1]))
     })
   }
   loadLocal() {
     let data = localStorage.getItem('nitro3-tasks')
-    let dataCompleted = localStorage.getItem('nitro3-tasks-completed')
     if (data === null) {
       this.createLocal()
       this.saveLocal()
       return
     }
     JSON.parse(data).forEach(item => {
-      this.collection.set(item.id, new Task(item))
-    })
-    JSON.parse(dataCompleted).forEach(item => {
       this.collection.set(item.id, new Task(item))
     })
     console.log('Loaded Tasks from localStorage')
@@ -176,10 +171,7 @@ export class tasks extends Events {
     this.collection.forEach(function(value, key) {
       result.push(value.toObject())
     })
-    this.completedcollection.forEach(function(value, key) {
-      resultCompleted.push(value.toObject())
-    })
-    return [result, resultCompleted]
+    return [result]
   }
 }
 export let TasksCollection = new tasks()

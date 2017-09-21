@@ -1,0 +1,25 @@
+.tasks-editor {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: #eee;
+	z-index: 5;
+
+	@media (min-width: 700px) {
+		display: none;
+	}
+
+	&.animate-in {
+		animation: show-tasks $default-timing $default-curve 1;
+	}
+	&.animate-out {
+		animation: hide-tasks $default-timing $default-curve 1;
+	}
+	&.hide {
+		visibility: hidden;
+		pointer-events: none;
+	}
+
+}

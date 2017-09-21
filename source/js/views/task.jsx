@@ -12,6 +12,10 @@ export default class Task extends preact.Component {
   }
   componentDidMount() {
     TasksCollection.bind('updateTask', this.triggerUpdate)
+    if (this.state.expanded) {
+      window.addEventListener('resize', this.handleResize)
+      this.handleResize()
+    }
   }
   componentWillUnmount() {
     TasksCollection.unbind('updateTask', this.triggerUpdate)
@@ -51,6 +55,7 @@ export default class Task extends preact.Component {
       type: data.type,
       notes: data.notes,
       completed: data.completed,
+      noRender: false,
     }
   }
   triggerKeyUp = e => {
@@ -62,6 +67,7 @@ export default class Task extends preact.Component {
     if (nextProps.selectedTask === nextProps.data.id && this.state.expanded === false) {
       requestAnimationFrame(() => {
         this.setState({ expanded: true })
+        window.addEventListener('resize', this.handleResize)
 
         requestAnimationFrame(() => {
           // this.taskInput.focus()
@@ -71,6 +77,7 @@ export default class Task extends preact.Component {
       setTimeout(() => {
         requestAnimationFrame(() => {
           this.setState({ expanded: false })
+          window.removeEventListener('resize', this.handleResize)
         })
       }, 275)
     }
@@ -79,6 +86,18 @@ export default class Task extends preact.Component {
     this.setState({
       name: nextProps.data.name
     })
+  }
+  handleResize = () => {
+    // doesn't render the expanded task if the width is too small
+    if (window.innerWidth < 700 && this.state.noRender === false) {
+      this.setState({
+        noRender: true
+      })
+    } else if (window.innerWidth >= 700 && this.state.noRender === true) {
+      this.setState({
+        noRender: false
+      })
+    }
   }
   headingConvert = () => {
     if (this.state.type === 'header') {
@@ -140,7 +159,7 @@ export default class Task extends preact.Component {
     let label = (
       <div class="label" onClick={this.props.onClick}>{this.state.name}</div>
     )
-    if (this.state.expanded) {
+    if (this.state.expanded && !this.state.noRender) {
       expandedItems = (
         <div class="inner">
           <textarea placeholder="Notes" onChange={this.triggerChange('notes')} value={this.state.notes} />

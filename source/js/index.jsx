@@ -8,6 +8,7 @@ import authenticationStore from './stores/auth.js'
 
 import Lists from './views/lists.jsx'
 import Tasks from './views/tasks.jsx'
+import TasksEditor from './views/taskseditor.jsx'
 import NotFound from './views/notfound.jsx'
 import Login from './views/login.jsx'
 import ContextMenu from './views/contextmenu.jsx'
@@ -21,6 +22,10 @@ const App = () => (
       <Tasks path="/lists/:list" />
       <Tasks path="/lists/:list/:task" />
       <NotFound default />
+    </Router>
+    <Router>
+      <TasksEditor path="/lists/:list" />
+      <TasksEditor path="/lists/:list/:task" />
     </Router>
     <Login />
     <ContextMenu />
