@@ -298,7 +298,7 @@ export default class Sortable extends preact.Component {
       <ul className={className}>
         {this.state.order.map(item => {
           const task = this.taskMap.get(item)
-          if (this.props.task === task.id) {
+          if (this.props.task === task.id && window.innerWidth >= 700) {
             shouldMove = true
           }
           return (

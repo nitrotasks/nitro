@@ -173,6 +173,7 @@ $speed: 250ms;
       border: 1px solid $check-border-color;
       border-radius: 10px;
       transition: 50ms ease-in transform;
+      background-position: 0 1px;
     }
 
     &:hover {
@@ -191,7 +192,6 @@ $speed: 250ms;
   }
   .check:hover .box, &.completed .check .box {
     background-image: url('/img/icons/'+ $icon-style +'/check.svg');
-    background-position: 0 1px;
     background-size: 16px;
     background-repeat: no-repeat;
   }
@@ -251,6 +251,8 @@ $speed: 250ms;
         margin-top: $task-height-mobile / 2 - ($box-height / 2);
         width: $box-height + 0.125rem;
         height: $box-height + 0.125rem;
+        background-position: 2px 3px;
+        border-radius: 12px;
       }
     }
   }

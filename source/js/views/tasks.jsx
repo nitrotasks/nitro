@@ -414,9 +414,9 @@ export default class Tasks extends preact.Component {
         onClick={this.closeTasks}
       >
         <header class={headerClass}>
-          <div class="header-child header-left" onClick={this.triggerBack}>
+          <button class="header-child header-left" onClick={this.triggerBack}>
             <img src="/img/icons/back.svg" alt="Back Icon" title="Back" />
-          </div>
+          </button>
           <h1 class="header-child">{this.state.header}</h1>
         </header>
         <div class="tasks-content" id="passive-scroll">

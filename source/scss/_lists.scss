@@ -31,7 +31,7 @@
   &.main-nav {
     @media (max-width: $mobile-breakpoint) {
       background: #fff;
-      box-shadow: 0 1px 3px rgba(#000, 0.15);
+      box-shadow: $default-shadow;
     }
   }
   @media (min-width: $mobile-breakpoint + 1) {
@@ -47,12 +47,16 @@
     &.main-nav {
       background: $brand-color;
       color: #fff;
-      box-shadow: 0 1px 3px rgba(#000, 0.2);
+      box-shadow: $default-shadow;
 
       img {
         filter: invert(100);
       }
     }
+  }
+  button {
+    @include button-blank();
+    display: flex;
   }
 
   .header-child {
@@ -66,6 +70,7 @@
     img {
       vertical-align: top;
       width: 1.5rem;
+      margin: auto;
     }
 
     &.header-left {

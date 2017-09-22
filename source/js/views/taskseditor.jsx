@@ -1,26 +1,33 @@
 import preact from 'preact'
+import { TasksCollection } from '../models/tasksCollection.js'
 
 export default class TasksEditor extends preact.Component {
-  state = {
-    showEditor: ('task' in this.props),
-    animate: false,
-    noRender: false,
+  constructor(props) {
+    super(props)
+    this.state = this.installState(props)
+    this.state.animate = false
+    this.state.noRender = false
   }
   componentDidMount() {
     window.addEventListener('resize', this.showEditorCb)
     this.showEditorCb()
   }
   componentWillReceiveProps(newProps) {
-    this.setState({
-      showEditor: ('task' in newProps),
-      animate: true
-    })
+    this.setState(this.installState(newProps))
 
     setTimeout(() => {
       this.setState({
         animate: false
       })
     }, 300)
+  }
+  installState(props) {
+    const data = TasksCollection.find(props.task) || {}
+    return {
+      showEditor: ('task' in props),
+      animate: true,
+      name: data.name
+    }
   }
   componentWillUnmount() {
     window.removeEventListener('resize', this.showEditorCb)
@@ -53,8 +60,15 @@ export default class TasksEditor extends preact.Component {
     }
     return(
       <section class={className}>
-        <button onClick={this.triggerBack}> Go Back</button>
-        Hi
+        <header class="material-header main-nav"> 
+          <button class="header-child header-left" onClick={this.triggerBack}>
+            <img src="/img/icons/back.svg" alt="Back Icon" title="Back" />
+          </button>
+          <h1 class="header-child">{this.state.name}</h1>
+        </header>
+        <p>Notes Control</p>
+        <p>Due Date Control</p>
+        <p>More controls!</p>
       </section>
     )
   }
