@@ -125,7 +125,7 @@ export default class Sortable extends preact.Component {
       const node = e.currentTarget
       requestAnimationFrame(() => {
         node.classList.add('active')
-        node.style.transition = '100ms ease-out transform'
+        node.style.transition = '75ms ease transform'
         setTimeout(() => {
           node.style.transition = 'none'
         }, 101)

@@ -76,6 +76,14 @@ export default class Tasks extends preact.Component {
   componentWillReceiveProps(nextProps) {
     this.setState(this.installProps(nextProps))
 
+    if (!nextProps.task) {
+      setTimeout(() => {
+        this.setState({
+          taskDisposing: false
+        })
+      }, 300)
+    }
+
     setTimeout(() => {
       this.sizeInput()
 
@@ -92,6 +100,7 @@ export default class Tasks extends preact.Component {
     }
     if (nextProps.task) {
       newProps.selectedTask = nextProps.task
+      newProps.taskDisposing = true
     }
     if (firstRun) {
       newProps.hideHeader = true
@@ -362,6 +371,8 @@ export default class Tasks extends preact.Component {
     }
     if (this.props.task) {
       className += ' selected-task'
+    } else if (this.state.taskDisposing) {
+      className += ' selected-task-hide'
     }
 
     let taskNotes = null

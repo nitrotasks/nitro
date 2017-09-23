@@ -67,11 +67,12 @@ export default class Task extends preact.Component {
     if (nextProps.selectedTask === nextProps.data.id && this.state.expanded === false) {
       requestAnimationFrame(() => {
         this.setState({ expanded: true })
+        this.handleResize()
         window.addEventListener('resize', this.handleResize)
 
-        requestAnimationFrame(() => {
-          // this.taskInput.focus()
-        }, 250)
+        // requestAnimationFrame(() => {
+        // this.taskInput.focus()
+        // }, 250)
       })
     } else if (nextProps.selectedTask !== nextProps.data.id && this.state.expanded === true) {
       setTimeout(() => {

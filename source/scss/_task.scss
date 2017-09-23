@@ -74,6 +74,10 @@ $speed: 250ms;
   }
 }
 
+.selected-task .task-item, .selected-task-hide .task-item {
+  transition: $speed ease transform;
+}
+
 .task-item {
   $radius: 3px;
   font-size: 1rem;
@@ -102,8 +106,8 @@ $speed: 250ms;
     }
   }
 
-  @media (min-width: $tablet-breakpoint) {
-    transition: $speed ease transform;
+  @media (min-width: $tablet-breakpoint) {    
+    
 
     &.expanded {
       background: #fff;
