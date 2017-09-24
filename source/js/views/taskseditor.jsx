@@ -9,11 +9,14 @@ export default class TasksEditor extends preact.Component {
     this.state.noRender = false
   }
   componentDidMount() {
+    TasksCollection.bind('updateTask', this.triggerUpdate)
     window.addEventListener('resize', this.showEditorCb)
     this.showEditorCb()
   }
   componentWillReceiveProps(newProps) {
-    this.setState(this.installState(newProps))
+    const newState = this.installState(newProps)
+    newState.animate = true
+    this.setState(newState)
 
     setTimeout(() => {
       this.setState({
@@ -25,12 +28,18 @@ export default class TasksEditor extends preact.Component {
     const data = TasksCollection.find(props.task) || {}
     return {
       showEditor: ('task' in props),
-      animate: true,
-      name: data.name
+      name: data.name,
+      notes: data.notes,
     }
   }
   componentWillUnmount() {
+    TasksCollection.unbind('updateTask', this.triggerUpdate)
     window.removeEventListener('resize', this.showEditorCb)
+  }
+  triggerUpdate = data => {
+    if (data === this.props.task) {
+      this.setState(this.installState(this.props))
+    }
   }
   showEditorCb = () => {
     if (window.innerWidth < 700 && this.state.noRender === true) {
@@ -41,6 +50,21 @@ export default class TasksEditor extends preact.Component {
       this.setState({
         noRender: true
       })
+    }
+  }
+  triggerChange = prop => {
+    return e => {
+      const value = e.currentTarget.value
+      this.setState({
+        [prop]: value
+      })
+      // Update value in the model
+      TasksCollection.update(this.props.task, { [prop]: value })
+    }
+  }
+  triggerKeyUp = e => {
+    if (e.keyCode === 13) {
+      e.currentTarget.blur()
     }
   }
   triggerBack = () => {
@@ -64,9 +88,9 @@ export default class TasksEditor extends preact.Component {
           <button class="header-child header-left" onClick={this.triggerBack}>
             <img src="/img/icons/back.svg" alt="Back Icon" title="Back" />
           </button>
-          <h1 class="header-child">{this.state.name}</h1>
+          <input class="header-child grow" value={this.state.name} onChange={this.triggerChange('name')} onKeyUp={this.triggerKeyUp} />
         </header>
-        <p>Notes Control</p>
+        <textarea placeholder="Add a note..." onChange={this.triggerChange('notes')} value={this.state.notes} />
         <p>Due Date Control</p>
         <p>More controls!</p>
       </section>

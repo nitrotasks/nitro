@@ -29,12 +29,12 @@
   }
 
   &.main-nav {
-    @media (max-width: $mobile-breakpoint) {
+    @media (max-width: $tablet-breakpoint - 1) {
       background: #fff;
       box-shadow: $default-shadow;
     }
   }
-  @media (min-width: $mobile-breakpoint + 1) {
+  @media (min-width: $tablet-breakpoint) {
     .search {
       display: none;
     }
@@ -83,12 +83,26 @@
     }
   }
 
+  input.header-child {
+    box-sizing: border-box;
+    border: 0;
+    outline: 0;
+    line-height: 2.5rem;
+    font-weight: 600;
+    font-size: 1.2rem;
+  }
+
+  .grow {
+    flex: 1;
+    padding-right: $indent-width + 0.1rem;
+  }
+
   > div {
     display: flex;
   }
 
   h1 {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     margin: 0;
     flex: 1;
     transition: 150ms ease-out opacity;
@@ -113,7 +127,7 @@
 .search-container {
   padding: 0 $indent-width - 0.3rem $indent-width;
 
-  @media (max-width: $mobile-breakpoint) {
+  @media (max-width: $tablet-breakpoint) {
     display: none;
   }
   input {

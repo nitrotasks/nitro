@@ -34,10 +34,8 @@ export default class Task extends preact.Component {
   triggerChange = prop => {
     return e => {
       const value = e.currentTarget.value
-      requestAnimationFrame(() => {
-        this.setState({
-          [prop]: value
-        })
+      this.setState({
+        [prop]: value
       })
       // Update value in the model
       TasksCollection.update(this.props.data.id, { [prop]: value })

@@ -23,7 +23,6 @@ $speed: 250ms;
   font-size: 1.125rem;
   line-height: 2.5rem;
   padding: $indent-width $indent-width 0.5rem;
-  transition: $speed ease transform;
 
   .outer {
     padding: 0;
@@ -74,8 +73,10 @@ $speed: 250ms;
   }
 }
 
-.selected-task .task-item, .selected-task-hide .task-item {
-  transition: $speed ease transform;
+.selected-task, .selected-task-hide {
+  .header-item, .task-item {
+    transition: $speed ease transform;
+  }
 }
 
 .task-item {
@@ -211,6 +212,9 @@ $speed: 250ms;
   .label {
     flex: 1;
     line-height: $task-height;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   $padding-size: 0.25rem;
@@ -252,7 +256,7 @@ $speed: 250ms;
       padding: 0;
 
       .box {
-        margin-top: $task-height-mobile / 2 - ($box-height / 2);
+        margin-top: 0.75rem;
         width: $box-height + 0.125rem;
         height: $box-height + 0.125rem;
         background-position: 2px 3px;

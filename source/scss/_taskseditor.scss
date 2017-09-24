@@ -22,4 +22,11 @@
 		visibility: hidden;
 		pointer-events: none;
 	}
+
+	textarea {
+		@include button-blank;
+		padding: $indent-width;
+		width: 100%;
+		min-height: 5rem;
+	}
 }
