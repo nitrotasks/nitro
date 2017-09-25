@@ -1,8 +1,11 @@
 import preact from 'preact'
 import { route } from 'preact-router'
+
 import { ListsCollection } from '../models/listsCollection.js'
 import { TasksCollection } from '../models/tasksCollection.js'
 
+import authenticationStore from '../stores/auth.js'
+import ContextMenuStore from '../stores/contextmenu.js'
 import DialogBoxStore from '../stores/dialogbox.js'
 
 export default class Lists extends preact.Component {
@@ -54,6 +57,22 @@ export default class Lists extends preact.Component {
       })
     }
   }
+  signOut = () => {
+    authenticationStore.signOut()
+  }
+  triggerMenu = e => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    ContextMenuStore.create(
+      rect.right - 5,
+      rect.top + 5,
+      'top',
+      'right',
+      [
+        {title: 'Settings', action: null},
+        {title: 'Sign Out', action: this.signOut},
+      ]
+    )
+  }
   render() {
     let focus = []
     let lists = []
@@ -84,7 +103,7 @@ export default class Lists extends preact.Component {
           <div class="search header-child">
             <img src="/img/icons/search.svg" alt="Search" />
           </div>
-          <div class="header-child header-right">
+          <div class="header-child header-right" onClick={this.triggerMenu}>
             <img src="/img/icons/menu.svg" alt="Menu" />
           </div>
         </header>
@@ -102,10 +121,6 @@ export default class Lists extends preact.Component {
             </li>
           </ul>
         </div>
-        <footer class="subtle-footer">
-          <button class="feedback" aria-label="Feedback"/>
-          <button class="settings" aria-label="Settings"/>
-        </footer>
       </div>
     )
   }

@@ -40,20 +40,6 @@
     }
   }
 
-  @media all and (display-mode: standalone) {
-    .brand {
-      display: none;
-    }
-    &.main-nav {
-      background: $brand-color;
-      color: #fff;
-      box-shadow: $default-shadow;
-
-      img {
-        filter: invert(100);
-      }
-    }
-  }
   button {
     @include button-blank();
     display: flex;
@@ -107,6 +93,22 @@
     flex: 1;
     transition: 150ms ease-out opacity;
     font-weight: 600;
+  }
+}
+.sidebar-container .material-header {
+  @media all and (display-mode: standalone) {
+    .brand {
+      display: none;
+    }
+    &.main-nav {
+      background: $brand-color;
+      color: #fff;
+      box-shadow: $default-shadow;
+
+      img {
+        filter: invert(100);
+      }
+    }
   }
 }
 .lists-sidebar {
@@ -246,50 +248,6 @@
       &.add .label {
         font-size: 0.9rem;
       }
-    }
-  }
-}
-
-.subtle-footer {
-  border-top: 1px solid $line-color;
-  height: $footer-height; 
-  text-align: right;
-  box-sizing: border-box;
-  padding: 0 0.25rem;
-  overflow: hidden;
-
-  @media (max-width: $mobile-breakpoint) {
-    display: none;
-  }
-
-  button {
-    width: $footer-height;
-    height: 100%;
-    border: 0;
-    color: transparent;
-    background-color: transparent;
-    background-size: 1.5rem;
-    background-repeat: no-repeat;
-    background-position: 50%;
-    outline: 0;
-    opacity: 0.4;
-
-    &:hover {
-      opacity: 0.45;
-    }
-
-    &:active {
-      opacity: 0.6;
-    }
-
-    // these icons work better here
-    $icon-style: 'material';
-
-    &.feedback {
-      background-image: url('/img/icons/'+ $icon-style +'/feedback.svg');
-    }
-    &.settings {
-      background-image: url('/img/icons/'+ $icon-style +'/settings.svg');
     }
   }
 }

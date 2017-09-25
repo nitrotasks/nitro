@@ -80,10 +80,9 @@ class AuthenticationStore extends Events {
       })
     })
   }
-  // do not use
   signOut() {
     localStorage.clear()
-    window.location.reload()
+    window.location = '/'
   }
   getToken() {
     if (JSON.stringify(this.refreshToken) === '{}' || 'local' in this.refreshToken) {
