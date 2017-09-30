@@ -1,4 +1,5 @@
 import preact from 'preact'
+import Datepicker from './datepicker.jsx'
 import { TasksCollection } from '../models/tasksCollection.js'
 
 export default class TasksEditor extends preact.Component {
@@ -90,8 +91,8 @@ export default class TasksEditor extends preact.Component {
           </button>
           <input class="header-child grow" value={this.state.name} onChange={this.triggerChange('name')} onKeyUp={this.triggerKeyUp} />
         </header>
+        <Datepicker />
         <textarea placeholder="Add a note..." onChange={this.triggerChange('notes')} value={this.state.notes} />
-        <p>Due Date Control</p>
         <p>More controls!</p>
       </section>
     )

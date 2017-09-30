@@ -379,6 +379,7 @@ export default class Tasks extends preact.Component {
     if (this.state.taskNotes) {
       taskNotes = (
         <p class="tasks-notes">
+          What even are notes???
           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
           eiusmod
           tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim

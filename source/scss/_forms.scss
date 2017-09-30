@@ -10,6 +10,12 @@
   }
 }
 
+.button-list {
+  button {
+    display: block;
+  }
+}
+
 .input {
   box-sizing: border-box;
   border: 1px solid transparent;

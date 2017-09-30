@@ -58,6 +58,7 @@
     "webpack": "^3.4.1"
   },
   "dependencies": {
+    "pikaday": "^1.6.1",
     "preact": "^8.2.1",
     "preact-router": "^2.5.5",
     "webpack-bundle-analyzer": "^2.9.0"
