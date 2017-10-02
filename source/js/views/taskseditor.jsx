@@ -21,14 +21,14 @@ export default class TasksEditor extends preact.Component {
 
     setTimeout(() => {
       this.setState({
-        animate: false
+        animate: false,
       })
     }, 300)
   }
   installState(props) {
     const data = TasksCollection.find(props.task) || {}
     return {
-      showEditor: ('task' in props),
+      showEditor: 'task' in props,
       name: data.name,
       notes: data.notes,
     }
@@ -45,11 +45,11 @@ export default class TasksEditor extends preact.Component {
   showEditorCb = () => {
     if (window.innerWidth < 700 && this.state.noRender === true) {
       this.setState({
-        noRender: false
+        noRender: false,
       })
     } else if (window.innerWidth >= 700 && this.state.noRender === false) {
       this.setState({
-        noRender: true
+        noRender: true,
       })
     }
   }
@@ -57,7 +57,7 @@ export default class TasksEditor extends preact.Component {
     return e => {
       const value = e.currentTarget.value
       this.setState({
-        [prop]: value
+        [prop]: value,
       })
       // Update value in the model
       TasksCollection.update(this.props.task, { [prop]: value })
@@ -83,16 +83,25 @@ export default class TasksEditor extends preact.Component {
     } else if (!this.state.showEditor) {
       className += ' hide'
     }
-    return(
+    return (
       <section class={className}>
-        <header class="material-header main-nav"> 
+        <header class="material-header main-nav">
           <button class="header-child header-left" onClick={this.triggerBack}>
             <img src="/img/icons/back.svg" alt="Back Icon" title="Back" />
           </button>
-          <input class="header-child grow" value={this.state.name} onChange={this.triggerChange('name')} onKeyUp={this.triggerKeyUp} />
+          <input
+            class="header-child grow"
+            value={this.state.name}
+            onChange={this.triggerChange('name')}
+            onKeyUp={this.triggerKeyUp}
+          />
         </header>
-        <Datepicker />
-        <textarea placeholder="Add a note..." onChange={this.triggerChange('notes')} value={this.state.notes} />
+        <Datepicker position="floating" />
+        <textarea
+          placeholder="Add a note..."
+          onChange={this.triggerChange('notes')}
+          value={this.state.notes}
+        />
         <p>More controls!</p>
       </section>
     )

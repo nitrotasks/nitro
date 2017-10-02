@@ -1,3 +1,41 @@
+.datepicker-wrapper {
+  top: 0;
+  left: 0;
+  height: 100vh;
+  height: var(--real-height);
+  width: 100%;
+  transition: 200ms ease opacity;
+  display: flex;
+  background: rgba(#000, 0.2);
+  overflow: hidden;
+
+  &.floating {
+    position: absolute;
+  }
+  &.hidden {
+    opacity: 0;
+    pointer-events: none;
+    display: flex;
+
+    .datepicker-container {
+      transform: translate3d(0, 2rem, 0);
+    }
+  }
+}
 .datepicker-container {
-  background: rgba(#000, 0.7);
+  background: #fff;
+  flex: 1;
+  margin: auto auto 0;
+  transition: 200ms ease transform;
+  padding: 0.5rem;
+  box-shadow: 0 -1px 2px rgba(#000, 0.2);
+
+  header {
+  	display: flex;
+
+  	h3 {
+  		flex: 1;
+  		margin: 0;
+  	}
+  }
 }
