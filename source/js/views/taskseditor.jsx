@@ -21,7 +21,7 @@ export default class TasksEditor extends preact.Component {
 
     setTimeout(() => {
       this.setState({
-        animate: false,
+        animate: false
       })
     }, 300)
   }
@@ -31,6 +31,9 @@ export default class TasksEditor extends preact.Component {
       showEditor: 'task' in props,
       name: data.name,
       notes: data.notes,
+      type: data.type,
+      date: data.date,
+      deadline: data.deadline
     }
   }
   componentWillUnmount() {
@@ -45,11 +48,11 @@ export default class TasksEditor extends preact.Component {
   showEditorCb = () => {
     if (window.innerWidth < 700 && this.state.noRender === true) {
       this.setState({
-        noRender: false,
+        noRender: false
       })
     } else if (window.innerWidth >= 700 && this.state.noRender === false) {
       this.setState({
-        noRender: true,
+        noRender: true
       })
     }
   }
@@ -57,11 +60,28 @@ export default class TasksEditor extends preact.Component {
     return e => {
       const value = e.currentTarget.value
       this.setState({
-        [prop]: value,
+        [prop]: value
       })
       // Update value in the model
       TasksCollection.update(this.props.task, { [prop]: value })
     }
+  }
+  triggerDate = value => {
+    let newData = {}
+    if (value.constructor === Date) {
+      newData.type = 'task'
+      newData.date = value
+    } else if (value === 'today') {
+      newData.type = 'next'
+      newData.date = new Date()
+    } else if (value === 'next') {
+      newData.type = 'next'
+      newData.date = null
+    } else if (value === 'someday') {
+      newData.type = 'someday'
+      newData.date = null
+    }
+    TasksCollection.update(this.props.task, newData)
   }
   triggerKeyUp = e => {
     if (e.keyCode === 13) {
@@ -96,7 +116,12 @@ export default class TasksEditor extends preact.Component {
             onKeyUp={this.triggerKeyUp}
           />
         </header>
-        <Datepicker position="floating" />
+        <Datepicker
+          position="floating"
+          onSelect={this.triggerDate}
+          type={this.state.type}
+          date={this.state.date}
+        />
         <textarea
           placeholder="Add a note..."
           onChange={this.triggerChange('notes')}

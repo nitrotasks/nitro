@@ -3,23 +3,23 @@ import pikaday from 'pikaday'
 
 export default class Datepicker extends preact.Component {
   state = {
-    visible: false,
+    visible: false
   }
   componentDidMount() {
     this.picker = new pikaday({
       field: this.datepickerField,
       container: this.datepickerWidget,
       onSelect: this.triggerSelect(),
-      bound: false,
+      bound: false
     })
   }
   componentWillUnmount() {
     this.picker.destroy()
   }
-  triggerSelect = (value1) => {
-    return (value2) => {
+  triggerSelect = value1 => {
+    return value2 => {
       let value = value1 || value2
-      console.log(value)
+      this.props.onSelect(value)
       this.triggerHide()
     }
   }
@@ -61,7 +61,12 @@ export default class Datepicker extends preact.Component {
     let activator = null
     if (this.props.position === 'floating') {
       className += ' floating'
-      activator = <button onClick={this.triggerVisible}>Choose a Date</button>
+      activator = (
+        <button onClick={this.triggerVisible}>
+          {this.props.type}{' '}
+          {(this.props.date || '').toString() || 'Choose a Date'}
+        </button>
+      )
     }
     if (!this.state.visible) {
       className += ' hidden'
@@ -82,7 +87,10 @@ export default class Datepicker extends preact.Component {
               type="date"
               class="hidden"
             />
-            <div ref={e => (this.datepickerWidget = e)} class="datepicker-widget" />
+            <div
+              ref={e => (this.datepickerWidget = e)}
+              class="datepicker-widget"
+            />
             {buttonsBottom}
           </div>
         </div>
