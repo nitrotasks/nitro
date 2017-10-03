@@ -1,3 +1,4 @@
+$font-family: 'Raleway', sans-serif;
 // $header-height: calc(2.8rem + (2vh);
 $header-height: 3.5rem;
 $indent-width: 0.9rem;
@@ -34,3 +35,15 @@ $default-shadow: 0 1px 3px rgba(#000, 0.2);
 // $pd-picker-bg: transparent;
 $pd-picker-border: transparent;
 $pd-picker-border-bottom: transparent;
+$pd-font-family: $font-family;
+$pd-day-hover-bg: rgba(#000, 0.15);
+$pd-day-today-color: $brand-color;
+$pd-day-selected-bg: $brand-color;
+$pd-day-selected-shadow: transparent;
+$pd-day-bg: $neutral-back-color;
+
+$list-icon: url('/img/icons/'+ $icon-style +'/list.svg');
+$inbox-icon: url('/img/icons/'+ $icon-style +'/inbox.svg');
+$today-icon: url('/img/icons/'+ $icon-style +'/today.svg');
+$next-icon: url('/img/icons/'+ $icon-style +'/next.svg');
+$all-icon: url('/img/icons/'+ $icon-style +'/all.svg'); 

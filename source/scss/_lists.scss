@@ -1,5 +1,9 @@
 .sidebar-container {
   background: $neutral-back-color;
+  height: 100vh;
+  height: var(--real-height);
+  display: flex;
+  flex-direction: column;
 
   @media (min-width: $tablet-breakpoint) {
     max-width: $sidebar-width-small;
@@ -113,16 +117,14 @@
 }
 .lists-sidebar {
   box-sizing: border-box;
-  height: calc(100vh - #{$header-height});
-  height: calc(#{var(--real-height)} - #{$header-height});
   padding: 1rem 0;
   overflow-y: auto; 
+  overflow-x: hidden;
   touch-action: pan-y;
+  flex: 1;
 
   @media (min-width: $mobile-breakpoint + 1) {
     padding: 0.25rem 0 0.5rem;    
-    height: calc(100vh - #{$header-height} - #{$footer-height});
-    height: calc(#{var(--real-height)} - #{$header-height} - #{$footer-height});
   }
 }
 
@@ -172,19 +174,19 @@
       background-repeat: no-repeat;
       background-position: 50%;
       background-size: 1.5rem;
-      background-image: url('/img/icons/'+ $icon-style +'/list.svg');
+      background-image: $list-icon;
     }
     &.inbox .icon {
-      background-image: url('/img/icons/'+ $icon-style +'/inbox.svg');
+      background-image: $inbox-icon;
     }
     &.today .icon {
-      background-image: url('/img/icons/'+ $icon-style +'/today.svg');
+      background-image: $today-icon;
     }
     &.next .icon {
-      background-image: url('/img/icons/'+ $icon-style +'/next.svg');
+      background-image: $next-icon;
     }
     &.all .icon {
-      background-image: url('/img/icons/'+ $icon-style +'/all.svg');
+      background-image: $all-icon;
     }
 
     &.today, &.all + li {

@@ -70,6 +70,8 @@ $speed: 250ms;
 @media (min-width: $tablet-breakpoint) {
   .offset-down {
     transform: translate3d(0, 150px, 0);
+    position: relative;
+    z-index: 0;
   }
 }
 
@@ -111,6 +113,8 @@ $speed: 250ms;
     
 
     &.expanded {
+      position: relative;
+      z-index: 1;
       background: #fff;
       transform: translate3d(0, 16px, 0);
       border-radius: $radius $radius 0 0;

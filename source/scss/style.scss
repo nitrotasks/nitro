@@ -14,7 +14,7 @@ body {
   }
 }
 body, input, button, textarea {
-  font-family: 'Raleway', sans-serif;
+  font-family: $font-family;
   overflow-x: hidden;
 }
 a {

@@ -35,24 +35,21 @@ export default class Datepicker extends preact.Component {
   }
   render() {
     const pickerType = this.props.pickerType || 'date'
-    let buttonsTop, buttonsBottom
+    let titleText = 'Pick Date'
+    let buttonsTop
     if (pickerType === 'date') {
       buttonsTop = (
         <div class="button-list">
-          <button onClick={this.triggerSelect('today')}>Today</button>
-          <button onClick={this.triggerSelect('next')}>Next</button>
-        </div>
-      )
-      buttonsBottom = (
-        <div class="button-list">
-          <button onClick={this.triggerSelect('someday')}>Someday</button>
+          <button class="today" onClick={this.triggerSelect('today')}>Today</button>
+          <button class="next" onClick={this.triggerSelect('next')}>Next</button>
         </div>
       )
     } else if (pickerType === 'deadline') {
+      titleText = 'Set Deadline'
       buttonsTop = (
         <div class="button-list">
-          <button onClick={this.triggerSelect('today')}>Today</button>
-          <button onClick={this.triggerSelect('next')}>Next</button>
+          <button class="today" onClick={this.triggerSelect('today')}>Today</button>
+          <button class="tomorrow" onClick={this.triggerSelect('next')}>Tomorrow</button>
         </div>
       )
     }
@@ -81,8 +78,8 @@ export default class Datepicker extends preact.Component {
         <div class={className}>
           <div class="datepicker-container">
             <header>
-              <h3>Date</h3>
-              <button onClick={this.triggerHide}>Close</button>
+              <h3>{titleText}</h3>
+              <button class="close" onClick={this.triggerHide} title="Close" />
             </header>
             {buttonsTop}
             <input
@@ -94,7 +91,6 @@ export default class Datepicker extends preact.Component {
               ref={e => (this.datepickerWidget = e)}
               class="datepicker-widget"
             />
-            {buttonsBottom}
           </div>
         </div>
       </div>

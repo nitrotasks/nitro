@@ -96,7 +96,7 @@ export default class DialogBox extends preact.Component {
     }
     return (
       <div class={mainClass} onClick={this.triggerHide()}>
-        <div class={'dialogbox ' + this.state.context + ' ' + this.state.type}>
+        <div class={'dialogbox ' + this.state.context + ' ' + this.state.type + 'box'}>
           <header>{this.state.header}</header>
           <div class="content">{content}</div>
           <div class="button-box">
