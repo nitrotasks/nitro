@@ -3,6 +3,7 @@ import preact from 'preact'
 import { TasksCollection } from '../models/tasksCollection.js'
 import { CombinedCollection } from '../models/combinedCollection.js'
 import ContextMenuStore from '../stores/contextmenu.js'
+import Datepicker from './datepicker.jsx'
 
 export default class Task extends preact.Component {
   constructor(props) {
@@ -52,6 +53,8 @@ export default class Task extends preact.Component {
       name: data.name,
       type: data.type,
       notes: data.notes,
+      date: data.date,
+      deadline: data.deadline,
       completed: data.completed,
       noRender: false,
     }
@@ -129,6 +132,24 @@ export default class Task extends preact.Component {
       ]
     )
   }
+  triggerDate = value => {
+    let newData = {}
+    if (value.constructor === Date) {
+      newData.type = 'task'
+      newData.date = value
+    } else if (value === 'today') {
+      newData.type = 'next'
+      newData.date = new Date()
+    } else if (value === 'next') {
+      newData.type = 'next'
+      newData.date = null
+    } else if (value === 'someday') {
+      newData.type = 'someday'
+      newData.date = null
+    }
+    this.setState(newData)
+    TasksCollection.update(this.props.data.id, newData)
+  }
   triggerHeaderMenu = e => {
     const rect = e.currentTarget.getBoundingClientRect()
     ContextMenuStore.create(
@@ -163,7 +184,12 @@ export default class Task extends preact.Component {
         <div class="inner">
           <textarea placeholder="Notes" onChange={this.triggerChange('notes')} value={this.state.notes} />
           <div class="button-bar">
-            <img src="/img/icons/material/task-duedate.svg" />
+            <Datepicker
+              position="popover"
+              onSelect={this.triggerDate}
+              type={this.state.type}
+              date={this.state.date}
+            />
             <img src="/img/icons/material/task-deadline.svg" />
             <img
               src="/img/icons/material/task-subtasks.svg"

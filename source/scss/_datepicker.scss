@@ -1,25 +1,48 @@
 .datepicker-wrapper {
   top: 0;
-  left: 0;
-  height: 100vh;
-  height: var(--real-height);
-  width: 100%;
+  left: 0;  
   transition: 200ms ease opacity;
-  display: flex;
-  background: rgba(#000, 0.2);
-  overflow: hidden;
 
   &.floating {
     position: absolute;
   }
+  &.sheet {
+    background: rgba(#000, 0.2);
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    height: var(--real-height);
+    overflow: hidden;
+
+    .datepicker-container {
+      flex: 1;
+    }
+  }
+  &.popover {
+    .datepicker-container {
+      border-radius: 3px;
+      box-shadow: 0 1px 3px rgba(#000, 0.3);
+    }
+  }
   &.hidden {
     opacity: 0;
     pointer-events: none;
-    display: flex;
 
-    .datepicker-container {
-      transform: translate3d(0, 2rem, 0);
+    &.sheet {
+      display: flex;
+
+      .datepicker-container {
+        transform: translate3d(0, 2rem, 0);
+      }
     }
+    &.popover {
+      display: block;
+
+      .datepicker-container {
+        transform: scale(0.9);
+      }
+    }
+
   }
 }
 .datepicker-container {

@@ -59,14 +59,17 @@ export default class Datepicker extends preact.Component {
 
     let className = 'datepicker-wrapper'
     let activator = null
-    if (this.props.position === 'floating') {
-      className += ' floating'
+    if (this.props.position === 'sheet') {
+      className += ' floating sheet'
       activator = (
         <button onClick={this.triggerVisible}>
           {this.props.type}{' '}
           {(this.props.date || '').toString() || 'Choose a Date'}
         </button>
       )
+    } else if (this.props.position === 'popover') {
+      className += ' floating popover'
+      activator = <img onClick={this.triggerVisible} src="/img/icons/material/task-duedate.svg" />
     }
     if (!this.state.visible) {
       className += ' hidden'

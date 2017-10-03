@@ -81,6 +81,7 @@ export default class TasksEditor extends preact.Component {
       newData.type = 'someday'
       newData.date = null
     }
+    this.setState(newData)
     TasksCollection.update(this.props.task, newData)
   }
   triggerKeyUp = e => {
@@ -117,7 +118,7 @@ export default class TasksEditor extends preact.Component {
           />
         </header>
         <Datepicker
-          position="floating"
+          position="sheet"
           onSelect={this.triggerDate}
           type={this.state.type}
           date={this.state.date}
