@@ -26,9 +26,11 @@ $background-speed: 400ms;
   right: 0;
   height: 100%;
   background: #fff;
-  overflow-x: hidden;
   animation: show-tasks $default-timing $default-curve 1;
   transition: $background-speed ease background-color;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  -webkit-tap-highlight-color: transparent;
 
   &.hide {
     animation: hide-tasks $default-timing $default-curve 1;
@@ -62,8 +64,12 @@ $background-speed: 400ms;
     @media (min-width: $tablet-breakpoint) {
       display: none;
     }
-    position: relative;
-    z-index: 0;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+    background: #fff;
 
     &::after {
       content: "";
@@ -78,6 +84,8 @@ $background-speed: 400ms;
     }
 
     &.hide-header {
+      position: fixed;
+
       h1, &::after {
         opacity: 0;
       }
@@ -86,11 +94,11 @@ $background-speed: 400ms;
 }
 
 .no-animate .tasks-pane {
-  animation-duration: 0s;
+  // faster than 60fps, so doesn't play
+  animation-duration: 0.0001s;
 }
 
 .tasks-content {
-  overflow-y: auto;
   position: absolute;
   top: $header-height;
   bottom: 0;
@@ -98,9 +106,12 @@ $background-speed: 400ms;
 
   @media (min-width: $tablet-breakpoint) {
     position: static;
-    overflow-y: visible;
     width: $tablet-max-width;
     margin: 0 auto;
+
+    .tasks-sticky-helper {
+      height: $header-height;
+    }
   }
   @media (min-width: $desktop-breakpoint) {
     width: $desktop-max-width;
@@ -109,23 +120,24 @@ $background-speed: 400ms;
 
 @media (min-width: $tablet-breakpoint) {
   .tasks-sticky-container {
+    position: -webkit-sticky;
     position: sticky;
     top: -1px;
     background: #fff;
-    margin-top: $header-height;
     transition: $background-speed ease background-color;
     z-index: 2;
   }
   .selected-task .tasks-sticky-container {
     background-color: lighten($neutral-back-color, 0);
   }
-}
-.scale-header {
-  .tasks-fancy-header {
-    h1 {
-      transform: scale(0.7);
-      button {
-        opacity: 0;
+
+  .scale-header {
+    .tasks-fancy-header {
+      h1 {
+        transform: scale(0.7);
+        button {
+          opacity: 0;
+        }
       }
     }
   }

@@ -49,7 +49,7 @@ export default class Tasks extends preact.Component {
     this.passiveScrollWrapper = document.getElementById(
       'passive-scroll-wrapper'
     )
-    this.passiveScroll.addEventListener('scroll', this.triggerScroll, OPTS)
+    this.passiveScrollWrapper.addEventListener('scroll', this.triggerScroll, OPTS)
     this.passiveScrollWrapper.addEventListener(
       'scroll',
       this.triggerStickyScroll,
@@ -65,7 +65,7 @@ export default class Tasks extends preact.Component {
     TasksCollection.unbind('update', this.tasksUpdate)
     ListsCollection.unbind('update', this.listsUpdate)
     ListsCollection.unbind('order', this.orderUpdate)
-    this.passiveScroll.removeEventListener('scroll', this.triggerScroll, OPTS)
+    this.passiveScrollWrapper.removeEventListener('scroll', this.triggerScroll, OPTS)
     this.passiveScrollWrapper.removeEventListener(
       'scroll',
       this.triggerStickyScroll,
@@ -433,6 +433,7 @@ export default class Tasks extends preact.Component {
         </header>
         <div class="tasks-content" id="passive-scroll">
           <div class="tasks-scrollwrap">
+            <div class="tasks-sticky-helper" />
             <div class={stickyScale}>
               <div class="tasks-fancy-header">
                 <h1>

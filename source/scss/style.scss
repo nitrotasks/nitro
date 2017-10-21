@@ -6,6 +6,11 @@
 @import "_mixins";
 @import "_pikaday";
 
+html, body {
+  width: 100vw;
+  overflow-x: hidden;
+}
+
 body {
   background: $neutral-back-color;
 
@@ -36,6 +41,10 @@ a {
 
 .hidden {
   display: none;
+}
+
+#app-shell {
+  position: relative;
 }
 
 @import "_forms";
