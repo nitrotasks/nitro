@@ -43,6 +43,15 @@ const webpackConfig = {
       },
     ]
   },
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    historyApiFallback: true,
+    proxy: {
+      '/a': {
+        target: 'http://localhost:8040',
+      }
+    }
+  },
   plugins: [
     extractSass,
   ]

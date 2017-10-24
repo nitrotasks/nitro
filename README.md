@@ -9,12 +9,20 @@ A brand new rewrite. Check out the [Wiki](https://github.com/nitrotasks/nitro/wi
 ## Build Instructions
 - You will need node.js & npm installed.
 - Then run `npm install`
-- Then run `npm run build`
 
-## Development
-- For development, use `npm run watch`
-- Go to <https://github.com/nitrotasks/nitro-server> to use the server.
-- You'll need to change the endpoint in `config.js` to this server to use it, otherwise you can set it to the live server.
+## Development (without server)
+- You can use `npm run watch`. It uses webpack-dev-server, which has nice live js & css reloading.
+- Sign in with `local@nitrotasks.com`, no password.
+
+## Development (with server)
+- Go to <https://github.com/nitrotasks/nitro-server> to download and use the server.
+- If you're developing the client too, the webpack-dev-server will proxy API requests to `localhost:8040/a` - you can change this in `webpack.config.js`.
 
 ## Production
 - This is published as a npm package, prebuilt with the API route as /a.
+- Nitro Server pulls the package from NPM, and serves the module as the app.
+
+### Otherwise
+- Use `npm run build` to create a production build.
+- Serve this from nitro-server by changing the config.
+- If you're the maintainer, use `npm publish` and change the wanted package in the nitro-server `package.json`.

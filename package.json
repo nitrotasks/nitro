@@ -5,7 +5,7 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --progress --colors -p --display-optimization-bailout",
     "report": "cross-env NODE_ENV=report webpack --progress --colors -p --display-optimization-bailout",
-    "watch": "webpack --progress --colors --watch",
+    "watch": "webpack-dev-server",
     "clean": "rm -f dist/generated/*",
     "test": "cross-env NODE_ENV=test mocha tests.js --compilers js:babel-core/register",
     "coverage": "cross-env NODE_ENV=test nyc mocha tests.js",
@@ -55,7 +55,8 @@
     "resolve-url-loader": "^2.1.0",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
-    "webpack": "^3.4.1"
+    "webpack": "^3.8.1",
+    "webpack-dev-server": "^2.9.3"
   },
   "dependencies": {
     "pikaday": "^1.6.1",
