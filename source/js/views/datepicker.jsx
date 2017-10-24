@@ -66,7 +66,13 @@ export default class Datepicker extends preact.Component {
       )
     } else if (this.props.position === 'popover') {
       className += ' floating popover'
-      activator = <img onClick={this.triggerVisible} src="/img/icons/material/task-duedate.svg" />
+      let imgSrc = '/img/icons/material/'
+      if (pickerType === 'deadline') {
+        imgSrc += 'task-deadline.svg'
+      } else {
+        imgSrc += 'task-duedate.svg'
+      }
+      activator = <img onClick={this.triggerVisible} src={imgSrc} />
     }
     if (!this.state.visible) {
       className += ' hidden'

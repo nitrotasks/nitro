@@ -1,5 +1,6 @@
 import preact from 'preact'
 
+import { dateValue, deadlineValue } from '../models/helpers.js'
 import { TasksCollection } from '../models/tasksCollection.js'
 import { CombinedCollection } from '../models/combinedCollection.js'
 import ContextMenuStore from '../stores/contextmenu.js'
@@ -133,20 +134,12 @@ export default class Task extends preact.Component {
     )
   }
   triggerDate = value => {
-    let newData = {}
-    if (value.constructor === Date) {
-      newData.type = 'task'
-      newData.date = value
-    } else if (value === 'today') {
-      newData.type = 'next'
-      newData.date = new Date()
-    } else if (value === 'next') {
-      newData.type = 'next'
-      newData.date = null
-    } else if (value === 'someday') {
-      newData.type = 'someday'
-      newData.date = null
-    }
+    const newData = dateValue(value)
+    this.setState(newData)
+    TasksCollection.update(this.props.data.id, newData)
+  }
+  triggerDeadline = value => {
+    const newData = deadlineValue(value)
     this.setState(newData)
     TasksCollection.update(this.props.data.id, newData)
   }
@@ -190,10 +183,12 @@ export default class Task extends preact.Component {
               type={this.state.type}
               date={this.state.date}
             />
-            <img src="/img/icons/material/task-deadline.svg" />
-            <img
-              src="/img/icons/material/task-subtasks.svg"
-              style={{ margin: '0 0.3rem 0 0' }}
+            <Datepicker
+              position="popover"
+              onSelect={this.triggerDeadline}
+              type={this.state.type}
+              date={this.state.deadline}
+              pickerType="deadline"
             />
             <img src="/img/icons/material/task-more.svg" onClick={this.triggerMenu} />
           </div>

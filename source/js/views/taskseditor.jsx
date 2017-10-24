@@ -1,5 +1,6 @@
 import preact from 'preact'
 import Datepicker from './datepicker.jsx'
+import { dateValue, deadlineValue } from '../models/helpers.js'
 import { TasksCollection } from '../models/tasksCollection.js'
 
 export default class TasksEditor extends preact.Component {
@@ -67,20 +68,12 @@ export default class TasksEditor extends preact.Component {
     }
   }
   triggerDate = value => {
-    let newData = {}
-    if (value.constructor === Date) {
-      newData.type = 'task'
-      newData.date = value
-    } else if (value === 'today') {
-      newData.type = 'next'
-      newData.date = new Date()
-    } else if (value === 'next') {
-      newData.type = 'next'
-      newData.date = null
-    } else if (value === 'someday') {
-      newData.type = 'someday'
-      newData.date = null
-    }
+    const newData = dateValue(value)
+    this.setState(newData)
+    TasksCollection.update(this.props.task, newData)
+  }
+  triggerDeadline = value => {
+    const newData = deadlineValue(value)
     this.setState(newData)
     TasksCollection.update(this.props.task, newData)
   }
@@ -122,6 +115,13 @@ export default class TasksEditor extends preact.Component {
           onSelect={this.triggerDate}
           type={this.state.type}
           date={this.state.date}
+        />
+        <Datepicker
+          position="sheet"
+          onSelect={this.triggerDeadline}
+          type={this.state.type}
+          date={this.state.deadline}
+          pickerType="deadline"
         />
         <textarea
           placeholder="Add a note..."
