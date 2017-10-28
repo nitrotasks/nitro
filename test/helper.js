@@ -2,7 +2,7 @@ import fetch from 'isomorphic-fetch'
 import config from '../config.js'
 
 // it takes https by default
-config.endpoint = 'http:' + config.endpoint
+config.endpoint = 'http://localhost:8040' + config.endpoint
 
 global.testMode = true
 

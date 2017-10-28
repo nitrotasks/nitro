@@ -2,9 +2,14 @@ import authenticationStore from '../source/js/stores/auth.js'
 
 describe('authentication', function() {
   before(function(done) {
+    console.log('Creating test account...')
+    const complete = function() {
+      console.log('Created test account.')
+    }
     const createAccount = function() {
       authenticationStore.createAccount('testuser', 'testpassword')
         .then(done)
+        .then(complete)
         .catch(done)
     }
     const deleteAccount = function() {

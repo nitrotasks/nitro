@@ -54,6 +54,7 @@ const webpackConfig = {
   },
   plugins: [
     extractSass,
+    new webpack.IgnorePlugin(/moment/)
   ]
 }
 

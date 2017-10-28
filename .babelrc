@@ -1,10 +1,7 @@
 {
 	"presets": [
     [
-      "env",
-      {
-        "modules": false
-      }
+      "env"
     ],
   ],
   "plugins": [
