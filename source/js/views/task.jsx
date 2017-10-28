@@ -10,7 +10,7 @@ export default class Task extends preact.Component {
   constructor(props) {
     super(props)
     this.state = this.installState(props.data.id)
-    this.state.expanded =  props.selectedTask === props.data.id
+    this.state.expanded = props.selectedTask === props.data.id
   }
   componentDidMount() {
     TasksCollection.bind('updateTask', this.triggerUpdate)
@@ -57,7 +57,7 @@ export default class Task extends preact.Component {
       date: data.date,
       deadline: data.deadline,
       completed: data.completed,
-      noRender: false,
+      noRender: false
     }
   }
   triggerKeyUp = e => {
@@ -66,7 +66,10 @@ export default class Task extends preact.Component {
     }
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.selectedTask === nextProps.data.id && this.state.expanded === false) {
+    if (
+      nextProps.selectedTask === nextProps.data.id &&
+      this.state.expanded === false
+    ) {
       requestAnimationFrame(() => {
         this.setState({ expanded: true })
         this.handleResize()
@@ -76,7 +79,10 @@ export default class Task extends preact.Component {
         // this.taskInput.focus()
         // }, 250)
       })
-    } else if (nextProps.selectedTask !== nextProps.data.id && this.state.expanded === true) {
+    } else if (
+      nextProps.selectedTask !== nextProps.data.id &&
+      this.state.expanded === true
+    ) {
       setTimeout(() => {
         requestAnimationFrame(() => {
           this.setState({ expanded: false })
@@ -116,22 +122,26 @@ export default class Task extends preact.Component {
       TasksCollection.update(this.props.data.id, { type: 'header' })
     }
   }
-  deleteTask = e => {
+  deleteTask = () => {
     window.history.back()
     CombinedCollection.deleteTask(this.props.data)
   }
   triggerMenu = e => {
-    const rect = e.currentTarget.getBoundingClientRect()
-    ContextMenuStore.create(
-      rect.left,
-      rect.top,
-      'top',
-      'left',
-      [
-        {title: 'Change to Heading', action: this.headingConvert},
-        {title: 'Delete Task', action: this.deleteTask},
+    let pos = 'left'
+    let items = [
+      { title: 'Change to Heading', action: this.headingConvert },
+      { title: 'Delete Task', action: this.deleteTask }
+    ]
+    if (this.props.data.type === 'header') {
+      pos = 'right'
+      items = [
+        { title: 'Change to Task', action: this.headingConvert },
+        { title: 'Delete Heading', action: this.deleteTask }
       ]
-    )
+    }
+
+    const rect = e.currentTarget.getBoundingClientRect()
+    ContextMenuStore.create(rect.left, rect.top, 'top', pos, items)
   }
   triggerDate = value => {
     const newData = dateValue(value)
@@ -142,19 +152,6 @@ export default class Task extends preact.Component {
     const newData = deadlineValue(value)
     this.setState(newData)
     TasksCollection.update(this.props.data.id, newData)
-  }
-  triggerHeaderMenu = e => {
-    const rect = e.currentTarget.getBoundingClientRect()
-    ContextMenuStore.create(
-      rect.left,
-      rect.top,
-      'top',
-      'right',
-      [
-        {title: 'Change to Task', action: this.headingConvert},
-        {title: 'Delete Heading', action: this.deleteTask},
-      ]
-    )
   }
   render() {
     let className = 'task-item'
@@ -169,13 +166,23 @@ export default class Task extends preact.Component {
     if (this.state.completed !== null) {
       className += ' completed'
     }
+    let indicators
+    if (this.state.notes !== null && this.state.notes.length > 0) {
+      indicators = <img class="indicator indicator-notes" src="/img/icons/material/note.svg" />
+    }
     let label = (
-      <div class="label" onClick={this.props.onClick}>{this.state.name}</div>
+      <div class="label" onClick={this.props.onClick}>
+        {this.state.name}{indicators}
+      </div>
     )
     if (this.state.expanded && !this.state.noRender) {
       expandedItems = (
         <div class="inner">
-          <textarea placeholder="Notes" onChange={this.triggerChange('notes')} value={this.state.notes} />
+          <textarea
+            placeholder="Notes"
+            onChange={this.triggerChange('notes')}
+            value={this.state.notes}
+          />
           <div class="button-bar">
             <Datepicker
               position="popover"
@@ -190,7 +197,10 @@ export default class Task extends preact.Component {
               date={this.state.deadline}
               pickerType="deadline"
             />
-            <img src="/img/icons/material/task-more.svg" onClick={this.triggerMenu} />
+            <img
+              src="/img/icons/material/task-more.svg"
+              onClick={this.triggerMenu}
+            />
           </div>
         </div>
       )
@@ -209,10 +219,7 @@ export default class Task extends preact.Component {
     if (this.state.type === 'header') {
       className = className.replace('task-item', 'header-item')
       return (
-        <li 
-          class={className} 
-          onContextMenu={this.onContextMenu}
-        >
+        <li class={className} onContextMenu={this.onContextMenu}>
           <div class="outer">
             <input
               value={this.state.name}
@@ -223,14 +230,22 @@ export default class Task extends preact.Component {
               }}
             />
             <button alt="Sublist Menu">
-              <img src="/img/icons/material/task-more.svg" onClick={this.triggerHeaderMenu} />
+              <img
+                src="/img/icons/material/task-more.svg"
+                onClick={this.triggerMenu}
+              />
             </button>
           </div>
         </li>
       )
     } else {
-      let onPointerDown, onPointerMove, onPointerUp,
-        onTouchStart, onTouchMove, onTouchEnd, onTouchCancel
+      let onPointerDown,
+        onPointerMove,
+        onPointerUp,
+        onTouchStart,
+        onTouchMove,
+        onTouchEnd,
+        onTouchCancel
       if (this.props.eventMode === 'pointer') {
         onPointerDown = this.props.onDown
         onPointerMove = this.props.onMove
@@ -242,8 +257,8 @@ export default class Task extends preact.Component {
         onTouchCancel = this.props.onUp
       }
       return (
-        <li 
-          class={className} 
+        <li
+          class={className}
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}

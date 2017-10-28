@@ -1,5 +1,6 @@
 import preact from 'preact'
 import pikaday from 'pikaday'
+import { formatDate } from '../helpers/date.js'
 
 export default class Datepicker extends preact.Component {
   state = {
@@ -61,7 +62,7 @@ export default class Datepicker extends preact.Component {
       activator = (
         <button onClick={this.triggerVisible}>
           {this.props.type}{' '}
-          {(this.props.date || '').toString() || 'Choose a Date'}
+          {formatDate(this.props.date) || 'Choose a Date'}
         </button>
       )
     } else if (this.props.position === 'popover') {
@@ -72,7 +73,10 @@ export default class Datepicker extends preact.Component {
       } else {
         imgSrc += 'task-duedate.svg'
       }
-      activator = <img onClick={this.triggerVisible} src={imgSrc} />
+      activator = <div onClick={this.triggerVisible}>
+        <img src={imgSrc} />
+        {formatDate(this.props.date, this.props.type)}
+      </div>
     }
     if (!this.state.visible) {
       className += ' hidden'
