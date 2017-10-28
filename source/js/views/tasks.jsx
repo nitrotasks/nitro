@@ -46,9 +46,7 @@ export default class Tasks extends preact.Component {
   componentDidMount() {
     // TODO: Polyfill this for Edge, Safari & Older Browsers
     this.passiveScroll = document.getElementById('passive-scroll')
-    this.passiveScrollWrapper = document.getElementById(
-      'passive-scroll-wrapper'
-    )
+    this.passiveScrollWrapper = document.getElementById('passive-scroll-wrapper')
     this.passiveScrollWrapper.addEventListener('scroll', this.triggerScroll, OPTS)
     this.passiveScrollWrapper.addEventListener(
       'scroll',
@@ -396,7 +394,6 @@ export default class Tasks extends preact.Component {
       )
     }
 
-    // TODO: add emoji support
     let listIcon = null
     if (this.state.headerIcon) {
       listIcon = (

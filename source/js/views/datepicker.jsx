@@ -73,9 +73,11 @@ export default class Datepicker extends preact.Component {
       } else {
         imgSrc += 'task-duedate.svg'
       }
+      // ensures we don't get a rogue 'next' value
+      const next = pickerType === 'deadline' ? 'task' : this.props.type
       activator = <div onClick={this.triggerVisible}>
         <img src={imgSrc} />
-        {formatDate(this.props.date, this.props.type)}
+        {formatDate(this.props.date, next)}
       </div>
     }
     if (!this.state.visible) {

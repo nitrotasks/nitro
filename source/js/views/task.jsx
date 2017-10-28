@@ -1,6 +1,6 @@
 import preact from 'preact'
 
-import { dateValue, deadlineValue } from '../models/helpers.js'
+import { dateValue, deadlineValue, formatDate } from '../helpers/date.js'
 import { TasksCollection } from '../models/tasksCollection.js'
 import { CombinedCollection } from '../models/combinedCollection.js'
 import ContextMenuStore from '../stores/contextmenu.js'
@@ -166,15 +166,40 @@ export default class Task extends preact.Component {
     if (this.state.completed !== null) {
       className += ' completed'
     }
-    let indicators
+    let indicators = []
     if (this.state.notes !== null && this.state.notes.length > 0) {
-      indicators = <img class="indicator indicator-notes" src="/img/icons/material/note.svg" />
+      indicators.push(
+        <img key="notes-indicator" class="indicator indicator-notes" src="/img/icons/material/note.svg" />
+      )
+    }
+    if (this.state.deadline !== null) {
+      indicators.push(
+        <img key="deadline-indicator" class="indicator indicator-deadline" src="/img/icons/material/task-deadline.svg" />
+      ) 
+    }
+    if (this.state.date !== null) {
+      const todayMode = this.state.deadline === null ? 'today' : this.state.deadline
+      indicators.push(
+        <span class="indicator indicator-date">{formatDate(this.state.date, this.state.type, todayMode)}</span>
+      )
     }
     let label = (
       <div class="label" onClick={this.props.onClick}>
         {this.state.name}{indicators}
       </div>
     )
+    if (this.state.type === 'header' || (this.state.expanded && !this.state.noRender)) {
+      label = (
+        <input
+          value={this.state.name}
+          onChange={this.triggerChange('name')}
+          onKeyUp={this.triggerKeyUp}
+          ref={input => {
+            this.taskInput = input
+          }}
+        />
+      )
+    }
     if (this.state.expanded && !this.state.noRender) {
       expandedItems = (
         <div class="inner">
@@ -204,31 +229,13 @@ export default class Task extends preact.Component {
           </div>
         </div>
       )
-      // focus on render
-      label = (
-        <input
-          value={this.state.name}
-          onChange={this.triggerChange('name')}
-          onKeyUp={this.triggerKeyUp}
-          ref={input => {
-            this.taskInput = input
-          }}
-        />
-      )
     }
     if (this.state.type === 'header') {
       className = className.replace('task-item', 'header-item')
       return (
         <li class={className} onContextMenu={this.onContextMenu}>
           <div class="outer">
-            <input
-              value={this.state.name}
-              onChange={this.triggerChange('name')}
-              onKeyUp={this.triggerKeyUp}
-              ref={input => {
-                this.taskInput = input
-              }}
-            />
+            {label}
             <button alt="Sublist Menu">
               <img
                 src="/img/icons/material/task-more.svg"
