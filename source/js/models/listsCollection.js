@@ -87,8 +87,8 @@ export class lists extends Events {
   }
   createLocal() {
     this.collection.set('inbox', new List({
-      id: 'nitrosys-inbox',
-      name: 'Inbox'
+      id: 'inbox',
+      name: 'nitrosys-inbox'
     }))
     this.collection.set('today', new List({
       id: 'today',
