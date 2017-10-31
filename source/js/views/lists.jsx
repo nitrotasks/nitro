@@ -49,6 +49,9 @@ export default class Lists extends preact.Component {
         cancel: 'Cancel',
         type: 'input',
         callback: name => {
+          if (name.slice(0, 9) === 'nitrosys-') {
+            name = name.slice(9)
+          }
           const newList = ListsCollection.add({
             name: name
           })
@@ -82,7 +85,7 @@ export default class Lists extends preact.Component {
       let el = (
         <li onClick={this.navigate(item.id)} class={item.id}>
           <span class="icon"></span>
-          <span class="label">{item.name}</span>
+          <span class="label">{ListsCollection.escape(item.name)}</span>
           <span class="count">{count}</span>
         </li>
       )

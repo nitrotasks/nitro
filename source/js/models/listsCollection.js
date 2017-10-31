@@ -14,8 +14,12 @@ export class lists extends Events {
   }
   add(props, sync = true) {
     // TODO: collision detection
-    const id = Math.round(Math.random()*100000).toString()
+    let id = Math.round(Math.random()*100000).toString()
+    if (props.name === 'nitrosys-inbox') {
+      id = 'inbox'
+    }
     props.id = id
+
     const newList = new List(props)
     this.collection.set(id, newList)
     this.trigger('update')
@@ -58,6 +62,12 @@ export class lists extends Events {
   all() {
     return this.collection
   }
+  escape(name) {
+    if (name === 'nitrosys-inbox') {
+      return 'Inbox'
+    }
+    return name
+  }
   saveLocal() {
     requestAnimationFrame(() => {
       localStorage.setItem('nitro3-lists', JSON.stringify(this.toObject()))
@@ -77,7 +87,7 @@ export class lists extends Events {
   }
   createLocal() {
     this.collection.set('inbox', new List({
-      id: 'inbox',
+      id: 'nitrosys-inbox',
       name: 'Inbox'
     }))
     this.collection.set('today', new List({

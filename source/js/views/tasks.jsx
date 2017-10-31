@@ -87,6 +87,8 @@ export default class Tasks extends preact.Component {
 
       // called on new list on desktop
       if (window.location.hash === '#rename') {
+        // rewrites the hash away
+        route('/lists/' + nextProps.list, true)
         this.realInput.select()
       }
     }, 5)
@@ -117,13 +119,11 @@ export default class Tasks extends preact.Component {
       const list = ListsCollection.find(nextProps.list) || {}
       newProps.disposing = false
       newProps.list = nextProps.list
-      newProps.header = list.name || 'inbox'
+      newProps.header = ListsCollection.escape(list.name) || 'unknown'
       newProps.headerIcon = false
       newProps.order = list.localOrder
-      newProps.taskNotes = null
       if (['inbox', 'today', 'next', 'all'].indexOf(nextProps.list) > -1) {
         newProps.headerIcon = nextProps.list
-        newProps.taskNotes = false
       }
     } else {
       newProps.disposing = true
@@ -164,7 +164,7 @@ export default class Tasks extends preact.Component {
   listsUpdate = () => {
     let list = ListsCollection.find(this.state.list) || {}
     this.setState({
-      header: list.name,
+      header: ListsCollection.escape(list.name),
       order: list.localOrder
     })
   }
@@ -277,7 +277,7 @@ export default class Tasks extends preact.Component {
     })
   }
   triggerListChange = e => {
-    const value = e.currentTarget.value.trim()
+    let value = e.currentTarget.value.trim()
     this.fakeInput.textContent = value
     // resets the header
     if (value === '') {
@@ -286,6 +286,11 @@ export default class Tasks extends preact.Component {
         innerWidth: this.fakeInput.offsetWidth + widthOffset + 'px'
       })
     } else {
+      // reserved name
+      if (value.slice(0, 9) === 'nitrosys-') {
+        value = value.slice(9)
+      }
+
       this.setState({
         header: value,
         innerWidth: this.fakeInput.offsetWidth + widthOffset + 'px'
@@ -294,6 +299,9 @@ export default class Tasks extends preact.Component {
         name: value
       })
     }
+    requestAnimationFrame(() => {
+      this.sizeInput()
+    })
   }
   triggerTask = task => {
     return () => {
@@ -371,27 +379,6 @@ export default class Tasks extends preact.Component {
       className += ' selected-task'
     } else if (this.state.taskDisposing) {
       className += ' selected-task-hide'
-    }
-
-    let taskNotes = null
-    if (this.state.taskNotes) {
-      taskNotes = (
-        <p class="tasks-notes">
-          What even are notes???
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-          eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-          veniam,
-          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-          esse
-          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-          cupidatat non
-          proident, sunt in culpa qui officia deserunt mollit anim id est
-          laborum.
-        </p>
-      )
     }
 
     let listIcon = null
@@ -472,7 +459,6 @@ export default class Tasks extends preact.Component {
                 </button>
               </div>
             </div>
-            {taskNotes}
             <Sortable 
               task={this.props.task}
               taskList={this.state.taskList}
