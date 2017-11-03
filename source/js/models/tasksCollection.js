@@ -1,5 +1,6 @@
 import Events from './events.js'
 import Task from './task.js'
+import { getToday } from './magicList.js'
 
 // the main thing that holds all the tasks
 export class tasks extends Events {
@@ -101,16 +102,17 @@ export class tasks extends Events {
         return item[1]
       })
     } else {
-      // return the normal list
       this.collection.forEach(function(task) {
         if (task.list === list) {
           returned.push(task)
         }
       })
       if (list === 'today') {
-        // + due today / overdue + priority
+        // returned = getToday()
       } else if (list === 'next') {
         // + due at some point + priority
+      } else {
+        // return the normal list
       }
     }
     return returned

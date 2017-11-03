@@ -7,9 +7,10 @@
     "report": "cross-env NODE_ENV=report webpack --progress --colors -p --display-optimization-bailout",
     "watch": "webpack-dev-server",
     "clean": "rm -f dist/generated/*",
-    "test": "cross-env NODE_ENV=test mocha tests.js --compilers js:babel-core/register",
-    "coverage": "cross-env NODE_ENV=test nyc mocha tests.js",
-    "prepublishOnly": "npm run clean && npm run build"
+    "test": "cross-env NODE_ENV=test nyc mocha tests.js",
+    "test:fast": "cross-env NODE_ENV=test nyc mocha tests.js --compilers js:babel-core/register",
+    "prepublishOnly": "npm run clean && npm run build",
+    "flow": "flow"
   },
   "repository": {
     "type": "git",
@@ -34,6 +35,7 @@
     ]
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.25.0",
     "babel-eslint": "^8.0.1",
     "babel-loader": "^7.1.1",
@@ -41,12 +43,14 @@
     "babel-plugin-transform-class-properties": "^6.22.0",
     "babel-plugin-transform-react-jsx": "^6.22.0",
     "babel-preset-env": "^1.6.0",
+    "babel-preset-flow": "^6.23.0",
     "babel-register": "^6.26.0",
     "cross-env": "^5.0.5",
     "css-loader": "^0.28.7",
     "eslint": "^4.3.0",
     "eslint-plugin-react": "^7.1.0",
     "extract-text-webpack-plugin": "^3.0.0",
+    "flow-bin": "^0.58.0",
     "isomorphic-fetch": "^2.2.1",
     "mocha": "^4.0.1",
     "node-sass": "^4.5.3",

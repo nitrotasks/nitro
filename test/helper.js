@@ -8,8 +8,8 @@ global.testMode = true
 
 // define localstorage
 global.localStorage = {
-	getItem: () => null,
-	setItem: () => null,
+  getItem: () => null,
+  setItem: () => null,
 }
 
 // define requestAnimationFrame

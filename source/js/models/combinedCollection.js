@@ -1,12 +1,14 @@
 import SyncQueue from '../models/syncQueue.js'
 import SyncGet from '../models/syncGet.js'
+import Events from './events.js'
 import { ListsCollection } from './listsCollection.js'
 import { TasksCollection } from './tasksCollection.js'
 import authenticationStore from '../stores/auth.js'
 
 // helpers
-export class combined {
+export class combined extends Events {
   constructor(props) {
+    super(props)
     // sets up the syncs here, just for greater control
     // also reduces dependencies
     this.listsQueue = new SyncQueue({
@@ -49,6 +51,13 @@ export class combined {
     authenticationStore.bind('token', () => {
       this.downloadData()
     })
+    TasksCollection.bind('update', this.update('tasks'))
+    ListsCollection.bind('update', this.update('lists'))
+  }
+  update(key) {
+    return () => {
+      this.trigger('update', key)
+    }
   }
   downloadData() {
     this.syncGet.downloadLists().then((data) => {
@@ -80,9 +89,33 @@ export class combined {
     ListsCollection.saveLocal()
     if (sync) ListsCollection.sync.patch(id)
   }
+  addList(props, sync) {
+    ListsCollection.add(props, sync)
+  }
+  getList(listId, serverId) {
+    const list = ListsCollection.find(listId, serverId).toObject()
+    list.name = ListsCollection.escape(list.name)
+    return list
+  }
+  getLists() {
+    const lists = []
+    ListsCollection.all().forEach(list => {
+      list = list.toObject()
+      list.name = ListsCollection.escape(list.name)
+      list.count = TasksCollection.findListCount(list.id)
+      lists.push(list)
+    })
+    return lists
+  }
   deleteList(list) {
     TasksCollection.deleteAllFromList(list)
     ListsCollection.delete(list)
+  }
+  getTask() {
+
+  }
+  getTasks() {
+
   }
 }
 export let CombinedCollection = new combined()

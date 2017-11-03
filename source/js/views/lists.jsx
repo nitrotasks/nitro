@@ -1,32 +1,26 @@
 import preact from 'preact'
 import { route } from 'preact-router'
 
-import { ListsCollection } from '../models/listsCollection.js'
-import { TasksCollection } from '../models/tasksCollection.js'
+import { CombinedCollection } from '../models/combinedCollection.js'
 
 import authenticationStore from '../stores/auth.js'
 import ContextMenuStore from '../stores/contextmenu.js'
 import DialogBoxStore from '../stores/dialogbox.js'
 
 export default class Lists extends preact.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      lists: ListsCollection.all()
-    }
+  state = {
+    lists: CombinedCollection.getLists()
   }
   componentWillMount() {
-    TasksCollection.bind('update', this.update)
-    ListsCollection.bind('update', this.update)
+    CombinedCollection.bind('update', this.update)
   }
   componentWillUnmount() {
-    TasksCollection.unbind('update', this.update)
-    ListsCollection.unbind('update', this.update)
+    CombinedCollection.unbind('update', this.update)
   }
   // essentially just updates the count & lists in view
   update = () => {
     this.setState({
-      lists: ListsCollection.all()
+      lists: CombinedCollection.getLists()
     })
   }
   navigate(id) {
@@ -36,7 +30,7 @@ export default class Lists extends preact.Component {
   }
   createList() {
     if (document.documentElement.clientWidth >= 700) {
-      const newList = ListsCollection.add({
+      const newList = CombinedCollection.addList({
         name: 'Untitled List'
       })
       route('/lists/' + newList.id + '#rename')
@@ -52,7 +46,7 @@ export default class Lists extends preact.Component {
           if (name.slice(0, 9) === 'nitrosys-') {
             name = name.slice(9)
           }
-          const newList = ListsCollection.add({
+          const newList = CombinedCollection.addList({
             name: name
           })
           route('/lists/' + newList.id)
@@ -80,13 +74,11 @@ export default class Lists extends preact.Component {
     let focus = []
     let lists = []
     this.state.lists.forEach((item) => {
-      const count = TasksCollection.findListCount(item.id)
-
       let el = (
         <li onClick={this.navigate(item.id)} class={item.id}>
           <span class="icon"></span>
-          <span class="label">{ListsCollection.escape(item.name)}</span>
-          <span class="count">{count}</span>
+          <span class="label">{item.name}</span>
+          <span class="count">{item.count}</span>
         </li>
       )
       if (item.id === 'inbox' || item.id === 'today' || item.id === 'next' || item.id === 'all') {
