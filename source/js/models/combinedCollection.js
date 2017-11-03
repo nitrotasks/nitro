@@ -4,6 +4,7 @@ import Events from './events.js'
 import { ListsCollection } from './listsCollection.js'
 import { TasksCollection } from './tasksCollection.js'
 import authenticationStore from '../stores/auth.js'
+import { log } from '../helpers/logger.js'
 
 // helpers
 export class combined extends Events {
@@ -34,23 +35,17 @@ export class combined extends Events {
       tasks: TasksCollection
     })
 
-    // TODO: schedule this
-    this.listsQueue.bind('request-process', function() {
+    const handleProcess = function() {
       if (authenticationStore.isSignedIn()) {
-        console.log('requested-lists')
+        log('requested process: implement scheduler')
         this.processQueue()
       }
-    })
-    this.tasksQueue.bind('request-process', function() {
-      if (authenticationStore.isSignedIn()) {
-        console.log('requested-tasks')
-        this.processQueue()
-      }
-    })
+    }
 
-    authenticationStore.bind('token', () => {
-      this.downloadData()
-    })
+    this.listsQueue.bind('request-process', handleProcess)
+    this.tasksQueue.bind('request-process', handleProcess)
+
+    authenticationStore.bind('token', this.downloadData)
     TasksCollection.bind('update', this.update('tasks'))
     ListsCollection.bind('update', this.update('lists'))
   }
@@ -59,16 +54,31 @@ export class combined extends Events {
       this.trigger('update', key)
     }
   }
-  downloadData() {
+  downloadData = () => {
     this.syncGet.downloadLists().then((data) => {
       this.syncGet.updateLocal(data)
     })
   }
   addTask(task) {
+    const list = ListsCollection.find(task.list)
+    if (typeof list === 'undefined') {
+      throw new Error('List could not be found')
+    }
+    const order = list.localOrder
     const id = TasksCollection.add(task)
-    const order = ListsCollection.find(task.list).localOrder
     order.unshift(id)
     this.updateOrder(task.list, order, false)
+    return this.getTask(id)
+  }
+  getTask(id, server) {
+    const task = TasksCollection.find(id, server)
+    if (typeof task === 'undefined') {
+      return null
+    }
+    return task
+  }
+  getTasks() {
+
   }
   deleteTask(task) {
     const order = ListsCollection.find(task.list).localOrder
@@ -90,10 +100,15 @@ export class combined extends Events {
     if (sync) ListsCollection.sync.patch(id)
   }
   addList(props, sync) {
-    ListsCollection.add(props, sync)
+    const newList = ListsCollection.add(props, sync)
+    return newList.toObject()
   }
   getList(listId, serverId) {
-    const list = ListsCollection.find(listId, serverId).toObject()
+    let list = ListsCollection.find(listId, serverId)
+    if (typeof list === 'undefined') {
+      return null
+    }
+    list = list.toObject()
     list.name = ListsCollection.escape(list.name)
     return list
   }
@@ -110,12 +125,6 @@ export class combined extends Events {
   deleteList(list) {
     TasksCollection.deleteAllFromList(list)
     ListsCollection.delete(list)
-  }
-  getTask() {
-
-  }
-  getTasks() {
-
-  }
+  }  
 }
 export let CombinedCollection = new combined()

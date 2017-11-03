@@ -1,6 +1,7 @@
 import config from '../../../config.js'
 import Events from './events.js'
 import { checkStatus } from '../helpers/fetch.js'
+import { log, warn, error } from '../helpers/logger.js'
 
 import authenticationStore from '../stores/auth.js'
 
@@ -13,7 +14,7 @@ const findQueueIndex = function(item) {
 export default class Sync extends Events {
   constructor(props) {
     super(props)
-    if (!'endpoint' in props || !'identifier' in props) {
+    if (!('endpoint' in props) || !('identifier' in props)) {
       throw new Error('Sync needs endpoint & identifier.')
     }
     this.queue = {
@@ -32,7 +33,7 @@ export default class Sync extends Events {
   logger() {
     if (typeof(testMode) !== 'undefined') return // doesn't log in test
     const data = [...arguments]  
-    console.log('%c' + data.join(' '), 'background: #ececec; color: #3a7df8;')
+    log('%c' + data.join(' '), 'background: #ececec; color: #3a7df8;')
   }
   saveQueue() {
     requestAnimationFrame(() => {
@@ -52,8 +53,6 @@ export default class Sync extends Events {
     this.trigger('request-process')
   }
   processQueue() {
-    // TODO: Call this whenever.
-
     const postItem = (id) => {
       let body = null
       let resource = null
@@ -174,12 +173,23 @@ export default class Sync extends Events {
           }
         })
       }).catch((err) => {
-        console.error(err)
+        error(err)
       })
     }
     const deleteItem = (id) => {
       const additionalEndpoint = '/' + id[1] + '/'
       const finalDeletions = id[2].map(item => item[1])
+
+      const cb = (queue) => {
+        this.saveQueue()
+
+        if (queue.length > 0) {
+          deleteItem(queue[0])
+        } else {
+          this.logger(this.identifier, 'Finished DELETING')
+        }
+      }
+
       fetch(`${config.endpoint}/${this.endpoint}${additionalEndpoint}`, {
         method: 'DELETE',
         headers: authenticationStore.authHeader(true),
@@ -188,13 +198,7 @@ export default class Sync extends Events {
         })
       }).then(checkStatus).then(() => {
         this.queue.delete.splice(0, 1)
-        this.saveQueue()
-
-        if (this.queue.delete.length > 0) {
-          deleteItem(this.queue.delete[0])
-        } else {
-          this.logger(this.identifier, 'Finished DELETING')
-        }
+        cb(this.queue.delete)
       }).catch((err) => {
         if (err.status === 404) {
           err.response.items.forEach((item) => {
@@ -205,16 +209,11 @@ export default class Sync extends Events {
           if (this.queue.delete[0][2].length === 0) {
             this.queue.delete.splice(0, 1)
           }
-          this.saveQueue()
+          
           this.logger(this.identifier, 'Skipped a couple of deletions... going for retry.')
-
-          if (this.queue.delete.length > 0) {
-            deleteItem(this.queue.delete[0])
-          } else {
-            this.logger(this.identifier, 'Finished DELETING')
-          }
+          cb(this.queue.delete)
         } else {
-          console.warn(err)
+          warn(err)
         }
       })
     }
@@ -226,7 +225,7 @@ export default class Sync extends Events {
         body: JSON.stringify({
           [this.arrayParam]: finalDeletions
         })
-      }).then(checkStatus).then((response) => {
+      }).then(checkStatus).then(() => {
         this.queue.delete = []
         this.saveQueue()
         this.logger(this.identifier, 'Finished DELETING')
@@ -238,7 +237,7 @@ export default class Sync extends Events {
           this.saveQueue()
           this.logger(this.identifier, 'Skipped a couple of deletions.')
         } else {
-          console.warn(err)
+          warn(err)
         }
       })
     } 
