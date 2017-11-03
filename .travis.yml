@@ -1,0 +1,23 @@
+language: node_js
+node_js:
+- 'node'
+branches:
+  only:
+  - master
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - gcc-4.8
+    - g++-4.8 
+env:
+  global:
+    - NODE_ENV=travis CXX=g++-4.8
+    - CC_TEST_REPORTER_ID=416110cef9815baac2d3dd8d0d3ec8402c977f2a81db6f22092470ed597c6b22
+before_script:
+- curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+- chmod +x ./cc-test-reporter
+- ./cc-test-reporter before-build
+after_script:
+- ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
