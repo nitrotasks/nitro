@@ -58,7 +58,7 @@ export class combined {
   addTask(task) {
     const id = TasksCollection.add(task)
     const order = ListsCollection.find(task.list).localOrder
-    order.push(id)
+    order.unshift(id)
     this.updateOrder(task.list, order, false)
   }
   deleteTask(task) {

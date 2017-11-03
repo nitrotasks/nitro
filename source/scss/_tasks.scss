@@ -20,12 +20,7 @@ $desktop-max-width: 92%;
 $background-speed: 400ms;
 
 .tasks-pane {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 100%;
-  background: #fff;
+    background: #fff;
   animation: show-tasks $default-timing $default-curve 1;
   transition: $background-speed ease background-color;
   overflow-y: scroll;
@@ -37,11 +32,17 @@ $background-speed: 400ms;
     transform: translate3d(100vw, 0, 0);
   }
 
+  @media (max-width: $tablet-breakpoint - 1) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+  }
+
   @media (min-width: $tablet-breakpoint) {
-    left: $sidebar-width-small;
     animation: none;
     border-left: 1px solid $line-color;
-    width: auto;
 
     &.hide {
       transform: none;
@@ -55,9 +56,6 @@ $background-speed: 400ms;
     .material-header .back {
       display: none;
     }
-  }
-  @media (min-width: $desktop-breakpoint) {
-    left: $sidebar-width-desktop;
   }
 
   .material-header {

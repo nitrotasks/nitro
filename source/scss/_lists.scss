@@ -6,11 +6,7 @@
   flex-direction: column;
 
   @media (min-width: $tablet-breakpoint) {
-    max-width: $sidebar-width-small;
     background: $neutral-back-color-transparent;
-  }
-  @media (min-width: $desktop-breakpoint) {
-    max-width: $sidebar-width-desktop;
   }
 }
 

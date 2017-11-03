@@ -1,0 +1,15 @@
+.desktop-grid {
+  @media (min-width: $tablet-breakpoint) {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+  }
+  
+  height: 100vh;
+  height: var(--real-height);
+  overflow: hidden;
+  
+
+  @media (min-width: 1200px) {
+    grid-template-columns: 350px 1fr;
+  }
+}

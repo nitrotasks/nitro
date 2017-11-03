@@ -1,6 +1,3 @@
-// css
-import style from '../scss/style.scss'
-
 import preact from 'preact'
 import Router from 'preact-router'
 
@@ -16,13 +13,15 @@ import DialogBox from './views/dialogbox.jsx'
 
 const App = () => (
   <div class="app">
-    <Lists />
-    <Router>
-      <Tasks path="/" />
-      <Tasks path="/lists/:list" />
-      <Tasks path="/lists/:list/:task" />
-      <NotFound default />
-    </Router>
+    <div class="desktop-grid">
+      <Lists />
+      <Router>
+        <Tasks path="/" />
+        <Tasks path="/lists/:list" />
+        <Tasks path="/lists/:list/:task" />
+        <NotFound default />
+      </Router>
+    </div>
     <Router>
       <TasksEditor path="/lists/:list" />
       <TasksEditor path="/lists/:list/:task" />
@@ -38,7 +37,9 @@ window.auth = authenticationStore
 document.addEventListener('DOMContentLoaded', function() {
   document.body.style.setProperty('--real-height', document.documentElement.clientHeight + 'px')
   window.addEventListener('resize', function() {
-    document.body.style.setProperty('--real-height', document.documentElement.clientHeight + 'px')
+    requestAnimationFrame(() => {
+      document.body.style.setProperty('--real-height', document.documentElement.clientHeight + 'px')
+    })
   })
 
   let elem = document.getElementById('app-shell')

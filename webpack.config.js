@@ -11,7 +11,7 @@ const extractSass = new ExtractTextPlugin({
 const webpackConfig = {
   context: baseDirectory,
   entry: {
-    app: './source/js/index.jsx'
+    app: ['./source/js/index.jsx', './source/scss/style.scss']
   },
   output: {
     filename: 'generated/[name].js',
