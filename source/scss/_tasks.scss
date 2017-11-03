@@ -24,6 +24,8 @@ $background-speed: 400ms;
   animation: show-tasks $default-timing $default-curve 1;
   transition: $background-speed ease background-color;
   overflow-y: scroll;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  -ms-scroll-rails: railed;
   -webkit-overflow-scrolling: touch;
   -webkit-tap-highlight-color: transparent;
 

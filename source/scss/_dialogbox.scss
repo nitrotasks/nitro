@@ -7,6 +7,7 @@
   z-index: 200;
   background: rgba(#000, 0.2);
   transition: 200ms ease opacity;
+  overflow: hidden;
 
   &.hide {
     opacity: 0;

@@ -116,6 +116,8 @@
   padding: 1rem 0;
   overflow-y: auto; 
   overflow-x: hidden;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  -ms-scroll-rails: railed;
   touch-action: pan-y;
   flex: 1;
 

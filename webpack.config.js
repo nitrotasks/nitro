@@ -46,6 +46,7 @@ const webpackConfig = {
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     historyApiFallback: true,
+    host: '0.0.0.0',
     proxy: {
       '/a': {
         target: 'http://localhost:8040',
