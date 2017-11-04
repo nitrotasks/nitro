@@ -126,7 +126,7 @@ export class combined extends Events {
     list.name = ListsCollection.escape(list.name)
     return list
   }
-  getLists() {
+  getLists(): Array<Object> {
     const lists = []
     ListsCollection.all().forEach(list => {
       list = list.toObject()
