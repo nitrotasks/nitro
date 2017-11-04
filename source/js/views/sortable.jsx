@@ -1,7 +1,6 @@
 import preact from 'preact'
 
 import Task from './task.jsx'
-import { ListsCollection } from '../models/listsCollection.js'
 import { CombinedCollection } from '../models/combinedCollection.js'
 
 const pressDelay = 600

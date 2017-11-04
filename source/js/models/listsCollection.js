@@ -57,7 +57,7 @@ export class lists extends Events {
       })
       return match
     }
-    return this.collection.get(id)
+    return this.collection.get(id) || null
   }
   all() {
     return this.collection

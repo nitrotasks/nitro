@@ -37,25 +37,22 @@ export default class Datepicker extends preact.Component {
   render() {
     const pickerType = this.props.pickerType || 'date'
     let titleText = 'Pick Date'
+    let nextLabel = 'Next'
     let buttonsTop
-    if (pickerType === 'date') {
-      buttonsTop = (
-        <div class="button-list">
-          <button class="today" onClick={this.triggerSelect('today')}>Today</button>
-          <button class="next" onClick={this.triggerSelect('next')}>Next</button>
-        </div>
-      )
-    } else if (pickerType === 'deadline') {
+    if (pickerType === 'deadline') {
       titleText = 'Set Deadline'
+      nextLabel = 'Tomorrow'
+    }
+    if (pickerType === 'date' || pickerType === 'deadline') {
       buttonsTop = (
         <div class="button-list">
           <button class="today" onClick={this.triggerSelect('today')}>Today</button>
-          <button class="tomorrow" onClick={this.triggerSelect('next')}>Tomorrow</button>
+          <button class={nextLabel.toLowerCase()} onClick={this.triggerSelect('next')}>{nextLabel}</button>
         </div>
       )
     }
 
-    let className = 'datepicker-wrapper'
+    let className = 'datepicker-wrapper' + (this.state.visible ? '' : ' hidden')
     let activator = null
     if (this.props.position === 'sheet') {
       className += ' floating sheet'
@@ -79,9 +76,6 @@ export default class Datepicker extends preact.Component {
         <img src={imgSrc} />
         {formatDate(this.props.date, next)}
       </div>
-    }
-    if (!this.state.visible) {
-      className += ' hidden'
     }
 
     return (

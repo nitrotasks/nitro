@@ -28,6 +28,9 @@ export class tasks extends Events {
   }
   update(id, props, sync = true) {
     const resource = this.find(id, !sync)
+    if (resource === null) {
+      return null
+    }
 
     // not allowed to update the id
     Object.keys(props).forEach(function(key) {
