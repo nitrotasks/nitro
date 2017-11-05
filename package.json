@@ -7,8 +7,8 @@
     "report": "cross-env NODE_ENV=report webpack --progress --colors -p --display-optimization-bailout",
     "watch": "webpack-dev-server",
     "clean": "rm -f dist/generated/*",
-    "test": "cross-env NODE_ENV=test nyc mocha tests.js && npm run build",
-    "test:fast": "cross-env NODE_ENV=test mocha tests.js --require babel-core/register",
+    "test": "cross-env NODE_ENV=test nyc mocha test/index.js && npm run build",
+    "test:fast": "cross-env NODE_ENV=test mocha test/index.js --require babel-core/register",
     "prepublishOnly": "npm run clean && npm run build",
     "flow": "flow"
   },

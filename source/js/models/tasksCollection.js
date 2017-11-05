@@ -105,17 +105,17 @@ export class tasks extends Events {
         return item[1]
       })
     } else {
-      this.collection.forEach(function(task) {
-        if (task.list === list) {
-          returned.push(task)
-        }
-      })
       if (list === 'today') {
-        // returned = getToday()
+        returned = getToday()
       } else if (list === 'next') {
         // + due at some point + priority
       } else {
         // return the normal list
+        this.collection.forEach(function(task) {
+          if (task.list === list) {
+            returned.push(task.toObject())
+          }
+        })
       }
     }
     return returned

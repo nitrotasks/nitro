@@ -19,9 +19,9 @@ const a = (props) => {
     }, props)
   )
 }
-const ass = (num) => {
+const ass = (num, compare = num) => {
   return () => {
-    assert.equal(getToday()[num].name, 'task' + num)
+    assert.equal(getToday()[compare].name, 'task' + num)
   }
 }
 
@@ -40,9 +40,10 @@ describe('magic lists', function() {
         a({deadline: createDate(7), date: createDate(0)})
         a({deadline: createDate(7), date: createDate(-5)})
         a({deadline: createDate(7)})
-        assert.equal(tasks.length, 7)
+        a()
+        assert.equal(tasks.length, 8)
       })
-      it('should have all the tasks in the today list', function() {
+      it('should have all the correct tasks in the today list', function() {
         tasks = tasks.reverse()
         tasks.forEach(task => CombinedCollection.addTask(task))
         assert.equal(getToday().length, 7)
@@ -54,6 +55,25 @@ describe('magic lists', function() {
       it('4: more overdue dates weigh deadlines more', ass(4))
       it('5: deadline with date not overdue weighed more than date', ass(5))
       it('6: deadline no date weighed less than date not overdue', ass(6))
+    })
+    describe('date, overdue', function() {
+      it('the testrunner should create all the tasks in priority order', function() {
+        tasks = []
+        a({date: createDate(14)})
+        a({date: createDate(6), deadline: createDate(-7)})
+        a({date: createDate(7)})
+        a({date: createDate(0)})
+        assert.equal(tasks.length, 4)
+      })
+      it('should have all the correct tasks in the today list', function() {
+        tasks = tasks.reverse()
+        tasks.forEach(task => CombinedCollection.addTask(task))
+        assert.equal(getToday().length, 11)
+      })
+      it('0: overdue date is about half as weighted as overdue deadline', ass(0, 2))
+      it('1: overdue date more weighted with a deadline', ass(1, 5))
+      it('2: overdue date more overdue is less than with a deadline', ass(2, 9))
+      it('3: overdue date weighted by days overdue', ass(3, 10))
     })
   })
 })

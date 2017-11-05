@@ -73,14 +73,28 @@ export class combined extends Events {
     this.updateOrder(task.list, order, false)
     return this.getTask(id)
   }
-  getTask(id: string, server: ?boolean): Object | null {
+  getTask(id: string, server: ?bool): Object | null {
     const task = TasksCollection.find(id, server)
     if (task === null) {
       return null
     }
     return task.toObject()
   }
-  getTasks() {}
+  getTasks(id: string, sync: ?bool): Object | null {
+    const list = ListsCollection.find(id, sync)
+    if (list === null) {
+      return null
+    }
+    const tasks = TasksCollection.findList(id, sync)
+    let order = list.localOrder
+    if (order.length !== tasks.length) {
+      order = tasks.map(t => t.id)
+    }
+    return {
+      tasks: tasks,
+      order: order
+    }
+  }
   updateTask(id: string, newProps: Object): Object {
     const task = TasksCollection.update(id, newProps)
     if (task === null) {
@@ -88,7 +102,7 @@ export class combined extends Events {
     }
     return task
   }
-  deleteTask(id: string, server: ?boolean) {
+  deleteTask(id: string, server: ?bool) {
     const task = this.getTask(id, server)
     if (task === null) {
       throw new Error('Task could not be found')
@@ -135,6 +149,15 @@ export class combined extends Events {
       lists.push(list)
     })
     return lists
+  }
+  updateList(listId: string, props: Object) {
+    if ('name' in props) {
+      // reserved name
+      if (props.name.slice(0, 9) === 'nitrosys-') {
+        props.name = props.name.slice(9)
+      }
+    }
+    ListsCollection.update(listId, props)
   }
   deleteList(listId: string, serverId: ?bool) {
     if (systemLists.indexOf(listId) !== -1) {

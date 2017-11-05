@@ -66,6 +66,22 @@ describe('combined collection', function() {
       const task = CombinedCollection.getTask('notexist')
       assert.equal(task, null)
     })
+    it('should be able to get all the tasks in a list', function() {
+      const tasks = CombinedCollection.getTasks('inbox')
+      assert.equal(tasks.tasks.length, 1)
+      assert.equal(tasks.order.length, 1)
+    })
+    let newTask2
+    it('should be able to get all the tasks in a magic list', function() {
+      newTask2 = CombinedCollection.addTask({ name: 'A task', list: 'inbox', date: new Date(0) })
+      const tasks = CombinedCollection.getTasks('today')
+      assert.equal(tasks.tasks.length, 1)
+      assert.equal(tasks.order.length, 1)
+    })
+    it('should return null for a list that does not exist', function() {
+      const tasks = CombinedCollection.getTasks('boop')
+      assert.equal(tasks, null)
+    })
     it('should be able update to update a task', function() {
       CombinedCollection.updateTask(taskId, { name: 'new name' })
       const task = CombinedCollection.getTask(taskId)
@@ -90,6 +106,9 @@ describe('combined collection', function() {
       CombinedCollection.deleteTask(taskId)
       assert.equal(CombinedCollection.getTask(taskId), null)
       assert.equal(CombinedCollection.getList('inbox').order.length, 0)
+    })
+    after(function() {
+      CombinedCollection.deleteTask(newTask2.id)
     })
   })
 })
