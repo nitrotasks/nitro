@@ -4,7 +4,7 @@ export default class Task {
     this.name = props.name
     this.type = props.type || 'task'
     this.notes = props.notes || null
-    this.date = props.date ? new Date(props.date) : null
+    this.date = (props.date && props.date !== 'next') ? new Date(props.date) : props.date || null
     this.deadline = props.deadline ? new Date(props.deadline) : null
     this.list = props.list
     this.completed = props.completed || null

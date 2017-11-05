@@ -18,10 +18,10 @@ const penalty = function(date: Date | string): number {
 const getPriority = function(task: Object): number {
   let priority = 0
   if (task.completed !== null) {
-    priority += 100000
+    priority += 1000000
   }
   if (task.date === null && task.deadline === null) {
-    priority += 10000
+    priority += 100000
   }
   // overdue
   if (task.deadline !== null && task.deadline < new Date()) {
@@ -46,11 +46,16 @@ const getPriority = function(task: Object): number {
 
   /* TODAY CUTOFF */
   } else if (task.deadline !== null && task.deadline > new Date()) {
-    priority += 10000
-    // priority += 500 + penalty(task.date) * 10
+    priority += 10000 + (penalty(task.deadline) * 5)
+    // ones with dates are more important than those without
+    if (task.date === null) {
+      priority += 30
+    } else {
+      priority += penalty(task.date) * 10
+    }
   } else if (task.date !== null) {
-    priority += 10000
-    // do something else
+    // slightly less important if there's no due date
+    priority += 10020 + (penalty(task.date) * 20)
   }
   return priority
 }
@@ -75,4 +80,7 @@ function getList(threshold: number, comparison: string): Array<Object> {
 
 export function getToday(): Array<Object> {
   return getList(10000, 'lt')
+}
+export function getNext(): Array<Object> {
+  return getList(100000, 'lt') 
 }

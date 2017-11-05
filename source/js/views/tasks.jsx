@@ -8,6 +8,7 @@ import Header from './tasksheader.jsx'
 import Sortable from './sortable.jsx'
 
 const defaultList = 'inbox'
+const magicNumber = 16 * 3
 
 let supportsPassive = false
 try {
@@ -115,8 +116,7 @@ export default class Tasks extends preact.Component {
     }
   }
   triggerStickyScroll = e => {
-    const magicNumber = 16 * 3
-    let scrollPos = e.currentTarget.scrollTop
+    const scrollPos = e.currentTarget.scrollTop
     if (scrollPos <= magicNumber - 5 && this.state.stickyScale === true) {
       this.setState({
         stickyScale: false
