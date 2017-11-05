@@ -51,11 +51,15 @@ export class combined extends Events {
     authenticationStore.bind('token', this.downloadData)
     TasksCollection.bind('update', this._updateEvent('tasks'))
     ListsCollection.bind('update', this._updateEvent('lists'))
+    ListsCollection.bind('order', this._orderEvent)
   }
   _updateEvent(key: string) {
-    return () => {
-      this.trigger('update', key)
+    return (value: string) => {
+      this.trigger('update', key, value)
     }
+  }
+  _orderEvent = (key: string) => {
+    this.trigger('order', key)
   }
   downloadData = () => {
     this.syncGet.downloadLists().then(data => {

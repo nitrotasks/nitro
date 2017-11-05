@@ -20,14 +20,14 @@ $desktop-max-width: 92%;
 $background-speed: 400ms;
 
 .tasks-pane {
-    background: #fff;
+  background: #fff;
   animation: show-tasks $default-timing $default-curve 1;
   transition: $background-speed ease background-color;
-  overflow-y: scroll;
   -ms-overflow-style: -ms-autohiding-scrollbar;
   -ms-scroll-rails: railed;
   -webkit-overflow-scrolling: touch;
   -webkit-tap-highlight-color: transparent;
+  overflow-y: visible;
 
   &.hide {
     animation: hide-tasks $default-timing $default-curve 1;
@@ -45,6 +45,7 @@ $background-speed: 400ms;
   @media (min-width: $tablet-breakpoint) {
     animation: none;
     border-left: 1px solid $line-color;
+    overflow-y: scroll;
 
     &.hide {
       transform: none;
@@ -64,12 +65,15 @@ $background-speed: 400ms;
     @media (min-width: $tablet-breakpoint) {
       display: none;
     }
-    position: -webkit-sticky;
-    position: sticky;
+    position: fixed;
     top: 0;
     z-index: 1;
     width: 100%;
     background: #fff;
+
+    h1 {
+      opacity: 0;
+    }
 
     &::after {
       content: "";
@@ -81,14 +85,12 @@ $background-speed: 400ms;
       box-shadow: 0 1px 4px rgba(#000, 0.25);
       transition: 150ms ease-out opacity;
       z-index: -1;
+      opacity: 0;
     }
-
-    &.hide-header {
-      position: fixed;
-
-      h1, &::after {
-        opacity: 0;
-      }
+  }
+  .scale-header .material-header {
+    h1, &::after {
+      opacity: 1;
     }
   }
 }
@@ -103,11 +105,13 @@ $background-speed: 400ms;
   top: $header-height;
   bottom: 0;
   width: 100%;
+  overflow-y: scroll;
 
   @media (min-width: $tablet-breakpoint) {
     position: static;
     width: $tablet-max-width;
     margin: 0 auto;
+    overflow-y: visible;
 
     .tasks-sticky-helper {
       height: $header-height;
@@ -357,6 +361,7 @@ $background-speed: 400ms;
 }
 .floating-button {
   position: fixed;
+  z-index: 1;
   border: 0;
   outline: 0;
   bottom: 1rem;

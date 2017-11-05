@@ -19,9 +19,28 @@ export default class TasksHeader extends preact.Component {
     CombinedCollection.bind('update', this.listsUpdate)
     // delay so it has time to render
     setTimeout(this.sizeInput, 200)
+
+    // TODO: Hide keyboard
+    // very specific to android. probably won't work on iOS.
+    // if (this.lastHeight < document.documentElement.clientHeight && this.state.showCreator === true) {
+    //   this.setState({
+    //     showCreator: false
+    //   })
+    // }
+
+    // this.lastHeight = document.documentElement.clientHeight
   }
   componentWillReceiveProps = (nextProps) => {
     this.listsUpdate('lists', nextProps)
+
+    // called on new list on desktop
+    setTimeout(() => {
+      if (window.location.hash === '#rename') {
+        // rewrites the hash away
+        route('/lists/' + nextProps.list, true)
+        this.realInput.select()
+      }
+    }, 5)
   }
   listsUpdate = (key, props = this.props) => {
     if (key !== 'lists') {
@@ -121,6 +140,14 @@ export default class TasksHeader extends preact.Component {
       { title: 'Delete List', action: this.deleteList }
     ])
   }
+  triggerBack = () => {
+    // todo, hook it to the history
+    if (window.innerWidth < 700) {
+      route('/')
+    } else {
+      route('/lists/inbox')
+    }
+  }
   triggerCreate = () => {
     this.setState({
       showCreator: true
@@ -190,6 +217,12 @@ export default class TasksHeader extends preact.Component {
 
     return (
       <div class={stickyScale}>
+        <header class="material-header">
+          <button class="header-child header-left" onClick={this.triggerBack}>
+            <img src="/img/icons/back.svg" alt="Back Icon" title="Back" />
+          </button>
+          <h1 class="header-child">{this.state.header}</h1>
+        </header>
         <div class="tasks-fancy-header">
           <h1>
             {listIcon}
