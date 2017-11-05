@@ -58,6 +58,20 @@ describe('combined collection', function() {
       const task = CombinedCollection.addTask({ name: 'A task', list: 'inbox' })
       taskId = task.id
     })
+    it('adding a task in today should add in inbox, with date', function() {
+      const task = CombinedCollection.addTask({ name: 'A task', list: 'today' })
+      const retrieved = CombinedCollection.getTask(task.id)
+      assert.equal(retrieved.list, 'inbox')
+      assert.notEqual(retrieved.date, null)
+      CombinedCollection.deleteTask(task.id)
+    })
+    it('adding a task in next should add in inbox, with type', function() {
+      const task = CombinedCollection.addTask({ name: 'A task', list: 'next' })
+      const retrieved = CombinedCollection.getTask(task.id)
+      assert.equal(retrieved.list, 'inbox')
+      assert.equal(retrieved.type, 'next')
+      CombinedCollection.deleteTask(task.id)
+    })
     it('should be able to get a task', function() {
       const task = CombinedCollection.getTask(taskId)
       assert.notEqual(task, null)

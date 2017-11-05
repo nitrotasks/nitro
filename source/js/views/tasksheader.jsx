@@ -215,6 +215,11 @@ export default class TasksHeader extends preact.Component {
       fab += ' show'
     }
 
+    let placeholder = 'Add a task...'
+    if (['today', 'next'].indexOf(this.props.list) > -1) {
+      placeholder = 'Add a task in “Inbox”'
+    }
+
     return (
       <div class={stickyScale}>
         <header class="material-header">
@@ -243,7 +248,7 @@ export default class TasksHeader extends preact.Component {
           <input
             type="text"
             ref={e => (this.taskInput = e)}
-            placeholder="Add a task..."
+            placeholder={placeholder}
             class={creatorClass}
             value={this.state.inputValue}
             onInput={this.triggerInput}

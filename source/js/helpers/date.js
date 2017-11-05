@@ -30,6 +30,7 @@ export const dateValue = function(value) {
   } else if (value === 'today') {
     newData.type = 'next'
     newData.date = new Date()
+    newData.date.setSeconds(newData.date.getSeconds()-1)
   } else if (value === 'next') {
     newData.type = 'next'
     newData.date = null

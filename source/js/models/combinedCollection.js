@@ -70,9 +70,17 @@ export class combined extends Events {
     const list = ListsCollection.find(task.list)
     if (list === null) {
       throw new Error('List could not be found')
+    } else if (task.list === 'today') {
+      task.list = 'inbox'
+      task.date = new Date()
+      task.date.setSeconds(task.date.getSeconds()-1)
+    } else if (task.list === 'next') {
+      task.list = 'inbox'
+      task.type = 'next'
     }
-    const order = list.localOrder
     const id = TasksCollection.add(task)
+    // look up again because the list may have changed
+    const order = ListsCollection.find(task.list).localOrder
     order.unshift(id)
     this.updateOrder(task.list, order, false)
     return this.getTask(id)

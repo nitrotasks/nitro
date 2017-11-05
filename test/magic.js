@@ -96,9 +96,9 @@ describe('magic lists', function() {
       a({deadline: createDate(-9), date: createDate(-1)})
       a({deadline: createDate(-8), date: createDate(-5)})
       a({deadline: createDate(-9), date: createDate(-5)})
-      a({deadline: createDate(-9), date: 'next'})
+      a({deadline: createDate(-9), type: 'next'})
       a({date: createDate(-26)})
-      a({date: 'next'})
+      a({type: 'next'})
       assert.equal(tasks.length, 10)
     })
     it('should have all the correct tasks in the next list', function() {

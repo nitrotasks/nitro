@@ -2,10 +2,7 @@
 import { TasksCollection } from './tasksCollection.js'
 
 // two weeks is sort of the limit here
-const penalty = function(date: Date | string): number {
-  if (typeof date === 'string') {
-    return 15
-  }
+const penalty = function(date: Date): number {
   const diff = Math.round((date.getTime() - new Date().getTime()) / 86400000)
   if (diff > 14) {
     return 14
@@ -21,7 +18,11 @@ const getPriority = function(task: Object): number {
     priority += 1000000
   }
   if (task.date === null && task.deadline === null) {
-    priority += 100000
+    if (task.type === 'next') {
+      priority += 10020 + (15 * 20)
+    } else {
+      priority += 100000
+    }
   }
   // overdue
   if (task.deadline !== null && task.deadline < new Date()) {
@@ -29,12 +30,16 @@ const getPriority = function(task: Object): number {
     priority += 1000 + (penalty(task.deadline) * 15)
 
     if (task.date !== null) {
-      priority += 15 + penalty(task.date) * 1
+      priority += 15 + penalty(task.date)
     } else {
-      priority += 30
+      if (task.type === 'next') {
+        priority += 15 * 10
+      } else {
+        priority += 30
+      }
     }
 
-  } else if (task.date !== null && typeof task.date !== 'string' && task.date < new Date()) {
+  } else if (task.date !== null && task.type !== 'next' && task.date < new Date()) {
     // 8 points per date overdue, up to two weeks of course.
     // slightly less weight than deadlines
     priority += 1000 + (penalty(task.date) * 8)
@@ -49,7 +54,11 @@ const getPriority = function(task: Object): number {
     priority += 10000 + (penalty(task.deadline) * 5)
     // ones with dates are more important than those without
     if (task.date === null) {
-      priority += 30
+      if (task.type === 'next') {
+        priority += 15 * 10
+      } else {
+        priority += 30
+      }
     } else {
       priority += penalty(task.date) * 10
     }
