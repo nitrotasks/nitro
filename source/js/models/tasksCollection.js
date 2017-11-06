@@ -75,7 +75,7 @@ export class tasks extends Events {
     tasks.forEach(props => {
       const task = currentTasks.find(findFromServer(props.id))
       Object.keys(props).forEach(prop => {
-        if (prop === 'date' || prop === 'deadline') {
+        if (prop === 'date' || prop === 'deadline' || prop === 'completed') {
           if (props[prop] !== null) {
             task[prop] = new Date(props[prop])
           }
@@ -178,7 +178,6 @@ export class tasks extends Events {
     // TODO: when this is patched to have an order
     // update this to use these in order
     let result = []
-    let resultCompleted = []
     this.collection.forEach(function(value, key) {
       result.push(value.toObject())
     })

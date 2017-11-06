@@ -7,7 +7,7 @@ export default class Task {
     this.date = (props.date && props.date !== 'next') ? new Date(props.date) : props.date || null
     this.deadline = props.deadline ? new Date(props.deadline) : null
     this.list = props.list
-    this.completed = props.completed || null
+    this.completed = props.completed ? new Date(props.completed) : null
     this.serverId = props.serverId || null
     this.lastSync = props.lastSync || null
   }
