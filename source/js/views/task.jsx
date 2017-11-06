@@ -54,6 +54,7 @@ export default class Task extends preact.Component {
       name: data.name,
       type: data.type,
       notes: data.notes,
+      list: data.list,
       date: data.date,
       deadline: data.deadline,
       completed: data.completed,
@@ -124,7 +125,7 @@ export default class Task extends preact.Component {
   }
   deleteTask = () => {
     window.history.back()
-    CombinedCollection.deleteTask(this.props.data)
+    CombinedCollection.deleteTask(this.props.data.id)
   }
   triggerMenu = e => {
     let pos = 'left'
@@ -153,6 +154,42 @@ export default class Task extends preact.Component {
     this.setState(newData)
     TasksCollection.update(this.props.data.id, newData)
   }
+  buildIndicators = () => {
+    const indicators = []
+    if (this.state.notes !== null && this.state.notes.length > 0) {
+      indicators.push(
+        <img key="notes-indicator" class="indicator indicator-notes" src="/img/icons/material/note.svg" />
+      )
+    }
+    if (this.state.deadline !== null) {
+      indicators.push(
+        <img key="deadline-indicator" class="indicator indicator-deadline" src="/img/icons/material/task-deadline.svg" />
+      ) 
+    }
+    if (['today', 'next'].indexOf(this.props.currentList) > -1) {
+      if (this.state.list !== 'inbox') {
+        indicators.push(
+          <span class="indicator indicator-date">{CombinedCollection.getList(this.state.list).name}</span>
+        )
+      }
+      // TODO: Add headings here too.
+    }
+    
+    if (this.state.date !== null) {
+      const todayMode = this.state.deadline === null ? 'today' : this.state.deadline
+      const date = formatDate(this.state.date, this.state.type, todayMode)
+      if (!(date === 'Today' && ['today', 'next'].indexOf(this.props.currentList) > -1)) {
+        indicators.push(
+          <span class="indicator indicator-date">{date}</span>
+        )
+      }
+    } else if (this.state.type === 'next' && this.props.currentList !== 'next') {
+      indicators.push(
+        <span class="indicator indicator-date">Next</span>
+      ) 
+    }
+    return indicators
+  }
   render() {
     let className = 'task-item'
     let expandedItems = <div class="inner" />
@@ -166,27 +203,7 @@ export default class Task extends preact.Component {
     if (this.state.completed !== null) {
       className += ' completed'
     }
-    let indicators = []
-    if (this.state.notes !== null && this.state.notes.length > 0) {
-      indicators.push(
-        <img key="notes-indicator" class="indicator indicator-notes" src="/img/icons/material/note.svg" />
-      )
-    }
-    if (this.state.deadline !== null) {
-      indicators.push(
-        <img key="deadline-indicator" class="indicator indicator-deadline" src="/img/icons/material/task-deadline.svg" />
-      ) 
-    }
-    if (this.state.date !== null) {
-      const todayMode = this.state.deadline === null ? 'today' : this.state.deadline
-      indicators.push(
-        <span class="indicator indicator-date">{formatDate(this.state.date, this.state.type, todayMode)}</span>
-      )
-    } else if (this.state.type === 'next') {
-      indicators.push(
-        <span class="indicator indicator-date">Next</span>
-      ) 
-    }
+    const indicators = this.buildIndicators()
     let label = (
       <div class="label" onClick={this.props.onClick}>
         {this.state.name}{indicators}

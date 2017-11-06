@@ -304,6 +304,7 @@ export default class Sortable extends preact.Component {
             <Task
               key={task.id}
               data={task}
+              currentList={this.props.list}
               selectedTask={this.props.task}
               shouldMove={shouldMove}
               eventMode={this.state.eventMode}
