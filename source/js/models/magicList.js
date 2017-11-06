@@ -12,9 +12,19 @@ const penalty = function(date: Date): number {
   return diff
 }
 
+// 3am cutoff
+const completedCheck = function(date: Date): bool {
+  const yesterday = new Date()
+  if (yesterday.getHours() > 3) {
+    yesterday.setDate(yesterday.getDate() - 1)
+  }
+  yesterday.setHours(3)
+  return date < yesterday
+}
+
 const getPriority = function(task: Object): number {
   let priority = 0
-  if (task.completed !== null) {
+  if (task.completed !== null && completedCheck(task.completed)) {
     priority += 1000000
   }
   if (task.date === null && task.deadline === null) {

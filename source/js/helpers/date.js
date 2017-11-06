@@ -28,7 +28,7 @@ export const dateValue = function(value) {
     newData.type = 'task'
     newData.date = value
   } else if (value === 'today') {
-    newData.type = 'next'
+    newData.type = 'task'
     newData.date = new Date()
     newData.date.setSeconds(newData.date.getSeconds()-1)
   } else if (value === 'next') {

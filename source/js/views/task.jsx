@@ -182,6 +182,10 @@ export default class Task extends preact.Component {
       indicators.push(
         <span class="indicator indicator-date">{formatDate(this.state.date, this.state.type, todayMode)}</span>
       )
+    } else if (this.state.type === 'next') {
+      indicators.push(
+        <span class="indicator indicator-date">Next</span>
+      ) 
     }
     let label = (
       <div class="label" onClick={this.props.onClick}>

@@ -43,8 +43,8 @@ describe('magic lists', function() {
       a({deadline: createDate(7), date: createDate(14)})
       a({deadline: createDate(7), date: createDate(0)})
       a({deadline: createDate(7), date: createDate(-5)})
-      a({deadline: createDate(7)})
-      a({completed: createDate(1)})
+      a({deadline: createDate(7), completed: createDate(0)})
+      a({completed: createDate(2)})
       a()
       assert.equal(tasks.length, 9)
     })
@@ -60,7 +60,7 @@ describe('magic lists', function() {
       it('3: dates weigh deadlines more', ass(3))
       it('4: more overdue dates weigh deadlines more', ass(4))
       it('5: deadline with date not overdue weighed more than date', ass(5))
-      it('6: deadline no date weighed less than date not overdue', ass(6))
+      it('6: completed should show up if it is less than a day ago', ass(6))
     })
     describe('date, overdue', function() {
       it('the testrunner should create all the tasks in priority order', function() {
