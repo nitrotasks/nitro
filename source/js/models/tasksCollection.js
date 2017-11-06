@@ -71,12 +71,18 @@ export class tasks extends Events {
       }
     }
     if (tasks.length < 1) return
-    const currentTasks = this.findList(listId)
+    const currentTasks = this.findList(listId, true)
     tasks.forEach(props => {
       const task = currentTasks.find(findFromServer(props.id))
-      task.name = props.name
-      task.notes = props.notes
-      task.completed = props.completed
+      Object.keys(props).forEach(prop => {
+        if (prop === 'date' || prop === 'deadline') {
+          if (props[prop] !== null) {
+            task[prop] = new Date(props[prop])
+          }
+        } else if (prop !== 'id') {
+          task[prop] = props[prop]
+        }
+      })
       this.trigger('updateTask', task.id)
     })
     this.trigger('update', listId)
@@ -97,7 +103,7 @@ export class tasks extends Events {
     }
     return this.collection.get(id) || null
   }
-  findList(list) {
+  findList(list, models = false) {
     let returned = []
     if (list === 'all') {
       // return all tasks, ignore ids
@@ -113,7 +119,7 @@ export class tasks extends Events {
         // return the normal list
         this.collection.forEach(function(task) {
           if (task.list === list) {
-            returned.push(task.toObject())
+            returned.push(models ? task : task.toObject())
           }
         })
       }
