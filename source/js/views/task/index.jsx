@@ -32,23 +32,21 @@ export default class Tasks extends preact.Component {
     CombinedCollection.bind('order', this.update)
   }
   componentDidMount() {
-    const scrollArgs = ['scroll', this.triggerStickyScroll, OPTS]
-    this.passiveScroll = document.getElementById('passive-scroll')
-    this.passiveScrollWrapper = document.getElementById(
-      'passive-scroll-wrapper'
-    )
-    this.passiveScroll.addEventListener(...scrollArgs)
-    this.passiveScrollWrapper.addEventListener(...scrollArgs)
     window.addEventListener('resize', this.windowResize)
+
+    const options = {
+      root: document.getElementById('passive-scroll-wrapper'),
+      rootMargin: '-12px',
+      threshold: 0
+    }
+    this.observer = new IntersectionObserver(this.triggerStickyScroll, options)    
+    this.observer.observe(document.getElementById('tasks-sticky-helper'))
   }
   componentWillUnmount() {
     CombinedCollection.unbind('update', this.update)
     CombinedCollection.unbind('order', this.update)
-
-    const scrollArgs = ['scroll', this.triggerStickyScroll, OPTS]
-    this.passiveScroll.removeEventListener(...scrollArgs)
-    this.passiveScrollWrapper.removeEventListener(...scrollArgs)
     window.removeEventListener('resize', this.windowResize)
+    this.observer.disconnect()
   }
   componentWillReceiveProps(nextProps) {
     this.setState(this.installProps(nextProps))
@@ -114,37 +112,15 @@ export default class Tasks extends preact.Component {
       })
     }
   }
-  triggerStickyScroll = e => {
-    const scrollPos = e.currentTarget.scrollTop
-    if (scrollPos <= magicNumber - 5 && this.state.stickyScale === true) {
-      this.setState({
-        stickyScale: false
-      })
-    } else if (
-      scrollPos > magicNumber + 5 &&
-      this.state.stickyScale === false
-    ) {
-      this.setState({
-        stickyScale: true
-      })
-    }
-  }
-  triggerTask = task => {
-    return () => {
-      console.log('task triggered', task, this.state.list, this.props.task)
-      if (!task) {
-        route('/lists/' + this.state.list)
-      } else if (typeof this.props.task !== 'undefined') {
-        window.history.back()
-      } else {
-        route('/lists/' + this.state.list + '/' + task.id)
-      }
-    }
+  triggerStickyScroll = entries => {
+    this.setState({
+      stickyScale: !entries[0].isIntersecting
+    })
   }
   closeTasks = e => {
     if (e.target === e.currentTarget || e.target.className === 'tasks-list') {
       if (window.location.pathname.split('/').length === 4) {
-        window.history.back()
+        back()
       }
     }
   }
@@ -164,9 +140,9 @@ export default class Tasks extends preact.Component {
         id="passive-scroll-wrapper"
         onClick={this.closeTasks}
       >
-        <div class="tasks-content" id="passive-scroll">
+        <div class="tasks-content">
           <div class="tasks-scrollwrap">
-            <div class="tasks-sticky-helper" />
+            <div id="tasks-sticky-helper" class="tasks-sticky-helper" />
             <Header
               stickyScale={this.state.stickyScale}
               list={this.state.list}

@@ -1,6 +1,8 @@
 import preact from 'preact'
 import Router from 'preact-router'
 
+// polyfill
+import intersectionObserver from '../lib/intersection-observer.js'
 import authenticationStore from './stores/auth.js'
 
 import Lists from './views/lists.jsx'
