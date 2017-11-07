@@ -15,7 +15,7 @@ const penalty = function(date: Date): number {
 // 3am cutoff
 const completedCheck = function(date: Date): bool {
   const yesterday = new Date()
-  if (yesterday.getHours() >= 3) {
+  if (yesterday.getHours() <= 3) {
     yesterday.setDate(yesterday.getDate() - 1)
   }
   yesterday.setHours(3)

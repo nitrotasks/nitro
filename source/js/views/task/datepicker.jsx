@@ -1,6 +1,6 @@
 import preact from 'preact'
 import pikaday from 'pikaday'
-import { formatDate } from '../helpers/date.js'
+import { formatDate } from '../../helpers/date.js'
 
 export default class Datepicker extends preact.Component {
   state = {

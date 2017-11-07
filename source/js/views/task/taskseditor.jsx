@@ -1,7 +1,7 @@
 import preact from 'preact'
 import Datepicker from './datepicker.jsx'
-import { dateValue, deadlineValue } from '../helpers/date.js'
-import { TasksCollection } from '../models/tasksCollection.js'
+import { dateValue, deadlineValue } from '../../helpers/date.js'
+import { TasksCollection } from '../../models/tasksCollection.js'
 
 export default class TasksEditor extends preact.Component {
   constructor(props) {

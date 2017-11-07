@@ -1,8 +1,7 @@
 import preact from 'preact'
 import { route } from 'preact-router'
 
-import { TasksCollection } from '../models/tasksCollection.js'
-import { CombinedCollection } from '../models/combinedCollection.js'
+import { CombinedCollection } from '../../models/combinedCollection.js'
 
 import Header from './tasksheader.jsx'
 import Sortable from './sortable.jsx'
@@ -132,6 +131,7 @@ export default class Tasks extends preact.Component {
   }
   triggerTask = task => {
     return () => {
+      console.log('task triggered', task, this.state.list, this.props.task)
       if (!task) {
         route('/lists/' + this.state.list)
       } else if (typeof this.props.task !== 'undefined') {

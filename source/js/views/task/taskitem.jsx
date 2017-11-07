@@ -1,9 +1,9 @@
 import preact from 'preact'
 
-import { dateValue, deadlineValue, formatDate } from '../helpers/date.js'
-import { TasksCollection } from '../models/tasksCollection.js'
-import { CombinedCollection } from '../models/combinedCollection.js'
-import ContextMenuStore from '../stores/contextmenu.js'
+import { dateValue, deadlineValue, formatDate } from '../../helpers/date.js'
+import { TasksCollection } from '../../models/tasksCollection.js'
+import { CombinedCollection } from '../../models/combinedCollection.js'
+import ContextMenuStore from '../../stores/contextmenu.js'
 import Datepicker from './datepicker.jsx'
 
 export default class Task extends preact.Component {

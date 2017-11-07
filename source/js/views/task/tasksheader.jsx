@@ -1,10 +1,10 @@
 import preact from 'preact'
 import { route } from 'preact-router'
 
-import { CombinedCollection } from '../models/combinedCollection.js'
+import { CombinedCollection } from '../../models/combinedCollection.js'
 
-import ContextMenuStore from '../stores/contextmenu.js'
-import DialogBoxStore from '../stores/dialogbox.js'
+import ContextMenuStore from '../../stores/contextmenu.js'
+import DialogBoxStore from '../../stores/dialogbox.js'
 
 const widthOffset = 3
 
