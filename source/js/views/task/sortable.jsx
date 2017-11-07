@@ -1,6 +1,7 @@
 import preact from 'preact'
 
 import Task from './taskitem.jsx'
+import { go, back } from '../../stores/navigation.js'
 import { CombinedCollection } from '../../models/combinedCollection.js'
 
 const pressDelay = 600
@@ -12,13 +13,10 @@ export default class Sortable extends preact.Component {
     const newState = this.updateProps(props)
     this.taskMap = newState.taskMap
     this.isBeingMoved = false
-    this.timeouts = []
 
     let eventMode = 'mouse'
-    if (window.matchMedia('(any-pointer:fine)').matches && window.PointerEvent) {
+    if (window.PointerEvent) {
       eventMode = 'pointer'
-    // maybe do some checking for android / ios and touch scroll :|
-    // need to get the pointer events to work in harmony 
     } else if ('ontouchstart' in window) {
       eventMode = 'touch'
     }
@@ -73,16 +71,6 @@ export default class Sortable extends preact.Component {
     const node = e.currentTarget
     this.currentOffset = 0
     this.canMove = false
-
-    // press and hold, works on both mouse and touch cause why not :) 
-    this.timeouts.push(setTimeout(() => {
-      if (Math.abs(this.currentOffset) < 20) {
-        requestAnimationFrame(() => {
-          node.classList.add('active')
-        })
-        this.canMove = true
-      }
-    }, pressDelay))
 
     if (!this.props.task) {
       this.sizes = Array.from(e.currentTarget.parentElement.children).map((item) => {
@@ -227,8 +215,6 @@ export default class Sortable extends preact.Component {
 
     // offset calculations
     const oldOffset = this.currentOffset
-    this.timeouts.forEach(i => clearTimeout(i))
-    this.timeouts = []
     requestAnimationFrame(() => {
       node.classList.remove('active')
     })
@@ -248,11 +234,11 @@ export default class Sortable extends preact.Component {
         return
       } else if (this.props.task) {
         // allows the onChange event to fire.
-        requestAnimationFrame(() => window.history.back())
+        requestAnimationFrame(() => back())
       } else if (Math.abs(offset) > 20 || Math.abs(oldOffset) > 20) {
         return
       } else {
-        this.props.triggerTask({id: currentId})()
+        go('/lists/' + this.props.list + '/' + currentId)
       }
     } else if (this.newPos !== this.currentIndex) {
       const offset = this.sizes[this.newPos][0]

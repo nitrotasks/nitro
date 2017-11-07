@@ -1,7 +1,7 @@
 import preact from 'preact'
-import { route } from 'preact-router'
 
 import { CombinedCollection } from '../../models/combinedCollection.js'
+import { go, back } from '../../stores/navigation.js'
 
 import Header from './header.jsx'
 import Sortable from './sortable.jsx'
@@ -176,7 +176,6 @@ export default class Tasks extends preact.Component {
               taskList={this.state.taskList}
               list={this.props.list}
               listOrder={this.state.order}
-              triggerTask={this.triggerTask}
             />
           </div>
         </div>
