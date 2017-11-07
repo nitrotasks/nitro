@@ -1,10 +1,10 @@
 import preact from 'preact'
 
-import { dateValue, deadlineValue, formatDate } from '../../helpers/date.js'
+import { formatDate } from '../../helpers/date.js'
 import { TasksCollection } from '../../models/tasksCollection.js'
 import { CombinedCollection } from '../../models/combinedCollection.js'
 import ContextMenuStore from '../../stores/contextmenu.js'
-import Datepicker from './datepicker.jsx'
+import TaskExpanded from './taskexpanded.jsx'
 
 export default class Task extends preact.Component {
   constructor(props) {
@@ -26,21 +26,12 @@ export default class Task extends preact.Component {
     e.preventDefault()
   }
   triggerCheck = () => {
-    if (this.state.completed === null) {
-      TasksCollection.update(this.props.data.id, { completed: new Date() })
-    } else {
-      TasksCollection.update(this.props.data.id, { completed: null })
-    }
+    CombinedCollection.completeTask(this.props.data.id)
   }
-  // TODO: Also save things after a timeout.
   triggerChange = prop => {
     return e => {
       const value = e.currentTarget.value
-      this.setState({
-        [prop]: value
-      })
-      // Update value in the model
-      TasksCollection.update(this.props.data.id, { [prop]: value })
+      CombinedCollection.updateTask(this.props.data.id, { [prop]: value })
     }
   }
   triggerUpdate = data => {
@@ -49,7 +40,7 @@ export default class Task extends preact.Component {
     }
   }
   installState = id => {
-    const data = TasksCollection.find(id)
+    const data = CombinedCollection.getTask(id)
     return {
       name: data.name,
       type: data.type,
@@ -91,11 +82,6 @@ export default class Task extends preact.Component {
         })
       }, 275)
     }
-
-    // TODO: handle this better
-    this.setState({
-      name: nextProps.data.name
-    })
   }
   handleResize = () => {
     // doesn't render the expanded task if the width is too small
@@ -110,49 +96,18 @@ export default class Task extends preact.Component {
     }
   }
   headingConvert = () => {
-    if (this.state.type === 'header') {
-      this.setState({
-        type: 'task'
-      })
-      TasksCollection.update(this.props.data.id, { type: 'task' })
-    } else {
-      window.history.back()
-      this.setState({
-        type: 'header'
-      })
-      TasksCollection.update(this.props.data.id, { type: 'header' })
-    }
+    CombinedCollection.updateTask(this.props.data.id, { type: 'task' })
   }
   deleteTask = () => {
-    window.history.back()
     CombinedCollection.deleteTask(this.props.data.id)
   }
   triggerMenu = e => {
-    let pos = 'left'
-    let items = [
-      { title: 'Change to Heading', action: this.headingConvert },
-      { title: 'Delete Task', action: this.deleteTask }
+    const items = [
+      { title: 'Change to Task', action: this.headingConvert },
+      { title: 'Delete Heading', action: this.deleteTask }
     ]
-    if (this.props.data.type === 'header') {
-      pos = 'right'
-      items = [
-        { title: 'Change to Task', action: this.headingConvert },
-        { title: 'Delete Heading', action: this.deleteTask }
-      ]
-    }
-
     const rect = e.currentTarget.getBoundingClientRect()
-    ContextMenuStore.create(rect.left, rect.top, 'top', pos, items)
-  }
-  triggerDate = value => {
-    const newData = dateValue(value)
-    this.setState(newData)
-    TasksCollection.update(this.props.data.id, newData)
-  }
-  triggerDeadline = value => {
-    const newData = deadlineValue(value)
-    this.setState(newData)
-    TasksCollection.update(this.props.data.id, newData)
+    ContextMenuStore.create(rect.left, rect.top, 'top', 'right', items)
   }
   buildIndicators = () => {
     const indicators = []
@@ -192,7 +147,6 @@ export default class Task extends preact.Component {
   }
   render() {
     let className = 'task-item'
-    let expandedItems = <div class="inner" />
     if (this.props.selectedTask === this.props.data.id) {
       className += ' expanded'
     } else if (this.state.expanded === true) {
@@ -221,35 +175,10 @@ export default class Task extends preact.Component {
         />
       )
     }
+    
+    let expandedItems = <div class="inner" />
     if (this.state.expanded && !this.state.noRender) {
-      expandedItems = (
-        <div class="inner">
-          <textarea
-            placeholder="Notes"
-            onChange={this.triggerChange('notes')}
-            value={this.state.notes}
-          />
-          <div class="button-bar">
-            <Datepicker
-              position="popover"
-              onSelect={this.triggerDate}
-              type={this.state.type}
-              date={this.state.date}
-            />
-            <Datepicker
-              position="popover"
-              onSelect={this.triggerDeadline}
-              type={this.state.type}
-              date={this.state.deadline}
-              pickerType="deadline"
-            />
-            <img
-              src="/img/icons/material/task-more.svg"
-              onClick={this.triggerMenu}
-            />
-          </div>
-        </div>
-      )
+      expandedItems = <TaskExpanded task={this.props.data.id} />
     }
     if (this.state.type === 'header') {
       className = className.replace('task-item', 'header-item')

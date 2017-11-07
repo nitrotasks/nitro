@@ -96,7 +96,7 @@ describe('combined collection', function() {
       const tasks = CombinedCollection.getTasks('boop')
       assert.equal(tasks, null)
     })
-    it('should be able update to update a task', function() {
+    it('should be able to update a task', function() {
       CombinedCollection.updateTask(taskId, { name: 'new name' })
       const task = CombinedCollection.getTask(taskId)
       assert.equal(task.name, 'new name')
@@ -106,10 +106,15 @@ describe('combined collection', function() {
         CombinedCollection.updateTask('notexist', { name: 'A task' })
       }, Error)
     })
-    it('should be able to update a task', function() {
-      CombinedCollection.updateTask(taskId, { name: 'new name' })
+    it('should be able to complete a task', function() {
+      CombinedCollection.completeTask(taskId)
       const task = CombinedCollection.getTask(taskId)
-      assert.equal(task.name, 'new name')
+      assert.notEqual(task.completed, null)
+    })
+    it('should be able to uncomplete a task', function() {
+      CombinedCollection.completeTask(taskId)
+      const task = CombinedCollection.getTask(taskId)
+      assert.equal(task.completed, null)
     })
     it('should not be able to delete a task that does not exist', function() {
       assert.throws(() => {

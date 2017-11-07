@@ -3,7 +3,7 @@ import { route } from 'preact-router'
 
 import { CombinedCollection } from '../../models/combinedCollection.js'
 
-import Header from './tasksheader.jsx'
+import Header from './header.jsx'
 import Sortable from './sortable.jsx'
 
 const defaultList = 'inbox'

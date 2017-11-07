@@ -109,16 +109,18 @@ export class combined extends Events {
   }
   updateTask(id: string, newProps: Object): Object {
     const task = TasksCollection.update(id, newProps)
-    if (task === null) {
-      throw new Error('Task could not be found')
-    }
+    if (task === null) throw new Error('Task could not be found')
     return task
+  }
+  completeTask(id: string, server: ?bool) {
+    const task = this.getTask(id, server)
+    if (task === null) throw new Error('Task could not be found')
+    let completed = task.completed === null ? new Date() : null
+    TasksCollection.update(task.id, { completed: completed })
   }
   deleteTask(id: string, server: ?bool) {
     const task = this.getTask(id, server)
-    if (task === null) {
-      throw new Error('Task could not be found')
-    }
+    if (task === null) throw new Error('Task could not be found')
     const order = ListsCollection.find(task.list).localOrder
     order.splice(order.indexOf(task.id), 1)
     this.updateOrder(task.list, order, false)
