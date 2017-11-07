@@ -40,6 +40,7 @@ export default class Sortable extends preact.Component {
   }
   updateProps(props) {
     const taskMap = new Map()
+    const taskList = props.taskList
     props.taskList.forEach(task => {
       taskMap.set(task.id, task)
     })

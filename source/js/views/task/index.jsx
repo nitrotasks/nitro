@@ -1,13 +1,12 @@
 import preact from 'preact'
 
 import { CombinedCollection } from '../../models/combinedCollection.js'
-import { go, back } from '../../stores/navigation.js'
+import { back } from '../../stores/navigation.js'
 
 import Header from './header.jsx'
 import Sortable from './sortable.jsx'
 
 const defaultList = 'inbox'
-const magicNumber = 16 * 3
 
 let supportsPassive = false
 try {
@@ -26,7 +25,6 @@ export default class Tasks extends preact.Component {
     this.state = this.installProps(props, true)
     this.state.innerWidth = '100%'
   }
-  resizeCb = -1
   componentWillMount() {
     CombinedCollection.bind('update', this.update)
     CombinedCollection.bind('order', this.update)
@@ -69,6 +67,7 @@ export default class Tasks extends preact.Component {
     }
     if (firstRun) {
       newProps.stickyScale = false
+      newProps.taskList = []
     }
 
     if (document.documentElement.clientWidth >= 700) {
@@ -97,11 +96,9 @@ export default class Tasks extends preact.Component {
       typeof this.props.list === 'undefined'
     ) {
       if (this.state.list !== defaultList) {
-        this.update('lists')
+        this.setState(this.installProps(this.props, true))
       }
     }
-    clearTimeout(this.resizeCb)
-    this.resizeCb = setTimeout(this.sizeInput, 50)
   }
   update = (key, value) => {
     if (key !== 'task' || value === this.state.list) {
