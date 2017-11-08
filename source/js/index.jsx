@@ -1,8 +1,7 @@
 import preact from 'preact'
 import Router from 'preact-router'
 
-// polyfill
-require('intersection-observer')
+import { log, error } from './helpers/logger.js'
 import authenticationStore from './stores/auth.js'
 
 import Lists from './views/lists.jsx'
@@ -44,11 +43,28 @@ document.addEventListener('DOMContentLoaded', function() {
     })
   })
 
-  let elem = document.getElementById('app-shell')
-  elem.innerHTML = ''
-  preact.render(App(), elem)
+  Promise.all(polyfill()).then(() => {
+    const elem = document.getElementById('app-shell')
+    elem.innerHTML = ''
+    preact.render(App(), elem)
 
-  setTimeout(function() {
-    elem.className = ''
-  }, 500)
+    setTimeout(function() {
+      elem.className = ''
+    }, 500)
+  })
 })
+
+const polyfill = function() {
+  const promises = []
+  if (typeof window.IntersectionObserver === 'undefined') {
+    promises.push(import(/* webpackChunkName: "polyfill" */ 'intersection-observer').then(() => {
+      log('loaded intersection-observer polyfill')
+    }).catch(err => error(err)))
+  }
+  if (typeof window.PointerEvent === 'undefined') {
+    promises.push(import(/* webpackChunkName: "polyfill" */ 'pepjs').then(() => {
+      log('loaded pointer events polyfill')
+    }).catch(err => error(err)))
+  }
+  return promises
+}

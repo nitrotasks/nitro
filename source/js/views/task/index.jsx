@@ -8,17 +8,6 @@ import Sortable from './sortable.jsx'
 
 const defaultList = 'inbox'
 
-let supportsPassive = false
-try {
-  let opts = Object.defineProperty({}, 'passive', {
-    get: function() {
-      supportsPassive = true
-    }
-  })
-  window.addEventListener('test', null, opts)
-} catch (e) {}
-const OPTS = supportsPassive ? { passive: true } : false
-
 export default class Tasks extends preact.Component {
   constructor(props) {
     super(props)

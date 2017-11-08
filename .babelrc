@@ -2,16 +2,24 @@
 	"presets": [
     "flow",
     [
-      "env"
+      "env",
+      {"modules": false}
     ],
   ],
   "plugins": [
     ["transform-class-properties"],
-    ["transform-react-jsx", { "pragma":"preact.h" } ]
+    ["transform-react-jsx", { "pragma":"preact.h" } ],
+    ["syntax-dynamic-import"]
   ],
   "env": {
     "test": {
-      "plugins": [ "istanbul" ]
+      "presets": ["env"],
+      "plugins": [
+        [ "istanbul" ],
+        ["transform-class-properties"],
+        ["transform-react-jsx", { "pragma":"preact.h" } ],
+        ["syntax-dynamic-import"]
+      ],
     }
   }
 }

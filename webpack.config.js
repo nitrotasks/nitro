@@ -11,16 +11,18 @@ const extractSass = new ExtractTextPlugin({
 const webpackConfig = {
   context: baseDirectory,
   entry: {
-    app: ['./source/js/index.jsx', './source/scss/style.scss']
+    app: ['./source/js/index.jsx', './source/scss/style.scss'],
   },
   output: {
     filename: 'generated/[name].js',
+    chunkFilename: 'generated/[name].js',
     path: buildPath,
+    publicPath: '/',
   },
   devtool: 'cheap-module-source-map',
   module: {
     loaders: [
-      { test: /\.(js|jsx)$/, exclude: /node_modules/, loader: 'babel-loader' },
+      { test: /\.(js|jsx)$/, loader: 'babel-loader' },
       {
         test: /\.scss$/,
         use: extractSass.extract({
@@ -41,6 +43,10 @@ const webpackConfig = {
           fallback: 'style-loader'
         })
       },
+      {
+        test: /pikaday\.js$/,
+        loader : 'imports-loader?define=>false'
+      }
     ]
   },
   devServer: {
@@ -60,16 +66,16 @@ const webpackConfig = {
 }
 
 
+const bundle = new BundleAnalyzerPlugin({
+  analyzerMode: 'static',
+  openAnalyzer: false
+})
 if (process.env.NODE_ENV === 'production') {
   delete webpackConfig.devtool
   webpackConfig.plugins.push(new webpack.optimize.ModuleConcatenationPlugin())
+  webpackConfig.plugins.push(bundle)
 } else if (process.env.NODE_ENV === 'report') {
-  webpackConfig.plugins.push(
-    new BundleAnalyzerPlugin({
-      analyzerMode: 'static',
-      openAnalyzer: false
-    })
-  )
+  webpackConfig.plugins.push(bundle)
 }
 
 module.exports = webpackConfig
