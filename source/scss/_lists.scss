@@ -129,7 +129,7 @@
 .search-container {
   padding: 0 $indent-width - 0.3rem $indent-width;
 
-  @media (max-width: $tablet-breakpoint) {
+  @media (max-width: $tablet-breakpoint - 1) {
     display: none;
   }
   input {

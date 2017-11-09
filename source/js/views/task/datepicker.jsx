@@ -54,7 +54,7 @@ export default class Datepicker extends preact.Component {
 
     let className = 'datepicker-wrapper' + (this.state.visible ? '' : ' hidden')
     let activator = null
-    if (this.props.position === 'sheet') {
+    if (this.props.position === 'sheet' || this.props.position === 'sheet-hidden') {
       className += ' floating sheet'
       activator = (
         <button onClick={this.triggerVisible}>
@@ -78,10 +78,15 @@ export default class Datepicker extends preact.Component {
       </div>
     }
 
+    let bodyStyle = {}
+    if (this.props.position === 'sheet-hidden') {
+      bodyStyle = {display: 'none'}
+    }
+
     return (
       <div className="datepicker-element">
         {activator}
-        <div class={className}>
+        <div class={className} style={bodyStyle}>
           <div class="datepicker-container">
             <header>
               <h3>{titleText}</h3>

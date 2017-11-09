@@ -107,6 +107,10 @@ $background-speed: 400ms;
   width: 100%;
   overflow-y: scroll;
 
+  @media (max-width: $tablet-breakpoint - 1) {
+    will-change: scroll;
+  }
+
   @media (min-width: $tablet-breakpoint) {
     position: static;
     width: $tablet-max-width;

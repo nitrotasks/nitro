@@ -9,6 +9,7 @@ export default class TasksEditor extends preact.Component {
     this.state = this.installState(props)
     this.state.animate = false
     this.state.noRender = false
+    this.state.datepicker = true
   }
   componentDidMount() {
     TasksCollection.bind('updateTask', this.triggerUpdate)
@@ -18,13 +19,15 @@ export default class TasksEditor extends preact.Component {
   componentWillReceiveProps(newProps) {
     const newState = this.installState(newProps)
     newState.animate = true
-    this.setState(newState)
+    requestAnimationFrame(() => {
+      this.setState(newState)
+    })
 
     setTimeout(() => {
       this.setState({
-        animate: false
+        datepicker: true
       })
-    }, 300)
+    }, 500)
   }
   installState(props) {
     const data = TasksCollection.find(props.task) || {}
@@ -34,7 +37,8 @@ export default class TasksEditor extends preact.Component {
       notes: data.notes,
       type: data.type,
       date: data.date,
-      deadline: data.deadline
+      deadline: data.deadline,
+      datepicker: false
     }
   }
   componentWillUnmount() {
@@ -97,6 +101,10 @@ export default class TasksEditor extends preact.Component {
     } else if (!this.state.showEditor) {
       className += ' hide'
     }
+    let datepicker = 'sheet-hidden'
+    if (this.state.datepicker) {
+      datepicker = 'sheet'
+    }
     return (
       <section class={className}>
         <header class="material-header main-nav">
@@ -111,13 +119,13 @@ export default class TasksEditor extends preact.Component {
           />
         </header>
         <Datepicker
-          position="sheet"
+          position={datepicker}
           onSelect={this.triggerDate}
           type={this.state.type}
           date={this.state.date}
         />
         <Datepicker
-          position="sheet"
+          position={datepicker}
           onSelect={this.triggerDeadline}
           type={this.state.type}
           date={this.state.deadline}
