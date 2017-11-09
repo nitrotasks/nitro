@@ -13,9 +13,10 @@ export default class Sortable extends preact.Component {
     const newState = this.updateProps(props)
     this.taskMap = newState.taskMap
     this.isBeingMoved = false
+    this.timeouts = []
 
     let eventMode = 'mouse'
-    if (window.PointerEvent) {
+    if (window.matchMedia('(any-pointer:fine)').matches && window.PointerEvent) {
       eventMode = 'pointer'
     } else if ('ontouchstart' in window) {
       eventMode = 'touch'
@@ -71,6 +72,19 @@ export default class Sortable extends preact.Component {
     const node = e.currentTarget
     this.currentOffset = 0
     this.canMove = false
+
+    // press and hold, touch only interaction
+    // because touch-action: press and hold doesn't exist grr
+    if (this.state.eventMode === 'touch') {
+      this.timeouts.push(setTimeout(() => {
+        if (Math.abs(this.currentOffset) < 20) {
+          requestAnimationFrame(() => {
+            node.classList.add('active')
+          })
+          this.canMove = true
+        }
+      }, pressDelay))
+    }
 
     if (!this.props.task) {
       this.sizes = Array.from(e.currentTarget.parentElement.children).map((item) => {
@@ -215,6 +229,8 @@ export default class Sortable extends preact.Component {
 
     // offset calculations
     const oldOffset = this.currentOffset
+    this.timeouts.forEach(i => clearTimeout(i))
+    this.timeouts = []
     requestAnimationFrame(() => {
       node.classList.remove('active')
     })
