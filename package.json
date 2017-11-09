@@ -65,7 +65,6 @@
   "dependencies": {
     "imports-loader": "^0.7.1",
     "intersection-observer": "^0.4.2",
-    "pepjs": "^0.4.3",
     "pikaday": "^1.6.1",
     "preact": "^8.2.6",
     "preact-router": "^2.5.7",

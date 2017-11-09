@@ -39,7 +39,7 @@ export class combined extends Events {
     })
 
     const handleProcess = function() {
-      if (authenticationStore.isSignedIn()) {
+      if (authenticationStore.isSignedIn(true)) {
         log('requested process: implement scheduler')
         this.processQueue()
       }

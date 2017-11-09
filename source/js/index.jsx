@@ -61,10 +61,5 @@ const polyfill = function() {
       log('loaded intersection-observer polyfill')
     }).catch(err => error(err)))
   }
-  if (typeof window.PointerEvent === 'undefined') {
-    promises.push(import(/* webpackChunkName: "polyfill" */ 'pepjs').then(() => {
-      log('loaded pointer events polyfill')
-    }).catch(err => error(err)))
-  }
   return promises
 }

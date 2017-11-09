@@ -15,17 +15,12 @@ export default class Sortable extends preact.Component {
     this.isBeingMoved = false
     this.timeouts = []
 
-    let eventMode = 'mouse'
-    if (window.matchMedia('(any-pointer:fine)').matches && window.PointerEvent) {
-      eventMode = 'pointer'
-    } else if ('ontouchstart' in window) {
-      eventMode = 'touch'
-    }
+    this.eventMode = null
+    this.inProgress = false
 
     this.state = {
       order: newState.order,
-      listTransforms: false,
-      eventMode: eventMode
+      listTransforms: false
     }
   }
   componentWillReceiveProps(newProps) {
@@ -51,8 +46,19 @@ export default class Sortable extends preact.Component {
     }
   }
   onDown = e => {
+    if (e.type === 'touchstart') {
+      this.eventMode = 'touch'
+      this.inProgress = true
+
+    // stops propagation of touchstart -> mousedown
+    } else if (e.type === 'mousedown' && this.inProgress === true) {
+      return
+    } else {
+      this.eventMode = 'mouse'
+    }
+
     // tests for primary mouse button
-    if (this.state.eventMode === 'pointer' && e.which && e.which !== 1) {
+    if (this.eventMode === 'pointer' && e.which && e.which !== 1) {
       return
     }
 
@@ -75,7 +81,7 @@ export default class Sortable extends preact.Component {
 
     // press and hold, touch only interaction
     // because touch-action: press and hold doesn't exist grr
-    if (this.state.eventMode === 'touch') {
+    if (this.eventMode === 'touch') {
       this.timeouts.push(setTimeout(() => {
         if (Math.abs(this.currentOffset) < 20) {
           requestAnimationFrame(() => {
@@ -92,38 +98,48 @@ export default class Sortable extends preact.Component {
         return [item.offsetTop - this.currentElement, item.offsetHeight, false]
       })
       this.stepSize = e.currentTarget.offsetHeight
+      this.originalNode = e.currentTarget
 
-      if (this.state.eventMode === 'pointer') {
+      if (this.eventMode === 'pointer' || this.eventMode === 'mouse') {
         this.isBeingMoved = true
         this.originalTouch = e
-        e.currentTarget.setPointerCapture(e.pointerId)
-      } else if (this.state.eventMode === 'touch') {
+        if (this.eventMode === 'pointer') {
+          e.currentTarget.setPointerCapture(e.pointerId)
+        }
+      } else if (this.eventMode === 'touch') {
         this.originalTouch = e.touches[0]
       }
     }
   }
   onMove = e => {
+    // stops the mouseup event from working, when touch has overtaken
+    if (e.type === 'mousemove' && this.eventMode === 'touch') {
+      return
+    }
+
     if (this.props.task) {
       return
     }
 
     // makes sure the same cursor is moving things
-    if (this.state.eventMode === 'pointer' &&
+    if (this.eventMode === 'pointer' &&
         (!this.isBeingMoved || this.originalTouch.pointerId !== e.pointerId)) {
+      return
+    } else if (this.eventMode === 'mouse' && this.isBeingMoved === false) {
       return
     }
 
     // calculates how much it's moved
     let offset
-    if (this.state.eventMode === 'pointer') {
+    if (this.eventMode === 'pointer' || this.eventMode === 'mouse') {
       offset = e.y - this.originalTouch.y
-    } else if (this.state.eventMode === 'touch') {
+    } else if (this.eventMode === 'touch') {
       offset = e.changedTouches[0].clientY - this.originalTouch.clientY
     }
     this.currentOffset = offset
 
-    if (this.state.eventMode === 'pointer' && Math.abs(offset) > 15 && !this.canMove) {
-      const node = e.currentTarget
+    if ((this.eventMode === 'pointer' || this.eventMode === 'mouse') && Math.abs(offset) > 15 && !this.canMove) {
+      const node = this.originalNode
       requestAnimationFrame(() => {
         node.classList.add('active')
         node.style.transition = '75ms ease transform'
@@ -137,21 +153,21 @@ export default class Sortable extends preact.Component {
     // prevents if they're just trying to click it
     if (!this.canMove) {
       if (Date.now() - this.pressedAt > pressDelay) {
-        e.currentTarget.classList.remove('active')
+        this.originalNode.classList.remove('active')
       }
       return
     }
 
     e.preventDefault()
     if (this.hasBeenMoved === false) {
-      e.currentTarget.style.transition = 'none'
+      this.originalNode.style.transition = 'none'
       this.hasBeenMoved = true
       this.setState({
         listTransforms: true
       })
     }
 
-    const children = e.currentTarget.parentElement.children
+    const children = this.originalNode.parentElement.children
     requestAnimationFrame(() => {
       let index = this.sizes.findIndex((item) => {
         return offset < item[0] + (item[1] / 2) && offset > item[0] - item[1]
@@ -213,7 +229,12 @@ export default class Sortable extends preact.Component {
     })
   }
   onUp = e => {
-    if (this.state.eventMode === 'pointer' && e.which && e.which !== 1) {
+    // stops the mouseup event from working, when touch has overtaken
+    if (e.type === 'mouseup' && this.eventMode === 'touch') {
+      return
+    }
+
+    if (this.eventMode === 'pointer' && e.which && e.which !== 1) {
       return
     }
 
@@ -224,8 +245,8 @@ export default class Sortable extends preact.Component {
     }
 
     this.isBeingMoved = false
-    const node = e.currentTarget
-    const style = e.currentTarget.style
+    const node = this.originalNode
+    const style = this.originalNode.style
 
     // offset calculations
     const oldOffset = this.currentOffset
@@ -238,9 +259,9 @@ export default class Sortable extends preact.Component {
     let offset
     if (typeof this.originalTouch === 'undefined') {
       offset = 0
-    } else if (this.state.eventMode === 'pointer') {
+    } else if (this.eventMode === 'pointer' || this.eventMode === 'mouse') {
       offset = e.y - this.originalTouch.y
-    } else if (this.state.eventMode === 'touch') {
+    } else if (this.eventMode === 'touch') {
       offset = e.changedTouches[0].clientY - this.originalTouch.clientY
     }
 
@@ -290,6 +311,7 @@ export default class Sortable extends preact.Component {
 
     setTimeout(() => {
       style.transition = ''
+      this.inProgress = false
     }, 175)
   }
   render() {
@@ -309,7 +331,6 @@ export default class Sortable extends preact.Component {
               currentList={this.props.list}
               selectedTask={this.props.task}
               shouldMove={shouldMove}
-              eventMode={this.state.eventMode}
               onDown={this.onDown}
               onMove={this.onMove}
               onUp={this.onUp}

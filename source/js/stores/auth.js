@@ -11,7 +11,10 @@ class AuthenticationStore extends Events {
 
     this.getToken()
   }
-  isSignedIn() {
+  isSignedIn(tokenCheck = false) {
+    if (tokenCheck && typeof this.refreshToken.local !== 'undefined' && this.refreshToken.local === true) {
+      return false
+    }
     return Object.keys(this.refreshToken).length > 0
   }
   formSignIn(username, password) {

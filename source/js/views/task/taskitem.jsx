@@ -196,34 +196,16 @@ export default class Task extends preact.Component {
         </li>
       )
     } else {
-      let onPointerDown,
-        onPointerMove,
-        onPointerUp,
-        onTouchStart,
-        onTouchMove,
-        onTouchEnd,
-        onTouchCancel
-      if (this.props.eventMode === 'pointer') {
-        onPointerDown = this.props.onDown
-        onPointerMove = this.props.onMove
-        onPointerUp = this.props.onUp
-      } else if (this.props.eventMode === 'touch') {
-        onTouchStart = this.props.onDown
-        onTouchMove = this.props.onMove
-        onTouchEnd = this.props.onUp
-        onTouchCancel = this.props.onUp
-      }
       return (
         <li
           class={className}
-          onPointerDown={onPointerDown}
-          onPointerMove={onPointerMove}
-          onPointerUp={onPointerUp}
-          onPointerCancel={onPointerUp}
-          onTouchStart={onTouchStart}
-          onTouchMove={onTouchMove}
-          onTouchEnd={onTouchEnd}
-          onTouchCancel={onTouchCancel}
+          onMouseDown={this.props.onDown}
+          onMouseMove={this.props.onMove}
+          onMouseUp={this.props.onUp}
+          onTouchStart={this.props.onDown}
+          onTouchMove={this.props.onMove}
+          onTouchEnd={this.props.onUp}
+          onTouchCancel={this.props.onUp}
           onContextMenu={this.onContextMenu}
         >
           <div class="outer">
