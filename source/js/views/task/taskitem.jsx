@@ -200,8 +200,6 @@ export default class Task extends preact.Component {
         <li
           class={className}
           onMouseDown={this.props.onDown}
-          onMouseMove={this.props.onMove}
-          onMouseUp={this.props.onUp}
           onTouchStart={this.props.onDown}
           onTouchMove={this.props.onMove}
           onTouchEnd={this.props.onUp}

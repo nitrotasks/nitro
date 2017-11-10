@@ -55,6 +55,8 @@ export default class Sortable extends preact.Component {
       return
     } else {
       this.eventMode = 'mouse'
+      document.addEventListener('mousemove', this.onMove)
+      document.addEventListener('mouseup', this.onUp)
     }
 
     // tests for primary mouse button
@@ -112,11 +114,6 @@ export default class Sortable extends preact.Component {
     }
   }
   onMove = e => {
-    // stops the mouseup event from working, when touch has overtaken
-    if (e.type === 'mousemove' && this.eventMode === 'touch') {
-      return
-    }
-
     if (this.props.task) {
       return
     }
@@ -229,11 +226,6 @@ export default class Sortable extends preact.Component {
     })
   }
   onUp = e => {
-    // stops the mouseup event from working, when touch has overtaken
-    if (e.type === 'mouseup' && this.eventMode === 'touch') {
-      return
-    }
-
     if (this.eventMode === 'pointer' && e.which && e.which !== 1) {
       return
     }
@@ -311,6 +303,8 @@ export default class Sortable extends preact.Component {
 
     setTimeout(() => {
       style.transition = ''
+      document.removeEventListener('mousemove', this.onMove)
+      document.removeEventListener('mouseup', this.onUp)
       this.inProgress = false
     }, 175)
   }
