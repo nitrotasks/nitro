@@ -22,6 +22,9 @@ export default class Task extends preact.Component {
   componentWillUnmount() {
     TasksCollection.unbind('updateTask', this.triggerUpdate)
   }
+  onDragStart() {
+    return false
+  }
   onContextMenu = e => {
     e.preventDefault()
   }
@@ -113,12 +116,12 @@ export default class Task extends preact.Component {
     const indicators = []
     if (this.state.notes !== null && this.state.notes.length > 0) {
       indicators.push(
-        <img key="notes-indicator" class="indicator indicator-notes" src="/img/icons/material/note.svg" />
+        <span key="notes-indicator" class="indicator indicator-notes" />
       )
     }
     if (this.state.deadline !== null) {
       indicators.push(
-        <img key="deadline-indicator" class="indicator indicator-deadline" src="/img/icons/material/task-deadline.svg" />
+        <span key="deadline-indicator" class="indicator indicator-deadline" />
       ) 
     }
     if (['today', 'next'].indexOf(this.props.currentList) > -1) {
@@ -176,10 +179,6 @@ export default class Task extends preact.Component {
       )
     }
     
-    let expandedItems = <div class="inner" />
-    if (this.state.expanded && !this.state.noRender) {
-      expandedItems = <TaskExpanded task={this.props.data.id} />
-    }
     if (this.state.type === 'header') {
       className = className.replace('task-item', 'header-item')
       return (
@@ -212,7 +211,7 @@ export default class Task extends preact.Component {
             </div>
             {label}
           </div>
-          {expandedItems}
+          <TaskExpanded task={this.props.data.id} expanded={this.state.expanded && !this.state.noRender} />
         </li>
       )
     }

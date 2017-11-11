@@ -47,11 +47,11 @@ export default class login extends preact.Component {
             <input value={this.state.password} onInput={this.triggerChange('password')} class="input" id="login-password" type="password" autocomplete="password" />
 
             <div class="button-box">
-              <button class="button secondary">Sign Up</button>
+              {/*<button class="button secondary">Sign Up</button>*/}
               <button class="button primary" onClick={this.triggerSignIn}>Log In</button>
             </div>
           </form>
-          <p class="please">Not convinced? <a href="https://nitrotasks.com">Learn more</a></p>
+          <p class="please">No account? <a href="https://nitrotasks.com">Sign Up for Nitro.</a></p>
         </div>
       </div>
     )

@@ -28,6 +28,7 @@ $background-speed: 400ms;
   -webkit-overflow-scrolling: touch;
   -webkit-tap-highlight-color: transparent;
   overflow-y: visible;
+  overflow-x: hidden; // this fixes when windows dpi changes and things go bad
 
   &.hide {
     animation: hide-tasks $default-timing $default-curve 1;

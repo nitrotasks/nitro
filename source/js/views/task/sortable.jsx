@@ -236,6 +236,10 @@ export default class Sortable extends preact.Component {
       return
     }
 
+    if (typeof this.originalNode === 'undefined') {
+      return requestAnimationFrame(() => back())
+    }
+
     this.isBeingMoved = false
     const node = this.originalNode
     const style = this.originalNode.style
@@ -269,8 +273,15 @@ export default class Sortable extends preact.Component {
       } else {
         go('/lists/' + this.props.list + '/' + currentId)
       }
-    } else if (this.newPos !== this.currentIndex) {
-      const offset = this.sizes[this.newPos][0]
+    } else if (this.newPos !== this.currentIndex && this.hasBeenMoved === true) {
+      let offset = 0
+      if (this.newPos > this.currentIndex) {
+        this.sizes.slice(this.currentIndex + 1, this.newPos + 1).forEach(item => offset += item[1])
+      } else {
+        // this can also just look at item[0], but it's less confusing just to keep the logic the same.
+        this.sizes.slice(this.newPos, this.currentIndex).forEach(item => offset -= item[1])
+      }
+      
       requestAnimationFrame(() => {
         style.transition = '150ms ease-out transform'
         style.transform = `translate3d(0, ${offset}px, 0)`

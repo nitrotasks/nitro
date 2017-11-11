@@ -54,6 +54,9 @@ export default class TaskExpanded extends preact.Component {
     CombinedCollection.deleteTask(this.props.task)
   }
   render() {
+    if (this.props.expanded === false) {
+      return <div class="inner"></div>
+    }
     // TODO: save notes after a timeout
     return (
       <div class="inner">

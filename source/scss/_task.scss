@@ -156,7 +156,7 @@ $speed: 250ms;
 
     .inner {
       background: #fff;
-      height: 0;
+      height: 0px;
       transition: $speed ease height;
       overflow: hidden;
       border: 0;
@@ -167,7 +167,7 @@ $speed: 250ms;
 
 
   .check {
-    $box-height: 1rem; 
+    $box-height: 1rem;
     width: 2.25rem;
     padding: 0 0.5rem;
     display: flex;
@@ -311,8 +311,9 @@ $speed: 250ms;
   vertical-align: top;
 }
 
-img.indicator {
+.indicator-notes, .indicator-deadline {
   opacity: 0.25;
+  background-repeat: no-repeat;
 
   &:hover {
     opacity: 0.5;
@@ -320,9 +321,15 @@ img.indicator {
 }
 .indicator-notes {
   margin: 12px 0 12px 7px;
+  background-image: url('/img/icons/material/note.svg');
+  width: 18px;
+  height: 20px;
 }
 .indicator-deadline {
   margin: 7px 0 7px 3px;
+  background-image: url('/img/icons/material/task-deadline.svg');
+  width: 24px;
+  height: 20px;
 }
 .indicator-date {
   border: 1px solid $line-color;
