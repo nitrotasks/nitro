@@ -136,7 +136,7 @@ export default class Task extends preact.Component {
     if (this.state.date !== null) {
       const todayMode = this.state.deadline === null ? 'today' : this.state.deadline
       const date = formatDate(this.state.date, this.state.type, todayMode)
-      if (!(date === 'Today' && (['today', 'next'].indexOf(this.props.currentList) > -1) || this.state.completed !== null)) {
+      if (!(date === 'Today' && this.props.currentList === 'today' || this.state.completed !== null)) {
         indicators.push(
           <span class="indicator indicator-date">{date}</span>
         )

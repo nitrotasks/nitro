@@ -1,3 +1,5 @@
+const dayms = 1000 * 60 * 60 * 24
+
 export function formatDate(date, type, showToday = 'no') {
   // ???
   if (type === 'next' && date === null) {
@@ -17,9 +19,16 @@ export function formatDate(date, type, showToday = 'no') {
     return 'Overdue'
   } else if (showToday === 'today' && date < new Date()) {
     return 'Today'
+  } else if (showToday !== 'no') {
+    const days = Math.ceil((date.getTime() - new Date().getTime()) / dayms)
+    if (days === 1) {
+      return 'Tomorrow'
+    } else if (days > 0 && days < 7) {
+      return date.toLocaleDateString(navigator.language, {weekday: 'long'})
+    }
   }
 
-  return date.toLocaleDateString()
+  return date.toLocaleDateString(navigator.language, {month: 'short', day: 'numeric'})
 }
 
 export const dateValue = function(value) {

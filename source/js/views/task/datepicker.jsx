@@ -11,7 +11,8 @@ export default class Datepicker extends preact.Component {
       field: this.datepickerField,
       container: this.datepickerWidget,
       onSelect: this.triggerSelect(),
-      bound: false
+      bound: false,
+      keyboardInput: false,
     })
   }
   componentWillUnmount() {
@@ -108,5 +109,3 @@ export default class Datepicker extends preact.Component {
     )
   }
 }
-
-window.jono = pikaday
