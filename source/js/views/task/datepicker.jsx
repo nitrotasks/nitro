@@ -25,6 +25,10 @@ export default class Datepicker extends preact.Component {
       this.triggerHide()
     }
   }
+  removeDate = e => {
+    e.stopPropagation()
+    this.props.onSelect(null)
+  }
   triggerVisible = () => {
     this.setState({
       visible: true
@@ -36,12 +40,15 @@ export default class Datepicker extends preact.Component {
     })
   }
   render() {
+    // TODO: abstract this to translation library
     const pickerType = this.props.pickerType || 'date'
     let titleText = 'Pick Date'
+    let buttonText = 'Date'
     let nextLabel = 'Next'
     let buttonsTop
     if (pickerType === 'deadline') {
       titleText = 'Set Deadline'
+      buttonText = 'Deadline'
       nextLabel = 'Tomorrow'
     }
     if (pickerType === 'date' || pickerType === 'deadline') {
@@ -60,7 +67,7 @@ export default class Datepicker extends preact.Component {
       activator = (
         <button onClick={this.triggerVisible}>
           {this.props.type}{' '}
-          {formatDate(this.props.date) || 'Choose a Date'}
+          {formatDate(this.props.date) || buttonText}
         </button>
       )
     } else if (this.props.position === 'popover') {
@@ -75,7 +82,8 @@ export default class Datepicker extends preact.Component {
       const next = pickerType === 'deadline' ? 'task' : this.props.type
       activator = <div onClick={this.triggerVisible}>
         <img src={imgSrc} />
-        {formatDate(this.props.date, next)}
+        {formatDate(this.props.date, next) || buttonText}
+        <button onClick={this.removeDate}>X</button>
       </div>
     }
 

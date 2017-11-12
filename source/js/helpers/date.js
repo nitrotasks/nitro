@@ -1,4 +1,5 @@
 const dayms = 1000 * 60 * 60 * 24
+const language = navigator.language
 
 export function formatDate(date, type, showToday = 'no') {
   // ???
@@ -24,20 +25,22 @@ export function formatDate(date, type, showToday = 'no') {
     if (days === 1) {
       return 'Tomorrow'
     } else if (days > 0 && days < 7) {
-      return date.toLocaleDateString(navigator.language, {weekday: 'long'})
+      return date.toLocaleDateString(language, {weekday: 'long'})
     }
   }
 
-  return date.toLocaleDateString(navigator.language, {month: 'short', day: 'numeric'})
+  return date.toLocaleDateString(language, {month: 'short', day: 'numeric'})
 }
 
 export const dateValue = function(value) {
-  const newData = {}
-  if (value.constructor === Date) {
-    newData.type = 'task'
+  const newData = {
+    type: 'task'
+  }
+  if (value === null) {
+    newData.date = null
+  } else if (value.constructor === Date) {
     newData.date = value
   } else if (value === 'today') {
-    newData.type = 'task'
     newData.date = new Date()
     newData.date.setSeconds(newData.date.getSeconds()-1)
   } else if (value === 'next') {
@@ -52,12 +55,14 @@ export const dateValue = function(value) {
 
 export const deadlineValue = function(value) {
   const newData = {}
-  if (value.constructor === Date) {
+  if (value === null) {
+    newData.deadline = null
+  } else if (value.constructor === Date) {
     newData.deadline = value
   } else if (value === 'today') {
     newData.deadline = new Date()
   } else if (value === 'next') {
-    const tomorrow = new Date();
+    const tomorrow = new Date()
     tomorrow.setDate(tomorrow.getDate() + 1)
     newData.deadline = tomorrow
   }

@@ -94,13 +94,13 @@ export default class Sortable extends preact.Component {
       }, pressDelay))
     }
 
+    this.originalNode = e.currentTarget
     if (!this.props.task) {
       this.sizes = Array.from(e.currentTarget.parentElement.children).map((item) => {
         // cumualitive position, height of elem, has transformed?
         return [item.offsetTop - this.currentElement, item.offsetHeight, false]
       })
       this.stepSize = e.currentTarget.offsetHeight
-      this.originalNode = e.currentTarget
 
       if (this.eventMode === 'pointer' || this.eventMode === 'mouse') {
         this.isBeingMoved = true
@@ -234,10 +234,6 @@ export default class Sortable extends preact.Component {
     // but cause of hacked up pointer and touchevents, you can't just stop propagation
     if (e.target.className === 'check' || e.target.className === 'box') {
       return
-    }
-
-    if (typeof this.originalNode === 'undefined') {
-      return requestAnimationFrame(() => back())
     }
 
     this.isBeingMoved = false
