@@ -55,6 +55,7 @@ export default class Tasks extends preact.Component {
       newProps.taskDisposing = true
     }
     if (firstRun) {
+      newProps.list = defaultList
       newProps.stickyScale = false
       newProps.taskList = []
     }
