@@ -50,6 +50,8 @@ export default class TasksHeader extends preact.Component {
     if (typeof props.list !== 'undefined') {
       name = CombinedCollection.getList(props.list).name
     }
+    // seems easiest to set document title here
+    document.title = [name, 'Nitro'].join(' - ')
     this.setState({
       header: name
     })

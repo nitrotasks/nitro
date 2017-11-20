@@ -17,6 +17,9 @@ export function formatDate(date, type, showToday = 'no') {
 
   // changes dates today or past, to 'today'
   if (typeof showToday !== 'string' && showToday < new Date()) {
+    if (showToday.getDate() === new Date().getDate()) {
+      return 'Due'
+    }
     return 'Overdue'
   } else if (showToday === 'today' && date < new Date()) {
     return 'Today'

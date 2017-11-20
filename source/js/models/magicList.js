@@ -53,7 +53,7 @@ const getPriority = function(task: Object): number {
   } else if (task.date !== null && task.type !== 'next' && task.date < new Date()) {
     // 8 points per date overdue, up to two weeks of course.
     // slightly less weight than deadlines
-    priority += 1000 + (penalty(task.date) * 8)
+    priority += 1030 + (penalty(task.date) * 8)
 
     // about a week more weight if there's a deadline
     if (task.deadline) {
