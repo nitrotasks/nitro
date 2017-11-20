@@ -1,5 +1,6 @@
 // @flow
 import { TasksCollection } from './tasksCollection.js'
+import { ListsCollection } from './listsCollection.js'
 
 // two weeks is sort of the limit here
 const penalty = function(date: Date): number {
@@ -78,7 +79,33 @@ const getPriority = function(task: Object): number {
   }
   return priority
 }
-
+function findHeaders(tasks: Array<Object>): Array<Object> {
+  const lists = {}
+  tasks.forEach(task => {
+    if (!(task.list in lists)) {
+      lists[task.list] = []
+    }
+    return lists[task.list].push(task.id)
+  })
+  // traverses order to find headings
+  const headings = {}
+  Object.keys(lists).forEach(list => {
+    let currentHeading = null
+    ListsCollection.find(list).localOrder.forEach(task => {
+      const currentTask = TasksCollection.find(task)
+      if (currentTask.type === 'header') {
+        currentHeading = currentTask.name
+      } else if (lists[list].indexOf(task) > -1) {
+        headings[task] = currentHeading
+      }
+    })
+  })
+  
+  return tasks.map(task => {
+    task.heading = headings[task.id]
+    return task
+  })
+}
 function getList(threshold: number, comparison: string): Array<Object> {
   const ret = Array.from(TasksCollection.collection, function(item) {
     const task = item[1].toObject()
@@ -94,7 +121,7 @@ function getList(threshold: number, comparison: string): Array<Object> {
   }).sort((a,b) => {
     return a.priority - b.priority
   })
-  return ret
+  return findHeaders(ret)
 }
 
 export function getToday(): Array<Object> {

@@ -156,15 +156,21 @@
   list-style-type: none;
 
   li {
+    padding: 0;
+  }
+
+  li a, li.add {
     line-height: $list-height;
     padding: 0 $indent-width;
     cursor: default;
     display: flex;
     font-weight: 600;
     user-select: none;
+    text-decoration: none;
     -webkit-user-select: none;
     -ms-user-select: none;
     -moz-user-select: none;
+    -webkit-user-drag: none;
 
     .icon {
       margin-right: $indent-width * (2/3);
@@ -188,7 +194,7 @@
     }
 
     &.today, &.all + li {
-      margin-top: 0.7rem;
+      margin-top: 0.625rem;
     }
 
     .label {
@@ -226,12 +232,12 @@
 
     &.add {
       .label {
-        color: rgba(#000, 0.6);
-        font-size: 1rem;
+        color: rgba(#000, 0.5);
+        font-size: 1.1rem;
       }
       .icon {
         background-image: url('/img/icons/'+ $icon-style +'/add.svg');
-        opacity: 0.6;
+        opacity: 0.5;
       }
     }
 

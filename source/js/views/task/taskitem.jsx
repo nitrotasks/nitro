@@ -130,7 +130,11 @@ export default class Task extends preact.Component {
           <span class="indicator indicator-date">{CombinedCollection.getList(this.state.list).name}</span>
         )
       }
-      // TODO: Add headings here too.
+      if (this.props.data.heading) {
+        indicators.push(
+          <span class="indicator indicator-date">{this.props.data.heading}</span>
+        )
+      }
     }
     
     if (this.state.date !== null) {

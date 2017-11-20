@@ -1,5 +1,5 @@
 import preact from 'preact'
-import { route } from 'preact-router'
+import { route, Link } from 'preact-router'
 
 import { CombinedCollection } from '../models/combinedCollection.js'
 
@@ -22,11 +22,6 @@ export default class Lists extends preact.Component {
     this.setState({
       lists: CombinedCollection.getLists()
     })
-  }
-  navigate(id) {
-    return () => {
-      route(`/lists/${id}`)
-    }
   }
   createList() {
     if (document.documentElement.clientWidth >= 700) {
@@ -74,11 +69,14 @@ export default class Lists extends preact.Component {
     let focus = []
     let lists = []
     this.state.lists.forEach((item) => {
-      let el = (
-        <li onClick={this.navigate(item.id)} class={item.id}>
-          <span class="icon"></span>
-          <span class="label">{item.name}</span>
-          <span class="count">{item.count}</span>
+      const className = item.id
+      const el = (
+        <li>
+          <Link href={'/lists/' + item.id} class={className}>
+            <span class="icon"></span>
+            <span class="label">{item.name}</span>
+            <span class="count">{item.count}</span>
+          </Link>
         </li>
       )
       if (item.id === 'inbox' || item.id === 'today' || item.id === 'next' || item.id === 'all') {
