@@ -9,7 +9,7 @@ import TaskExpanded from './taskexpanded.jsx'
 export default class Task extends preact.Component {
   constructor(props) {
     super(props)
-    this.state = this.installState(props.data.id)
+    this.state = this.installState(props.data, false)
     this.state.expanded = props.selectedTask === props.data.id
   }
   componentDidMount() {
@@ -42,8 +42,11 @@ export default class Task extends preact.Component {
       this.setState(this.installState(this.props.data.id))
     }
   }
-  installState = id => {
-    const data = CombinedCollection.getTask(id)
+  installState = (id, lookup = true) => {
+    let data = id
+    if (lookup) {
+      data = CombinedCollection.getTask(id)
+    }
     return {
       name: data.name,
       type: data.type,
@@ -164,12 +167,9 @@ export default class Task extends preact.Component {
     if (this.state.completed !== null) {
       className += ' completed'
     }
-    const indicators = this.buildIndicators()
-    let label = (
-      <div class="label" onClick={this.props.onClick}>
-        {this.state.name}{indicators}
-      </div>
-    )
+
+    let label = null
+    let indicators = null
     if (this.state.type === 'header' || (this.state.expanded && !this.state.noRender)) {
       label = (
         <input
@@ -180,6 +180,13 @@ export default class Task extends preact.Component {
             this.taskInput = input
           }}
         />
+      )
+    } else {
+      indicators = this.buildIndicators()
+      label = (
+        <div class="label" onClick={this.props.onClick}>
+          {this.state.name}{indicators}
+        </div>
       )
     }
     

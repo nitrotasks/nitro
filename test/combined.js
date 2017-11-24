@@ -89,8 +89,8 @@ describe('combined collection', function() {
     it('should be able to get all the tasks in a magic list', function() {
       newTask2 = CombinedCollection.addTask({ name: 'A task', list: 'inbox', date: new Date(0) })
       const tasks = CombinedCollection.getTasks('today')
-      assert.equal(tasks.tasks.length, 1)
-      assert.equal(tasks.order.length, 1)
+      assert.equal(tasks.tasks.length, 2)
+      assert.equal(tasks.order.length, 2)
     })
     it('should return null for a list that does not exist', function() {
       const tasks = CombinedCollection.getTasks('boop')

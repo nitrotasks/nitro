@@ -106,7 +106,121 @@ function findHeaders(tasks: Array<Object>): Array<Object> {
     return task
   })
 }
-function getList(threshold: number, comparison: string): Array<Object> {
+function groupList(list: Array<Object>, group: string): Array<Object> {
+  const deadlines = []
+  const listCount = {}
+  const other = list.map((item) => {
+    if (item.deadline && item.deadline < new Date()) {
+      deadlines.push(item)
+      item.dead = true
+    } else {
+      // this builds a list of how many tasks are in each list and heading
+      if (!(item.list in listCount)) {
+        listCount[item.list] = {
+          length: 0,
+          lengthNoHeadings: 0,
+          headings: {}
+        }
+      }
+      listCount[item.list].length++
+      if (item.heading === null) {
+        listCount[item.list].lengthNoHeadings++
+      } else {
+        if (!(item.heading in listCount[item.list].headings)) {
+          listCount[item.list].headings[item.heading] = 0
+        }
+        listCount[item.list].headings[item.heading]++
+      }
+    }
+    return item
+  }).filter((item) => item.dead !== true)
+
+  const headingsToMake = []
+  Object.keys(listCount).forEach(key => {
+    if (listCount[key].length > 2 && key !== 'inbox') {
+      let rootCount = listCount[key].lengthNoHeadings
+      Object.keys(listCount[key].headings).forEach(heading => {
+        if (listCount[key].headings[heading] > 2) {
+          headingsToMake.push([key, heading].join('-'))
+        } else {
+          rootCount += listCount[key].headings[heading]
+        }
+      })
+      if (rootCount > 0) {
+        headingsToMake.push(key)
+      }
+    }
+  })
+  
+  // Now another pass, to turn the defined headings into real headings
+  const groupingsOrder = ['today']
+  const groupings = {
+    today: [],
+    next: [],
+  }
+  if (group === 'next') {
+    groupingsOrder.push('next')
+  }
+  other.forEach(task => {
+    const taskHeader = [task.list, task.heading].join('-')
+    if (headingsToMake.indexOf(taskHeader) > -1) {
+      // always insert the root list as the first heading
+      if (groupingsOrder.indexOf(task.list) === -1 && headingsToMake.indexOf(task.list) > -1) {
+        groupingsOrder.push(task.list)
+        groupings[task.list] = []
+      }
+      if (groupingsOrder.indexOf(taskHeader) === -1) {
+        groupingsOrder.push(taskHeader)
+        groupings[taskHeader] = []
+      }
+      groupings[taskHeader].push(task)
+    } else if (headingsToMake.indexOf(task.list) > -1) {
+      if (groupingsOrder.indexOf(task.list) === -1) {
+        groupingsOrder.push(task.list)
+        groupings[task.list] = []
+      }
+      groupings[task.list].push(task)
+    } else {
+      if (group === 'next' && task.priority > 10000) {
+        groupings.next.push(task)
+      } else {
+        groupings.today.push(task)
+      }
+    }
+  })
+
+  // Final Pass, this time creating headings and making groups into one
+  let final = []
+  groupingsOrder.forEach(group => {
+    let name = group
+    if (group === 'today') {
+      name = 'Today'
+    } else {
+      const split = group.split('-')
+      name = ListsCollection.find(split[0]).name
+      if (split.length > 1) {
+        name += ' — ' + split[1]
+      }
+    }
+    final.push({
+      id: group,
+      type: 'header',
+      name: name
+    })
+    final = final.concat(groupings[group])
+  })
+
+  if (deadlines.length > 0) {
+    deadlines.unshift({
+      id: 'overdue',
+      type: 'header',
+      name: 'Overdue'
+    })
+    final = deadlines.concat(final)
+  }
+  return final
+}
+function getList(threshold: number, comparison: string, group?: string): Array<Object> {
   const ret = Array.from(TasksCollection.collection, function(item) {
     const task = item[1].toObject()
     task.priority = getPriority(task)
@@ -121,12 +235,15 @@ function getList(threshold: number, comparison: string): Array<Object> {
   }).sort((a,b) => {
     return a.priority - b.priority
   })
+  if (group) {
+    return groupList(findHeaders(ret), group)
+  }
   return findHeaders(ret)
 }
 
-export function getToday(): Array<Object> {
-  return getList(10000, 'lt')
+export function getToday(group: bool = true): Array<Object> {
+  return getList(10000, 'lt', group ? 'today' : undefined)
 }
-export function getNext(): Array<Object> {
-  return getList(100000, 'lt') 
+export function getNext(group: bool = true): Array<Object> {
+  return getList(100000, 'lt', group ? 'next' : undefined) 
 }

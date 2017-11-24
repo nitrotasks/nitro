@@ -21,19 +21,19 @@ const a = (props) => {
 }
 const ass = (num, compare = num) => {
   return () => {
-    assert.equal(getToday()[compare].name, 'task' + num)
+    assert.equal(getToday(false)[compare].name, 'task' + num)
   }
 }
 const ass2 = (num, compare = num) => {
   return () => {
-    assert.equal(getNext()[compare].name, 'task' + num)
+    assert.equal(getNext(false)[compare].name, 'task' + num)
   }
 }
 
 describe('magic lists', function() {
   describe('today', function() {
     it('should not show any tasks if there are no due dates or deadlines', function() {
-      assert.equal(getToday().length, 0)
+      assert.equal(getToday(false).length, 0)
     })
     it('the testrunner should create all the tasks in priority order', function() {
       // this creates in priority,order, tests below verify this
@@ -51,7 +51,7 @@ describe('magic lists', function() {
     it('should have all the correct tasks in the today list', function() {
       tasks = tasks.reverse()
       tasks.forEach(task => CombinedCollection.addTask(task))
-      assert.equal(getToday().length, 7)
+      assert.equal(getToday(false).length, 7)
     })
     describe('deadline, overdue', function() {
       it('0: overdue deadline + overdue date', ass(0))
@@ -74,7 +74,7 @@ describe('magic lists', function() {
       it('should have all the correct tasks in the today list', function() {
         tasks = tasks.reverse()
         tasks.forEach(task => CombinedCollection.addTask(task))
-        assert.equal(getToday().length, 11)
+        assert.equal(getToday(false).length, 11)
       })
       it('0: overdue date is about half as weighted as overdue deadline', ass(0, 6))
       it('1: overdue date more weighted with a deadline', ass(1, 8))
@@ -85,7 +85,7 @@ describe('magic lists', function() {
   describe('next', function() {
     const offset = 11
     it('should have the tasks from today, but not tasks without dates or deadlines', function() {
-      assert.equal(getNext().length, offset)
+      assert.equal(getNext(false).length, offset)
     })
     it('the testrunner should create all the tasks in priority order', function() {
       tasks = []
@@ -104,10 +104,10 @@ describe('magic lists', function() {
     it('should have all the correct tasks in the next list', function() {
       tasks = tasks.reverse()
       tasks.forEach(task => CombinedCollection.addTask(task))
-      assert.equal(getNext().length, 10 + offset)
+      assert.equal(getNext(false).length, 10 + offset)
     })
     it('should have not modified the today list', function() {
-      assert.equal(getToday().length, offset)
+      assert.equal(getToday(false).length, offset)
     })
     describe('deadline + date', function() {
       it('0: due soon with a date soon is most important', ass2(0, offset+0))
