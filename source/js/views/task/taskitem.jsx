@@ -128,12 +128,13 @@ export default class Task extends preact.Component {
       ) 
     }
     if (['today', 'next'].indexOf(this.props.currentList) > -1) {
-      if (this.state.list !== 'inbox') {
+      const heading = this.props.currentHeading.split('-')
+      if (this.state.list !== 'inbox' && heading.length === 1 && this.state.list !== heading[0]) {
         indicators.push(
           <span class="indicator indicator-date">{CombinedCollection.getList(this.state.list).name}</span>
         )
       }
-      if (this.props.data.heading) {
+      if (this.props.data.heading && heading.length === 1) {
         indicators.push(
           <span class="indicator indicator-date">{this.props.data.heading}</span>
         )
@@ -143,7 +144,10 @@ export default class Task extends preact.Component {
     if (this.state.date !== null) {
       const todayMode = this.state.deadline === null ? 'today' : this.state.deadline
       const date = formatDate(this.state.date, this.state.type, todayMode)
-      if (!(date === 'Today' && this.props.currentList === 'today' || this.state.completed !== null)) {
+      // doesn't today on today list, or under today heading, or on completed tasks. also doesn't show overdue pill.
+      if (!(date === 'Today' && (this.props.currentList === 'today' || this.props.currentHeading === 'today')
+        || this.state.completed !== null) &&
+        this.props.currentHeading !== 'overdue') {
         indicators.push(
           <span class="indicator indicator-date">{date}</span>
         )

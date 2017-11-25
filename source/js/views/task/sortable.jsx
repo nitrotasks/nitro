@@ -318,6 +318,7 @@ export default class Sortable extends preact.Component {
   render() {
     const className = 'tasks-list' + (this.state.listTransforms ? ' tasks-transition' : '')
     let shouldMove = false
+    let currentHeading = ''
     return (
       <ul className={className}>
         {this.state.order.map(item => {
@@ -325,11 +326,15 @@ export default class Sortable extends preact.Component {
           if (this.props.task === task.id && window.innerWidth >= 700) {
             shouldMove = true
           }
+          if (task.type === 'header') {
+            currentHeading = item
+          }
           return (
             <Task
               key={task.id}
               data={task}
               currentList={this.props.list}
+              currentHeading={currentHeading}
               selectedTask={this.props.task}
               shouldMove={shouldMove}
               onDown={this.onDown}
