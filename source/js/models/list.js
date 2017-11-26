@@ -1,3 +1,10 @@
+const mutableSettings = {
+  'inbox': ['no-rename'],
+  'today': ['no-rename', 'no-order', 'no-headings'],
+  'next': ['no-rename', 'no-order', 'no-headings'],
+  'all': ['no-rename', 'no-order'],
+}
+
 export default class List {
   constructor(props) {
     this.id = props.id
@@ -13,6 +20,7 @@ export default class List {
       id: this.id,
       name: this.name,
       notes: this.notes,
+      mutable: mutableSettings[this.id] || [],
       serverId: this.serverId,
       lastSync: this.lastSync,
       order: this.order,

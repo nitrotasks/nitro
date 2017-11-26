@@ -137,7 +137,7 @@ export default class Tasks extends preact.Component {
             <Sortable
               task={this.props.task}
               taskList={this.state.taskList}
-              list={this.props.list}
+              list={this.state.list}
               listOrder={this.state.order}
             />
           </div>

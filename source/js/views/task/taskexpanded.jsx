@@ -43,9 +43,11 @@ export default class TaskExpanded extends preact.Component {
   }
   triggerMenu = (e) => {
     const items = [
-      { title: 'Change to Heading', action: this.headingConvert },
       { title: 'Delete Task', action: this.deleteTask }
     ]
+    if (this.props.headersAllowed) {
+      items.unshift({ title: 'Change to Heading', action: this.headingConvert })
+    }
     const rect = e.currentTarget.getBoundingClientRect()
     ContextMenuStore.create(rect.left, rect.top, 'top', 'left', items)
   }

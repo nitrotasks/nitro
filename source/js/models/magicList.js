@@ -226,6 +226,9 @@ function getList(threshold: number, comparison: string, group?: string): Array<O
     task.priority = getPriority(task)
     return task
   }).filter(task => {
+    if (task.type === 'header') {
+      return false
+    }
     if (comparison === 'gt' && task.priority >= threshold) {
       return true
     } else if (comparison === 'lt' && task.priority < threshold) {

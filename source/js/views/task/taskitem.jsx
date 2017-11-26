@@ -113,7 +113,7 @@ export default class Task extends preact.Component {
       { title: 'Delete Heading', action: this.deleteTask }
     ]
     const rect = e.currentTarget.getBoundingClientRect()
-    ContextMenuStore.create(rect.left, rect.top, 'top', 'right', items)
+    ContextMenuStore.create(rect.left + 30, rect.top, 'top', 'right', items)
   }
   buildIndicators = () => {
     const indicators = []
@@ -125,37 +125,52 @@ export default class Task extends preact.Component {
     if (this.state.deadline !== null) {
       indicators.push(
         <span key="deadline-indicator" class="indicator indicator-deadline" />
-      ) 
+      )
     }
     if (['today', 'next'].indexOf(this.props.currentList) > -1) {
       const heading = this.props.currentHeading.split('-')
-      if (this.state.list !== 'inbox' && heading.length === 1 && this.state.list !== heading[0]) {
+      if (
+        this.state.list !== 'inbox' &&
+        heading.length === 1 &&
+        this.state.list !== heading[0]
+      ) {
         indicators.push(
-          <span class="indicator indicator-date">{CombinedCollection.getList(this.state.list).name}</span>
+          <span class="indicator indicator-date">
+            {CombinedCollection.getList(this.state.list).name}
+          </span>
         )
       }
       if (this.props.data.heading && heading.length === 1) {
         indicators.push(
-          <span class="indicator indicator-date">{this.props.data.heading}</span>
+          <span class="indicator indicator-date">
+            {this.props.data.heading}
+          </span>
         )
       }
     }
-    
+
     if (this.state.date !== null) {
-      const todayMode = this.state.deadline === null ? 'today' : this.state.deadline
+      const todayMode =
+        this.state.deadline === null ? 'today' : this.state.deadline
       const date = formatDate(this.state.date, this.state.type, todayMode)
       // doesn't today on today list, or under today heading, or on completed tasks. also doesn't show overdue pill.
-      if (!(date === 'Today' && (this.props.currentList === 'today' || this.props.currentHeading === 'today')
-        || this.state.completed !== null) &&
-        this.props.currentHeading !== 'overdue') {
-        indicators.push(
-          <span class="indicator indicator-date">{date}</span>
-        )
+      if (
+        !(
+          (date === 'Today' &&
+            (this.props.currentList === 'today' ||
+              this.props.currentHeading === 'today')) ||
+          this.state.completed !== null
+        ) &&
+        this.props.currentHeading !== 'overdue'
+      ) {
+        indicators.push(<span class="indicator indicator-date">{date}</span>)
       }
-    } else if (this.state.type === 'next' && this.props.currentList !== 'next' && this.state.completed === null) {
-      indicators.push(
-        <span class="indicator indicator-date">Next</span>
-      ) 
+    } else if (
+      this.state.type === 'next' &&
+      this.props.currentList !== 'next' &&
+      this.state.completed === null
+    ) {
+      indicators.push(<span class="indicator indicator-date">Next</span>)
     }
     return indicators
   }
@@ -174,7 +189,10 @@ export default class Task extends preact.Component {
 
     let label = null
     let indicators = null
-    if (this.state.type === 'header' || (this.state.expanded && !this.state.noRender)) {
+    if (
+      this.state.type === 'header' ||
+      (this.state.expanded && !this.state.noRender)
+    ) {
       label = (
         <input
           value={this.state.name}
@@ -183,29 +201,34 @@ export default class Task extends preact.Component {
           ref={input => {
             this.taskInput = input
           }}
+          disabled={!this.props.headersAllowed}
         />
       )
     } else {
       indicators = this.buildIndicators()
       label = (
         <div class="label" onClick={this.props.onClick}>
-          {this.state.name}{indicators}
+          {this.state.name}
+          {indicators}
         </div>
       )
     }
-    
+
     if (this.state.type === 'header') {
       className = className.replace('task-item', 'header-item')
+      let menu = null
+      if (this.props.headersAllowed) {
+        menu = (
+          <button alt="Sublist Menu" onClick={this.triggerMenu}>
+            <img src="/img/icons/material/task-more.svg" />
+          </button>
+        )
+      }
       return (
         <li class={className} onContextMenu={this.onContextMenu}>
           <div class="outer">
             {label}
-            <button alt="Sublist Menu">
-              <img
-                src="/img/icons/material/task-more.svg"
-                onClick={this.triggerMenu}
-              />
-            </button>
+            {menu}
           </div>
         </li>
       )
@@ -226,7 +249,11 @@ export default class Task extends preact.Component {
             </div>
             {label}
           </div>
-          <TaskExpanded task={this.props.data.id} expanded={this.state.expanded && !this.state.noRender} />
+          <TaskExpanded
+            task={this.props.data.id}
+            expanded={this.state.expanded && !this.state.noRender}
+            headersAllowed={this.props.headersAllowed}
+          />
         </li>
       )
     }

@@ -39,6 +39,7 @@ export default class Sortable extends preact.Component {
     props.taskList.forEach(task => {
       taskMap.set(task.id, task)
     })
+    this.currentList = CombinedCollection.getList(this.props.list)
 
     return {
       order: props.listOrder || [],
@@ -316,6 +317,7 @@ export default class Sortable extends preact.Component {
     }, 175)
   }
   render() {
+    const headersAllowed = this.currentList.mutable.indexOf('no-headings') === -1
     const className = 'tasks-list' + (this.state.listTransforms ? ' tasks-transition' : '')
     let shouldMove = false
     let currentHeading = ''
@@ -336,6 +338,7 @@ export default class Sortable extends preact.Component {
               currentList={this.props.list}
               currentHeading={currentHeading}
               selectedTask={this.props.task}
+              headersAllowed={headersAllowed}
               shouldMove={shouldMove}
               onDown={this.onDown}
               onMove={this.onMove}

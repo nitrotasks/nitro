@@ -36,7 +36,11 @@ $speed: 250ms;
       flex: 1;
       outline: 0;
 
-      &:hover {
+      &:disabled {
+        color: inherit;
+      }
+
+      &:hover:not(:disabled) {
         border-color: rgba($brand-color, 0.3);
       }
       &:focus {

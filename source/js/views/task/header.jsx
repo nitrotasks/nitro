@@ -47,13 +47,17 @@ export default class TasksHeader extends preact.Component {
       return
     }
     let name = ''
+    let mutable = false
     if (typeof props.list !== 'undefined') {
-      name = CombinedCollection.getList(props.list).name
+      const list = CombinedCollection.getList(props.list)
+      name = list.name
+      mutable = list.mutable.indexOf('no-rename') ===  -1
     }
     // seems easiest to set document title here
     document.title = [name, 'Nitro'].join(' - ')
     this.setState({
-      header: name
+      header: name,
+      mutable: mutable
     })
     requestAnimationFrame(this.sizeInput)
   }
@@ -221,7 +225,6 @@ export default class TasksHeader extends preact.Component {
     if (['today', 'next'].indexOf(this.props.list) > -1) {
       placeholder = 'Add a task in “Inbox”'
     }
-
     return (
       <div class={stickyScale}>
         <header class="material-header">
@@ -241,6 +244,7 @@ export default class TasksHeader extends preact.Component {
               ref={e => (this.realInput = e)}
               alt="List Name"
               style={{ width: this.state.innerWidth }}
+              disabled={!this.state.mutable}
             />
             {moreBtn}
             <span ref={e => (this.fakeInput = e)}>{this.state.header}</span>
