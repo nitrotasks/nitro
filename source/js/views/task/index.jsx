@@ -36,9 +36,10 @@ export default class Tasks extends preact.Component {
     this.observer.disconnect()
   }
   componentWillReceiveProps(nextProps) {
-    this.setState(this.installProps(nextProps))
+    const state = this.installProps(nextProps)
+    this.setState(state)
 
-    if (!nextProps.task) {
+    if (!nextProps.task && state.taskDisposing === true) {
       setTimeout(() => {
         this.setState({
           taskDisposing: false

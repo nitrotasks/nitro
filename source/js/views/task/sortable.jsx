@@ -17,6 +17,7 @@ export default class Sortable extends preact.Component {
 
     this.eventMode = null
     this.inProgress = false
+    this.originalNode = {}
 
     this.state = {
       order: newState.order,
@@ -39,7 +40,6 @@ export default class Sortable extends preact.Component {
     props.taskList.forEach(task => {
       taskMap.set(task.id, task)
     })
-    this.currentList = CombinedCollection.getList(this.props.list)
 
     return {
       order: props.listOrder || [],
@@ -79,8 +79,15 @@ export default class Sortable extends preact.Component {
     this.pressedAt = Date.now()
 
     const node = e.currentTarget
+    this.originalNode = e.currentTarget
+    this.originalTouch = undefined
     this.currentOffset = 0
     this.canMove = false
+
+    // do nothing if ordering not allowed
+    if (CombinedCollection.getList(this.props.list).mutable.indexOf('no-order') !== -1) {
+      return
+    }
 
     // press and hold, touch only interaction
     // because touch-action: press and hold doesn't exist grr
@@ -95,7 +102,6 @@ export default class Sortable extends preact.Component {
       }, pressDelay))
     }
 
-    this.originalNode = e.currentTarget
     if (!this.props.task) {
       this.sizes = Array.from(e.currentTarget.parentElement.children).map((item) => {
         // cumualitive position, height of elem, has transformed?
@@ -229,6 +235,9 @@ export default class Sortable extends preact.Component {
   onUp = e => {
     if (this.eventMode === 'pointer' && e.which && e.which !== 1) {
       return
+    } else if (this.eventMode === 'mouse') {
+      document.removeEventListener('mousemove', this.onMove)
+      document.removeEventListener('mouseup', this.onUp)
     }
 
     // there should be a better way to do this
@@ -248,6 +257,7 @@ export default class Sortable extends preact.Component {
     requestAnimationFrame(() => {
       node.classList.remove('active')
     })
+
     // finds the actual offset
     let offset
     if (typeof this.originalTouch === 'undefined') {
@@ -311,16 +321,15 @@ export default class Sortable extends preact.Component {
 
     setTimeout(() => {
       style.transition = ''
-      document.removeEventListener('mousemove', this.onMove)
-      document.removeEventListener('mouseup', this.onUp)
       this.inProgress = false
     }, 175)
   }
   render() {
-    const headersAllowed = this.currentList.mutable.indexOf('no-headings') === -1
+    const headersAllowed = CombinedCollection.getList(this.props.list).mutable.indexOf('no-headings') === -1
     const className = 'tasks-list' + (this.state.listTransforms ? ' tasks-transition' : '')
     let shouldMove = false
     let currentHeading = ''
+
     return (
       <ul className={className}>
         {this.state.order.map(item => {
