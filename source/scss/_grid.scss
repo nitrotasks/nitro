@@ -1,7 +1,7 @@
 .desktop-grid {
   @media (min-width: $tablet-breakpoint) {
     display: grid;
-    grid-template-columns: 2fr 4fr;
+    grid-template-columns: 300px 1fr;
   }
   
   height: 100vh;

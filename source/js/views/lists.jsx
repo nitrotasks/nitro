@@ -66,13 +66,14 @@ export default class Lists extends preact.Component {
     )
   }
   render() {
+    const currentList = this.props.list || (window.innerWidth >= 700 ? 'inbox' : null)
     let focus = []
     let lists = []
     this.state.lists.forEach((item) => {
-      const className = item.id
+      const className = 'list-' + item.id + ((currentList === item.id) ? ' selected' : '')
       const el = (
-        <li>
-          <Link href={'/lists/' + item.id} class={className}>
+        <li class={className}>
+          <Link href={'/lists/' + item.id}>
             <span class="icon"></span>
             <span class="label">{item.name}</span>
             <span class="count">{item.count}</span>

@@ -121,13 +121,13 @@
   touch-action: pan-y;
   flex: 1;
 
-  @media (min-width: $mobile-breakpoint + 1) {
+  @media (min-width: $tablet-breakpoint) {
     padding: 0.25rem 0 0.5rem;    
   }
 }
 
 .search-container {
-  padding: 0 $indent-width - 0.3rem $indent-width;
+  padding: 0 $indent-width / 2 $indent-width;
 
   @media (max-width: $tablet-breakpoint - 1) {
     display: none;
@@ -136,7 +136,7 @@
     box-sizing: border-box;
     width: 100%;
     border: 1px solid transparent;
-    background-color: rgba(#000, 0.1);
+    background-color: rgba(#000, 0.05);
     border-radius: 3px;
     padding: 0.5rem 0.75rem;
     outline: 0;
@@ -152,16 +152,18 @@
 
 .lists-list {
   margin: 0;
-  padding: 0;
+  padding: 0 $indent-width / 2;
   list-style-type: none;
 
   li {
     padding: 0;
+    margin-bottom: 0.25rem;
+    border-radius: 3px;
   }
 
   li a, li.add {
     line-height: $list-height;
-    padding: 0 $indent-width;
+    padding: 0 $indent-width / 2;
     cursor: default;
     display: flex;
     font-weight: 600;
@@ -179,22 +181,6 @@
       background-position: 50%;
       background-size: 1.5rem;
       background-image: $list-icon;
-    }
-    &.inbox .icon {
-      background-image: $inbox-icon;
-    }
-    &.today .icon {
-      background-image: $today-icon;
-    }
-    &.next .icon {
-      background-image: $next-icon;
-    }
-    &.all .icon {
-      background-image: $all-icon;
-    }
-
-    &.today, &.all + li {
-      margin-top: 0.625rem;
     }
 
     .label {
@@ -243,7 +229,6 @@
 
     @media (min-width: $tablet-breakpoint) and (max-width: $desktop-breakpoint - 1) {
       line-height: $list-height - 0.2rem;
-      padding: 0 $indent-width - 0.3rem;
 
       .label {
         font-size: 1rem;
@@ -255,5 +240,26 @@
         font-size: 0.9rem;
       }
     }
+  }
+
+  .selected {
+    background: rgba(#000, 0.05);
+  }
+
+  .list-inbox .icon {
+    background-image: $inbox-icon;
+  }
+  .list-today .icon {
+    background-image: $today-icon;
+  }
+  .list-next .icon {
+    background-image: $next-icon;
+  }
+  .list-all .icon {
+    background-image: $all-icon;
+  }
+
+  .list-today, .list-all + li {
+    margin-top: 0.625rem;
   }
 }
