@@ -37,15 +37,14 @@ export default class Tasks extends preact.Component {
   }
   componentWillReceiveProps(nextProps) {
     const state = this.installProps(nextProps)
-    this.setState(state)
-
-    if (!nextProps.task && state.taskDisposing === true) {
+    if (!nextProps.task && this.state.taskDisposing === true) {
       setTimeout(() => {
         this.setState({
           taskDisposing: false
         })
       }, 300)
     }
+    this.setState(state)
   }
   installProps(nextProps, firstRun = false) {
     let newProps = {
@@ -113,6 +112,7 @@ export default class Tasks extends preact.Component {
     }
   }
   render() {
+    const mutable = CombinedCollection.getList(this.state.list).mutable.indexOf('no-order') === -1
     let className = 'tasks-pane'
     if (this.state.disposing === true) {
       className += ' hide'
@@ -136,6 +136,7 @@ export default class Tasks extends preact.Component {
               list={this.state.list}
             />
             <Sortable
+              mutable={mutable}
               task={this.props.task}
               taskList={this.state.taskList}
               list={this.state.list}

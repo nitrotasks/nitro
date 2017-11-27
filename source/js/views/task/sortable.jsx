@@ -17,7 +17,6 @@ export default class Sortable extends preact.Component {
 
     this.eventMode = null
     this.inProgress = false
-    this.originalNode = {}
 
     this.state = {
       order: newState.order,
@@ -84,11 +83,6 @@ export default class Sortable extends preact.Component {
     this.currentOffset = 0
     this.canMove = false
 
-    // do nothing if ordering not allowed
-    if (CombinedCollection.getList(this.props.list).mutable.indexOf('no-order') !== -1) {
-      return
-    }
-
     // press and hold, touch only interaction
     // because touch-action: press and hold doesn't exist grr
     if (this.eventMode === 'touch') {
@@ -130,6 +124,8 @@ export default class Sortable extends preact.Component {
         (!this.isBeingMoved || this.originalTouch.pointerId !== e.pointerId)) {
       return
     } else if (this.eventMode === 'mouse' && this.isBeingMoved === false) {
+      return
+    } else if (this.eventMode === 'touch' && typeof this.originalTouch === 'undefined') {
       return
     }
 
@@ -250,7 +246,7 @@ export default class Sortable extends preact.Component {
     const node = this.originalNode
     const style = this.originalNode.style
 
-    // offset calculations
+    // offset calculations 
     const oldOffset = this.currentOffset
     this.timeouts.forEach(i => clearTimeout(i))
     this.timeouts = []
@@ -298,7 +294,6 @@ export default class Sortable extends preact.Component {
       const idToMove = newOrder.splice(this.currentIndex, 1)[0]
       newOrder.splice(this.newPos, 0, idToMove)
 
-
       setTimeout(() => {
         this.setState({
           listTransforms: false,
@@ -324,12 +319,30 @@ export default class Sortable extends preact.Component {
       this.inProgress = false
     }, 175)
   }
+  onClick = (currentId) => {
+    return () => {
+      if (this.props.task) {
+        requestAnimationFrame(() => back())
+      } else {
+        go('/lists/' + this.props.list + '/' + currentId)
+      }
+    }
+  }
   render() {
     const headersAllowed = CombinedCollection.getList(this.props.list).mutable.indexOf('no-headings') === -1
     const className = 'tasks-list' + (this.state.listTransforms ? ' tasks-transition' : '')
     let shouldMove = false
     let currentHeading = ''
 
+    let up, move, down, click
+    if (this.props.mutable === true) {
+      down = this.onDown
+      move = this.onMove
+      up = this.onUp
+      click = () => {}
+    } else {
+      click = this.onClick
+    }
     return (
       <ul className={className}>
         {this.state.order.map(item => {
@@ -339,7 +352,7 @@ export default class Sortable extends preact.Component {
           }
           if (task.type === 'header') {
             currentHeading = item
-          }
+          } 
           return (
             <Task
               key={task.id}
@@ -349,11 +362,12 @@ export default class Sortable extends preact.Component {
               selectedTask={this.props.task}
               headersAllowed={headersAllowed}
               shouldMove={shouldMove}
-              onDown={this.onDown}
-              onMove={this.onMove}
-              onUp={this.onUp}
+              onDown={down}
+              onMove={move}
+              onUp={up}
+              onClick={click(task.id)}
               // best way to clean out the style prop
-              ref={el => { if (el) el.base.style.transform = '' }}
+              ref={el => { if (el) el.base.style.transform = ''}}
             />
           )
         })}

@@ -1,5 +1,6 @@
 import preact from 'preact'
 import { route } from 'preact-router'
+import ResizeObserver from 'resize-observer-polyfill'
 
 import { CombinedCollection } from '../../models/combinedCollection.js'
 
@@ -17,8 +18,9 @@ export default class TasksHeader extends preact.Component {
   componentDidMount() {
     this.listsUpdate('lists')
     CombinedCollection.bind('update', this.listsUpdate)
-    // delay so it has time to render
-    setTimeout(this.sizeInput, 200)
+
+    this.observer = new ResizeObserver(this.triggerResize)    
+    this.observer.observe(this.fakeInput.parentElement)
 
     // TODO: Hide keyboard
     // very specific to android. probably won't work on iOS.
@@ -41,6 +43,13 @@ export default class TasksHeader extends preact.Component {
         this.realInput.select()
       }
     }, 5)
+  }
+  componentWillUnmount() {
+    CombinedCollection.unbind('update', this.listsUpdate)
+    this.observer.disconnect()
+  }
+  triggerResize = () => {
+    requestAnimationFrame(this.sizeInput)
   }
   listsUpdate = (key, props = this.props) => {
     if (key !== 'lists') {
@@ -233,7 +242,7 @@ export default class TasksHeader extends preact.Component {
           </button>
           <h1 class="header-child">{this.state.header}</h1>
         </header>
-        <div class="tasks-fancy-header">
+        <div class="tasks-fancy-header" id="header-resize">
           <h1>
             {listIcon}
             <input
