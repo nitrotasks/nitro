@@ -144,6 +144,9 @@ $background-speed: 400ms;
     .tasks-fancy-header {
       h1 {
         transform: scale(0.7);
+        -webkit-transform: scale(0.7) translate3d(0,0,0);
+        -webkit-backface-visibility: hidden;
+        -webkit-transform-style: preserve-3d;
         button {
           opacity: 0;
         }
@@ -180,6 +183,7 @@ $background-speed: 400ms;
 .tasks-fancy-header {
   $speed: 200ms;
   h1 {
+    -webkit-transform: translate3d(0,0,0);
     margin: $indent-width / 3 $indent-width;
     position: relative;
     overflow: hidden;
@@ -199,6 +203,8 @@ $background-speed: 400ms;
 
       &:disabled {
         color: inherit;
+        opacity: 1;
+        -webkit-text-fill-color: #000;
       }
 
       &:not(:disabled):hover {
@@ -282,6 +288,7 @@ $background-speed: 400ms;
 
 .tasks-creator {
   $timing: 250ms;
+  -webkit-appearance: none;
   box-sizing: border-box;
   width: 100%;
   border: 1px solid transparent;
