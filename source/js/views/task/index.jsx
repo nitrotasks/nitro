@@ -44,6 +44,10 @@ export default class Tasks extends preact.Component {
         })
       }, 300)
     }
+    if (typeof nextProps.list !== 'undefined' && nextProps.list !== this.state.list) {
+      this.desktopScroll.scrollTop = 0
+      this.mobileScroll.scrollTop = 0
+    }
     this.setState(state)
   }
   installProps(nextProps, firstRun = false) {
@@ -127,8 +131,9 @@ export default class Tasks extends preact.Component {
         class={className}
         id="passive-scroll-wrapper"
         onClick={this.closeTasks}
+        ref={e => this.desktopScroll = e}
       >
-        <div class="tasks-content">
+        <div class="tasks-content" ref={e => this.mobileScroll = e}>
           <div class="tasks-scrollwrap">
             <div id="tasks-sticky-helper" class="tasks-sticky-helper" />
             <Header

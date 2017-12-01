@@ -49,9 +49,8 @@ export default class Sortable extends preact.Component {
     if (e.type === 'touchstart') {
       this.eventMode = 'touch'
       this.inProgress = true
-
-    // stops propagation of touchstart -> mousedown
     } else if (e.type === 'mousedown' && this.inProgress === true) {
+      // stops propagation of touchstart -> mousedown
       return
     } else {
       this.eventMode = 'mouse'
@@ -72,7 +71,9 @@ export default class Sortable extends preact.Component {
 
     // TODO: Distinguish between click & drag drop
     this.currentElement = e.currentTarget.offsetTop
-    this.currentIndex = Array.from(e.currentTarget.parentElement.children).indexOf(e.currentTarget)
+    this.currentIndex = Array.from(
+      e.currentTarget.parentElement.children
+    ).indexOf(e.currentTarget)
     this.newPos = this.currentIndex
     this.hasBeenMoved = false
     this.pressedAt = Date.now()
@@ -83,21 +84,40 @@ export default class Sortable extends preact.Component {
     this.currentOffset = 0
     this.canMove = false
 
+    this.mobileParent =
+      e.currentTarget.parentElement.parentElement.parentElement
+    this.desktopParent = this.mobileParent.parentElement
+    this.startingScroll = [
+      this.mobileParent.scrollTop,
+      this.desktopParent.scrollTop
+    ]
+
     // press and hold, touch only interaction
     // because touch-action: press and hold doesn't exist grr
     if (this.eventMode === 'touch') {
-      this.timeouts.push(setTimeout(() => {
-        if (Math.abs(this.currentOffset) < 20) {
-          requestAnimationFrame(() => {
-            node.classList.add('active')
-          })
-          this.canMove = true
-        }
-      }, pressDelay))
+      this.timeouts.push(
+        setTimeout(() => {
+          // scrolling already started, so don't do anything
+          if (
+            this.startingScroll[0] !== this.mobileParent.scrollTop ||
+            this.startingScroll[1] !== this.desktopParent.scrollTop
+          ) {
+            return
+          }
+          if (Math.abs(this.currentOffset) < 20) {
+            requestAnimationFrame(() => {
+              node.classList.add('active')
+            })
+            this.canMove = true
+          }
+        }, pressDelay)
+      )
     }
 
     if (!this.props.task) {
-      this.sizes = Array.from(e.currentTarget.parentElement.children).map((item) => {
+      this.sizes = Array.from(
+        e.currentTarget.parentElement.children
+      ).map(item => {
         // cumualitive position, height of elem, has transformed?
         return [item.offsetTop - this.currentElement, item.offsetHeight, false]
       })
@@ -120,12 +140,17 @@ export default class Sortable extends preact.Component {
     }
 
     // makes sure the same cursor is moving things
-    if (this.eventMode === 'pointer' &&
-        (!this.isBeingMoved || this.originalTouch.pointerId !== e.pointerId)) {
+    if (
+      this.eventMode === 'pointer' &&
+      (!this.isBeingMoved || this.originalTouch.pointerId !== e.pointerId)
+    ) {
       return
     } else if (this.eventMode === 'mouse' && this.isBeingMoved === false) {
       return
-    } else if (this.eventMode === 'touch' && typeof this.originalTouch === 'undefined') {
+    } else if (
+      this.eventMode === 'touch' &&
+      typeof this.originalTouch === 'undefined'
+    ) {
       return
     }
 
@@ -138,7 +163,11 @@ export default class Sortable extends preact.Component {
     }
     this.currentOffset = offset
 
-    if ((this.eventMode === 'pointer' || this.eventMode === 'mouse') && Math.abs(offset) > 15 && !this.canMove) {
+    if (
+      (this.eventMode === 'pointer' || this.eventMode === 'mouse') &&
+      Math.abs(offset) > 15 &&
+      !this.canMove
+    ) {
       const node = this.originalNode
       requestAnimationFrame(() => {
         node.classList.add('active')
@@ -169,8 +198,8 @@ export default class Sortable extends preact.Component {
 
     const children = this.originalNode.parentElement.children
     requestAnimationFrame(() => {
-      let index = this.sizes.findIndex((item) => {
-        return offset < item[0] + (item[1] / 2) && offset > item[0] - item[1]
+      let index = this.sizes.findIndex(item => {
+        return offset < item[0] + item[1] / 2 && offset > item[0] - item[1]
       })
       if (index === -1) {
         if (Math.sign(offset) === -1) {
@@ -186,7 +215,7 @@ export default class Sortable extends preact.Component {
 
       // The initial move up and down
       // loops through array to adjust all elements according to position
-      for (let i=0; i<Math.abs(index - this.currentIndex); i++) {
+      for (let i = 0; i < Math.abs(index - this.currentIndex); i++) {
         const j = i * Math.sign(offset) * -1 + index
         if (j < this.sizes.length) {
           const childDir = this.stepSize * Math.sign(offset) * -1
@@ -210,7 +239,7 @@ export default class Sortable extends preact.Component {
           rafDispatch.set(this.currentIndex - 1, ['transform', ''])
         }
       }
-      for (let i=bounds[0]; i<bounds[1]; i++) {
+      for (let i = bounds[0]; i < bounds[1]; i++) {
         if (this.sizes[i][2]) {
           rafDispatch.set(i, ['transform', ''])
           this.sizes[i][2] = false
@@ -218,14 +247,17 @@ export default class Sortable extends preact.Component {
       }
 
       // movement of the mouseover
-      rafDispatch.set(this.currentIndex, ['transform', `translate3d(0, ${offset}px, 0)`])
+      rafDispatch.set(this.currentIndex, [
+        'transform',
+        `translate3d(0, ${offset}px, 0)`
+      ])
 
       // Runs all the transitions batched
       // requestAnimationFrame(() => {
       rafDispatch.forEach(function(item, key) {
         children[key].style[item[0]] = item[1]
       })
-    // })
+      // })
     })
   }
   onUp = e => {
@@ -246,7 +278,7 @@ export default class Sortable extends preact.Component {
     const node = this.originalNode
     const style = this.originalNode.style
 
-    // offset calculations 
+    // offset calculations
     const oldOffset = this.currentOffset
     this.timeouts.forEach(i => clearTimeout(i))
     this.timeouts = []
@@ -273,18 +305,28 @@ export default class Sortable extends preact.Component {
         requestAnimationFrame(() => back())
       } else if (Math.abs(offset) > 20 || Math.abs(oldOffset) > 20) {
         return
-      } else {
+      } else if (
+        this.startingScroll[0] === this.mobileParent.scrollTop &&
+        this.startingScroll[1] === this.desktopParent.scrollTop
+      ) {
         go('/lists/' + this.props.list + '/' + currentId)
       }
-    } else if (this.newPos !== this.currentIndex && this.hasBeenMoved === true) {
+    } else if (
+      this.newPos !== this.currentIndex &&
+      this.hasBeenMoved === true
+    ) {
       let offset = 0
       if (this.newPos > this.currentIndex) {
-        this.sizes.slice(this.currentIndex + 1, this.newPos + 1).forEach(item => offset += item[1])
+        this.sizes
+          .slice(this.currentIndex + 1, this.newPos + 1)
+          .forEach(item => (offset += item[1]))
       } else {
         // this can also just look at item[0], but it's less confusing just to keep the logic the same.
-        this.sizes.slice(this.newPos, this.currentIndex).forEach(item => offset -= item[1])
+        this.sizes
+          .slice(this.newPos, this.currentIndex)
+          .forEach(item => (offset -= item[1]))
       }
-      
+
       requestAnimationFrame(() => {
         style.transition = '150ms ease-out transform'
         style.transform = `translate3d(0, ${offset}px, 0)`
@@ -297,7 +339,7 @@ export default class Sortable extends preact.Component {
       setTimeout(() => {
         this.setState({
           listTransforms: false,
-          order: newOrder,
+          order: newOrder
         })
         CombinedCollection.updateOrder(this.props.list, newOrder)
       }, 200)
@@ -319,7 +361,7 @@ export default class Sortable extends preact.Component {
       this.inProgress = false
     }, 175)
   }
-  onClick = (currentId) => {
+  onClick = currentId => {
     return () => {
       if (this.props.task) {
         requestAnimationFrame(() => back())
@@ -329,8 +371,12 @@ export default class Sortable extends preact.Component {
     }
   }
   render() {
-    const headersAllowed = CombinedCollection.getList(this.props.list).mutable.indexOf('no-headings') === -1
-    const className = 'tasks-list' + (this.state.listTransforms ? ' tasks-transition' : '')
+    const headersAllowed =
+      CombinedCollection.getList(this.props.list).mutable.indexOf(
+        'no-headings'
+      ) === -1
+    const className =
+      'tasks-list' + (this.state.listTransforms ? ' tasks-transition' : '')
     let shouldMove = false
     let currentHeading = ''
 
@@ -352,7 +398,7 @@ export default class Sortable extends preact.Component {
           }
           if (task.type === 'header') {
             currentHeading = item
-          } 
+          }
           return (
             <Task
               key={task.id}
@@ -367,7 +413,9 @@ export default class Sortable extends preact.Component {
               onUp={up}
               onClick={click(task.id)}
               // best way to clean out the style prop
-              ref={el => { if (el) el.base.style.transform = ''}}
+              ref={el => {
+                if (el) el.base.style.transform = ''
+              }}
             />
           )
         })}

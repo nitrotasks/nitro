@@ -20,6 +20,7 @@ body {
 }
 body, input, button, textarea {
   font-family: $font-family;
+  font-display: optional;
   overflow-x: hidden;
 }
 a {
