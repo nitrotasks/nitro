@@ -7,10 +7,7 @@ config.endpoint = 'http://localhost:8040' + config.endpoint
 global.testMode = true
 
 // define localstorage
-global.localStorage = {
-  getItem: () => null,
-  setItem: () => null,
-}
+global.indexedDB = require('fake-indexeddb')
 
 // define requestAnimationFrame
 global.requestAnimationFrame = process.nextTick

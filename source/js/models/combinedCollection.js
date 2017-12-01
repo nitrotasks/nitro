@@ -53,6 +53,19 @@ export class combined extends Events {
     ListsCollection.bind('update', this._updateEvent('lists'))
     ListsCollection.bind('order', this._orderEvent)
   }
+  loadData() {
+    const promise = new Promise((resolve, reject) => {
+      ListsCollection.loadLocal().then(() => {
+        TasksCollection.loadLocal().then(() => {
+          Promise.all([
+            this.listsQueue.loadQueue(), 
+            this.tasksQueue.loadQueue()
+          ]).then(resolve)
+        })
+      })
+    })
+    return promise
+  }
   _updateEvent(key: string) {
     return (value: string) => {
       this.trigger('update', key, value)

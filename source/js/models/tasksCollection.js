@@ -1,3 +1,4 @@
+import db from 'idb-keyval'
 import Events from './events.js'
 import Task from './task.js'
 import { getToday, getNext } from './magicList.js'
@@ -9,7 +10,6 @@ export class tasks extends Events {
     // two stores, one for current tasks, one for completed
     this.collection = new Map()
     this.completedcollection = new Map()
-    this.loadLocal()          
   }
   setSync(sync) {
     this.sync = sync
@@ -154,34 +154,29 @@ export class tasks extends Events {
     this.saveLocal()
   }
   saveLocal() {
-    requestAnimationFrame(() => {
-      let data = this.toObject()
-      localStorage.setItem('nitro3-tasks', JSON.stringify(data[0]))
-    })
+    db.set('tasks', this.toObject())
   }
   loadLocal() {
-    let data = localStorage.getItem('nitro3-tasks')
-    if (data === null) {
-      this.createLocal()
-      this.saveLocal()
-      return
-    }
-    JSON.parse(data).forEach(item => {
-      this.collection.set(item.id, new Task(item))
+    return db.get('tasks').then(data => {
+      if (typeof data === 'undefined') {
+        this.createLocal()
+        this.saveLocal()
+        return
+      }
+      data.forEach((item) => {
+        this.collection.set(item.id, new Task(item))
+      })
     })
-    console.log('Loaded Tasks from localStorage')
   }
   createLocal() {
     console.log('TODO: Create Default Tasks')
   }
   toObject() {
-    // TODO: when this is patched to have an order
-    // update this to use these in order
     let result = []
     this.collection.forEach(function(value, key) {
       result.push(value.toObject())
     })
-    return [result]
+    return result
   }
 }
 export let TasksCollection = new tasks()

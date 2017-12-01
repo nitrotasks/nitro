@@ -1,3 +1,4 @@
+import db from 'idb-keyval'
 import config from '../../../config.js'
 import Events from './events.js'
 import { checkStatus } from '../helpers/fetch.js'
@@ -28,7 +29,6 @@ export default class Sync extends Events {
     this.model = props.model
     this.parentModel = props.parentModel
     this.serverParams = props.serverParams
-    this.loadQueue()
   }
   logger() {
     if (typeof(testMode) !== 'undefined') return // doesn't log in test
@@ -36,18 +36,16 @@ export default class Sync extends Events {
     log('%c' + data.join(' '), 'background: #ececec; color: #3a7df8;')
   }
   saveQueue() {
-    requestAnimationFrame(() => {
-      localStorage.setItem('nitro3-sync-' + this.identifier, JSON.stringify(this.queue))
-    })
+    db.set('sync-' + this.identifier, this.queue)
   }
   loadQueue() {
-    let data = localStorage.getItem('nitro3-sync-' + this.identifier)
-    if (data === null) {
-      this.saveQueue()
-      return
-    }
-    this.queue = JSON.parse(data)
-    this.logger(`Loaded ${this.identifier} queue from localStorage`)
+    return db.get('sync-' + this.identifier).then((data) => {
+      if (typeof data === 'undefined') {
+        this.saveQueue()
+        return
+      }
+      this.queue = data
+    })
   }
   requestProcess() {
     this.trigger('request-process')

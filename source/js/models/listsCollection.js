@@ -1,3 +1,4 @@
+import db from 'idb-keyval'
 import Events from './events.js'
 import List from './list.js'
 
@@ -5,9 +6,7 @@ import List from './list.js'
 export class lists extends Events {
   constructor(props) {
     super(props)
-    
     this.collection = new Map()
-    this.loadLocal()
   }
   setSync(sync) {
     this.sync = sync
@@ -69,21 +68,19 @@ export class lists extends Events {
     return name
   }
   saveLocal() {
-    requestAnimationFrame(() => {
-      localStorage.setItem('nitro3-lists', JSON.stringify(this.toObject()))
-    })
+    db.set('lists', this.toObject())
   }
   loadLocal() {
-    let data = localStorage.getItem('nitro3-lists')
-    if (data === null) {
-      this.createLocal()
-      this.saveLocal()
-      return
-    }
-    JSON.parse(data).forEach((item) => {
-      this.collection.set(item.id, new List(item))
+    return db.get('lists').then(data => {
+      if (typeof data === 'undefined') {
+        this.createLocal()
+        this.saveLocal()
+        return
+      }
+      data.forEach((item) => {
+        this.collection.set(item.id, new List(item))
+      })
     })
-    console.log('Loaded Lists from localStorage')
   }
   createLocal() {
     this.collection.set('inbox', new List({

@@ -3,6 +3,7 @@ import Router from 'preact-router'
 
 import { log, error } from './helpers/logger.js'
 import authenticationStore from './stores/auth.js'
+import { CombinedCollection } from './models/combinedCollection.js'
 
 import Lists from './views/lists.jsx'
 import Tasks from './views/task/index.jsx'
@@ -48,11 +49,15 @@ document.addEventListener('DOMContentLoaded', function() {
   Promise.all(polyfill()).then(() => {
     const elem = document.getElementById('app-shell')
     elem.innerHTML = ''
-    preact.render(App(), elem)
 
-    setTimeout(function() {
-      elem.className = ''
-    }, 500)
+    CombinedCollection.loadData().then(() => {
+      console.log('loaded db')
+      preact.render(App(), elem)
+      setTimeout(function() {
+        elem.className = ''
+      }, 500)
+    })
+
   })
 })
 

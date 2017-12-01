@@ -1,3 +1,4 @@
+import db from 'idb-keyval'
 import config from '../../../config.js'
 import Events from '../models/events.js'
 import { checkStatus } from '../helpers/fetch.js'
@@ -5,11 +6,16 @@ import { checkStatus } from '../helpers/fetch.js'
 class AuthenticationStore extends Events {
   constructor(props) {
     super(props)
-    this.refreshToken = localStorage.getItem('nitro3-auth') || '{}'
-    this.refreshToken = JSON.parse(this.refreshToken)
+    this.refreshToken = {}
     this.accessToken = null
 
-    this.getToken()
+    db.get('auth').then((data) => {
+      if (typeof data !== 'undefined') {
+        this.refreshToken = data
+      }
+      this.trigger('sign-in-status')
+      this.getToken()
+    })
   }
   isSignedIn(tokenCheck = false) {
     if (tokenCheck && typeof this.refreshToken.local !== 'undefined' && this.refreshToken.local === true) {
@@ -21,7 +27,7 @@ class AuthenticationStore extends Events {
     if (username === 'local@nitrotasks.com') {
       this.refreshToken = {local: true}
       this.trigger('sign-in-status')
-      localStorage.setItem('nitro3-auth', JSON.stringify(this.refreshToken))
+      db.set('auth', this.refreshToken)
     } else {
       this.authenticate(username, password).then(() => {
         this.trigger('sign-in-status')
@@ -73,7 +79,7 @@ class AuthenticationStore extends Events {
       }).then(checkStatus).then((response) => {
         response.json().then((data) => {
           this.refreshToken = data
-          localStorage.setItem('nitro3-auth', JSON.stringify(this.refreshToken))
+          db.set('auth', this.refreshToken)
           this.getToken().then(function() {
             resolve('Logged In!')
           })
@@ -84,7 +90,7 @@ class AuthenticationStore extends Events {
     })
   }
   signOut() {
-    localStorage.clear()
+    db.clear()
     window.location = '/'
   }
   getToken() {

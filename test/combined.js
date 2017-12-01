@@ -3,6 +3,11 @@ import assert from 'assert'
 import { CombinedCollection } from '../source/js/models/combinedCollection.js'
 
 describe('combined collection', function() {
+  before(function(done) {
+    CombinedCollection.loadData().then(() => {
+      done()
+    })
+  })
   describe('list', function() {
     it('should have the default lists', function() {
       const lists = CombinedCollection.getLists()
