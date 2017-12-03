@@ -90,8 +90,9 @@ class AuthenticationStore extends Events {
     })
   }
   signOut() {
-    db.clear()
-    window.location = '/'
+    db.clear().then(() => {
+      window.location = '/'
+    })
   }
   getToken() {
     if (JSON.stringify(this.refreshToken) === '{}' || 'local' in this.refreshToken) {

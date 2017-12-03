@@ -45,8 +45,21 @@ export class combined extends Events {
       }
     }
 
+    // wow haven't used this hack in years
+    const self = this 
+    const handleArchive = function() {
+      if (authenticationStore.isSignedIn(true)) {
+        this.processArchive().then(() => {
+          self.downloadData()
+        }).catch(() => {
+          console.log('no changes')
+        })
+      }
+    }
+
     this.listsQueue.bind('request-process', handleProcess)
     this.tasksQueue.bind('request-process', handleProcess)
+    this.tasksQueue.bind('request-archive', handleArchive)
 
     authenticationStore.bind('token', this.downloadData)
     TasksCollection.bind('update', this._updateEvent('tasks'))

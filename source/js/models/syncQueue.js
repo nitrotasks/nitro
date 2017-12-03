@@ -21,7 +21,8 @@ export default class Sync extends Events {
     this.queue = {
       post: [],
       patch: [],
-      delete: []
+      delete: [],
+      archive: [],
     }
     this.identifier = props.identifier
     this.endpoint = props.endpoint
@@ -108,6 +109,7 @@ export default class Sync extends Events {
           } else {
             this.logger(this.identifier, 'Finished POSTING')
             this.model.trigger('update')
+            this.trigger('request-archive')
           }
         })
       })
@@ -168,6 +170,7 @@ export default class Sync extends Events {
           } else {
             this.logger(this.identifier, 'Finished PATCHING')
             this.model.trigger('update')
+            this.trigger('request-archive')
           }
         })
       }).catch((err) => {
@@ -185,6 +188,8 @@ export default class Sync extends Events {
           deleteItem(queue[0])
         } else {
           this.logger(this.identifier, 'Finished DELETING')
+          this.model.trigger('update')
+          this.trigger('request-archive')
         }
       }
 
@@ -227,6 +232,7 @@ export default class Sync extends Events {
         this.queue.delete = []
         this.saveQueue()
         this.logger(this.identifier, 'Finished DELETING')
+        this.model.trigger('update')
       }).catch((err) => {
         if (err.status === 404) {
           err.response.items.forEach((item) => {
@@ -252,6 +258,52 @@ export default class Sync extends Events {
     if (this.queue.patch.length > 0) {
       patchItem(this.queue.patch[0]) 
     }
+    this.trigger('request-archive')
+  }
+  processArchive() {
+    const promiseSerial = funcs => {
+      return funcs.reduce((promise, func) => {
+        return promise.then(result => func().then(Array.prototype.concat.bind(result)))
+      }, Promise.resolve([]))
+    }
+
+    const archiveItem = (item) => {
+      const listId = this.parentModel.find(item[0]).serverId
+      const taskId = item[1].map(i => this.model.find(i).serverId)
+
+      return fetch(`${config.endpoint}/archive/${listId}`, {
+        method: 'POST',
+        headers: authenticationStore.authHeader(true),
+        body: JSON.stringify({
+          tasks: taskId
+        })
+      }).then(checkStatus).then(() => {
+        this.queue.archive.splice(0, 1)
+        this.saveQueue()
+      })
+    }
+
+    const currentQueueLength = this.queue.post.length + this.queue.patch.length + this.queue.delete.length
+    return new Promise((resolve, reject) => {
+      if (currentQueueLength === 0) {
+        if (this.queue.archive.length === 0) {
+          this.logger(this.identifier, 'Nothing to ARCHIVE')
+          return reject()
+        }
+
+        const funcs = this.queue.archive.map(item => () => archiveItem(item))
+        promiseSerial(funcs).then(() => {
+          this.logger(this.identifier, 'ARCHIVE Finished')
+          return resolve()
+        }).catch((err) => {
+          console.error(err)
+          return reject(err)
+        })
+      } else {
+        this.logger(this.identifier, 'Waiting for empty queues to ARCHIVE')
+        return reject()
+      }
+    })
   }
   post(id) {
     this.logger(this.identifier, 'POST Requested')
@@ -407,6 +459,21 @@ export default class Sync extends Events {
         this.saveQueue()
       }
     }
+    this.requestProcess()
+  }
+  archive(id) {
+    this.logger(this.identifier, 'ARCHIVE Requested')
+
+    const index = this.queue.archive.findIndex(function(element) {
+      return element[0] === id[0]
+    })
+
+    if (index > -1) {
+      this.queue.archive[index][1].push(id[1])
+    } else {
+      this.queue.archive.push([id[0], [id[1]]])
+    }
+    this.saveQueue()
     this.requestProcess()
   }
 }
