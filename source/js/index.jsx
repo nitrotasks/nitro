@@ -51,7 +51,6 @@ document.addEventListener('DOMContentLoaded', function() {
     elem.innerHTML = ''
 
     CombinedCollection.loadData().then(() => {
-      console.log('loaded db')
       preact.render(App(), elem)
       setTimeout(function() {
         elem.className = ''

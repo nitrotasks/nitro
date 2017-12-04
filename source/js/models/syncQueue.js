@@ -269,15 +269,17 @@ export default class Sync extends Events {
 
     const archiveItem = (item) => {
       const listId = this.parentModel.find(item[0]).serverId
-      const taskId = item[1].map(i => this.model.find(i).serverId)
+      // const taskId = item[1].map(i => this.model.find(i).serverId)
 
       return fetch(`${config.endpoint}/archive/${listId}`, {
         method: 'POST',
         headers: authenticationStore.authHeader(true),
         body: JSON.stringify({
-          tasks: taskId
+          tasks: item[1]
         })
       }).then(checkStatus).then(() => {
+        // removes local archive of that particular list
+        db.delete('archive-' + item[0])
         this.queue.archive.splice(0, 1)
         this.saveQueue()
       })

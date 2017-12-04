@@ -129,10 +129,14 @@ describe('combined collection', function() {
     it('should be able to delete a task', function() {
       CombinedCollection.deleteTask(taskId)
       assert.equal(CombinedCollection.getTask(taskId), null)
-      assert.equal(CombinedCollection.getList('inbox').order.length, 0)
+      assert.equal(CombinedCollection.getList('inbox').localOrder.length, 1)
     })
-    after(function() {
-      CombinedCollection.deleteTask(newTask2.id)
+    it('should be able to archive a task', function(done) {
+      CombinedCollection.archiveTask(newTask2.id).then(() => {
+        assert.equal(CombinedCollection.getTask(newTask2.id), null)
+        assert.equal(CombinedCollection.getList('inbox').localOrder.length, 0)
+        done()
+      })
     })
   })
 })

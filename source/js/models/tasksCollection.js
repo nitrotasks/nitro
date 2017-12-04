@@ -49,12 +49,32 @@ export class tasks extends Events {
     this.trigger('update')
     this.saveLocal()
   }
-  archive(id) {
-    const resource = this.find(id)
-    this.sync.archive([resource.list, id])
-    // this.collection.archive(id)
-    this.trigger('update')
-    this.saveLocal()
+  archive(id, signedIn = false) {
+    // this is extra safe
+    return new Promise((resolve, reject) => {
+      const resource = this.find(id)
+      if (signedIn) {
+        this.sync.archive([resource.list, resource.serverId])
+      }
+
+      const cb = () => {
+        this.collection.delete(id)
+
+        this.trigger('update')
+        this.saveLocal()
+        resolve()
+      }
+      
+      const key = 'archive-' + resource.list
+      db.get(key).then(data => {
+        if (typeof data === 'undefined') {
+          db.set(key, [resource.toObject()]).then(cb)
+        } else {
+          data.push(resource.toObject())
+          db.set(key, data).then(cb)
+        }
+      })
+    })
   }
   // maybe roll these into one function?
   addListFromServer(tasks, listId) {

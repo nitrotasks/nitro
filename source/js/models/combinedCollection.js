@@ -51,9 +51,8 @@ export class combined extends Events {
       if (authenticationStore.isSignedIn(true)) {
         this.processArchive().then(() => {
           self.downloadData()
-        }).catch(() => {
-          console.log('no changes')
-        })
+        }).catch(() => null)
+        // the catch case is just no changes
       }
     }
 
@@ -143,6 +142,17 @@ export class combined extends Events {
     if (task === null) throw new Error('Task could not be found')
     let completed = task.completed === null ? new Date() : null
     TasksCollection.update(task.id, { completed: completed })
+  }
+  archiveTask(id: string, server: ?bool) {
+    const task = this.getTask(id, server)
+    const signedin = authenticationStore.isSignedIn(true)
+    if (task === null) throw new Error('Task could not be found')
+    if (task.serverId === null && signedin === true) throw new Error('Cannot archive an unsynced task')
+    const order = ListsCollection.find(task.list).localOrder
+    order.splice(order.indexOf(task.id), 1)
+    this.updateOrder(task.list, order, false)
+    ListsCollection.saveLocal()
+    return TasksCollection.archive(task.id, signedin)
   }
   deleteTask(id: string, server: ?bool) {
     const task = this.getTask(id, server)
