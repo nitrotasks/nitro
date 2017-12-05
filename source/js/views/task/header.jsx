@@ -206,7 +206,7 @@ export default class TasksHeader extends preact.Component {
     }
 
     let moreBtn = null
-    if (this.state.innerWidth !== '100%') {
+    if (this.state.mutable && this.state.innerWidth !== '100%') {
       moreBtn = (
         <button
           class="list-context"

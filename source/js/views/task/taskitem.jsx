@@ -201,7 +201,7 @@ export default class Task extends preact.Component {
           ref={input => {
             this.taskInput = input
           }}
-          disabled={!this.props.headersAllowed}
+          disabled={!this.props.headersAllowed && this.state.type === 'header'}
         />
       )
     } else {

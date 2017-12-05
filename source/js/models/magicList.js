@@ -202,11 +202,14 @@ function groupList(list: Array<Object>, group: string): Array<Object> {
         name += ' — ' + split[1]
       }
     }
-    final.push({
-      id: group,
-      type: 'header',
-      name: name
-    })
+    // ensures that the today and next headings don't randombly show up
+    if (groupingsOrder.length > 1 && groupings[group].length > 0) {
+      final.push({
+        id: group,
+        type: 'header',
+        name: name
+      })
+    }
     final = final.concat(groupings[group])
   })
 
