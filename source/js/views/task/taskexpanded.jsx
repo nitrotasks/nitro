@@ -43,6 +43,7 @@ export default class TaskExpanded extends preact.Component {
   }
   triggerMenu = (e) => {
     const items = [
+      { title: 'Archive Task', action: this.archiveTask },
       { title: 'Delete Task', action: this.deleteTask }
     ]
     if (this.props.headersAllowed) {
@@ -50,6 +51,15 @@ export default class TaskExpanded extends preact.Component {
     }
     const rect = e.currentTarget.getBoundingClientRect()
     ContextMenuStore.create(rect.left, rect.top, 'top', 'left', items)
+  }
+  archiveTask = () => {
+    window.history.back()
+    try {
+      CombinedCollection.archiveTask(this.props.task)
+    } catch(err) {
+      // todo: make this a nicer error
+      alert(err.message)
+    }
   }
   deleteTask = () => {
     window.history.back()

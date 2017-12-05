@@ -14,7 +14,10 @@ class AuthenticationStore extends Events {
         this.refreshToken = data
       }
       this.trigger('sign-in-status')
-      this.getToken()
+      this.getToken().catch((err) => {
+        alert('You have been signed out.')
+        this.signOut()
+      })
     })
   }
   isSignedIn(tokenCheck = false) {
@@ -90,13 +93,23 @@ class AuthenticationStore extends Events {
     })
   }
   signOut() {
-    db.clear().then(() => {
+    if (JSON.stringify(this.refreshToken) === '{}' || 'local' in this.refreshToken) {
+      return db.clear().then(() => {
+        window.location = '/'
+      })
+    }
+    Promise.all([
+      db.clear(),
+      fetch(`${config.endpoint}/auth/token/${this.refreshToken.refresh_token}`, {
+        method: 'DELETE'
+      })
+    ]).then(() => {
       window.location = '/'
     })
   }
   getToken() {
     if (JSON.stringify(this.refreshToken) === '{}' || 'local' in this.refreshToken) {
-      return
+      return Promise.resolve()
     }
     return new Promise((resolve, reject) => {
       fetch(`${config.endpoint}/auth/token/${this.refreshToken.refresh_token}`).then(checkStatus).then((response) => {
