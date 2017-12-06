@@ -101,6 +101,9 @@ export default class Task extends preact.Component {
       })
     }
   }
+  archiveHeading = () => {
+    CombinedCollection.archiveHeading(this.props.data.id)
+  }
   headingConvert = () => {
     CombinedCollection.updateTask(this.props.data.id, { type: 'task' })
   }
@@ -109,8 +112,9 @@ export default class Task extends preact.Component {
   }
   triggerMenu = e => {
     const items = [
+      { title: 'Archive Group', action: this.archiveHeading },
       { title: 'Change to Task', action: this.headingConvert },
-      { title: 'Delete Heading', action: this.deleteTask }
+      { title: 'Remove', action: this.deleteTask }
     ]
     const rect = e.currentTarget.getBoundingClientRect()
     ContextMenuStore.create(rect.left + 30, rect.top, 'top', 'right', items)

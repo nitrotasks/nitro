@@ -5,7 +5,7 @@ class ContextMenuStore extends Events {
     super(props)
   }
   create(x, y, anchor, secondAnchor, items) {
-    this.trigger('create', [x, y, anchor, secondAnchor, items])
+    this.trigger('create', [Math.round(x), Math.round(y), anchor, secondAnchor, items])
   }
 }
 let contextMenuStore = new ContextMenuStore()

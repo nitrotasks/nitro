@@ -140,6 +140,13 @@ export class combined extends Events {
     if (task === null) throw new Error('Task could not be found')
     return task
   }
+  _removeFromList(ids, listId) {
+    const order = ListsCollection.find(listId).localOrder.filter(i => {
+      return !(ids.indexOf(i) > -1)
+    })
+    this.updateOrder(listId, order, false)
+    ListsCollection.saveLocal()
+  }
   completeTask(id: string, server: ?bool) {
     const task = this.getTask(id, server)
     if (task === null) throw new Error('Task could not be found')
@@ -159,27 +166,56 @@ export class combined extends Events {
     }
     return TasksCollection.archiveMultiple([task.id], task.list, signedin)
   }
+  archiveHeading(id: string, server: ?bool) {
+    const task = this.getTask(id, server)
+    if (task === null || task.type !== 'header') throw new Error('Group could not be found')
+    const tasks = this.getTasks(task.list)
+    if (tasks === null) throw new Error('List could not be found?')
+    const unsynced = []
+    const headers = tasks.tasks.filter(t => {
+      if (t.completed !== null && typeof t.completed !== 'undefined') {
+        unsynced.push(t.id)
+      }
+      return t.type === 'header'
+    }).map(t => t.id)
+
+    // gets the tasks between two headers
+    let started = false
+    const signedin = authenticationStore.isSignedIn(true)
+    const toArchive = tasks.order.filter(i => {
+      if (i === task.id)  {
+        started = true
+      } else if (headers.indexOf(i) > -1) {
+        started = false
+      }
+      if (signedin && unsynced.indexOf(i) > -1) {
+        return false
+      }
+      return started
+    })
+
+    if (!signedin) {
+      this._removeFromList(toArchive)
+    }
+    return TasksCollection.archiveMultiple(toArchive, task.list, signedin)
+  }
   archiveCompletedList(id: string, server: ?bool) {
     const list = this.getTasks(id, server)
     if (list === null) throw new Error('List could not be found')
     // TODO: Check if it's a virtual list
     const signedin = authenticationStore.isSignedIn(true)
-    const tasks = list.tasks.filter((task) => {
+    const toArchive = list.tasks.filter((task) => {
       if (!signedin || (task.serverId !== null && typeof task.serverId !== 'undefined')) {
-        return (task.completed !== null && task.completed !== 'undefined')
+        return (task.completed !== null && typeof task.completed !== 'undefined')
       }
       return false
     }).map(task => task.id)
     
     // looks through the list and checks the order
     if (!signedin) {
-      const order = ListsCollection.find(id).localOrder.filter(i => {
-        return !(tasks.indexOf(i) > -1)
-      })
-      this.updateOrder(id, order, false)
-      ListsCollection.saveLocal()
+      this._removeFromList(toArchive)
     }
-    return TasksCollection.archiveMultiple(tasks, id, authenticationStore.isSignedIn(true))
+    return TasksCollection.archiveMultiple(toArchive, id, signedin)
   }
   deleteTask(id: string, server: ?bool) {
     const task = this.getTask(id, server)
