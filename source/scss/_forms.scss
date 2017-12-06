@@ -38,7 +38,7 @@
 }
 
 .button {
-  border: 1px solid rgba(#000, 0.3);
+  border: 1px solid $line-color;
   border-radius: 3px;
   font-weight: 600;
   padding: 0.5rem 0;
@@ -60,5 +60,32 @@
   }
   &.secondary {
     background: #fff;
+  }
+  &.small {
+    font-size: 0.8rem;
+    font-weight: normal;
+    line-height: 2;
+
+    @media (max-width: $tablet-breakpoint - 1) {
+      font-size: 0.9rem;
+    }
+  }
+  &.minimal {
+    background: transparent;
+    padding: 0 0.5rem;
+
+    @media (pointer: fine) {
+      &:hover {
+        background: rgba(#000, 0.02);
+      }
+    }
+    &:active {
+      background: rgba(#000, 0.05);
+      border-color: $brand-color;
+    }
+  }
+
+  img {
+    vertical-align: top;
   }
 }

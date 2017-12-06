@@ -465,15 +465,18 @@ export default class Sync extends Events {
   }
   archive(id) {
     this.logger(this.identifier, 'ARCHIVE Requested')
+    if (typeof id[1] === 'string') {
+      id[1] = [id[1]]
+    }
 
     const index = this.queue.archive.findIndex(function(element) {
       return element[0] === id[0]
     })
 
     if (index > -1) {
-      this.queue.archive[index][1].push(id[1])
+      this.queue.archive[index][1] = this.queue.archive[index][1].concat(id[1])
     } else {
-      this.queue.archive.push([id[0], [id[1]]])
+      this.queue.archive.push([id[0], id[1]])
     }
     this.saveQueue()
     this.requestProcess()

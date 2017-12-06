@@ -352,12 +352,12 @@ $background-speed: 400ms;
 
 .tasks-list {
   margin: 0;
-  padding: 0 0 $indent-width;
+  padding: 0 0 $indent-width / 2;
   list-style-type: none;
   position: relative;
 
   @media (max-width: $tablet-breakpoint - 1) {
-    padding-bottom: $indent-width * 4;
+    padding-bottom: $indent-width
   }
 }
 
@@ -401,4 +401,21 @@ $background-speed: 400ms;
 .img-vert-inverse {
   vertical-align: top;
   filter: invert(100);
+}
+.tasks-pane-footer {
+  padding: 0 0.5rem $indent-width * 4;
+  transition: $task-expand-speed ease transform;
+
+  img {
+    padding: 6px 5px 0 0;
+    opacity: 0.7;
+  }
+
+  @media (max-width: $tablet-breakpoint - 1) {
+    padding-left: 1.25rem;
+
+    img {
+      padding-top: 8px;
+    }
+  }
 }

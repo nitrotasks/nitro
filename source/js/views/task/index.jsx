@@ -103,6 +103,9 @@ export default class Tasks extends preact.Component {
       })
     }
   }
+  triggerArchive = () => {
+    CombinedCollection.archiveCompletedList(this.state.list)
+  }
   triggerStickyScroll = entries => {
     this.setState({
       stickyScale: !entries[0].isIntersecting
@@ -118,13 +121,29 @@ export default class Tasks extends preact.Component {
   render() {
     const mutable = CombinedCollection.getList(this.state.list).mutable.indexOf('no-order') === -1
     let className = 'tasks-pane'
+    let footerClassName = 'tasks-pane-footer'
     if (this.state.disposing === true) {
       className += ' hide'
     }
     if (this.props.task) {
       className += ' selected-task'
+      footerClassName += ' offset-down'
     } else if (this.state.taskDisposing) {
       className += ' selected-task-hide'
+    }
+    let archiveBtn = null
+    const signedin = CombinedCollection.signedin()
+    const completedTasks = this.state.taskList.filter(task => {
+      if (task.serverId !== null && typeof task.serverId !== 'undefined') {
+        return (!signedin || task.completed !== null && task.completed !== 'undefined')
+      }
+      return false
+    }).length
+    if (completedTasks > 0) {
+      archiveBtn = <button className="button minimal small" onClick={this.triggerArchive}>
+        <img src="/img/icons/material/archive.svg" />
+        Archive {completedTasks} completed tasks
+      </button>
     }
     return (
       <div
@@ -147,6 +166,9 @@ export default class Tasks extends preact.Component {
               list={this.state.list}
               listOrder={this.state.order}
             />
+            <footer className={footerClassName}>
+              {archiveBtn}
+            </footer>
           </div>
         </div>
       </div>

@@ -49,31 +49,43 @@ export class tasks extends Events {
     this.trigger('update')
     this.saveLocal()
   }
-  archive(id, signedIn = false) {
-    // this is extra safe
-    return new Promise((resolve, reject) => {
-      const resource = this.find(id)
-      if (signedIn) {
-        this.sync.archive([resource.list, resource.serverId])
+  archiveMultiple(taskIds, listId, signedIn = false) {
+    return new Promise(resolve => {
+      const archiveDelete = []
+      const archiveId = []
+      const archiveData = []
+      taskIds.forEach(task => {
+        const resource = this.find(task)
+        if (resource === null) return
+        if (resource.serverId === null && signedIn === true) return
+        archiveDelete.push(task)
+        archiveId.push(resource.serverId)
+        archiveData.push(resource.toObject())
+      })
+
+      if (signedIn && archiveId.length > 0) {
+        this.sync.archive([listId, archiveId])
       }
 
-      const cb = () => {
-        this.collection.delete(id)
-
-        this.trigger('update')
-        this.saveLocal()
-        resolve()
-      }
-      
-      const key = 'archive-' + resource.list
+      const key = 'archive-' + listId
       db.get(key).then(data => {
         if (typeof data === 'undefined') {
-          db.set(key, [resource.toObject()]).then(cb)
+          db.set(key, archiveData).then(cb)
         } else {
-          data.push(resource.toObject())
+          data = data.concat(archiveData)
           db.set(key, data).then(cb)
         }
       })
+
+      const cb = () => {
+        archiveDelete.forEach((id) => {
+          this.collection.delete(id)
+        })
+
+        this.trigger('update')
+        this.saveLocal()
+        resolve(archiveDelete)
+      }
     })
   }
   // maybe roll these into one function?

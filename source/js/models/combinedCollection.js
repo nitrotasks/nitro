@@ -86,6 +86,9 @@ export class combined extends Events {
   _orderEvent = (key: string) => {
     this.trigger('order', key)
   }
+  signedin = () => {
+    return authenticationStore.isSignedIn(true)
+  }
   downloadData = () => {
     this.syncGet.downloadLists().then(data => {
       this.syncGet.updateLocal(data)
@@ -152,7 +155,26 @@ export class combined extends Events {
     order.splice(order.indexOf(task.id), 1)
     this.updateOrder(task.list, order, false)
     ListsCollection.saveLocal()
-    return TasksCollection.archive(task.id, signedin)
+    return TasksCollection.archiveMultiple([task.id], task.list, signedin)
+  }
+  archiveCompletedList(id: string, server: ?bool) {
+    const list = this.getTasks(id, server)
+    if (list === null) throw new Error('List could not be found')
+    const signedin = authenticationStore.isSignedIn(true)
+    const tasks = list.tasks.filter((task) => {
+      if (task.serverId !== null && typeof task.serverId !== 'undefined') {
+        return (!signedin || task.completed !== null && task.completed !== 'undefined')
+      }
+      return false
+    }).map(task => task.id)
+    
+    // looks through the list and checks the order
+    const order = ListsCollection.find(id).localOrder.filter(i => {
+      return !(tasks.indexOf(i) > -1)
+    })
+    this.updateOrder(id, order, false)
+    ListsCollection.saveLocal()
+    return TasksCollection.archiveMultiple(tasks, id, authenticationStore.isSignedIn(true))
   }
   deleteTask(id: string, server: ?bool) {
     const task = this.getTask(id, server)
@@ -222,3 +244,4 @@ export class combined extends Events {
   }
 }
 export let CombinedCollection = new combined()
+window.jono = CombinedCollection

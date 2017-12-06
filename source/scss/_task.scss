@@ -2,8 +2,10 @@
   background: none;
 }
 
+$speed: $task-expand-speed;
+
 .tasks-transition .task-item, .tasks-transition .header-item {
-  transition: 200ms ease-out transform;
+  transition: $speed ease-out transform;
 }
 
 .task-item, .header-item {
@@ -18,7 +20,7 @@
   }
 }
 
-$speed: 250ms;
+
 .header-item {
   font-size: 1.125rem;
   line-height: 2.5rem;
