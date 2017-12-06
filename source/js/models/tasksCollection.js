@@ -57,8 +57,9 @@ export class tasks extends Events {
       taskIds.forEach(task => {
         const resource = this.find(task)
         if (resource === null) return
-        if (resource.serverId === null && signedIn === true) return
         archiveDelete.push(task)
+        if (resource.serverId === null && signedIn === true) return
+        resource.type = 'archived'
         archiveId.push(resource.serverId)
         archiveData.push(resource.toObject())
       })
@@ -78,9 +79,13 @@ export class tasks extends Events {
       })
 
       const cb = () => {
-        archiveDelete.forEach((id) => {
-          this.collection.delete(id)
-        })
+        // only delete stuff straight away if they don't have an account
+        // otherwise, on sync it'll get deleted anyway
+        if (!signedIn) {
+          archiveDelete.forEach((id) => {
+            this.collection.delete(id)
+          })
+        }
 
         this.trigger('update')
         this.saveLocal()

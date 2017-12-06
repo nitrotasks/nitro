@@ -134,12 +134,12 @@ export default class Tasks extends preact.Component {
     let archiveBtn = null
     const signedin = CombinedCollection.signedin()
     const completedTasks = this.state.taskList.filter(task => {
-      if (task.serverId !== null && typeof task.serverId !== 'undefined') {
-        return (!signedin || task.completed !== null && task.completed !== 'undefined')
+      if (!signedin || (task.serverId !== null && typeof task.serverId !== 'undefined')) {
+        return (task.completed !== null && task.completed !== 'undefined' && task.type !== 'archived')
       }
       return false
     }).length
-    if (completedTasks > 0) {
+    if (completedTasks > 0 && mutable) {
       archiveBtn = <button className="button minimal small" onClick={this.triggerArchive}>
         <img src="/img/icons/material/archive.svg" />
         Archive {completedTasks} completed tasks

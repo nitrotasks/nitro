@@ -151,29 +151,34 @@ export class combined extends Events {
     const signedin = authenticationStore.isSignedIn(true)
     if (task === null) throw new Error('Task could not be found')
     if (task.serverId === null && signedin === true) throw new Error('Cannot archive an unsynced task')
-    const order = ListsCollection.find(task.list).localOrder
-    order.splice(order.indexOf(task.id), 1)
-    this.updateOrder(task.list, order, false)
-    ListsCollection.saveLocal()
+    if (!signedin) {
+      const order = ListsCollection.find(task.list).localOrder
+      order.splice(order.indexOf(task.id), 1)
+      this.updateOrder(task.list, order, false)
+      ListsCollection.saveLocal()
+    }
     return TasksCollection.archiveMultiple([task.id], task.list, signedin)
   }
   archiveCompletedList(id: string, server: ?bool) {
     const list = this.getTasks(id, server)
     if (list === null) throw new Error('List could not be found')
+    // TODO: Check if it's a virtual list
     const signedin = authenticationStore.isSignedIn(true)
     const tasks = list.tasks.filter((task) => {
-      if (task.serverId !== null && typeof task.serverId !== 'undefined') {
-        return (!signedin || task.completed !== null && task.completed !== 'undefined')
+      if (!signedin || (task.serverId !== null && typeof task.serverId !== 'undefined')) {
+        return (task.completed !== null && task.completed !== 'undefined')
       }
       return false
     }).map(task => task.id)
     
     // looks through the list and checks the order
-    const order = ListsCollection.find(id).localOrder.filter(i => {
-      return !(tasks.indexOf(i) > -1)
-    })
-    this.updateOrder(id, order, false)
-    ListsCollection.saveLocal()
+    if (!signedin) {
+      const order = ListsCollection.find(id).localOrder.filter(i => {
+        return !(tasks.indexOf(i) > -1)
+      })
+      this.updateOrder(id, order, false)
+      ListsCollection.saveLocal()
+    }
     return TasksCollection.archiveMultiple(tasks, id, authenticationStore.isSignedIn(true))
   }
   deleteTask(id: string, server: ?bool) {
@@ -244,4 +249,3 @@ export class combined extends Events {
   }
 }
 export let CombinedCollection = new combined()
-window.jono = CombinedCollection
