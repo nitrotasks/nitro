@@ -41,6 +41,10 @@ export default class login extends preact.Component {
     if (this.state.signedIn) {
       return
     }
+    let text = 'Log In'
+    if (this.state.disabled) {
+      text = 'Logging in...'
+    }
     return (
       <div class="login-window">
         <div class="login-window-container">
@@ -77,7 +81,7 @@ export default class login extends preact.Component {
                 onClick={this.triggerSignIn}
                 disabled={this.state.disabled}
               >
-                Log In
+                {text}
               </button>
             </div>
           </form>

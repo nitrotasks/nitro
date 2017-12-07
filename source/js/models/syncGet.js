@@ -36,8 +36,14 @@ export default class SyncGet extends Events {
                 patches.push(item.id)  
               }
               delete mapper[item.id]
-            } else {              
-              gets.push(item.id)
+            } else {
+              // their system list *should* be the first list,
+              // but if it's not, we always want to prioritize it
+              if (item.name.slice(0,9) === 'nitrosys-') {
+                gets.unshift(item.id)
+              } else {
+                gets.push(item.id)
+              }
             }
           })
           const deletes = Object.keys(mapper).map(function(key) {
