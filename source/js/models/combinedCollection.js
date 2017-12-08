@@ -70,10 +70,11 @@ export class combined extends Events {
   _processQueue = (): Promise<any> => {
     return new Promise((resolve, reject) => {
       if (!authenticationStore.isSignedIn(true)) return resolve()
-      if (this.syncLock === true) {
+      if (this.tasksQueue.syncLock === true || this.listsQueue.syncLock === true) {
         return
       }
-      this.syncLock = true
+      this.listsQueue.syncLock = true
+      this.tasksQueue.syncLock = true
 
       // process listpost
       this.listsQueue.processVerb('post')()
@@ -88,10 +89,20 @@ export class combined extends Events {
         .then(this.listsQueue.processVerb('patch'))
         .then(this.listsQueue.processVerb('delete'))
         .then(() => {
-          this.syncLock = false
+          this.listsQueue.syncLock = false
+          this.tasksQueue.syncLock = false
           console.log('sync push complete')
           resolve()
+
+          // this is just deferred so can run whenever after the promise
+          const listsDeferred = this.listsQueue.runDeferred()
+          const tasksDeferred = this.tasksQueue.runDeferred()
+          if (listsDeferred || tasksDeferred) {
+            this._processQueue()
+          }
         }).catch((err) => {
+          this.listsQueue.syncLock = false
+          this.tasksQueue.syncLock = false
           console.error(err)
           reject(err)
         })
@@ -249,7 +260,7 @@ export class combined extends Events {
 
     ListsCollection.trigger('order')
     ListsCollection.saveLocal()
-    if (sync) ListsCollection.sync.patch(id)
+    if (sync) ListsCollection.sync.addToQueue(id, 'patch')
   }
   addList(props: Object, sync: ?bool): Object {
     const newList = ListsCollection.add(props, sync)

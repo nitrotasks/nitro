@@ -23,7 +23,7 @@ export class tasks extends Events {
     this.trigger('update', props.list)
     this.saveLocal()
 
-    this.sync.post([props.list, id])
+    this.sync.addToQueue([props.list, id], 'post')
     return id
   }
   update(id, props, sync = true) {
@@ -39,12 +39,12 @@ export class tasks extends Events {
     this.trigger('update')
     this.trigger('updateTask', id)
     this.saveLocal()
-    if (sync) this.sync.patch([resource.list, id])
+    if (sync) this.sync.addToQueue([resource.list, id], 'patch')
     return resource
   }
   delete(id) {
     const resource = this.find(id)
-    this.sync.delete([resource.list, id])
+    this.sync.addToQueue([resource.list, id], 'delete')
     this.collection.delete(id)
     this.trigger('update')
     this.saveLocal()
@@ -65,7 +65,7 @@ export class tasks extends Events {
       })
 
       if (signedIn && archiveId.length > 0) {
-        this.sync.archive([listId, archiveId])
+        this.sync.addToQueue([listId, archiveId], 'archive')
       }
 
       const key = 'archive-' + listId
@@ -190,7 +190,7 @@ export class tasks extends Events {
     this.collection.forEach((task, key) => {
       if (task.list === list) {
         if (task.serverId === null) {
-          this.sync.delete([task.list, key])
+          this.sync.addToQueue([task.list, key], 'delete')
         }
         this.collection.delete(key)
       }

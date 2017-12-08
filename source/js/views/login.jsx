@@ -46,7 +46,7 @@ export default class login extends preact.Component {
       text = 'Logging in...'
     }
     return (
-      <div class="login-window">
+      <div class="login-window">  
         <div class="login-window-container">
           <h1 class="brand header-child header-left">
             <img src="/img/icons/logo.svg" alt="Nitro Logo" />

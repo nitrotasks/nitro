@@ -27,6 +27,8 @@ export default class Sync extends Events {
       delete: [],
       archive: []
     }
+    this.syncLock = false
+    this.syncUnlock = []
     this.identifier = props.identifier
     this.endpoint = props.endpoint
     this.arrayParam = props.arrayParam
@@ -164,7 +166,41 @@ export default class Sync extends Events {
       })
     }
   }
-  post(id) {
+  addToQueue(id, method) {
+    const fn = () => {
+      if (method === 'push') {
+        this._push(id)
+      } else if (method === 'post') {
+        this._post(id)
+      } else if (method === 'patch') {
+        this._patch(id)
+      } else if (method === 'archive') {
+        this._archive(id)
+      }
+    }
+    if (this.syncLock === true) {
+      this.logger(this.identifier, 'Sync in Progress, deferring', method.toUpperCase())
+      this.syncUnlock.push(fn)
+    } else { 
+      this.syncLock = true
+      fn()
+      this.saveQueue()
+      this.syncLock = false
+      this.runDeferred()
+      this.requestProcess()
+    }
+  }
+  runDeferred() {
+    if (this.syncUnlock.length > 0) {
+      this.syncLock = true
+      this.syncUnlock.forEach(fn => fn())
+      this.syncUnlock = []
+      this.syncLock = false
+      return true
+    }
+    return false
+  }
+  _post(id) {
     this.logger(this.identifier, 'POST Requested')
     // batches the objects together
     if (typeof id === 'object') {
@@ -179,10 +215,8 @@ export default class Sync extends Events {
     } else {
       this.queue.post.push(id)
     }
-    this.saveQueue()
-    this.requestProcess()
   }
-  patch(id) {
+  _patch(id) {
     this.logger(this.identifier, 'PATCH Requested')
     // this is for tasks, so we look at the parent model
     if (typeof id === 'object') {
@@ -234,7 +268,6 @@ export default class Sync extends Events {
           new Date().toISOString()
         ])
       }
-      this.saveQueue()
     } else {
       const serverId = this.model.find(id).serverId
       if (!serverId) {
@@ -247,17 +280,13 @@ export default class Sync extends Events {
         this.queue.patch.find(
           findQueueIndex(serverId)
         )[2] = new Date().toISOString()
-        this.saveQueue()
       } else {
         // includes the last updated time
         this.queue.patch.push([id, serverId, new Date().toISOString()])
-        this.saveQueue()
       }
     }
-    // ? what if race conditions :O
-    this.requestProcess()
   }
-  delete(id) {
+  _delete(id) {
     this.logger(this.identifier, 'DELETE Requested')
     if (typeof id === 'object') {
       const deleteFromPostQueue = () => {
@@ -341,7 +370,6 @@ export default class Sync extends Events {
         this.queue.delete.push([id[0], listServerId, [[id[1], taskServerId]]])
         deleteFromPatchQueue()
       }
-      this.saveQueue()
     } else {
       const serverId = this.model.find(id).serverId
       if (serverId === null) {
@@ -350,17 +378,14 @@ export default class Sync extends Events {
           'Skipping DELETE Request - Deleting from POST queue.'
         )
         this.queue.post.splice(this.queue.post.indexOf(id), 1)
-        this.saveQueue()
       } else if (this.queue.delete.find(findQueueIndex(serverId))) {
         this.logger(this.identifier, 'Skipping DELETE Request - Already Added')
       } else {
         this.queue.delete.push([id, serverId])
-        this.saveQueue()
       }
     }
-    this.requestProcess()
   }
-  archive(id) {
+  _archive(id) {
     this.logger(this.identifier, 'ARCHIVE Requested')
     if (typeof id[1] === 'string') {
       id[1] = [id[1]]
@@ -375,7 +400,5 @@ export default class Sync extends Events {
     } else {
       this.queue.archive.push([id[0], id[1]])
     }
-    this.saveQueue()
-    this.requestProcess()
   }
 }
