@@ -1,8 +1,11 @@
 import db from 'idb-keyval'
 import config from '../../../config.js'
 import Events from './events.js'
-import { checkStatus } from '../helpers/fetch.js'
 import { log, warn, error } from '../helpers/logger.js'
+import { checkStatus } from '../helpers/fetch.js'
+import { promiseSerial } from '../helpers/promise.js'
+
+import { postItem, patchItem, deleteItem, deleteItems, archiveItem } from './syncQueueMethods.js'
 
 import authenticationStore from '../stores/auth.js'
 
@@ -22,7 +25,7 @@ export default class Sync extends Events {
       post: [],
       patch: [],
       delete: [],
-      archive: [],
+      archive: []
     }
     this.identifier = props.identifier
     this.endpoint = props.endpoint
@@ -40,7 +43,7 @@ export default class Sync extends Events {
     db.set('sync-' + this.identifier, this.queue)
   }
   loadQueue() {
-    return db.get('sync-' + this.identifier).then((data) => {
+    return db.get('sync-' + this.identifier).then(data => {
       if (typeof data === 'undefined') {
         this.saveQueue()
         return
@@ -51,266 +54,120 @@ export default class Sync extends Events {
   requestProcess() {
     this.trigger('request-process')
   }
-  processQueue() {
-    const postItem = (id) => {
-      let body = null
-      let resource = null
-      let additionalEndpoint = ''
-      // has to loop to get all the tasks
-      if (typeof(id) === 'object') {
-        // TODO, what is the data is missing from the client?
-        additionalEndpoint = this.parentModel.find(id[0]).serverId
-
-        // kill if the parents are not made
-        if (additionalEndpoint === null) {
-          return
-        }
-        resource = {}
-        additionalEndpoint = '/' + additionalEndpoint
-        const items = id[1].map((index) => {
-          const item = this.model.find(index)
-          resource[index] = item
-          return item.toObject()
-        })
-        body = {
-          [this.arrayParam]: items
-        }
-      } else {
-        resource = this.model.find(id)
-        body = resource.toObject()
-      }
-      fetch(`${config.endpoint}/${this.endpoint}${additionalEndpoint}`, {
-        method: 'POST',
-        headers: authenticationStore.authHeader(true),
-        body: JSON.stringify(body)
-      }).then(checkStatus).then((response) => {
-        response.json().then((data) => {
-          // copies the serverid back into the og, and then saves
-          if (typeof(id) === 'object') {
-            data[this.arrayParam].forEach(function(item) {
-              resource[item.originalId].serverId = item.id
-              resource[item.originalId].lastSync = item.updatedAt
-            })
-          } else {
-            // copies data back in
-            // only selected params
-            resource.serverId = data.id
-            resource.lastSync = data.updatedAt
-            this.serverParams.forEach((param) => {
-              resource[param] = data[param]
-            })
-          }
-          this.queue.post.splice(0, 1)
-          this.saveQueue()
-          this.model.saveLocal()
-
-          if (this.queue.post.length > 0) {
-            postItem(this.queue.post[0])
-          } else {
-            this.logger(this.identifier, 'Finished POSTING')
-            this.model.trigger('update')
-            this.trigger('request-archive')
-          }
-        })
-      })
-    }
-    const patchItem = (id) => {
-      let body = null
-      let resource = null
-      let additionalEndpoint = ''
-      
-      // different lengths have different levels of sync
-      // so far, 3 is just used for lists, 4 is just used for tasks
-      if (id.length === 3) {
-        additionalEndpoint = '/' + id[1] // the server id
-        resource = this.model.find(id[0]) // data we are updating
-        body = resource.toObject()
-        body.updatedAt = id[2] // server decides which data to use
-      } else if (id.length === 4) {
-        additionalEndpoint = '/' + id[1] + '/' + this.identifier // lists server id + /tasks for now
-        
-        const toSync = {}
-        id[2].forEach((item) => {
-          toSync[item[1]] = this.model.find(item[0])
-          toSync[item[1]].updatedAt = item[2]
-        })
-        body = {
-          tasks: toSync,
-          updatedAt: id[3]
-        }
-      } else {
-        return
-      }
-      fetch(`${config.endpoint}/${this.endpoint}${additionalEndpoint}`, {
-        method: 'PATCH',
-        headers: authenticationStore.authHeader(true),
-        body: JSON.stringify(body)
-      }).then(checkStatus).then((response) => {
-        response.json().then((data) => {
-
-          if (id.length === 3) {
-            // copies data back in
-            // only selected params
-            resource.serverId = data.id
-            resource.lastSync = data.updatedAt
-            this.serverParams.forEach((param) => {
-              resource[param] = data[param]
-            })
-          } else if (id.length === 4) {
-            this.model.patchListFromServer(data.tasks, id[0])
-          }
-
-          // removes from queue & saves
-          this.queue.patch.splice(0, 1)
-          this.saveQueue()
-          this.model.saveLocal()
-
-          if (this.queue.patch.length > 0) {
-            patchItem(this.queue.patch[0])
-          } else {
-            this.logger(this.identifier, 'Finished PATCHING')
-            this.model.trigger('update')
-            this.trigger('request-archive')
-          }
-        })
-      }).catch((err) => {
-        error(err)
-      })
-    }
-    const deleteItem = (id) => {
-      const additionalEndpoint = '/' + id[1] + '/'
-      const finalDeletions = id[2].map(item => item[1])
-
-      const cb = (queue) => {
+  doOperation(fn, queue, cb) {
+    if (queue.length > 0) {
+      fn(queue[0],
+        this.endpoint,
+        this.model,
+        this.parentModel,
+        this.arrayParam,
+        this.serverParams,
+        this.identifier
+      ).then(() => {
+        queue.splice(0, 1)
         this.saveQueue()
-
-        if (queue.length > 0) {
-          deleteItem(queue[0])
-        } else {
-          this.logger(this.identifier, 'Finished DELETING')
-          this.model.trigger('update')
-          this.trigger('request-archive')
-        }
-      }
-
-      fetch(`${config.endpoint}/${this.endpoint}${additionalEndpoint}`, {
-        method: 'DELETE',
-        headers: authenticationStore.authHeader(true),
-        body: JSON.stringify({
-          [this.arrayParam]: finalDeletions
-        })
-      }).then(checkStatus).then(() => {
-        this.queue.delete.splice(0, 1)
-        cb(this.queue.delete)
+        this.model.saveLocal()
+        // runs recursively
+        this.doOperation(fn, queue, cb)
       }).catch((err) => {
-        if (err.status === 404) {
-          err.response.items.forEach((item) => {
-            this.queue.delete[0][2].splice(this.queue.delete[0][2].findIndex(function(element) {
-              return element[1] === item
-            }), 1)
-          })
-          if (this.queue.delete[0][2].length === 0) {
-            this.queue.delete.splice(0, 1)
-          }
-          
-          this.logger(this.identifier, 'Skipped a couple of deletions... going for retry.')
-          cb(this.queue.delete)
-        } else {
-          warn(err)
-        }
+        cb(err)
       })
+    } else {
+      this.model.trigger('update')
+      cb()
     }
-    const deleteItems = (items) => {
-      const finalDeletions = items.map(item => item[1])      
-      fetch(`${config.endpoint}/${this.endpoint}`, {
-        method: 'DELETE',
-        headers: authenticationStore.authHeader(true),
-        body: JSON.stringify({
-          [this.arrayParam]: finalDeletions
-        })
-      }).then(checkStatus).then(() => {
-        this.queue.delete = []
-        this.saveQueue()
-        this.logger(this.identifier, 'Finished DELETING')
-        this.model.trigger('update')
-      }).catch((err) => {
-        if (err.status === 404) {
-          err.response.items.forEach((item) => {
-            this.queue.delete.splice(this.queue.delete.findIndex(findQueueIndex(item)), 1)
-          })
-          this.saveQueue()
-          this.logger(this.identifier, 'Skipped a couple of deletions.')
-        } else {
-          warn(err)
-        }
-      })
-    } 
-    if (this.queue.delete.length > 0) {
-      if (this.queue.delete[0].length === 2) {
-        deleteItems(this.queue.delete)
-      } else {
-        deleteItem(this.queue.delete[0])
-      }
-    }
-    if (this.queue.post.length > 0) {
-      postItem(this.queue.post[0])
-    }
-    if (this.queue.patch.length > 0) {
-      patchItem(this.queue.patch[0]) 
-    }
-    this.trigger('request-archive')
   }
-  processArchive() {
-    const promiseSerial = funcs => {
-      return funcs.reduce((promise, func) => {
-        return promise.then(result => func().then(Array.prototype.concat.bind(result)))
-      }, Promise.resolve([]))
-    }
-
-    const archiveItem = (item) => {
-      const listId = this.parentModel.find(item[0]).serverId
-      // const taskId = item[1].map(i => this.model.find(i).serverId)
-
-      return fetch(`${config.endpoint}/archive/${listId}`, {
-        method: 'POST',
-        headers: authenticationStore.authHeader(true),
-        body: JSON.stringify({
-          tasks: item[1]
-        })
-      }).then(checkStatus).then(() => {
-        // removes local archive of that particular list
-        db.delete('archive-' + item[0])
-        this.queue.archive.splice(0, 1)
-        this.saveQueue()
+  processVerb(verb) {
+    return () => {
+      return new Promise((resolve, reject) => {
+        if (verb === 'post') {
+          if (this.queue.post.length === 0) return resolve()
+          this.doOperation(postItem, this.queue.post, (err) => {
+            if (err) return reject(err)
+            this.logger(this.identifier, 'Finished POSTING')
+            resolve()
+          })
+        } else if (verb === 'patch') {
+          if (this.queue.patch.length === 0) return resolve()
+          this.doOperation(patchItem, this.queue.patch, (err) => {
+            if (err) return reject(err)
+            this.logger(this.identifier, 'Finished PATCHING')
+            resolve()
+          })
+        } else if (verb === 'delete') {
+          if (this.queue.delete.length === 0) return resolve()
+          if (this.queue.delete[0].length === 2) {
+            deleteItems(this.queue.delete, this.endpoint, this.model, this.parentModel, this.arrayParam).then(() => {
+              this.queue.delete = []
+              this.saveQueue()
+              this.model.trigger('update')
+              this.logger(this.identifier, 'Finished DELETING')
+              resolve()
+            }).catch(err => {
+              if (err.status === 404) {
+                err.response.items.forEach((item) => {
+                  this.queue.delete.splice(this.queue.delete.findIndex(findQueueIndex(item)), 1)
+                })
+                this.saveQueue()
+                console.log(this.identifier, 'Skipped a couple of deletions.')
+                resolve()
+              } else {
+                reject(err)
+              }
+            })
+          } else {
+            const callback = (err) => {
+              if (err) {
+                if (err.status === 404) {
+                  err.response.items.forEach((item) => {
+                    this.queue.delete[0][2].splice(this.queue.delete[0][2].findIndex(function(element) {
+                      return element[1] === item
+                    }), 1)
+                  })
+                  if (this.queue.delete[0][2].length === 0) {
+                    this.queue.delete.splice(0, 1)
+                  }
+                  
+                  console.log(this.identifier, 'Skipped a couple of deletions... going for retry.')
+                  this.doOperation(deleteItem, this.queue.delete, callback)
+                } else {
+                  console.warn(err)
+                  reject()
+                }
+                return
+              } 
+              this.logger(this.identifier, 'Finished DELETING')
+              resolve()
+            }
+            this.doOperation(deleteItem, this.queue.delete, callback)
+          }
+        } else if (verb === 'archive') {
+          if (this.queue.archive.length === 0) return resolve()
+          const funcs = this.queue.archive.map(item => () => {
+            return archiveItem(item, this.endpoint, this.model, this.parentModel).then(() => {
+              // removes local archive of that particular list
+              db.delete('archive-' + item[0])
+              this.queue.archive.splice(0, 1)
+              this.saveQueue()
+            })
+          })
+          promiseSerial(funcs).then(() => {
+            this.logger(this.identifier, 'ARCHIVE Finished')
+            return resolve()
+          }).catch(err => {
+            console.error(err)
+            return reject(err)
+          })
+        } else {
+          reject('No such verb.')
+        }
       })
     }
-
-    const currentQueueLength = this.queue.post.length + this.queue.patch.length + this.queue.delete.length
-    return new Promise((resolve, reject) => {
-      if (currentQueueLength === 0) {
-        if (this.queue.archive.length === 0) {
-          this.logger(this.identifier, 'Nothing to ARCHIVE')
-          return reject()
-        }
-
-        const funcs = this.queue.archive.map(item => () => archiveItem(item))
-        promiseSerial(funcs).then(() => {
-          this.logger(this.identifier, 'ARCHIVE Finished')
-          return resolve()
-        }).catch((err) => {
-          console.error(err)
-          return reject(err)
-        })
-      } else {
-        this.logger(this.identifier, 'Waiting for empty queues to ARCHIVE')
-        return reject()
-      }
-    })
   }
   post(id) {
     this.logger(this.identifier, 'POST Requested')
     // batches the objects together
-    if (typeof(id) === 'object') {
+    if (typeof id === 'object') {
       const index = this.queue.post.findIndex(function(element) {
         return element[0] === id[0]
       })
@@ -328,16 +185,22 @@ export default class Sync extends Events {
   patch(id) {
     this.logger(this.identifier, 'PATCH Requested')
     // this is for tasks, so we look at the parent model
-    if (typeof(id) === 'object') {
+    if (typeof id === 'object') {
       const listServerId = this.parentModel.find(id[0]).serverId
       const taskServerId = this.model.find(id[1]).serverId
 
       // I realize this is duplicated logic, but it's a bit easier to work with in my head.
       if (!listServerId) {
-        return this.logger(this.identifier, 'Skipping PATCH - Parent still in POST queue')
+        return this.logger(
+          this.identifier,
+          'Skipping PATCH - Parent still in POST queue'
+        )
       }
       if (!taskServerId) {
-        return this.logger(this.identifier, 'Skipping PATCH - Still in POST Queue')
+        return this.logger(
+          this.identifier,
+          'Skipping PATCH - Still in POST Queue'
+        )
       }
 
       const index = this.queue.patch.findIndex(function(element) {
@@ -346,7 +209,9 @@ export default class Sync extends Events {
       // rev the queue details
       if (index > -1) {
         // if it's already in there, just rev the time
-        const taskIndex = this.queue.patch[index][2].findIndex(function(element) {
+        const taskIndex = this.queue.patch[index][2].findIndex(function(
+          element
+        ) {
           return element[0] === id[1]
         })
         if (taskIndex > -1) {
@@ -354,20 +219,34 @@ export default class Sync extends Events {
           this.queue.patch[index][2][taskIndex][2] = new Date().toISOString()
         } else {
           this.logger(this.identifier, 'Adding PATCH to previous queue.')
-          this.queue.patch[index][2].push([id[1], taskServerId, new Date().toISOString()])          
+          this.queue.patch[index][2].push([
+            id[1],
+            taskServerId,
+            new Date().toISOString()
+          ])
         }
       } else {
         this.logger(this.identifier, 'Adding PATCH Queue.')
-        this.queue.patch.push([id[0], listServerId, [[id[1], taskServerId, new Date().toISOString()]], new Date().toISOString()])
+        this.queue.patch.push([
+          id[0],
+          listServerId,
+          [[id[1], taskServerId, new Date().toISOString()]],
+          new Date().toISOString()
+        ])
       }
       this.saveQueue()
     } else {
       const serverId = this.model.find(id).serverId
       if (!serverId) {
-        this.logger(this.identifier, 'Skipping PATCH Request - Still in POST queue.')
+        this.logger(
+          this.identifier,
+          'Skipping PATCH Request - Still in POST queue.'
+        )
       } else if (this.queue.patch.find(findQueueIndex(serverId))) {
         this.logger(this.identifier, 'Skipping PATCH Request - Updating Time')
-        this.queue.patch.find(findQueueIndex(serverId))[2] = new Date().toISOString()
+        this.queue.patch.find(
+          findQueueIndex(serverId)
+        )[2] = new Date().toISOString()
         this.saveQueue()
       } else {
         // includes the last updated time
@@ -380,42 +259,49 @@ export default class Sync extends Events {
   }
   delete(id) {
     this.logger(this.identifier, 'DELETE Requested')
-    if (typeof(id) === 'object') {
+    if (typeof id === 'object') {
       const deleteFromPostQueue = () => {
-        this.queue.post = this.queue.post.map((item) => {
-          const index = item[1].indexOf(id[1])
-          if (index > -1) {
-            item[1].splice(index, 1)
-          }
-          return item
-        }).filter((item) => {
-          if (item[1].length > 0) {
-            return true
-          }
-          return false
-        })
+        this.queue.post = this.queue.post
+          .map(item => {
+            const index = item[1].indexOf(id[1])
+            if (index > -1) {
+              item[1].splice(index, 1)
+            }
+            return item
+          })
+          .filter(item => {
+            if (item[1].length > 0) {
+              return true
+            }
+            return false
+          })
       }
       const deleteFromPatchQueue = () => {
-        this.queue.patch = this.queue.patch.map((item) => {
-          if (item[0] === id[0]) {
-            const index = item[2].findIndex((patchItem) => {
-              if (patchItem[0] === id[1]) {
-                return true
+        this.queue.patch = this.queue.patch
+          .map(item => {
+            if (item[0] === id[0]) {
+              const index = item[2].findIndex(patchItem => {
+                if (patchItem[0] === id[1]) {
+                  return true
+                }
+                return false
+              })
+              if (index > -1) {
+                item[2].splice(index, 1)
+                this.logger(
+                  this.identifier,
+                  'DELETE forced removal from PATCH Queue'
+                )
               }
-              return false
-            })
-            if (index > -1) {
-              item[2].splice(index, 1)
-              this.logger(this.identifier, 'DELETE forced removal from PATCH Queue')
             }
-          }
-          return item
-        }).filter((item) => {
-          if (item[2].length > 0) {
-            return true
-          }
-          return false
-        })
+            return item
+          })
+          .filter(item => {
+            if (item[2].length > 0) {
+              return true
+            }
+            return false
+          })
       }
 
       const listServerId = this.parentModel.find(id[0]).serverId
@@ -426,17 +312,25 @@ export default class Sync extends Events {
       })
 
       if (!listServerId) {
-        this.logger(this.identifier, 'Skipping DELETE - Parent still in POST queue')
+        this.logger(
+          this.identifier,
+          'Skipping DELETE - Parent still in POST queue'
+        )
         deleteFromPostQueue()
       } else if (!taskServerId) {
         this.logger(this.identifier, 'Skipping DELETE - Still in POST Queue')
         deleteFromPostQueue()
       } else if (index > -1) {
-        const taskIndex = this.queue.delete[index][2].findIndex(function(element) {
+        const taskIndex = this.queue.delete[index][2].findIndex(function(
+          element
+        ) {
           return element[0] === id[1]
         })
         if (taskIndex > -1) {
-          this.logger(this.identifier, 'Skipping DELETE Queue - Already in there')
+          this.logger(
+            this.identifier,
+            'Skipping DELETE Queue - Already in there'
+          )
         } else {
           this.logger(this.identifier, 'Adding DELETE to previous queue.')
           this.queue.delete[index][2].push([id[1], taskServerId])
@@ -451,7 +345,10 @@ export default class Sync extends Events {
     } else {
       const serverId = this.model.find(id).serverId
       if (serverId === null) {
-        this.logger(this.identifier, 'Skipping DELETE Request - Deleting from POST queue.')
+        this.logger(
+          this.identifier,
+          'Skipping DELETE Request - Deleting from POST queue.'
+        )
         this.queue.post.splice(this.queue.post.indexOf(id), 1)
         this.saveQueue()
       } else if (this.queue.delete.find(findQueueIndex(serverId))) {

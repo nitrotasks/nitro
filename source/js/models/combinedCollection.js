@@ -38,45 +38,26 @@ export class combined extends Events {
       tasks: TasksCollection
     })
 
-    const handleProcess = function() {
-      if (authenticationStore.isSignedIn(true)) {
-        log('requested process: implement scheduler')
-        this.processQueue()
-      }
-    }
-
-    // wow haven't used this hack in years
-    const self = this 
-    const handleArchive = function() {
-      if (authenticationStore.isSignedIn(true)) {
-        this.processArchive().then(() => {
-          self.downloadData()
-        }).catch(() => null)
-        // the catch case is just no changes
-      }
-    }
-
-    this.listsQueue.bind('request-process', handleProcess)
-    this.tasksQueue.bind('request-process', handleProcess)
-    this.tasksQueue.bind('request-archive', handleArchive)
+    this.listsQueue.bind('request-process', this._processQueue)
+    this.tasksQueue.bind('request-process', this._processQueue)
+    this.tasksQueue.bind('request-archive', this._processQueue)
 
     authenticationStore.bind('token', this.downloadData)
     TasksCollection.bind('update', this._updateEvent('tasks'))
     ListsCollection.bind('update', this._updateEvent('lists'))
     ListsCollection.bind('order', this._orderEvent)
   }
-  loadData() {
-    const promise = new Promise((resolve, reject) => {
+  loadData(): Promise<any> {
+    return new Promise((resolve, reject) => {
       ListsCollection.loadLocal().then(() => {
         TasksCollection.loadLocal().then(() => {
           Promise.all([
             this.listsQueue.loadQueue(), 
             this.tasksQueue.loadQueue()
-          ]).then(resolve)
-        })
-      })
+          ]).then(resolve).catch(reject)
+        }).catch(reject)
+      }).catch(reject)
     })
-    return promise
   }
   _updateEvent(key: string) {
     return (value: string) => {
@@ -85,6 +66,36 @@ export class combined extends Events {
   }
   _orderEvent = (key: string) => {
     this.trigger('order', key)
+  }
+  _processQueue = (): Promise<any> => {
+    return new Promise((resolve, reject) => {
+      if (!authenticationStore.isSignedIn(true)) return resolve()
+      if (this.syncLock === true) {
+        return
+      }
+      this.syncLock = true
+
+      // process listpost
+      this.listsQueue.processVerb('post')()
+        .then(() => {
+          return Promise.all([
+            this.tasksQueue.processVerb('post')(),
+            this.tasksQueue.processVerb('patch')(),
+            this.tasksQueue.processVerb('delete')(),
+          ])
+        })
+        .then(this.tasksQueue.processVerb('archive'))
+        .then(this.listsQueue.processVerb('patch'))
+        .then(this.listsQueue.processVerb('delete'))
+        .then(() => {
+          this.syncLock = false
+          console.log('sync push complete')
+          resolve()
+        }).catch((err) => {
+          console.error(err)
+          reject(err)
+        })
+    })
   }
   signedin = () => {
     return authenticationStore.isSignedIn(true)
