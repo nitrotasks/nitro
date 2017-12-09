@@ -399,7 +399,7 @@ export default class Sortable extends preact.Component {
           if (task.type === 'header') {
             currentHeading = item
           } else if (task.type === 'archived') {
-            return null
+            return <div style={{display: 'none'}}>archived</div>
           }
           return (
             <Task

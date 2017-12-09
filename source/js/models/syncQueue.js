@@ -155,6 +155,7 @@ export default class Sync extends Events {
           })
           promiseSerial(funcs).then(() => {
             this.logger(this.identifier, 'ARCHIVE Finished')
+            console.log('TODO: Delete tasks that are archived from client, or pull from server')
             return resolve()
           }).catch(err => {
             console.error(err)

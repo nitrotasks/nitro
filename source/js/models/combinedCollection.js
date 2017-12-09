@@ -100,7 +100,7 @@ export class combined extends Events {
         .then(() => {
           this.listsQueue.syncLock = false
           this.tasksQueue.syncLock = false
-          console.log('sync push complete')
+          console.log(new Date().toLocaleString() + ':', 'Sync to Server Complete')
           resolve()
 
           this._runDeferred()
@@ -201,20 +201,21 @@ export class combined extends Events {
     const task = this.getTask(id, server)
     const signedin = authenticationStore.isSignedIn(true)
     if (task === null) throw new Error('Task could not be found')
+    const list = this.getList(task.list)
+    if (list === null) throw new Error('List could not be found?')
+
     if (task.serverId === null && signedin === true) throw new Error('Cannot archive an unsynced task')
     if (!signedin) {
-      const order = ListsCollection.find(task.list).localOrder
-      order.splice(order.indexOf(task.id), 1)
-      this.updateOrder(task.list, order, false)
-      ListsCollection.saveLocal()
+      this._removeFromList([task.id], task.list)
     }
-    return TasksCollection.archiveMultiple([task.id], task.list, signedin)
+    return TasksCollection.archiveMultiple([task.id], list.id, list.name, signedin)
   }
   archiveHeading(id: string, server: ?bool) {
     const task = this.getTask(id, server)
     if (task === null || task.type !== 'header') throw new Error('Group could not be found')
+    const list = this.getList(task.list)
     const tasks = this.getTasks(task.list)
-    if (tasks === null) throw new Error('List could not be found?')
+    if (tasks === null || list === null) throw new Error('List could not be found?')
     const unsynced = []
     const headers = tasks.tasks.filter(t => {
       if (t.completed !== null && typeof t.completed !== 'undefined') {
@@ -241,14 +242,15 @@ export class combined extends Events {
     if (!signedin) {
       this._removeFromList(toArchive, task.list)
     }
-    return TasksCollection.archiveMultiple(toArchive, task.list, signedin)
+    return TasksCollection.archiveMultiple(toArchive, task.list, list.name, signedin)
   }
   archiveCompletedList(id: string, server: ?bool) {
-    const list = this.getTasks(id, server)
-    if (list === null) throw new Error('List could not be found')
+    const list = this.getList(id)
+    const tasks = this.getTasks(id, server)
+    if (tasks === null || list === null) throw new Error('List could not be found?')
     // TODO: Check if it's a virtual list
     const signedin = authenticationStore.isSignedIn(true)
-    const toArchive = list.tasks.filter((task) => {
+    const toArchive = tasks.tasks.filter((task) => {
       if (!signedin || (task.serverId !== null && typeof task.serverId !== 'undefined')) {
         return (task.completed !== null && typeof task.completed !== 'undefined')
       }
@@ -259,7 +261,7 @@ export class combined extends Events {
     if (!signedin) {
       this._removeFromList(toArchive, id)
     }
-    return TasksCollection.archiveMultiple(toArchive, id, signedin)
+    return TasksCollection.archiveMultiple(toArchive, id, list.name, signedin)
   }
   deleteTask(id: string, server: ?bool) {
     const task = this.getTask(id, server)

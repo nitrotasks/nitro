@@ -49,7 +49,7 @@ export class tasks extends Events {
     this.trigger('update')
     this.saveLocal()
   }
-  archiveMultiple(taskIds, listId, signedIn = false) {
+  archiveMultiple(taskIds, listId, listName, signedIn = false) {
     return new Promise(resolve => {
       const archiveDelete = []
       const archiveId = []
@@ -61,7 +61,10 @@ export class tasks extends Events {
         if (resource.serverId === null && signedIn === true) return
         resource.type = 'archived'
         archiveId.push(resource.serverId)
-        archiveData.push(resource.toObject())
+        const obj = resource.toObject()
+        obj.list = listName
+        // TODO: Archive Heading
+        archiveData.push(obj)
       })
 
       if (signedIn && archiveId.length > 0) {
@@ -176,7 +179,9 @@ export class tasks extends Events {
     })
   }
   findListCount(list) {
-    return this.findList(list).filter(task => task.type !== 'header' && task.completed === null).length
+    return this.findList(list).filter(task => {
+      return (task.type !== 'header' && task.type !== 'archived' && task.completed === null)
+    }).length
   }
   deleteTasks(tasks) {
     this.collection.forEach((task, key) => {
