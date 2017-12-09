@@ -15,10 +15,12 @@ class AuthenticationStore extends Events {
         this.refreshToken = data
       }
       this.trigger('sign-in-status')
-      this.getToken().catch((err) => {
-        alert('You have been signed out.')
-        this.signOut()
-      })
+      if (navigator.onLine) {
+        this.getToken().catch((err) => {
+          alert('You have been signed out.')
+          this.signOut()
+        })
+      }
     })
   }
   isSignedIn(tokenCheck = false) {

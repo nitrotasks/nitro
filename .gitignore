@@ -46,3 +46,5 @@ jspm_packages
 *report.json
 
 dist/generated/*
+dist/sw.js
+dist/appcache

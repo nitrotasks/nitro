@@ -7,6 +7,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const extractSass = new ExtractTextPlugin({
   filename: 'generated/[name].css'
 })
+const OfflinePlugin = require('offline-plugin')
 
 const webpackConfig = {
   context: baseDirectory,
@@ -60,6 +61,11 @@ const webpackConfig = {
     }
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+      }
+    }),
     extractSass,
     new webpack.IgnorePlugin(/moment/)
   ]
@@ -74,6 +80,20 @@ if (process.env.NODE_ENV === 'production') {
   delete webpackConfig.devtool
   webpackConfig.plugins.push(new webpack.optimize.ModuleConcatenationPlugin())
   webpackConfig.plugins.push(bundle)
+  webpackConfig.plugins.push(new OfflinePlugin({
+    externals: [
+      '/',
+      '/fonts/Raleway.woff2',
+      '/fonts/Raleway-Ext.woff2',
+      '/fonts/Raleway-SemiBold.woff2',
+      '/fonts/Raleway-SemiBold-Ext.woff2',
+      '/fonts/Raleway-Black.woff2',
+      '/fonts/Raleway-Black-Ext.woff2',
+    ],
+    ServiceWorker: {
+      navigateFallbackURL: '/'
+    }
+  }))
 } else if (process.env.NODE_ENV === 'report') {
   webpackConfig.plugins.push(bundle)
 }

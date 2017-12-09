@@ -50,6 +50,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const elem = document.getElementById('app-shell')
     elem.innerHTML = ''
 
+    if (process.env.NODE_ENV === 'production') {
+      elem.className = 'production'
+      const Runtime = require('offline-plugin/runtime')
+      Runtime.install()
+    } else {
+      console.info('Service Worker is disabled in development.')
+    }
+
     CombinedCollection.loadData().then(() => {
       preact.render(App(), elem)
       setTimeout(function() {
