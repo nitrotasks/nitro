@@ -77,7 +77,8 @@ export class combined extends Events {
       this.tasksQueue.syncLock = true
 
       // process listpost
-      this.listsQueue.processVerb('post')()
+      authenticationStore.checkToken()
+        .then(this.listsQueue.processVerb('post'))
         .then(() => {
           return Promise.all([
             this.tasksQueue.processVerb('post')(),

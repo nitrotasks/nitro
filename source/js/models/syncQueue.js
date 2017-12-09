@@ -168,12 +168,12 @@ export default class Sync extends Events {
   }
   addToQueue(id, method) {
     const fn = () => {
-      if (method === 'push') {
-        this._push(id)
-      } else if (method === 'post') {
+      if (method === 'post') {
         this._post(id)
       } else if (method === 'patch') {
         this._patch(id)
+      } else if (method === 'delete') {
+        this._delete(id)
       } else if (method === 'archive') {
         this._archive(id)
       }

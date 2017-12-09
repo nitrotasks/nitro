@@ -8,6 +8,7 @@ class AuthenticationStore extends Events {
     super(props)
     this.refreshToken = {}
     this.accessToken = null
+    this.expiresAt = 0
 
     db.get('auth').then((data) => {
       if (typeof data !== 'undefined') {
@@ -107,6 +108,19 @@ class AuthenticationStore extends Events {
       window.location = '/'
     })
   }
+  // this ensure that there is always a valid token before a sync
+  checkToken() {
+    if (this.expiresAt > new Date().getTime()) {
+      return Promise.resolve()
+    }
+    return this.getToken()
+  }
+  scheduleToken(time) {
+    console.log(new Date().toLocaleString() + ':', 'Getting new token in', Math.round(time / 60 / 60), 'hours.')
+    setTimeout(() => {
+      this.getToken()
+    }, Math.round(time) * 1000)
+  }
   getToken() {
     if (JSON.stringify(this.refreshToken) === '{}' || 'local' in this.refreshToken) {
       return Promise.resolve()
@@ -116,6 +130,8 @@ class AuthenticationStore extends Events {
         response.json().then((data) => {
           this.accessToken = data
           this.trigger('token')
+          this.expiresAt = new Date().getTime() + (data.expiresIn * 1000)
+          this.scheduleToken(data.expiresIn / 4)
           resolve(data)
         })
       }).catch(function(err) {
