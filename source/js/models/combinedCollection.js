@@ -67,11 +67,19 @@ export class combined extends Events {
   _orderEvent = (key: string) => {
     this.trigger('order', key)
   }
+  // just checks if anything was left over in the queue
+  _runDeferred = () => {
+    const listsDeferred = this.listsQueue.runDeferred()
+    const tasksDeferred = this.tasksQueue.runDeferred()
+    if (listsDeferred || tasksDeferred) {
+      this._processQueue()
+    }
+  }
   _processQueue = (): Promise<any> => {
     return new Promise((resolve, reject) => {
       if (!authenticationStore.isSignedIn(true)) return resolve()
       if (this.tasksQueue.syncLock === true || this.listsQueue.syncLock === true) {
-        return
+        return reject()
       }
       this.listsQueue.syncLock = true
       this.tasksQueue.syncLock = true
@@ -95,12 +103,7 @@ export class combined extends Events {
           console.log('sync push complete')
           resolve()
 
-          // this is just deferred so can run whenever after the promise
-          const listsDeferred = this.listsQueue.runDeferred()
-          const tasksDeferred = this.tasksQueue.runDeferred()
-          if (listsDeferred || tasksDeferred) {
-            this._processQueue()
-          }
+          this._runDeferred()
         }).catch((err) => {
           this.listsQueue.syncLock = false
           this.tasksQueue.syncLock = false
@@ -113,9 +116,27 @@ export class combined extends Events {
     return authenticationStore.isSignedIn(true)
   }
   downloadData = () => {
-    this.syncGet.downloadLists().then(data => {
-      this.syncGet.updateLocal(data)
-    })
+    if (!authenticationStore.isSignedIn(true)) return
+    if (this.tasksQueue.syncLock === true || this.listsQueue.syncLock === true) {
+      // it's kinda okay if it doesn't get called,
+      // because I'm sure I'll call this function again
+      // with our websocket or whatever
+      return
+    }
+    this.listsQueue.syncLock = true
+    this.tasksQueue.syncLock = true
+    authenticationStore.checkToken()
+      .then(() => {
+        return this.syncGet.downloadLists()
+      }).then(data => {
+        this.syncGet.updateLocal(data).then(() => {
+          this.listsQueue.syncLock = false
+          this.tasksQueue.syncLock = false
+          this._runDeferred()
+        })
+      }).catch(err => {
+        console.error(err)
+      })
   }
   addTask(task: Object): Object | null {
     const list = ListsCollection.find(task.list)
@@ -163,7 +184,7 @@ export class combined extends Events {
     if (task === null) throw new Error('Task could not be found')
     return task
   }
-  _removeFromList(ids, listId) {
+  _removeFromList(ids: Array<string>, listId: string) {
     const order = ListsCollection.find(listId).localOrder.filter(i => {
       return !(ids.indexOf(i) > -1)
     })
@@ -218,7 +239,7 @@ export class combined extends Events {
     })
 
     if (!signedin) {
-      this._removeFromList(toArchive)
+      this._removeFromList(toArchive, task.list)
     }
     return TasksCollection.archiveMultiple(toArchive, task.list, signedin)
   }
@@ -236,7 +257,7 @@ export class combined extends Events {
     
     // looks through the list and checks the order
     if (!signedin) {
-      this._removeFromList(toArchive)
+      this._removeFromList(toArchive, id)
     }
     return TasksCollection.archiveMultiple(toArchive, id, signedin)
   }
@@ -286,11 +307,15 @@ export class combined extends Events {
     })
     return lists
   }
-  updateList(listId: string, props: Object) {
+  updateList(listId: string, props: Object, serverId: ?bool) {
+    const list = ListsCollection.find(listId, serverId)
+    if (list === null) throw new Error('List could not be found')
     if ('name' in props) {
       // reserved name
       if (props.name.slice(0, 9) === 'nitrosys-') {
         props.name = props.name.slice(9)
+      } else if (systemLists.indexOf(listId) !== -1) {
+        delete props.name
       }
     }
     ListsCollection.update(listId, props)

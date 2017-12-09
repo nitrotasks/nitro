@@ -36,6 +36,26 @@ describe('combined collection', function() {
       const list = CombinedCollection.getList(newId)
       assert.notEqual(list, null)
     })
+    it('should be able to update a list', function() {
+      CombinedCollection.updateList(newId, {name: 'new name'})
+      const list = CombinedCollection.getList(newId)
+      assert.equal(list.name, 'new name')
+    })
+    it('should not be able to update to a system list', function() {
+      CombinedCollection.updateList(newId, {name: 'nitrosys-whatever'})
+      const list = CombinedCollection.getList(newId)
+      assert.equal(list.name, 'whatever')
+    })
+    it('should not be able to change the name of a system list', function() {
+      CombinedCollection.updateList('inbox', {name: 'what'})
+      const list = CombinedCollection.getList('inbox')
+      assert.notEqual(list.name, 'what')
+    })
+    it('should not be able to update a list that does not exist', function() {
+      assert.throws(() => {
+        CombinedCollection.updateList('notreal', {name: 'whatever'})
+      }, Error)
+    })
     it('should be able to delete a list', function() {
       CombinedCollection.deleteList(newId)
       const list = CombinedCollection.getList(newId)
@@ -121,15 +141,15 @@ describe('combined collection', function() {
       const task = CombinedCollection.getTask(taskId)
       assert.equal(task.completed, null)
     })
-    it('should not be able to delete a task that does not exist', function() {
-      assert.throws(() => {
-        CombinedCollection.deleteTask('notexist')
-      }, Error)
-    })
     it('should be able to delete a task', function() {
       CombinedCollection.deleteTask(taskId)
       assert.equal(CombinedCollection.getTask(taskId), null)
       assert.equal(CombinedCollection.getList('inbox').localOrder.length, 1)
+    })
+    it('should not be able to delete a task that does not exist', function() {
+      assert.throws(() => {
+        CombinedCollection.deleteTask('notexist')
+      }, Error)
     })
     it('should be able to archive a task', function(done) {
       CombinedCollection.archiveTask(newTask2.id).then(() => {

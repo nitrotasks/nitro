@@ -129,9 +129,9 @@ class AuthenticationStore extends Events {
       fetch(`${config.endpoint}/auth/token/${this.refreshToken.refresh_token}`).then(checkStatus).then((response) => {
         response.json().then((data) => {
           this.accessToken = data
-          this.trigger('token')
           this.expiresAt = new Date().getTime() + (data.expiresIn * 1000)
           this.scheduleToken(data.expiresIn / 4)
+          this.trigger('token')
           resolve(data)
         })
       }).catch(function(err) {
