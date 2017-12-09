@@ -2,6 +2,7 @@ import db from 'idb-keyval'
 import config from '../../../config.js'
 import Events from '../models/events.js'
 import { checkStatus } from '../helpers/fetch.js'
+import { log } from '../helpers/logger.js'
 
 class AuthenticationStore extends Events {
   constructor(props) {
@@ -17,8 +18,10 @@ class AuthenticationStore extends Events {
       this.trigger('sign-in-status')
       if (navigator.onLine) {
         this.getToken().catch((err) => {
-          alert('You have been signed out.')
-          this.signOut()
+          if (err.status === 401) {
+            alert('You have been signed out.')
+            this.signOut()
+          }
         })
       }
     })
@@ -118,7 +121,7 @@ class AuthenticationStore extends Events {
     return this.getToken()
   }
   scheduleToken(time) {
-    console.log(new Date().toLocaleString() + ':', 'Getting new token in', Math.round(time / 60 / 60), 'hours.')
+    log('Getting new token in', Math.round(time / 60 / 60), 'hours.')
     setTimeout(() => {
       this.getToken()
     }, Math.round(time) * 1000)

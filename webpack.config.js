@@ -77,7 +77,7 @@ const bundle = new BundleAnalyzerPlugin({
   openAnalyzer: false
 })
 if (process.env.NODE_ENV === 'production') {
-  delete webpackConfig.devtool
+  webpackConfig.devtool = 'nosources-source-map'
   webpackConfig.plugins.push(new webpack.optimize.ModuleConcatenationPlugin())
   webpackConfig.plugins.push(bundle)
   webpackConfig.plugins.push(new OfflinePlugin({

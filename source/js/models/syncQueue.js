@@ -1,13 +1,9 @@
 import db from 'idb-keyval'
-import config from '../../../config.js'
 import Events from './events.js'
 import { log, warn, error } from '../helpers/logger.js'
-import { checkStatus } from '../helpers/fetch.js'
 import { promiseSerial } from '../helpers/promise.js'
 
 import { postItem, patchItem, deleteItem, deleteItems, archiveItem } from './syncQueueMethods.js'
-
-import authenticationStore from '../stores/auth.js'
 
 const findQueueIndex = function(item) {
   return function(element) {
@@ -36,11 +32,7 @@ export default class Sync extends Events {
     this.parentModel = props.parentModel
     this.serverParams = props.serverParams
   }
-  logger() {
-    if (typeof(testMode) !== 'undefined') return // doesn't log in test
-    const data = [...arguments]  
-    log('%c' + data.join(' '), 'background: #ececec; color: #3a7df8;')
-  }
+  logger = log
   saveQueue() {
     db.set('sync-' + this.identifier, this.queue)
   }
@@ -111,7 +103,7 @@ export default class Sync extends Events {
                   this.queue.delete.splice(this.queue.delete.findIndex(findQueueIndex(item)), 1)
                 })
                 this.saveQueue()
-                console.log(this.identifier, 'Skipped a couple of deletions.')
+                log(this.identifier, 'Skipped a couple of deletions.')
                 resolve()
               } else {
                 reject(err)
@@ -130,10 +122,10 @@ export default class Sync extends Events {
                     this.queue.delete.splice(0, 1)
                   }
                   
-                  console.log(this.identifier, 'Skipped a couple of deletions... going for retry.')
+                  log(this.identifier, 'Skipped a couple of deletions... going for retry.')
                   this.doOperation(deleteItem, this.queue.delete, callback)
                 } else {
-                  console.warn(err)
+                  warn(err)
                   reject()
                 }
                 return
@@ -158,7 +150,7 @@ export default class Sync extends Events {
             console.log('TODO: Delete tasks that are archived from client, or pull from server')
             return resolve()
           }).catch(err => {
-            console.error(err)
+            error(err)
             return reject(err)
           })
         } else {

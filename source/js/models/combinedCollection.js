@@ -5,7 +5,7 @@ import Events from './events.js'
 import { ListsCollection } from './listsCollection.js'
 import { TasksCollection } from './tasksCollection.js'
 import authenticationStore from '../stores/auth.js'
-import { log } from '../helpers/logger.js'
+import { log, warn, error, logHistory } from '../helpers/logger.js'
 
 const systemLists = ['inbox', 'today', 'next', 'all']
 
@@ -100,14 +100,14 @@ export class combined extends Events {
         .then(() => {
           this.listsQueue.syncLock = false
           this.tasksQueue.syncLock = false
-          console.log(new Date().toLocaleString() + ':', 'Sync to Server Complete')
+          log('Sync to Server Complete')
           resolve()
 
           this._runDeferred()
         }).catch((err) => {
           this.listsQueue.syncLock = false
           this.tasksQueue.syncLock = false
-          console.error(err)
+          error(err)
           reject(err)
         })
     })
@@ -135,7 +135,7 @@ export class combined extends Events {
           this._runDeferred()
         })
       }).catch(err => {
-        console.error(err)
+        error(err)
       })
   }
   addTask(task: Object): Object | null {
@@ -218,7 +218,7 @@ export class combined extends Events {
     if (tasks === null || list === null) throw new Error('List could not be found?')
     const unsynced = []
     const headers = tasks.tasks.filter(t => {
-      if (t.completed !== null && typeof t.completed !== 'undefined') {
+      if (t.serverId === null || typeof t.serverId === 'undefined') {
         unsynced.push(t.id)
       }
       return t.type === 'header'
