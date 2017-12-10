@@ -10,8 +10,6 @@ export function checkStatus(response) {
     }
     return response.json().then(function(data) {
       cb(data)
-    }).catch((err) => {
-      cb(err)
     })
   }
 }

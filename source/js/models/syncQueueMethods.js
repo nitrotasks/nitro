@@ -72,6 +72,7 @@ export const patchItem = (id, endpoint, model, parentModel, arrayParam, serverPa
     if (id.length === 3) {
       additionalEndpoint = '/' + id[1] // the server id
       resource = model.find(id[0]) // data we are updating
+      if (resource === null) return resolve()
       body = resource.toObject()
       body.updatedAt = id[2] // server decides which data to use
     } else if (id.length === 4) {
@@ -79,12 +80,17 @@ export const patchItem = (id, endpoint, model, parentModel, arrayParam, serverPa
       
       const toSync = {}
       id[2].forEach((item) => {
-        toSync[item[1]] = model.find(item[0])
+        const task = model.find(item[0])
+        if (task === null) return // if it was deleted
+        toSync[item[1]] = task
         toSync[item[1]].updatedAt = item[2]
       })
       body = {
         tasks: toSync,
         updatedAt: id[3]
+      }
+      if (Object.keys(body.tasks).length === 0) {
+        return resolve()
       }
     } else {
       return
@@ -137,12 +143,19 @@ export const deleteItems = (items, endpoint, model, parentModel, arrayParam) => 
 export const archiveItem = (item, endpoint, model, parentModel) => {
   const listId = parentModel.find(item[0]).serverId
   // const taskId = item[1].map(i => this.model.find(i).serverId)
-
-  return fetch(`${config.endpoint}/archive/${listId}`, {
-    method: 'POST',
-    headers: authenticationStore.authHeader(true),
-    body: JSON.stringify({
-      tasks: item[1]
+  return new Promise((resolve, reject) => {
+    fetch(`${config.endpoint}/archive/${listId}`, {
+      method: 'POST',
+      headers: authenticationStore.authHeader(true),
+      body: JSON.stringify({
+        tasks: item[1]
+      })
+    }).then(checkStatus).then(resolve).catch(err => {
+      // means it's already archived or deleted
+      if (err.status === 404) {
+        return resolve()
+      }
+      reject(err)
     })
-  }).then(checkStatus)
+  })
 }

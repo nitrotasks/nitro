@@ -4,6 +4,7 @@ import { log, warn, error } from '../helpers/logger.js'
 import { promiseSerial } from '../helpers/promise.js'
 
 import { postItem, patchItem, deleteItem, deleteItems, archiveItem } from './syncQueueMethods.js'
+import { postQueue, patchQueue, deleteQueue, archiveQueue } from './syncQueueAdders.js'
 
 const findQueueIndex = function(item) {
   return function(element) {
@@ -32,7 +33,6 @@ export default class Sync extends Events {
     this.parentModel = props.parentModel
     this.serverParams = props.serverParams
   }
-  logger = log
   saveQueue() {
     db.set('sync-' + this.identifier, this.queue)
   }
@@ -44,9 +44,6 @@ export default class Sync extends Events {
       }
       this.queue = data
     })
-  }
-  requestProcess() {
-    this.trigger('request-process')
   }
   doOperation(fn, queue, cb) {
     if (queue.length > 0) {
@@ -78,14 +75,14 @@ export default class Sync extends Events {
           if (this.queue.post.length === 0) return resolve()
           this.doOperation(postItem, this.queue.post, (err) => {
             if (err) return reject(err)
-            this.logger(this.identifier, 'Finished POSTING')
+            log(this.identifier, 'Finished POSTING')
             resolve()
           })
         } else if (verb === 'patch') {
           if (this.queue.patch.length === 0) return resolve()
           this.doOperation(patchItem, this.queue.patch, (err) => {
             if (err) return reject(err)
-            this.logger(this.identifier, 'Finished PATCHING')
+            log(this.identifier, 'Finished PATCHING')
             resolve()
           })
         } else if (verb === 'delete') {
@@ -95,7 +92,7 @@ export default class Sync extends Events {
               this.queue.delete = []
               this.saveQueue()
               this.model.trigger('update')
-              this.logger(this.identifier, 'Finished DELETING')
+              log(this.identifier, 'Finished DELETING')
               resolve()
             }).catch(err => {
               if (err.status === 404) {
@@ -130,7 +127,7 @@ export default class Sync extends Events {
                 }
                 return
               } 
-              this.logger(this.identifier, 'Finished DELETING')
+              log(this.identifier, 'Finished DELETING')
               resolve()
             }
             this.doOperation(deleteItem, this.queue.delete, callback)
@@ -146,7 +143,7 @@ export default class Sync extends Events {
             })
           })
           promiseSerial(funcs).then(() => {
-            this.logger(this.identifier, 'ARCHIVE Finished')
+            log(this.identifier, 'ARCHIVE Finished')
             console.log('TODO: Delete tasks that are archived from client, or pull from server')
             return resolve()
           }).catch(err => {
@@ -162,17 +159,17 @@ export default class Sync extends Events {
   addToQueue(id, method) {
     const fn = () => {
       if (method === 'post') {
-        this._post(id)
+        postQueue(id, this.queue, this.identifier)
       } else if (method === 'patch') {
-        this._patch(id)
+        patchQueue(id, this.queue, this.identifier, this.model, this.parentModel)
       } else if (method === 'delete') {
-        this._delete(id)
+        deleteQueue(id, this.queue, this.identifier, this.model, this.parentModel)
       } else if (method === 'archive') {
-        this._archive(id)
+        archiveQueue(id, this.queue, this.identifier)
       }
     }
     if (this.syncLock === true) {
-      this.logger(this.identifier, 'Sync in Progress, deferring', method.toUpperCase())
+      log(this.identifier, 'Sync in Progress, deferring', method.toUpperCase())
       this.syncUnlock.push(fn)
     } else { 
       this.syncLock = true
@@ -180,7 +177,7 @@ export default class Sync extends Events {
       this.saveQueue()
       this.syncLock = false
       this.runDeferred()
-      this.requestProcess()
+      this.trigger('request-process')
     }
   }
   runDeferred() {
@@ -192,206 +189,5 @@ export default class Sync extends Events {
       return true
     }
     return false
-  }
-  _post(id) {
-    this.logger(this.identifier, 'POST Requested')
-    // batches the objects together
-    if (typeof id === 'object') {
-      const index = this.queue.post.findIndex(function(element) {
-        return element[0] === id[0]
-      })
-      if (index > -1) {
-        this.queue.post[index][1].push(id[1])
-      } else {
-        this.queue.post.push([id[0], [id[1]]])
-      }
-    } else {
-      this.queue.post.push(id)
-    }
-  }
-  _patch(id) {
-    this.logger(this.identifier, 'PATCH Requested')
-    // this is for tasks, so we look at the parent model
-    if (typeof id === 'object') {
-      const listServerId = this.parentModel.find(id[0]).serverId
-      const taskServerId = this.model.find(id[1]).serverId
-
-      // I realize this is duplicated logic, but it's a bit easier to work with in my head.
-      if (!listServerId) {
-        return this.logger(
-          this.identifier,
-          'Skipping PATCH - Parent still in POST queue'
-        )
-      }
-      if (!taskServerId) {
-        return this.logger(
-          this.identifier,
-          'Skipping PATCH - Still in POST Queue'
-        )
-      }
-
-      const index = this.queue.patch.findIndex(function(element) {
-        return element[0] === id[0]
-      })
-      // rev the queue details
-      if (index > -1) {
-        // if it's already in there, just rev the time
-        const taskIndex = this.queue.patch[index][2].findIndex(function(
-          element
-        ) {
-          return element[0] === id[1]
-        })
-        if (taskIndex > -1) {
-          this.logger(this.identifier, 'Skipping PATCH Queue - Updating Time')
-          this.queue.patch[index][2][taskIndex][2] = new Date().toISOString()
-        } else {
-          this.logger(this.identifier, 'Adding PATCH to previous queue.')
-          this.queue.patch[index][2].push([
-            id[1],
-            taskServerId,
-            new Date().toISOString()
-          ])
-        }
-      } else {
-        this.logger(this.identifier, 'Adding PATCH Queue.')
-        this.queue.patch.push([
-          id[0],
-          listServerId,
-          [[id[1], taskServerId, new Date().toISOString()]],
-          new Date().toISOString()
-        ])
-      }
-    } else {
-      const serverId = this.model.find(id).serverId
-      if (!serverId) {
-        this.logger(
-          this.identifier,
-          'Skipping PATCH Request - Still in POST queue.'
-        )
-      } else if (this.queue.patch.find(findQueueIndex(serverId))) {
-        this.logger(this.identifier, 'Skipping PATCH Request - Updating Time')
-        this.queue.patch.find(
-          findQueueIndex(serverId)
-        )[2] = new Date().toISOString()
-      } else {
-        // includes the last updated time
-        this.queue.patch.push([id, serverId, new Date().toISOString()])
-      }
-    }
-  }
-  _delete(id) {
-    this.logger(this.identifier, 'DELETE Requested')
-    if (typeof id === 'object') {
-      const deleteFromPostQueue = () => {
-        this.queue.post = this.queue.post
-          .map(item => {
-            const index = item[1].indexOf(id[1])
-            if (index > -1) {
-              item[1].splice(index, 1)
-            }
-            return item
-          })
-          .filter(item => {
-            if (item[1].length > 0) {
-              return true
-            }
-            return false
-          })
-      }
-      const deleteFromPatchQueue = () => {
-        this.queue.patch = this.queue.patch
-          .map(item => {
-            if (item[0] === id[0]) {
-              const index = item[2].findIndex(patchItem => {
-                if (patchItem[0] === id[1]) {
-                  return true
-                }
-                return false
-              })
-              if (index > -1) {
-                item[2].splice(index, 1)
-                this.logger(
-                  this.identifier,
-                  'DELETE forced removal from PATCH Queue'
-                )
-              }
-            }
-            return item
-          })
-          .filter(item => {
-            if (item[2].length > 0) {
-              return true
-            }
-            return false
-          })
-      }
-
-      const listServerId = this.parentModel.find(id[0]).serverId
-      const taskServerId = this.model.find(id[1]).serverId
-
-      const index = this.queue.delete.findIndex(function(element) {
-        return element[0] === id[0]
-      })
-
-      if (!listServerId) {
-        this.logger(
-          this.identifier,
-          'Skipping DELETE - Parent still in POST queue'
-        )
-        deleteFromPostQueue()
-      } else if (!taskServerId) {
-        this.logger(this.identifier, 'Skipping DELETE - Still in POST Queue')
-        deleteFromPostQueue()
-      } else if (index > -1) {
-        const taskIndex = this.queue.delete[index][2].findIndex(function(
-          element
-        ) {
-          return element[0] === id[1]
-        })
-        if (taskIndex > -1) {
-          this.logger(
-            this.identifier,
-            'Skipping DELETE Queue - Already in there'
-          )
-        } else {
-          this.logger(this.identifier, 'Adding DELETE to previous queue.')
-          this.queue.delete[index][2].push([id[1], taskServerId])
-          deleteFromPatchQueue()
-        }
-      } else {
-        this.logger(this.identifier, 'Adding DELETE Queue.')
-        this.queue.delete.push([id[0], listServerId, [[id[1], taskServerId]]])
-        deleteFromPatchQueue()
-      }
-    } else {
-      const serverId = this.model.find(id).serverId
-      if (serverId === null) {
-        this.logger(
-          this.identifier,
-          'Skipping DELETE Request - Deleting from POST queue.'
-        )
-        this.queue.post.splice(this.queue.post.indexOf(id), 1)
-      } else if (this.queue.delete.find(findQueueIndex(serverId))) {
-        this.logger(this.identifier, 'Skipping DELETE Request - Already Added')
-      } else {
-        this.queue.delete.push([id, serverId])
-      }
-    }
-  }
-  _archive(id) {
-    this.logger(this.identifier, 'ARCHIVE Requested')
-    if (typeof id[1] === 'string') {
-      id[1] = [id[1]]
-    }
-
-    const index = this.queue.archive.findIndex(function(element) {
-      return element[0] === id[0]
-    })
-
-    if (index > -1) {
-      this.queue.archive[index][1] = this.queue.archive[index][1].concat(id[1])
-    } else {
-      this.queue.archive.push([id[0], id[1]])
-    }
   }
 }
