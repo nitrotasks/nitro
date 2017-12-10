@@ -54,6 +54,11 @@ export default class Sortable extends preact.Component {
       return
     } else {
       this.eventMode = 'mouse'
+
+      // only primary mouse button
+      if (e.button > 0) {
+        return
+      }
       document.addEventListener('mousemove', this.onMove)
       document.addEventListener('mouseup', this.onUp)
     }

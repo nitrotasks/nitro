@@ -3,8 +3,8 @@ import preact from 'preact'
 import { formatDate } from '../../helpers/date.js'
 import { TasksCollection } from '../../models/tasksCollection.js'
 import { CombinedCollection } from '../../models/combinedCollection.js'
-import ContextMenuStore from '../../stores/contextmenu.js'
 import TaskExpanded from './taskexpanded.jsx'
+import { taskMenu, headerMenu } from './contextmenu.jsx'
 
 export default class Task extends preact.Component {
   constructor(props) {
@@ -27,6 +27,15 @@ export default class Task extends preact.Component {
   }
   onContextMenu = e => {
     e.preventDefault()
+    // hopefully filters out to only do right clicks, and not long touches
+    if (e.button === 0) {
+      return
+    }
+    if (this.state.type === 'header') {
+      headerMenu(this.props.data.id, e.clientX, e.clientY)
+    } else {
+      taskMenu(this.props.data.id, this.props.headersAllowed, e.clientX, e.clientY)
+    }
   }
   triggerCheck = () => {
     CombinedCollection.completeTask(this.props.data.id)
@@ -101,23 +110,9 @@ export default class Task extends preact.Component {
       })
     }
   }
-  archiveHeading = () => {
-    CombinedCollection.archiveHeading(this.props.data.id)
-  }
-  headingConvert = () => {
-    CombinedCollection.updateTask(this.props.data.id, { type: 'task' })
-  }
-  deleteTask = () => {
-    CombinedCollection.deleteTask(this.props.data.id)
-  }
   triggerMenu = e => {
-    const items = [
-      { title: 'Archive Group', action: this.archiveHeading },
-      { title: 'Change to Task', action: this.headingConvert },
-      { title: 'Remove', action: this.deleteTask }
-    ]
     const rect = e.currentTarget.getBoundingClientRect()
-    ContextMenuStore.create(rect.left + 30, rect.top, 'top', 'right', items)
+    headerMenu(this.props.data.id, rect.left + 30, rect.top, 'top', 'right')
   }
   buildIndicators = () => {
     const indicators = []

@@ -93,6 +93,9 @@ function findHeaders(tasks: Array<Object>): Array<Object> {
     let currentHeading = null
     ListsCollection.find(list).localOrder.forEach(task => {
       const currentTask = TasksCollection.find(task)
+      if (currentTask === null) {
+        return
+      }
       if (currentTask.type === 'header') {
         currentHeading = currentTask.name
       } else if (lists[list].indexOf(task) > -1) {
@@ -203,7 +206,7 @@ function groupList(list: Array<Object>, group: string): Array<Object> {
       }
     }
     // ensures that the today and next headings don't randombly show up
-    if (groupingsOrder.length > 1 && groupings[group].length > 0) {
+    if ((groupingsOrder.length > 1 || deadlines.length > 0) && groupings[group].length > 0) {
       final.push({
         id: group,
         type: 'header',

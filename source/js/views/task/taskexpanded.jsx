@@ -2,8 +2,8 @@ import preact from 'preact'
 
 import { dateValue, deadlineValue } from '../../helpers/date.js'
 import { CombinedCollection } from '../../models/combinedCollection.js'
-import ContextMenuStore from '../../stores/contextmenu.js'
 import Datepicker from './datepicker.jsx'
+import { taskMenu } from './contextmenu.jsx'
 
 export default class TaskExpanded extends preact.Component {
   state = {
@@ -37,33 +37,10 @@ export default class TaskExpanded extends preact.Component {
       CombinedCollection.updateTask(this.props.task, newData)
     }
   }
-  headingConvert = () => {
-    window.history.back()
-    CombinedCollection.updateTask(this.props.task, { type: 'header' })
-  }
+  
   triggerMenu = (e) => {
-    const items = [
-      { title: 'Archive Task', action: this.archiveTask },
-      { title: 'Delete Task', action: this.deleteTask }
-    ]
-    if (this.props.headersAllowed) {
-      items.unshift({ title: 'Change to Heading', action: this.headingConvert })
-    }
     const rect = e.currentTarget.getBoundingClientRect()
-    ContextMenuStore.create(rect.left, rect.top, 'top', 'left', items)
-  }
-  archiveTask = () => {
-    window.history.back()
-    try {
-      CombinedCollection.archiveTask(this.props.task)
-    } catch(err) {
-      // todo: make this a nicer error
-      alert(err.message)
-    }
-  }
-  deleteTask = () => {
-    window.history.back()
-    CombinedCollection.deleteTask(this.props.task)
+    taskMenu(this.props.task, this.props.headersAllowed, rect.left + 20, rect.top + 20)
   }
   render() {
     if (this.props.expanded === false) {

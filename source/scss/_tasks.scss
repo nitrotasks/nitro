@@ -110,6 +110,14 @@ $background-speed: 400ms;
 
   @media (max-width: $tablet-breakpoint - 1) {
     will-change: scroll;
+
+    // this is a hack to prevent rebinding the intersection observer
+    // because media query javascript is awful
+    .tasks-sticky-helper {
+      position: relative;
+      pointer-events: none;
+      top: 2.5em;
+    }
   }
 
   @media (min-width: $tablet-breakpoint) {
