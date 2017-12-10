@@ -221,8 +221,8 @@ export default class SyncGet extends Events {
 
       // handles deleted lists
       data.localdelete.forEach((localid) => {
-        this.tasks.deleteAllFromList(localid)
-        this.lists.collection.delete(localid)
+        this.tasks.deleteAllFromList(localid, false)
+        this.lists.collection.delete(localid, false)
       })
       this.lists.trigger('update')
       this.lists.saveLocal()

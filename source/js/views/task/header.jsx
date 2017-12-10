@@ -59,6 +59,7 @@ export default class TasksHeader extends preact.Component {
     let mutable = false
     if (typeof props.list !== 'undefined') {
       const list = CombinedCollection.getList(props.list)
+      if (list === null) return
       name = list.name
       mutable = list.mutable.indexOf('no-rename') ===  -1
     }

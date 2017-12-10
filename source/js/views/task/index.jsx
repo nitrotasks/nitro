@@ -3,6 +3,7 @@ import preact from 'preact'
 import { CombinedCollection } from '../../models/combinedCollection.js'
 import { back } from '../../stores/navigation.js'
 
+import { NotFound } from '../notfound.jsx'
 import Header from './header.jsx'
 import Sortable from './sortable.jsx'
 
@@ -44,7 +45,7 @@ export default class Tasks extends preact.Component {
         })
       }, 300)
     }
-    if (typeof nextProps.list !== 'undefined' && nextProps.list !== this.state.list) {
+    if (typeof nextProps.list !== 'undefined' && nextProps.list !== this.state.list && this.state.list !== 'notfound') {
       this.desktopScroll.scrollTop = 0
       this.mobileScroll.scrollTop = 0
     }
@@ -71,6 +72,10 @@ export default class Tasks extends preact.Component {
     }
     if (nextProps.list) {
       const tasks = CombinedCollection.getTasks(nextProps.list)
+      if (tasks === null) {
+        newProps.list = 'notfound'
+        return newProps
+      }
       if (this.props.list !== nextProps.list || firstRun) {
         newProps.taskList = tasks.tasks
       }
@@ -97,6 +102,11 @@ export default class Tasks extends preact.Component {
   update = (key, value) => {
     if (key !== 'task' || value === this.state.list) {
       const tasks = CombinedCollection.getTasks(this.state.list)
+      if (tasks === null) {
+        return this.setState({
+          list: 'notfound'
+        })
+      }
       this.setState({
         taskList: tasks.tasks,
         order: tasks.order
@@ -119,6 +129,9 @@ export default class Tasks extends preact.Component {
     }
   }
   render() {
+    if (this.state.list === 'notfound') {
+      return <NotFound />
+    }
     const mutable = CombinedCollection.getList(this.state.list).mutable.indexOf('no-order') === -1
     let className = 'tasks-pane'
     let footerClassName = 'tasks-pane-footer'

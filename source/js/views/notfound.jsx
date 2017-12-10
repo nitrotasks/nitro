@@ -1,6 +1,6 @@
 import preact from 'preact'
 
-export default class NotFound extends preact.Component {
+export class NotFound extends preact.Component {
   render() {
     return (
       <div>

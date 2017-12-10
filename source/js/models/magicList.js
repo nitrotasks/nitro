@@ -28,6 +28,9 @@ const getPriority = function(task: Object): number {
   if (task.completed !== null && completedCheck(task.completed)) {
     priority += 1000000
   }
+  if (task.type === 'archived') {
+    priority += 10000000
+  }
   if (task.date === null && task.deadline === null) {
     if (task.type === 'next') {
       priority += 10020 + (15 * 20)

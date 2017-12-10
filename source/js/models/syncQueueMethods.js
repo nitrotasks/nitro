@@ -10,8 +10,12 @@ export const postItem = (id, endpoint, model, parentModel, arrayParam, serverPar
     let additionalEndpoint = ''
     // has to loop to get all the tasks
     if (typeof(id) === 'object') {
-      // TODO, what is the data is missing from the client?
-      additionalEndpoint = parentModel.find(id[0]).serverId
+      // if there's no parent, just resolve the queue. nothing to see here
+      const parent = parentModel.find(id[0])
+      if (parent === null) {
+        return resolve()
+      }
+      additionalEndpoint = parent.serverId
 
       // kill if the parents are not made
       if (additionalEndpoint === null) {

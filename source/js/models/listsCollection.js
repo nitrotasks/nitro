@@ -38,8 +38,10 @@ export class lists extends Events {
     if (sync) this.sync.addToQueue(id, 'patch')
     return resource
   }
-  delete(id) {
-    this.sync.addToQueue(id, 'delete')
+  delete(id, queueItem = true) {
+    if (queueItem) {
+      this.sync.addToQueue(id, 'delete')
+    }
     this.collection.delete(id)
     this.trigger('update')
     this.saveLocal()

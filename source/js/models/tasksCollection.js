@@ -191,10 +191,10 @@ export class tasks extends Events {
     })
     this.saveLocal()
   }
-  deleteAllFromList(list) {
+  deleteAllFromList(list, queueItem = true) {
     this.collection.forEach((task, key) => {
       if (task.list === list) {
-        if (task.serverId === null) {
+        if (task.serverId === null && queueItem === true) {
           this.sync.addToQueue([task.list, key], 'delete')
         }
         this.collection.delete(key)

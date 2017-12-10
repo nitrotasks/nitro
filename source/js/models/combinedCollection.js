@@ -107,8 +107,15 @@ export class combined extends Events {
         }).catch((err) => {
           this.listsQueue.syncLock = false
           this.tasksQueue.syncLock = false
-          error(err)
-          reject(err)
+
+          if (err.status === 404) {
+            log('Got a 404, going to redownload from server in attempt to fix.')
+            this.downloadData()
+            resolve()
+          } else {
+            error(err)
+            reject(err)
+          }
         })
     })
   }
