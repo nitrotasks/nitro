@@ -140,11 +140,13 @@ export default class Sync extends Events {
               db.delete('archive-' + item[0])
               this.queue.archive.splice(0, 1)
               this.saveQueue()
+              // remove the item 
+              const localTasks = this.model.mapToLocal(item[1])
+              this.model.deleteTasks(localTasks)
             })
           })
           promiseSerial(funcs).then(() => {
             log(this.identifier, 'ARCHIVE Finished')
-            console.log('TODO: Delete tasks that are archived from client, or pull from server')
             return resolve()
           }).catch(err => {
             error(err)
