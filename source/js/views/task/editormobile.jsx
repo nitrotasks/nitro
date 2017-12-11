@@ -18,7 +18,6 @@ export default class TasksEditor extends preact.Component {
   }
   componentWillReceiveProps(newProps) {
     const newState = this.installState(newProps)
-    newState.animate = true
     newState.datepicker = false
     requestAnimationFrame(() => {
       this.setState(newState)
@@ -31,9 +30,15 @@ export default class TasksEditor extends preact.Component {
     }, 500)
   }
   installState(props) {
+    if (props.task === '' || !('task' in props)) {
+      return {
+        showEditor: false
+      }
+    }
     const data = TasksCollection.find(props.task) || {}
     return {
-      showEditor: 'task' in props,
+      animate: true,
+      showEditor: true,
       name: data.name,
       notes: data.notes,
       type: data.type,

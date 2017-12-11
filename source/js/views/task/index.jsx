@@ -166,7 +166,7 @@ export default class Tasks extends preact.Component {
         ref={e => this.desktopScroll = e}
       >
         <div class="tasks-content" ref={e => this.mobileScroll = e}>
-          <div class="tasks-scrollwrap">
+          <div class="tasks-scrollwrawp">
             <div id="tasks-sticky-helper" class="tasks-sticky-helper" />
             <Header
               stickyScale={this.state.stickyScale}

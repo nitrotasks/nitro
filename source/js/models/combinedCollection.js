@@ -43,6 +43,7 @@ export class combined extends Events {
     this.tasksQueue.bind('request-archive', this._processQueue)
 
     authenticationStore.bind('token', this.downloadData)
+    authenticationStore.bind('ws', this._handleWs)
     TasksCollection.bind('update', this._updateEvent('tasks'))
     ListsCollection.bind('update', this._updateEvent('lists'))
     ListsCollection.bind('order', this._orderEvent)
@@ -58,6 +59,11 @@ export class combined extends Events {
         }).catch(reject)
       }).catch(reject)
     })
+  }
+  _handleWs = (data: Object) => {
+    if (data.command === 'sync-complete') {
+      this.downloadData()
+    }
   }
   _updateEvent(key: string) {
     return (value: string) => {
@@ -97,6 +103,7 @@ export class combined extends Events {
         .then(this.tasksQueue.processVerb('archive'))
         .then(this.listsQueue.processVerb('patch'))
         .then(this.listsQueue.processVerb('delete'))
+        .then(authenticationStore.emitFinish)
         .then(() => {
           this.listsQueue.syncLock = false
           this.tasksQueue.syncLock = false
@@ -285,7 +292,9 @@ export class combined extends Events {
     resource.localOrder = order
     resource.order = order
       .map(localId => {
-        return TasksCollection.find(localId).serverId
+        const task = TasksCollection.find(localId)
+        if (task === null) return null
+        return task.serverId
       })
       .filter(item => item !== null)
 

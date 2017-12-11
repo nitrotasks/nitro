@@ -27,8 +27,8 @@ const App = () => (
       </Router>
     </div>
     <Router>
-      <TasksEditor path="/lists/:list" />
-      <TasksEditor path="/lists/:list/:task" />
+      <TasksEditor path="/" />
+      <TasksEditor path="/lists/:list/:task?" />
     </Router>
     <Login />
     <ContextMenu />

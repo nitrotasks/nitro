@@ -57,6 +57,10 @@ const webpackConfig = {
     proxy: {
       '/a': {
         target: 'http://localhost:8040',
+      },
+      '/a/ws': {
+        target: 'ws://localhost:8040',
+        ws: true
       }
     }
   },

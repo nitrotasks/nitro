@@ -88,7 +88,7 @@ export default class SyncGet extends Events {
           }
         })
       }).catch((err) => {
-        console.warn('offline?')
+        console.error(err)
       })
     }
     return new Promise((resolve, reject) => {
@@ -110,13 +110,16 @@ export default class SyncGet extends Events {
           // creates a new list with no sync
           data.lastSync = data.updatedAt
           data.serverId = data.id
+          // defer order update until tasks are downloaded
+          const order = data.order
+          delete data.order
           const list = this.lists.update(data.id, data, false)
 
           // copy the task data in
           taskPromises.push(this.downloadTasksForList(list, data.tasks).then(() => {
             // update the local order
-            const localOrder = this.tasks.mapToLocal(list.order)
-            this.lists.update(list.serverId, {localOrder: localOrder}, false)
+            const localOrder = this.tasks.mapToLocal(order)
+            this.lists.update(list.serverId, {localOrder: localOrder, order: order}, false)
           }))
 
           // goes to next list, or resolves

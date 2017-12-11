@@ -10,6 +10,7 @@ class AuthenticationStore extends Events {
     this.refreshToken = {}
     this.accessToken = null
     this.expiresAt = 0
+    this.socket = null
 
     db.get('auth').then((data) => {
       if (typeof data !== 'undefined') {
@@ -137,12 +138,38 @@ class AuthenticationStore extends Events {
           this.expiresAt = new Date().getTime() + (data.expiresIn * 1000)
           this.scheduleToken(data.expiresIn / 4)
           this.trigger('token')
+          this.connectSocket()
           resolve(data)
         })
       }).catch(function(err) {
         reject(err)
       })
     })
+  }
+  connectSocket() {
+    const socket = new WebSocket(`${config.wsendpoint}?token=${this.refreshToken.refresh_token}`)
+    socket.onopen = () => {
+      this.socket = socket
+      log('Connected to Server via WebSocket')
+    }
+    socket.onmessage = (msg) => {
+      this.trigger('ws', JSON.parse(msg.data))
+    }
+    socket.onerror = (err) => {
+      console.error('socket errored')
+    }
+    socket.onclose = () => {
+      this.socket = null
+      log('WebSocket Disconnected')
+      console.log('TODO: Handle Reconnect')
+    }
+  }
+  emitFinish = () => {
+    if (this.socket !== null) {
+      this.socket.send(JSON.stringify({
+        command: 'complete-sync'
+      }))
+    }
   }
 }
 let authenticationStore = new AuthenticationStore()
