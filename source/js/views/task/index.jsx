@@ -179,7 +179,7 @@ export default class Tasks extends preact.Component {
               list={this.state.list}
               listOrder={this.state.order}
             />
-            <footer className={footerClassName}>
+            <footer className={footerClassName} onClick={this.closeTasks}>
               {archiveBtn}
             </footer>
           </div>

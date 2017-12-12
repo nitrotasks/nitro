@@ -162,6 +162,7 @@
   }
 
   li a, li.add {
+    border-radius: 3px;
     line-height: $list-height;
     padding: 0 $indent-width / 2;
     cursor: default;

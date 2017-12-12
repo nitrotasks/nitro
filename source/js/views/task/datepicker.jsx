@@ -44,18 +44,17 @@ export default class Datepicker extends preact.Component {
     const pickerType = this.props.pickerType || 'date'
     let titleText = 'Pick Date'
     let buttonText = 'Date'
-    let nextLabel = 'Next'
     let buttonsTop
     if (pickerType === 'deadline') {
       titleText = 'Set Deadline'
       buttonText = 'Deadline'
-      nextLabel = 'Tomorrow'
     }
     if (pickerType === 'date' || pickerType === 'deadline') {
       buttonsTop = (
         <div class="button-list">
           <button class="today" onClick={this.triggerSelect('today')}>Today</button>
-          <button class={nextLabel.toLowerCase()} onClick={this.triggerSelect('next')}>{nextLabel}</button>
+          <button class="tomorrow" onClick={this.triggerSelect('tomorrow')}>Tomorrow</button>
+          <button class="nextweek" onClick={this.triggerSelect('nextweek')}>Next Week</button>
         </div>
       )
     }
