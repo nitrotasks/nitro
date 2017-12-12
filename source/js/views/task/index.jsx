@@ -23,7 +23,7 @@ export default class Tasks extends preact.Component {
     window.addEventListener('resize', this.windowResize)
 
     const options = {
-      root: document.getElementById('passive-scroll-wrapper'),
+      root: null,
       rootMargin: '-12px',
       threshold: 0
     }
@@ -166,7 +166,7 @@ export default class Tasks extends preact.Component {
         ref={e => this.desktopScroll = e}
       >
         <div class="tasks-content" ref={e => this.mobileScroll = e}>
-          <div class="tasks-scrollwrawp">
+          <div class="tasks-scrollwrap">
             <div id="tasks-sticky-helper" class="tasks-sticky-helper" />
             <Header
               stickyScale={this.state.stickyScale}

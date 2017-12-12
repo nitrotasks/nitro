@@ -1,15 +1,25 @@
 .desktop-grid {
   @media (min-width: $tablet-breakpoint) {
-    display: grid;
-    grid-template-columns: 300px 1fr;
+    // display: grid;
+    // grid-template-columns: 300px 1fr;
+    .sidebar-container {
+      width: 350px;
+      position: fixed;
+      left: 0;
+      top: 0;
+    }
+
+    .tasks-pane {
+      margin-left: 350px;
+    }
   }
-  
-  height: 100vh;
-  height: var(--real-height);
-  overflow: hidden;
+
+  // height: 100vh;
+  // height: var(--real-height);
+  // overflow: hidden;
   
 
-  @media (min-width: 1200px) {
-    grid-template-columns: 350px 1fr;
-  }
+  // @media (min-width: 1200px) {
+    // grid-template-columns: 350px 1fr;
+  // }
 }

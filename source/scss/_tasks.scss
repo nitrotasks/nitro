@@ -15,6 +15,7 @@
   }
 }
 
+$selected-color: lighten($neutral-back-color, 2);
 $tablet-max-width: 96%;
 $desktop-max-width: 92%;
 $background-speed: 400ms;
@@ -28,7 +29,7 @@ $background-speed: 400ms;
   -webkit-overflow-scrolling: touch;
   -webkit-tap-highlight-color: transparent;
   overflow-y: visible;
-  overflow-x: hidden; // this fixes when windows dpi changes and things go bad
+  // overflow-x: hidden; // this fixes when windows dpi changes and things go bad
 
   &.hide {
     animation: hide-tasks $default-timing $default-curve 1;
@@ -45,8 +46,8 @@ $background-speed: 400ms;
 
   @media (min-width: $tablet-breakpoint) {
     animation: none;
-    border-left: 1px solid $line-color;
-    overflow-y: scroll;
+    // border-left: 1px solid $line-color;
+    // overflow-y: scroll;
 
     &.hide {
       transform: none;
@@ -54,7 +55,7 @@ $background-speed: 400ms;
     }
 
     &.selected-task {
-      background-color: lighten($neutral-back-color, 0);
+      background-color: $selected-color;
     }
 
     .material-header .back {
@@ -103,21 +104,14 @@ $background-speed: 400ms;
 
 .tasks-content {
   position: absolute;
-  top: $header-height;
+  top: 0;
   bottom: 0;
   width: 100%;
   overflow-y: scroll;
 
   @media (max-width: $tablet-breakpoint - 1) {
+    padding-top: $header-height;
     will-change: scroll;
-
-    // this is a hack to prevent rebinding the intersection observer
-    // because media query javascript is awful
-    .tasks-sticky-helper {
-      position: relative;
-      pointer-events: none;
-      top: 2.5em;
-    }
   }
 
   @media (min-width: $tablet-breakpoint) {
@@ -145,7 +139,7 @@ $background-speed: 400ms;
     z-index: 2;
   }
   .selected-task .tasks-sticky-container {
-    background-color: lighten($neutral-back-color, 0);
+    background-color: $selected-color;
   }
 
   .scale-header {

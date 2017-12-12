@@ -1,12 +1,12 @@
 .sidebar-container {
   background: $neutral-back-color;
-  height: 100vh;
-  height: var(--real-height);
+  height: 100%;
   display: flex;
   flex-direction: column;
 
   @media (min-width: $tablet-breakpoint) {
-    background: $neutral-back-color-transparent;
+    background: linear-gradient($neutral-back-color-transparent, #fff);
+    border-right: 1px solid rgba(0,0,0,0.1);
   }
 }
 

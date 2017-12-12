@@ -6,22 +6,17 @@
 @import "_mixins";
 @import "_pikaday";
 
-html, body {
-  width: 100vw;
-  overflow-x: hidden;
-}
-
 body {
   background: $neutral-back-color;
 
   @media (min-width: $tablet-breakpoint) {
-    background: $back-color;
+    background: #fff;
   }
 }
 body, input, button, textarea {
   font-family: $font-family;
   font-display: optional;
-  overflow-x: hidden;
+  // overflow-x: hidden;
 }
 a {
   color: darken($brand-color, 10);
@@ -44,8 +39,13 @@ a {
   display: none;
 }
 
-#app-shell {
-  position: relative;
+@media (max-width: $tablet-breakpoint - 1) {
+  #app-shell {
+    position: relative;
+    overflow-x: hidden;
+    height: 100vh;
+    height: var(--real-height);
+  }
 }
 
 @import "_forms";
