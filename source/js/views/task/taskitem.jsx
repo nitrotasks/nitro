@@ -32,9 +32,9 @@ export default class Task extends preact.Component {
       return
     }
     if (this.state.type === 'header') {
-      headerMenu(this.props.data.id, e.clientX, e.clientY)
+      headerMenu(this.props.data.id, e.clientX, e.clientY + window.scrollY)
     } else {
-      taskMenu(this.props.data.id, this.props.headersAllowed, e.clientX, e.clientY)
+      taskMenu(this.props.data.id, this.props.headersAllowed, e.clientX, e.clientY + window.scrollY)
     }
   }
   triggerCheck = () => {
@@ -112,7 +112,7 @@ export default class Task extends preact.Component {
   }
   triggerMenu = e => {
     const rect = e.currentTarget.getBoundingClientRect()
-    headerMenu(this.props.data.id, rect.left + 30, rect.top, 'top', 'right')
+    headerMenu(this.props.data.id, rect.left + 30, rect.top + window.scrollY, 'top', 'right')
   }
   buildIndicators = () => {
     const indicators = []

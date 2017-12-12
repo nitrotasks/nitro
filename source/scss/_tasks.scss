@@ -20,8 +20,16 @@ $tablet-max-width: 96%;
 $desktop-max-width: 92%;
 $background-speed: 400ms;
 
+@media (min-width: $tablet-breakpoint) {
+  body {
+    transition: $background-speed ease background-color;
+    &.selected-task {
+      background-color: $selected-color;  
+    }
+  }
+}
+
 .tasks-pane {
-  background: #fff;
   animation: show-tasks $default-timing $default-curve 1;
   transition: $background-speed ease background-color;
   -ms-overflow-style: -ms-autohiding-scrollbar;
@@ -52,10 +60,6 @@ $background-speed: 400ms;
     &.hide {
       transform: none;
       animation: none;
-    }
-
-    &.selected-task {
-      background-color: $selected-color;
     }
 
     .material-header .back {

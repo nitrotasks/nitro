@@ -29,6 +29,10 @@ export default class Tasks extends preact.Component {
     }
     this.observer = new IntersectionObserver(this.triggerStickyScroll, options)    
     this.observer.observe(document.getElementById('tasks-sticky-helper'))
+
+    if (this.state.selectedTask !== null) { 
+      document.body.classList.add('selected-task')
+    }
   }
   componentWillUnmount() {
     CombinedCollection.unbind('update', this.update)
@@ -48,6 +52,13 @@ export default class Tasks extends preact.Component {
     if (typeof nextProps.list !== 'undefined' && nextProps.list !== this.state.list && this.state.list !== 'notfound') {
       this.desktopScroll.scrollTop = 0
       this.mobileScroll.scrollTop = 0
+    }
+    if (this.state.selectedTask !== state.selectedTask) {
+      if (state.selectedTask === null) { 
+        document.body.classList.remove('selected-task')
+      } else {
+        document.body.classList.add('selected-task')
+      }
     }
     this.setState(state)
   }

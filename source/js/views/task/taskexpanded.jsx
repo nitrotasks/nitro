@@ -40,7 +40,7 @@ export default class TaskExpanded extends preact.Component {
   
   triggerMenu = (e) => {
     const rect = e.currentTarget.getBoundingClientRect()
-    taskMenu(this.props.task, this.props.headersAllowed, rect.left + 20, rect.top + 20)
+    taskMenu(this.props.task, this.props.headersAllowed, rect.left + 20, rect.top + 20 + window.scrollY)
   }
   render() {
     if (this.props.expanded === false) {
