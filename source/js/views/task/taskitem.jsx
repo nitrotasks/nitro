@@ -115,6 +115,7 @@ export default class Task extends preact.Component {
     headerMenu(this.props.data.id, rect.left + 30, rect.top + window.scrollY, 'top', 'right')
   }
   buildIndicators = () => {
+    const frontIndicators = []
     const indicators = []
     if (this.state.notes !== null && this.state.notes.length > 0) {
       indicators.push(
@@ -122,9 +123,8 @@ export default class Task extends preact.Component {
       )
     }
     if (this.state.deadline !== null) {
-      indicators.push(
-        <span key="deadline-indicator" class="indicator indicator-deadline" />
-      )
+      indicators.push(<span key="deadline-indicator" class="indicator indicator-deadline" />)
+      indicators.push(<span class="indicator indicator-deadline-label">{formatDate(this.state.deadline, this.state.type, 'deadline')}</span>)
     }
     if (['today', 'next'].indexOf(this.props.currentList) > -1) {
       const heading = this.props.currentHeading.split('-')
@@ -149,29 +149,25 @@ export default class Task extends preact.Component {
     }
 
     if (this.state.date !== null) {
-      const todayMode =
-        this.state.deadline === null ? 'today' : this.state.deadline
-      const date = formatDate(this.state.date, this.state.type, todayMode)
+      const date = formatDate(this.state.date, this.state.type, 'today')
       // doesn't today on today list, or under today heading, or on completed tasks. also doesn't show overdue pill.
-      if (
-        !(
-          (date === 'Today' &&
-            (this.props.currentList === 'today' ||
-              this.props.currentHeading === 'today')) ||
-          this.state.completed !== null
-        ) &&
-        this.props.currentHeading !== 'overdue'
-      ) {
+      if (date === 'Today') {
+        if (this.props.currentList !== 'today' && this.props.currentHeading !== 'today') {
+          frontIndicators.push(<span class="front-indicator indicator-today" />)
+        }
+      } else if (this.props.currentHeading !== 'overdue' && this.state.completed === null) {
         indicators.push(<span class="indicator indicator-date">{date}</span>)
       }
-    } else if (
-      this.state.type === 'next' &&
-      this.props.currentList !== 'next' &&
-      this.state.completed === null
-    ) {
-      indicators.push(<span class="indicator indicator-date">Next</span>)
     }
-    return indicators
+    // removed support for 'next' for now
+    // } else if (
+    //   this.state.type === 'next' &&
+    //   this.props.currentList !== 'next' &&
+    //   this.state.completed === null
+    // ) {
+    //   indicators.push(<span class="indicator indicator-date">Next</span>)
+    // }
+    return [frontIndicators, indicators]
   }
   render() {
     let className = 'task-item'
@@ -187,7 +183,7 @@ export default class Task extends preact.Component {
     }
 
     let label = null
-    let indicators = null
+    let indicators = [null, null]
     if (
       this.state.type === 'header' ||
       (this.state.expanded && !this.state.noRender)
@@ -207,8 +203,9 @@ export default class Task extends preact.Component {
       indicators = this.buildIndicators()
       label = (
         <div class="label" onClick={this.props.onClick}>
+          {indicators[0]}
           {this.state.name}
-          {indicators}
+          {indicators[1]}
         </div>
       )
     }

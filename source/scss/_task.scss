@@ -315,6 +315,27 @@ $speed: $task-expand-speed;
     }
   }
 }
+
+.front-indicator {
+  display: inline-block;
+  vertical-align: top;
+  width: 20px;
+  height: 20px;
+  margin: 12px 4px 0 0;
+  background-size: 20px;
+  background-repeat: no-repeat;
+
+  @media (min-width: $tablet-breakpoint) {
+    width: 18px;
+    height: 18px;
+    background-size: 18px;
+    margin: 11px 3px 0 0;
+  }
+}
+.indicator-today {
+  background-image: url('/img/icons/feather/today.svg');
+}
+
 .indicator {
   display: inline-block;
   vertical-align: top;
@@ -335,10 +356,14 @@ $speed: $task-expand-speed;
   height: 20px;
 }
 .indicator-deadline {
-  margin: 7px 0 7px 3px;
+  margin: 7px 2px 7px 3px;
   background-image: url('/img/icons/material/task-deadline.svg');
   width: 24px;
   height: 20px;
+}
+.indicator-deadline-label {
+  font-size: 13px;
+  color: #444;
 }
 .indicator-date {
   border: 1px solid $line-color;

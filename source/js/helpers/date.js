@@ -19,15 +19,25 @@ export function formatDate(date, type, showToday = 'no') {
   }
 
   // changes dates today or past, to 'today'
-  if (typeof showToday !== 'string' && showToday < new Date()) {
-    if (showToday.getDate() === new Date().getDate()) {
+  const currentDate = new Date()
+  if (typeof showToday !== 'string' && showToday < currentDate) {
+    if (showToday.getDate() === currentDate.getDate()) {
       return 'Due'
     }
     return 'Overdue'
-  } else if (showToday === 'today' && date < new Date()) {
+  } else if (showToday === 'deadline') {
+    const due = (date.getDate() - currentDate.getDate())
+    if (due < 0) {
+      return Math.abs(due) + ' days overdue'
+    } else if (due === 0) {
+      return 'due today'
+    } else if (due < 7) {
+      return due + ' days left'
+    }
+  } else if (showToday === 'today' && date < currentDate) {
     return 'Today'
   } else if (showToday !== 'no') {
-    const days = Math.ceil((date.getTime() - new Date().getTime()) / dayms)
+    const days = Math.ceil((date.getTime() - currentDate.getTime()) / dayms)
     if (days === 1) {
       return 'Tomorrow'
     } else if (days > 0 && days < 7) {

@@ -24,15 +24,15 @@ export default class Sortable extends preact.Component {
     }
   }
   componentWillReceiveProps(newProps) {
-    const newState = this.updateProps(newProps)
-    this.taskMap = newState.taskMap
+    if (this.props.list !== newProps.list && JSON.stringify(newProps.listOrder) !== JSON.stringify(this.state.order)) {
+      const newState = this.updateProps(newProps)
+      this.taskMap = newState.taskMap
 
-    if (JSON.stringify(newState.order) !== JSON.stringify(this.state.order)) {
       let taskHeight = 44
       let timeout = 350
       if (document.documentElement.clientWidth >= 700) {
         taskHeight = 40
-        timeout = 350
+        timeout = 25
       }
       const elementsToRender = Math.ceil(document.documentElement.clientHeight / taskHeight)
       this.setState({
@@ -40,9 +40,15 @@ export default class Sortable extends preact.Component {
       })
       setTimeout(() => {
         this.setState({
-          order: newState.order
+          order: newState.order.slice()
         })
       }, timeout)
+    } else {
+      const newState = this.updateProps(newProps)
+      this.taskMap = newState.taskMap
+      this.setState({
+        order: newState.order.slice()
+      })
     }
   }
   shouldComponentUpdate(nextProps, nextState) {
@@ -55,6 +61,7 @@ export default class Sortable extends preact.Component {
         return false
       }
     }
+    return true
   }
   updateProps(props) {
     const taskMap = new Map()
