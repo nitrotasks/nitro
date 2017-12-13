@@ -1,6 +1,6 @@
 {
   "name": "nitrotasks",
-  "version": "3.0.0-alpha.1.16",
+  "version": "3.0.0-alpha.1.17",
   "description": "Not just another todo list app",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --progress --colors -p --display-optimization-bailout",
@@ -17,7 +17,7 @@
     "url": "git+https://github.com/nitrotasks/nitro.git"
   },
   "author": "",
-  "license": "BSD-3-Clause",
+  "license": "AGPL-3.0",
   "bugs": {
     "url": "https://github.com/nitrotasks/nitro/issues"
   },
@@ -52,7 +52,7 @@
     "eslint-plugin-react": "^7.1.0",
     "extract-text-webpack-plugin": "^3.0.0",
     "fake-indexeddb": "^2.0.3",
-    "flow-bin": "^0.59.0",
+    "flow-bin": "^0.61.0",
     "isomorphic-fetch": "^2.2.1",
     "mocha": "^4.0.1",
     "node-sass": "^4.5.3",
@@ -67,7 +67,7 @@
   "dependencies": {
     "idb-keyval": "^2.3.0",
     "imports-loader": "^0.7.1",
-    "intersection-observer": "^0.4.3",
+    "intersection-observer": "^0.5.0",
     "pikaday": "^1.7.0",
     "preact": "^8.2.6",
     "preact-router": "^2.6.0",

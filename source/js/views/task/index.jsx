@@ -14,6 +14,7 @@ export default class Tasks extends preact.Component {
     super(props)
     this.state = this.installProps(props, true)
     this.state.innerWidth = '100%'
+    this.observer = null
   }
   componentWillMount() {
     CombinedCollection.bind('update', this.update)
@@ -21,14 +22,6 @@ export default class Tasks extends preact.Component {
   }
   componentDidMount() {
     window.addEventListener('resize', this.windowResize)
-
-    const options = {
-      root: null,
-      rootMargin: '-12px',
-      threshold: 0
-    }
-    this.observer = new IntersectionObserver(this.triggerStickyScroll, options)    
-    this.observer.observe(document.getElementById('tasks-sticky-helper'))
 
     if (this.state.selectedTask !== null) { 
       document.body.classList.add('selected-task')
@@ -61,6 +54,26 @@ export default class Tasks extends preact.Component {
       }
     }
     this.setState(state)
+  }
+  componentDidUpdate() {
+    this.observe()
+  }
+  observe() {
+    if (this.observer !== null) {
+      return
+    }
+    const el = document.getElementById('tasks-sticky-helper')
+    if (el === null) {
+      return
+    }
+
+    const options = {
+      root: null,
+      rootMargin: '-12px',
+      threshold: 0
+    }
+    this.observer = new IntersectionObserver(this.triggerStickyScroll, options)    
+    this.observer.observe(el)
   }
   installProps(nextProps, firstRun = false) {
     let newProps = {

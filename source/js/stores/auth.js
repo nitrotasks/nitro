@@ -11,6 +11,7 @@ class AuthenticationStore extends Events {
     this.accessToken = null
     this.expiresAt = 0
     this.socket = null
+    this.reconnectDelay = 1
 
     db.get('auth').then((data) => {
       if (typeof data !== 'undefined') {
@@ -24,6 +25,14 @@ class AuthenticationStore extends Events {
             this.signOut()
           }
         })
+      }
+    })
+    window.addEventListener('online', () => {
+      this.getToken()
+    })
+    window.addEventListener('offline', () => {
+      if (this.socket) {
+        this.socket.close()
       }
     })
   }
@@ -146,22 +155,31 @@ class AuthenticationStore extends Events {
       })
     })
   }
-  connectSocket() {
+  connectSocket = () => {
+    if (!navigator.onLine) {
+      log('Offline, will not try to connect WebSocket.')
+      return
+    }
+
     const socket = new WebSocket(`${config.wsendpoint}?token=${this.refreshToken.refresh_token}`)
     socket.onopen = () => {
       this.socket = socket
+      this.reconnectDelay = 1
       log('Connected to Server via WebSocket')
     }
     socket.onmessage = (msg) => {
       this.trigger('ws', JSON.parse(msg.data))
     }
     socket.onerror = (err) => {
-      console.error('socket errored')
+      console.error(err)
     }
     socket.onclose = () => {
       this.socket = null
-      log('WebSocket Disconnected')
-      console.log('TODO: Handle Reconnect')
+      if (this.reconnectDelay < 60) {
+        this.reconnectDelay = this.reconnectDelay * 2
+      }
+      log('WebSocket Disconnected. Trying again in', this.reconnectDelay, 'seconds.')
+      setTimeout(this.connectSocket, this.reconnectDelay * 1000)
     }
   }
   emitFinish = () => {
