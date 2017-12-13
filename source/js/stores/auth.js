@@ -27,14 +27,16 @@ class AuthenticationStore extends Events {
         })
       }
     })
-    window.addEventListener('online', () => {
-      this.getToken()
-    })
-    window.addEventListener('offline', () => {
-      if (this.socket) {
-        this.socket.close()
-      }
-    })
+    if (typeof window !== 'undefined') {
+      window.addEventListener('online', () => {
+        this.getToken()
+      })
+      window.addEventListener('offline', () => {
+        if (this.socket) {
+          this.socket.close()
+        }
+      })
+    }
   }
   isSignedIn(tokenCheck = false) {
     if (tokenCheck && typeof this.refreshToken.local !== 'undefined' && this.refreshToken.local === true) {

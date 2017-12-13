@@ -101,6 +101,7 @@ export default class Tasks extends preact.Component {
         return newProps
       }
       if (this.props.list !== nextProps.list || firstRun) {
+        CombinedCollection.trigger('list-change', nextProps.list)
         newProps.taskList = tasks.tasks
       }
       newProps.disposing = false
@@ -141,9 +142,11 @@ export default class Tasks extends preact.Component {
     CombinedCollection.archiveCompletedList(this.state.list)
   }
   triggerStickyScroll = entries => {
-    this.setState({
-      stickyScale: !entries[0].isIntersecting
-    })
+    if (typeof this.props.list !== 'undefined') {
+      this.setState({
+        stickyScale: !entries[0].isIntersecting
+      })
+    }
   }
   closeTasks = e => {
     if (e.target === e.currentTarget || e.target.className === 'tasks-list') {
@@ -156,7 +159,8 @@ export default class Tasks extends preact.Component {
     if (this.state.list === 'notfound') {
       return <NotFound />
     }
-    const mutable = CombinedCollection.getList(this.state.list).mutable.indexOf('no-order') === -1
+    const list = CombinedCollection.getList(this.state.list)
+    const mutable = list.mutable.indexOf('no-order') === -1
     let className = 'tasks-pane'
     let footerClassName = 'tasks-pane-footer'
     if (this.state.disposing === true) {
@@ -195,6 +199,8 @@ export default class Tasks extends preact.Component {
             <Header
               stickyScale={this.state.stickyScale}
               list={this.state.list}
+              name={list.name}
+              mutable={list.mutable.indexOf('no-rename')}
             />
             <Sortable
               mutable={mutable}

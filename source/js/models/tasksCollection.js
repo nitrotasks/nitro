@@ -125,6 +125,8 @@ export class tasks extends Events {
         if (prop === 'date' || prop === 'deadline' || prop === 'completed') {
           if (props[prop] !== null) {
             task[prop] = new Date(props[prop])
+          } else {
+            task[prop] = props[prop]
           }
         } else if (prop !== 'id') {
           task[prop] = props[prop]

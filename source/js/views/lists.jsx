@@ -9,19 +9,31 @@ import DialogBoxStore from '../stores/dialogbox.js'
 
 export default class Lists extends preact.Component {
   state = {
-    lists: CombinedCollection.getLists()
+    currentList: null,
+    lists: CombinedCollection.getLists(),
   }
   componentWillMount() {
     CombinedCollection.bind('update', this.update)
+    CombinedCollection.bind('list-change', this.listChange)
   }
   componentWillUnmount() {
     CombinedCollection.unbind('update', this.update)
+    CombinedCollection.unbind('list-change', this.listChange)
   }
   // essentially just updates the count & lists in view
   update = () => {
     this.setState({
       lists: CombinedCollection.getLists()
     })
+  }
+  // much faster than using preact-router?
+  listChange = (list) => {
+    // mobile doesn't need this, so we can avoid an extra setState
+    if (document.documentElement.clientWidth >= 700) {
+      this.setState({
+        currentList: list
+      })
+    }
   }
   createList() {
     if (document.documentElement.clientWidth >= 700) {
@@ -66,11 +78,10 @@ export default class Lists extends preact.Component {
     )
   }
   render() {
-    const currentList = this.props.list || (window.innerWidth >= 700 ? 'inbox' : null)
     let focus = []
     let lists = []
     this.state.lists.forEach((item) => {
-      const className = 'list-' + item.id + ((currentList === item.id) ? ' selected' : '')
+      const className = 'list-' + item.id + ((this.state.currentList === item.id) ? ' selected' : '')
       const el = (
         <li class={className}>
           <Link href={'/lists/' + item.id}>

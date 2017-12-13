@@ -36,17 +36,33 @@ export default class TasksHeader extends preact.Component {
     this.listsUpdate('lists', nextProps)
 
     // called on new list on desktop
-    setTimeout(() => {
-      if (window.location.hash === '#rename') {
+    if (window.location.hash === '#rename') {
+      setTimeout(() => {
         // rewrites the hash away
         route('/lists/' + nextProps.list, true)
         this.realInput.select()
-      }
-    }, 5)
+      }, 5)
+    }
   }
   componentWillUnmount() {
     CombinedCollection.unbind('update', this.listsUpdate)
     this.observer.disconnect()
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+    // changes in the props are always changed by a state change
+    if (nextProps !== this.props) {
+      return false
+    } else {
+      // does a shallow compare on the state
+      let shouldUpdate = false
+      Object.keys(nextState).some(key => {
+        if (nextState[key] !== this.state[key]) {
+          shouldUpdate = true
+          return
+        }
+      })
+      return shouldUpdate
+    }
   }
   triggerResize = () => {
     requestAnimationFrame(this.sizeInput)
@@ -55,20 +71,11 @@ export default class TasksHeader extends preact.Component {
     if (key !== 'lists') {
       return
     }
-    let name = ''
-    let mutable = false
-    if (typeof props.list !== 'undefined') {
-      const list = CombinedCollection.getList(props.list)
-      if (list === null) return
-      name = list.name
-      mutable = list.mutable.indexOf('no-rename') ===  -1
-    }
-    // seems easiest to set document title here
-    document.title = [name, 'Nitro'].join(' - ')
     this.setState({
-      header: name,
-      mutable: mutable
+      header: props.name,
+      mutable: props.mutable
     })
+    document.title = props.name + '- Nitro'
     requestAnimationFrame(this.sizeInput)
   }
   createTask = () => {

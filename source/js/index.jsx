@@ -16,10 +16,7 @@ import DialogBox from './views/dialogbox.jsx'
 const App = () => (
   <div class="app">
     <div class="desktop-grid">
-      <Router>
-        <Lists path="/" />
-        <Lists path="/lists/:list/:task?" />
-      </Router>
+      <Lists />
       <Router>
         <Tasks path="/" />
         <Tasks path="/lists/:list/:task?" />
