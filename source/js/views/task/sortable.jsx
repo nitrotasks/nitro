@@ -27,11 +27,33 @@ export default class Sortable extends preact.Component {
     const newState = this.updateProps(newProps)
     this.taskMap = newState.taskMap
 
-    // prevents unecessary updates
-    if (JSON.stringify(this.state.order) !== JSON.stringify(newState.order)) {
+    if (JSON.stringify(newState.order) !== JSON.stringify(this.state.order)) {
+      let taskHeight = 44
+      let timeout = 350
+      if (document.documentElement.clientWidth >= 700) {
+        taskHeight = 40
+        timeout = 350
+      }
+      const elementsToRender = Math.ceil(document.documentElement.clientHeight / taskHeight)
       this.setState({
-        order: newState.order
+        order: newState.order.slice(0, elementsToRender)
       })
+      setTimeout(() => {
+        this.setState({
+          order: newState.order
+        })
+      }, timeout)
+    }
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.props.task !== nextProps.task && document.documentElement.clientWidth >= 700) {
+      return true
+    }
+    // just a quick comparison to avoid json ops every time
+    if (nextState.order.length === this.state.order.length) {
+      if (JSON.stringify(nextState.order) === JSON.stringify(this.state.order)) {
+        return false
+      }
     }
   }
   updateProps(props) {
@@ -394,6 +416,7 @@ export default class Sortable extends preact.Component {
     } else {
       click = this.onClick
     }
+    const minimalRender = document.documentElement.clientWidth < 700
     return (
       <ul className={className}>
         {this.state.order.map(item => {
@@ -415,6 +438,7 @@ export default class Sortable extends preact.Component {
               selectedTask={this.props.task}
               headersAllowed={headersAllowed}
               shouldMove={shouldMove}
+              minimalRender={minimalRender}
               onDown={down}
               onMove={move}
               onUp={up}

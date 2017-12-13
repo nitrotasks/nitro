@@ -212,6 +212,15 @@ export default class Task extends preact.Component {
         </div>
       )
     }
+    
+    let expanded = null 
+    if (!this.props.minimalRender) {
+      expanded = <TaskExpanded
+        task={this.props.data.id}
+        expanded={this.state.expanded && !this.state.noRender}
+        headersAllowed={this.props.headersAllowed}
+      />
+    }
 
     if (this.state.type === 'header') {
       className = className.replace('task-item', 'header-item')
@@ -248,11 +257,7 @@ export default class Task extends preact.Component {
             </div>
             {label}
           </div>
-          <TaskExpanded
-            task={this.props.data.id}
-            expanded={this.state.expanded && !this.state.noRender}
-            headersAllowed={this.props.headersAllowed}
-          />
+          {expanded}
         </li>
       )
     }

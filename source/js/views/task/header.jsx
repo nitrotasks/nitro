@@ -49,33 +49,35 @@ export default class TasksHeader extends preact.Component {
     this.observer.disconnect()
   }
   shouldComponentUpdate(nextProps, nextState) {
-    // changes in the props are always changed by a state change
+    let shouldUpdate = false
+    // does a shallow compare on the state & props
     if (nextProps !== this.props) {
-      return false
+      Object.keys(nextProps).some(key => {
+        if (nextProps[key] !== this.props[key]) {
+          shouldUpdate = true
+          return
+        }
+      })
     } else {
       // does a shallow compare on the state
-      let shouldUpdate = false
       Object.keys(nextState).some(key => {
         if (nextState[key] !== this.state[key]) {
           shouldUpdate = true
           return
         }
       })
-      return shouldUpdate
     }
+    return shouldUpdate
   }
   triggerResize = () => {
     requestAnimationFrame(this.sizeInput)
   }
   listsUpdate = (key, props = this.props) => {
-    if (key !== 'lists') {
+    if (key !== 'lists' || props.name === this.state.header) {
       return
     }
-    this.setState({
-      header: props.name,
-      mutable: props.mutable
-    })
-    document.title = props.name + '- Nitro'
+    this.setState({ header: props.name })
+    document.title = props.name + ' - Nitro'
     requestAnimationFrame(this.sizeInput)
   }
   createTask = () => {
@@ -214,7 +216,7 @@ export default class TasksHeader extends preact.Component {
     }
 
     let moreBtn = null
-    if (this.state.mutable && this.state.innerWidth !== '100%') {
+    if (this.props.mutable && this.state.innerWidth !== '100%') {
       moreBtn = (
         <button
           class="list-context"
@@ -261,7 +263,7 @@ export default class TasksHeader extends preact.Component {
               ref={e => (this.realInput = e)}
               alt="List Name"
               style={{ width: this.state.innerWidth }}
-              disabled={!this.state.mutable}
+              disabled={!this.props.mutable}
             />
             {moreBtn}
             <span ref={e => (this.fakeInput = e)}>{this.state.header}</span>

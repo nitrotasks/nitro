@@ -43,7 +43,7 @@ export default class Tasks extends preact.Component {
       }, 300)
     }
     if (typeof nextProps.list !== 'undefined' && nextProps.list !== this.state.list && this.state.list !== 'notfound') {
-      this.desktopScroll.scrollTop = 0
+      window.scroll(0,0)
       this.mobileScroll.scrollTop = 0
     }
     if (this.state.selectedTask !== state.selectedTask) {

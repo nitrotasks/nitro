@@ -248,8 +248,10 @@
     }
   }
 
-  .selected {
-    background: #e6e6e7;
+  @media (min-width: $tablet-breakpoint) {
+    .selected {
+      background: #e6e6e7;
+    }    
   }
 
   .list-inbox .icon {
