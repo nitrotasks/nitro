@@ -4,7 +4,7 @@ import Task from './taskitem.jsx'
 import { go, back } from '../../stores/navigation.js'
 import { CombinedCollection } from '../../models/combinedCollection.js'
 
-const pressDelay = 600
+const pressDelay = 500
 
 export default class Sortable extends preact.Component {
   constructor(props) {
@@ -25,10 +25,11 @@ export default class Sortable extends preact.Component {
     }
   }
   componentWillReceiveProps(newProps) {    
-    if (this.props.list !== newProps.list) {
-      const newState = this.updateProps(newProps)
-      this.taskMap = newState.taskMap
+    // don't really want to do this step, but bad things happen if we don't
+    const newState = this.updateProps(newProps)
+    this.taskMap = newState.taskMap
 
+    if (this.props.list !== newProps.list) {
       let taskHeight = 44
       let timeout = 350
       if (document.documentElement.clientWidth >= 700) {
@@ -47,8 +48,6 @@ export default class Sortable extends preact.Component {
         })
       }, timeout)
     } else if (this.state.renderLock === false && JSON.stringify(newProps.listOrder) !== JSON.stringify(this.state.order)) {
-      const newState = this.updateProps(newProps)
-      this.taskMap = newState.taskMap
       this.setState({
         order: newState.order.slice()
       })
@@ -58,13 +57,16 @@ export default class Sortable extends preact.Component {
     if (this.props.task !== nextProps.task && document.documentElement.clientWidth >= 700) {
       return true
     }
-    // just a quick comparison to avoid json ops every time
-    if (nextState.order.length === this.state.order.length) {
-      if (JSON.stringify(nextState.order) === JSON.stringify(this.state.order)) {
-        return false
-      }
+    if (nextState.listTransforms !== this.state.listTransforms) {
+      return true
     }
-    return true
+    // just a quick comparison to avoid json ops every time
+    // if (nextState.order.length === this.state.order.length) {
+    //   if (JSON.stringify(nextState.order) === JSON.stringify(this.state.order)) {
+    //     return false
+    //   }
+    // }
+    // return true
   }
   updateProps(props) {
     const taskMap = new Map()
@@ -124,10 +126,7 @@ export default class Sortable extends preact.Component {
     this.mobileParent =
       e.currentTarget.parentElement.parentElement.parentElement
     this.desktopParent = this.mobileParent.parentElement
-    this.startingScroll = [
-      this.mobileParent.scrollTop,
-      this.desktopParent.scrollTop
-    ]
+    this.movedOffTarget = false
 
     // press and hold, touch only interaction
     // because touch-action: press and hold doesn't exist grr
@@ -135,10 +134,7 @@ export default class Sortable extends preact.Component {
       this.timeouts.push(
         setTimeout(() => {
           // scrolling already started, so don't do anything
-          if (
-            this.startingScroll[0] !== this.mobileParent.scrollTop ||
-            this.startingScroll[1] !== this.desktopParent.scrollTop
-          ) {
+          if (this.movedOffTarget === true) {
             return
           }
           if (Math.abs(this.currentOffset) < 20) {
@@ -199,6 +195,10 @@ export default class Sortable extends preact.Component {
       offset = e.changedTouches[0].clientY - this.originalTouch.clientY
     }
     this.currentOffset = offset
+    // seems to be the magic number that scrolling cancels
+    if (Math.abs(offset) > 7) {
+      this.movedOffTarget = true
+    }
 
     if (
       (this.eventMode === 'pointer' || this.eventMode === 'mouse') &&
@@ -342,10 +342,7 @@ export default class Sortable extends preact.Component {
         requestAnimationFrame(() => back())
       } else if (Math.abs(offset) > 20 || Math.abs(oldOffset) > 20) {
         return
-      } else if (
-        this.startingScroll[0] === this.mobileParent.scrollTop &&
-        this.startingScroll[1] === this.desktopParent.scrollTop
-      ) {
+      } else if (this.movedOffTarget === false) {
         go('/lists/' + this.props.list + '/' + currentId)
       }
     } else if (
@@ -452,7 +449,7 @@ export default class Sortable extends preact.Component {
               onDown={down}
               onMove={move}
               onUp={up}
-              // onClick={click(task.id)}
+              onClick={click(task.id)}
               // best way to clean out the style prop
               ref={el => {
                 if (el) el.base.style.transform = ''

@@ -245,7 +245,9 @@ function getList(threshold: number, comparison: string, group?: string): Array<O
     }
     return false
   }).sort((a,b) => {
-    return a.priority - b.priority
+    return a.priority - b.priority || (
+      (a.name < b.name) ? -1 : 1
+    )
   })
   if (group) {
     return groupList(findHeaders(ret), group)

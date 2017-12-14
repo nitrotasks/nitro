@@ -162,7 +162,8 @@ export class combined extends Events {
       task.date.setSeconds(task.date.getSeconds()-1)
     } else if (task.list === 'next') {
       task.list = 'inbox'
-      task.type = 'next'
+      task.date = new Date()
+      task.date.setDate(task.date.getDate()+1)
     }
     const id = TasksCollection.add(task)
     // look up again because the list may have changed
