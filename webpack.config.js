@@ -25,6 +25,10 @@ const webpackConfig = {
     loaders: [
       { test: /\.(js|jsx)$/, loader: 'babel-loader' },
       {
+        test: /\.svg$/,
+        use: ['preact-svg-loader'],
+      }, 
+      {
         test: /\.scss$/,
         use: extractSass.extract({
           use: [{

@@ -207,11 +207,7 @@ export default class TasksHeader extends preact.Component {
     let listIcon = null
     if (['inbox', 'today', 'next', 'all'].indexOf(this.props.list) > -1) {
       listIcon = (
-        <img
-          class="icon"
-          src={'/img/icons/feather/' + this.props.list + '.svg'}
-          alt=""
-        />
+        <div class={'icon icon-' + this.props.list} />
       )
     }
 

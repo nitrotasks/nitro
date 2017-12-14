@@ -6,6 +6,25 @@ import { CombinedCollection } from '../models/combinedCollection.js'
 import authenticationStore from '../stores/auth.js'
 import ContextMenuStore from '../stores/contextmenu.js'
 import DialogBoxStore from '../stores/dialogbox.js'
+import { propsCompare } from '../helpers/compare.js'
+
+class SidebarItem extends preact.Component {
+  shouldComponentUpdate(nextProps) {
+    return propsCompare(this, nextProps)
+  }
+  render() {
+    const className = 'list-' + this.props.id + (this.props.selected ? ' selected' : '')
+    return (
+      <li class={className}>
+        <Link href={'/lists/' + this.props.id}>
+          <span class={'icon icon-' + this.props.id}></span>
+          <span class="label">{this.props.name}</span>
+          <span class="count">{this.props.count}</span>
+        </Link>
+      </li>
+    )
+  }
+}
 
 export default class Lists extends preact.Component {
   state = {
@@ -28,12 +47,9 @@ export default class Lists extends preact.Component {
   }
   // much faster than using preact-router?
   listChange = (list) => {
-    // mobile doesn't need this, so we can avoid an extra setState
-    if (document.documentElement.clientWidth >= 700) {
-      this.setState({
-        currentList: list
-      })
-    }
+    this.setState({
+      currentList: list
+    })
   }
   createList() {
     if (document.documentElement.clientWidth >= 700) {
@@ -81,24 +97,17 @@ export default class Lists extends preact.Component {
     let focus = []
     let lists = []
     this.state.lists.forEach((item) => {
-      const className = 'list-' + item.id + ((this.state.currentList === item.id) ? ' selected' : '')
-      const el = (
-        <li class={className}>
-          <Link href={'/lists/' + item.id}>
-            <span class="icon"></span>
-            <span class="label">{item.name}</span>
-            <span class="count">{item.count}</span>
-          </Link>
-        </li>
-      )
+      const selected = this.state.currentList === item.id
+      const el = <SidebarItem key={item.id} id={item.id} name={item.name} count={item.count} selected={selected} />
       if (item.id === 'inbox' || item.id === 'today' || item.id === 'next' || item.id === 'all') {
         focus.push(el)
       } else {
         lists.push(el)
       }
     })
+    const className = 'sidebar-container' + (this.state.currentList ? ' hide' : '')
     return (
-      <div class="sidebar-container">
+      <div class={className}>
         <header class="material-header main-nav"> 
           <h1 class="brand header-child header-left">
             <img src="/img/icons/logo.svg" alt="Nitro Logo" />

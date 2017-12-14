@@ -20,11 +20,12 @@ export default class Sortable extends preact.Component {
 
     this.state = {
       order: newState.order,
-      listTransforms: false
+      listTransforms: false,
+      renderLock: false,
     }
   }
-  componentWillReceiveProps(newProps) {
-    if (this.props.list !== newProps.list && JSON.stringify(newProps.listOrder) !== JSON.stringify(this.state.order)) {
+  componentWillReceiveProps(newProps) {    
+    if (this.props.list !== newProps.list) {
       const newState = this.updateProps(newProps)
       this.taskMap = newState.taskMap
 
@@ -36,14 +37,16 @@ export default class Sortable extends preact.Component {
       }
       const elementsToRender = Math.ceil(document.documentElement.clientHeight / taskHeight)
       this.setState({
-        order: newState.order.slice(0, elementsToRender)
+        order: newState.order.slice(0, elementsToRender),
+        renderLock: true
       })
       setTimeout(() => {
         this.setState({
-          order: newState.order.slice()
+          order: newState.order.slice(),
+          renderLock: false
         })
       }, timeout)
-    } else {
+    } else if (this.state.renderLock === false && JSON.stringify(newProps.listOrder) !== JSON.stringify(this.state.order)) {
       const newState = this.updateProps(newProps)
       this.taskMap = newState.taskMap
       this.setState({
@@ -449,7 +452,7 @@ export default class Sortable extends preact.Component {
               onDown={down}
               onMove={move}
               onUp={up}
-              onClick={click(task.id)}
+              // onClick={click(task.id)}
               // best way to clean out the style prop
               ref={el => {
                 if (el) el.base.style.transform = ''

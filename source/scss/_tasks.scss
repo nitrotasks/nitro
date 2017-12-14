@@ -22,7 +22,7 @@ $background-speed: 400ms;
 
 @media (min-width: $tablet-breakpoint) {
   body {
-    transition: $background-speed ease background-color;
+    transition: $background-speed $fancy-curve background-color;
     &.selected-task {
       background-color: $selected-color;  
     }
@@ -241,6 +241,9 @@ $background-speed: 400ms;
       vertical-align: top;
       width: 2rem;
       height: 2rem;
+      display: inline-block;
+      background-repeat: no-repeat;
+      background-size: 2rem;
     }
 
     @media (min-width: $tablet-breakpoint) {
@@ -251,8 +254,9 @@ $background-speed: 400ms;
       margin: $indent-width / 2 $indent-width / 2 0.15rem;
 
       .icon {
-        width: 2.3rem; // this random number helps with the aliasing
-        height: auto;
+        width: 2.25rem; // this random number helps with the aliasing
+        height: 2.25rem;
+        background-size: 2.25rem;
         margin: 0.6rem 0.2rem 0 0;
       }
     }

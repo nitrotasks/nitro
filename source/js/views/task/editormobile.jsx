@@ -2,12 +2,13 @@ import preact from 'preact'
 import Datepicker from './datepicker.jsx'
 import { dateValue, deadlineValue } from '../../helpers/date.js'
 import { TasksCollection } from '../../models/tasksCollection.js'
+import { shallowCompare } from '../../helpers/compare.js'
 
 export default class TasksEditor extends preact.Component {
   constructor(props) {
     super(props)
     this.state = this.installState(props)
-    this.state.animate = false
+    this.state.animate = props.task !== ''
     this.state.noRender = false
     this.state.datepicker = true
   }
@@ -16,21 +17,26 @@ export default class TasksEditor extends preact.Component {
     window.addEventListener('resize', this.showEditorCb)
     this.showEditorCb()
   }
+  shouldComponentUpdate(newProps, newState) {
+    return shallowCompare(this, newProps, newState)
+  }
   componentWillReceiveProps(newProps) {
-    const newState = this.installState(newProps)
-    newState.datepicker = false
-    requestAnimationFrame(() => {
+    if (newProps.task !== this.props.task) {
+      const newState = this.installState(newProps)
+      newState.datepicker = false
       this.setState(newState)
-    })
 
-    setTimeout(() => {
-      this.setState({
-        datepicker: true
-      })
-    }, 500)
+      if (newProps.task !== '') {
+        setTimeout(() => {
+          this.setState({
+            datepicker: true
+          })
+        }, 500)
+      }
+    }
   }
   installState(props) {
-    if (props.task === '' || !('task' in props)) {
+    if (props.task === '') {
       return {
         showEditor: false
       }
@@ -123,6 +129,7 @@ export default class TasksEditor extends preact.Component {
             onKeyUp={this.triggerKeyUp}
           />
         </header>
+        <br /><br /><br /><br />
         <Datepicker
           position={datepicker}
           onSelect={this.triggerDate}

@@ -7,7 +7,6 @@ import { CombinedCollection } from './models/combinedCollection.js'
 
 import Lists from './views/lists.jsx'
 import Tasks from './views/task/index.jsx'
-import TasksEditor from './views/task/editormobile.jsx'
 import { NotFound } from './views/notfound.jsx'
 import Login from './views/login.jsx'
 import ContextMenu from './views/contextmenu.jsx'
@@ -23,10 +22,6 @@ const App = () => (
         <NotFound default />
       </Router>
     </div>
-    <Router>
-      <TasksEditor path="/" />
-      <TasksEditor path="/lists/:list/:task?" />
-    </Router>
     <Login />
     <ContextMenu />
     <DialogBox />

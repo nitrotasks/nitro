@@ -8,6 +8,15 @@
     background: linear-gradient($neutral-back-color-transparent, #fff);
     border-right: 1px solid rgba(0,0,0,0.1);
   }
+
+  @media (max-width: $tablet-breakpoint - 1) {
+    // background: #0f0;
+    transition: $default-timing $fancy-curve transform;
+
+    &.hide {
+      transform: translate3d(-25vw, 0, 0);
+    }
+  }
 }
 
 .brand {
@@ -182,7 +191,6 @@
       background-repeat: no-repeat;
       background-position: 50%;
       background-size: 1.5rem;
-      background-image: $list-icon;
     }
 
     .label {
@@ -254,20 +262,24 @@
     }    
   }
 
-  .list-inbox .icon {
-    background-image: $inbox-icon;
-  }
-  .list-today .icon {
-    background-image: $today-icon;
-  }
-  .list-next .icon {
-    background-image: $next-icon;
-  }
-  .list-all .icon {
-    background-image: $all-icon;
-  }
-
   .list-today, .list-all + li {
     margin-top: 0.625rem;
   }
+}
+
+.icon {
+  background-image: $list-icon;
+}
+
+.icon-inbox {
+  background-image: $inbox-icon;
+}
+.icon-today {
+  background-image: $today-icon;
+}
+.icon-next {
+  background-image: $next-icon;
+}
+.icon-all {
+  background-image: $all-icon;
 }

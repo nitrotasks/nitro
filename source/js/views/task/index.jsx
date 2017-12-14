@@ -6,6 +6,7 @@ import { back } from '../../stores/navigation.js'
 import { NotFound } from '../notfound.jsx'
 import Header from './header.jsx'
 import Sortable from './sortable.jsx'
+import TasksEditor from './editormobile.jsx'
 
 const defaultList = 'inbox'
 
@@ -108,6 +109,7 @@ export default class Tasks extends preact.Component {
       newProps.list = nextProps.list
       newProps.order = tasks.order
     } else {
+      CombinedCollection.trigger('list-change', null)
       newProps.disposing = true
     }
     return newProps
@@ -214,6 +216,7 @@ export default class Tasks extends preact.Component {
             </footer>
           </div>
         </div>
+        <TasksEditor task={this.props.task || ''} />
       </div>
     )
   }
