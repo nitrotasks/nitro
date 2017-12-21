@@ -2,11 +2,13 @@ import preact from 'preact'
 
 import { CombinedCollection } from '../../models/combinedCollection.js'
 import { back } from '../../stores/navigation.js'
+import { taskExpandedStore } from '../../stores/taskexpanded.js'
 
 import { NotFound } from '../notfound.jsx'
 import Header from './header.jsx'
 import Sortable from './sortable.jsx'
 import TasksEditor from './editormobile.jsx'
+import TasksPopover from './editordesktop.jsx'
 
 const defaultList = 'inbox'
 
@@ -23,10 +25,6 @@ export default class Tasks extends preact.Component {
   }
   componentDidMount() {
     window.addEventListener('resize', this.windowResize)
-
-    if (this.state.selectedTask !== null) { 
-      document.body.classList.add('selected-task')
-    }
   }
   componentWillUnmount() {
     CombinedCollection.unbind('update', this.update)
@@ -46,12 +44,19 @@ export default class Tasks extends preact.Component {
     if (typeof nextProps.list !== 'undefined' && nextProps.list !== this.state.list && this.state.list !== 'notfound') {
       window.scroll(0,0)
       this.mobileScroll.scrollTop = 0
+      taskExpandedStore.create(null, 0)
     }
     if (this.state.selectedTask !== state.selectedTask) {
       if (state.selectedTask === null) { 
-        document.body.classList.remove('selected-task')
+        requestAnimationFrame(() => {
+          document.body.classList.remove('selected-task')
+        })
       } else {
-        document.body.classList.add('selected-task')
+        setTimeout(() => {
+          requestAnimationFrame(() => {
+            document.body.classList.add('selected-task')
+          })
+        }, 250)
       }
     }
     this.setState(state)
@@ -94,6 +99,9 @@ export default class Tasks extends preact.Component {
       if (!nextProps.list) {
         nextProps.list = defaultList
       }
+    }
+    if (nextProps.list === this.state.list) {
+      return newProps
     }
     if (nextProps.list) {
       const tasks = CombinedCollection.getTasks(nextProps.list)
@@ -217,6 +225,7 @@ export default class Tasks extends preact.Component {
           </div>
         </div>
         <TasksEditor task={this.props.task || ''} />
+        <TasksPopover task={this.props.task || ''} />
       </div>
     )
   }

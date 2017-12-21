@@ -3,7 +3,9 @@ let history = []
 export function log() {
   const args = Array.from(arguments)
   history.push([new Date(), 'log', args.join(' '), args])
-  console.log('%c' + args.join(' '), 'background: #ececec; color: #3a7df8;')
+  if (process.env.NODE_ENV !== 'test') {
+    console.log('%c' + args.join(' '), 'background: #ececec; color: #3a7df8;')
+  }
 }
 export function warn() {
   const args = Array.from(arguments)

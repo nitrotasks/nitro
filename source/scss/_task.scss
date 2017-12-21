@@ -11,13 +11,8 @@ $speed: $task-expand-speed;
 .task-item, .header-item {
   cursor: default;
   @include user-select(none);
-
-  .outer {
-    display: flex;
-    width: 100%;
-    padding: 0 $indent-width 0 $indent-width - 0.5rem;
-    box-sizing: border-box;
-  }
+  display: flex;
+  box-sizing: border-box;
 }
 
 
@@ -26,42 +21,39 @@ $speed: $task-expand-speed;
   line-height: 2.5rem;
   padding: $indent-width $indent-width 0.5rem;
 
-  .outer {
-    padding: 0;
+  input {
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid #ddd;
+    font-weight: bold;
+    padding: $indent-width / 2 0 $indent-width / 2 0;
+    flex: 1;
+    outline: 0;
+    border-radius: 0;
+    line-height: 1rem;
 
-    input {
-      background: transparent;
-      border: 0;
-      border-bottom: 1px solid #ddd;
-      font-weight: bold;
-      padding: $indent-width / 2 0 $indent-width / 2 0;
-      flex: 1;
-      outline: 0;
-      border-radius: 0;
-
-      &:disabled {
-        color: inherit;
-        opacity: 1;
-        -webkit-text-fill-color: #000;
-      }
-
-      &:hover:not(:disabled) {
-        border-color: rgba($brand-color, 0.3);
-      }
-      &:focus {
-        border-color: rgba($brand-color, 0.8);
-      }
+    &:disabled {
+      color: inherit;
+      opacity: 1;
+      -webkit-text-fill-color: #000;
     }
 
-    button {
-      @include button-blank();
-      position: absolute;
-      right: 0;
-      padding: 0.25rem 0.5rem 0.25rem 2rem;
+    &:hover:not(:disabled) {
+      border-color: rgba($brand-color, 0.3);
+    }
+    &:focus {
+      border-color: rgba($brand-color, 0.8);
+    }
+  }
 
-      &:hover {
-        opacity: 0.7;
-      }
+  button {
+    @include button-blank();
+    position: absolute;
+    right: 0;
+    padding: 0.25rem 0.5rem 0.25rem 2rem;
+
+    &:hover {
+      opacity: 0.7;
     }
   }
 
@@ -76,25 +68,24 @@ $speed: $task-expand-speed;
   }
 }
 
-@media (min-width: $tablet-breakpoint) {
-  .offset-down {
-    transform: translate3d(0, 150px, 0);
-    position: relative;
-    z-index: 0;
-  }
+.offset-down {
+  transform: translate3d(0, 150px, 0);
+}
+.no-transition {
+  transition-duration: 0ms !important;
 }
 
 .selected-task, .selected-task-hide {
   .header-item, .task-item {
-    transition: $speed ease transform;
+    transition: $speed $fancy-curve transform, $speed $fancy-curve opacity;
   }
 }
 
 .task-item {
   $radius: 3px;
   font-size: 1rem;
-  padding: 0;
   margin: 0;
+  padding: 0 $indent-width 0 $indent-width - 0.5rem;
   height: $task-height;
 
   @media (pointer: fine) {
@@ -122,39 +113,23 @@ $speed: $task-expand-speed;
     
 
     &.expanded {
-      position: relative;
-      z-index: 1;
-      background: #fff;
+      // position: relative;
+      // z-index: 1;
+      // background: #fff;
       transform: translate3d(0, 16px, 0);
-      border-radius: $radius $radius 0 0;
+      opacity: 0;
+      // border-radius: $radius $radius 0 0;
 
-      .inner {
-        height: 105px;
-        border: 1px solid;
-        border-top: 0;
-        border-radius: 0 0 $radius $radius;
-      }
-      .inner, .outer {
-        animation: 250ms ease border-color-nice 1;
-        border-color: #e5e6e9 #dfe0e4 #d0d1d5;
-      }
-    }
-    @keyframes border-color-nice {
-      0% {
-        border-color: #fff;
-      }
-      100% {
-        border-color: #e5e6e9 #dfe0e4 #d0d1d5;
-      }
-    }
-
-    &.closing {
-      background: #fff;
-      .inner {
-        border: 1px solid transparent;
-        border-top: 0;
-        border-radius: 0 0 $radius $radius;
-      }
+      // .inner {
+      //   height: 105px;
+      //   border: 1px solid;
+      //   border-top: 0;
+      //   border-radius: 0 0 $radius $radius;
+      // }
+      // .inner, .outer {
+      //   animation: 250ms ease border-color-nice 1;
+      //   border-color: #e5e6e9 #dfe0e4 #d0d1d5;
+      // }
     }
 
     .outer {
@@ -165,8 +140,6 @@ $speed: $task-expand-speed;
 
     .inner {
       background: #fff;
-      height: 0px;
-      transition: $speed ease height;
       overflow: hidden;
       border: 0;
       border-color: #fff;

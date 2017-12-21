@@ -3,7 +3,7 @@
     // display: grid;
     // grid-template-columns: 300px 1fr;
     .sidebar-container {
-      width: 350px;
+      width: $sidebar-width;
       position: fixed;
       left: 0;
       top: 0;

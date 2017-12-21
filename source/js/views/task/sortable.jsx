@@ -3,6 +3,7 @@ import preact from 'preact'
 import Task from './taskitem.jsx'
 import { go, back } from '../../stores/navigation.js'
 import { CombinedCollection } from '../../models/combinedCollection.js'
+import { shallowCompare } from '../../helpers/compare.js'
 
 const pressDelay = 500
 
@@ -22,6 +23,7 @@ export default class Sortable extends preact.Component {
       order: newState.order,
       listTransforms: false,
       renderLock: false,
+      jumpAnimations: false,
     }
   }
   componentWillReceiveProps(newProps) {    
@@ -51,22 +53,18 @@ export default class Sortable extends preact.Component {
       this.setState({
         order: newState.order.slice()
       })
+    } else if (newProps.task !== this.props.task) {
+      setTimeout(() => {
+        this.setState({
+          jumpAnimations: newProps.task !== ''
+        })
+      }, 300)
     }
   }
   shouldComponentUpdate(nextProps, nextState) {
-    if (this.props.task !== nextProps.task && document.documentElement.clientWidth >= 700) {
-      return true
+    if (shallowCompare(this, nextProps, nextState) === false) {
+      return false
     }
-    if (nextState.listTransforms !== this.state.listTransforms) {
-      return true
-    }
-    // just a quick comparison to avoid json ops every time
-    // if (nextState.order.length === this.state.order.length) {
-    //   if (JSON.stringify(nextState.order) === JSON.stringify(this.state.order)) {
-    //     return false
-    //   }
-    // }
-    // return true
   }
   updateProps(props) {
     const taskMap = new Map()
@@ -424,12 +422,22 @@ export default class Sortable extends preact.Component {
       click = this.onClick
     }
     const minimalRender = document.documentElement.clientWidth < 700
+    const offsetThreshold = Math.ceil(document.documentElement.clientHeight / 40)
+    let offsetCount = 0
     return (
       <ul className={className}>
         {this.state.order.map(item => {
           const task = this.taskMap.get(item)
-          if (this.props.task === task.id && window.innerWidth >= 700) {
+          offsetCount++
+          if (this.props.task === task.id && !minimalRender) {
             shouldMove = true
+            offsetCount = 0
+          } else if (shouldMove && offsetCount > offsetThreshold) {
+            if (this.state.jumpAnimations === true) {
+              shouldMove = 'little'
+            } else {
+              shouldMove = false
+            }
           }
           if (task.type === 'header') {
             currentHeading = item
@@ -442,7 +450,7 @@ export default class Sortable extends preact.Component {
               data={task}
               currentList={this.props.list}
               currentHeading={currentHeading}
-              selectedTask={this.props.task}
+              selectedTask={this.props.task === task.id}
               headersAllowed={headersAllowed}
               shouldMove={shouldMove}
               minimalRender={minimalRender}

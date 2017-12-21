@@ -10,12 +10,12 @@ body {
   background: $neutral-back-color;
 
   @media (min-width: $tablet-breakpoint) {
+    overflow-y: scroll;
     background: #fff;
   }
 }
 body, input, button, textarea {
   font-family: $font-family;
-  font-display: optional;
   // overflow-x: hidden;
 }
 a {

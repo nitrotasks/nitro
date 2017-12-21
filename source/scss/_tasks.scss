@@ -15,16 +15,15 @@
   }
 }
 
+
 $selected-color: lighten($neutral-back-color, 2);
 $tablet-max-width: 92%;
 $desktop-max-width: 92%;
-$background-speed: 400ms;
 
 @media (min-width: $tablet-breakpoint) {
   body {
-    transition: $background-speed $fancy-curve background-color;
     &.selected-task {
-      background-color: $selected-color;  
+      background-color: $selected-color;
     }
   }
 }
@@ -191,7 +190,7 @@ $background-speed: 400ms;
   $speed: 200ms;
   h1 {
     -webkit-transform: translate3d(0,0,0);
-    margin: $indent-width / 3 $indent-width;
+    margin: $indent-width / 4 $indent-width;
     position: relative;
     overflow: hidden;
     font-size: 2rem;
@@ -199,7 +198,7 @@ $background-speed: 400ms;
     input {
       font-weight: 900;
       border: 0;
-      padding: $indent-width / 2 $indent-width / 3 $indent-width / 2 $indent-width / 2;
+      padding: $indent-width / 2 $indent-width / 4 $indent-width / 2 $indent-width / 2;
       background: transparent;
       outline: 0;
       transition: 150ms ease background;
@@ -251,7 +250,7 @@ $background-speed: 400ms;
       transition: $speed ease-out transform;
       font-size: 2.25rem;
       line-height: $header-height - 0.5rem;
-      margin: $indent-width / 2 $indent-width / 2 0.15rem;
+      margin: $indent-width / 2 $indent-width / 2 $indent-width / 4;
 
       .icon {
         width: 2.25rem; // this random number helps with the aliasing
@@ -308,7 +307,7 @@ $background-speed: 400ms;
   padding: 0.5rem 0.75rem;
   outline: 0;
   font-size: 0.9rem;
-  line-height: 1.1rem;
+  line-height: 1rem;
   transition: $timing ease border-color, $timing ease background-color;
   box-shadow: none;
   
@@ -366,9 +365,16 @@ $background-speed: 400ms;
   padding: 0 0 $indent-width / 2;
   list-style-type: none;
   position: relative;
+  z-index: 1;
 
   @media (max-width: $tablet-breakpoint - 1) {
     padding-bottom: $indent-width
+  }
+}
+
+.selected-task {
+  .tasks-list {
+    pointer-events: none;
   }
 }
 

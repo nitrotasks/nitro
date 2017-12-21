@@ -7,6 +7,7 @@ $task-height: 2.5rem;
 $task-height-mobile: 2.75rem;
 $footer-height: 2.75rem;
 
+$sidebar-width: 350px;
 $sidebar-width-small: 20rem;
 $sidebar-width-desktop: 24rem;
 
@@ -21,6 +22,7 @@ $line-color: rgba(#000, 0.12);
 $default-timing: 300ms;
 $default-curve: ease;
 $task-expand-speed: 200ms;
+$background-speed: 200ms;
 $fancy-curve: cubic-bezier(.10, .10, .25, .90);
 
 $mobile-breakpoint: 480px;

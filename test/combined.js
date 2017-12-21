@@ -90,11 +90,10 @@ describe('combined collection', function() {
       assert.notEqual(retrieved.date, null)
       CombinedCollection.deleteTask(task.id)
     })
-    it('adding a task in next should add in inbox, with type', function() {
+    it('adding a task in next should add in inbox, with a date', function() {
       const task = CombinedCollection.addTask({ name: 'A task', list: 'next' })
       const retrieved = CombinedCollection.getTask(task.id)
       assert.equal(retrieved.list, 'inbox')
-      assert.equal(retrieved.type, 'next')
       CombinedCollection.deleteTask(task.id)
     })
     it('should be able to get a task', function() {

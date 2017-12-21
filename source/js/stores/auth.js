@@ -18,7 +18,7 @@ class AuthenticationStore extends Events {
         this.refreshToken = data
       }
       this.trigger('sign-in-status')
-      if (navigator.onLine) {
+      if (typeof navigator !== 'undefined' && navigator.onLine) {
         this.getToken().catch((err) => {
           if (err.status === 401) {
             alert('You have been signed out.')

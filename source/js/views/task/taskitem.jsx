@@ -1,23 +1,20 @@
 import preact from 'preact'
 
+import { shallowCompare } from '../../helpers/compare.js'
 import { formatDate } from '../../helpers/date.js'
 import { TasksCollection } from '../../models/tasksCollection.js'
 import { CombinedCollection } from '../../models/combinedCollection.js'
-import TaskExpanded from './taskexpanded.jsx'
 import { taskMenu, headerMenu } from './contextmenu.jsx'
+import { taskExpandedStore } from '../../stores/taskexpanded.js'
 
 export default class Task extends preact.Component {
   constructor(props) {
     super(props)
     this.state = this.installState(props.data, false)
-    this.state.expanded = props.selectedTask === props.data.id
+    this.state.expanded = props.selectedTask
   }
   componentDidMount() {
     TasksCollection.bind('updateTask', this.triggerUpdate)
-    if (this.state.expanded) {
-      window.addEventListener('resize', this.handleResize)
-      this.handleResize()
-    }
   }
   componentWillUnmount() {
     TasksCollection.unbind('updateTask', this.triggerUpdate)
@@ -63,8 +60,7 @@ export default class Task extends preact.Component {
       list: data.list,
       date: data.date,
       deadline: data.deadline,
-      completed: data.completed,
-      noRender: false
+      completed: data.completed
     }
   }
   triggerKeyUp = e => {
@@ -73,42 +69,20 @@ export default class Task extends preact.Component {
     }
   }
   componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.selectedTask === nextProps.data.id &&
-      this.state.expanded === false
-    ) {
-      requestAnimationFrame(() => {
-        this.setState({ expanded: true })
-        this.handleResize()
-        window.addEventListener('resize', this.handleResize)
-
-        // requestAnimationFrame(() => {
-        // this.taskInput.focus()
-        // }, 250)
-      })
-    } else if (
-      nextProps.selectedTask !== nextProps.data.id &&
-      this.state.expanded === true
-    ) {
+    if (nextProps.selectedTask && this.state.expanded === false) {
+      this.setState({ expanded: true })
+      const rect = this.el.getBoundingClientRect()
+      taskExpandedStore.create(this.props.data.id, rect.top)
+    } else if (!nextProps.selectedTask && this.state.expanded === true) {
       setTimeout(() => {
         requestAnimationFrame(() => {
           this.setState({ expanded: false })
-          window.removeEventListener('resize', this.handleResize)
         })
       }, 275)
     }
   }
-  handleResize = () => {
-    // doesn't render the expanded task if the width is too small
-    if (window.innerWidth < 700 && this.state.noRender === false) {
-      this.setState({
-        noRender: true
-      })
-    } else if (window.innerWidth >= 700 && this.state.noRender === true) {
-      this.setState({
-        noRender: false
-      })
-    }
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
   }
   triggerMenu = e => {
     const rect = e.currentTarget.getBoundingClientRect()
@@ -171,12 +145,15 @@ export default class Task extends preact.Component {
   }
   render() {
     let className = 'task-item'
-    if (this.props.selectedTask === this.props.data.id) {
+    if (this.props.selectedTask) {
       className += ' expanded'
     } else if (this.state.expanded === true) {
       className += ' closing'
     } else if (this.props.shouldMove) {
       className += ' offset-down'
+      if (this.props.shouldMove === 'little') {
+        className += ' no-transition'
+      }
     }
     if (this.state.completed !== null) {
       className += ' completed'
@@ -184,10 +161,7 @@ export default class Task extends preact.Component {
 
     let label = null
     let indicators = [null, null]
-    if (
-      this.state.type === 'header' ||
-      (this.state.expanded && !this.state.noRender)
-    ) {
+    if (this.state.type === 'header') {
       label = (
         <input
           value={this.state.name}
@@ -209,15 +183,6 @@ export default class Task extends preact.Component {
         </div>
       )
     }
-    
-    let expanded = null 
-    if (!this.props.minimalRender) {
-      expanded = <TaskExpanded
-        task={this.props.data.id}
-        expanded={this.state.expanded && !this.state.noRender}
-        headersAllowed={this.props.headersAllowed}
-      />
-    }
 
     if (this.state.type === 'header') {
       className = className.replace('task-item', 'header-item')
@@ -231,10 +196,8 @@ export default class Task extends preact.Component {
       }
       return (
         <li class={className} onContextMenu={this.onContextMenu}>
-          <div class="outer">
-            {label}
-            {menu}
-          </div>
+          {label}
+          {menu}
         </li>
       )
     } else {
@@ -247,14 +210,12 @@ export default class Task extends preact.Component {
           onTouchEnd={this.props.onUp}
           onTouchCancel={this.props.onUp}
           onContextMenu={this.onContextMenu}
+          ref={e => this.el = e}
         >
-          <div class="outer">
-            <div class="check" onClick={this.triggerCheck}>
-              <div class="box" />
-            </div>
-            {label}
+          <div class="check" onClick={this.triggerCheck}>
+            <div class="box" />
           </div>
-          {expanded}
+          {label}
         </li>
       )
     }
