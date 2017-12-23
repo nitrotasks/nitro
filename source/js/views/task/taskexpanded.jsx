@@ -13,6 +13,16 @@ export default class TaskExpanded extends preact.Component {
   }
   componentWillMount() {
     const task = CombinedCollection.getTask(this.props.task)
+    if (task === null) return
+    this.setState({
+      date: task.date,
+      deadline: task.deadline,
+      notes: task.notes
+    })
+  }
+  componentWillReceiveProps() {
+    const task = CombinedCollection.getTask(this.props.task)
+    if (task === null) return
     this.setState({
       date: task.date,
       deadline: task.deadline,

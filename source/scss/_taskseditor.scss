@@ -50,10 +50,11 @@ $curve: ease;
 		display: none;
 	}
 
-	&.hide {
-		opacity: 0;
-		pointer-events: none;
-	}
+}
+
+.tasks-pane:not(.selected-task) .tasks-popover-desktop-wrapper {
+	opacity: 0;
+	pointer-events: none;
 }
 
 
@@ -61,13 +62,13 @@ $curve: ease;
 	position: absolute;
 	top: 0;
 	left: 0;
-	height: 130px;
+	height: 150px;
 	transition: $task-expand-speed $curve transform;
-	margin-top: 20px;
+	margin-top: 14px;
 	width: 100%;
 }
 
-.hide .tasks-popover-desktop {
+.tasks-pane:not(.selected-task) .tasks-popover-desktop {
 	transform: translate3d(0, -16px, 0);
 }
 
@@ -79,9 +80,14 @@ $curve: ease;
 	box-sizing: border-box;
 	
 	.content {
-		height: 130px;
+		height: 150px;
 		border: 1px solid $line-color;
-		padding: 7px;
+		display: block;
+		padding: 0 5px;
+
+		.outer {
+			display: flex;
+		}
 	}
 }
 
@@ -91,10 +97,10 @@ $curve: ease;
 	width: 100%;
 	background: $selected-color;
 	position: absolute;
-	top: 130px;
+	top: 149px;
 	transition: $task-expand-speed $curve transform;
 }
 
-.hide .bottom-hider {
+.tasks-pane:not(.selected-task) .bottom-hider {
 	transform: translate3d(0, -100px, 0);
 }

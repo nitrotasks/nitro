@@ -407,8 +407,8 @@ export default class Sortable extends preact.Component {
       CombinedCollection.getList(this.props.list).mutable.indexOf(
         'no-headings'
       ) === -1
-    const className =
-      'tasks-list' + (this.state.listTransforms ? ' tasks-transition' : '')
+    let className = 'tasks-list' + (this.state.listTransforms ? ' tasks-transition' : '')
+    className += this.state.jumpAnimations ? ' jump-animations' : ''
     let shouldMove = false
     let currentHeading = ''
 

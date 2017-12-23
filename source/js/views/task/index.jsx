@@ -49,12 +49,12 @@ export default class Tasks extends preact.Component {
     if (this.state.selectedTask !== state.selectedTask) {
       if (state.selectedTask === null) { 
         requestAnimationFrame(() => {
-          document.body.classList.remove('selected-task')
+          document.body.classList.remove('selected-task-bg')
         })
       } else {
         setTimeout(() => {
           requestAnimationFrame(() => {
-            document.body.classList.add('selected-task')
+            document.body.classList.add('selected-task-bg')
           })
         }, 250)
       }
@@ -101,6 +101,7 @@ export default class Tasks extends preact.Component {
       }
     }
     if (nextProps.list === this.state.list) {
+      newProps.disposing = false
       return newProps
     }
     if (nextProps.list) {
@@ -204,7 +205,7 @@ export default class Tasks extends preact.Component {
         ref={e => this.desktopScroll = e}
       >
         <div class="tasks-content" ref={e => this.mobileScroll = e}>
-          <div class="tasks-scrollwrap">
+          <div class="tasks-scrollwrap" onClick={this.closeTasks}>
             <div id="tasks-sticky-helper" class="tasks-sticky-helper" />
             <Header
               stickyScale={this.state.stickyScale}

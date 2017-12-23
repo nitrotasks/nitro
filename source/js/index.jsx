@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
   })
 
   Promise.all(polyfill()).then(() => {
+    window.history.scrollRestoration = 'manual'
     const elem = document.getElementById('app-shell')
     elem.innerHTML = ''
 
