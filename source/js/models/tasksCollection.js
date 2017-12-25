@@ -49,7 +49,7 @@ export class tasks extends Events {
     this.trigger('update')
     this.saveLocal()
   }
-  archiveMultiple(taskIds, listId, listName, signedIn = false) {
+  archiveMultiple(taskIds, listId, listName, signedIn = false, headers = null) {
     return new Promise(resolve => {
       const archiveDelete = []
       const archiveId = []
@@ -63,7 +63,9 @@ export class tasks extends Events {
         archiveId.push(resource.serverId)
         const obj = resource.toObject()
         obj.list = listName
-        // TODO: Archive Heading
+        if (headers !== null) {
+          obj.header = headers[task]
+        }
         archiveData.push(obj)
       })
 

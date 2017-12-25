@@ -139,11 +139,27 @@ $desktop-max-width: 92%;
     position: sticky;
     top: -1px;
     background: #fff;
-    transition: $background-speed ease background-color;
+    // transition: $background-speed ease background-color;
     z-index: 2;
+
+    &::before {
+      content: '';
+      position: absolute;
+      background: $selected-color;
+      height: 100%;
+      width: 100%;
+      z-index: -1;
+      transition: $background-speed ease opacity;
+      opacity: 0;
+      will-change: opacity;
+    }
   }
   .selected-task .tasks-sticky-container {
-    background-color: $selected-color;
+    // background-color: $selected-color;
+
+    &::before {
+      opacity: 1;
+    }
   }
 
   .scale-header {

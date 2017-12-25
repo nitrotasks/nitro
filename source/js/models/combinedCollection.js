@@ -206,6 +206,20 @@ export class combined extends Events {
     this.updateOrder(listId, order, false)
     ListsCollection.saveLocal()
   }
+  _getHeaders(list): Object {
+    const tasks = this.getTasks(list)
+    let currentHeader = null
+    let headers = {}
+    if (tasks === null) return {}
+    tasks.order.forEach(taskId => {
+      const task = this.getTask(taskId)
+      if (task.type === 'header') {
+        currentHeader = task.name
+      }
+      headers[taskId] = currentHeader
+    })
+    return headers
+  }
   completeTask(id: string, server: ?bool) {
     const task = this.getTask(id, server)
     if (task === null) throw new Error('Task could not be found')
@@ -220,10 +234,12 @@ export class combined extends Events {
     if (list === null) throw new Error('List could not be found?')
 
     if (task.serverId === null && signedin === true) throw new Error('Cannot archive an unsynced task')
+    let headers = null
     if (!signedin) {
+      headers = this._getHeaders(task.list)
       this._removeFromList([task.id], task.list)
     }
-    return TasksCollection.archiveMultiple([task.id], list.id, list.name, signedin)
+    return TasksCollection.archiveMultiple([task.id], list.id, list.name, signedin, headers)
   }
   archiveHeading(id: string, server: ?bool) {
     const task = this.getTask(id, server)
@@ -253,11 +269,12 @@ export class combined extends Events {
       }
       return started
     })
-
+    let headings = null
     if (!signedin) {
+      headings = this._getHeaders(task.list)
       this._removeFromList(toArchive, task.list)
     }
-    return TasksCollection.archiveMultiple(toArchive, task.list, list.name, signedin)
+    return TasksCollection.archiveMultiple(toArchive, task.list, list.name, signedin, headings)
   }
   archiveCompletedList(id: string, server: ?bool) {
     const list = this.getList(id)
@@ -273,10 +290,12 @@ export class combined extends Events {
     }).map(task => task.id)
     
     // looks through the list and checks the order
+    let headers = null
     if (!signedin) {
+      headers = this._getHeaders(id)
       this._removeFromList(toArchive, id)
     }
-    return TasksCollection.archiveMultiple(toArchive, id, list.name, signedin)
+    return TasksCollection.archiveMultiple(toArchive, id, list.name, signedin, headers)
   }
   deleteTask(id: string, server: ?bool) {
     const task = this.getTask(id, server)
