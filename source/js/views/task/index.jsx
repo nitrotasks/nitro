@@ -101,6 +101,7 @@ export default class Tasks extends preact.Component {
       }
     }
     if (nextProps.list === this.state.list) {
+      CombinedCollection.trigger('list-change', nextProps.list)
       newProps.disposing = false
       return newProps
     }

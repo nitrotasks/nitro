@@ -5,7 +5,10 @@
 	right: 0;
 	bottom: 0;
 	z-index: 100;
-	// overflow: hidden;
+
+	@media (max-width: $tablet-breakpoint - 1) {
+		overflow: hidden;
+	}
 
 	&.hide {
 		opacity: 0;

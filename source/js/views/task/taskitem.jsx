@@ -129,14 +129,14 @@ export default class Task extends preact.Component {
       }
     }
 
-    if (this.state.date !== null) {
+    if (this.state.date !== null && this.state.completed === null) {
       const date = formatDate(this.state.date, this.state.type, 'today')
       // doesn't today on today list, or under today heading, or on completed tasks. also doesn't show overdue pill.
       if (date === 'Today') {
         if (this.props.currentList !== 'today' && this.props.currentHeading !== 'today') {
           frontIndicators.push(<span class="front-indicator indicator-today" />)
         }
-      } else if (this.props.currentHeading !== 'overdue' && this.state.completed === null) {
+      } else if (this.props.currentHeading !== 'overdue') {
         indicators.push(<span class="indicator indicator-date">{date}</span>)
       }
     }
@@ -174,9 +174,6 @@ export default class Task extends preact.Component {
           value={this.state.name}
           onChange={this.triggerChange('name')}
           onKeyUp={this.triggerKeyUp}
-          ref={input => {
-            this.taskInput = input
-          }}
           disabled={!this.props.headersAllowed && this.state.type === 'header'}
         />
       )

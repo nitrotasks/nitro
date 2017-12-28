@@ -13,9 +13,14 @@ class TasksPopover extends preact.Component {
   }
   componentDidMount() {
     taskExpandedStore.bind('create', this.triggerCreate)
+    CombinedCollection.bind('update', this.triggerUpdate)
   }
   componentWillUnmount() {
     taskExpandedStore.unbind('create', this.triggerCreate)
+    CombinedCollection.bind('update', this.triggerUpdate)
+  }
+  triggerCheck = () => {
+    CombinedCollection.completeTask(this.state.data.id)
   }
   triggerCreate = props => {
     const opacity = props[0] === null ? 'hidden' : 'visible'
@@ -29,6 +34,22 @@ class TasksPopover extends preact.Component {
       })
     })
   }
+  triggerUpdate = key => {
+    if (key === 'tasks') {
+      this.setState({
+        data: CombinedCollection.getTask(this.state.data.id) || {}
+      })
+    }
+  }
+  triggerKeyUp = e => {
+    if (e.keyCode === 13) {
+      e.currentTarget.blur()
+    }
+  }
+  triggerChange = (e) => {
+    const value = e.currentTarget.value
+    CombinedCollection.updateTask(this.state.data.id, { name: value })
+  }
   closeTasks = e => {
     if (e.target === e.currentTarget) {
       if (window.location.pathname.split('/').length === 4) {
@@ -38,6 +59,10 @@ class TasksPopover extends preact.Component {
   }
   render() {
     const visibility = this.state.opacity
+    let className = 'content task-item'
+    if (this.state.data.completed !== null) {
+      className += ' completed'
+    }
     return (
       <div
         class="tasks-popover-desktop-wrapper"
@@ -46,12 +71,18 @@ class TasksPopover extends preact.Component {
       >
         <div class="tasks-popover-desktop" style={{ top: this.state.top }}>
           <div class="tasks-popover-content">
-            <div class="content task-item">
+            <div class={className}>
               <div class="outer">
-                <div class="check">
+                <div class="check" onClick={this.triggerCheck}>
                   <div class="box" />
                 </div>
-                <div class="label">{this.state.data.name}</div>
+                <input 
+                  type="text"
+                  class="label"
+                  value={this.state.data.name} 
+                  onChange={this.triggerChange}
+                  onKeyUp={this.triggerKeyUp}
+                />
               </div>
               <TaskExpanded expanded={true} task={this.props.task} />
             </div>
