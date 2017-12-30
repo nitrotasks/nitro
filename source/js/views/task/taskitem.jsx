@@ -16,11 +16,12 @@ export default class Task extends preact.Component {
   componentDidMount() {
     TasksCollection.bind('updateTask', this.triggerUpdate)
     if (this.props.selectedTask) {
-      requestAnimationFrame(() => {
+      setTimeout(() => {
         const rect = this.el.getBoundingClientRect()
+        // TODO: Offset may be 64?
         // the 16 is a offset because it's already open
         taskExpandedStore.create(this.props.data.id, rect.top - 16)
-      })
+      }, 25)
     }
   }
   componentWillUnmount() {

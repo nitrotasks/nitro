@@ -25,6 +25,10 @@ export default class Tasks extends preact.Component {
   }
   componentDidMount() {
     window.addEventListener('resize', this.windowResize)
+
+    if (this.state.selectedTask !== null) {
+      document.body.classList.add('selected-task-bg')
+    }
   }
   componentWillUnmount() {
     CombinedCollection.unbind('update', this.update)
@@ -203,7 +207,6 @@ export default class Tasks extends preact.Component {
         class={className}
         id="passive-scroll-wrapper"
         onClick={this.closeTasks}
-        ref={e => this.desktopScroll = e}
       >
         <div class="tasks-content" ref={e => this.mobileScroll = e}>
           <div class="tasks-scrollwrap" onClick={this.closeTasks}>

@@ -44,6 +44,12 @@ class AuthenticationStore extends Events {
     }
     return Object.keys(this.refreshToken).length > 0
   }
+  isConnected() {
+    if (this.socket) {
+      return true
+    }
+    return false
+  }
   formSignIn(username, password) {
     if (username === 'local@nitrotasks.com') {
       this.refreshToken = {local: true}
@@ -167,6 +173,7 @@ class AuthenticationStore extends Events {
     socket.onopen = () => {
       this.socket = socket
       this.reconnectDelay = 1
+      this.trigger('ws', {command: 'connected'})
       log('Connected to Server via WebSocket')
     }
     socket.onmessage = (msg) => {

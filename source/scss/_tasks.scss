@@ -391,7 +391,15 @@ $desktop-max-width: 92%;
 .selected-task {
   .jump-animations {
     pointer-events: none;
+    animation: none;
   }
+}
+@keyframes no-pointer {
+  0% { pointer-events: none; }
+  100% { pointer-events: none; }
+}
+.tasks-list {
+  animation: $task-expand-speed no-pointer linear 1;
 }
 
 // if you don't change the animation, then no reflow occurs

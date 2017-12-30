@@ -47,6 +47,8 @@ export class combined extends Events {
     TasksCollection.bind('update', this._updateEvent('tasks'))
     ListsCollection.bind('update', this._updateEvent('lists'))
     ListsCollection.bind('order', this._orderEvent)
+
+    setInterval(this.manualSync, 60000)
   }
   loadData(): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -63,6 +65,10 @@ export class combined extends Events {
   _handleWs = (data: Object) => {
     if (data.command === 'sync-complete') {
       this.downloadData()
+    } else if (data.command === 'connected') {
+      if (typeof this.lastSync !== 'undefined' && new Date().getTime() - this.lastSync.getTime() > 30000) {
+        this.downloadData()
+      }
     }
   }
   _updateEvent(key: string) {
@@ -126,6 +132,12 @@ export class combined extends Events {
         })
     })
   }
+  manualSync = () => {
+    // will run a sync if the websocket is not connected
+    if (!authenticationStore.isConnected()) {
+      this.downloadData()
+    }
+  }
   signedin = () => {
     return authenticationStore.isSignedIn(true)
   }
@@ -147,6 +159,7 @@ export class combined extends Events {
           this.listsQueue.syncLock = false
           this.tasksQueue.syncLock = false
           this._runDeferred()
+          this.lastSync = new Date()
         })
       }).catch(err => {
         error(err)
@@ -185,9 +198,20 @@ export class combined extends Events {
       return null
     }
     const tasks = TasksCollection.findList(id, sync)
-    let order = list.localOrder
+    let order = list.localOrder.slice()
     if (order.length !== tasks.length) {
-      order = tasks.map(t => t.id)
+      if (list.id === 'today' || list.id === 'next') {
+        order = tasks.map(t => t.id)
+      } else {
+        // if the order doesn't contain all the tasks in the list, add them on
+        const allTasks = tasks.map(t => {
+          if (order.indexOf(t.id) === -1) {
+            order.unshift(t.id)
+          }
+          return t.id
+        })
+        order = order.filter(t => allTasks.indexOf(t) !== -1)
+      }
     }
     return {
       tasks: tasks,

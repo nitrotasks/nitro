@@ -93,6 +93,7 @@ export default class Sortable extends preact.Component {
       }
       document.addEventListener('mousemove', this.onMove)
       document.addEventListener('mouseup', this.onUp)
+      document.body.addEventListener('mouseleave', this.onUp)
     }
 
     // tests for primary mouse button
@@ -301,6 +302,7 @@ export default class Sortable extends preact.Component {
     } else if (this.eventMode === 'mouse') {
       document.removeEventListener('mousemove', this.onMove)
       document.removeEventListener('mouseup', this.onUp)
+      document.body.removeEventListener('mouseleave', this.onUp)
     }
 
     // there should be a better way to do this

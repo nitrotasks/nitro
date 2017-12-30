@@ -52,6 +52,7 @@ export const dateValue = function(value) {
   const newData = {
     type: 'task'
   }
+  const currentDate = new Date()
   if (value === null) {
     newData.date = null
   } else if (value.constructor === Date) {
@@ -59,9 +60,14 @@ export const dateValue = function(value) {
   } else if (value === 'today') {
     newData.date = new Date()
     newData.date.setSeconds(newData.date.getSeconds() - 1)
+    if (currentDate.getHours() <= 3) {
+      newData.date.setDate(newData.date.getDate() - 1)
+    }
   } else if (value === 'tomorrow') {
     newData.date = new Date()
-    newData.date.setDate(newData.date.getDate() + 1)
+    if (currentDate.getHours() > 3) {
+      newData.date.setDate(newData.date.getDate() + 1)
+    }
   } else if (value === 'nextweek') {
     newData.date = new Date()
     newData.date.setDate(
@@ -79,15 +85,21 @@ export const dateValue = function(value) {
 
 export const deadlineValue = function(value) {
   const newData = {}
+  const currentDate = new Date()
   if (value === null) {
     newData.deadline = null
   } else if (value.constructor === Date) {
     newData.deadline = value
   } else if (value === 'today') {
     newData.deadline = new Date()
+    if (currentDate.getHours() <= 3) {
+      newData.deadline.setDate(newData.deadline.getDate() - 1)
+    }
   } else if (value === 'tomorrow') {
     newData.deadline = new Date()
-    newData.deadline.setDate(newData.deadline.getDate() + 1)
+    if (currentDate.getHours() > 3) {
+      newData.deadline.setDate(newData.deadline.getDate() + 1)
+    }
   } else if (value === 'nextweek') {
     newData.deadline = new Date()
     newData.deadline.setDate(
