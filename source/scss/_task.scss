@@ -46,7 +46,7 @@ $speed: $task-expand-speed;
     }
   }
 
-  button {
+  .menu {
     @include button-blank();
     position: absolute;
     right: 0;
@@ -54,6 +54,16 @@ $speed: $task-expand-speed;
 
     &:hover {
       opacity: 0.7;
+    }
+  }
+
+  .collapse-btn {
+    @include button-blank();
+  }
+
+  &.collapse {
+    .collapse-btn {
+      transform: rotate(-90deg);
     }
   }
 
@@ -101,6 +111,9 @@ $speed: $task-expand-speed;
   &.active {
     background: rgba($brand-color, 0.1);
     border-radius: $radius;
+  }
+  &.collapse {
+    display: none;
   }
 
   @media (max-width: $tablet-breakpoint - 1) {

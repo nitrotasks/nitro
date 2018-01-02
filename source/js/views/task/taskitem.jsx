@@ -170,10 +170,14 @@ export default class Task extends preact.Component {
     if (this.state.completed !== null) {
       className += ' completed'
     }
+    if (this.props.collapse) {
+      className += ' collapse'
+    }
 
     let label = null
     let indicators = [null, null]
     if (this.state.type === 'header') {
+      className = className.replace('task-item', 'header-item')
       label = (
         <input
           value={this.state.name}
@@ -181,6 +185,22 @@ export default class Task extends preact.Component {
           onKeyUp={this.triggerKeyUp}
           disabled={!this.props.headersAllowed && this.state.type === 'header'}
         />
+      )
+
+      let menu = null
+      if (this.props.headersAllowed) {
+        menu = (
+          <button alt="Sublist Menu" class="menu" onClick={this.triggerMenu}>
+            <img src="/img/icons/material/task-more.svg" />
+          </button>
+        )
+      }
+      return (
+        <li class={className} onContextMenu={this.onContextMenu}>
+          <button class="collapse-btn" onClick={() => this.props.onCollapse(this.props.data.id)}>▼</button>
+          {label}
+          {menu}
+        </li>
       )
     } else {
       indicators = this.buildIndicators()
@@ -191,25 +211,6 @@ export default class Task extends preact.Component {
           {indicators[1]}
         </div>
       )
-    }
-
-    if (this.state.type === 'header') {
-      className = className.replace('task-item', 'header-item')
-      let menu = null
-      if (this.props.headersAllowed) {
-        menu = (
-          <button alt="Sublist Menu" onClick={this.triggerMenu}>
-            <img src="/img/icons/material/task-more.svg" />
-          </button>
-        )
-      }
-      return (
-        <li class={className} onContextMenu={this.onContextMenu}>
-          {label}
-          {menu}
-        </li>
-      )
-    } else {
       return (
         <li
           class={className}

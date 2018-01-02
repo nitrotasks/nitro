@@ -9,7 +9,7 @@ export class _broadcast extends Events {
     this.bctimeout = 0
     this.bc = null
     this.mastertab = true
-    if ('BroadcastChannel' in self) {
+    if (typeof self !== 'undefined' && 'BroadcastChannel' in self) {
       this.bc = new BroadcastChannel('nitro3-updates')
       this.bc.onmessage = this.handleMessage
       this.bc.postMessage('broadcast')

@@ -24,6 +24,7 @@ export default class Sortable extends preact.Component {
       listTransforms: false,
       renderLock: false,
       jumpAnimations: false,
+      collapsedHeadings: [],
     }
   }
   componentWillReceiveProps(newProps) {    
@@ -406,6 +407,17 @@ export default class Sortable extends preact.Component {
       }
     }
   }
+  collapse = currentId => {
+    const collapsedHeadings = this.state.collapsedHeadings.slice()
+    if (collapsedHeadings.indexOf(currentId) > -1) {
+      collapsedHeadings.splice(collapsedHeadings.indexOf(currentId), 1)
+    } else {
+      collapsedHeadings.push(currentId)
+    }
+    this.setState({
+      collapsedHeadings: collapsedHeadings
+    })
+  }
   render() {
     const headersAllowed =
       CombinedCollection.getList(this.props.list).mutable.indexOf(
@@ -425,9 +437,11 @@ export default class Sortable extends preact.Component {
     } else {
       click = this.onClick
     }
+
     const minimalRender = document.documentElement.clientWidth < 700
     const offsetThreshold = Math.ceil(document.documentElement.clientHeight / 40)
     let offsetCount = 0
+    let collapsed = false
     return (
       <ul className={className}>
         {this.state.order.map(item => {
@@ -445,6 +459,11 @@ export default class Sortable extends preact.Component {
           }
           if (task.type === 'header') {
             currentHeading = item
+            if (this.state.collapsedHeadings.indexOf(task.id) > -1) {
+              collapsed = true
+            } else {
+              collapsed = false
+            }
           } else if (task.type === 'archived') {
             return <div style={{display: 'none'}}>archived</div>
           }
@@ -458,10 +477,12 @@ export default class Sortable extends preact.Component {
               headersAllowed={headersAllowed}
               shouldMove={shouldMove}
               minimalRender={minimalRender}
+              collapse={collapsed}
               onDown={down}
               onMove={move}
               onUp={up}
               onClick={click(task.id)}
+              onCollapse={this.collapse}
               // best way to clean out the style prop
               ref={el => {
                 if (el) el.base.style.transform = ''
