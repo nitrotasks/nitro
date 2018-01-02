@@ -43,7 +43,16 @@ export class combined extends Events {
     this.tasksQueue.bind('request-process', this._processQueue)
     this.tasksQueue.bind('request-archive', this._processQueue)
 
-    authenticationStore.bind('token', this.downloadData)
+    authenticationStore.bind('token', () => {
+      const listItems = this.listsQueue.hasItems()
+      const taskItems = this.tasksQueue.hasItems()
+      if (listItems || taskItems) {
+        this._processQueue().then(this.downloadData)
+      } else {
+        this.downloadData()
+      }
+
+    })
     authenticationStore.bind('ws', this._handleWs)
     broadcast.bind('refresh-db', this._refreshDb)
     TasksCollection.bind('update', this._updateEvent('tasks'))

@@ -13,6 +13,7 @@ class AuthenticationStore extends Events {
     this.expiresAt = 0
     this.socket = null
     this.reconnectDelay = 1
+    this.queueCompleteSync = false
 
     broadcast.bind('complete-sync', this.emitFinish)
 
@@ -184,6 +185,15 @@ class AuthenticationStore extends Events {
       this.reconnectDelay = 1
       this.trigger('ws', {command: 'connected'})
       log('Connected to Server via WebSocket')
+      if (this.queueCompleteSync === true) {
+        this.queueCompleteSync = false
+        // TODO: Find out the reason why this doesn't work properly.
+        // needs a timeout or doesn't work???
+        setTimeout(() => {
+          log('Emitting deferred complete-sync command.')
+          this.emitFinish()
+        }, 50)
+      }
     }
     socket.onmessage = (msg) => {
       this.trigger('ws', JSON.parse(msg.data))
@@ -205,8 +215,10 @@ class AuthenticationStore extends Events {
       this.socket.send(JSON.stringify({
         command: 'complete-sync'
       }))
-    } else if (eventMode === false) {
+    } else if (!broadcast.isMaster() && eventMode === false) {
       broadcast.post('complete-sync')
+    } else {
+      this.queueCompleteSync = true
     }
   }
 }

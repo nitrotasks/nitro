@@ -182,6 +182,15 @@ export default class Sync extends Events {
       this.trigger('request-process')
     }
   }
+  hasItems() {
+    let hasItems = false
+    Object.keys(this.queue).forEach(i => {
+      if (this.queue[i].length > 0) {
+        hasItems = true
+      }
+    })
+    return hasItems
+  }
   runDeferred() {
     if (this.syncUnlock.length > 0) {
       this.syncLock = true
