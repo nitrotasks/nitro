@@ -142,6 +142,11 @@ export default class Tasks extends preact.Component {
   }
   update = (key, value) => {
     if (key !== 'task' || value === this.state.list) {
+      // TODO: This probably needs to be more robust
+      // prevents order update when list is expanded?
+      // if (this.props.task !== '') {
+      //   return
+      // }
       const tasks = CombinedCollection.getTasks(this.state.list)
       if (tasks === null) {
         return this.setState({

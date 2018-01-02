@@ -14,6 +14,7 @@ export default class Task extends preact.Component {
     this.state.expanded = props.selectedTask
   }
   componentDidMount() {
+    CombinedCollection.bind('update', this.triggerUpdate)
     TasksCollection.bind('updateTask', this.triggerUpdate)
     if (this.props.selectedTask) {
       setTimeout(() => {
@@ -25,6 +26,7 @@ export default class Task extends preact.Component {
     }
   }
   componentWillUnmount() {
+    CombinedCollection.unbind('update', this.triggerUpdate)
     TasksCollection.unbind('updateTask', this.triggerUpdate)
   }
   onDragStart() {
@@ -37,9 +39,9 @@ export default class Task extends preact.Component {
       return
     }
     if (this.state.type === 'header') {
-      headerMenu(this.props.data.id, e.clientX, e.clientY + window.scrollY)
+      headerMenu(this.props.data.id, e.clientX, e.clientY)
     } else {
-      taskMenu(this.props.data.id, this.props.headersAllowed, e.clientX, e.clientY + window.scrollY)
+      taskMenu(this.props.data.id, this.props.headersAllowed, e.clientX, e.clientY)
     }
   }
   triggerCheck = () => {
@@ -51,8 +53,10 @@ export default class Task extends preact.Component {
       CombinedCollection.updateTask(this.props.data.id, { [prop]: value })
     }
   }
-  triggerUpdate = data => {
-    if (data === this.props.data.id) {
+  triggerUpdate = (data, value) => {
+    if (data === 'tasks' && value === 'update-all') {
+      this.setState(this.installState(this.props.data.id))
+    } else if (data === this.props.data.id || data === 'all') {
       this.setState(this.installState(this.props.data.id))
     }
   }

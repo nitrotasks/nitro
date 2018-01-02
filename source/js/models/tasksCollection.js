@@ -2,21 +2,20 @@ import db from 'idb-keyval'
 import Events from './events.js'
 import Task from './task.js'
 import { getToday, getNext } from './magicList.js'
+import { createId } from '../helpers/random.js'
+import { broadcast } from '../stores/broadcastchannel.js'
 
 // the main thing that holds all the tasks
 export class tasks extends Events {
   constructor(props) {
     super(props)
-    // two stores, one for current tasks, one for completed
     this.collection = new Map()
-    this.completedcollection = new Map()
   }
   setSync(sync) {
     this.sync = sync
   }
   add(props) {
-    // todo: collision detection
-    let id = Math.round(Math.random() * 100000).toString()
+    const id = createId(this.find.bind(this))
     props.id = id
     this.collection.set(id, new Task(props))
 
@@ -207,10 +206,11 @@ export class tasks extends Events {
     this.saveLocal()
   }
   saveLocal() {
-    db.set('tasks', this.toObject())
+    db.set('tasks', this.toObject()).then(broadcast.db)
   }
   loadLocal() {
     return db.get('tasks').then(data => {
+      this.collection = new Map()
       if (typeof data === 'undefined') {
         this.createLocal()
         this.saveLocal()

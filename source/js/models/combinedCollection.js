@@ -4,6 +4,7 @@ import SyncGet from '../models/syncGet.js'
 import Events from './events.js'
 import { ListsCollection } from './listsCollection.js'
 import { TasksCollection } from './tasksCollection.js'
+import { broadcast } from '../stores/broadcastchannel.js'
 import authenticationStore from '../stores/auth.js'
 import { log, warn, error, logHistory } from '../helpers/logger.js'
 
@@ -44,20 +45,26 @@ export class combined extends Events {
 
     authenticationStore.bind('token', this.downloadData)
     authenticationStore.bind('ws', this._handleWs)
+    broadcast.bind('refresh-db', this._refreshDb)
     TasksCollection.bind('update', this._updateEvent('tasks'))
     ListsCollection.bind('update', this._updateEvent('lists'))
     ListsCollection.bind('order', this._orderEvent)
 
-    setInterval(this.manualSync, 60000)
+    this.interval = setInterval(this.manualSync, 60000)
   }
-  loadData(): Promise<any> {
+  loadData(raiseEvent:bool = false): Promise<any> {
     return new Promise((resolve, reject) => {
       ListsCollection.loadLocal().then(() => {
         TasksCollection.loadLocal().then(() => {
           Promise.all([
             this.listsQueue.loadQueue(), 
             this.tasksQueue.loadQueue()
-          ]).then(resolve).catch(reject)
+          ]).then(() => {
+            if (raiseEvent) {
+              this.trigger('update', 'lists', 'update-all')
+              this.trigger('update', 'tasks', 'update-all')
+            }
+          }).then(resolve).catch(reject)
         }).catch(reject)
       }).catch(reject)
     })
@@ -70,6 +77,12 @@ export class combined extends Events {
         this.downloadData()
       }
     }
+  }
+  _refreshDb = () => {
+    log('Reloading from Database...')
+    this.loadData(true).then(() => {
+      log('Database Reloaded.')
+    })
   }
   _updateEvent(key: string) {
     return (value: string) => {
@@ -138,10 +151,15 @@ export class combined extends Events {
       this.downloadData()
     }
   }
+  stopInterval = () => {
+    clearInterval(this.interval)
+  }
   signedin = () => {
     return authenticationStore.isSignedIn(true)
   }
   downloadData = () => {
+    // the other tab will download data, and it's just passed through
+    if (!broadcast.isMaster()) return 
     if (!authenticationStore.isSignedIn(true)) return
     if (this.tasksQueue.syncLock === true || this.listsQueue.syncLock === true) {
       // it's kinda okay if it doesn't get called,

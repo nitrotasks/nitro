@@ -33,7 +33,8 @@ export default class ContextMenu extends preact.Component {
     newState.items = items
     this.setState(newState)
   }
-  triggerHide = () => {
+  triggerHide = e => {
+    e.preventDefault()
     this.setState({
       show: false
     })
@@ -52,7 +53,7 @@ export default class ContextMenu extends preact.Component {
       style.right = Math.abs(this.state.x)
     }
     return (
-      <div class={mainClass} onClick={this.triggerHide}>
+      <div class={mainClass} onClick={this.triggerHide} onContextMenu={this.triggerHide}>
         <ul class="contextmenu" style={style}>
           {this.state.items.map((item, key) => {
             return <li key={key} onClick={item.action}>{item.title}</li>

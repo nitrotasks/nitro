@@ -1,5 +1,5 @@
 .contextmenu-wrap {
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 	right: 0;
@@ -11,7 +11,8 @@
 	}
 
 	&.hide {
-		opacity: 0;
+		// opacity: 0;
+		visibility: hidden;
 		pointer-events: none;
 	}
 }
@@ -19,14 +20,17 @@
 .contextmenu {
 	position: absolute;
 	background: $neutral-back-color;
-	border: 1px solid rgba(#000, 0.1);
+	border: 1px solid rgba(#ccc, 0.85);
 	margin: 0;
-	padding: 0;
+	padding: $indent-width / 2 0;
 	list-style-type: none;
+	background-clip: padding-box;
 
 	li {
-		padding: $indent-width * 2/3 $indent-width;
+		padding: $indent-width * 3/4 $indent-width;
 		cursor: default;
+		font-size: 16px;
+		line-height: 1;
 
 		&:hover {
 			background: rgba(#000, 0.1);

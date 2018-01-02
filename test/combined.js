@@ -158,4 +158,7 @@ describe('combined collection', function() {
       })
     })
   })
+  after(function() {
+    CombinedCollection.stopInterval()
+  })
 })

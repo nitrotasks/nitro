@@ -1,6 +1,8 @@
 import db from 'idb-keyval'
 import Events from './events.js'
 import List from './list.js'
+import { createId } from '../helpers/random.js'
+import { broadcast } from '../stores/broadcastchannel.js'
 
 // the main thing that holds all the lists
 export class lists extends Events {
@@ -12,8 +14,7 @@ export class lists extends Events {
     this.sync = sync
   }
   add(props, sync = true) {
-    // TODO: collision detection
-    let id = Math.round(Math.random()*100000).toString()
+    let id = createId(this.find.bind(this))
     if (props.name === 'nitrosys-inbox') {
       id = 'inbox'
     }
@@ -70,10 +71,11 @@ export class lists extends Events {
     return name
   }
   saveLocal() {
-    db.set('lists', this.toObject())
+    db.set('lists', this.toObject()).then(broadcast.db)
   }
   loadLocal() {
     return db.get('lists').then(data => {
+      this.collection = new Map()
       if (typeof data === 'undefined') {
         this.createLocal()
         this.saveLocal()
@@ -106,7 +108,7 @@ export class lists extends Events {
     // TODO: when this is patched to have an order
     // update this to use these in order
     let result = []
-    this.collection.forEach(function(value, key) {
+    this.collection.forEach(function(value) {
       result.push(value.toObject())
     })
     return result

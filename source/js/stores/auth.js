@@ -3,6 +3,7 @@ import config from '../../../config.js'
 import Events from '../models/events.js'
 import { checkStatus } from '../helpers/fetch.js'
 import { log } from '../helpers/logger.js'
+import { broadcast } from './broadcastchannel.js'
 
 class AuthenticationStore extends Events {
   constructor(props) {
@@ -12,6 +13,8 @@ class AuthenticationStore extends Events {
     this.expiresAt = 0
     this.socket = null
     this.reconnectDelay = 1
+
+    broadcast.bind('complete-sync', this.emitFinish)
 
     db.get('auth').then((data) => {
       if (typeof data !== 'undefined') {
@@ -155,7 +158,13 @@ class AuthenticationStore extends Events {
           this.expiresAt = new Date().getTime() + (data.expiresIn * 1000)
           this.scheduleToken(data.expiresIn / 4)
           this.trigger('token')
-          this.connectSocket()
+          setTimeout(() => {
+            if (broadcast.isMaster()) {
+              this.connectSocket()
+            } else {
+              log('Not connecting WebSocket, not master tab.')
+            }
+          }, 1000) // arbitrary 1000ms delay, hopefully things are finished loading.
           resolve(data)
         })
       }).catch(function(err) {
@@ -191,11 +200,13 @@ class AuthenticationStore extends Events {
       setTimeout(this.connectSocket, this.reconnectDelay * 1000)
     }
   }
-  emitFinish = () => {
+  emitFinish = (eventMode = false) => {
     if (this.socket !== null) {
       this.socket.send(JSON.stringify({
         command: 'complete-sync'
       }))
+    } else if (eventMode === false) {
+      broadcast.post('complete-sync')
     }
   }
 }

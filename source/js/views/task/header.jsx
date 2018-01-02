@@ -73,7 +73,7 @@ export default class TasksHeader extends preact.Component {
     requestAnimationFrame(this.sizeInput)
   }
   listsUpdate = (key, props = this.props) => {
-    if (key !== 'lists' || props.name === this.state.header) {
+    if (key !== 'lists' || typeof props.name === 'undefined' || props.name === this.state.header) {
       return
     }
     this.setState({ header: props.name })

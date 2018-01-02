@@ -336,11 +336,13 @@ export default class Sortable extends preact.Component {
     if (this.hasBeenMoved === false) {
       const currentId = this.state.order[this.currentIndex]
       if (this.props.task && this.props.task === currentId) {
+        this.inProgress = false
         return
       } else if (this.props.task) {
         // allows the onChange event to fire.
         requestAnimationFrame(() => back())
       } else if (Math.abs(offset) > 20 || Math.abs(oldOffset) > 20) {
+        this.inProgress = false
         return
       } else if (this.movedOffTarget === false) {
         go('/lists/' + this.props.list + '/' + currentId)

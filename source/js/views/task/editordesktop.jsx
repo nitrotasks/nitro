@@ -63,6 +63,13 @@ class TasksPopover extends preact.Component {
     if (this.state.data.completed !== null) {
       className += ' completed'
     }
+    let headersAllowed = false
+    if (typeof this.state.data.list !== 'undefined') {
+      headersAllowed = CombinedCollection.getList(this.state.data.list).mutable.indexOf(
+        'no-headings'
+      ) === -1
+    }
+      
     return (
       <div
         class="tasks-popover-desktop-wrapper"
@@ -84,7 +91,11 @@ class TasksPopover extends preact.Component {
                   onKeyUp={this.triggerKeyUp}
                 />
               </div>
-              <TaskExpanded expanded={true} task={this.props.task} />
+              <TaskExpanded
+                expanded={true}
+                task={this.props.task}
+                headersAllowed={headersAllowed}
+              />
             </div>
             <div class="bottom-hider" onClick={this.closeTasks} />
           </div>
