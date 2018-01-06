@@ -59,7 +59,7 @@ export class combined extends Events {
     ListsCollection.bind('update', this._updateEvent('lists'))
     ListsCollection.bind('order', this._orderEvent)
 
-    this.interval = setInterval(this.manualSync, 60000)
+    this.interval = setInterval(this.wsSync, 60000)
   }
   loadData(raiseEvent:bool = false): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -155,6 +155,9 @@ export class combined extends Events {
     })
   }
   manualSync = () => {
+    this._processQueue().then(this.downloadData)
+  }
+  wsSync = () => {
     // will run a sync if the websocket is not connected
     if (!authenticationStore.isConnected()) {
       this.downloadData()

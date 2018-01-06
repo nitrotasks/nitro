@@ -80,6 +80,9 @@ export default class Lists extends preact.Component {
   signOut = () => {
     authenticationStore.signOut()
   }
+  triggerSync = () => {
+    CombinedCollection.manualSync()
+  }
   triggerMenu = e => {
     const rect = e.currentTarget.getBoundingClientRect()
     ContextMenuStore.create(
@@ -88,6 +91,7 @@ export default class Lists extends preact.Component {
       'top',
       'right',
       [
+        {title: 'Sync', action: this.triggerSync},
         {title: 'Settings', action: null},
         {title: 'Sign Out', action: this.signOut},
       ]
@@ -108,19 +112,21 @@ export default class Lists extends preact.Component {
     const className = 'sidebar-container' + (this.state.currentList ? ' hide' : '')
     return (
       <div class={className}>
-        <header class="material-header main-nav"> 
-          <h1 class="brand header-child header-left">
-            <img src="/img/icons/logo.svg" alt="Nitro Logo" />
-            Nitro
-          </h1>
-          <h1 class="pwa header-child header-left">Lists</h1>
-          <div class="search header-child">
-            <img src="/img/icons/search.svg" alt="Search" />
-          </div>
-          <div class="header-child header-right" onClick={this.triggerMenu}>
-            <img src="/img/icons/menu.svg" alt="Menu" />
-          </div>
-        </header>
+        <div class="material-header-wrapper">
+          <header class="material-header main-nav"> 
+            <h1 class="brand header-child header-left">
+              <img src="/img/icons/logo.svg" alt="Nitro Logo" />
+              Nitro
+            </h1>
+            <h1 class="pwa header-child header-left">Lists</h1>
+            <div class="search header-child">
+              <img src="/img/icons/search.svg" alt="Search" />
+            </div>
+            <div class="header-child header-right" onClick={this.triggerMenu}>
+              <img src="/img/icons/menu.svg" alt="Menu" />
+            </div>
+          </header>
+        </div>
       
         <div class="lists-sidebar">
           <div class="search-container">

@@ -59,6 +59,12 @@ $speed: $task-expand-speed;
 
   .collapse-btn {
     @include button-blank();
+    padding: 0;
+    margin-left: -18px;
+    font-size: 10px;
+    width: 19px;
+    color: #222;
+    transition: 150ms ease transform;
   }
 
   &.collapse {
