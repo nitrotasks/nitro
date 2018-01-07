@@ -10,6 +10,7 @@ export default class Task {
     this.completed = props.completed ? new Date(props.completed) : null
     this.serverId = props.serverId || null
     this.lastSync = props.lastSync || null
+    this.clientUpdate = props.clientUpdate || new Date()
   }
   toObject() {
     return {
@@ -23,6 +24,7 @@ export default class Task {
       completed: this.completed,
       serverId: this.serverId,
       lastSync: this.lastSync,
+      clientUpdate: this.clientUpdate
     }
   }
 }

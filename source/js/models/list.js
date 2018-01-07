@@ -14,6 +14,7 @@ export default class List {
     this.lastSync = props.lastSync || null
     this.order = props.order || []
     this.localOrder = props.localOrder || []
+    this.clientUpdate = props.clientUpdate || new Date()
   }
   toObject() {
     return {
@@ -24,7 +25,8 @@ export default class List {
       serverId: this.serverId,
       lastSync: this.lastSync,
       order: this.order,
-      localOrder: this.localOrder
+      localOrder: this.localOrder,
+      clientUpdate: this.clientUpdate
     }
   }
 }

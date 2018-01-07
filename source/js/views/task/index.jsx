@@ -98,10 +98,13 @@ export default class Tasks extends preact.Component {
       newProps.stickyScale = false
       newProps.taskList = []
     }
-
     if (document.documentElement.clientWidth >= 700) {
-      if (!nextProps.list) {
+      if (typeof nextProps.list === 'undefined') {
         nextProps.list = defaultList
+      }
+    } else {
+      if (typeof nextProps.list === 'undefined') {
+        nextProps.list = null
       }
     }
     if (nextProps.list === this.state.list) {

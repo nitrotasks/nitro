@@ -32,6 +32,7 @@ export class tasks extends Events {
     }
 
     // not allowed to update the id
+    resource.clientUpdate = new Date()
     Object.keys(props).forEach(function(key) {
       if (key !== 'id') resource[key] = props[key]
     })
@@ -101,8 +102,7 @@ export class tasks extends Events {
   addListFromServer(tasks, listId) {
     if (tasks.length < 1) return
     tasks.forEach(props => {
-      // todo: collision detection
-      let id = Math.round(Math.random() * 100000).toString()
+      const id = createId(this.find.bind(this))
       props.serverId = props.id
       props.lastSync = props.updatedAt
       props.id = id
@@ -122,6 +122,13 @@ export class tasks extends Events {
     const currentTasks = this.findList(listId, true)
     tasks.forEach(props => {
       const task = currentTasks.find(findFromServer(props.id))
+
+      // prevents update if race conditions
+      if (new Date(props.updatedAt) < task.clientUpdate) {
+        return
+      }
+      task.lastSync = props.updatedAt
+      
       Object.keys(props).forEach(prop => {
         if (prop === 'date' || prop === 'deadline' || prop === 'completed') {
           if (props[prop] !== null) {

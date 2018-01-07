@@ -399,7 +399,7 @@ export default class Sortable extends preact.Component {
     }, 175)
   }
   onClick = currentId => {
-    return () => {
+    return e => {
       if (this.props.task) {
         requestAnimationFrame(() => back())
       } else {

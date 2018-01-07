@@ -26,13 +26,15 @@ export function formatDate(date, type, showToday = 'no') {
     }
     return 'Overdue'
   } else if (showToday === 'deadline') {
-    const due = (date.getDate() - currentDate.getDate())
-    if (due < 0) {
-      return Math.abs(due) + ' days overdue'
-    } else if (due === 0) {
-      return 'due today'
-    } else if (due < 7) {
-      return due + ' days left'
+    const due = date - currentDate
+    if (due < 7 * dayms) {
+      if (dayms * -1 < due && due < dayms && date.getDate() - currentDate.getDate() === 0) {
+        return 'due today'
+      }
+      if (due < 0) {
+        return Math.floor((due * -1) / dayms) + ' days overdue'
+      }
+      return (date.getDate() - currentDate.getDate()) + ' days left'
     }
   } else if (showToday === 'today' && date < currentDate) {
     return 'Today'

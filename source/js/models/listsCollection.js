@@ -31,6 +31,7 @@ export class lists extends Events {
     // finds by serverId if not sync mode
     const resource = this.find(id, !sync)
     // not allowed to update the id or tasks
+    resource.clientUpdate = new Date()
     Object.keys(props).forEach(function(key) {
       if (key !== 'id' && key !== 'tasks') resource[key] = props[key] 
     })

@@ -83,10 +83,12 @@ $speed: $task-expand-speed;
     }
   }
 }
-
-.offset-down {
-  transform: translate3d(0, 150px, 0);
+@media (min-width: $tablet-breakpoint) {
+  .offset-down {
+    transform: translate3d(0, 150px, 0);
+  }
 }
+
 .no-transition {
   transition-duration: 0ms !important;
 }
