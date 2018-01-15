@@ -19,7 +19,7 @@ export default class TasksHeader extends preact.Component {
     this.listsUpdate('lists')
     CombinedCollection.bind('update', this.listsUpdate)
 
-    this.observer = new ResizeObserver(this.triggerResize)    
+    this.observer = new ResizeObserver(this.triggerResize)
     this.observer.observe(this.fakeInput.parentElement)
 
     // TODO: Hide keyboard
@@ -32,7 +32,7 @@ export default class TasksHeader extends preact.Component {
 
     // this.lastHeight = document.documentElement.clientHeight
   }
-  componentWillReceiveProps = (nextProps) => {
+  componentWillReceiveProps = nextProps => {
     this.listsUpdate('lists', nextProps)
 
     // called on new list on desktop
@@ -73,7 +73,11 @@ export default class TasksHeader extends preact.Component {
     requestAnimationFrame(this.sizeInput)
   }
   listsUpdate = (key, props = this.props) => {
-    if (key !== 'lists' || typeof props.name === 'undefined' || props.name === this.state.header) {
+    if (
+      key !== 'lists' ||
+      typeof props.name === 'undefined' ||
+      props.name === this.state.header
+    ) {
       return
     }
     this.setState({ header: props.name })
@@ -200,15 +204,14 @@ export default class TasksHeader extends preact.Component {
     }
 
     let stickyScale = 'tasks-sticky-container'
+
     if (this.props.stickyScale) {
       stickyScale += ' scale-header'
     }
 
     let listIcon = null
     if (['inbox', 'today', 'next', 'all'].indexOf(this.props.list) > -1) {
-      listIcon = (
-        <div class={'icon icon-' + this.props.list} />
-      )
+      listIcon = <div class={'icon icon-' + this.props.list} />
     }
 
     let moreBtn = null

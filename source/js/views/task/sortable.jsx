@@ -15,6 +15,8 @@ export default class Sortable extends preact.Component {
     this.taskMap = newState.taskMap
     this.isBeingMoved = false
     this.timeouts = []
+    this.autoScroller = null
+    this.autoScrollerSpeed = 0
 
     this.eventMode = null
     this.inProgress = false
@@ -78,6 +80,48 @@ export default class Sortable extends preact.Component {
       taskMap: taskMap
     }
   }
+  startAutoScrolling = percentage => {
+    if (percentage < 0.2) {
+      this.autoScrollerSpeed = -5
+    } else if (percentage < 0.25) {
+      this.autoScrollerSpeed = -2
+    } else if (percentage < 0.3) {
+      this.autoScrollerSpeed = -1
+    } else if (percentage < 0.8) {
+      return this.stopAutoScrolling()
+    } else if (percentage < 0.85) {
+      this.autoScrollerSpeed = 1
+    } else if (percentage < 0.9) {
+      this.autoScrollerSpeed = 2
+    } else {
+      this.autoScrollerSpeed = 5
+    }
+
+    const maxScroll = window.scrollMaxY
+    let currentScroll = window.scrollY
+    const scrollDown = () => {
+      if (currentScroll >= maxScroll || currentScroll < 0) {
+        return
+      }
+      window.scrollBy({top: this.autoScrollerSpeed, left: 0})
+      this.currentOffset += this.autoScrollerSpeed
+      currentScroll += this.autoScrollerSpeed
+      this._internalMove(this.currentOffset)
+      if (this.autoScroller) {
+        requestAnimationFrame(scrollDown)
+      }
+    }
+    if (this.autoScroller === null) {
+      this.autoScroller = true
+      requestAnimationFrame(scrollDown)
+    }
+  }
+  stopAutoScrolling = () => {
+    if (this.autoScroller === null) {
+      return
+    }
+    this.autoScroller = null
+  }
   onDown = e => {
     if (e.type === 'touchstart') {
       this.eventMode = 'touch'
@@ -121,6 +165,8 @@ export default class Sortable extends preact.Component {
     this.originalNode = e.currentTarget
     this.originalTouch = undefined
     this.currentOffset = 0
+    this.currentScroll = window.pageYOffset
+    this.currentHeight = window.innerHeight
     this.canMove = false
 
     this.mobileParent =
@@ -194,11 +240,16 @@ export default class Sortable extends preact.Component {
     } else if (this.eventMode === 'touch') {
       offset = e.changedTouches[0].clientY - this.originalTouch.clientY
     }
+    const percentage = (e.y || e.changedTouches[0].clientY) / this.currentHeight
+    this.startAutoScrolling(percentage)
+  
+    offset += window.pageYOffset - this.currentScroll
     this.currentOffset = offset
     // seems to be the magic number that scrolling cancels
     if (Math.abs(offset) > 7) {
       this.movedOffTarget = true
     }
+
 
     if (
       (this.eventMode === 'pointer' || this.eventMode === 'mouse') &&
@@ -233,6 +284,9 @@ export default class Sortable extends preact.Component {
       })
     }
 
+    this._internalMove(offset)
+  }
+  _internalMove = (offset) => {
     const children = this.originalNode.parentElement.children
     requestAnimationFrame(() => {
       let index = this.sizes.findIndex(item => {
@@ -290,11 +344,9 @@ export default class Sortable extends preact.Component {
       ])
 
       // Runs all the transitions batched
-      // requestAnimationFrame(() => {
       rafDispatch.forEach(function(item, key) {
         children[key].style[item[0]] = item[1]
       })
-      // })
     })
   }
   onUp = e => {
@@ -305,6 +357,8 @@ export default class Sortable extends preact.Component {
       document.removeEventListener('mouseup', this.onUp)
       document.body.removeEventListener('mouseleave', this.onUp)
     }
+
+    this.stopAutoScrolling()
 
     // there should be a better way to do this
     // but cause of hacked up pointer and touchevents, you can't just stop propagation
