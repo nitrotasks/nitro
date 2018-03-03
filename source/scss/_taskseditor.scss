@@ -62,7 +62,7 @@ $curve: ease;
 	position: absolute;
 	top: 0;
 	left: 0;
-	height: 150px;
+	// height: 150px;
 	transition: $task-expand-speed $curve transform;
 	margin-top: 14px;
 	width: 100%;
@@ -80,7 +80,7 @@ $curve: ease;
 	box-sizing: border-box;
 	
 	.content {
-		height: 150px;
+		// height: 150px;
 		border: 1px solid $line-color;
 		display: block;
 		padding: 0 5px;
@@ -92,12 +92,11 @@ $curve: ease;
 }
 
 .bottom-hider {
-	border-top: 1px solid $line-color;
 	height: 100px;
 	width: 100%;
 	background: $selected-color;
 	position: absolute;
-	top: 149px;
+	// top: 149px;
 	transition: $task-expand-speed $curve transform;
 }
 

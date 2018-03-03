@@ -278,6 +278,7 @@ export default class TasksHeader extends preact.Component {
             onInput={this.triggerInput}
             onKeyUp={this.triggerKeyUp}
             required={true}
+            title="Create a new task"
           />
           <button
             alt="Create Task"

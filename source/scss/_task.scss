@@ -86,6 +86,7 @@ $speed: $task-expand-speed;
 @media (min-width: $tablet-breakpoint) {
   .offset-down {
     transform: translate3d(0, 150px, 0);
+    transform: translate3d(0, var(--tasks-height), 0);
   }
 }
 
@@ -104,7 +105,7 @@ $speed: $task-expand-speed;
   font-size: 1rem;
   margin: 0;
   padding: 0 $indent-width 0 $indent-width - 0.5rem;
-  height: $task-height;
+  // height: $task-height;
 
   @media (pointer: fine) {
     &:hover {
@@ -153,18 +154,10 @@ $speed: $task-expand-speed;
       // }
     }
 
-    .outer {
-      border-radius: $radius $radius 0 0;
-      border: 1px solid transparent;
-      border-bottom: 0;
-    }
-
     .inner {
       background: #fff;
       overflow: hidden;
-      border: 0;
-      border-color: #fff;
-      margin-top: -1px;
+      // margin-top: -1px;
     }
   }
 
@@ -241,10 +234,6 @@ $speed: $task-expand-speed;
     .outer {
       padding: 0 $indent-width + 0.1rem 0 $indent-width + 0.3rem;
     }
-    .outer, .inner {
-      border-left: 0 !important;
-      border-right: 0 !important;
-    }
 
     .label {
       line-height: $task-height-mobile;
@@ -279,12 +268,13 @@ $speed: $task-expand-speed;
     width: 100%;
     outline: 0;
     font-size: 0.9rem;
-    line-height: 1.1rem;
+    line-height: 1.125rem;
     resize: none;
-    min-height: 1.1rem * 3 + $indent-width;
+    min-height: 1.125rem * 3 + $indent-width;
     display: block;
-    padding: 0 $indent-width $indent-width 1.75rem + $indent-width;
+    padding: 0 $indent-width $indent-width 1.25rem + $indent-width;
     box-sizing: border-box;
+    overflow: hidden;
   }
 
   .button-bar {
@@ -292,7 +282,7 @@ $speed: $task-expand-speed;
     padding: 0 $indent-width 0 1.75rem + $indent-width;
     display: flex;
     align-items: center;
-    height: 2.4rem;
+    height: 2.5rem;
 
     img {
       height: 1.2rem;
