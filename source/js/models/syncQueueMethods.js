@@ -19,7 +19,7 @@ export const postItem = (id, endpoint, model, parentModel, arrayParam, serverPar
 
       // kill if the parents are not made
       if (additionalEndpoint === null) {
-        return
+        return resolve()
       }
       resource = {}
       additionalEndpoint = '/' + additionalEndpoint
@@ -93,7 +93,8 @@ export const patchItem = (id, endpoint, model, parentModel, arrayParam, serverPa
         return resolve()
       }
     } else {
-      return
+      console.warn('Hit a codepath that should never be hit?')
+      return resolve()
     }
     fetch(`${config.endpoint}/${endpoint}${additionalEndpoint}`, {
       method: 'PATCH',
