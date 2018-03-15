@@ -15,23 +15,33 @@ env:
   global:
   - NODE_ENV=travis CXX=g++-4.8
   - CC_TEST_REPORTER_ID=416110cef9815baac2d3dd8d0d3ec8402c977f2a81db6f22092470ed597c6b22
-  - 
   - secure: 0+3G//oZkBmtLN07pyeP1PCmYbXw+JACK75ASllfcUHqgurmgp66oBjB7vQeExHom4cG8lQAYTC2PEeOsZUV6dAsmuCRXxk3CzJZsx5o74IcVWRp7Noc9eKONpO0jeLKmvTHM/wL38SWjvz1UafZQumOAcAn0lmObZEyVwazjGQ=
   - secure: N7RYw+dTFuxqIH/dxGSSDmr1Oo+7fzCo4dDQonx+K0IrhNpIhIQijtoSlE9re9m6E/N92POE5AgjS2tiFHxwO3sIGCVJQqJea6ew8FFBrKW0MH2R81ExAgSY0I4XEpXsNQEBNAjfiVFsxhNn9XpOJAcW7J8Xi6AwSwAbFKBHzus=
+  - secure: E8Dt4HpKPTZuBGYiqDP5v9osa4Rr0HETaA6gdSCjkBXzoA7QpFhTWawje+JnhrGo7euHo2ej5XBpyKeuCbuD5B+pJ8O+G/k33ANp1Pf+vyjNHSOvu00GxS9ZdHPPBgHUpgxswwKjVyXZugdHaj3OHJQCVl4DwzmAm5Il0UjHXZ4=
 sudo: required
 services:
-- postgresql
 - docker
 before_install:
 - docker build ./ -t dymajo/nitro-client:latest
 before_script:
-- curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+- curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
+  > ./cc-test-reporter
 - chmod +x ./cc-test-reporter
 - "./cc-test-reporter before-build"
 after_script:
 - "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT"
+before_deploy:
+- openssl aes-256-cbc -K $encrypted_5ec73d8d083e_key -iv $encrypted_5ec73d8d083e_iv
+  -in deploy_rsa.enc -out /tmp/deploy_rsa -d
+- eval "$(ssh-agent -s)"
+- chmod 600 /tmp/deploy_rsa
+- ssh-add /tmp/deploy_rsa
 deploy:
-  provider: script
+- provider: script
   script: npm run docker-push-master
+  on:
+    branch: master
+- provider: script
+  script: npm run ssh-remote
   on:
     branch: master

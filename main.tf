@@ -1,5 +1,5 @@
 provider "docker" {
-  host = "tcp://127.0.0.1:2375"
+  host = "unix:///var/run/docker.sock"
 }
 
 resource "docker_container" "nitro-client" {

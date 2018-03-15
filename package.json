@@ -11,7 +11,8 @@
     "test:fast": "cross-env NODE_ENV=test mocha test/index.js --require babel-core/register",
     "prepublishOnly": "npm run clean && npm run build",
     "flow": "flow",
-    "docker-push-master": "docker login -u \"$DOCKER_USERNAME\" -p \"$DOCKER_PASSWORD\" && docker push dymajo/nitro-client:latest"
+    "docker-push-master": "docker login -u \"$DOCKER_USERNAME\" -p \"$DOCKER_PASSWORD\" && docker push dymajo/nitro-client:latest",
+    "ssh-remote": "ssh -o StrictHostKeyChecking=no $SSH_HOSTNAME bash nitro/deploy.sh"
   },
   "repository": {
     "type": "git",
