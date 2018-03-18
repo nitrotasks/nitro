@@ -13,11 +13,12 @@ let cssFilename = 'generated/[name].css'
 if (process.env.NODE_ENV === 'production') {
   filename = 'generated/[name].[chunkhash].js'
   chunkFilename = 'generated/[name].[id].[chunkhash].js'
-  cssFilename = 'generated/[name].[contenthash].css'
+  cssFilename = 'generated/[name].[hash].css'
 }
 
 const extractSass = new ExtractTextPlugin({
-  filename: cssFilename
+  filename: cssFilename,
+  allChunks: true
 })
 
 const webpackConfig = {
@@ -40,17 +41,19 @@ const webpackConfig = {
 				use: extractSass.extract({
 				  use: [
   					{
-  						loader: 'file-loader',
+  						loader: 'css-loader',
   						options: {
-  							name: cssFilename,
-  							outputPath: 'generated/'
+  						  sourceMap: true
   						}
   					},
   					{
-  						loader: 'css-loader'
+  					  loader: 'resolve-url-loader'
   					},
   					{
-  						loader: 'sass-loader'
+  						loader: 'sass-loader',
+  						options: {
+  						  sourceMap: true
+  						}
   					}
   				]
 				})

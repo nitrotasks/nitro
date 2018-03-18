@@ -67,9 +67,9 @@ document.addEventListener('DOMContentLoaded', function() {
 const polyfill = function() {
   const promises = []
   if (typeof window.IntersectionObserver === 'undefined') {
-    promises.push(import(/* webpackChunkName: "polyfill" */ 'intersection-observer').then(() => {
-      log('loaded intersection-observer polyfill')
-    }).catch(err => error(err)))
+    // promises.push(import(/* webpackChunkName: "polyfill" */ 'intersection-observer').then(() => {
+    //   log('loaded intersection-observer polyfill')
+    // }).catch(err => error(err)))
   }
   return promises
 }

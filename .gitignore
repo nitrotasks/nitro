@@ -50,3 +50,4 @@ jspm_packages
 dist/generated/*
 dist/sw.js
 dist/appcache
+dist/index.html
