@@ -4,6 +4,21 @@ const buildPath = path.resolve(baseDirectory, './dist')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const webpack = require('webpack')
 const OfflinePlugin = require('offline-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ExtractTextPlugin = require("extract-text-webpack-plugin")
+
+let filename = 'generated/[name].js'
+let chunkFilename = 'generated/[name].[id].js'
+let cssFilename = 'generated/[name].css'
+if (process.env.NODE_ENV === 'production') {
+  filename = 'generated/[name].[chunkhash].js'
+  chunkFilename = 'generated/[name].[id].[chunkhash].js'
+  cssFilename = 'generated/[name].[contenthash].css'
+}
+
+const extractSass = new ExtractTextPlugin({
+  filename: cssFilename
+})
 
 const webpackConfig = {
   context: baseDirectory,
@@ -11,8 +26,8 @@ const webpackConfig = {
     app: ['./source/js/index.jsx', './source/scss/style.scss'],
   },
   output: {
-    filename: 'generated/[name].js',
-    chunkFilename: 'generated/[name].js',
+    filename: filename,
+    chunkFilename: chunkFilename,
     path: buildPath,
     publicPath: '/',
   },
@@ -22,25 +37,23 @@ const webpackConfig = {
       { test: /\.(js|jsx)$/, loader: 'babel-loader' },
       {
 				test: /\.scss$/,
-				use: [
-					{
-						loader: 'file-loader',
-						options: {
-							name: '[name].css',
-							outputPath: 'generated/'
-						}
-					},
-					{
-						loader: 'extract-loader',
-						options: { publicPath: '' }
-					},
-					{
-						loader: 'css-loader'
-					},
-					{
-						loader: 'sass-loader'
-					}
-				]
+				use: extractSass.extract({
+				  use: [
+  					{
+  						loader: 'file-loader',
+  						options: {
+  							name: cssFilename,
+  							outputPath: 'generated/'
+  						}
+  					},
+  					{
+  						loader: 'css-loader'
+  					},
+  					{
+  						loader: 'sass-loader'
+  					}
+  				]
+				})
 			},
       {
         test:  /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
@@ -79,7 +92,12 @@ const webpackConfig = {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV)
       }
     }),
-    new webpack.IgnorePlugin(/moment/)
+    extractSass,
+    new webpack.IgnorePlugin(/moment/),
+    new HtmlWebpackPlugin({
+      template: 'source/index.html',
+      title: 'Nitro'
+    })
   ]
 }
 
