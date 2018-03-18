@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
   Promise.all(polyfill()).then(() => {
     window.history.scrollRestoration = 'manual'
     const elem = document.getElementById('app-shell')
-    elem.innerHTML = ''
+    elem.innerHTML = 'Rendering...'
 
     if (process.env.NODE_ENV === 'production') {
       elem.className = 'production'
@@ -56,6 +56,9 @@ document.addEventListener('DOMContentLoaded', function() {
       setTimeout(function() {
         elem.className = ''
       }, 500)
+    }).catch(err => {
+      console.error(err)
+      elem.innerHTML = '<b>Error:</b> ' + err.message
     })
 
   })

@@ -22,7 +22,7 @@ const webpackConfig = {
   },
   devtool: 'cheap-module-source-map',
   module: {
-    loaders: [
+    rules: [
       { test: /\.(js|jsx)$/, loader: 'babel-loader' },
       {
         test: /\.svg$/,
@@ -58,6 +58,7 @@ const webpackConfig = {
     contentBase: path.join(__dirname, 'dist'),
     historyApiFallback: true,
     host: '0.0.0.0',
+    disableHostCheck: true,
     proxy: {
       '/a': {
         target: 'http://localhost:8040',
@@ -87,7 +88,7 @@ const bundle = new BundleAnalyzerPlugin({
 if (process.env.NODE_ENV === 'production') {
   webpackConfig.devtool = 'nosources-source-map'
   webpackConfig.plugins.push(new webpack.optimize.ModuleConcatenationPlugin())
-  webpackConfig.plugins.push(bundle)
+  //webpackConfig.plugins.push(bundle)
   webpackConfig.plugins.push(new OfflinePlugin({
     externals: [
       '/',
@@ -99,7 +100,8 @@ if (process.env.NODE_ENV === 'production') {
       '/fonts/Raleway-Black-Ext.woff2',
     ],
     ServiceWorker: {
-      navigateFallbackURL: '/'
+      navigateFallbackURL: '/',
+      minify: false
     }
   }))
 } else if (process.env.NODE_ENV === 'report') {
