@@ -43,6 +43,11 @@ export class combined extends Events {
     this.tasksQueue.bind('request-process', this._processQueue)
     this.tasksQueue.bind('request-archive', this._processQueue)
 
+    authenticationStore.bind('sign-in-status', () => {
+      if (authenticationStore.isSignedIn()) {
+        broadcast.start()
+      }
+    })
     authenticationStore.bind('token', () => {
       const listItems = this.listsQueue.hasItems()
       const taskItems = this.tasksQueue.hasItems()
@@ -63,6 +68,7 @@ export class combined extends Events {
   }
   loadData(raiseEvent:bool = false): Promise<any> {
     return new Promise((resolve, reject) => {
+      authenticationStore.loadLocal()
       ListsCollection.loadLocal().then(() => {
         TasksCollection.loadLocal().then(() => {
           Promise.all([

@@ -9,10 +9,13 @@ export class _broadcast extends Events {
     this.bctimeout = 0
     this.bc = null
     this.mastertab = true
+  }
+  start = () => {
     if (typeof self !== 'undefined' && 'BroadcastChannel' in self) {
       this.bc = new BroadcastChannel('nitro3-updates')
       this.bc.onmessage = this.handleMessage
       this.bc.postMessage('broadcast')
+      this.checkBroadcast()
       setInterval(this.checkBroadcast, 10000)
     }
   }
@@ -30,13 +33,18 @@ export class _broadcast extends Events {
       return this.bc.postMessage(msg)
     }
   }
-  db = () => {
+  db = (timeout = 1000) => {
     if (this.dbtimeout !== null) return
-    this.dbtimeout = setTimeout(() => {
+    const fn = () => {
       log('Broadcasting to other tabs.')
       this.post('refresh-db')
       this.dbtimeout = null
-    }, 1000) // arbitrary amount of time.
+    }
+    if (timeout > 0) {
+      this.dbtimeout = setTimeout(fn, timeout) // arbitrary amount of time.
+    } else {
+      fn()
+    }
   }
   isMaster() {
     return this.mastertab

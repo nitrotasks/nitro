@@ -16,21 +16,7 @@ class AuthenticationStore extends Events {
     this.queueCompleteSync = false
 
     broadcast.bind('complete-sync', this.emitFinish)
-
-    db.get('auth').then((data) => {
-      if (typeof data !== 'undefined') {
-        this.refreshToken = data
-      }
-      this.trigger('sign-in-status')
-      if (typeof navigator !== 'undefined' && navigator.onLine) {
-        this.getToken().catch((err) => {
-          if (err.status === 401) {
-            alert('You have been signed out.')
-            this.signOut()
-          }
-        })
-      }
-    })
+    this.loadLocal()
     if (typeof window !== 'undefined') {
       window.addEventListener('online', () => {
         this.getToken()
@@ -41,6 +27,24 @@ class AuthenticationStore extends Events {
         }
       })
     }
+  }
+  loadLocal() {
+    db.get('auth').then((data) => {
+      if (typeof data !== 'undefined') {
+        this.refreshToken = data
+      }
+      this.trigger('sign-in-status')
+      if (typeof navigator !== 'undefined' && navigator.onLine) {
+        this.getToken().catch((err) => {
+          if (err.status === 401) {
+            if (document.hasFocus()) {
+              alert('You have been signed out.')
+            }
+            this.signOut()
+          }
+        })
+      }
+    })
   }
   isSignedIn(tokenCheck = false) {
     if (tokenCheck && typeof this.refreshToken.local !== 'undefined' && this.refreshToken.local === true) {
@@ -123,6 +127,7 @@ class AuthenticationStore extends Events {
   signOut() {
     if (JSON.stringify(this.refreshToken) === '{}' || 'local' in this.refreshToken) {
       return db.clear().then(() => {
+        broadcast.db(0)
         window.location = '/'
       })
     }
@@ -132,6 +137,7 @@ class AuthenticationStore extends Events {
         method: 'DELETE'
       })
     ]).then(() => {
+      broadcast.db(0)
       window.location = '/'
     })
   }

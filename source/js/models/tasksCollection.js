@@ -213,7 +213,7 @@ export class tasks extends Events {
     this.saveLocal()
   }
   saveLocal() {
-    db.set('tasks', this.toObject()).then(broadcast.db)
+    db.set('tasks', this.toObject()).then(() => broadcast.db)
   }
   loadLocal() {
     return db.get('tasks').then(data => {

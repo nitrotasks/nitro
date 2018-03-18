@@ -3,6 +3,7 @@ import { route } from 'preact-router'
 import ResizeObserver from 'resize-observer-polyfill'
 
 import { CombinedCollection } from '../../models/combinedCollection.js'
+import { BrowserStore } from '../../stores/browserStore.js'
 
 import ContextMenuStore from '../../stores/contextmenu.js'
 import DialogBoxStore from '../../stores/dialogbox.js'
@@ -81,7 +82,7 @@ export default class TasksHeader extends preact.Component {
       return
     }
     this.setState({ header: props.name })
-    document.title = props.name + ' - Nitro'
+    BrowserStore.setTitle(props.name)
     requestAnimationFrame(this.sizeInput)
   }
   createTask = () => {
