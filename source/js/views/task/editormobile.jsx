@@ -4,6 +4,8 @@ import { dateValue, deadlineValue } from '../../helpers/date.js'
 import { TasksCollection } from '../../models/tasksCollection.js'
 import { shallowCompare } from '../../helpers/compare.js'
 
+import backSvg from '../../../../assets/icons/back.svg'
+
 export default class TasksEditor extends preact.Component {
   constructor(props) {
     super(props)
@@ -120,7 +122,7 @@ export default class TasksEditor extends preact.Component {
       <section class={className}>
         <header class="material-header main-nav">
           <button class="header-child header-left" onClick={this.triggerBack}>
-            <img src="/img/icons/back.svg" alt="Back Icon" title="Back" />
+            <img src={backSvg} alt="Back Icon" title="Back" />
           </button>
           <input
             class="header-child grow"

@@ -346,7 +346,7 @@ $desktop-max-width: 92%;
 
     &:invalid + .tasks-create-button span {
       background-color: invert(#ccc);
-      background-image: url("/img/icons/material/down.svg");
+      background-image: $down-icon;
 
       &:active {
         background-color: invert(#999);
@@ -370,7 +370,7 @@ $desktop-max-width: 92%;
     width: 26px;
     border-radius: 3px;
     background-color: invert($brand-color);
-    background-image: url("/img/icons/material/add.svg");
+    background-image: $add-icon;
     background-size: 24px;
     background-position: 50%;
   }

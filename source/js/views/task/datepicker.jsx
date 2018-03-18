@@ -2,6 +2,9 @@ import preact from 'preact'
 import pikaday from 'pikaday'
 import { formatDate } from '../../helpers/date.js'
 
+import duedateSvg from '../../../../assets/icons/material/task-duedate.svg'
+import deadlineSvg from '../../../../assets/icons/material/task-deadline.svg'
+
 export default class Datepicker extends preact.Component {
   state = {
     visible: false
@@ -71,11 +74,11 @@ export default class Datepicker extends preact.Component {
       )
     } else if (this.props.position === 'popover') {
       className += ' floating popover'
-      let imgSrc = '/img/icons/material/'
+      let imgSrc
       if (pickerType === 'deadline') {
-        imgSrc += 'task-deadline.svg'
+        imgSrc = deadlineSvg
       } else {
-        imgSrc += 'task-duedate.svg'
+        imgSrc = duedateSvg
       }
       // ensures we don't get a rogue 'next' value
       const next = pickerType === 'deadline' ? 'task' : this.props.type

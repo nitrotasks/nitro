@@ -3,10 +3,6 @@ const baseDirectory = __dirname
 const buildPath = path.resolve(baseDirectory, './dist')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const webpack = require('webpack')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const extractSass = new ExtractTextPlugin({
-  filename: 'generated/[name].css'
-})
 const OfflinePlugin = require('offline-plugin')
 
 const webpackConfig = {
@@ -25,28 +21,36 @@ const webpackConfig = {
     rules: [
       { test: /\.(js|jsx)$/, loader: 'babel-loader' },
       {
-        test: /\.svg$/,
-        use: ['preact-svg-loader'],
-      }, 
+				test: /\.scss$/,
+				use: [
+					{
+						loader: 'file-loader',
+						options: {
+							name: '[name].css',
+							outputPath: 'generated/'
+						}
+					},
+					{
+						loader: 'extract-loader',
+						options: { publicPath: '' }
+					},
+					{
+						loader: 'css-loader'
+					},
+					{
+						loader: 'sass-loader'
+					}
+				]
+			},
       {
-        test: /\.scss$/,
-        use: extractSass.extract({
-          use: [{
-            loader: 'css-loader',
+        test:  /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
+        use: [{
+            loader: 'file-loader',
             options: {
-              sourceMap: true
-            },
-          }, {
-            loader: 'resolve-url-loader'
-          }, {
-            loader: 'sass-loader',
-            options: {
-              sourceMap: true
-            },
-          }],
-          // use style-loader in development
-          fallback: 'style-loader'
-        })
+              outputPath: 'generated/assets/',
+              publicPath: '/generated/assets'
+            }
+        }]
       },
       {
         test: /pikaday\.js$/,
@@ -75,7 +79,6 @@ const webpackConfig = {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV)
       }
     }),
-    extractSass,
     new webpack.IgnorePlugin(/moment/)
   ]
 }
@@ -92,12 +95,6 @@ if (process.env.NODE_ENV === 'production') {
   webpackConfig.plugins.push(new OfflinePlugin({
     externals: [
       '/',
-      '/fonts/Raleway.woff2',
-      '/fonts/Raleway-Ext.woff2',
-      '/fonts/Raleway-SemiBold.woff2',
-      '/fonts/Raleway-SemiBold-Ext.woff2',
-      '/fonts/Raleway-Black.woff2',
-      '/fonts/Raleway-Black-Ext.woff2',
     ],
     ServiceWorker: {
       navigateFallbackURL: '/',

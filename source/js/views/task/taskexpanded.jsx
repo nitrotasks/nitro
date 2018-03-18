@@ -5,6 +5,8 @@ import { CombinedCollection } from '../../models/combinedCollection.js'
 import Datepicker from './datepicker.jsx'
 import { taskMenu } from './contextmenu.jsx'
 
+import moreSvg from '../../../../assets/icons/material/task-more.svg'
+
 export default class TaskExpanded extends preact.Component {
   baseHeight = 70
   baseRows = 3
@@ -104,7 +106,7 @@ export default class TaskExpanded extends preact.Component {
             pickerType="deadline"
           />
           <img
-            src="/img/icons/material/task-more.svg"
+            src={moreSvg}
             onClick={this.triggerMenu}
           />
         </div>

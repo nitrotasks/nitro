@@ -86,7 +86,7 @@
 
     .close {
       @include button-blank();
-      background-image: url('/img/icons/material/close.svg');
+      background-image: $close-icon;
       padding: 0;
       height: 38px;
       width: 24px;

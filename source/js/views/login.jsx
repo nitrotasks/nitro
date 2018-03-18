@@ -1,6 +1,7 @@
 import preact from 'preact'
 
 import authenticationStore from '../stores/auth.js'
+import logoSvg from '../../../assets/icons/logo.svg'
 
 export default class login extends preact.Component {
   state = {
@@ -49,7 +50,7 @@ export default class login extends preact.Component {
       <div class="login-window">  
         <div class="login-window-container">
           <h1 class="brand header-child header-left">
-            <img src="/img/icons/logo.svg" alt="Nitro Logo" />
+            <img src={logoSvg} alt="" />
             Nitro
           </h1>
           <p>The fast and easy way to get things done.</p>

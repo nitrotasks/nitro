@@ -196,7 +196,7 @@ $speed: $task-expand-speed;
     }
   }
   .check:hover .box, &.completed .check .box {
-    background-image: url('/img/icons/'+ $icon-style +'/check.svg');
+    background-image: $check-icon;
     background-size: 16px;
     background-repeat: no-repeat;
   }
@@ -317,7 +317,7 @@ $speed: $task-expand-speed;
   }
 }
 .indicator-today {
-  background-image: url('/img/icons/feather/today.svg');
+  background-image: $today-icon;
 }
 
 .indicator {
@@ -335,13 +335,13 @@ $speed: $task-expand-speed;
 }
 .indicator-notes {
   margin: 12px 0 0 7px;
-  background-image: url('/img/icons/material/note.svg');
+  background-image: $note-icon;
   width: 18px;
   height: 20px;
 }
 .indicator-deadline {
   margin: 7px 2px 7px 3px;
-  background-image: url('/img/icons/material/task-deadline.svg');
+  background-image: $deadline-icon;
   width: 24px;
   height: 20px;
 }

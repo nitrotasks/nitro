@@ -165,7 +165,7 @@
     font-size: 0.9rem;
     line-height: 1.1rem;
 
-    background-image: url('/img/icons/search.svg');
+    background-image: $search-icon;
     background-repeat: no-repeat;
     background-size: 1.3rem;
     background-position: calc(100% - 0.5rem) 50%;
@@ -249,7 +249,7 @@
         font-size: 1.1rem;
       }
       .icon {
-        background-image: url('/img/icons/'+ $icon-style +'/add.svg');
+        background-image: $add-icon;
         opacity: 0.5;
       }
     }

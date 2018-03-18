@@ -7,6 +7,8 @@ import { CombinedCollection } from '../../models/combinedCollection.js'
 import { taskMenu, headerMenu } from './contextmenu.jsx'
 import { taskExpandedStore } from '../../stores/taskexpanded.js'
 
+import moreSvg from '../../../../assets/icons/material/task-more.svg'
+
 export default class Task extends preact.Component {
   constructor(props) {
     super(props)
@@ -191,7 +193,7 @@ export default class Task extends preact.Component {
       if (this.props.headersAllowed) {
         menu = (
           <button alt="Sublist Menu" class="menu" onClick={this.triggerMenu}>
-            <img src="/img/icons/material/task-more.svg" />
+            <img src={moreSvg} />
           </button>
         )
       }

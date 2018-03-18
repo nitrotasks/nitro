@@ -8,6 +8,10 @@ import ContextMenuStore from '../stores/contextmenu.js'
 import DialogBoxStore from '../stores/dialogbox.js'
 import { propsCompare } from '../helpers/compare.js'
 
+import logoSvg from '../../../assets/icons/logo.svg'
+import searchSvg from '../../../assets/icons/search.svg'
+import menuSvg from '../../../assets/icons/menu.svg'
+
 class SidebarItem extends preact.Component {
   shouldComponentUpdate(nextProps) {
     return propsCompare(this, nextProps)
@@ -115,15 +119,15 @@ export default class Lists extends preact.Component {
         <div class="material-header-wrapper">
           <header class="material-header main-nav"> 
             <h1 class="brand header-child header-left">
-              <img src="/img/icons/logo.svg" alt="Nitro Logo" />
+              <img src={logoSvg} alt="Nitro Logo" />
               Nitro
             </h1>
             <h1 class="pwa header-child header-left">Lists</h1>
             <div class="search header-child">
-              <img src="/img/icons/search.svg" alt="Search" />
+              <img src={searchSvg} alt="Search" />
             </div>
             <div class="header-child header-right" onClick={this.triggerMenu}>
-              <img src="/img/icons/menu.svg" alt="Menu" />
+              <img src={menuSvg} alt="Menu" />
             </div>
           </header>
         </div>

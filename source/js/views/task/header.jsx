@@ -8,6 +8,10 @@ import { BrowserStore } from '../../stores/browserStore.js'
 import ContextMenuStore from '../../stores/contextmenu.js'
 import DialogBoxStore from '../../stores/dialogbox.js'
 
+import moreSvg from '../../../../assets/icons/material/more.svg'
+import backSvg from '../../../../assets/icons/back.svg'
+import addSvg from '../../../../assets/icons/material/add.svg'
+
 const widthOffset = 3
 
 export default class TasksHeader extends preact.Component {
@@ -224,7 +228,7 @@ export default class TasksHeader extends preact.Component {
           alt="List Options"
           title="List Options"
         >
-          <img src="/img/icons/material/more.svg" alt="" />
+          <img src={moreSvg} alt="" />
         </button>
       )
     }
@@ -248,7 +252,7 @@ export default class TasksHeader extends preact.Component {
       <div class={stickyScale}>
         <header class="material-header">
           <button class="header-child header-left" onClick={this.triggerBack}>
-            <img src="/img/icons/back.svg" alt="Back Icon" title="Back" />
+            <img src={backSvg} alt="Back Icon" title="Back" />
           </button>
           <h1 class="header-child">{this.state.header}</h1>
         </header>
@@ -290,7 +294,7 @@ export default class TasksHeader extends preact.Component {
           </button>
         </div>
         <button alt="Create Task" class={fab} onClick={this.triggerCreate}>
-          <img class="img-vert-inverse" src="/img/icons/material/add.svg" />
+          <img class="img-vert-inverse" src={addSvg} />
         </button>
       </div>
     )

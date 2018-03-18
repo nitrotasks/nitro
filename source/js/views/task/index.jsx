@@ -10,6 +10,8 @@ import Sortable from './sortable.jsx'
 import TasksEditor from './editormobile.jsx'
 import TasksPopover from './editordesktop.jsx'
 
+import archiveSvg from '../../../../assets/icons/material/archive.svg'
+
 const defaultList = 'inbox'
 
 export default class Tasks extends preact.Component {
@@ -206,7 +208,7 @@ export default class Tasks extends preact.Component {
     }).length
     if (completedTasks > 0 && mutable) {
       archiveBtn = <button className="button minimal small" onClick={this.triggerArchive}>
-        <img src="/img/icons/material/archive.svg" />
+        <img src={archiveSvg} />
         Archive {completedTasks} completed tasks
       </button>
     }
