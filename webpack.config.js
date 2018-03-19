@@ -119,7 +119,6 @@ if (process.env.NODE_ENV === 'production') {
     ],
     ServiceWorker: {
       navigateFallbackURL: '/',
-      output: "generated/sw.js",
       minify: false
     }
   }))
