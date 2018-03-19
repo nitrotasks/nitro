@@ -11,6 +11,7 @@ export class _broadcast extends Events {
     this.mastertab = true
   }
   start = () => {
+    if (this.bc !== null) return
     if (typeof self !== 'undefined' && 'BroadcastChannel' in self) {
       this.bc = new BroadcastChannel('nitro3-updates')
       this.bc.onmessage = this.handleMessage

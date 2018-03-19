@@ -16,7 +16,6 @@ class AuthenticationStore extends Events {
     this.queueCompleteSync = false
 
     broadcast.bind('complete-sync', this.emitFinish)
-    this.loadLocal()
     if (typeof window !== 'undefined') {
       window.addEventListener('online', () => {
         this.getToken()

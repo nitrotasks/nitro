@@ -82,9 +82,11 @@ const webpackConfig = {
     proxy: {
       '/a': {
         target: 'http://localhost:8040',
+        pathRewrite: {"^/a" : ""}
       },
       '/a/ws': {
         target: 'ws://localhost:8040',
+        pathRewrite: {"^/a" : ""},
         ws: true
       }
     }
