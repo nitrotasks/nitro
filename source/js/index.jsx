@@ -31,6 +31,8 @@ const App = () => (
 window.auth = authenticationStore
 
 document.addEventListener('DOMContentLoaded', function() {
+  const elem = document.getElementById('app-shell')
+  elem.innerHTML = 'Rendering...'
   document.body.style.setProperty('--real-height', document.documentElement.clientHeight + 'px')
   window.addEventListener('resize', function() {
     requestAnimationFrame(() => {
@@ -40,8 +42,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
   Promise.all(polyfill()).then(() => {
     window.history.scrollRestoration = 'manual'
-    const elem = document.getElementById('app-shell')
-    elem.innerHTML = 'Rendering...'
 
     if (process.env.NODE_ENV === 'production') {
       elem.className = 'production'
@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     CombinedCollection.loadData().then(() => {
+      elem.innerHTML = ''
       preact.render(App(), elem)
       setTimeout(function() {
         elem.className = ''
