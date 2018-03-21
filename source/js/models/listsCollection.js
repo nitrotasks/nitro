@@ -72,7 +72,7 @@ export class lists extends Events {
     return name
   }
   saveLocal() {
-    db.set('lists', this.toObject()).then(() => broadcast.db)
+    db.set('lists', this.toObject()).then(broadcast.db)
   }
   loadLocal() {
     return db.get('lists').then(data => {
