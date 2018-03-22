@@ -11,9 +11,7 @@ let filename = 'generated/[name].js'
 let chunkFilename = 'generated/[name].[id].js'
 let cssFilename = 'generated/[name].css'
 if (process.env.NODE_ENV === 'production') {
-  filename = 'generated/[name].[chunkhash].js'
   chunkFilename = 'generated/[name].[id].[chunkhash].js'
-  cssFilename = 'generated/[name].[hash].css'
 }
 
 const extractSass = new ExtractTextPlugin({

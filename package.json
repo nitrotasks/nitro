@@ -6,7 +6,7 @@
     "build": "cross-env NODE_ENV=production webpack --progress --colors --mode production --display-optimization-bailout",
     "report": "cross-env NODE_ENV=report webpack --progress --colors --mode production --display-optimization-bailout",
     "watch": "webpack-dev-server",
-    "clean": "rm -f dist/generated/*",
+    "clean": "rm -rf dist/generated/*",
     "test": "cross-env NODE_ENV=test nyc mocha test/index.js && npm run build",
     "test:fast": "cross-env NODE_ENV=test mocha test/index.js --require babel-core/register",
     "prepublishOnly": "npm run clean && npm run build",

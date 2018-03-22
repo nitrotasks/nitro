@@ -1,0 +1,1 @@
+This directory is where Terraform places SSL Certificates - run terraform apply to generate them.

@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-- "8"
+- '8'
 branches:
   only:
   - master
@@ -18,6 +18,8 @@ env:
   - secure: 0+3G//oZkBmtLN07pyeP1PCmYbXw+JACK75ASllfcUHqgurmgp66oBjB7vQeExHom4cG8lQAYTC2PEeOsZUV6dAsmuCRXxk3CzJZsx5o74IcVWRp7Noc9eKONpO0jeLKmvTHM/wL38SWjvz1UafZQumOAcAn0lmObZEyVwazjGQ=
   - secure: N7RYw+dTFuxqIH/dxGSSDmr1Oo+7fzCo4dDQonx+K0IrhNpIhIQijtoSlE9re9m6E/N92POE5AgjS2tiFHxwO3sIGCVJQqJea6ew8FFBrKW0MH2R81ExAgSY0I4XEpXsNQEBNAjfiVFsxhNn9XpOJAcW7J8Xi6AwSwAbFKBHzus=
   - secure: E8Dt4HpKPTZuBGYiqDP5v9osa4Rr0HETaA6gdSCjkBXzoA7QpFhTWawje+JnhrGo7euHo2ej5XBpyKeuCbuD5B+pJ8O+G/k33ANp1Pf+vyjNHSOvu00GxS9ZdHPPBgHUpgxswwKjVyXZugdHaj3OHJQCVl4DwzmAm5Il0UjHXZ4=
+  - secure: sbntLUoX9uPc+5Z+qDvwL4+7sKyEwHReprydzzoyeuDysK0yj8Vel0OWjJyAelw3GUs3Er3P60BIIZ/tOqmZDEkJhcEsZ+ed7L5O0yOdImCSwDxqoTn2dHyefwhT/xgKDjTXE8WhxSiETNstsZ/CuLAAwtowpbBNcj4KNZVKKTw=
+  - secure: IV1CDaUSxyo2M5nvgk4iqkCaCL39jT1klFTz9FTTOKhLyGiA/+1S1+06jNgRQcsLugqUwgE8NCLIlDB0tvJt4HGwVGdgjBUSdcqojIwb00pab+ZRxZBXc/bwIERA4OmyhO5710i4ew/L0uB5ZjvY9rns8ULrhHYnTYEHvqCHK+w=
 sudo: required
 services:
 - docker
