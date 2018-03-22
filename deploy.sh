@@ -11,9 +11,8 @@ mkdir ~/.terraform.d
 mkdir ~/.terraform.d/plugins
 mkdir ~/.terraform.d/plugins/linux_amd64
 wget https://github.com/vancluever/terraform-provider-acme/releases/download/v0.5.0/terraform-provider-acme_v0.5.0_linux_amd64.zip -O /tmp/acme.zip
-unzip -o /tmp/acme.zip
+unzip -o /tmp/acme.zip -d /tmp
 cp /tmp/terraform-provider-acme ~/.terraform.d/plugins/linux_amd64
 
 ./terraform init
-./terraform apply -auto-approve ./cert > ./acme.log
-./terraform apply -auto-approve
+./terraform apply -auto-approve > ./terraform.log
