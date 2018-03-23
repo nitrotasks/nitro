@@ -124,21 +124,20 @@ class AuthenticationStore extends Events {
     })
   }
   signOut() {
-    if (JSON.stringify(this.refreshToken) === '{}' || 'local' in this.refreshToken) {
-      return db.clear().then(() => {
-        broadcast.db(0)
-        window.location = '/'
-      })
-    }
-    Promise.all([
-      db.clear(),
-      fetch(`${config.endpoint}/auth/token/${this.refreshToken.refresh_token}`, {
-        method: 'DELETE'
-      })
-    ]).then(() => {
+    const cb = () => {
+      // Signs out even if there is an error.
       broadcast.db(0)
       window.location = '/'
-    })
+    }
+    const promises = [db.clear()]
+    if (!(JSON.stringify(this.refreshToken) === '{}' || 'local' in this.refreshToken)) {
+      promises.push(
+        fetch(`${config.endpoint}/auth/token/${this.refreshToken.refresh_token}`, {
+          method: 'DELETE'
+        })
+      )
+    }
+    Promise.all(promises).then(cb).catch(cb)
   }
   // this ensure that there is always a valid token before a sync
   checkToken() {
