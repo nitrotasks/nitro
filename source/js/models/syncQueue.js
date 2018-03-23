@@ -74,7 +74,11 @@ export default class Sync extends Events {
         if (verb === 'post') {
           if (this.queue.post.length === 0) return resolve()
           this.doOperation(postItem, this.queue.post, (err) => {
-            if (err) return reject(err)
+            if (err) {
+              console.error('Error! Skipping POST Operation for Now.', err)
+              resolve()
+              return
+            }
             log(this.identifier, 'Finished POSTING')
             resolve()
           })

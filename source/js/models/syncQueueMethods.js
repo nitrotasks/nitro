@@ -19,7 +19,7 @@ export const postItem = (id, endpoint, model, parentModel, arrayParam, serverPar
 
       // kill if the parents are not made
       if (additionalEndpoint === null) {
-        return resolve()
+        return reject('We could not find a serverId for the parent of ' + id)
       }
       resource = {}
       additionalEndpoint = '/' + additionalEndpoint
