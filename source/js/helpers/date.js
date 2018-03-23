@@ -1,5 +1,8 @@
 const dayms = 1000 * 60 * 60 * 24
-const language = navigator.language
+let language = 'en-US'
+if (typeof navigator !== 'undefined' && 'language' in navigator) {
+  language = navigator.language
+}
 
 // set the second digit to the day that the week starts on
 const workday = 7 + 1
@@ -20,21 +23,27 @@ export function formatDate(date, type, showToday = 'no') {
 
   // changes dates today or past, to 'today'
   const currentDate = new Date()
-  if (typeof showToday !== 'string' && showToday < currentDate) {
-    if (showToday.getDate() === currentDate.getDate()) {
-      return 'Due'
-    }
-    return 'Overdue'
-  } else if (showToday === 'deadline') {
+  if (currentDate.getHours() <= 3) {
+    currentDate.setDate(currentDate.getDate() - 1)
+  }
+  if (showToday === 'deadline') {
     const due = date - currentDate
     if (due < 7 * dayms) {
-      if (dayms * -1 < due && due < dayms && date.getDate() - currentDate.getDate() === 0) {
+      const days = Math.floor((due * -1) / dayms)
+      if ((dayms * -1 < due && due < dayms && date.getDate() - currentDate.getDate() === 0) || days === 0) {
         return 'due today'
       }
       if (due < 0) {
-        return Math.floor((due * -1) / dayms) + ' days overdue'
+        if (days === 1) {
+          return '1 day overdue'
+        }
+        return days + ' days overdue'
       }
-      return (date.getDate() - currentDate.getDate()) + ' days left'
+      const left = (date.getDate() - currentDate.getDate())
+      if (left === 1) {
+        return '1 day left'
+      }
+      return left + ' days left'
     }
   } else if (showToday === 'today' && date < currentDate) {
     return 'Today'
