@@ -30,7 +30,7 @@ const webpackConfig = {
     path: buildPath,
     publicPath: '/',
   },
-  devtool: 'cheap-module-source-map',
+  devtool: 'cheap-eval-source-map',
   module: {
     rules: [
       { test: /\.(js|jsx)$/, loader: 'babel-loader' },

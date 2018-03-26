@@ -119,7 +119,7 @@ export class combined extends Events {
     return new Promise((resolve, reject) => {
       if (!authenticationStore.isSignedIn(true)) return resolve()
       if (this.tasksQueue.syncLock === true || this.listsQueue.syncLock === true) {
-        return reject()
+        return reject('Sync is currently locked by another process. Will not process queue to server.')
       }
       this.listsQueue.syncLock = true
       this.tasksQueue.syncLock = true
@@ -199,6 +199,9 @@ export class combined extends Events {
         })
       }).catch(err => {
         error(err)
+        this.listsQueue.syncLock = false
+        this.tasksQueue.syncLock = false
+        this._runDeferred()
       })
   }
   addTask(task: Object): Object | null {
@@ -380,7 +383,7 @@ export class combined extends Events {
 
     ListsCollection.trigger('order')
     ListsCollection.saveLocal()
-    if (sync) ListsCollection.sync.addToQueue(id, 'patch')
+    if (sync) ListsCollection.sync.addToQueue(id, 'patch', 'lists')
   }
   addList(props: Object, sync: ?bool): Object {
     const newList = ListsCollection.add(props, sync)

@@ -24,7 +24,7 @@ export class lists extends Events {
     this.collection.set(id, newList)
     this.trigger('update')
     this.saveLocal()
-    if (sync) this.sync.addToQueue(id, 'post')
+    if (sync) this.sync.addToQueue(id, 'post', 'lists')
     return newList
   }
   update(id, props, sync = true) {
@@ -37,12 +37,12 @@ export class lists extends Events {
     })
     this.trigger('update')
     this.saveLocal()
-    if (sync) this.sync.addToQueue(id, 'patch')
+    if (sync) this.sync.addToQueue(id, 'patch', 'lists')
     return resource
   }
   delete(id, queueItem = true) {
     if (queueItem) {
-      this.sync.addToQueue(id, 'delete')
+      this.sync.addToQueue(id, 'delete', 'lists')
     }
     this.collection.delete(id)
     this.trigger('update')

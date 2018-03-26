@@ -6,6 +6,9 @@ import { promiseSerial } from '../helpers/promise.js'
 import { postItem, patchItem, deleteItem, deleteItems, archiveItem } from './syncQueueMethods.js'
 import { postQueue, patchQueue, deleteQueue, archiveQueue } from './syncQueueAdders.js'
 
+import { ListsCollection } from './listsCollection.js'
+import { TasksCollection } from './tasksCollection.js'
+
 const findQueueIndex = function(item) {
   return function(element) {
     return element[1] === item
@@ -24,8 +27,9 @@ export default class Sync extends Events {
       delete: [],
       archive: []
     }
+    this.queueLock = []
+    
     this.syncLock = false
-    this.syncUnlock = []
     this.identifier = props.identifier
     this.endpoint = props.endpoint
     this.arrayParam = props.arrayParam
@@ -34,9 +38,26 @@ export default class Sync extends Events {
     this.serverParams = props.serverParams
   }
   saveQueue() {
-    db.set('sync-' + this.identifier, this.queue)
+    return Promise.all([
+      db.set('sync-' + this.identifier, this.queue),
+      db.set('sync-locked-' + this.identifier, this.queueLock)
+    ])
   }
   loadQueue() {
+    Promise.all([
+      db.get('sync-' + this.identifier),
+      db.get('sync-locked-' + this.identifier)
+    ]).then(data => {
+      if (typeof data[0] !== 'undefined') {
+        this.queue = data[0]
+      }
+      if (typeof data[1] !== 'undefined') {
+        this.queueLock = data[1]
+      }
+      if (typeof data[0] === 'undefined' || typeof data[1] === 'undefined') {
+        this.saveQueue()
+      }
+    })
     return db.get('sync-' + this.identifier).then(data => {
       if (typeof data === 'undefined') {
         this.saveQueue()
@@ -75,7 +96,7 @@ export default class Sync extends Events {
           if (this.queue.post.length === 0) return resolve()
           this.doOperation(postItem, this.queue.post, (err) => {
             if (err) {
-              console.error('Error! Skipping POST Operation for Now.', err)
+              error(this.identifier, 'Error! Skipping POST Operation for Now.', err)
               resolve()
               return
             }
@@ -162,29 +183,50 @@ export default class Sync extends Events {
       })
     }
   }
-  addToQueue(id, method) {
-    const fn = () => {
+  addToQueue(id, method, modelName) {
+    this.queueLock.push([id, method, modelName])
+    this.saveQueue().then(this.processQueue)
+  }
+  processQueue = () => {
+    if (this.syncLock === true) {
+      log(this.identifier, 'Sync in Progress, waiting.')
+      return 
+    } else if (this.queueLock.length === 0) {
+      return false
+    }
+    
+    this.syncLock = true
+    this.queueLock.forEach(item => {
+      const id = item[0]
+      const method = item[1]
+      const modelName = item[2]
+      
+      let model, parentModel
+      if (modelName === 'tasks') {
+        model = TasksCollection
+        parentModel = ListsCollection
+      } else if (modelName === 'lists') {
+        model = ListsCollection
+      } else {
+        throw Error(`${modelName} is invalid.`)
+      }
+      
       if (method === 'post') {
         postQueue(id, this.queue, this.identifier)
       } else if (method === 'patch') {
-        patchQueue(id, this.queue, this.identifier, this.model, this.parentModel)
+        patchQueue(id, this.queue, this.identifier, model, parentModel)
       } else if (method === 'delete') {
-        deleteQueue(id, this.queue, this.identifier, this.model, this.parentModel)
+        deleteQueue(id, this.queue, this.identifier, model, parentModel)
       } else if (method === 'archive') {
         archiveQueue(id, this.queue, this.identifier)
       }
-    }
-    if (this.syncLock === true) {
-      log(this.identifier, 'Sync in Progress, deferring', method.toUpperCase())
-      this.syncUnlock.push(fn)
-    } else { 
-      this.syncLock = true
-      fn()
-      this.saveQueue()
-      this.syncLock = false
-      this.runDeferred()
-      this.trigger('request-process')
-    }
+    })
+    this.queueLock = []
+    this.syncLock = false
+    this.saveQueue()
+    this.trigger('request-process')
+    
+    return true
   }
   hasItems() {
     let hasItems = false
@@ -196,13 +238,6 @@ export default class Sync extends Events {
     return hasItems
   }
   runDeferred() {
-    if (this.syncUnlock.length > 0) {
-      this.syncLock = true
-      this.syncUnlock.forEach(fn => fn())
-      this.syncUnlock = []
-      this.syncLock = false
-      return true
-    }
-    return false
+    return this.processQueue()
   }
 }

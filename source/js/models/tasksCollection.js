@@ -22,7 +22,7 @@ export class tasks extends Events {
     this.trigger('update', props.list)
     this.saveLocal()
 
-    this.sync.addToQueue([props.list, id], 'post')
+    this.sync.addToQueue([props.list, id], 'post', 'tasks')
     return id
   }
   update(id, props, sync = true) {
@@ -39,12 +39,12 @@ export class tasks extends Events {
     this.trigger('update')
     this.trigger('updateTask', id)
     this.saveLocal()
-    if (sync) this.sync.addToQueue([resource.list, id], 'patch')
+    if (sync) this.sync.addToQueue([resource.list, id], 'patch', 'tasks')
     return resource
   }
   delete(id) {
     const resource = this.find(id)
-    this.sync.addToQueue([resource.list, id], 'delete')
+    this.sync.addToQueue([resource.list, id], 'delete', 'tasks')
     this.collection.delete(id)
     this.trigger('update')
     this.saveLocal()
@@ -70,7 +70,7 @@ export class tasks extends Events {
       })
 
       if (signedIn && archiveId.length > 0) {
-        this.sync.addToQueue([listId, archiveId], 'archive')
+        this.sync.addToQueue([listId, archiveId], 'archive', 'tasks')
       }
 
       const key = 'archive-' + listId
@@ -205,7 +205,7 @@ export class tasks extends Events {
     this.collection.forEach((task, key) => {
       if (task.list === list) {
         if (task.serverId === null && queueItem === true) {
-          this.sync.addToQueue([task.list, key], 'delete')
+          this.sync.addToQueue([task.list, key], 'delete', 'tasks')
         }
         this.collection.delete(key)
       }
