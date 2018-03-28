@@ -22,7 +22,7 @@ const extractSass = new ExtractTextPlugin({
 const webpackConfig = {
   context: baseDirectory,
   entry: {
-    app: ['./source/js/index.jsx', './source/scss/style.scss'],
+    app: ['./nitro.ui/js/index.jsx', './nitro.ui/scss/style.scss'],
   },
   output: {
     filename: filename,
@@ -98,7 +98,7 @@ const webpackConfig = {
     extractSass,
     new webpack.IgnorePlugin(/moment/),
     new HtmlWebpackPlugin({
-      template: 'source/index.html',
+      template: 'nitro.ui/index.html',
       title: 'Nitro'
     })
   ]

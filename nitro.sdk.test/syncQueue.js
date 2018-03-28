@@ -1,6 +1,6 @@
-import { CombinedCollection } from '../source/js/models/combinedCollection.js'
-import { ListsCollection } from '../source/js/models/listsCollection.js'
-import { TasksCollection } from '../source/js/models/tasksCollection.js'
+import { CombinedCollection } from '../nitro.ui/js/models/combinedCollection.js'
+import { ListsCollection } from '../nitro.ui/js/models/listsCollection.js'
+import { TasksCollection } from '../nitro.ui/js/models/tasksCollection.js'
 
 let listId = null
 

@@ -1,7 +1,7 @@
 import assert from 'assert'
 
-import { CombinedCollection } from '../source/js/models/combinedCollection.js'
-import { getToday, getNext } from '../source/js/models/magicList.js'
+import { CombinedCollection } from '../nitro.ui/js/models/combinedCollection.js'
+import { getToday, getNext } from '../nitro.ui/js/models/magicList.js'
 
 const createDate = (days) => {
   let date = new Date()

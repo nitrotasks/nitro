@@ -1,9 +1,9 @@
 import config from '../config.js'
 import assert from 'assert'
-import authenticationStore from '../source/js/stores/auth.js'
-import { CombinedCollection } from '../source/js/models/combinedCollection.js'
-import { ListsCollection } from '../source/js/models/listsCollection.js'
-import { TasksCollection } from '../source/js/models/tasksCollection.js'
+import authenticationStore from '../nitro.ui/js/stores/auth.js'
+import { CombinedCollection } from '../nitro.ui/js/models/combinedCollection.js'
+import { ListsCollection } from '../nitro.ui/js/models/listsCollection.js'
+import { TasksCollection } from '../nitro.ui/js/models/tasksCollection.js'
 
 const createList = function() {
   return fetch(config.endpoint + '/lists', {

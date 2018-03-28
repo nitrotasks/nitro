@@ -1,6 +1,6 @@
 import assert from 'assert'
 
-import { promiseSerial } from '../source/js/helpers/promise.js'
+import { promiseSerial } from '../nitro.ui/js/helpers/promise.js'
 
 describe('helpers', function() {
   describe('promiseSerial', function() {

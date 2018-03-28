@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { formatDate } from '../source/js/helpers/date.js'
+import { formatDate } from '../nitro.ui/js/helpers/date.js'
 
 describe('dates', function() {
   describe('formatDate', function() {

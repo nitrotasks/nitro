@@ -1,4 +1,4 @@
-import authenticationStore from '../source/js/stores/auth.js'
+import authenticationStore from '../nitro.ui/js/stores/auth.js'
 
 describe('authentication', function() {
   before(function(done) {

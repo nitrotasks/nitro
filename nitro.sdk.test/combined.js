@@ -1,6 +1,6 @@
 import assert from 'assert'
 
-import { CombinedCollection } from '../source/js/models/combinedCollection.js'
+import { CombinedCollection } from '../nitro.ui/js/models/combinedCollection.js'
 
 describe('combined collection', function() {
   before(function(done) {
