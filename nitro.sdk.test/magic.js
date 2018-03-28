@@ -1,7 +1,7 @@
 import assert from 'assert'
 
-import { CombinedCollection } from '../nitro.ui/js/models/combinedCollection.js'
-import { getToday, getNext } from '../nitro.ui/js/models/magicList.js'
+import { NitroSdk } from '../nitro.sdk'
+import { getToday, getNext } from '../nitro.sdk/collections/magicListCollection.js'
 
 const createDate = (days) => {
   let date = new Date()
@@ -50,7 +50,7 @@ describe('magic lists', function() {
     })
     it('should have all the correct tasks in the today list', function() {
       tasks = tasks.reverse()
-      tasks.forEach(task => CombinedCollection.addTask(task))
+      tasks.forEach(task => NitroSdk.addTask(task))
       assert.equal(getToday(false).length, 7)
     })
     describe('deadline, overdue', function() {
@@ -73,7 +73,7 @@ describe('magic lists', function() {
       })
       it('should have all the correct tasks in the today list', function() {
         tasks = tasks.reverse()
-        tasks.forEach(task => CombinedCollection.addTask(task))
+        tasks.forEach(task => NitroSdk.addTask(task))
         assert.equal(getToday(false).length, 11)
       })
       it('0: overdue date is about half as weighted as overdue deadline', ass(0, 6))
@@ -103,7 +103,7 @@ describe('magic lists', function() {
     })
     it('should have all the correct tasks in the next list', function() {
       tasks = tasks.reverse()
-      tasks.forEach(task => CombinedCollection.addTask(task))
+      tasks.forEach(task => NitroSdk.addTask(task))
       assert.equal(getNext(false).length, 10 + offset)
     })
     it('should have not modified the today list', function() {

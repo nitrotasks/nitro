@@ -1,4 +1,4 @@
-import Events from '../models/events.js'
+import { Events }  from '../../../nitro.sdk'
 
 class DialogBoxStore extends Events {
   constructor(props) {

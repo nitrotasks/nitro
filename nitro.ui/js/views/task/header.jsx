@@ -2,7 +2,7 @@ import preact from 'preact'
 import { route } from 'preact-router'
 import ResizeObserver from 'resize-observer-polyfill'
 
-import { CombinedCollection } from '../../models/combinedCollection.js'
+import { NitroSdk } from '../../../../nitro.sdk'
 import { BrowserStore } from '../../stores/browserStore.js'
 
 import ContextMenuStore from '../../stores/contextmenu.js'
@@ -22,7 +22,7 @@ export default class TasksHeader extends preact.Component {
   }
   componentDidMount() {
     this.listsUpdate('lists')
-    CombinedCollection.bind('update', this.listsUpdate)
+    NitroSdk.bind('update', this.listsUpdate)
 
     this.observer = new ResizeObserver(this.triggerResize)
     this.observer.observe(this.fakeInput.parentElement)
@@ -50,7 +50,7 @@ export default class TasksHeader extends preact.Component {
     }
   }
   componentWillUnmount() {
-    CombinedCollection.unbind('update', this.listsUpdate)
+    NitroSdk.unbind('update', this.listsUpdate)
     this.observer.disconnect()
   }
   shouldComponentUpdate(nextProps, nextState) {
@@ -91,7 +91,7 @@ export default class TasksHeader extends preact.Component {
   }
   createTask = () => {
     if (this.state.inputValue.trim() !== '') {
-      CombinedCollection.addTask({
+      NitroSdk.addTask({
         name: this.state.inputValue.trim(),
         list: this.props.list
       })
@@ -108,7 +108,7 @@ export default class TasksHeader extends preact.Component {
     const cb = () => {
       route('/', true)
       requestAnimationFrame(() => {
-        CombinedCollection.deleteList(toDelete)
+        NitroSdk.deleteList(toDelete)
       })
     }
 
@@ -145,7 +145,7 @@ export default class TasksHeader extends preact.Component {
         header: this.state.header
       })
     } else {
-      CombinedCollection.updateList(this.props.list, {
+      NitroSdk.updateList(this.props.list, {
         name: value
       })
     }

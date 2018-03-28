@@ -1,10 +1,10 @@
-import authenticationStore from './auth.js'
+import { NitroSdk } from '../../../nitro.sdk'
 
 export class _browser {
   constructor(props) {
   }
   setTitle(title) {
-    if (authenticationStore.isSignedIn()) {
+    if (NitroSdk.isSignedIn()) {
       document.title = `${title} - Nitro`
     }
   }

@@ -1,22 +1,22 @@
 import preact from 'preact'
 
-import authenticationStore from '../stores/auth.js'
+import { NitroSdk } from '../../../nitro.sdk'
 import logoSvg from '../../../assets/icons/logo.svg'
 
 export default class login extends preact.Component {
   state = {
     username: '',
     password: '',
-    signedIn: authenticationStore.isSignedIn(),
+    signedIn: NitroSdk.isSignedIn(),
     disabled: false,
   }
   componentDidMount() {
-    authenticationStore.bind('sign-in-status', this.signInCallback)
-    authenticationStore.bind('sign-in-error', this.signInError)
+    NitroSdk.bind('sign-in-status', this.signInCallback)
+    NitroSdk.bind('sign-in-error', this.signInError)
   }
   componentWillUnmount() {
-    authenticationStore.unbind('sign-in-status', this.signInCallback)
-    authenticationStore.unbind('sign-in-error', this.signInError)
+    NitroSdk.unbind('sign-in-status', this.signInCallback)
+    NitroSdk.unbind('sign-in-error', this.signInError)
   }
   triggerChange = field => {
     return e => {
@@ -26,11 +26,11 @@ export default class login extends preact.Component {
   triggerSignIn = e => {
     e.preventDefault()
     this.setState({ disabled: true })
-    authenticationStore.formSignIn(this.state.username, this.state.password)
+    NitroSdk.signIn(this.state.username, this.state.password)
   }
   signInCallback = () => {
     this.setState({
-      signedIn: authenticationStore.isSignedIn(),
+      signedIn: NitroSdk.isSignedIn(),
       disabled: false,
     })
   }

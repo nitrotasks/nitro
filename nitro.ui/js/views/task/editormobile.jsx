@@ -1,7 +1,8 @@
 import preact from 'preact'
+
+import { NitroSdk } from '../../../../nitro.sdk'
 import Datepicker from './datepicker.jsx'
 import { dateValue, deadlineValue } from '../../helpers/date.js'
-import { TasksCollection } from '../../models/tasksCollection.js'
 import { shallowCompare } from '../../helpers/compare.js'
 
 import backSvg from '../../../../assets/icons/back.svg'
@@ -15,7 +16,7 @@ export default class TasksEditor extends preact.Component {
     this.state.datepicker = true
   }
   componentDidMount() {
-    TasksCollection.bind('updateTask', this.triggerUpdate)
+    NitroSdk.bind('update', this.triggerUpdate)
     window.addEventListener('resize', this.showEditorCb)
     this.showEditorCb()
   }
@@ -43,7 +44,7 @@ export default class TasksEditor extends preact.Component {
         showEditor: false
       }
     }
-    const data = TasksCollection.find(props.task) || {}
+    const data = NitroSdk.getTask(props.task) || {}
     return {
       animate: true,
       showEditor: true,
@@ -55,7 +56,7 @@ export default class TasksEditor extends preact.Component {
     }
   }
   componentWillUnmount() {
-    TasksCollection.unbind('updateTask', this.triggerUpdate)
+    NitroSdk.unbind('update', this.triggerUpdate)
     window.removeEventListener('resize', this.showEditorCb)
   }
   triggerUpdate = data => {
@@ -81,18 +82,18 @@ export default class TasksEditor extends preact.Component {
         [prop]: value
       })
       // Update value in the model
-      TasksCollection.update(this.props.task, { [prop]: value })
+      NitroSdk.updateTask(this.props.task, { [prop]: value })
     }
   }
   triggerDate = value => {
     const newData = dateValue(value)
     this.setState(newData)
-    TasksCollection.update(this.props.task, newData)
+    NitroSdk.updateTask(this.props.task, newData)
   }
   triggerDeadline = value => {
     const newData = deadlineValue(value)
     this.setState(newData)
-    TasksCollection.update(this.props.task, newData)
+    NitroSdk.updateTask(this.props.task, newData)
   }
   triggerKeyUp = e => {
     if (e.keyCode === 13) {

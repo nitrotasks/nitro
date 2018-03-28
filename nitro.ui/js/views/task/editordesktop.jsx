@@ -1,5 +1,5 @@
 import preact from 'preact'
-import { CombinedCollection } from '../../models/combinedCollection.js'
+import { NitroSdk } from '../../../../nitro.sdk'
 import TaskExpanded from './taskexpanded.jsx'
 import { taskExpandedStore } from '../../stores/taskexpanded.js'
 import { back } from '../../stores/navigation.js'
@@ -13,18 +13,18 @@ class TasksPopover extends preact.Component {
   }
   componentDidMount() {
     taskExpandedStore.bind('create', this.triggerCreate)
-    CombinedCollection.bind('update', this.triggerUpdate)
+    NitroSdk.bind('update', this.triggerUpdate)
   }
   componentWillUnmount() {
     taskExpandedStore.unbind('create', this.triggerCreate)
-    CombinedCollection.bind('update', this.triggerUpdate)
+    NitroSdk.bind('update', this.triggerUpdate)
   }
   triggerCheck = () => {
-    CombinedCollection.completeTask(this.state.data.id)
+    NitroSdk.completeTask(this.state.data.id)
   }
   triggerCreate = props => {
     const opacity = props[0] === null ? 'hidden' : 'visible'
-    const data = CombinedCollection.getTask(props[0]) || {}
+    const data = NitroSdk.getTask(props[0]) || {}
     requestAnimationFrame(() => {
       this.setState({
         data: data,
@@ -37,7 +37,7 @@ class TasksPopover extends preact.Component {
   triggerUpdate = key => {
     if (key === 'tasks') {
       this.setState({
-        data: CombinedCollection.getTask(this.state.data.id) || {}
+        data: NitroSdk.getTask(this.state.data.id) || {}
       })
     }
   }
@@ -48,7 +48,7 @@ class TasksPopover extends preact.Component {
   }
   triggerChange = (e) => {
     const value = e.currentTarget.value
-    CombinedCollection.updateTask(this.state.data.id, { name: value })
+    NitroSdk.updateTask(this.state.data.id, { name: value })
   }
   closeTasks = e => {
     if (e.target === e.currentTarget) {
@@ -65,7 +65,7 @@ class TasksPopover extends preact.Component {
     }
     let headersAllowed = false
     if (typeof this.state.data.list !== 'undefined') {
-      headersAllowed = CombinedCollection.getList(this.state.data.list).mutable.indexOf(
+      headersAllowed = NitroSdk.getList(this.state.data.list).mutable.indexOf(
         'no-headings'
       ) === -1
     }

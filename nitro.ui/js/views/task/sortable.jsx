@@ -1,8 +1,8 @@
 import preact from 'preact'
 
+import { NitroSdk } from '../../../../nitro.sdk'
 import Task from './taskitem.jsx'
 import { go, back } from '../../stores/navigation.js'
-import { CombinedCollection } from '../../models/combinedCollection.js'
 import { shallowCompare } from '../../helpers/compare.js'
 
 const pressDelay = 500
@@ -432,7 +432,7 @@ export default class Sortable extends preact.Component {
           listTransforms: false,
           order: newOrder
         })
-        CombinedCollection.updateOrder(this.props.list, newOrder)
+        NitroSdk.updateOrder(this.props.list, newOrder)
       }, 200)
     } else {
       requestAnimationFrame(() => {
@@ -474,7 +474,7 @@ export default class Sortable extends preact.Component {
   }
   render() {
     const headersAllowed =
-      CombinedCollection.getList(this.props.list).mutable.indexOf(
+      NitroSdk.getList(this.props.list).mutable.indexOf(
         'no-headings'
       ) === -1
     let className = 'tasks-list' + (this.state.listTransforms ? ' tasks-transition' : '')

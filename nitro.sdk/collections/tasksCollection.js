@@ -1,9 +1,9 @@
 import db from 'idb-keyval'
-import Events from './events.js'
-import Task from './task.js'
-import { getToday, getNext } from './magicList.js'
+import Events from '../events.js'
+import Task from '../models/taskModel.js'
+import { getToday, getNext } from './magicListCollection.js'
 import { createId } from '../helpers/random.js'
-import { broadcast } from '../stores/broadcastchannel.js'
+import { broadcast } from '../sync/broadcastchannel.js'
 
 // the main thing that holds all the tasks
 export class tasks extends Events {
@@ -37,7 +37,6 @@ export class tasks extends Events {
       if (key !== 'id') resource[key] = props[key]
     })
     this.trigger('update')
-    this.trigger('updateTask', id)
     this.saveLocal()
     if (sync) this.sync.addToQueue([resource.list, id], 'patch', 'tasks')
     return resource
@@ -145,7 +144,6 @@ export class tasks extends Events {
           task[prop] = props[prop]
         }
       })
-      this.trigger('updateTask', task.id)
     })
     this.trigger('update', listId)
     this.saveLocal()

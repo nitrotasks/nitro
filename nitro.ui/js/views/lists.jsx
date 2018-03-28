@@ -1,9 +1,8 @@
 import preact from 'preact'
 import { route, Link } from 'preact-router'
 
-import { CombinedCollection } from '../models/combinedCollection.js'
+import { NitroSdk } from '../../../nitro.sdk'
 
-import authenticationStore from '../stores/auth.js'
 import ContextMenuStore from '../stores/contextmenu.js'
 import DialogBoxStore from '../stores/dialogbox.js'
 import { propsCompare } from '../helpers/compare.js'
@@ -33,20 +32,20 @@ class SidebarItem extends preact.Component {
 export default class Lists extends preact.Component {
   state = {
     currentList: null,
-    lists: CombinedCollection.getLists(),
+    lists: NitroSdk.getLists(),
   }
   componentWillMount() {
-    CombinedCollection.bind('update', this.update)
-    CombinedCollection.bind('list-change', this.listChange)
+    NitroSdk.bind('update', this.update)
+    NitroSdk.bind('list-change', this.listChange)
   }
   componentWillUnmount() {
-    CombinedCollection.unbind('update', this.update)
-    CombinedCollection.unbind('list-change', this.listChange)
+    NitroSdk.unbind('update', this.update)
+    NitroSdk.unbind('list-change', this.listChange)
   }
   // essentially just updates the count & lists in view
   update = () => {
     this.setState({
-      lists: CombinedCollection.getLists()
+      lists: NitroSdk.getLists()
     })
   }
   // much faster than using preact-router?
@@ -57,7 +56,7 @@ export default class Lists extends preact.Component {
   }
   createList() {
     if (document.documentElement.clientWidth >= 700) {
-      const newList = CombinedCollection.addList({
+      const newList = NitroSdk.addList({
         name: 'Untitled List'
       })
       route('/lists/' + newList.id + '#rename')
@@ -73,7 +72,7 @@ export default class Lists extends preact.Component {
           if (name.slice(0, 9) === 'nitrosys-') {
             name = name.slice(9)
           }
-          const newList = CombinedCollection.addList({
+          const newList = NitroSdk.addList({
             name: name
           })
           route('/lists/' + newList.id)
@@ -82,10 +81,10 @@ export default class Lists extends preact.Component {
     }
   }
   signOut = () => {
-    authenticationStore.signOut()
+    NitroSdk.signOut()
   }
   triggerSync = () => {
-    CombinedCollection.manualSync()
+    NitroSdk.manualSync()
   }
   triggerMenu = e => {
     const rect = e.currentTarget.getBoundingClientRect()

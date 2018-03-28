@@ -1,6 +1,7 @@
 import preact from 'preact'
 
-import { CombinedCollection } from '../../models/combinedCollection.js'
+import { NitroSdk } from '../../../../nitro.sdk'
+
 import { back } from '../../stores/navigation.js'
 import { taskExpandedStore } from '../../stores/taskexpanded.js'
 
@@ -22,8 +23,8 @@ export default class Tasks extends preact.Component {
     this.observer = null
   }
   componentWillMount() {
-    CombinedCollection.bind('update', this.update)
-    CombinedCollection.bind('order', this.update)
+    NitroSdk.bind('update', this.update)
+    NitroSdk.bind('order', this.update)
   }
   componentDidMount() {
     window.addEventListener('resize', this.windowResize)
@@ -33,8 +34,8 @@ export default class Tasks extends preact.Component {
     }
   }
   componentWillUnmount() {
-    CombinedCollection.unbind('update', this.update)
-    CombinedCollection.unbind('order', this.update)
+    NitroSdk.unbind('update', this.update)
+    NitroSdk.unbind('order', this.update)
     window.removeEventListener('resize', this.windowResize)
     this.observer.disconnect()
   }
@@ -110,25 +111,25 @@ export default class Tasks extends preact.Component {
       }
     }
     if (nextProps.list === this.state.list) {
-      CombinedCollection.trigger('list-change', nextProps.list)
+      NitroSdk.trigger('list-change', nextProps.list)
       newProps.disposing = false
       return newProps
     }
     if (nextProps.list) {
-      const tasks = CombinedCollection.getTasks(nextProps.list)
+      const tasks = NitroSdk.getTasks(nextProps.list)
       if (tasks === null) {
         newProps.list = 'notfound'
         return newProps
       }
       if (this.props.list !== nextProps.list || firstRun) {
-        CombinedCollection.trigger('list-change', nextProps.list)
+        NitroSdk.trigger('list-change', nextProps.list)
         newProps.taskList = tasks.tasks
       }
       newProps.disposing = false
       newProps.list = nextProps.list
       newProps.order = tasks.order
     } else {
-      CombinedCollection.trigger('list-change', null)
+      NitroSdk.trigger('list-change', null)
       newProps.disposing = true
     }
     return newProps
@@ -152,7 +153,7 @@ export default class Tasks extends preact.Component {
       // if (this.props.task !== '') {
       //   return
       // }
-      const tasks = CombinedCollection.getTasks(this.state.list)
+      const tasks = NitroSdk.getTasks(this.state.list)
       if (tasks === null) {
         return this.setState({
           list: 'notfound'
@@ -165,7 +166,7 @@ export default class Tasks extends preact.Component {
     }
   }
   triggerArchive = () => {
-    CombinedCollection.archiveCompletedList(this.state.list)
+    NitroSdk.archiveCompletedList(this.state.list)
   }
   triggerStickyScroll = entries => {
     if (typeof this.props.list !== 'undefined') {
@@ -185,7 +186,7 @@ export default class Tasks extends preact.Component {
     if (this.state.list === 'notfound') {
       return <NotFound />
     }
-    const list = CombinedCollection.getList(this.state.list)
+    const list = NitroSdk.getList(this.state.list)
     const mutable = list.mutable.indexOf('no-order') === -1
     let className = 'tasks-pane'
     let footerClassName = 'tasks-pane-footer'
@@ -199,7 +200,7 @@ export default class Tasks extends preact.Component {
       className += ' selected-task-hide'
     }
     let archiveBtn = null
-    const signedin = CombinedCollection.signedin()
+    const signedin = NitroSdk.isSignedIn()
     const completedTasks = this.state.taskList.filter(task => {
       if (!signedin || (task.serverId !== null && typeof task.serverId !== 'undefined')) {
         return (task.completed !== null && task.completed !== 'undefined' && task.type !== 'archived')

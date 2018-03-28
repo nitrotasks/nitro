@@ -1,5 +1,5 @@
 import ContextMenuStore from '../../stores/contextmenu.js'
-import { CombinedCollection } from '../../models/combinedCollection.js'
+import { NitroSdk } from '../../../../nitro.sdk'
 
 const backLogic = function() {
   if (window.location.pathname.split('/').length > 3) {
@@ -10,7 +10,7 @@ const backLogic = function() {
 const archiveTask = function(task) {
   backLogic()
   try {
-    CombinedCollection.archiveTask(task)
+    NitroSdk.archiveTask(task)
   } catch(err) {
     // todo: make this a nicer error
     alert(err.message)
@@ -19,17 +19,17 @@ const archiveTask = function(task) {
 
 const deleteTask = function(task) {
   backLogic()
-  CombinedCollection.deleteTask(task)
+  NitroSdk.deleteTask(task)
 }
 
 const headingConvert = function(task, mode = 'header') {
   backLogic()
-  CombinedCollection.updateTask(task, { type: mode })
+  NitroSdk.updateTask(task, { type: mode })
 }
 
 const archiveHeading = (task) => {
   backLogic()
-  CombinedCollection.archiveHeading(task)
+  NitroSdk.archiveHeading(task)
 }
 
 export const taskMenu = function(taskId, headingAllowed, x, y, bind1 = 'top', bind2 = 'left') {

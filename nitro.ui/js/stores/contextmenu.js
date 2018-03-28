@@ -1,4 +1,4 @@
-import Events from '../models/events.js'
+import { Events }  from '../../../nitro.sdk'
 
 class ContextMenuStore extends Events {
   constructor(props) {

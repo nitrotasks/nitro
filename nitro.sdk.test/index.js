@@ -6,5 +6,5 @@ require('./date.js')
 // require('./syncQueue.js')
 // require('./syncGet.js')
 
-require('./combined.js')
+require('./sdk.js')
 require('./magic.js')

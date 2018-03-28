@@ -1,6 +1,6 @@
 import db from 'idb-keyval'
-import config from '../../../config.js'
-import Events from '../models/events.js'
+import config from '../../config.js'
+import Events from '../events.js'
 import { checkStatus } from '../helpers/fetch.js'
 import { log } from '../helpers/logger.js'
 import { broadcast } from './broadcastchannel.js'

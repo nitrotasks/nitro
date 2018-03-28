@@ -1,8 +1,8 @@
 import db from 'idb-keyval'
-import Events from './events.js'
-import List from './list.js'
+import Events from '../events.js'
+import List from '../models/listModel.js'
 import { createId } from '../helpers/random.js'
-import { broadcast } from '../stores/broadcastchannel.js'
+import { broadcast } from '../sync/broadcastchannel.js'
 
 // the main thing that holds all the lists
 export class lists extends Events {

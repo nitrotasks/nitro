@@ -1,9 +1,9 @@
 import preact from 'preact'
 
+import { NitroSdk } from '../../../../nitro.sdk'
+
 import { shallowCompare } from '../../helpers/compare.js'
 import { formatDate } from '../../helpers/date.js'
-import { TasksCollection } from '../../models/tasksCollection.js'
-import { CombinedCollection } from '../../models/combinedCollection.js'
 import { taskMenu, headerMenu } from './contextmenu.jsx'
 import { taskExpandedStore } from '../../stores/taskexpanded.js'
 
@@ -16,8 +16,7 @@ export default class Task extends preact.Component {
     this.state.expanded = props.selectedTask
   }
   componentDidMount() {
-    CombinedCollection.bind('update', this.triggerUpdate)
-    TasksCollection.bind('updateTask', this.triggerUpdate)
+    NitroSdk.bind('update', this.triggerUpdate)
     if (this.props.selectedTask) {
       setTimeout(() => {
         const rect = this.el.getBoundingClientRect()
@@ -28,8 +27,7 @@ export default class Task extends preact.Component {
     }
   }
   componentWillUnmount() {
-    CombinedCollection.unbind('update', this.triggerUpdate)
-    TasksCollection.unbind('updateTask', this.triggerUpdate)
+    NitroSdk.unbind('update', this.triggerUpdate)
   }
   onDragStart() {
     return false
@@ -47,12 +45,12 @@ export default class Task extends preact.Component {
     }
   }
   triggerCheck = () => {
-    CombinedCollection.completeTask(this.props.data.id)
+    NitroSdk.completeTask(this.props.data.id)
   }
   triggerChange = prop => {
     return e => {
       const value = e.currentTarget.value
-      CombinedCollection.updateTask(this.props.data.id, { [prop]: value })
+      NitroSdk.updateTask(this.props.data.id, { [prop]: value })
     }
   }
   triggerUpdate = (data, value) => {
@@ -65,7 +63,7 @@ export default class Task extends preact.Component {
   installState = (id, lookup = true) => {
     let data = id
     if (lookup) {
-      data = CombinedCollection.getTask(id)
+      data = NitroSdk.getTask(id)
     }
     return {
       name: data.name,
@@ -123,7 +121,7 @@ export default class Task extends preact.Component {
       ) {
         indicators.push(
           <span class="indicator indicator-date">
-            {CombinedCollection.getList(this.state.list).name}
+            {NitroSdk.getList(this.state.list).name}
           </span>
         )
       }

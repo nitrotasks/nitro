@@ -1,7 +1,7 @@
 import preact from 'preact'
 
+import { NitroSdk } from '../../../../nitro.sdk'
 import { dateValue, deadlineValue } from '../../helpers/date.js'
-import { CombinedCollection } from '../../models/combinedCollection.js'
 import Datepicker from './datepicker.jsx'
 import { taskMenu } from './contextmenu.jsx'
 
@@ -17,7 +17,7 @@ export default class TaskExpanded extends preact.Component {
     notes: null
   }
   componentWillMount() {
-    const task = CombinedCollection.getTask(this.props.task)
+    const task = NitroSdk.getTask(this.props.task)
     if (task === null) return
     this.setState({
       date: task.date,
@@ -26,7 +26,7 @@ export default class TaskExpanded extends preact.Component {
     })
   }
   componentWillReceiveProps() {
-    const task = CombinedCollection.getTask(this.props.task)
+    const task = NitroSdk.getTask(this.props.task)
     if (task === null) return
     this.setState({
       date: task.date,
@@ -55,7 +55,7 @@ export default class TaskExpanded extends preact.Component {
         this.sizeTextarea(e)
       }
       this.setState(newData)
-      CombinedCollection.updateTask(this.props.task, newData)
+      NitroSdk.updateTask(this.props.task, newData)
     }
   }
   sizeTextarea = (e = this.textarea) => {

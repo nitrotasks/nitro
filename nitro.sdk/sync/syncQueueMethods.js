@@ -1,7 +1,7 @@
 import { checkStatus } from '../helpers/fetch.js'
 
-import config from '../../../config.js'
-import authenticationStore from '../stores/auth.js'
+import config from '../../config.js'
+import authenticationStore from './auth.js'
 
 export const postItem = (id, endpoint, model, parentModel, arrayParam, serverParams) => {
   return new Promise((resolve, reject) => {

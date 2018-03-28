@@ -1,4 +1,4 @@
-import Events from '../models/events.js'
+import Events from '../events.js'
 import { log } from '../helpers/logger.js'
 
 export class _broadcast extends Events {

@@ -1,13 +1,13 @@
 import db from 'idb-keyval'
-import Events from './events.js'
+import Events from '../events.js'
 import { log, warn, error } from '../helpers/logger.js'
 import { promiseSerial } from '../helpers/promise.js'
 
 import { postItem, patchItem, deleteItem, deleteItems, archiveItem } from './syncQueueMethods.js'
 import { postQueue, patchQueue, deleteQueue, archiveQueue } from './syncQueueAdders.js'
 
-import { ListsCollection } from './listsCollection.js'
-import { TasksCollection } from './tasksCollection.js'
+import { ListsCollection } from '../collections/listsCollection.js'
+import { TasksCollection } from '../collections/tasksCollection.js'
 
 const findQueueIndex = function(item) {
   return function(element) {

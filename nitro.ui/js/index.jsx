@@ -1,9 +1,7 @@
 import preact from 'preact'
 import Router from 'preact-router'
 
-import { log, error } from './helpers/logger.js'
-import authenticationStore from './stores/auth.js'
-import { CombinedCollection } from './models/combinedCollection.js'
+import { NitroSdk } from '../../nitro.sdk'
 
 import Lists from './views/lists.jsx'
 import Tasks from './views/task/index.jsx'
@@ -28,7 +26,7 @@ const App = () => (
   </div>
 )
 
-window.auth = authenticationStore
+window.sdk = NitroSdk
 
 document.addEventListener('DOMContentLoaded', function() {
   const elem = document.getElementById('app-shell')
@@ -51,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
       console.info('Service Worker is disabled in development.')
     }
 
-    CombinedCollection.loadData().then(() => {
+    NitroSdk.loadData().then(() => {
       elem.innerHTML = ''
       preact.render(App(), elem)
       setTimeout(function() {
