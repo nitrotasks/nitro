@@ -43,7 +43,11 @@ export class lists extends Events {
   delete(id, queueItem = true) {
     if (queueItem) {
       this.sync.addToQueue(id, 'delete', 'lists')
+    } else {
+      this.actualDelete(id)
     }
+  }
+  actualDelete(id) {
     this.collection.delete(id)
     this.trigger('update')
     this.saveLocal()

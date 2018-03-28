@@ -137,7 +137,7 @@ export const deleteQueue = function(id, queue, identifier, model, parentModel) {
     const index = queue.delete.findIndex(function(element) {
       return element[0] === id[0]
     })
-
+    
     if (!listServerId) {
       log(identifier, 'Skipping DELETE - Parent still in POST queue')
       deleteFromPostQueue()
@@ -160,6 +160,7 @@ export const deleteQueue = function(id, queue, identifier, model, parentModel) {
       queue.delete.push([id[0], listServerId, [[id[1], taskServerId]]])
       deleteFromPatchQueue()
     }
+    model.actualDelete(id[1])
   } else {
     let serverId = model.find(id)
     if (serverId !== null) serverId = serverId.serverId
@@ -171,6 +172,7 @@ export const deleteQueue = function(id, queue, identifier, model, parentModel) {
     } else {
       queue.delete.push([id, serverId])
     }
+    model.actualDelete(id)
   }
 }
 

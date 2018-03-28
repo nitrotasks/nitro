@@ -45,6 +45,8 @@ export class tasks extends Events {
   delete(id) {
     const resource = this.find(id)
     this.sync.addToQueue([resource.list, id], 'delete', 'tasks')
+  }
+  actualDelete(id) {
     this.collection.delete(id)
     this.trigger('update')
     this.saveLocal()
