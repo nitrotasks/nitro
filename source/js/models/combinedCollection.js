@@ -366,7 +366,7 @@ export class combined extends Events {
     const order = ListsCollection.find(task.list).localOrder
     order.splice(order.indexOf(task.id), 1)
     this.updateOrder(task.list, order, false)
-    TasksCollection.delete(task.id)
+    TasksCollection.delete(task.id, authenticationStore.isLocalAccount())
   }
   updateOrder(id: string, order: Array<string>, sync: bool = true) {
     const resource = ListsCollection.find(id)
@@ -430,7 +430,7 @@ export class combined extends Events {
       throw new Error('List could not be found.')
     }
     TasksCollection.deleteAllFromList(list.id)
-    ListsCollection.delete(list.id)
+    ListsCollection.delete(list.id, authenticationStore.isLocalAccount())
   }
 }
 export let CombinedCollection = new combined()

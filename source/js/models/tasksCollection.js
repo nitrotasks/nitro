@@ -42,7 +42,10 @@ export class tasks extends Events {
     if (sync) this.sync.addToQueue([resource.list, id], 'patch', 'tasks')
     return resource
   }
-  delete(id) {
+  delete(id, local = false) {
+    if (local === true) {
+      return this.actualDelete(id)
+    }
     const resource = this.find(id)
     this.sync.addToQueue([resource.list, id], 'delete', 'tasks')
   }

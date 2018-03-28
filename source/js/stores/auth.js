@@ -57,6 +57,9 @@ class AuthenticationStore extends Events {
     }
     return false
   }
+  isLocalAccount() {
+    return Object.keys(this.refreshToken).length === 0 || 'local' in this.refreshToken
+  }
   formSignIn(username, password) {
     if (username === 'local@nitrotasks.com') {
       this.refreshToken = {local: true}
