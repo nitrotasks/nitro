@@ -84,6 +84,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-native-web": "^0.5.3",
+    "react-router-dom": "^4.2.2",
     "resize-observer-polyfill": "^1.5.0",
     "webpack-bundle-analyzer": "^2.11.1"
   }

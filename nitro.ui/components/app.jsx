@@ -1,36 +1,33 @@
 import React, { Component } from 'react';
 import logo from '../../assets/icons/logo.svg';
 import { Image, StyleSheet, Text, View } from 'react-native';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-const Link = (props) => <Text {...props} accessibilityRole="link" style={StyleSheet.compose(styles.link, props.style)} />
+import { Lists } from './lists/index.jsx'
+import { Tasks } from './tasks/index.jsx'
+import { Editor } from './editor/index.jsx'
 
 class App extends Component {
   render() {
     return (
-      <View style={styles.app}>
+      <View>
         <View style={styles.header}>
           <Image accessibilityLabel="React logo" source={logo} resizeMode="contain" style={styles.logo} />
           <Text style={styles.title}>React Native for Web</Text>
         </View>
-        <Text style={styles.text}>
-        How am i gonna structure this.
-          This is an example of an app built
-          with <Link href="https://github.com/facebook/create-react-app">Create React App</Link> and{' '}
-          <Link href="https://github.com/necolas/react-native-web">React Native for Web</Link>
-        </Text>
-        <Text style={styles.text}>
-          To get started, remix this starter kit by editing shizzle mc nizzle.
-        </Text>
+        <BrowserRouter>
+          <Switch>
+            <Route path="/:list/:task" component={Editor} />
+            <Route path="/:list" component={Tasks} />
+            <Route path="/" component={Lists} />
+          </Switch>
+        </BrowserRouter>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  app: {
-    marginHorizontal: 'auto',
-    maxWidth: 500
-  },
   logo: {
     height: 80
   },
@@ -42,18 +39,6 @@ const styles = StyleSheet.create({
     fontSize: '1.5rem',
     marginVertical: '1em',
     textAlign: 'center'
-  },
-  text: {
-    lineHeight: '1.5em',
-    fontSize: '1.125rem',
-    marginVertical: '1em',
-    textAlign: 'center'
-  },
-  link: {
-    color: '#1B95E0'
-  },
-  code: {
-    fontFamily: 'monospace, monospace'
   }
 });
 
