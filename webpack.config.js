@@ -9,20 +9,14 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin")
 
 let filename = 'generated/[name].js'
 let chunkFilename = 'generated/[name].[id].js'
-let cssFilename = 'generated/[name].css'
 if (process.env.NODE_ENV === 'production') {
   chunkFilename = 'generated/[name].[id].[chunkhash].js'
 }
 
-const extractSass = new ExtractTextPlugin({
-  filename: cssFilename,
-  allChunks: true
-})
-
 const webpackConfig = {
   context: baseDirectory,
   entry: {
-    app: ['./nitro.ui/js/index.jsx', './nitro.ui/scss/style.scss'],
+    app: ['./nitro.ui/index.js'],
   },
   output: {
     filename: filename,
@@ -35,28 +29,6 @@ const webpackConfig = {
     rules: [
       { test: /\.(js|jsx)$/, loader: 'babel-loader' },
       {
-				test: /\.scss$/,
-				use: extractSass.extract({
-				  use: [
-  					{
-  						loader: 'css-loader',
-  						options: {
-  						  sourceMap: true
-  						}
-  					},
-  					{
-  					  loader: 'resolve-url-loader'
-  					},
-  					{
-  						loader: 'sass-loader',
-  						options: {
-  						  sourceMap: true
-  						}
-  					}
-  				]
-				})
-			},
-      {
         test:  /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
         use: [{
             loader: 'file-loader',
@@ -65,10 +37,6 @@ const webpackConfig = {
               publicPath: '/generated/assets'
             }
         }]
-      },
-      {
-        test: /pikaday\.js$/,
-        loader : 'imports-loader?define=>false'
       }
     ]
   },
@@ -95,8 +63,6 @@ const webpackConfig = {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV)
       }
     }),
-    extractSass,
-    new webpack.IgnorePlugin(/moment/),
     new HtmlWebpackPlugin({
       template: 'nitro.ui/index.html',
       title: 'Nitro'
@@ -112,7 +78,7 @@ const bundle = new BundleAnalyzerPlugin({
 if (process.env.NODE_ENV === 'production') {
   webpackConfig.devtool = 'nosources-source-map'
   webpackConfig.plugins.push(new webpack.optimize.ModuleConcatenationPlugin())
-  //webpackConfig.plugins.push(bundle)
+  // webpackConfig.plugins.push(bundle)
   webpackConfig.plugins.push(new OfflinePlugin({
     externals: [
       '/',
