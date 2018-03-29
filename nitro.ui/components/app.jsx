@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import React from 'react'
+import { View } from 'react-native'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 import { Lists } from './lists/index.jsx'
 import { Tasks } from './tasks/index.jsx'
 import { Editor } from './editor/index.jsx'
 
-class App extends Component {
+class App extends React.Component {
   render() {
     return (
       <View>
@@ -18,7 +18,7 @@ class App extends Component {
           </Switch>
         </BrowserRouter>
       </View>
-    );
+    )
   }
 }
-export default App;
+export default App

@@ -12,7 +12,8 @@
     "prepublishOnly": "npm run clean && npm run build",
     "flow": "flow",
     "docker-push-master": "docker login -u \"$DOCKER_USERNAME\" -p \"$DOCKER_PASSWORD\" && docker push dymajo/nitro-client:latest",
-    "ssh-remote": "ssh -o StrictHostKeyChecking=no $SSH_HOSTNAME bash nitro/deploy.sh"
+    "ssh-remote": "ssh -o StrictHostKeyChecking=no $SSH_HOSTNAME bash nitro/deploy.sh",
+    "prettier": "prettier"
   },
   "repository": {
     "type": "git",
@@ -53,6 +54,7 @@
     "cross-env": "^5.1.4",
     "css-loader": "^0.28.11",
     "eslint": "^4.19.0",
+    "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "^7.7.0",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "fake-indexeddb": "^2.0.4",
@@ -65,6 +67,7 @@
     "node-sass": "^4.8.2",
     "nyc": "^11.6.0",
     "offline-plugin": "^4.9.0",
+    "prettier": "^1.11.1",
     "resolve-url-loader": "^2.3.0",
     "sass-loader": "^6.0.7",
     "style-loader": "^0.20.3",

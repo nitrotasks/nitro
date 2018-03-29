@@ -9,14 +9,29 @@ import { Header } from './header.jsx'
 import { ListItem } from './listitem.jsx'
 
 export class Lists extends React.Component {
+  state = {
+    lists: NitroSdk.getLists()
+  }
+  componentWillMount() {
+    NitroSdk.bind('update', this.update)
+  }
+  componentWillUnmount() {
+    NitroSdk.unbind('update', this.update)
+  }
+  update = () => {
+    // we listen to all updates, so the counts also get updated
+    this.setState({
+      lists: NitroSdk.getLists()
+    })
+  }
   render() {
     return (
       <View style={styles.wrapper}>
         <Header />
         <View style={styles.listWrapper}>
-          {NitroSdk.getLists().map(list => {
+          {this.state.lists.map(list => {
             return (
-              <ListItem 
+              <ListItem
                 key={list.id}
                 id={list.id}
                 name={list.name}
@@ -27,7 +42,7 @@ export class Lists extends React.Component {
         </View>
       </View>
     )
-  }   
+  }
 }
 
 const styles = StyleSheet.create({

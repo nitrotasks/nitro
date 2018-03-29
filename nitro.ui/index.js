@@ -6,7 +6,7 @@ window.sdk = NitroSdk
 AppRegistry.registerComponent('App', () => App)
 
 NitroSdk.loadData().then(() => {
-    AppRegistry.runApplication('App', {
-      rootTag: document.getElementById('app-shell')
-    })
+  AppRegistry.runApplication('App', {
+    rootTag: document.getElementById('app-shell')
+  })
 })
