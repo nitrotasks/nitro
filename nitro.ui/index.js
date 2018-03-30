@@ -5,8 +5,15 @@ window.sdk = NitroSdk
 
 AppRegistry.registerComponent('App', () => App)
 
-NitroSdk.loadData().then(() => {
-  AppRegistry.runApplication('App', {
-    rootTag: document.getElementById('app-shell')
-  })
+document.addEventListener('DOMContentLoaded', () => {
+  const shell = document.getElementById('app-shell')
+  NitroSdk.loadData()
+    .then(() => {
+      AppRegistry.runApplication('App', {
+        rootTag: shell
+      })
+    })
+    .catch(err => {
+      shell.innerHTML = err
+    })
 })

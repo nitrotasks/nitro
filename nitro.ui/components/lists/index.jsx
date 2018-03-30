@@ -23,6 +23,7 @@ export class Lists extends React.Component {
     this.setState({
       lists: NitroSdk.getLists()
     })
+    console.log('what')
   }
   render() {
     return (

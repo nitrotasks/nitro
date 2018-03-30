@@ -1,5 +1,5 @@
 import React from 'react'
-import logo from '../../../assets/icons/logo.svg';
+import logo from '../../../assets/icons/logo.svg'
 import { Image, View, Text, StyleSheet } from 'react-native'
 
 import { vars } from '../../styles'
@@ -10,8 +10,8 @@ export class Header extends React.Component {
       <View style={styles.wrapper}>
         <View style={styles.logoContainer}>
           <Image
-            accessibilityLabel="Nitro Logo" 
-            source={logo} 
+            accessibilityLabel="Nitro Logo"
+            source={logo}
             resizeMode="contain"
             style={styles.logo}
           />

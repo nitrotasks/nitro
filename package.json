@@ -84,6 +84,7 @@
     "pikaday": "^1.7.0",
     "preact": "^8.2.7",
     "preact-router": "^2.6.0",
+    "prop-types": "^15.6.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-native-web": "^0.5.3",
