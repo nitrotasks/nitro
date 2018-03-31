@@ -77,14 +77,21 @@ Header.propTypes = {
 
 const styles = StyleSheet.create({
   listHeaderWrapper: {
-    padding: vars.padding / 2
+    paddingTop: vars.padding,
+    paddingLeft: vars.padding / 2,
+    paddingRight: vars.padding / 2,
+    paddingBottom: vars.padding / 4
   },
   listHeader: {
     padding: vars.padding / 2,
+    paddingBottom: vars.padding / 4,
+    paddingTop: vars.padding / 4,
     fontSize: 32,
     fontWeight: '900',
     outline: '0',
-    borderRadius: 3
+    borderRadius: 3,
+    lineHeight: 1,
+    textOverflow: 'ellipsis'
   },
   focusedListHeader: {
     backgroundColor: 'rgba(0, 0, 0, 0.08)'

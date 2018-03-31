@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { TextInput, StyleSheet } from 'react-native'
+import { View, TextInput, StyleSheet } from 'react-native'
+import { vars } from '../../styles.js'
 
 import { NitroSdk } from '../../../nitro.sdk'
 
@@ -39,22 +40,56 @@ export class TasksInput extends React.Component {
     this.setState({
       name: ''
     })
-    e.currentTarget.blur()
+    // TODO: This doesn't work.
+    e.currentTarget.focus()
   }
   render() {
+    const inputStyles = this.state.inputFocus
+      ? StyleSheet.flatten([styles.input, styles.inputFocus])
+      : styles.input
     return (
-      <TextInput
-        value={this.state.name}
-        onChange={this.triggerChange}
-        onFocus={this.triggerFocus}
-        onBlur={this.triggerBlur}
-        onKeyUp={this.triggerKeyUp}
-        onSubmitEditing={this.triggerSubmit}
-        placeholder="Add a task..."
-      />
+      <View style={styles.wrapper}>
+        <TextInput
+          style={inputStyles}
+          value={this.state.name}
+          onChange={this.triggerChange}
+          onFocus={this.triggerFocus}
+          onBlur={this.triggerBlur}
+          onKeyUp={this.triggerKeyUp}
+          onSubmitEditing={this.triggerSubmit}
+          placeholder="Add a task..."
+        />
+      </View>
     )
   }
 }
 TasksInput.propTypes = {
   listId: PropTypes.string
 }
+const styles = StyleSheet.create({
+  wrapper: {
+    paddingTop: vars.padding / 4,
+    paddingLeft: vars.padding / 2,
+    paddingRight: vars.padding / 2,
+    paddingBottom: vars.padding * 3 / 4
+  },
+  input: {
+    backgroundColor: 'rgba(0, 0, 0, 0.08)',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: 'transparent',
+    paddingTop: vars.padding / 2,
+    paddingLeft: vars.padding * 3 / 4,
+    paddingRight: vars.padding * 3 / 4,
+    paddingBottom: vars.padding / 2,
+    borderRadius: 4,
+    outline: 'none',
+    transitionDuration: '250ms, 250ms',
+    transitionProperty: 'border-color, background-color',
+    transitionTimingFunction: 'ease, ease'
+  },
+  inputFocus: {
+    backgroundColor: 'rgba(0, 0, 0, 0.04)',
+    borderColor: vars.accentColor
+  }
+})
