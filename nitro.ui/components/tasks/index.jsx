@@ -1,8 +1,9 @@
 import React from 'react'
-import { View, Text } from 'react-native'
-import { Link } from 'react-router-dom'
+import { View } from 'react-native'
 
 import { Header } from './header.jsx'
+import { TasksInput } from './tasksInput.jsx'
+import { TasksList } from './tasksList.jsx'
 
 export class Tasks extends React.Component {
   render() {
@@ -10,10 +11,8 @@ export class Tasks extends React.Component {
     return (
       <View>
         <Header listId={listId} />
-        <Text>Tasks Component - {listId}</Text>
-        <Link to={`/${listId}/task1`}>
-          <Text>List1</Text>
-        </Link>
+        <TasksInput listId={listId} />
+        <TasksList listId={listId} />
       </View>
     )
   }

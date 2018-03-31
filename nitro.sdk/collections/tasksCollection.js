@@ -36,7 +36,7 @@ export class tasks extends Events {
     Object.keys(props).forEach(function(key) {
       if (key !== 'id') resource[key] = props[key]
     })
-    this.trigger('update')
+    this.trigger('update', resource.list, id)
     this.saveLocal()
     if (sync) this.sync.addToQueue([resource.list, id], 'patch', 'tasks')
     return resource
@@ -91,7 +91,7 @@ export class tasks extends Events {
         // only delete stuff straight away if they don't have an account
         // otherwise, on sync it'll get deleted anyway
         if (!signedIn) {
-          archiveDelete.forEach((id) => {
+          archiveDelete.forEach(id => {
             this.collection.delete(id)
           })
         }
@@ -132,7 +132,7 @@ export class tasks extends Events {
         return
       }
       task.lastSync = props.updatedAt
-      
+
       Object.keys(props).forEach(prop => {
         if (prop === 'date' || prop === 'deadline' || prop === 'completed') {
           if (props[prop] !== null) {
@@ -193,7 +193,11 @@ export class tasks extends Events {
   }
   findListCount(list) {
     return this.findList(list).filter(task => {
-      return (task.type !== 'header' && task.type !== 'archived' && task.completed === null)
+      return (
+        task.type !== 'header' &&
+        task.type !== 'archived' &&
+        task.completed === null
+      )
     }).length
   }
   deleteTasks(tasks) {
@@ -226,7 +230,7 @@ export class tasks extends Events {
         this.saveLocal()
         return
       }
-      data.forEach((item) => {
+      data.forEach(item => {
         this.collection.set(item.id, new Task(item))
       })
     })
