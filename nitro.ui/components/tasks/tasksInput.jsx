@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
     paddingBottom: vars.padding / 2,
     borderRadius: 4,
     outline: 'none',
+    lineHeight: vars.padding,
     transitionDuration: '250ms, 250ms',
     transitionProperty: 'border-color, background-color',
     transitionTimingFunction: 'ease, ease'

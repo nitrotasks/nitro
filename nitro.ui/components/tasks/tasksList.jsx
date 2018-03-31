@@ -23,7 +23,8 @@ export class TasksList extends React.Component {
     NitroSdk.unbind('update', this.tasksUpdate)
   }
   tasksUpdate = (event, listId) => {
-    if (event === 'tasks' && listId === this.props.listId) {
+    // captures all updates for all lists, because the today and next lists are special
+    if (event === 'tasks') {
       this.setState(this.generateState(this.props))
     }
   }

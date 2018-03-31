@@ -1,12 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { withRouter } from 'react-router'
 import { View, Text, TextInput, StyleSheet } from 'react-native'
 
 import { NitroSdk } from '../../../nitro.sdk'
 
 import { vars } from '../../styles'
+import { MaterialHeader } from '../materialHeader.jsx'
 
-export class Header extends React.Component {
+class HeaderWithoutRouter extends React.Component {
   constructor(props) {
     super(props)
     this.state = this.generateState(this.props)
@@ -57,43 +59,52 @@ export class Header extends React.Component {
       ? StyleSheet.flatten([styles.listHeader, styles.focusedListHeader])
       : styles.listHeader
     return (
-      <View style={styles.listHeaderWrapper}>
-        <TextInput
-          style={listHeaderStyles}
-          value={this.state.name}
-          onChange={this.triggerChange}
-          onFocus={this.triggerFocus}
-          onBlur={this.triggerBlur}
-          onKeyUp={this.triggerKeyUp}
+      <View>
+        <MaterialHeader
+          leftIcon="back"
+          leftAction={this.props.history.goBack}
+          h1={this.state.name}
         />
+        <View style={styles.listHeaderWrapper}>
+          <TextInput
+            style={listHeaderStyles}
+            value={this.state.name}
+            onChange={this.triggerChange}
+            onFocus={this.triggerFocus}
+            onBlur={this.triggerBlur}
+            onKeyUp={this.triggerKeyUp}
+          />
+        </View>
       </View>
     )
   }
 }
 
-Header.propTypes = {
+HeaderWithoutRouter.propTypes = {
   listId: PropTypes.string
 }
 
 const styles = StyleSheet.create({
   listHeaderWrapper: {
-    paddingTop: vars.padding,
+    paddingTop: vars.padding / 2,
     paddingLeft: vars.padding / 2,
     paddingRight: vars.padding / 2,
     paddingBottom: vars.padding / 4
   },
   listHeader: {
     padding: vars.padding / 2,
-    paddingBottom: vars.padding / 4,
+    paddingBottom: vars.padding * 0.75,
     paddingTop: vars.padding / 4,
     fontSize: 32,
     fontWeight: '900',
     outline: '0',
     borderRadius: 3,
-    lineHeight: 1,
+    lineHeight: 1.15,
     textOverflow: 'ellipsis'
   },
   focusedListHeader: {
     backgroundColor: 'rgba(0, 0, 0, 0.08)'
   }
 })
+
+export const Header = withRouter(HeaderWithoutRouter)

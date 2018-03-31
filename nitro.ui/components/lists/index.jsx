@@ -1,11 +1,10 @@
 import React from 'react'
-import { Image, View, Text, StyleSheet } from 'react-native'
-import { Link } from 'react-router-dom'
+import { View, StyleSheet } from 'react-native'
 
 import { NitroSdk } from '../../../nitro.sdk'
 
 import { vars } from '../../styles'
-import { Header } from './header.jsx'
+import { MaterialHeader } from '../materialHeader.jsx'
 import { ListItem } from './listitem.jsx'
 
 export class Lists extends React.Component {
@@ -23,12 +22,11 @@ export class Lists extends React.Component {
     this.setState({
       lists: NitroSdk.getLists()
     })
-    console.log('what')
   }
   render() {
     return (
       <View style={styles.wrapper}>
-        <Header />
+        <MaterialHeader leftIcon="logo" h1="NITRO" h1Weight="900" />
         <View style={styles.listWrapper}>
           {this.state.lists.map(list => {
             return (
