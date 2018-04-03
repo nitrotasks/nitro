@@ -6,7 +6,6 @@ import { View, Text, TextInput, StyleSheet } from 'react-native'
 import { NitroSdk } from '../../../nitro.sdk'
 
 import { vars } from '../../styles'
-import { MaterialHeader } from '../materialHeader.jsx'
 
 class HeaderWithoutRouter extends React.Component {
   constructor(props) {
@@ -60,11 +59,6 @@ class HeaderWithoutRouter extends React.Component {
       : styles.listHeader
     return (
       <View>
-        <MaterialHeader
-          leftIcon="back"
-          leftAction={this.props.history.goBack}
-          h1={this.state.name}
-        />
         <View style={styles.listHeaderWrapper}>
           <TextInput
             style={listHeaderStyles}

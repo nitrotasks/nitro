@@ -14,7 +14,15 @@ export class MaterialHeader extends React.Component {
     } else if (this.props.leftIcon === 'back') {
       leftIcon = backIcon
     }
-    const textStyles = this.props.h1Weight === '900' ? StyleSheet.flatten([styles.text, styles.textBold]) : styles.text
+    const textStyles =
+      this.props.h1Weight === '900'
+        ? StyleSheet.flatten([styles.text, styles.textBold])
+        : styles.text
+
+    const h1Styles =
+      this.props.h1Visible === false
+        ? StyleSheet.flatten([styles.textContainer, styles.textContainerHidden])
+        : styles.textContainer
     return (
       <View style={styles.wrapper}>
         <View style={styles.logoContainer} onClick={this.props.leftAction}>
@@ -25,7 +33,7 @@ export class MaterialHeader extends React.Component {
             style={styles.logo}
           />
         </View>
-        <View style={styles.textContainer}>
+        <View style={h1Styles}>
           <Text style={textStyles}>{this.props.h1}</Text>
         </View>
       </View>
@@ -38,12 +46,13 @@ MaterialHeader.propTypes = {
   leftAction: PropTypes.func,
   rightIcon: PropTypes.string,
   rightAction: PropTypes.func,
-  h1: PropTypes.string,
+  h1Visible: PropTypes.bool,
+  h1: PropTypes.string
 }
 
 const styles = StyleSheet.create({
   wrapper: {
-    flex: 1,
+    // flex: 1,
     flexDirection: 'row',
     paddingTop: vars.padding - 2,
     paddingLeft: vars.padding,
@@ -56,7 +65,11 @@ const styles = StyleSheet.create({
     paddingRight: vars.padding / 2
   },
   textContainer: {
-    flex: 1
+    flex: 1,
+    transition: '100ms ease opacity'
+  },
+  textContainerHidden: {
+    opacity: 0
   },
   logo: {
     height: 28
