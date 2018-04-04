@@ -3,22 +3,16 @@
   "version": "3.0.0-alpha.1.19",
   "description": "Not just another todo list app",
   "scripts": {
-    "build":
-      "cross-env NODE_ENV=production webpack --progress --colors --mode production --display-optimization-bailout",
-    "report":
-      "cross-env NODE_ENV=report webpack --progress --colors --mode production --display-optimization-bailout",
+    "build": "cross-env NODE_ENV=production webpack --progress --colors --mode production --display-optimization-bailout",
+    "report": "cross-env NODE_ENV=report webpack --progress --colors --mode production --display-optimization-bailout",
     "watch": "webpack-dev-server --mode development",
     "clean": "rm -rf dist/generated/*",
-    "test":
-      "cross-env NODE_ENV=test nyc mocha nitro.sdk.test/index.js && npm run build",
-    "test:fast":
-      "cross-env NODE_ENV=test mocha nitro.sdk.test/index.js --require babel-core/register",
+    "test": "cross-env NODE_ENV=test nyc mocha nitro.sdk.test/index.js && npm run build",
+    "test:fast": "cross-env NODE_ENV=test mocha nitro.sdk.test/index.js --require babel-core/register",
     "prepublishOnly": "npm run clean && npm run build",
     "flow": "flow",
-    "docker-push-master":
-      "docker login -u \"$DOCKER_USERNAME\" -p \"$DOCKER_PASSWORD\" && docker push dymajo/nitro-client:latest",
-    "ssh-remote":
-      "ssh -o StrictHostKeyChecking=no $SSH_HOSTNAME bash nitro/deploy.sh",
+    "docker-push-master": "docker login -u \"$DOCKER_USERNAME\" -p \"$DOCKER_PASSWORD\" && docker push dymajo/nitro-client:latest",
+    "ssh-remote": "ssh -o StrictHostKeyChecking=no $SSH_HOSTNAME bash nitro/deploy.sh",
     "prettier": "prettier"
   },
   "repository": {
@@ -32,10 +26,16 @@
   },
   "homepage": "http://nitrotasks.com",
   "nyc": {
-    "require": ["babel-register"],
+    "require": [
+      "babel-register"
+    ],
     "sourceMap": false,
     "instrument": false,
-    "reporter": ["lcov", "text", "html"]
+    "reporter": [
+      "lcov",
+      "text",
+      "html"
+    ]
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -86,6 +86,7 @@
     "preact-router": "^2.6.0",
     "prop-types": "^15.6.1",
     "react": "^16.3.0",
+    "react-beautiful-dnd": "^6.0.2",
     "react-dom": "^16.3.0",
     "react-native-web": "^0.5.3",
     "react-router-dom": "^4.2.2",

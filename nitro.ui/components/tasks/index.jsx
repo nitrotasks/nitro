@@ -52,14 +52,9 @@ export class Tasks extends React.Component {
           h1Visible={this.state.headerVisible}
           h1={this.state.listName}
         />
-        <ScrollView
-          onScroll={this.triggerScroll}
-          scrollEventThrottle={16} // ~60 events per second
-        >
-          <Header listId={listId} />
-          <TasksInput listId={listId} />
-          <TasksList listId={listId} />
-        </ScrollView>
+        <Header listId={listId} />
+        <TasksInput listId={listId} />
+        <TasksList listId={listId} />
       </View>
     )
   }

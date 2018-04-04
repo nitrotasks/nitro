@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { View, Text, StyleSheet } from 'react-native'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
 import { NitroSdk } from '../../../nitro.sdk'
-import { Link } from '../link.jsx'
+import { Task } from './task.jsx'
 
 export class TasksList extends React.Component {
   constructor(props) {
@@ -13,14 +14,16 @@ export class TasksList extends React.Component {
   generateState(props) {
     const list = NitroSdk.getTasks(props.listId)
     return {
-      tasks: list.tasks
+      order: list.order
     }
   }
   componentDidMount() {
     NitroSdk.bind('update', this.tasksUpdate)
+    NitroSdk.bind('order', this.orderUpdate)
   }
   componentWillUnmount() {
     NitroSdk.unbind('update', this.tasksUpdate)
+    NitroSdk.unbind('order', this.orderUpdate)
   }
   tasksUpdate = (event, listId) => {
     // captures all updates for all lists, because the today and next lists are special
@@ -28,17 +31,48 @@ export class TasksList extends React.Component {
       this.setState(this.generateState(this.props))
     }
   }
+  orderUpdate = () => {
+    this.setState(this.generateState(this.props))
+  }
+  triggerDragEnd = result => {
+    if (!result.destination) {
+      return
+    }
+    if (result.source.index === result.destination.index) {
+      return
+    }
+
+    const order = this.state.order.slice()
+    order.splice(result.source.index, 1)
+    order.splice(result.destination.index, 0, result.draggableId)
+    NitroSdk.updateOrder(this.props.listId, order)
+
+    console.log(order)
+    console.log('reorder.')
+  }
   render() {
     return (
       <View>
-        {this.state.tasks.map(task => {
-          const link = `/${this.props.listId}/${task.id}`
-          return (
-            <Text key={task.id}>
-              <Link to={link}>{task.name}</Link>
-            </Text>
-          )
-        })}
+        <DragDropContext onDragEnd={this.triggerDragEnd}>
+          <Droppable droppableId="droppable">
+            {(provided, snapshot) => (
+              <div ref={provided.innerRef}>
+                {this.state.order.map((taskId, index) => {
+                  const task = NitroSdk.getTask(taskId)
+                  return (
+                    <Task
+                      key={task.id}
+                      listId={this.props.listId}
+                      data={task}
+                      index={index}
+                    />
+                  )
+                })}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       </View>
     )
   }

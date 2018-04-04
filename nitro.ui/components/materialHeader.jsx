@@ -66,7 +66,9 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flex: 1,
-    transition: '100ms ease opacity'
+    transitionDuration: '100ms',
+    transitionTimingFunction: 'ease',
+    transitionProperty: 'opacity'
   },
   textContainerHidden: {
     opacity: 0
