@@ -2,18 +2,22 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { View, Text, StyleSheet } from 'react-native'
 import { Draggable } from 'react-beautiful-dnd'
+import { withRouter } from 'react-router-dom'
 
 import { vars } from '../../styles.js'
 import { Link } from '../link.jsx'
 
-export class Task extends React.Component {
+class TaskComponent extends React.Component {
+  triggerClick = () => {
+    const url = `/${this.props.listId}/${this.props.data.id}`
+    this.props.history.push(url)
+  }
   render() {
-    const link = `/${this.props.listId}/${this.props.data.id}`
     const item = this.props.data
     return (
       <Draggable draggableId={item.id} index={this.props.index}>
         {(provided, snapshot) => (
-          <div>
+          <View onClick={this.triggerClick}>
             <div
               ref={provided.innerRef}
               {...provided.draggableProps}
@@ -23,46 +27,43 @@ export class Task extends React.Component {
                 provided.draggableProps.style
               )}
             >
-              <div>
-                {this.props.data.id}:{this.props.data.name}
-              </div>
+              <View>
+                <Text style={styles.text}>{this.props.data.name}</Text>
+              </View>
             </div>
             {provided.placeholder}
-          </div>
+          </View>
         )}
       </Draggable>
     )
   }
 }
-// <Link to={link}>
-//                 <Text style={styles.text}>{this.props.data.name}</Text>
-//               </Link>
-Task.propTypes = {
+TaskComponent.propTypes = {
   index: PropTypes.number,
   listId: PropTypes.string,
   data: PropTypes.object
 }
 const styles = StyleSheet.create({
   text: {
-    fontSize: vars.padding * 1.125,
+    fontSize: vars.padding,
     lineHeight: vars.taskHeight,
     color: vars.taskTextColor
   }
 })
 const getItemStyle = (isDragging, draggableStyle) => {
-  // console.log(isDragging, draggableStyle.top, draggableStyle)
-  // if (draggableStyle.top && draggableStyle.transform !== null) {
-  //   draggableStyle.top = draggableStyle.top - vars.materialHeaderHeight
-  // }
   return {
     // some basic styles to make the items look a bit nicer
     userSelect: 'none',
-    padding: vars.padding,
+    paddingLeft: vars.padding / 2,
+    paddingRight: vars.padding / 2,
+    borderRadius: isDragging ? 3 : 0,
 
     // change background colour if dragging
-    background: isDragging ? 'lightgreen' : 'grey',
+    background: isDragging ? vars.dragColor : '',
 
     // styles we need to apply on draggables
     ...draggableStyle
   }
 }
+
+export const Task = withRouter(TaskComponent)

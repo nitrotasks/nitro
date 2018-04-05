@@ -4,6 +4,7 @@ import { View, Text, StyleSheet } from 'react-native'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
 import { NitroSdk } from '../../../nitro.sdk'
+import { vars } from '../../styles.js'
 import { Task } from './task.jsx'
 
 export class TasksList extends React.Component {
@@ -46,15 +47,12 @@ export class TasksList extends React.Component {
     order.splice(result.source.index, 1)
     order.splice(result.destination.index, 0, result.draggableId)
     NitroSdk.updateOrder(this.props.listId, order)
-
-    console.log(order)
-    console.log('reorder.')
   }
   render() {
     return (
-      <View>
+      <View style={styles.wrapper}>
         <DragDropContext onDragEnd={this.triggerDragEnd}>
-          <Droppable droppableId="droppable">
+          <Droppable droppableId="tasksList">
             {(provided, snapshot) => (
               <div ref={provided.innerRef}>
                 {this.state.order.map((taskId, index) => {
@@ -80,3 +78,9 @@ export class TasksList extends React.Component {
 TasksList.propTypes = {
   listId: PropTypes.string
 }
+const styles = StyleSheet.create({
+  wrapper: {
+    paddingLeft: vars.padding / 2,
+    paddingRight: vars.padding / 2
+  }
+})

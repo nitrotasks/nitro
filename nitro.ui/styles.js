@@ -5,6 +5,7 @@ const vars = {
   navTextColorMuted: '#666',
   accentColor: '#3a7df8',
   taskTextColor: '#222',
+  dragColor: 'rgba(58, 125, 248, 0.1)',
 
   // sizes
   padding: 16,
