@@ -1,9 +1,9 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { View, StyleSheet } from 'react-native'
 
 import { NitroSdk } from '../../../nitro.sdk'
-
-import { vars } from '../../styles'
+import { vars, exitStyles } from '../../styles'
 import { MaterialHeader } from '../materialHeader.jsx'
 import { ListItem } from './listitem.jsx'
 
@@ -24,8 +24,12 @@ export class Lists extends React.Component {
     })
   }
   render() {
+    const wrapperStyles =
+      this.props.transitionState === 'exiting'
+        ? StyleSheet.flatten([styles.wrapper, styles.wrapperExiting])
+        : styles.wrapper
     return (
-      <View style={styles.wrapper}>
+      <View style={wrapperStyles}>
         <MaterialHeader leftIcon="logo" h1="NITRO" h1Weight="900" />
         <View style={styles.listWrapper}>
           {this.state.lists.map(list => {
@@ -43,10 +47,17 @@ export class Lists extends React.Component {
     )
   }
 }
+Lists.propTypes = {
+  transitionState: PropTypes.string
+}
 
 const styles = StyleSheet.create({
   wrapper: {
     backgroundColor: vars.backColor
+  },
+  wrapperExiting: {
+    ...exitStyles,
+    zIndex: -1
   },
   listWrapper: {
     padding: vars.padding / 2

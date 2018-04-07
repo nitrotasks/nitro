@@ -12,4 +12,11 @@ const vars = {
   taskHeight: 44,
   materialHeaderHeight: 56
 }
-export { vars }
+const exitStyles = {
+  position: 'absolute',
+  width: '100%',
+  top: 0,
+  left: 0
+}
+
+export { vars, exitStyles }

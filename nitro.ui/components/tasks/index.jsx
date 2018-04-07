@@ -2,7 +2,7 @@ import React from 'react'
 import { View, ScrollView, StyleSheet } from 'react-native'
 
 import { NitroSdk } from '../../../nitro.sdk'
-
+import { exitStyles } from '../../styles.js'
 import { MaterialHeader } from '../materialHeader.jsx'
 import { Header } from './header.jsx'
 import { TasksInput } from './tasksInput.jsx'
@@ -44,8 +44,16 @@ export class Tasks extends React.Component {
   }
   render() {
     const listId = this.props.match.params.list
+
+    let wrapperStyles = styles.wrapper
+    if (this.props.transitionState === 'exiting') {
+      wrapperStyles = StyleSheet.flatten([
+        styles.wrapper,
+        styles.wrapperExiting
+      ])
+    }
     return (
-      <View style={styles.container}>
+      <View style={wrapperStyles}>
         <MaterialHeader
           leftIcon="back"
           leftAction={this.props.history.goBack}
@@ -61,7 +69,12 @@ export class Tasks extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    height: 300
+  wrapper: {
+    height: 300,
+    backgroundColor: '#fff'
+  },
+  wrapperExiting: {
+    ...exitStyles,
+    zIndex: -1
   }
 })
