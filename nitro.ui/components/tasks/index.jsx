@@ -2,7 +2,7 @@ import React from 'react'
 import { View, ScrollView, StyleSheet } from 'react-native'
 
 import { NitroSdk } from '../../../nitro.sdk'
-import { exitStyles } from '../../styles.js'
+import { vars, exitStyles } from '../../styles.js'
 import { MaterialHeader } from '../materialHeader.jsx'
 import { Header } from './header.jsx'
 import { TasksInput } from './tasksInput.jsx'
@@ -52,6 +52,7 @@ export class Tasks extends React.Component {
     return (
       <View style={wrapperStyles}>
         <MaterialHeader
+          fixed={true}
           leftIcon="back"
           leftAction={this.props.history.goBack}
           h1Visible={this.state.headerVisible}
@@ -68,7 +69,8 @@ export class Tasks extends React.Component {
 const styles = StyleSheet.create({
   wrapper: {
     height: 300,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    paddingTop: vars.materialHeaderHeight
   },
   wrapperExiting: {
     ...exitStyles,

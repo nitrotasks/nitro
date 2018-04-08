@@ -19,7 +19,7 @@ export class TaskExpanded extends React.Component {
 }
 const styles = StyleSheet.create({
   wrapper: {
-    position: 'fixed',
+    position: 'absolute',
     left: 0,
     height: 56,
     backgroundColor: '#0f0'

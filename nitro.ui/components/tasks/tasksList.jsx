@@ -53,7 +53,7 @@ export class TasksListWithoutRouter extends React.Component {
   }
   triggerSelected = (y, pageY) => {
     this.setState({
-      overlayPosition: pageY
+      overlayPosition: y
     })
   }
   render() {

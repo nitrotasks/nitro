@@ -14,6 +14,10 @@ export class MaterialHeader extends React.Component {
     } else if (this.props.leftIcon === 'back') {
       leftIcon = backIcon
     }
+    const wrapperStyles = this.props.fixed
+      ? [styles.wrapper, styles.wrapperFixed]
+      : styles.wrapper
+
     const textStyles =
       this.props.h1Weight === '900'
         ? [styles.text, styles.textBold]
@@ -24,7 +28,7 @@ export class MaterialHeader extends React.Component {
         ? [styles.textContainer, styles.textContainerHidden]
         : styles.textContainer
     return (
-      <View style={styles.wrapper}>
+      <View style={wrapperStyles}>
         <View style={styles.logoContainer} onClick={this.props.leftAction}>
           <Image
             accessibilityLabel="Nitro Logo"
@@ -42,6 +46,7 @@ export class MaterialHeader extends React.Component {
 }
 
 MaterialHeader.propTypes = {
+  fixed: PropTypes.bool,
   leftIcon: PropTypes.string,
   leftAction: PropTypes.func,
   rightIcon: PropTypes.string,
@@ -58,7 +63,14 @@ const styles = StyleSheet.create({
     paddingLeft: vars.padding,
     paddingRight: vars.padding,
     paddingBottom: vars.padding - 2,
-    height: 56
+    height: vars.materialHeaderHeight
+  },
+  wrapperFixed: {
+    position: 'fixed',
+    top: 0,
+    width: '100%',
+    backgroundColor: '#fff',
+    zIndex: 2
   },
   logoContainer: {
     width: 30,
