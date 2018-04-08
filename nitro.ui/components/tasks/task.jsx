@@ -8,6 +8,25 @@ import { vars } from '../../styles.js'
 import { Link } from '../link.jsx'
 
 class TaskComponent extends React.Component {
+  constructor(props) {
+    super(props)
+    this.viewRef = React.createRef()
+  }
+  componentDidMount() {
+    this.triggerPosition()
+  }
+  componentWillReceiveProps(newProps) {
+    if (newProps.selected !== this.props.selected) {
+      this.triggerPosition(newProps)
+    }
+  }
+  triggerPosition = (newProps = this.props) => {
+    if (newProps.selected) {
+      this.viewRef.current.measure((x, y, width, height, pageX, pageY) => {
+        newProps.selectedCallback(y, pageY)
+      })
+    }
+  }
   triggerClick = () => {
     const url = `/${this.props.listId}/${this.props.data.id}`
     this.props.history.push(url)
@@ -17,7 +36,7 @@ class TaskComponent extends React.Component {
     return (
       <Draggable draggableId={item.id} index={this.props.index}>
         {(provided, snapshot) => (
-          <View onClick={this.triggerClick}>
+          <View onClick={this.triggerClick} ref={this.viewRef}>
             <div
               ref={provided.innerRef}
               {...provided.draggableProps}

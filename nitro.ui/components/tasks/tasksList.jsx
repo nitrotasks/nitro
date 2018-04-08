@@ -2,12 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { View, Text, StyleSheet } from 'react-native'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { Route, withRouter } from 'react-router'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
 import { Task } from './task.jsx'
+import { TaskExpanded } from './taskExpanded.jsx'
 
-export class TasksList extends React.Component {
+export class TasksListWithoutRouter extends React.Component {
   constructor(props) {
     super(props)
     this.state = this.generateState(props)
@@ -15,7 +17,8 @@ export class TasksList extends React.Component {
   generateState(props) {
     const list = NitroSdk.getTasks(props.listId)
     return {
-      order: list.order
+      order: list.order,
+      overlayPosition: null
     }
   }
   componentDidMount() {
@@ -48,21 +51,40 @@ export class TasksList extends React.Component {
     order.splice(result.destination.index, 0, result.draggableId)
     NitroSdk.updateOrder(this.props.listId, order)
   }
+  triggerSelected = (y, pageY) => {
+    this.setState({
+      overlayPosition: pageY
+    })
+  }
   render() {
     return (
       <View style={styles.wrapper}>
+        <Route
+          exact
+          path="/:list/:task"
+          render={routeProps => (
+            <TaskExpanded
+              {...routeProps}
+              position={this.state.overlayPosition}
+            />
+          )}
+        />
         <DragDropContext onDragEnd={this.triggerDragEnd}>
           <Droppable droppableId="tasksList">
             {(provided, snapshot) => (
               <div ref={provided.innerRef}>
                 {this.state.order.map((taskId, index) => {
                   const task = NitroSdk.getTask(taskId)
+                  // if taskid matches ocorrect one get position in dom, pass to overlay etc etc
+                  const selected = taskId === this.props.match.params.task
                   return (
                     <Task
                       key={task.id}
                       listId={this.props.listId}
                       data={task}
                       index={index}
+                      selected={selected}
+                      selectedCallback={this.triggerSelected}
                     />
                   )
                 })}
@@ -75,7 +97,7 @@ export class TasksList extends React.Component {
     )
   }
 }
-TasksList.propTypes = {
+TasksListWithoutRouter.propTypes = {
   listId: PropTypes.string
 }
 const styles = StyleSheet.create({
@@ -84,3 +106,4 @@ const styles = StyleSheet.create({
     paddingRight: vars.padding / 2
   }
 })
+export const TasksList = withRouter(TasksListWithoutRouter)

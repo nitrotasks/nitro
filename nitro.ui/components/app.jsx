@@ -18,38 +18,13 @@ class App extends React.Component {
 }
 const MainNavigation = ({ children }) => (
   <BrowserRouter>
-    <Route
-      render={({ location }) => (
-        <TransitionGroup>
-          <Transition key={location.key} timeout={300}>
-            {state => {
-              return (
-                <Switch location={location}>
-                  <Route
-                    path="/:list/:task"
-                    render={routeProps => (
-                      <Editor {...routeProps} transitionState={state} />
-                    )}
-                  />
-                  <Route
-                    path="/:list"
-                    render={routeProps => (
-                      <Tasks {...routeProps} transitionState={state} />
-                    )}
-                  />
-                  <Route
-                    path="/"
-                    render={routeProps => (
-                      <Lists {...routeProps} transitionState={state} />
-                    )}
-                  />
-                </Switch>
-              )
-            }}
-          </Transition>
-        </TransitionGroup>
-      )}
-    />
+    <Switch>
+      <Route
+        path="/:list/:task?"
+        render={routeProps => <Tasks {...routeProps} />}
+      />
+      <Route path="/" render={routeProps => <Lists {...routeProps} />} />
+    </Switch>
   </BrowserRouter>
 )
 export default App

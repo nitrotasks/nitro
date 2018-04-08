@@ -45,7 +45,7 @@ export class TasksInput extends React.Component {
   }
   render() {
     const inputStyles = this.state.inputFocus
-      ? StyleSheet.flatten([styles.input, styles.inputFocus])
+      ? [styles.input, styles.inputFocus]
       : styles.input
     return (
       <View style={styles.wrapper}>

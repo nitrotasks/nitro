@@ -8,6 +8,9 @@ import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles'
 
 class HeaderWithoutRouter extends React.Component {
+  static propTypes = {
+    listId: PropTypes.string
+  }
   constructor(props) {
     super(props)
     this.state = this.generateState(this.props)
@@ -55,7 +58,7 @@ class HeaderWithoutRouter extends React.Component {
   }
   render() {
     const listHeaderStyles = this.state.textInputFocus
-      ? StyleSheet.flatten([styles.listHeader, styles.focusedListHeader])
+      ? [styles.listHeader, styles.focusedListHeader]
       : styles.listHeader
     return (
       <View>
@@ -72,10 +75,6 @@ class HeaderWithoutRouter extends React.Component {
       </View>
     )
   }
-}
-
-HeaderWithoutRouter.propTypes = {
-  listId: PropTypes.string
 }
 
 const styles = StyleSheet.create({

@@ -47,10 +47,7 @@ export class Tasks extends React.Component {
 
     let wrapperStyles = styles.wrapper
     if (this.props.transitionState === 'exiting') {
-      wrapperStyles = StyleSheet.flatten([
-        styles.wrapper,
-        styles.wrapperExiting
-      ])
+      wrapperStyles = [styles.wrapper, styles.wrapperExiting]
     }
     return (
       <View style={wrapperStyles}>

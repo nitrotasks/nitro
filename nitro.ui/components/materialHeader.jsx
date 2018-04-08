@@ -16,12 +16,12 @@ export class MaterialHeader extends React.Component {
     }
     const textStyles =
       this.props.h1Weight === '900'
-        ? StyleSheet.flatten([styles.text, styles.textBold])
+        ? [styles.text, styles.textBold]
         : styles.text
 
     const h1Styles =
       this.props.h1Visible === false
-        ? StyleSheet.flatten([styles.textContainer, styles.textContainerHidden])
+        ? [styles.textContainer, styles.textContainerHidden]
         : styles.textContainer
     return (
       <View style={styles.wrapper}>

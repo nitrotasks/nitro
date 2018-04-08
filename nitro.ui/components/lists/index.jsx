@@ -26,7 +26,7 @@ export class Lists extends React.Component {
   render() {
     const wrapperStyles =
       this.props.transitionState === 'exiting'
-        ? StyleSheet.flatten([styles.wrapper, styles.wrapperExiting])
+        ? [styles.wrapper, styles.wrapperExiting]
         : styles.wrapper
     return (
       <View style={wrapperStyles}>
