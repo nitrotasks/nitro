@@ -64,7 +64,7 @@ TaskComponent.propTypes = {
 }
 const styles = StyleSheet.create({
   text: {
-    fontSize: vars.padding,
+    fontSize: vars.taskFontSize,
     lineHeight: vars.taskHeight,
     color: vars.taskTextColor
   }

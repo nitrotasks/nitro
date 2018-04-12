@@ -17,3 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
       shell.innerHTML = err
     })
 })
+
+// we have fancy single page routing that does this for us
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual'
+}

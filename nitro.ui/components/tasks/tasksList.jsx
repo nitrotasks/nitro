@@ -55,6 +55,10 @@ export class TasksListWithoutRouter extends React.Component {
     this.setState({
       overlayPosition: y
     })
+    window.scrollTo({
+      top: pageY - vars.materialHeaderHeight - vars.taskHeight,
+      behavior: 'smooth'
+    })
   }
   render() {
     return (
@@ -66,6 +70,7 @@ export class TasksListWithoutRouter extends React.Component {
             <TaskExpanded
               {...routeProps}
               position={this.state.overlayPosition}
+              triggerBack={this.props.history.goBack}
             />
           )}
         />

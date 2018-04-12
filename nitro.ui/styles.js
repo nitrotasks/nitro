@@ -10,7 +10,11 @@ const vars = {
   // sizes
   padding: 16,
   taskHeight: 44,
-  materialHeaderHeight: 56
+  materialHeaderHeight: 56,
+
+  // font sizes
+  taskFontSize: 16,
+  taskExpandedFontSize: 18
 }
 const exitStyles = {
   position: 'absolute',
