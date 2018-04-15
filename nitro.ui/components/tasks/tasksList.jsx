@@ -12,14 +12,16 @@ import { TaskExpanded } from './taskExpanded.jsx'
 export class TasksListWithoutRouter extends React.Component {
   constructor(props) {
     super(props)
-    this.state = this.generateState(props)
+    this.state = {
+      currentTaskHeight: 0,
+      overlayPosition: null,
+      ...this.generateState(props)
+    }
   }
   generateState(props) {
     const list = NitroSdk.getTasks(props.listId)
     return {
-      order: list.order,
-      overlayPosition: null,
-      currentTaskHeight: 0
+      order: list.order
     }
   }
   componentDidMount() {

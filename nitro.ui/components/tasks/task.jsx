@@ -4,10 +4,17 @@ import { View, Text, StyleSheet } from 'react-native'
 import { Draggable } from 'react-beautiful-dnd'
 import { withRouter } from 'react-router-dom'
 
+import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
 import { Link } from '../link.jsx'
+import { Checkbox } from './checkbox.jsx'
 
 class TaskComponent extends React.Component {
+  static propTypes = {
+    index: PropTypes.number,
+    listId: PropTypes.string,
+    data: PropTypes.object
+  }
   constructor(props) {
     super(props)
     this.viewRef = React.createRef()
@@ -31,6 +38,9 @@ class TaskComponent extends React.Component {
     const url = `/${this.props.listId}/${this.props.data.id}`
     this.props.history.push(url)
   }
+  triggerCheckbox = e => {
+    NitroSdk.completeTask(this.props.data.id)
+  }
   render() {
     const item = this.props.data
     const innerStyles = {}
@@ -40,7 +50,7 @@ class TaskComponent extends React.Component {
     return (
       <Draggable draggableId={item.id} index={this.props.index}>
         {(provided, snapshot) => (
-          <View onClick={this.triggerClick} ref={this.viewRef}>
+          <View ref={this.viewRef}>
             <div
               ref={provided.innerRef}
               {...provided.draggableProps}
@@ -51,7 +61,15 @@ class TaskComponent extends React.Component {
               )}
             >
               <View style={innerStyles}>
-                <Text style={styles.text}>{this.props.data.name}</Text>
+                <View style={styles.wrapper}>
+                  <Checkbox
+                    onClick={this.triggerCheckbox}
+                    checked={this.props.data.completed !== null}
+                  />
+                  <View onClick={this.triggerClick} style={styles.textDisplay}>
+                    <Text style={styles.text}>{this.props.data.name}</Text>
+                  </View>
+                </View>
               </View>
             </div>
             {provided.placeholder}
@@ -61,12 +79,14 @@ class TaskComponent extends React.Component {
     )
   }
 }
-TaskComponent.propTypes = {
-  index: PropTypes.number,
-  listId: PropTypes.string,
-  data: PropTypes.object
-}
 const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+    flexDirection: 'row'
+  },
+  textDisplay: {
+    flex: 1
+  },
   text: {
     fontSize: vars.taskFontSize,
     lineHeight: vars.taskHeight,
