@@ -33,6 +33,10 @@ class TaskComponent extends React.Component {
   }
   render() {
     const item = this.props.data
+    const innerStyles = {}
+    if (this.props.selectedHeight > 0) {
+      innerStyles.height = this.props.selectedHeight
+    }
     return (
       <Draggable draggableId={item.id} index={this.props.index}>
         {(provided, snapshot) => (
@@ -46,7 +50,7 @@ class TaskComponent extends React.Component {
                 provided.draggableProps.style
               )}
             >
-              <View>
+              <View style={innerStyles}>
                 <Text style={styles.text}>{this.props.data.name}</Text>
               </View>
             </div>

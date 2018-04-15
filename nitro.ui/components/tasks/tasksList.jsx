@@ -18,7 +18,8 @@ export class TasksListWithoutRouter extends React.Component {
     const list = NitroSdk.getTasks(props.listId)
     return {
       order: list.order,
-      overlayPosition: null
+      overlayPosition: null,
+      currentTaskHeight: 0
     }
   }
   componentDidMount() {
@@ -60,6 +61,11 @@ export class TasksListWithoutRouter extends React.Component {
       behavior: 'smooth'
     })
   }
+  setTaskHeight = height => {
+    this.setState({
+      currentTaskHeight: height
+    })
+  }
   render() {
     return (
       <View style={styles.wrapper}>
@@ -71,6 +77,7 @@ export class TasksListWithoutRouter extends React.Component {
               {...routeProps}
               position={this.state.overlayPosition}
               triggerBack={this.props.history.goBack}
+              setTaskHeight={this.setTaskHeight}
             />
           )}
         />
@@ -82,6 +89,9 @@ export class TasksListWithoutRouter extends React.Component {
                   const task = NitroSdk.getTask(taskId)
                   // if taskid matches ocorrect one get position in dom, pass to overlay etc etc
                   const selected = taskId === this.props.match.params.task
+                  const selectedHeight = selected
+                    ? this.state.currentTaskHeight
+                    : 0
                   return (
                     <Task
                       key={task.id}
@@ -89,6 +99,7 @@ export class TasksListWithoutRouter extends React.Component {
                       data={task}
                       index={index}
                       selected={selected}
+                      selectedHeight={selectedHeight}
                       selectedCallback={this.triggerSelected}
                     />
                   )

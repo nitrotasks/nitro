@@ -7,7 +7,20 @@ import { vars } from '../../styles.js'
 
 export class TaskExpanded extends React.Component {
   static propTypes = {
-    triggerBack: PropTypes.func
+    triggerBack: PropTypes.func,
+    setTaskHeight: PropTypes.func
+  }
+  constructor(props) {
+    super(props)
+    this.wrapper = React.createRef()
+  }
+  componentDidMount() {
+    this.measureWrapper()
+  }
+  measureWrapper = () => {
+    this.wrapper.current.measure((x, y, width, height, pageX, pageY) => {
+      this.props.setTaskHeight(height)
+    })
   }
   triggerOverlay = () => {
     this.props.triggerBack()
@@ -20,7 +33,7 @@ export class TaskExpanded extends React.Component {
     }
     return (
       <React.Fragment>
-        <View style={[styles.wrapper, { top: top }]}>
+        <View style={[styles.wrapper, { top: top }]} ref={this.wrapper}>
           <TextInput
             style={styles.header}
             value={task.name}
