@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, ScrollView, StyleSheet } from 'react-native'
+import { Route } from 'react-router'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars, exitStyles } from '../../styles.js'
@@ -7,6 +8,7 @@ import { MaterialHeader } from '../materialHeader.jsx'
 import { Header } from './header.jsx'
 import { TasksInput } from './tasksInput.jsx'
 import { TasksList } from './tasksList.jsx'
+import { TaskExpanded } from './taskExpanded.jsx'
 
 export class Tasks extends React.Component {
   constructor(props) {
@@ -61,6 +63,11 @@ export class Tasks extends React.Component {
         <Header listId={listId} />
         <TasksInput listId={listId} />
         <TasksList listId={listId} />
+        <TaskExpanded
+          // position={this.state.overlayPosition}
+          triggerBack={this.props.history.goBack}
+          // setTaskHeight={this.setTaskHeight}
+        />
       </View>
     )
   }

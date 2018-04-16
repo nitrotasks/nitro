@@ -3,6 +3,7 @@ import { View } from 'react-native'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import { TransitionGroup, Transition } from 'react-transition-group'
 
+import { TasksExpandedService } from '../services/tasksExpandedService.js'
 import { Lists } from './lists/index.jsx'
 import { Tasks } from './tasks/index.jsx'
 import { Editor } from './editor/index.jsx'
@@ -21,7 +22,10 @@ const MainNavigation = ({ children }) => (
     <Switch>
       <Route
         path="/:list/:task?"
-        render={routeProps => <Tasks {...routeProps} />}
+        render={routeProps => {
+          TasksExpandedService.routeUpdate(routeProps)
+          return <Tasks {...routeProps} />
+        }}
       />
       <Route path="/" render={routeProps => <Lists {...routeProps} />} />
     </Switch>

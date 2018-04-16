@@ -2,14 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { View, Text, StyleSheet } from 'react-native'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-import { Route, withRouter } from 'react-router'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
 import { Task } from './task.jsx'
-import { TaskExpanded } from './taskExpanded.jsx'
 
-export class TasksListWithoutRouter extends React.Component {
+export class TasksList extends React.PureComponent {
+  static propTypes = {
+    listId: PropTypes.string
+  }
   constructor(props) {
     super(props)
     this.state = {
@@ -71,18 +72,6 @@ export class TasksListWithoutRouter extends React.Component {
   render() {
     return (
       <View style={styles.wrapper}>
-        <Route
-          exact
-          path="/:list/:task"
-          render={routeProps => (
-            <TaskExpanded
-              {...routeProps}
-              position={this.state.overlayPosition}
-              triggerBack={this.props.history.goBack}
-              setTaskHeight={this.setTaskHeight}
-            />
-          )}
-        />
         <DragDropContext onDragEnd={this.triggerDragEnd}>
           <Droppable droppableId="tasksList">
             {(provided, snapshot) => (
@@ -90,7 +79,8 @@ export class TasksListWithoutRouter extends React.Component {
                 {this.state.order.map((taskId, index) => {
                   const task = NitroSdk.getTask(taskId)
                   // if taskid matches ocorrect one get position in dom, pass to overlay etc etc
-                  const selected = taskId === this.props.match.params.task
+                  // const selected = taskId === this.props.match.params.task
+                  const selected = false
                   const selectedHeight = selected
                     ? this.state.currentTaskHeight
                     : 0
@@ -115,13 +105,9 @@ export class TasksListWithoutRouter extends React.Component {
     )
   }
 }
-TasksListWithoutRouter.propTypes = {
-  listId: PropTypes.string
-}
 const styles = StyleSheet.create({
   wrapper: {
     paddingLeft: vars.padding / 2,
     paddingRight: vars.padding / 2
   }
 })
-export const TasksList = withRouter(TasksListWithoutRouter)

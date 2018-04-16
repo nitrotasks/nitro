@@ -4,6 +4,7 @@ import { View, Text, TextInput, StyleSheet } from 'react-native'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
+import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 
 import { Checkbox } from './checkbox.jsx'
 
@@ -16,19 +17,48 @@ export class TaskExpanded extends React.Component {
     super(props)
     this.wrapper = React.createRef()
 
-    const task = this.getTask(props)
-    this.state = { ...task, hidden: true }
+    if (TasksExpandedService.state.task !== null) {
+      const taskDetails = this.getTask(TasksExpandedService.state.task)
+      this.state = {
+        ...taskDetails,
+        hidden: false
+      }
+    } else {
+      this.state = {
+        name: '',
+        notes: '',
+        checked: false,
+        hidden: true
+      }
+    }
   }
   componentDidMount() {
-    this.measureWrapper()
+    TasksExpandedService.bind('show', this.triggerShow)
+    TasksExpandedService.bind('hide', this.triggerHide)
+    // this.measureWrapper()
+  }
+  componentWillUnmount() {
+    TasksExpandedService.unbind('show', this.triggerShow)
+    TasksExpandedService.unbind('hide', this.triggerHide)
+  }
+  triggerShow = (list, task) => {
+    const taskDetails = this.getTask(task)
     requestAnimationFrame(() => {
       this.setState({
+        ...taskDetails,
         hidden: false
       })
     })
   }
-  getTask = (props = this.props) => {
-    const task = NitroSdk.getTask(props.match.params.task)
+  triggerHide = list => {
+    requestAnimationFrame(() => {
+      this.setState({
+        hidden: true
+      })
+    })
+  }
+  getTask = taskId => {
+    const task = NitroSdk.getTask(taskId)
     return {
       name: task.name,
       notes: task.notes,
@@ -73,17 +103,24 @@ export class TaskExpanded extends React.Component {
     let opacity = 1
     let overlayOpacity = 0.5
     let transform = [{ translateY: 0 }]
+    let pointerEvents = 'auto'
     if (this.state.hidden) {
       opacity = 0
       overlayOpacity = 0
+      pointerEvents = 'none'
       transform = [{ translateY: -2 * vars.padding }]
     }
     return (
       <React.Fragment>
         <View
+          pointerEvents={pointerEvents}
           style={[
             styles.wrapper,
-            { top: top, opacity: opacity, transform: transform }
+            {
+              top: top,
+              opacity: opacity,
+              transform: transform
+            }
           ]}
           ref={this.wrapper}
         >
@@ -111,7 +148,14 @@ export class TaskExpanded extends React.Component {
           />
         </View>
         <View
-          style={[styles.overlay, { top: top - 100, opacity: overlayOpacity }]}
+          pointerEvents={pointerEvents}
+          style={[
+            styles.overlay,
+            {
+              top: top - 100,
+              opacity: overlayOpacity
+            }
+          ]}
           onClick={this.triggerOverlay}
         />
       </React.Fragment>
