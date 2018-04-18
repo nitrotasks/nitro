@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
-import { Link } from '../link.jsx'
+import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 import { Checkbox } from './checkbox.jsx'
 
 class TaskComponent extends React.Component {
@@ -35,8 +35,14 @@ class TaskComponent extends React.Component {
     }
   }
   triggerClick = () => {
-    const url = `/${this.props.listId}/${this.props.data.id}`
-    this.props.history.push(url)
+    this.viewRef.current.measure((x, y, width, height, pageX, pageY) => {
+      TasksExpandedService.triggerTask(
+        this.props.listId,
+        this.props.data.id,
+        this.props.history.push,
+        pageY
+      )
+    })
   }
   triggerCheckbox = e => {
     NitroSdk.completeTask(this.props.data.id)

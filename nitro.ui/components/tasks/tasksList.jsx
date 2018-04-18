@@ -15,7 +15,6 @@ export class TasksList extends React.PureComponent {
     super(props)
     this.state = {
       currentTaskHeight: 0,
-      overlayPosition: null,
       ...this.generateState(props)
     }
   }
@@ -54,20 +53,6 @@ export class TasksList extends React.PureComponent {
     order.splice(result.source.index, 1)
     order.splice(result.destination.index, 0, result.draggableId)
     NitroSdk.updateOrder(this.props.listId, order)
-  }
-  triggerSelected = (y, pageY) => {
-    this.setState({
-      overlayPosition: y
-    })
-    window.scrollTo({
-      top: pageY - vars.materialHeaderHeight - vars.taskHeight,
-      behavior: 'smooth'
-    })
-  }
-  setTaskHeight = height => {
-    this.setState({
-      currentTaskHeight: height
-    })
   }
   render() {
     return (

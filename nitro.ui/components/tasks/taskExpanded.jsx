@@ -10,8 +10,7 @@ import { Checkbox } from './checkbox.jsx'
 
 export class TaskExpanded extends React.Component {
   static propTypes = {
-    triggerBack: PropTypes.func,
-    setTaskHeight: PropTypes.func
+    triggerBack: PropTypes.func
   }
   constructor(props) {
     super(props)
@@ -35,7 +34,6 @@ export class TaskExpanded extends React.Component {
   componentDidMount() {
     TasksExpandedService.bind('show', this.triggerShow)
     TasksExpandedService.bind('hide', this.triggerHide)
-    // this.measureWrapper()
   }
   componentWillUnmount() {
     TasksExpandedService.unbind('show', this.triggerShow)
@@ -65,13 +63,10 @@ export class TaskExpanded extends React.Component {
       checked: task.completed !== null
     }
   }
-  measureWrapper = () => {
-    this.wrapper.current.measure((x, y, width, height, pageX, pageY) => {
-      this.props.setTaskHeight(height)
-    })
-  }
   triggerOverlay = () => {
-    this.props.triggerBack()
+    if (window.location.pathname.split('/').length > 2) {
+      this.props.triggerBack()
+    }
   }
   triggerChange = field => {
     return e => {
@@ -82,7 +77,7 @@ export class TaskExpanded extends React.Component {
   }
   triggerBlur = field => {
     return e => {
-      NitroSdk.updateTask(this.props.match.params.task, {
+      NitroSdk.updateTask(TasksExpandedService.state.task, {
         [field]: this.state[field]
       })
     }
@@ -93,13 +88,10 @@ export class TaskExpanded extends React.Component {
       checked: !this.state.checked
     })
 
-    NitroSdk.completeTask(this.props.match.params.task)
+    NitroSdk.completeTask(TasksExpandedService.state.task)
   }
   render() {
-    let top = 0
-    if (this.props.position !== null) {
-      top = this.props.position + vars.padding * 2
-    }
+    const top = TasksExpandedService.state.position
     let opacity = 1
     let overlayOpacity = 0.5
     let transform = [{ translateY: 0 }]
@@ -152,7 +144,6 @@ export class TaskExpanded extends React.Component {
           style={[
             styles.overlay,
             {
-              top: top - 100,
               opacity: overlayOpacity
             }
           ]}
@@ -166,6 +157,7 @@ const styles = StyleSheet.create({
   overlay: {
     position: 'absolute',
     zIndex: 10,
+    top: 0,
     left: 0,
     width: '100%',
     height: '100vh',

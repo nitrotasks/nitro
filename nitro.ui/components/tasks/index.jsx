@@ -63,11 +63,7 @@ export class Tasks extends React.Component {
         <Header listId={listId} />
         <TasksInput listId={listId} />
         <TasksList listId={listId} />
-        <TaskExpanded
-          // position={this.state.overlayPosition}
-          triggerBack={this.props.history.goBack}
-          // setTaskHeight={this.setTaskHeight}
-        />
+        <TaskExpanded triggerBack={this.props.history.goBack} />
       </View>
     )
   }

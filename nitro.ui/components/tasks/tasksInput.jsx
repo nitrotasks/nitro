@@ -57,6 +57,7 @@ export class TasksInput extends React.Component {
           onBlur={this.triggerBlur}
           onKeyUp={this.triggerKeyUp}
           onSubmitEditing={this.triggerSubmit}
+          blurOnSubmit={false}
           placeholder="Add a task..."
         />
       </View>
