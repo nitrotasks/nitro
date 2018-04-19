@@ -16,6 +16,12 @@ class _tasksExpanded extends Events {
       task: null,
       position: 0
     }
+    this.go = () => {
+      console.log('history not working.')
+    }
+  }
+  setGo(fn) {
+    this.go = fn
   }
   routeUpdate(routeProps: object) {
     const params = routeProps.match.params
@@ -37,7 +43,7 @@ class _tasksExpanded extends Events {
       }
     }
   }
-  triggerTask(list: string, task: string, go: () => mixed, position: number) {
+  triggerTask(list: string, task: string, position: number) {
     this.state.list = list
     this.state.task = task
     this.state.position = position
@@ -45,7 +51,7 @@ class _tasksExpanded extends Events {
 
     idleCallback(() => {
       const url = `/${list}/${task}`
-      go(url)
+      this.go(url)
     })
   }
 }

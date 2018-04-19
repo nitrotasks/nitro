@@ -4,6 +4,7 @@ import { Route } from 'react-router'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars, exitStyles } from '../../styles.js'
+import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 import { MaterialHeader } from '../materialHeader.jsx'
 import { Header } from './header.jsx'
 import { TasksInput } from './tasksInput.jsx'
@@ -20,6 +21,7 @@ export class Tasks extends React.Component {
   }
   componentDidMount() {
     NitroSdk.bind('update', this.tasksUpdate)
+    TasksExpandedService.setGo(this.props.history.push) // hack for now
   }
   componentWillUnmount() {
     NitroSdk.unbind('update', this.tasksUpdate)

@@ -5,6 +5,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
+import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 import { Task } from './task.jsx'
 
 export class TasksList extends React.PureComponent {
@@ -17,6 +18,7 @@ export class TasksList extends React.PureComponent {
       currentTaskHeight: 0,
       ...this.generateState(props)
     }
+    this.tasksContainer = null
   }
   generateState(props) {
     const list = NitroSdk.getTasks(props.listId)
@@ -27,10 +29,15 @@ export class TasksList extends React.PureComponent {
   componentDidMount() {
     NitroSdk.bind('update', this.tasksUpdate)
     NitroSdk.bind('order', this.orderUpdate)
+    TasksExpandedService.bind('show', this.triggerShow)
+    TasksExpandedService.bind('hide', this.triggerHide)
+    window.jono = this.tasksContainer
   }
   componentWillUnmount() {
     NitroSdk.unbind('update', this.tasksUpdate)
     NitroSdk.unbind('order', this.orderUpdate)
+    TasksExpandedService.unbind('show', this.triggerShow)
+    TasksExpandedService.unbind('hide', this.triggerHide)
   }
   tasksUpdate = (event, listId) => {
     // captures all updates for all lists, because the today and next lists are special
@@ -40,6 +47,20 @@ export class TasksList extends React.PureComponent {
   }
   orderUpdate = () => {
     this.setState(this.generateState(this.props))
+  }
+  triggerShow = () => {
+    requestAnimationFrame(() => {
+      Array.from(this.tasksContainer.children).forEach(item => {
+        item.style.transform = 'translate3d(0,10px,0)'
+      })
+    })
+  }
+  triggerHide = () => {
+    requestAnimationFrame(() => {
+      Array.from(this.tasksContainer.children).forEach(item => {
+        item.style.transform = ''
+      })
+    })
   }
   triggerDragEnd = result => {
     if (!result.destination) {
@@ -59,31 +80,38 @@ export class TasksList extends React.PureComponent {
       <View style={styles.wrapper}>
         <DragDropContext onDragEnd={this.triggerDragEnd}>
           <Droppable droppableId="tasksList">
-            {(provided, snapshot) => (
-              <div ref={provided.innerRef}>
-                {this.state.order.map((taskId, index) => {
-                  const task = NitroSdk.getTask(taskId)
-                  // if taskid matches ocorrect one get position in dom, pass to overlay etc etc
-                  // const selected = taskId === this.props.match.params.task
-                  const selected = false
-                  const selectedHeight = selected
-                    ? this.state.currentTaskHeight
-                    : 0
-                  return (
-                    <Task
-                      key={task.id}
-                      listId={this.props.listId}
-                      data={task}
-                      index={index}
-                      selected={selected}
-                      selectedHeight={selectedHeight}
-                      selectedCallback={this.triggerSelected}
-                    />
-                  )
-                })}
-                {provided.placeholder}
-              </div>
-            )}
+            {(provided, snapshot) => {
+              return (
+                <div
+                  ref={e => {
+                    provided.innerRef(e)
+                    this.tasksContainer = e
+                  }}
+                >
+                  {this.state.order.map((taskId, index) => {
+                    const task = NitroSdk.getTask(taskId)
+                    // if taskid matches ocorrect one get position in dom, pass to overlay etc etc
+                    // const selected = taskId === this.props.match.params.task
+                    const selected = false
+                    const selectedHeight = selected
+                      ? this.state.currentTaskHeight
+                      : 0
+                    return (
+                      <Task
+                        key={task.id}
+                        listId={this.props.listId}
+                        data={task}
+                        index={index}
+                        selected={selected}
+                        selectedHeight={selectedHeight}
+                        selectedCallback={this.triggerSelected}
+                      />
+                    )
+                  })}
+                  {provided.placeholder}
+                </div>
+              )
+            }}
           </Droppable>
         </DragDropContext>
       </View>

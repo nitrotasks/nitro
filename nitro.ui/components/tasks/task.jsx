@@ -9,7 +9,7 @@ import { vars } from '../../styles.js'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 import { Checkbox } from './checkbox.jsx'
 
-class TaskComponent extends React.Component {
+export class Task extends React.Component {
   static propTypes = {
     index: PropTypes.number,
     listId: PropTypes.string,
@@ -39,7 +39,6 @@ class TaskComponent extends React.Component {
       TasksExpandedService.triggerTask(
         this.props.listId,
         this.props.data.id,
-        this.props.history.push,
         pageY
       )
     })
@@ -49,14 +48,10 @@ class TaskComponent extends React.Component {
   }
   render() {
     const item = this.props.data
-    const innerStyles = {}
-    if (this.props.selectedHeight > 0) {
-      innerStyles.height = this.props.selectedHeight
-    }
     return (
       <Draggable draggableId={item.id} index={this.props.index}>
         {(provided, snapshot) => (
-          <View ref={this.viewRef}>
+          <View ref={this.viewRef} style={styles.transitionStyle}>
             <div
               ref={provided.innerRef}
               {...provided.draggableProps}
@@ -66,15 +61,13 @@ class TaskComponent extends React.Component {
                 provided.draggableProps.style
               )}
             >
-              <View style={innerStyles}>
-                <View style={styles.wrapper}>
-                  <Checkbox
-                    onClick={this.triggerCheckbox}
-                    checked={this.props.data.completed !== null}
-                  />
-                  <View onClick={this.triggerClick} style={styles.textDisplay}>
-                    <Text style={styles.text}>{this.props.data.name}</Text>
-                  </View>
+              <View style={styles.wrapper}>
+                <Checkbox
+                  onClick={this.triggerCheckbox}
+                  checked={this.props.data.completed !== null}
+                />
+                <View onClick={this.triggerClick} style={styles.textDisplay}>
+                  <Text style={styles.text}>{this.props.data.name}</Text>
                 </View>
               </View>
             </div>
@@ -97,10 +90,15 @@ const styles = StyleSheet.create({
     fontSize: vars.taskFontSize,
     lineHeight: vars.taskHeight,
     color: vars.taskTextColor
+  },
+  transitionStyle: {
+    transitionDuration: '300ms',
+    transitionTimingFunction: 'ease',
+    transitionProperty: 'transform'
   }
 })
 const getItemStyle = (isDragging, draggableStyle) => {
-  return {
+  const style = {
     // some basic styles to make the items look a bit nicer
     userSelect: 'none',
     paddingLeft: vars.padding / 2,
@@ -113,6 +111,5 @@ const getItemStyle = (isDragging, draggableStyle) => {
     // styles we need to apply on draggables
     ...draggableStyle
   }
+  return style
 }
-
-export const Task = withRouter(TaskComponent)

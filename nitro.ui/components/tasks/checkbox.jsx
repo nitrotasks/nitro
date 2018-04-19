@@ -3,13 +3,18 @@ import { View, StyleSheet } from 'react-native'
 
 import { vars } from '../../styles.js'
 
-export const Checkbox = function(props) {
-  const boxStyles = props.checked ? [styles.box, styles.boxChecked] : styles.box
-  return (
-    <View style={styles.check} onClick={props.onClick}>
-      <View style={boxStyles} />
-    </View>
-  )
+export class Checkbox extends React.PureComponent {
+  render() {
+    const props = this.props
+    const boxStyles = props.checked
+      ? [styles.box, styles.boxChecked]
+      : styles.box
+    return (
+      <View style={styles.check} onClick={props.onClick}>
+        <View style={boxStyles} />
+      </View>
+    )
+  }
 }
 const styles = StyleSheet.create({
   check: {
