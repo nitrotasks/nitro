@@ -91,7 +91,7 @@ export class TaskExpanded extends React.Component {
     NitroSdk.completeTask(TasksExpandedService.state.task)
   }
   render() {
-    const top = TasksExpandedService.state.position
+    const top = TasksExpandedService.state.position + vars.padding
     let opacity = 1
     let overlayOpacity = 0.5
     let transform = [{ translateY: 0 }]

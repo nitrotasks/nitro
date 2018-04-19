@@ -18,6 +18,7 @@ export class TasksList extends React.PureComponent {
       currentTaskHeight: 0,
       ...this.generateState(props)
     }
+    this.currentItemIndex = 0
     this.tasksContainer = null
   }
   generateState(props) {
@@ -49,17 +50,25 @@ export class TasksList extends React.PureComponent {
     this.setState(this.generateState(this.props))
   }
   triggerShow = () => {
+    this.currentItemIndex = this.state.order.indexOf(
+      TasksExpandedService.state.task
+    )
     requestAnimationFrame(() => {
-      Array.from(this.tasksContainer.children).forEach(item => {
-        item.style.transform = 'translate3d(0,10px,0)'
-      })
+      Array.from(this.tasksContainer.children)
+        .slice(this.currentItemIndex)
+        .forEach((item, key) => {
+          const pixels = key === 0 ? vars.padding * 2 : 150 // TODO: Magic Numbers!
+          item.style.transform = `translate3d(0,${pixels}px,0)`
+        })
     })
   }
   triggerHide = () => {
     requestAnimationFrame(() => {
-      Array.from(this.tasksContainer.children).forEach(item => {
-        item.style.transform = ''
-      })
+      Array.from(this.tasksContainer.children)
+        .slice(this.currentItemIndex)
+        .forEach(item => {
+          item.style.transform = ''
+        })
     })
   }
   triggerDragEnd = result => {
