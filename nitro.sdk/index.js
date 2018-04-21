@@ -69,7 +69,7 @@ export class sdk extends Events {
       'sign-in-status',
       this._passEvent('sign-in-status')
     )
-    authenticationStore.bind('sign-in-error', this._passEvent('sign-in-status'))
+    authenticationStore.bind('sign-in-error', this._passEvent('sign-in-error'))
 
     this.interval = setInterval(this.wsSync, 60000)
   }
@@ -201,8 +201,8 @@ export class sdk extends Events {
   stopInterval = () => {
     clearInterval(this.interval)
   }
-  isSignedIn = () => {
-    return authenticationStore.isSignedIn(true)
+  isSignedIn = (tokenCheck: boolean) => {
+    return authenticationStore.isSignedIn(tokenCheck)
   }
   signIn = (username: string, password: string) => {
     return authenticationStore.formSignIn(username, password)

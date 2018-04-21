@@ -23,13 +23,11 @@ export class Login extends React.Component {
   triggerChange = field => {
     return e => {
       this.setState({ [field]: e.currentTarget.value })
-      console.log(e.currentTarget.value)
     }
   }
   triggerSignIn = e => {
     e.preventDefault()
     this.setState({ disabled: true })
-    console.log('triggeerrr.r.r.r')
     NitroSdk.signIn(this.state.username, this.state.password)
   }
   signInCallback = () => {
@@ -44,8 +42,11 @@ export class Login extends React.Component {
   }
   render() {
     const text = this.state.disabled ? 'Logging in...' : 'Log In'
+    const wrapperStyles = NitroSdk.isSignedIn()
+      ? [styles.wrapper, styles.wrapperHidden]
+      : styles.wrapper
     return (
-      <View style={styles.wrapper}>
+      <View style={wrapperStyles}>
         <View style={styles.branding}>
           <View style={styles.logoContainer}>
             <Image
@@ -62,36 +63,37 @@ export class Login extends React.Component {
         <Text style={styles.tagline}>
           The fast and easy way to get things done.
         </Text>
-        <Text style={styles.label} htmlFor="login-username">
-          Email
-        </Text>
-        <TextInput
-          style={styles.input}
-          value={this.state.username}
-          onChange={this.triggerChange('username')}
-          id="login-username"
-          type="email"
-          autoFocus={true}
-          autoComplete="email"
-        />
-        <Text style={styles.label} htmlFor="login-password">
-          Password
-        </Text>
-        <TextInput
-          style={styles.input}
-          value={this.state.password}
-          onChange={this.triggerChange('password')}
-          id="login-password"
-          type="password"
-          autoComplete="password"
-        />
-
-        <Button
-          onPress={this.triggerSignIn}
-          disabled={this.state.disabled}
-          color={vars.accentColor}
-          title={text}
-        />
+        <form onSubmit={this.triggerSignIn}>
+          <Text style={styles.label} htmlFor="login-username">
+            Email
+          </Text>
+          <TextInput
+            style={styles.input}
+            value={this.state.username}
+            onChange={this.triggerChange('username')}
+            id="login-username"
+            keyboardType="email-address"
+            autoFocus={true}
+            autoComplete="email"
+          />
+          <Text style={styles.label} htmlFor="login-password">
+            Password
+          </Text>
+          <TextInput
+            style={styles.input}
+            value={this.state.password}
+            onChange={this.triggerChange('password')}
+            id="login-password"
+            secureTextEntry={true}
+            autoComplete="password"
+          />
+          <Button
+            onPress={this.triggerSignIn}
+            disabled={this.state.disabled}
+            color={vars.accentColor}
+            title={text}
+          />
+        </form>
         <View style={styles.signUpWrapper}>
           <Text style={styles.signUp}>
             No account? <a href="https://nitrotasks.com">Sign Up for Nitro.</a>
@@ -107,7 +109,14 @@ const styles = StyleSheet.create({
     width: '100%',
     marginLeft: 'auto',
     marginRight: 'auto',
-    padding: vars.padding * 2
+    padding: vars.padding * 2,
+    transitionDuration: '300ms',
+    transitionProperty: 'opacity',
+    transitionTimingFunction: 'ease',
+    opacity: 1
+  },
+  wrapperHidden: {
+    opacity: 0
   },
   branding: {
     flex: 1,
@@ -140,8 +149,7 @@ const styles = StyleSheet.create({
   label: {
     fontWeight: '600',
     color: vars.taskTextColor,
-    marginTop: vars.padding / 4,
-    marginBottom: vars.padding / 4,
+    lineHeight: vars.padding * 1.5,
     fontSize: vars.padding * 0.875
   },
   input: {

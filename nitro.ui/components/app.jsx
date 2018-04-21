@@ -21,9 +21,11 @@ class App extends React.Component {
     NitroSdk.unbind('sign-in-status', this.signInCallback)
   }
   signInCallback = () => {
-    this.setState({
-      signedIn: NitroSdk.isSignedIn()
-    })
+    setTimeout(() => {
+      this.setState({
+        signedIn: NitroSdk.isSignedIn()
+      })
+    }, 350) // should be ample time for the animation
   }
   render() {
     if (!this.state.signedIn) {
