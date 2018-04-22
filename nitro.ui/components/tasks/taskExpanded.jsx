@@ -6,7 +6,10 @@ import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 
+import { Datepicker } from '../datepicker.jsx'
 import { Checkbox } from './checkbox.jsx'
+
+import moreSvg from '../../../assets/icons/material/task-more.svg'
 
 export class TaskExpanded extends React.Component {
   static propTypes = {
@@ -82,6 +85,16 @@ export class TaskExpanded extends React.Component {
       })
     }
   }
+  updateProp = field => {
+    return value => {
+      this.setState({
+        [field]: value
+      })
+      NitroSdk.updateTask(TasksExpandedService.state.task, {
+        [field]: value
+      })
+    }
+  }
   triggerChecked = () => {
     // temporary! this component needs some smarts on how to trigger updates.
     this.setState({
@@ -138,6 +151,22 @@ export class TaskExpanded extends React.Component {
             onChange={this.triggerChange('notes')}
             onBlur={this.triggerBlur('notes')}
           />
+          <View>
+            <Datepicker
+              position="sheet"
+              onSelect={this.updateProp('date')}
+              type={this.state.type}
+              date={this.state.date}
+            />
+            <Datepicker
+              position="sheet"
+              onSelect={this.updateProp('deadline')}
+              type={this.state.type}
+              date={this.state.deadline}
+              pickerType="deadline"
+            />
+            <img src={moreSvg} onClick={this.triggerMenu} />
+          </View>
         </View>
         <View
           pointerEvents={pointerEvents}
