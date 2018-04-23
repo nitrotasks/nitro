@@ -1,32 +1,43 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import PropTypes from 'prop-types'
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import DayPicker from 'react-day-picker'
 
 import { vars } from '../styles.js'
-import { formatDate } from '../helpers/date.js'
-
-import duedateSvg from '../../assets/icons/material/task-duedate.svg'
-import deadlineSvg from '../../assets/icons/material/task-deadline.svg'
+import { DatepickerService } from '../services/datepickerService.js'
 
 export class Datepicker extends React.Component {
+  static propTypes = {
+    pickerId: PropTypes.string.isRequired,
+    position: PropTypes.string.isRequired
+  }
   state = {
-    visible: false
+    visible: false,
+    type: 'date'
+  }
+  callback = () => {}
+  componentDidMount() {
+    DatepickerService.bind('activate', this.triggerActivate)
+  }
+  componentWillUnmount() {
+    DatepickerService.unbind('activate', this.triggerActivate)
+  }
+  triggerActivate = (pickerId, props) => {
+    if (pickerId === this.props.pickerId) {
+      this.callback = props.callback
+      this.setState({
+        visible: true,
+        date: props.date,
+        type: props.type
+      })
+    }
   }
   triggerSelect = value1 => {
     return value2 => {
       let value = value1 || value2
-      this.props.onSelect(value)
+      this.callback(value)
       this.triggerHide()
     }
-  }
-  removeDate = e => {
-    e.stopPropagation()
-    this.props.onSelect(null)
-  }
-  triggerVisible = () => {
-    this.setState({
-      visible: true
-    })
   }
   triggerHide = () => {
     this.setState({
@@ -35,34 +46,43 @@ export class Datepicker extends React.Component {
   }
   render() {
     // TODO: abstract this to translation library
-    const pickerType = this.props.pickerType || 'date'
+    const pickerType = this.state.type
     let titleText = 'Pick Date'
-    let buttonText = 'Date'
     let buttonsTop
     if (pickerType === 'deadline') {
       titleText = 'Set Deadline'
-      buttonText = 'Deadline'
     }
     if (pickerType === 'date' || pickerType === 'deadline') {
       buttonsTop = (
-        <div className="button-list">
-          <button className="today" onClick={this.triggerSelect('today')}>
-            Today
-          </button>
-          <button className="tomorrow" onClick={this.triggerSelect('tomorrow')}>
-            Tomorrow
-          </button>
-          <button className="nextweek" onClick={this.triggerSelect('nextweek')}>
-            Next Week
-          </button>
-        </div>
+        <View>
+          <TouchableOpacity
+            style={[styles.quickButton, styles.todayButton]}
+            onClick={this.triggerSelect('today')}
+          >
+            <Text>Today</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.quickButton, styles.tomorrowButton]}
+            onClick={this.triggerSelect('tomorrow')}
+          >
+            <Text>Tomorrow</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.quickButton, styles.nextButton]}
+            onClick={this.triggerSelect('nextweek')}
+          >
+            <Text>Next Week</Text>
+          </TouchableOpacity>
+        </View>
       )
     }
 
-    const bodyStyle = this.state.visible
-      ? [styles.wrapper]
-      : [styles.wrapper, styles.wrapperHidden]
-    let activator = null
+    let bodyStyle = [styles.wrapper]
+    let bodyPointerEvents = 'auto'
+    if (!this.state.visible) {
+      bodyStyle.push({ opacity: 0 })
+      bodyPointerEvents = 'none'
+    }
     if (
       this.props.position === 'sheet' ||
       this.props.position === 'sheet-hidden'
@@ -72,54 +92,30 @@ export class Datepicker extends React.Component {
       if (this.props.position === 'sheet-hidden') {
         bodyStyle.push({ display: 'none' })
       }
-
-      activator = (
-        <button onClick={this.triggerVisible}>
-          {this.props.type} {formatDate(this.props.date) || buttonText}
-        </button>
-      )
     } else if (this.props.position === 'popover') {
       bodyStyle.push(styles.wrapperFloating)
       bodyStyle.push(styles.wrapperPopover)
-      let imgSrc
-      if (pickerType === 'deadline') {
-        imgSrc = deadlineSvg
-      } else {
-        imgSrc = duedateSvg
-      }
-      // ensures we don't get a rogue 'next' value
-      const next = pickerType === 'deadline' ? 'task' : this.props.type
-      activator = (
-        <div onClick={this.triggerVisible}>
-          <img src={imgSrc} />
-          {formatDate(this.props.date, next) || buttonText}
-          <button onClick={this.removeDate}>X</button>
-        </div>
-      )
     }
 
     return (
-      <div className="datepicker-element">
-        {activator}
-        <View style={bodyStyle}>
-          <View style={styles.container}>
-            <header>
-              <h3>{titleText}</h3>
-              <button
-                className="close"
-                onClick={this.triggerHide}
-                title="Close"
-              />
-            </header>
-            {buttonsTop}
-            <DayPicker />
+      <View style={bodyStyle} pointerEvents={bodyPointerEvents}>
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <Text style={styles.headerText}>{titleText}</Text>
+            <button
+              className="close"
+              onClick={this.triggerHide}
+              title="Close"
+            />
           </View>
+          {buttonsTop}
+          <DayPicker />
         </View>
-      </div>
+      </View>
     )
   }
 }
-const styles = {
+const styles = StyleSheet.create({
   wrapper: {
     top: 0,
     left: 0,
@@ -128,10 +124,11 @@ const styles = {
     transitionTimingFunction: 'ease'
   },
   wrapperFloating: {
-    position: 'fixed'
+    position: 'absolute',
+    zIndex: 20
   },
   wrapperSheet: {
-    background: 'rgba(0,0,0,0.2)',
+    backgroundColor: 'rgba(0,0,0,0.2)',
     height: '100vh',
     width: '100%',
     flexDirection: 'row'
@@ -148,9 +145,29 @@ const styles = {
     marginBottom: 0,
     transitionDuration: '200ms',
     transitionProperty: 'transform',
-    paddingLeft: vars.padding / 2,
-    paddingRight: vars.padding / 2,
+    paddingLeft: vars.padding,
+    paddingRight: vars.padding,
     paddingBottom: vars.padding * 0.75,
     boxShadow: '0 -1px 2px rgba(0,0,0,0.2)'
-  }
-}
+  },
+  header: {
+    flex: 1,
+    flexDirection: 'row'
+  },
+  headerText: {
+    fontWeight: '900',
+    textTransform: 'uppercase',
+    fontSize: vars.padding,
+    paddingTop: vars.padding * 0.75,
+    paddingBottom: vars.padding * 0.25
+  },
+  quickButton: {
+    paddingTop: vars.padding * 0.25,
+    paddingBottom: vars.padding * 0.25,
+    paddingLeft: vars.padding * 0.25,
+    paddingRight: vars.padding * 0.25
+  },
+  todayButton: {},
+  tomorrowButton: {},
+  nextButton: {}
+})
