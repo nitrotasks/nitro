@@ -1,10 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native'
 import DayPicker from 'react-day-picker'
 
 import { vars } from '../styles.js'
 import { DatepickerService } from '../services/datepickerService.js'
+
+import closeIcon from '../../assets/icons/material/close.svg'
+import todayIcon from '../../assets/icons/feather/today.svg'
 
 export class Datepicker extends React.Component {
   static propTypes = {
@@ -56,22 +59,32 @@ export class Datepicker extends React.Component {
       buttonsTop = (
         <View>
           <TouchableOpacity
-            style={[styles.quickButton, styles.todayButton]}
-            onClick={this.triggerSelect('today')}
+            style={styles.quickButton}
+            onPress={this.triggerSelect('today')}
           >
-            <Text>Today</Text>
+            <Image
+              accessibilityLabel="Today Icon"
+              source={todayIcon}
+              resizeMode="contain"
+              style={styles.quickButtonImage}
+            />
+            <Text style={styles.quickButtonText}>Today</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.quickButton, styles.tomorrowButton]}
-            onClick={this.triggerSelect('tomorrow')}
+            style={styles.quickButton}
+            onPress={this.triggerSelect('tomorrow')}
           >
-            <Text>Tomorrow</Text>
+            <Text style={[styles.quickButtonText, styles.emptyButton]}>
+              Tomorrow
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.quickButton, styles.nextButton]}
-            onClick={this.triggerSelect('nextweek')}
+            style={styles.quickButton}
+            onPress={this.triggerSelect('nextweek')}
           >
-            <Text>Next Week</Text>
+            <Text style={[styles.quickButtonText, styles.emptyButton]}>
+              Next Week
+            </Text>
           </TouchableOpacity>
         </View>
       )
@@ -102,14 +115,17 @@ export class Datepicker extends React.Component {
         <View style={styles.container}>
           <View style={styles.header}>
             <Text style={styles.headerText}>{titleText}</Text>
-            <button
-              className="close"
-              onClick={this.triggerHide}
-              title="Close"
-            />
+            <TouchableOpacity onPress={this.triggerHide}>
+              <Image
+                accessibilityLabel="Close Datepicker"
+                source={closeIcon}
+                resizeMode="contain"
+                style={styles.closeIcon}
+              />
+            </TouchableOpacity>
           </View>
           {buttonsTop}
-          <DayPicker />
+          <DayPicker onDayClick={this.triggerSelect()} />
         </View>
       </View>
     )
@@ -145,9 +161,9 @@ const styles = StyleSheet.create({
     marginBottom: 0,
     transitionDuration: '200ms',
     transitionProperty: 'transform',
-    paddingLeft: vars.padding,
-    paddingRight: vars.padding,
-    paddingBottom: vars.padding * 0.75,
+    paddingLeft: vars.padding / 2,
+    paddingRight: vars.padding / 2,
+    paddingBottom: vars.padding / 2,
     boxShadow: '0 -1px 2px rgba(0,0,0,0.2)'
   },
   header: {
@@ -155,19 +171,40 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   headerText: {
+    flex: 1,
     fontWeight: '900',
     textTransform: 'uppercase',
     fontSize: vars.padding,
     paddingTop: vars.padding * 0.75,
-    paddingBottom: vars.padding * 0.25
+    paddingBottom: vars.padding * 0.25,
+    paddingLeft: vars.padding * 0.25
+  },
+  closeIcon: {
+    height: 24,
+    width: 24,
+    marginTop: vars.padding * 0.75
   },
   quickButton: {
+    flex: 1,
+    flexDirection: 'row',
     paddingTop: vars.padding * 0.25,
     paddingBottom: vars.padding * 0.25,
     paddingLeft: vars.padding * 0.25,
     paddingRight: vars.padding * 0.25
   },
-  todayButton: {},
-  tomorrowButton: {},
-  nextButton: {}
+  quickButtonImage: {
+    height: 24,
+    width: 24,
+    marginTop: vars.padding / 4,
+    marginRight: vars.padding / 2
+  },
+  quickButtonText: {
+    flex: 1,
+    lineHeight: vars.padding * 2,
+    fontSize: vars.padding * 1.125,
+    fontWeight: '600'
+  },
+  emptyButton: {
+    marginLeft: 24 + vars.padding / 2
+  }
 })

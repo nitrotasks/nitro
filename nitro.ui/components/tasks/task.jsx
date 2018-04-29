@@ -88,7 +88,9 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: vars.taskFontSize,
-    lineHeight: vars.taskHeight,
+    marginTop: 9,
+    marginBottom: 9,
+    lineHeight: 24,
     color: vars.taskTextColor
   },
   transitionStyle: {

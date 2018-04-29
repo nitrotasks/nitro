@@ -24,8 +24,7 @@ const styles = StyleSheet.create({
     display: 'flex'
   },
   box: {
-    marginTop: 'auto',
-    marginBottom: 'auto',
+    marginTop: 3,
     width: vars.padding * 1.25,
     height: vars.padding * 1.25,
     borderWidth: 1,

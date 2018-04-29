@@ -32,7 +32,6 @@ export class TasksList extends React.PureComponent {
     NitroSdk.bind('order', this.orderUpdate)
     TasksExpandedService.bind('show', this.triggerShow)
     TasksExpandedService.bind('hide', this.triggerHide)
-    window.jono = this.tasksContainer
   }
   componentWillUnmount() {
     NitroSdk.unbind('update', this.tasksUpdate)
