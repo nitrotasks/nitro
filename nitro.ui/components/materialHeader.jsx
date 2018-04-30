@@ -90,7 +90,8 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: vars.padding * 1.25,
-    lineHeight: 24
+    lineHeight: 24,
+    fontFamily: vars.fontFamily
   },
   textBold: {
     fontWeight: '900'

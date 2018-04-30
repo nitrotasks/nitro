@@ -15,7 +15,10 @@ const vars = {
 
   // font sizes
   taskFontSize: 16,
-  taskExpandedFontSize: 18
+  taskExpandedFontSize: 18,
+
+  // font family
+  fontFamily: "'Raleway', 'sans-serif'"
 }
 const exitStyles = {
   position: 'absolute',

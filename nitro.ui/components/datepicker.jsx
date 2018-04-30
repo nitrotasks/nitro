@@ -174,9 +174,10 @@ const styles = StyleSheet.create({
     flex: 1,
     fontWeight: '900',
     textTransform: 'uppercase',
-    fontSize: vars.padding,
-    paddingTop: vars.padding * 0.75,
-    paddingBottom: vars.padding * 0.25,
+    fontFamily: vars.fontFamily,
+    fontSize: vars.padding * 1.125,
+    paddingTop: vars.padding,
+    paddingBottom: vars.padding * 0.5,
     paddingLeft: vars.padding * 0.25
   },
   closeIcon: {
@@ -201,6 +202,7 @@ const styles = StyleSheet.create({
   quickButtonText: {
     flex: 1,
     lineHeight: vars.padding * 2,
+    fontFamily: vars.fontFamily,
     fontSize: vars.padding * 1.125,
     fontWeight: '600'
   },

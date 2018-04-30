@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
     padding: vars.padding / 2,
     paddingBottom: vars.padding * 0.75,
     paddingTop: vars.padding / 4,
+    fontFamily: vars.fontFamily,
     fontSize: 32,
     fontWeight: '900',
     outline: '0',

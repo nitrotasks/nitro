@@ -3,6 +3,9 @@ import App from './components/app.jsx'
 import { NitroSdk } from '../nitro.sdk'
 window.sdk = NitroSdk
 
+import fonts from './external-css/fonts.css'
+import daypicker from './external-css/daypicker.css'
+
 AppRegistry.registerComponent('App', () => App)
 
 document.addEventListener('DOMContentLoaded', () => {

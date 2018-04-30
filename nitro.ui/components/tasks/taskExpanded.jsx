@@ -229,10 +229,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   header: {
+    fontFamily: vars.fontFamily,
     fontSize: vars.taskExpandedFontSize,
     outline: '0'
   },
   notes: {
+    fontFamily: vars.fontFamily,
     fontSize: vars.taskFontSize,
     paddingTop: vars.padding,
     outline: '0'

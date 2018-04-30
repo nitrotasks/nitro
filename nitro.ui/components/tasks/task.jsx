@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   text: {
+    fontFamily: vars.fontFamily,
     fontSize: vars.taskFontSize,
     marginTop: 9,
     marginBottom: 9,

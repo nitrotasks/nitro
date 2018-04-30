@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   name: {
+    fontFamily: vars.fontFamily,
     fontSize: vars.padding * 1.125,
     fontWeight: '600',
     lineHeight: height,
@@ -76,6 +77,7 @@ const styles = StyleSheet.create({
     paddingRight: vars.padding / 4
   },
   count: {
+    fontFamily: vars.fontFamily,
     fontSize: vars.padding,
     fontWeight: '600',
     lineHeight: height,
