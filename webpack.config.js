@@ -88,6 +88,7 @@ if (process.env.NODE_ENV === 'production') {
   webpackConfig.plugins.push(
     new OfflinePlugin({
       externals: ['/'],
+      AppCache: false,
       ServiceWorker: {
         navigateFallbackURL: '/',
         minify: false

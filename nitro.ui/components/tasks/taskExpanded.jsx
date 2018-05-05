@@ -58,6 +58,8 @@ export class TaskExpanded extends React.Component {
   triggerShow = (list, task) => {
     const taskDetails = this.getTask(task)
     requestAnimationFrame(() => {
+      const scrollLocation = TasksExpandedService.state.position - 100
+      window.scrollTo({ top: scrollLocation, left: 0, behavior: 'smooth' })
       this.setState({
         ...taskDetails,
         hidden: false
@@ -121,6 +123,7 @@ export class TaskExpanded extends React.Component {
   }
   render() {
     const top = TasksExpandedService.state.position + vars.padding
+    const overlayTop = window.scrollY
     let opacity = 1
     let overlayOpacity = 0.5
     let transform = [{ translateY: 0 }]
@@ -189,7 +192,8 @@ export class TaskExpanded extends React.Component {
           style={[
             styles.overlay,
             {
-              opacity: overlayOpacity
+              opacity: overlayOpacity,
+              top: overlayTop
             }
           ]}
           onClick={this.triggerOverlay}
@@ -205,12 +209,13 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     width: '100%',
-    height: '100vh',
+    height: '200vh',
     backgroundColor: '#fff',
     opacity: 0.5,
-    transitionDuration: '200ms',
+    transitionDuration: '300ms',
     transitionTimingFunction: 'ease',
-    transitionProperty: 'opacity'
+    transitionProperty: 'opacity',
+    touchAction: 'none'
   },
   wrapper: {
     position: 'absolute',

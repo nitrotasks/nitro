@@ -93,6 +93,7 @@
     "react-router-dom": "^4.2.2",
     "react-transition-group": "^2.3.0",
     "resize-observer-polyfill": "^1.5.0",
+    "smoothscroll-polyfill": "^0.4.3",
     "webpack-bundle-analyzer": "^2.11.1"
   }
 }

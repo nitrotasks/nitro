@@ -135,11 +135,13 @@ const styles = StyleSheet.create({
   header: {
     fontSize: vars.padding * 2,
     textAlign: 'center',
+    fontFamily: vars.fontFamily,
     fontWeight: '900',
     textTransform: 'uppercase'
   },
   tagline: {
     color: vars.taskTextColor,
+    fontFamily: vars.fontFamily,
     fontSize: vars.padding * 1.125,
     maxWidth: 200,
     marginLeft: 'auto',
@@ -150,6 +152,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: vars.taskTextColor,
     lineHeight: vars.padding * 1.5,
+    fontFamily: vars.fontFamily,
     fontSize: vars.padding * 0.875
   },
   input: {
@@ -162,6 +165,7 @@ const styles = StyleSheet.create({
     paddingLeft: vars.padding / 2,
     paddingRight: vars.padding / 2,
     backgroundColor: 'rgba(0,0,0,0.08)',
+    fontFamily: vars.fontFamily,
     marginBottom: vars.padding * 0.75,
     width: '100%',
     outline: '0'
@@ -170,6 +174,7 @@ const styles = StyleSheet.create({
     marginTop: vars.padding
   },
   signUp: {
+    fontFamily: vars.fontFamily,
     fontSize: vars.padding,
     textAlign: 'center'
   }

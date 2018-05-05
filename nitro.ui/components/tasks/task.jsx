@@ -36,10 +36,14 @@ export class Task extends React.Component {
   }
   triggerClick = () => {
     this.viewRef.current.measure((x, y, width, height, pageX, pageY) => {
+      // TODO: this should be the same as pageY, but on iOS it's broken
+      // so using this manual calculation for now
+      const scrollby = y + 171
+      // console.log(scrollby === pageY)
       TasksExpandedService.triggerTask(
         this.props.listId,
         this.props.data.id,
-        pageY
+        scrollby
       )
     })
   }
