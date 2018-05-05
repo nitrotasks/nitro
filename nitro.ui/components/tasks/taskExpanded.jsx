@@ -1,11 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { View, Text, Image, TextInput, StyleSheet } from 'react-native'
+import {
+  View,
+  Text,
+  Image,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet
+} from 'react-native'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
-import { dateValue, deadlineValue } from '../../helpers/date.js'
+import { dateValue, deadlineValue, formatDate } from '../../helpers/date.js'
 
 import { Datepicker } from '../datepicker.jsx'
 import { DatepickerActivator } from '../datepickerActivator.jsx'
@@ -109,7 +116,7 @@ export class TaskExpanded extends React.Component {
       let data = { [field]: value }
       if (field === 'date') {
         data = dateValue(value)
-      } else if ((field = 'deadline')) {
+      } else if (field === 'deadline') {
         data = deadlineValue(value)
       }
       NitroSdk.updateTask(TasksExpandedService.state.task, data)
@@ -135,6 +142,62 @@ export class TaskExpanded extends React.Component {
       overlayOpacity = 0
       pointerEvents = 'none'
       transform = [{ translateY: -2 * vars.padding }]
+    }
+    const leftBar = []
+    const rightBar = []
+    const dateText = this.state.date ? (
+      <Text style={styles.barText}>{formatDate(this.state.date)}</Text>
+    ) : null
+    const deadlineText = this.state.deadline ? (
+      <Text style={styles.barText}>{formatDate(this.state.deadline)}</Text>
+    ) : null
+    const dateElement = (
+      <DatepickerActivator
+        pickerId="expanded"
+        pickerType="date"
+        key="date"
+        date={this.state.date}
+        onSelect={this.updateProp('date')}
+      >
+        <View style={styles.barIconWrapper}>
+          <Image
+            accessibilityLabel="Choose Date"
+            source={dateIcon}
+            resizeMode="contain"
+            style={styles.barIcon}
+          />
+          {dateText}
+        </View>
+      </DatepickerActivator>
+    )
+    const deadlineElement = (
+      <DatepickerActivator
+        pickerId="expanded"
+        pickerType="deadline"
+        key="deadline"
+        date={this.state.deadline}
+        onSelect={this.updateProp('deadline')}
+      >
+        <View style={styles.barIconWrapper}>
+          <Image
+            accessibilityLabel="Choose Deadline"
+            source={deadlineIcon}
+            resizeMode="contain"
+            style={styles.barIcon}
+          />
+          {deadlineText}
+        </View>
+      </DatepickerActivator>
+    )
+    if (this.state.date === null) {
+      rightBar.push(dateElement)
+    } else {
+      leftBar.push(dateElement)
+    }
+    if (this.state.deadline === null) {
+      rightBar.push(deadlineElement)
+    } else {
+      leftBar.push(deadlineElement)
     }
     return (
       <React.Fragment>
@@ -173,38 +236,17 @@ export class TaskExpanded extends React.Component {
             onBlur={this.triggerBlur('notes')}
           />
           <View style={styles.bar}>
-            <DatepickerActivator
-              pickerId="expanded"
-              pickerType="date"
-              date={this.state.date}
-              onSelect={this.updateProp('date')}
-            >
+            {leftBar}
+            <View style={styles.spacer} />
+            {rightBar}
+            <TouchableOpacity style={styles.moreIcon}>
               <Image
                 accessibilityLabel="Choose Deadline"
-                source={dateIcon}
+                source={moreIcon}
                 resizeMode="contain"
                 style={styles.barIcon}
               />
-            </DatepickerActivator>
-            <DatepickerActivator
-              pickerId="expanded"
-              pickerType="deadline"
-              date={this.state.deadline}
-              onSelect={this.updateProp('deadline')}
-            >
-              <Image
-                accessibilityLabel="Choose Deadline"
-                source={deadlineIcon}
-                resizeMode="contain"
-                style={styles.barIcon}
-              />
-            </DatepickerActivator>
-            <Image
-              accessibilityLabel="Choose Deadline"
-              source={moreIcon}
-              resizeMode="contain"
-              style={styles.barIcon}
-            />
+            </TouchableOpacity>
           </View>
         </View>
         <Datepicker pickerId="expanded" position="sheet" />
@@ -244,7 +286,9 @@ const styles = StyleSheet.create({
     left: 0,
     width: '100%',
     backgroundColor: '#fff',
-    padding: vars.padding,
+    // bottom and right padding is ommited for large touch targets
+    paddingTop: vars.padding,
+    paddingLeft: vars.padding,
     boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
     transitionDuration: '300ms, 300ms',
     transitionTimingFunction: 'ease, ease',
@@ -252,26 +296,50 @@ const styles = StyleSheet.create({
   },
   topRow: {
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    paddingRight: vars.padding
   },
   header: {
     fontFamily: vars.fontFamily,
     fontSize: vars.taskExpandedFontSize,
-    outline: '0'
+    outline: '0',
+    flex: 1
   },
   notes: {
     fontFamily: vars.fontFamily,
     fontSize: vars.taskFontSize,
     paddingTop: vars.padding,
+    paddingRight: vars.padding,
     outline: '0'
   },
   bar: {
-    paddingTop: vars.padding,
     flex: 1,
     flexDirection: 'row'
   },
+  spacer: {
+    flex: 1
+  },
+  barIconWrapper: {
+    flex: 1,
+    flexDirection: 'row',
+    paddingTop: vars.padding,
+    paddingBottom: vars.padding,
+    paddingLeft: vars.padding / 4,
+    paddingRight: vars.padding / 4
+  },
+  moreIcon: {
+    paddingTop: vars.padding,
+    paddingRight: vars.padding
+  },
   barIcon: {
+    opacity: 0.5,
     height: 24,
     width: 24
+  },
+  barText: {
+    fontFamily: vars.fontFamily,
+    lineHeight: 24,
+    paddingLeft: vars.padding / 4,
+    paddingRight: vars.padding / 3
   }
 })

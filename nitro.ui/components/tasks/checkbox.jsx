@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { View, TouchableWithoutFeedback, StyleSheet } from 'react-native'
+import { View, Image, TouchableWithoutFeedback, StyleSheet } from 'react-native'
 
+import checkIcon from '../../../assets/icons/feather/check.svg'
 import { vars } from '../../styles.js'
 
 export class Checkbox extends React.PureComponent {
@@ -32,7 +33,14 @@ export class Checkbox extends React.PureComponent {
         onPressOut={this.triggerPressOut}
       >
         <View style={styles.check} >
-          <View style={boxStyles} />
+          <View style={boxStyles}>
+            <Image
+              accessibilityLabel="Tick Mark"
+              source={checkIcon}
+              resizeMode="contain"
+              style={styles.boxIcon}
+            />
+          </View>
         </View>
       </TouchableWithoutFeedback>
     )
@@ -40,15 +48,15 @@ export class Checkbox extends React.PureComponent {
 }
 const styles = StyleSheet.create({
   check: {
-    width: 1.875 * vars.padding,
+    width: 2 * vars.padding,
     paddingTop: vars.padding / 2,
     paddingBottom: vars.padding / 2,
     display: 'flex'
   },
   box: {
-    marginTop: 3,
-    width: vars.padding * 1.25,
-    height: vars.padding * 1.25,
+    marginTop: 2,
+    width: vars.padding * 1.375,
+    height: vars.padding * 1.375,
     borderWidth: 1,
     borderColor: '#bbb',
     borderRadius: '12px',
@@ -64,5 +72,8 @@ const styles = StyleSheet.create({
     transform: [{ scale: 0.9 }],
     backgroundColor: vars.boxColorDark,
     borderColor: vars.boxColorDark
+  },
+  boxIcon: {
+    height: 24
   }
 })

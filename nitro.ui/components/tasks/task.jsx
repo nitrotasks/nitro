@@ -93,8 +93,8 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: vars.fontFamily,
     fontSize: vars.taskFontSize,
-    marginTop: 9,
-    marginBottom: 9,
+    marginTop: 10,
+    marginBottom: 10,
     lineHeight: 24,
     color: vars.taskTextColor
   },

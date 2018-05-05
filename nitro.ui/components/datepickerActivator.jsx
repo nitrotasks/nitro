@@ -9,7 +9,8 @@ export class DatepickerActivator extends React.Component {
     callback: PropTypes.func,
     date: PropTypes.instanceOf(Date),
     type: PropTypes.string,
-    children: PropTypes.element
+    children: PropTypes.element,
+    style: PropTypes.number
   }
   triggerPress = () => {
     DatepickerService.activate(this.props.pickerId, {
@@ -20,7 +21,7 @@ export class DatepickerActivator extends React.Component {
   }
   render() {
     return (
-      <TouchableOpacity onPress={this.triggerPress}>
+      <TouchableOpacity onPress={this.triggerPress} style={this.props.style}>
         {this.props.children}
       </TouchableOpacity>
     )
