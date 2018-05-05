@@ -67,7 +67,7 @@ export class Task extends React.Component {
             >
               <View style={styles.wrapper}>
                 <Checkbox
-                  onClick={this.triggerCheckbox}
+                  onPress={this.triggerCheckbox}
                   checked={this.props.data.completed !== null}
                 />
                 <View onClick={this.triggerClick} style={styles.textDisplay}>

@@ -56,7 +56,7 @@ export class TasksList extends React.PureComponent {
       Array.from(this.tasksContainer.children)
         .slice(this.currentItemIndex)
         .forEach((item, key) => {
-          const pixels = key === 0 ? vars.padding * 2 : 150 // TODO: Magic Numbers!
+          const pixels = key === 0 ? vars.padding * 2 : 180 // TODO: Magic Numbers!
           item.style.transform = `translate3d(0,${pixels}px,0)`
         })
     })

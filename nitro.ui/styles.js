@@ -2,6 +2,7 @@ const vars = {
   // colors
   backColor: '#f2f2f3',
   boxColor: '#6eaf01',
+  boxColorDark: '#629d00',
   navTextColor: '#444',
   navTextColorMuted: '#666',
   accentColor: '#3a7df8',

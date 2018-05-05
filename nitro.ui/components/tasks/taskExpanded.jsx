@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { View, Text, TextInput, StyleSheet } from 'react-native'
+import { View, Text, Image, TextInput, StyleSheet } from 'react-native'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
@@ -11,7 +11,9 @@ import { Datepicker } from '../datepicker.jsx'
 import { DatepickerActivator } from '../datepickerActivator.jsx'
 import { Checkbox } from './checkbox.jsx'
 
-import moreSvg from '../../../assets/icons/material/task-more.svg'
+import dateIcon from '../../../assets/icons/material/task-duedate.svg'
+import deadlineIcon from '../../../assets/icons/material/task-deadline.svg'
+import moreIcon from '../../../assets/icons/material/task-more.svg'
 
 export class TaskExpanded extends React.Component {
   static propTypes = {
@@ -151,7 +153,7 @@ export class TaskExpanded extends React.Component {
           <View style={styles.topRow}>
             <Checkbox
               checked={this.state.checked}
-              onClick={this.triggerChecked}
+              onPress={this.triggerChecked}
             />
             <TextInput
               style={styles.header}
@@ -170,20 +172,39 @@ export class TaskExpanded extends React.Component {
             onChange={this.triggerChange('notes')}
             onBlur={this.triggerBlur('notes')}
           />
-          <View>
+          <View style={styles.bar}>
             <DatepickerActivator
               pickerId="expanded"
               pickerType="date"
               date={this.state.date}
               onSelect={this.updateProp('date')}
-            />
+            >
+              <Image
+                accessibilityLabel="Choose Deadline"
+                source={dateIcon}
+                resizeMode="contain"
+                style={styles.barIcon}
+              />
+            </DatepickerActivator>
             <DatepickerActivator
               pickerId="expanded"
               pickerType="deadline"
               date={this.state.deadline}
               onSelect={this.updateProp('deadline')}
+            >
+              <Image
+                accessibilityLabel="Choose Deadline"
+                source={deadlineIcon}
+                resizeMode="contain"
+                style={styles.barIcon}
+              />
+            </DatepickerActivator>
+            <Image
+              accessibilityLabel="Choose Deadline"
+              source={moreIcon}
+              resizeMode="contain"
+              style={styles.barIcon}
             />
-            <img src={moreSvg} onClick={this.triggerMenu} />
           </View>
         </View>
         <Datepicker pickerId="expanded" position="sheet" />
@@ -243,5 +264,14 @@ const styles = StyleSheet.create({
     fontSize: vars.taskFontSize,
     paddingTop: vars.padding,
     outline: '0'
+  },
+  bar: {
+    paddingTop: vars.padding,
+    flex: 1,
+    flexDirection: 'row'
+  },
+  barIcon: {
+    height: 24,
+    width: 24
   }
 })
