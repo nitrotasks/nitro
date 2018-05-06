@@ -8,7 +8,7 @@ import { TasksExpandedService } from '../services/tasksExpandedService.js'
 import { Login } from './login/index.jsx'
 import { Lists } from './lists/index.jsx'
 import { Tasks } from './tasks/index.jsx'
-import { Editor } from './editor/index.jsx'
+import { ContextMenu } from './contextMenu.jsx'
 
 class App extends React.Component {
   state = {
@@ -34,6 +34,7 @@ class App extends React.Component {
     return (
       <View>
         <MainNavigation />
+        <ContextMenu />
       </View>
     )
   }

@@ -12,6 +12,7 @@ import {
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
+import { taskMenu, headerMenu } from './taskMenu.js'
 import { dateValue, deadlineValue, formatDate } from '../../helpers/date.js'
 
 import { Datepicker } from '../datepicker.jsx'
@@ -40,6 +41,7 @@ export class TaskExpanded extends React.Component {
       this.state = {
         name: '',
         notes: '',
+        type: 'task',
         date: null,
         checked: false,
         hidden: true
@@ -86,6 +88,7 @@ export class TaskExpanded extends React.Component {
     const task = NitroSdk.getTask(taskId)
     return {
       name: task.name,
+      type: task.type,
       notes: task.notes,
       date: task.date,
       deadline: task.deadline,
@@ -129,6 +132,15 @@ export class TaskExpanded extends React.Component {
     })
 
     NitroSdk.completeTask(TasksExpandedService.state.task)
+  }
+  triggerMore = e => {
+    const x = e.nativeEvent.pageX
+    const y = e.nativeEvent.pageY - window.scrollY
+    if (this.state.type === 'task') {
+      taskMenu(TasksExpandedService.state.task, true, x, y, 'top', 'right')
+    } else if (this.state.type === 'header') {
+      headerMenu(TasksExpandedService.state.task, x, y, 'top', 'right')
+    }
   }
   render() {
     const top = TasksExpandedService.state.position + vars.padding
@@ -239,7 +251,10 @@ export class TaskExpanded extends React.Component {
             {leftBar}
             <View style={styles.spacer} />
             {rightBar}
-            <TouchableOpacity style={styles.moreIcon}>
+            <TouchableOpacity
+              style={styles.moreIcon}
+              onPress={this.triggerMore}
+            >
               <Image
                 accessibilityLabel="Choose Deadline"
                 source={moreIcon}
