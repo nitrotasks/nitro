@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, TextInput, StyleSheet } from 'react-native'
 import { Draggable } from 'react-beautiful-dnd'
-import { withRouter } from 'react-router-dom'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 import { Checkbox } from './checkbox.jsx'
+import { TaskHeader } from './taskHeader.jsx'
 
 export class Task extends React.Component {
   static propTypes = {
@@ -52,6 +52,22 @@ export class Task extends React.Component {
   }
   render() {
     const item = this.props.data
+    let innerItem
+    if (item.type === 'header') { 
+      innerItem = <TaskHeader taskId={item.id} />
+    } else {
+      innerItem = (
+        <View style={styles.wrapper}>
+          <Checkbox
+            onPress={this.triggerCheckbox}
+            checked={item.completed !== null}
+          />
+          <View onClick={this.triggerClick} style={styles.textDisplay}>
+            <Text style={styles.text}>{item.name}</Text>
+          </View>
+        </View>
+      )
+    }
     return (
       <Draggable draggableId={item.id} index={this.props.index}>
         {(provided, snapshot) => (
@@ -65,15 +81,7 @@ export class Task extends React.Component {
                 provided.draggableProps.style
               )}
             >
-              <View style={styles.wrapper}>
-                <Checkbox
-                  onPress={this.triggerCheckbox}
-                  checked={this.props.data.completed !== null}
-                />
-                <View onClick={this.triggerClick} style={styles.textDisplay}>
-                  <Text style={styles.text}>{this.props.data.name}</Text>
-                </View>
-              </View>
+              {innerItem}
             </div>
             {provided.placeholder}
           </View>
@@ -85,7 +93,9 @@ export class Task extends React.Component {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    paddingLeft: vars.padding / 2,
+    paddingRight: vars.padding / 2
   },
   textDisplay: {
     flex: 1
@@ -108,8 +118,6 @@ const getItemStyle = (isDragging, draggableStyle) => {
   const style = {
     // some basic styles to make the items look a bit nicer
     userSelect: 'none',
-    paddingLeft: vars.padding / 2,
-    paddingRight: vars.padding / 2,
     borderRadius: isDragging ? 3 : 0,
 
     // change background colour if dragging

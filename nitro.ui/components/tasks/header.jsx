@@ -7,7 +7,7 @@ import { NitroSdk } from '../../../nitro.sdk'
 
 import { vars } from '../../styles'
 
-class HeaderWithoutRouter extends React.Component {
+class HeaderWithoutRouter extends React.PureComponent {
   static propTypes = {
     listId: PropTypes.string
   }
@@ -38,9 +38,11 @@ class HeaderWithoutRouter extends React.Component {
       state.textInputFocus = false
       this.setState(state)
     } else {
-      NitroSdk.updateList(this.props.listId, {
-        name: this.state.name
-      })
+      if (NitroSdk.getList(this.props.listId).name !== this.state.name) {
+        NitroSdk.updateList(this.props.listId, {
+          name: this.state.name
+        })
+      }
       this.setState({
         textInputFocus: false
       })
@@ -85,9 +87,10 @@ const styles = StyleSheet.create({
     paddingBottom: vars.padding / 4
   },
   listHeader: {
-    padding: vars.padding / 2,
-    paddingBottom: vars.padding * 0.75,
-    paddingTop: vars.padding / 4,
+    paddingLeft: vars.padding / 2,
+    paddingRight: vars.padding / 2,
+    paddingBottom: vars.padding / 2,
+    paddingTop: vars.padding / 2,
     fontFamily: vars.fontFamily,
     fontSize: 32,
     fontWeight: '900',

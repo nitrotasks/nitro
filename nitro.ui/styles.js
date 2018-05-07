@@ -6,6 +6,7 @@ const vars = {
   navTextColor: '#444',
   navTextColorMuted: '#666',
   accentColor: '#3a7df8',
+  accentColorMuted: '#5a92fa',
   taskTextColor: '#222',
   dragColor: 'rgba(58, 125, 248, 0.1)',
 
@@ -17,6 +18,7 @@ const vars = {
   // font sizes
   taskFontSize: 16,
   taskExpandedFontSize: 18,
+  taskHeaderFontSize: 18,
 
   // font family
   fontFamily: "'Raleway', 'sans-serif'"
