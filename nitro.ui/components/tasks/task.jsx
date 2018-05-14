@@ -1,19 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { View, Text, TextInput, StyleSheet } from 'react-native'
+import { View, Text, Image, StyleSheet } from 'react-native'
 import { Draggable } from 'react-beautiful-dnd'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
+import { formatDate } from '../../helpers/date.js'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 import { Checkbox } from './checkbox.jsx'
 import { TaskHeader } from './taskHeader.jsx'
+
+import todayIcon from '../../../assets/icons/feather/today.svg'
 
 export class Task extends React.Component {
   static propTypes = {
     index: PropTypes.number,
     listId: PropTypes.string,
-    data: PropTypes.object
+    data: PropTypes.object,
+    currentHeading: PropTypes.string
   }
   constructor(props) {
     super(props)
@@ -53,21 +57,45 @@ export class Task extends React.Component {
   render() {
     const item = this.props.data
     let innerItem
-    if (item.type === 'header') { 
+    if (item.type === 'header') {
       innerItem = <TaskHeader taskId={item.id} />
     } else {
+      let indicatorsBefore = null
+      if (item.date !== null && item.completed === null) {
+        const date = formatDate(item.date, item.type, 'today')
+        if (date === 'Today') {
+          indicatorsBefore = (
+            <Image
+              accessibilityLabel="Do Today"
+              source={todayIcon}
+              resizeMode="contain"
+              style={styles.frontIcon}
+            />
+          )
+        } else if (this.props.currentHeading !== 'overdue') {
+          indicatorsBefore = (
+            <View key="date-indicator" style={styles.indicator}>
+              <Text style={styles.indicatorText}>{date}</Text>
+            </View>
+          )
+        }
+      }
       innerItem = (
         <View style={styles.wrapper}>
           <Checkbox
             onPress={this.triggerCheckbox}
-            checked={item.completed !== null}
+            checked={this.props.data.completed !== null}
           />
           <View onClick={this.triggerClick} style={styles.textDisplay}>
-            <Text style={styles.text}>{item.name}</Text>
+            {indicatorsBefore}
+            <Text numberOfLines={1} style={styles.text}>
+              {this.props.data.name}
+            </Text>
           </View>
         </View>
       )
     }
+
     return (
       <Draggable draggableId={item.id} index={this.props.index}>
         {(provided, snapshot) => (
@@ -98,7 +126,14 @@ const styles = StyleSheet.create({
     paddingRight: vars.padding / 2
   },
   textDisplay: {
-    flex: 1
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  frontIcon: {
+    width: 24,
+    height: 24,
+    marginRight: vars.padding / 3
   },
   text: {
     fontFamily: vars.fontFamily,
@@ -107,6 +142,21 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     lineHeight: 24,
     color: vars.taskTextColor
+  },
+  indicator: {
+    paddingLeft: vars.padding / 4,
+    paddingRight: vars.padding / 4,
+    paddingTop: vars.padding / 4,
+    paddingBottom: vars.padding / 4,
+    backgroundColor: vars.indicatorColor,
+    marginRight: vars.padding / 4,
+    borderRadius: 3
+  },
+  indicatorText: {
+    fontFamily: vars.fontFamily,
+    fontSize: vars.taskFontSize - 3,
+    fontWeight: '600',
+    color: 'rgba(0,0,0,0.6)'
   },
   transitionStyle: {
     transitionDuration: '300ms',

@@ -9,6 +9,7 @@ const vars = {
   accentColorMuted: '#5a92fa',
   taskTextColor: '#222',
   dragColor: 'rgba(58, 125, 248, 0.1)',
+  indicatorColor: '#eeeeee',
 
   // sizes
   padding: 16,
