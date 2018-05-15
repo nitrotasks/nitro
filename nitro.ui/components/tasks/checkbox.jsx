@@ -27,12 +27,12 @@ export class Checkbox extends React.PureComponent {
       boxStyles = [styles.box, styles.boxChecked]
     }
     return (
-      <TouchableWithoutFeedback 
+      <TouchableWithoutFeedback
         onPress={props.onPress}
         onPressIn={this.triggerPressIn}
         onPressOut={this.triggerPressOut}
       >
-        <View style={styles.check} >
+        <View style={styles.check}>
           <View style={boxStyles}>
             <Image
               accessibilityLabel="Tick Mark"
@@ -51,7 +51,8 @@ const styles = StyleSheet.create({
     width: 2 * vars.padding,
     paddingTop: vars.padding / 2,
     paddingBottom: vars.padding / 2,
-    display: 'flex'
+    display: 'flex',
+    justifyContent: 'center'
   },
   box: {
     marginTop: 2,

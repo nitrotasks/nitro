@@ -8,6 +8,7 @@ const vars = {
   accentColor: '#3a7df8',
   accentColorMuted: '#5a92fa',
   taskTextColor: '#222',
+  taskSubtextColor: '#666',
   dragColor: 'rgba(58, 125, 248, 0.1)',
   indicatorColor: '#eeeeee',
 

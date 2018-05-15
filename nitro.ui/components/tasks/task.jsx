@@ -63,6 +63,7 @@ export class Task extends React.Component {
     } else {
       let indicatorsBefore = null
       let indicatorsAfter = null
+      let deadlineIndicator = null
       if (item.date !== null && item.completed === null) {
         const date = formatDate(item.date, item.type, 'today')
         if (date === 'Today') {
@@ -92,18 +93,33 @@ export class Task extends React.Component {
           />
         )
       }
+      if (item.deadline !== null) {
+        deadlineIndicator = (
+          <Text style={styles.subText}>
+            {formatDate(item.deadline, item.type, 'deadline')}
+          </Text>
+        )
+      }
+      const wrapperStyles = deadlineIndicator
+        ? [styles.wrapper, styles.wrapperPadding]
+        : styles.wrapper
       innerItem = (
-        <View style={styles.wrapper}>
+        <View style={wrapperStyles}>
           <Checkbox
             onPress={this.triggerCheckbox}
             checked={this.props.data.completed !== null}
           />
           <View onClick={this.triggerClick} style={styles.textDisplay}>
             {indicatorsBefore}
-            <Text numberOfLines={1} style={styles.text}>
-              {this.props.data.name}
-            </Text>
-            {indicatorsAfter}
+            <View style={styles.textRow}>
+              <View style={styles.textWrapper}>
+                <Text numberOfLines={1} style={styles.text}>
+                  {this.props.data.name}
+                </Text>
+                {indicatorsAfter}
+              </View>
+              {deadlineIndicator}
+            </View>
           </View>
         </View>
       )
@@ -133,15 +149,22 @@ export class Task extends React.Component {
 }
 const styles = StyleSheet.create({
   wrapper: {
-    flex: 1,
-    flexDirection: 'row',
     paddingLeft: vars.padding / 2,
-    paddingRight: vars.padding / 2
+    paddingRight: vars.padding / 2,
+    flex: 1,
+    flexDirection: 'row'
+  },
+  wrapperPadding: {
+    marginTop: vars.padding * 0.25,
+    marginBottom: vars.padding * 0.375
   },
   textDisplay: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center'
+  },
+  textRow: {
+    flex: 1
   },
   frontIcon: {
     width: 24,
@@ -150,17 +173,19 @@ const styles = StyleSheet.create({
   },
   backIcon: {
     width: 18,
-    height: 24,
+    height: 22,
     marginLeft: vars.padding * 0.375,
     marginRight: vars.padding / 4
   },
   text: {
     fontFamily: vars.fontFamily,
     fontSize: vars.taskFontSize,
-    marginTop: 10,
-    marginBottom: 10,
-    lineHeight: 24,
+    lineHeight: 22,
     color: vars.taskTextColor
+  },
+  textWrapper: {
+    flex: 1,
+    flexDirection: 'row'
   },
   indicator: {
     paddingLeft: vars.padding / 4,
@@ -168,7 +193,7 @@ const styles = StyleSheet.create({
     paddingTop: vars.padding / 4,
     paddingBottom: vars.padding / 4,
     backgroundColor: vars.indicatorColor,
-    marginRight: vars.padding / 4,
+    marginRight: vars.padding * 0.375,
     borderRadius: 3
   },
   indicatorText: {
@@ -181,6 +206,11 @@ const styles = StyleSheet.create({
     transitionDuration: '300ms',
     transitionTimingFunction: 'ease',
     transitionProperty: 'transform'
+  },
+  subText: {
+    fontFamily: vars.fontFamily,
+    fontSize: vars.taskFontSize - 3,
+    color: vars.taskSubtextColor
   }
 })
 const getItemStyle = (isDragging, draggableStyle) => {
