@@ -11,6 +11,7 @@ import { Checkbox } from './checkbox.jsx'
 import { TaskHeader } from './taskHeader.jsx'
 
 import todayIcon from '../../../assets/icons/feather/today.svg'
+import notesIcon from '../../../assets/icons/material/note.svg'
 
 export class Task extends React.Component {
   static propTypes = {
@@ -61,6 +62,7 @@ export class Task extends React.Component {
       innerItem = <TaskHeader taskId={item.id} />
     } else {
       let indicatorsBefore = null
+      let indicatorsAfter = null
       if (item.date !== null && item.completed === null) {
         const date = formatDate(item.date, item.type, 'today')
         if (date === 'Today') {
@@ -80,6 +82,16 @@ export class Task extends React.Component {
           )
         }
       }
+      if (item.notes !== null && item.notes.length > 0) {
+        indicatorsAfter = (
+          <Image
+            accessibilityLabel="Notes"
+            source={notesIcon}
+            resizeMode="contain"
+            style={styles.backIcon}
+          />
+        )
+      }
       innerItem = (
         <View style={styles.wrapper}>
           <Checkbox
@@ -91,6 +103,7 @@ export class Task extends React.Component {
             <Text numberOfLines={1} style={styles.text}>
               {this.props.data.name}
             </Text>
+            {indicatorsAfter}
           </View>
         </View>
       )
@@ -133,7 +146,13 @@ const styles = StyleSheet.create({
   frontIcon: {
     width: 24,
     height: 24,
-    marginRight: vars.padding / 3
+    marginRight: vars.padding * 0.375
+  },
+  backIcon: {
+    width: 18,
+    height: 24,
+    marginLeft: vars.padding * 0.375,
+    marginRight: vars.padding / 4
   },
   text: {
     fontFamily: vars.fontFamily,

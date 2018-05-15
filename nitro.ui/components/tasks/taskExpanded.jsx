@@ -355,6 +355,6 @@ const styles = StyleSheet.create({
     fontFamily: vars.fontFamily,
     lineHeight: 24,
     paddingLeft: vars.padding / 4,
-    paddingRight: vars.padding / 3
+    paddingRight: vars.padding * 0.375
   }
 })
