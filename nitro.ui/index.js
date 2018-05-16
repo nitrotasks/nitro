@@ -12,6 +12,13 @@ import daypicker from './external-css/daypicker.css'
 AppRegistry.registerComponent('App', () => App)
 
 document.addEventListener('DOMContentLoaded', () => {
+  if (process.env.NODE_ENV === 'production') {
+    const Runtime = require('offline-plugin/runtime')
+    Runtime.install()
+  } else {
+    console.info('Service Worker is disabled in development.')
+  }
+
   const shell = document.getElementById('app-shell')
   NitroSdk.loadData()
     .then(() => {

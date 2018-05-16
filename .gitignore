@@ -56,3 +56,5 @@ dist/index.html
 
 *.pem
 *.pem.key
+
+*/__offline_serviceworker
