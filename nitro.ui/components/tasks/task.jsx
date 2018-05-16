@@ -18,7 +18,12 @@ export class Task extends React.Component {
     index: PropTypes.number,
     listId: PropTypes.string,
     data: PropTypes.object,
-    currentHeading: PropTypes.string
+    currentHeading: PropTypes.string,
+    selected: PropTypes.bool,
+    selectedHeight: PropTypes.number,
+    selectedCallback: PropTypes.func,
+    headersAllowed: PropTypes.bool,
+    dragDisabled: PropTypes.bool
   }
   constructor(props) {
     super(props)
@@ -59,7 +64,12 @@ export class Task extends React.Component {
     const item = this.props.data
     let innerItem
     if (item.type === 'header') {
-      innerItem = <TaskHeader taskId={item.id} />
+      innerItem = (
+        <TaskHeader
+          data={this.props.data}
+          disabled={!this.props.headersAllowed}
+        />
+      )
     } else {
       let indicatorsBefore = null
       let indicatorsAfter = null
@@ -126,7 +136,11 @@ export class Task extends React.Component {
     }
 
     return (
-      <Draggable draggableId={item.id} index={this.props.index}>
+      <Draggable
+        draggableId={item.id}
+        index={this.props.index}
+        isDragDisabled={this.props.dragDisabled}
+      >
         {(provided, snapshot) => (
           <View ref={this.viewRef} style={styles.transitionStyle}>
             <div

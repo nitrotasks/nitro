@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { View, Text, StyleSheet } from 'react-native'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
@@ -23,8 +23,14 @@ export class TasksList extends React.PureComponent {
   }
   generateState(props) {
     const list = NitroSdk.getTasks(props.listId)
+    const taskMap = new Map()
+    list.tasks.forEach(task => {
+      taskMap.set(task.id, task)
+    })
+
     return {
-      order: list.order
+      order: list.order,
+      tasks: taskMap
     }
   }
   componentDidMount() {
@@ -84,11 +90,15 @@ export class TasksList extends React.PureComponent {
     NitroSdk.updateOrder(this.props.listId, order)
   }
   render() {
+    const mutable = NitroSdk.getList(this.props.listId).mutable
+    const headersAllowed = mutable.indexOf('no-headings') === -1
+    const orderNotAllowed = mutable.indexOf('no-order') !== -1
     return (
       <View style={styles.wrapper}>
         <DragDropContext onDragEnd={this.triggerDragEnd}>
-          <Droppable droppableId="tasksList">
+          <Droppable droppableId="tasksList" isDropDisabled={orderNotAllowed}>
             {(provided, snapshot) => {
+              let currentHeading = ''
               return (
                 <div
                   ref={e => {
@@ -97,13 +107,16 @@ export class TasksList extends React.PureComponent {
                   }}
                 >
                   {this.state.order.map((taskId, index) => {
-                    const task = NitroSdk.getTask(taskId)
+                    const task = this.state.tasks.get(taskId)
                     // if taskid matches ocorrect one get position in dom, pass to overlay etc etc
                     // const selected = taskId === this.props.match.params.task
                     const selected = false
                     const selectedHeight = selected
                       ? this.state.currentTaskHeight
                       : 0
+                    if (task.type === 'header') {
+                      currentHeading = task.id
+                    }
                     return (
                       <Task
                         key={task.id}
@@ -113,6 +126,9 @@ export class TasksList extends React.PureComponent {
                         selected={selected}
                         selectedHeight={selectedHeight}
                         selectedCallback={this.triggerSelected}
+                        headersAllowed={headersAllowed}
+                        currentHeading={currentHeading}
+                        dragDisabled={orderNotAllowed}
                       />
                     )
                   })}

@@ -1,6 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { View, TextInput, TouchableOpacity, Image, StyleSheet } from 'react-native'
+import {
+  View,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  StyleSheet
+} from 'react-native'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { headerMenu } from './taskMenu.js'
@@ -10,7 +16,8 @@ import moreIcon from '../../../assets/icons/material/task-more.svg'
 
 export class TaskHeader extends React.PureComponent {
   static propTypes = {
-    taskId: PropTypes.string
+    data: PropTypes.object,
+    disabled: PropTypes.bool
   }
   constructor(props) {
     super(props)
@@ -19,9 +26,8 @@ export class TaskHeader extends React.PureComponent {
     this.state = newState
   }
   generateState(props) {
-    const task = NitroSdk.getTask(props.taskId)
     return {
-      name: task.name
+      name: props.data.name
     }
   }
   triggerFocus = () => {
@@ -41,8 +47,8 @@ export class TaskHeader extends React.PureComponent {
       state.textInputFocus = false
       this.setState(state)
     } else {
-      if (NitroSdk.getTask(this.props.taskId).name !== this.state.name) {
-        NitroSdk.updateTask(this.props.taskId, {
+      if (NitroSdk.getTask(this.props.data.id).name !== this.state.name) {
+        NitroSdk.updateTask(this.props.data.id, {
           name: this.state.name
         })
       }
@@ -64,12 +70,22 @@ export class TaskHeader extends React.PureComponent {
   triggerMore = e => {
     const x = e.nativeEvent.pageX
     const y = e.nativeEvent.pageY - window.scrollY
-    headerMenu(this.props.taskId, x, y, 'top', 'right')
+    headerMenu(this.props.data.id, x, y, 'top', 'right')
   }
   render() {
-    const wrapperStyles = this.state.textInputFocus ?
-      [styles.wrapper, styles.wrapperFocus] :
-      styles.wrapper
+    const wrapperStyles = this.state.textInputFocus
+      ? [styles.wrapper, styles.wrapperFocus]
+      : styles.wrapper
+    const controls = this.props.disabled ? null : (
+      <TouchableOpacity style={styles.moreIcon} onPress={this.triggerMore}>
+        <Image
+          accessibilityLabel="Choose Deadline"
+          source={moreIcon}
+          resizeMode="contain"
+          style={styles.barIcon}
+        />
+      </TouchableOpacity>
+    )
     return (
       <View style={wrapperStyles}>
         <TextInput
@@ -77,20 +93,11 @@ export class TaskHeader extends React.PureComponent {
           value={this.state.name}
           onChange={this.triggerChange}
           onFocus={this.triggerFocus}
-          onBlur={this.triggerBlur} 
+          onBlur={this.triggerBlur}
           onKeyUp={this.triggerKeyUp}
+          disabled={this.props.disabled}
         />
-        <TouchableOpacity
-          style={styles.moreIcon}
-          onPress={this.triggerMore}
-        >
-          <Image
-            accessibilityLabel="Choose Deadline"
-            source={moreIcon}
-            resizeMode="contain"
-            style={styles.barIcon}
-          />
-        </TouchableOpacity>
+        {controls}
       </View>
     )
   }
@@ -114,11 +121,12 @@ const styles = StyleSheet.create({
     fontSize: vars.taskHeaderFontSize,
     lineHeight: vars.taskHeaderFontSize,
     fontFamily: vars.fontFamily,
-    paddingTop: vars.padding / 2, 
+    paddingTop: vars.padding / 2,
     paddingBottom: vars.padding / 2,
     fontWeight: 'bold',
     outline: '0',
-    flex: 1
+    flex: 1,
+    color: '#000'
   },
   moreIcon: {
     paddingTop: vars.padding / 2,
@@ -126,7 +134,7 @@ const styles = StyleSheet.create({
     paddingLeft: vars.padding / 2
   },
   barIcon: {
-    opacity: 0.5,
+    opacity: 1,
     height: 24,
     width: 24
   }
