@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:carbon
 
 ADD . /client
 WORKDIR /client
