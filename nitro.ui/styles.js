@@ -11,6 +11,7 @@ const vars = {
   taskSubtextColor: '#666',
   dragColor: 'rgba(58, 125, 248, 0.1)',
   indicatorColor: '#eeeeee',
+  headerColor: '#000',
 
   // sizes
   padding: 16,

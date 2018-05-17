@@ -59,6 +59,8 @@ class HeaderWithoutRouter extends React.PureComponent {
     }
   }
   render() {
+    const mutable = NitroSdk.getList(this.props.listId).mutable
+    const renameNotAllowed = mutable.indexOf('no-rename') !== -1
     const listHeaderStyles = this.state.textInputFocus
       ? [styles.listHeader, styles.focusedListHeader]
       : styles.listHeader
@@ -72,6 +74,7 @@ class HeaderWithoutRouter extends React.PureComponent {
             onFocus={this.triggerFocus}
             onBlur={this.triggerBlur}
             onKeyUp={this.triggerKeyUp}
+            disabled={renameNotAllowed}
           />
         </View>
       </View>
@@ -97,7 +100,8 @@ const styles = StyleSheet.create({
     outline: '0',
     borderRadius: 3,
     lineHeight: 1.15,
-    textOverflow: 'ellipsis'
+    textOverflow: 'ellipsis',
+    color: vars.headerColor
   },
   focusedListHeader: {
     backgroundColor: 'rgba(0, 0, 0, 0.08)'

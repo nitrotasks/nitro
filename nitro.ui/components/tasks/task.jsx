@@ -77,14 +77,20 @@ export class Task extends React.Component {
       if (item.date !== null && item.completed === null) {
         const date = formatDate(item.date, item.type, 'today')
         if (date === 'Today') {
-          indicatorsBefore = (
-            <Image
-              accessibilityLabel="Do Today"
-              source={todayIcon}
-              resizeMode="contain"
-              style={styles.frontIcon}
-            />
-          )
+          // don't render anything if it's under one of those headers
+          if (
+            this.props.listId !== 'today' &&
+            this.props.currentHeading !== 'today'
+          ) {
+            indicatorsBefore = (
+              <Image
+                accessibilityLabel="Do Today"
+                source={todayIcon}
+                resizeMode="contain"
+                style={styles.frontIcon}
+              />
+            )
+          }
         } else if (this.props.currentHeading !== 'overdue') {
           indicatorsBefore = (
             <View key="date-indicator" style={styles.indicator}>
@@ -110,9 +116,36 @@ export class Task extends React.Component {
           </Text>
         )
       }
-      const wrapperStyles = deadlineIndicator
-        ? [styles.wrapper, styles.wrapperPadding]
-        : styles.wrapper
+      let listIndicators = []
+      if (['today', 'next'].indexOf(this.props.listId) > -1) {
+        const heading = this.props.currentHeading.split('-')
+        if (
+          heading.length === 1 &&
+          this.props.data.list !== 'inbox' &&
+          this.props.data.list !== heading[0]
+        ) {
+          listIndicators.push(
+            <Text key="list-indicator" style={styles.subText}>
+              {deadlineIndicator || listIndicators.length > 0 ? ' · ' : ''}
+              {NitroSdk.getList(this.props.data.list).name}
+            </Text>
+          )
+        }
+        if (this.props.data.heading && heading.length === 1) {
+          listIndicators.push(
+            <Text key="heading-indicator" style={styles.subText}>
+              {deadlineIndicator || listIndicators.length > 0 ? ' · ' : ''}
+              {this.props.data.heading}
+            </Text>
+          )
+        }
+      }
+
+      // if the bottom row isn't empty, we apply our padded out styles
+      const wrapperStyles =
+        deadlineIndicator || listIndicators.length > 0
+          ? [styles.wrapper, styles.wrapperPadding]
+          : styles.wrapper
       innerItem = (
         <View style={wrapperStyles}>
           <Checkbox
@@ -128,7 +161,10 @@ export class Task extends React.Component {
                 </Text>
                 {indicatorsAfter}
               </View>
-              {deadlineIndicator}
+              <View style={styles.subTextRow}>
+                {deadlineIndicator}
+                {listIndicators}
+              </View>
             </View>
           </View>
         </View>
@@ -220,6 +256,10 @@ const styles = StyleSheet.create({
     transitionDuration: '300ms',
     transitionTimingFunction: 'ease',
     transitionProperty: 'transform'
+  },
+  subTextRow: {
+    flex: 1,
+    flexDirection: 'row'
   },
   subText: {
     fontFamily: vars.fontFamily,

@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     outline: '0',
     flex: 1,
-    color: '#000'
+    color: vars.headerColor
   },
   moreIcon: {
     paddingTop: vars.padding / 2,
