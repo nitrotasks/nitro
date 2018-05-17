@@ -137,9 +137,24 @@ export class TaskExpanded extends React.Component {
     const x = e.nativeEvent.pageX
     const y = e.nativeEvent.pageY - window.scrollY
     if (this.state.type === 'task') {
-      taskMenu(TasksExpandedService.state.task, true, x, y, 'top', 'right')
+      taskMenu(
+        TasksExpandedService.state.task,
+        true,
+        x,
+        y,
+        'top',
+        'right',
+        this.triggerOverlay
+      )
     } else if (this.state.type === 'header') {
-      headerMenu(TasksExpandedService.state.task, x, y, 'top', 'right')
+      headerMenu(
+        TasksExpandedService.state.task,
+        x,
+        y,
+        'top',
+        'right',
+        this.triggerOverlay
+      )
     }
   }
   render() {

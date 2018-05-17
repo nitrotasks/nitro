@@ -28,16 +28,32 @@ export const taskMenu = function(
   x,
   y,
   bind1 = 'top',
-  bind2 = 'left'
+  bind2 = 'left',
+  callback = () => {}
 ) {
   const items = [
-    { title: 'Archive Task', action: () => archiveTask(taskId) },
-    { title: 'Delete Task', action: () => deleteTask(taskId) }
+    {
+      title: 'Archive Task',
+      action: () => {
+        callback()
+        archiveTask(taskId)
+      }
+    },
+    {
+      title: 'Delete Task',
+      action: () => {
+        callback()
+        deleteTask(taskId)
+      }
+    }
   ]
   if (headingAllowed) {
     items.unshift({
       title: 'Change to Heading',
-      action: () => headingConvert(taskId)
+      action: () => {
+        callback()
+        headingConvert(taskId)
+      }
     })
   }
 
@@ -49,12 +65,31 @@ export const headerMenu = function(
   x,
   y,
   bind1 = 'top',
-  bind2 = 'left'
+  bind2 = 'left',
+  callback = () => {}
 ) {
   const items = [
-    { title: 'Change to Task', action: () => headingConvert(taskId, 'task') },
-    { title: 'Archive Group', action: () => archiveHeading(taskId) },
-    { title: 'Remove', action: () => deleteTask(taskId) }
+    {
+      title: 'Change to Task',
+      action: () => {
+        callback()
+        headingConvert(taskId, 'task')
+      }
+    },
+    {
+      title: 'Archive Group',
+      action: () => {
+        callback()
+        archiveHeading(taskId)
+      }
+    },
+    {
+      title: 'Remove',
+      action: () => {
+        callback()
+        deleteTask(taskId)
+      }
+    }
   ]
   ContextMenuService.create(x, y, bind1, bind2, items)
 }
