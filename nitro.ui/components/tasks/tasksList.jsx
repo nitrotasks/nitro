@@ -36,13 +36,13 @@ export class TasksList extends React.PureComponent {
   componentDidMount() {
     NitroSdk.bind('update', this.tasksUpdate)
     NitroSdk.bind('order', this.orderUpdate)
-    TasksExpandedService.bind('show', this.triggerShow)
+    TasksExpandedService.bind('height', this.triggerShow)
     TasksExpandedService.bind('hide', this.triggerHide)
   }
   componentWillUnmount() {
     NitroSdk.unbind('update', this.tasksUpdate)
     NitroSdk.unbind('order', this.orderUpdate)
-    TasksExpandedService.unbind('show', this.triggerShow)
+    TasksExpandedService.unbind('height', this.triggerShow)
     TasksExpandedService.unbind('hide', this.triggerHide)
   }
   tasksUpdate = (event, listId) => {
@@ -54,7 +54,7 @@ export class TasksList extends React.PureComponent {
   orderUpdate = () => {
     this.setState(this.generateState(this.props))
   }
-  triggerShow = () => {
+  triggerShow = height => {
     this.currentItemIndex = this.state.order.indexOf(
       TasksExpandedService.state.task
     )
@@ -62,7 +62,7 @@ export class TasksList extends React.PureComponent {
       Array.from(this.tasksContainer.children)
         .slice(this.currentItemIndex)
         .forEach((item, key) => {
-          const pixels = key === 0 ? vars.padding * 2 : 180 // TODO: Magic Numbers!
+          const pixels = key === 0 ? vars.padding * 2 : height
           item.style.transform = `translate3d(0,${pixels}px,0)`
         })
     })

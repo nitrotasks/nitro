@@ -79,7 +79,9 @@ export class TaskExpanded extends React.Component {
       const scrollLocation = TasksExpandedService.state.position - 100
       window.scrollTo({ top: scrollLocation, left: 0, behavior: 'smooth' })
       const lineNumber =
-        findNodeHandle(this.notesElement.current).scrollHeight / notesLineHeight
+        findNodeHandle(this.notesElement.current).scrollHeight /
+        vars.notesLineHeight
+      TasksExpandedService.triggerTaskHeight(lineNumber)
       this.setState({
         hidden: false,
         lineNumber: lineNumber
@@ -112,8 +114,9 @@ export class TaskExpanded extends React.Component {
   triggerChange = field => {
     return e => {
       if (field === 'notes') {
-        const lineNumber = e.currentTarget.scrollHeight / notesLineHeight
+        const lineNumber = e.currentTarget.scrollHeight / vars.notesLineHeight
         if (this.state.lineNumber !== lineNumber) {
+          TasksExpandedService.triggerTaskHeight(lineNumber)
           this.setState({
             lineNumber: lineNumber,
             [field]: e.currentTarget.value
@@ -314,7 +317,6 @@ export class TaskExpanded extends React.Component {
     )
   }
 }
-const notesLineHeight = vars.padding + 4
 const styles = StyleSheet.create({
   overlay: {
     position: 'absolute',
@@ -358,7 +360,7 @@ const styles = StyleSheet.create({
   notes: {
     fontFamily: vars.fontFamily,
     fontSize: vars.taskFontSize,
-    lineHeight: notesLineHeight,
+    lineHeight: vars.notesLineHeight,
     marginTop: vars.padding,
     paddingRight: vars.padding,
     outline: '0'

@@ -1,5 +1,6 @@
 // @flow
 import { Events } from '../../nitro.sdk'
+import { vars } from '../styles.js'
 
 const idleCallback = (fn: () => mixed) => {
   // currently just setting timeout to 350
@@ -53,6 +54,11 @@ class _tasksExpanded extends Events {
       const url = `/${list}/${task}`
       this.go(url)
     })
+  }
+  triggerTaskHeight(height: number) {
+    // TODO: Magic Numbers!
+    const actualHeight = height * vars.notesLineHeight + 120
+    this.trigger('height', actualHeight)
   }
 }
 export const TasksExpandedService = new _tasksExpanded()

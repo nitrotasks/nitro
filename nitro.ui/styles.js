@@ -17,6 +17,7 @@ const vars = {
   padding: 16,
   taskHeight: 44,
   materialHeaderHeight: 56,
+  notesLineHeight: 20,
 
   // font sizes
   taskFontSize: 16,
