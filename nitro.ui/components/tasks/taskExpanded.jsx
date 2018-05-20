@@ -6,7 +6,8 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
+  findNodeHandle
 } from 'react-native'
 
 import { NitroSdk } from '../../../nitro.sdk'
@@ -29,13 +30,14 @@ export class TaskExpanded extends React.Component {
   }
   constructor(props) {
     super(props)
-    this.wrapper = React.createRef()
+    this.notesElement = React.createRef()
 
     if (TasksExpandedService.state.task !== null) {
       const taskDetails = this.getTask(TasksExpandedService.state.task)
       this.state = {
         ...taskDetails,
-        hidden: false
+        hidden: false,
+        lineNumber: 3
       }
     } else {
       this.state = {
@@ -44,7 +46,8 @@ export class TaskExpanded extends React.Component {
         type: 'task',
         date: null,
         checked: false,
-        hidden: true
+        hidden: true,
+        lineNumber: 3
       }
     }
   }
@@ -68,12 +71,18 @@ export class TaskExpanded extends React.Component {
   }
   triggerShow = (list, task) => {
     const taskDetails = this.getTask(task)
+    this.setState({
+      ...taskDetails,
+      lineNumber: 3
+    })
     requestAnimationFrame(() => {
       const scrollLocation = TasksExpandedService.state.position - 100
       window.scrollTo({ top: scrollLocation, left: 0, behavior: 'smooth' })
+      const lineNumber =
+        findNodeHandle(this.notesElement.current).scrollHeight / notesLineHeight
       this.setState({
-        ...taskDetails,
-        hidden: false
+        hidden: false,
+        lineNumber: lineNumber
       })
     })
   }
@@ -102,6 +111,16 @@ export class TaskExpanded extends React.Component {
   }
   triggerChange = field => {
     return e => {
+      if (field === 'notes') {
+        const lineNumber = e.currentTarget.scrollHeight / notesLineHeight
+        if (this.state.lineNumber !== lineNumber) {
+          this.setState({
+            lineNumber: lineNumber,
+            [field]: e.currentTarget.value
+          })
+          return
+        }
+      }
       this.setState({
         [field]: e.currentTarget.value
       })
@@ -238,7 +257,6 @@ export class TaskExpanded extends React.Component {
               transform: transform
             }
           ]}
-          ref={this.wrapper}
         >
           <View style={styles.topRow}>
             <Checkbox
@@ -254,11 +272,12 @@ export class TaskExpanded extends React.Component {
             />
           </View>
           <TextInput
+            ref={this.notesElement}
             style={styles.notes}
             value={this.state.notes || ''}
             placeholder="Notes"
             multiline={true}
-            numberOfLines={3}
+            numberOfLines={this.state.lineNumber}
             onChange={this.triggerChange('notes')}
             onBlur={this.triggerBlur('notes')}
           />
@@ -295,6 +314,7 @@ export class TaskExpanded extends React.Component {
     )
   }
 }
+const notesLineHeight = vars.padding + 4
 const styles = StyleSheet.create({
   overlay: {
     position: 'absolute',
@@ -338,7 +358,8 @@ const styles = StyleSheet.create({
   notes: {
     fontFamily: vars.fontFamily,
     fontSize: vars.taskFontSize,
-    paddingTop: vars.padding,
+    lineHeight: notesLineHeight,
+    marginTop: vars.padding,
     paddingRight: vars.padding,
     outline: '0'
   },
