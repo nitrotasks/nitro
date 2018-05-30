@@ -21,6 +21,7 @@ const vars = {
 
   // font sizes
   taskFontSize: 16,
+  taskFontSizeSmall: 13,
   taskExpandedFontSize: 18,
   taskHeaderFontSize: 18,
 

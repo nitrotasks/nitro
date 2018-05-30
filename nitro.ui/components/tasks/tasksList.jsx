@@ -1,12 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 import { Task } from './task.jsx'
+
+import archiveIcon from '../../../assets/icons/material/archive.svg'
 
 export class TasksList extends React.PureComponent {
   static propTypes = {
@@ -89,10 +91,41 @@ export class TasksList extends React.PureComponent {
     order.splice(result.destination.index, 0, result.draggableId)
     NitroSdk.updateOrder(this.props.listId, order)
   }
+  triggerArchive = () => {
+    NitroSdk.archiveCompletedList(this.props.listId)
+  }
   render() {
     const mutable = NitroSdk.getList(this.props.listId).mutable
     const headersAllowed = mutable.indexOf('no-headings') === -1
     const orderNotAllowed = mutable.indexOf('no-order') !== -1
+
+    const signedIn = NitroSdk.isSignedIn()
+    const completedTasks = Array.from(this.state.tasks).filter(obj => {
+      let [key, task] = obj
+      if (signedIn || (task.serverId !== null && typeof task.serverId !== 'undefined')) {
+        return (task.completed !== null && task.completed !== 'undefined' && task.type !== 'archived')
+      }
+      return false
+    }).length
+    let archiveButton = null
+    if (completedTasks > 0 && mutable) {
+      archiveButton = (
+        <View style={styles.archiveButtonWrapper}>
+          <TouchableOpacity onClick={this.triggerArchive}>
+            <View style={styles.archiveButton}>
+              <Image
+                accessibilityLabel="Archive Icon"
+                source={archiveIcon}
+                resizeMode="contain"
+                style={styles.archiveIcon}
+              />
+              <Text style={styles.archiveButtonText}>Archive {completedTasks} completed tasks</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      )
+    }
+
     return (
       <View style={styles.wrapper}>
         <DragDropContext onDragEnd={this.triggerDragEnd}>
@@ -138,6 +171,7 @@ export class TasksList extends React.PureComponent {
             }}
           </Droppable>
         </DragDropContext>
+        {archiveButton}
       </View>
     )
   }
@@ -146,5 +180,35 @@ const styles = StyleSheet.create({
   wrapper: {
     paddingLeft: vars.padding / 2,
     paddingRight: vars.padding / 2
+  },
+  archiveButtonWrapper: {
+    display: 'flex', 
+    flexDirection: 'row',
+    paddingTop: vars.padding,
+    paddingBottom: vars.padding,
+    paddingLeft: vars.padding / 4
+  },
+  archiveButton: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexShrink: 1,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: '#ccc',
+    borderRadius: 3,
+    paddingLeft: vars.padding / 2,
+    paddingRight: vars.padding / 2,
+    paddingTop: vars.padding / 4,
+    paddingBottom: vars.padding / 4
+  },
+  archiveIcon: {
+    height: 11,
+    width: 12,
+  },
+  archiveButtonText: {
+    textIndent: vars.padding / 4,
+    fontFamily: vars.fontFamily,
+    fontSize: vars.taskFontSizeSmall
   }
 })
