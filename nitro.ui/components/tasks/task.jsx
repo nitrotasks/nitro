@@ -190,7 +190,6 @@ export class Task extends React.Component {
             >
               {innerItem}
             </div>
-            {provided.placeholder}
           </View>
         )}
       </Draggable>

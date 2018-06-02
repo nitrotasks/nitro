@@ -6,11 +6,13 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
 const webpack = require('webpack')
 const OfflinePlugin = require('offline-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const devMode = process.env.NODE_ENV !== 'production'
 
 let filename = 'generated/[name].js'
 let chunkFilename = 'generated/[name].[id].js'
-if (process.env.NODE_ENV === 'production') {
+if (!devMode) {
+  filename = 'generated/[name].[hash].js'
   chunkFilename = 'generated/[name].[id].[chunkhash].js'
 }
 
@@ -31,7 +33,7 @@ const webpackConfig = {
       { test: /\.(js|jsx)$/, loader: 'babel-loader' },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        use: [devMode ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
         test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
@@ -69,6 +71,10 @@ const webpackConfig = {
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV)
       }
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'generated/[name].[hash].css',
+      chunkFilename: 'generated/[id].[hash].css'
     }),
     new HtmlWebpackPlugin({
       template: 'nitro.ui/index.html',

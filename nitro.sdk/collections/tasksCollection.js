@@ -1,4 +1,4 @@
-import db from 'idb-keyval'
+import { get, set } from 'idb-keyval'
 import Events from '../events.js'
 import Task from '../models/taskModel.js'
 import { getToday, getNext } from './magicListCollection.js'
@@ -78,12 +78,12 @@ export class tasks extends Events {
       }
 
       const key = 'archive-' + listId
-      db.get(key).then(data => {
+      get(key).then(data => {
         if (typeof data === 'undefined') {
-          db.set(key, archiveData).then(cb)
+          set(key, archiveData).then(cb)
         } else {
           data = data.concat(archiveData)
-          db.set(key, data).then(cb)
+          set(key, data).then(cb)
         }
       })
 
@@ -220,10 +220,10 @@ export class tasks extends Events {
     this.saveLocal()
   }
   saveLocal() {
-    db.set('tasks', this.toObject()).then(broadcast.db)
+    set('tasks', this.toObject()).then(broadcast.db)
   }
   loadLocal() {
-    return db.get('tasks').then(data => {
+    return get('tasks').then(data => {
       this.collection = new Map()
       if (typeof data === 'undefined') {
         this.createLocal()

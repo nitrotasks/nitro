@@ -1,4 +1,4 @@
-import db from 'idb-keyval'
+import { get, set, clear } from 'idb-keyval'
 import config from '../../config.js'
 import Events from '../events.js'
 import { checkStatus } from '../helpers/fetch.js'
@@ -28,7 +28,7 @@ class AuthenticationStore extends Events {
     }
   }
   loadLocal() {
-    db.get('auth').then(data => {
+    get('auth').then(data => {
       if (typeof data !== 'undefined') {
         this.refreshToken = data
       }
@@ -71,7 +71,7 @@ class AuthenticationStore extends Events {
     if (username === 'local@nitrotasks.com') {
       this.refreshToken = { local: true }
       this.trigger('sign-in-status')
-      db.set('auth', this.refreshToken)
+      set('auth', this.refreshToken)
     } else {
       this.authenticate(username, password)
         .then(() => {
@@ -129,7 +129,7 @@ class AuthenticationStore extends Events {
         .then(response => {
           response.json().then(data => {
             this.refreshToken = data
-            db.set('auth', this.refreshToken)
+            set('auth', this.refreshToken)
             this.getToken().then(function() {
               resolve('Logged In!')
             })
@@ -146,7 +146,7 @@ class AuthenticationStore extends Events {
       broadcast.db(0)
       window.location = '/'
     }
-    const promises = [db.clear()]
+    const promises = [clear()]
     if (
       !(
         JSON.stringify(this.refreshToken) === '{}' ||
