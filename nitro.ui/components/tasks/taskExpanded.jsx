@@ -31,6 +31,7 @@ export class TaskExpanded extends React.Component {
   constructor(props) {
     super(props)
     this.notesElement = React.createRef()
+    this.notesTimeout = 0
 
     if (TasksExpandedService.state.task !== null) {
       const taskDetails = this.getTask(TasksExpandedService.state.task)
@@ -127,6 +128,8 @@ export class TaskExpanded extends React.Component {
   triggerChange = field => {
     return e => {
       if (field === 'notes') {
+        clearTimeout(this.notesTimeout)
+        this.notesTimeout = setTimeout(this.saveNotes, 1000)
         const lineNumber = e.currentTarget.scrollHeight / vars.notesLineHeight
         if (this.state.lineNumber !== lineNumber) {
           TasksExpandedService.triggerTaskHeight(lineNumber)
@@ -148,6 +151,11 @@ export class TaskExpanded extends React.Component {
         [field]: this.state[field]
       })
     }
+  }
+  saveNotes = () => {
+    NitroSdk.updateTask(TasksExpandedService.state.task, {
+      notes: this.state.notes
+    })
   }
   updateProp = field => {
     return value => {
@@ -279,7 +287,7 @@ export class TaskExpanded extends React.Component {
           <View style={styles.topRow}>
             <Checkbox
               checked={this.state.checked}
-              onPress={this.triggerChecked}
+              onClick={this.triggerChecked}
             />
             <TextInput
               style={styles.header}
@@ -305,7 +313,7 @@ export class TaskExpanded extends React.Component {
             {rightBar}
             <TouchableOpacity
               style={styles.moreIcon}
-              onPress={this.triggerMore}
+              onClick={this.triggerMore}
             >
               <Image
                 accessibilityLabel="Choose Deadline"

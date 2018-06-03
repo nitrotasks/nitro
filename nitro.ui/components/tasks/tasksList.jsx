@@ -157,7 +157,14 @@ export class TasksList extends React.PureComponent {
                       <Task
                         key={task.id}
                         listId={this.props.listId}
-                        data={task}
+                        dataId={task.id}
+                        dataName={task.name}
+                        dataType={task.type}
+                        dataNotes={task.notes}
+                        dataDate={task.date}
+                        dataDeadline={task.deadline}
+                        dataList={task.list}
+                        dataCompleted={task.completed}
                         index={index}
                         selected={selected}
                         selectedHeight={selectedHeight}

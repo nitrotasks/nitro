@@ -13,11 +13,18 @@ import { TaskHeader } from './taskHeader.jsx'
 import todayIcon from '../../../assets/icons/feather/today.svg'
 import notesIcon from '../../../assets/icons/material/note.svg'
 
-export class Task extends React.Component {
+export class Task extends React.PureComponent {
   static propTypes = {
     index: PropTypes.number,
     listId: PropTypes.string,
-    data: PropTypes.object,
+    dataId: PropTypes.string,
+    dataName: PropTypes.string,
+    dataType: PropTypes.string,
+    dataNotes: PropTypes.string,
+    dataDate: PropTypes.instanceOf(Date),
+    dataDeadline: PropTypes.instanceOf(Date),
+    dataList: PropTypes.string,
+    dataCompleted: PropTypes.instanceOf(Date),
     currentHeading: PropTypes.string,
     selected: PropTypes.bool,
     selectedHeight: PropTypes.number,
@@ -52,30 +59,31 @@ export class Task extends React.Component {
       // console.log(scrollby === pageY)
       TasksExpandedService.triggerTask(
         this.props.listId,
-        this.props.data.id,
+        this.props.dataId,
         scrollby
       )
     })
   }
-  triggerCheckbox = e => {
-    NitroSdk.completeTask(this.props.data.id)
+  triggerCheckbox = () => {
+    NitroSdk.completeTask(this.props.dataId)
   }
   render() {
-    const item = this.props.data
+    const props = this.props
     let innerItem
-    if (item.type === 'header') {
+    if (props.dataType === 'header') {
       innerItem = (
         <TaskHeader
-          data={this.props.data}
-          disabled={!this.props.headersAllowed}
+          dataId={props.dataId}
+          dataName={props.dataName}
+          disabled={!props.headersAllowed}
         />
       )
     } else {
       let indicatorsBefore = null
       let indicatorsAfter = null
       let deadlineIndicator = null
-      if (item.date !== null && item.completed === null) {
-        const date = formatDate(item.date, item.type, 'today')
+      if (props.dataDate !== null && props.dataCompleted === null) {
+        const date = formatDate(props.dataDate,  props.dataType, 'today')
         if (date === 'Today') {
           // don't render anything if it's under one of those headers
           if (
@@ -99,7 +107,7 @@ export class Task extends React.Component {
           )
         }
       }
-      if (item.notes !== null && item.notes.length > 0) {
+      if (props.dataNotes !== null && props.dataNotes.length > 0) {
         indicatorsAfter = (
           <Image
             accessibilityLabel="Notes"
@@ -109,33 +117,33 @@ export class Task extends React.Component {
           />
         )
       }
-      if (item.deadline !== null) {
+      if (props.dataDeadline !== null) {
         deadlineIndicator = (
           <Text style={styles.subText}>
-            {formatDate(item.deadline, item.type, 'deadline')}
+            {formatDate(props.dataDeadline, props.dataType, 'deadline')}
           </Text>
         )
       }
       let listIndicators = []
-      if (['today', 'next'].indexOf(this.props.listId) > -1) {
-        const heading = this.props.currentHeading.split('-')
+      if (['today', 'next'].indexOf(props.listId) > -1) {
+        const heading = props.currentHeading.split('-')
         if (
           heading.length === 1 &&
-          this.props.data.list !== 'inbox' &&
-          this.props.data.list !== heading[0]
+          props.dataList !== 'inbox' &&
+          props.dataList !== heading[0]
         ) {
           listIndicators.push(
             <Text key="list-indicator" style={styles.subText}>
               {deadlineIndicator || listIndicators.length > 0 ? ' · ' : ''}
-              {NitroSdk.getList(this.props.data.list).name}
+              {NitroSdk.getList(props.dataList).name}
             </Text>
           )
         }
-        if (this.props.data.heading && heading.length === 1) {
+        if (props.dataHeading && heading.length === 1) {
           listIndicators.push(
             <Text key="heading-indicator" style={styles.subText}>
               {deadlineIndicator || listIndicators.length > 0 ? ' · ' : ''}
-              {this.props.data.heading}
+              {props.dataHeading}
             </Text>
           )
         }
@@ -149,15 +157,15 @@ export class Task extends React.Component {
       innerItem = (
         <View style={wrapperStyles}>
           <Checkbox
-            onPress={this.triggerCheckbox}
-            checked={this.props.data.completed !== null}
+            onClick={this.triggerCheckbox}
+            checked={props.dataCompleted !== null}
           />
           <View onClick={this.triggerClick} style={styles.textDisplay}>
             {indicatorsBefore}
             <View style={styles.textRow}>
               <View style={styles.textWrapper}>
                 <Text numberOfLines={1} style={styles.text}>
-                  {this.props.data.name}
+                  {props.dataName}
                 </Text>
                 {indicatorsAfter}
               </View>
@@ -173,9 +181,9 @@ export class Task extends React.Component {
 
     return (
       <Draggable
-        draggableId={item.id}
-        index={this.props.index}
-        isDragDisabled={this.props.dragDisabled}
+        draggableId={props.dataId}
+        index={props.index}
+        isDragDisabled={props.dragDisabled}
       >
         {(provided, snapshot) => (
           <View ref={this.viewRef} style={styles.transitionStyle}>

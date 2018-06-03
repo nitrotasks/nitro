@@ -16,18 +16,15 @@ import moreIcon from '../../../assets/icons/material/task-more.svg'
 
 export class TaskHeader extends React.PureComponent {
   static propTypes = {
-    data: PropTypes.object,
+    dataId: PropTypes.string,
+    dataName: PropTypes.string,
     disabled: PropTypes.bool
   }
   constructor(props) {
     super(props)
-    const newState = this.generateState(this.props)
-    newState.textInputFocus = false
-    this.state = newState
-  }
-  generateState(props) {
-    return {
-      name: props.data.name
+    this.state = {
+      name: this.props.dataName,
+      textInputFocus: false 
     }
   }
   triggerFocus = () => {
@@ -43,12 +40,14 @@ export class TaskHeader extends React.PureComponent {
   triggerBlur = () => {
     const name = this.state.name.trim()
     if (name === '') {
-      const state = this.generateState(this.props)
-      state.textInputFocus = false
+      const state = {
+        name: this.props.dataName,
+        textInputFocus: false 
+      }
       this.setState(state)
     } else {
-      if (NitroSdk.getTask(this.props.data.id).name !== this.state.name) {
-        NitroSdk.updateTask(this.props.data.id, {
+      if (NitroSdk.getTask(this.props.dataId).name !== this.state.name) {
+        NitroSdk.updateTask(this.props.dataId, {
           name: this.state.name
         })
       }
@@ -60,7 +59,7 @@ export class TaskHeader extends React.PureComponent {
   triggerKeyUp = e => {
     // ESC
     if (e.keyCode === 27) {
-      this.setState(this.generateState(this.props))
+      this.setState(this.setState({name: this.props.dataName}))
       e.currentTarget.blur()
       // ENTER
     } else if (e.keyCode === 13) {
@@ -70,14 +69,14 @@ export class TaskHeader extends React.PureComponent {
   triggerMore = e => {
     const x = e.nativeEvent.pageX
     const y = e.nativeEvent.pageY - window.scrollY
-    headerMenu(this.props.data.id, x, y, 'top', 'right')
+    headerMenu(this.props.dataId, x, y, 'top', 'right')
   }
   render() {
     const wrapperStyles = this.state.textInputFocus
       ? [styles.wrapper, styles.wrapperFocus]
       : styles.wrapper
     const controls = this.props.disabled ? null : (
-      <TouchableOpacity style={styles.moreIcon} onPress={this.triggerMore}>
+      <TouchableOpacity style={styles.moreIcon} onClick={this.triggerMore}>
         <Image
           accessibilityLabel="Choose Deadline"
           source={moreIcon}

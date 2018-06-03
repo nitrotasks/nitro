@@ -7,7 +7,7 @@ import { vars } from '../../styles.js'
 
 export class Checkbox extends React.PureComponent {
   static propTypes = {
-    onPress: PropTypes.func
+    onClick: PropTypes.func
   }
   state = {
     active: false
@@ -28,7 +28,7 @@ export class Checkbox extends React.PureComponent {
     }
     return (
       <TouchableWithoutFeedback
-        onPress={props.onPress}
+        onClick={props.onClick}
         onPressIn={this.triggerPressIn}
         onPressOut={this.triggerPressOut}
       >

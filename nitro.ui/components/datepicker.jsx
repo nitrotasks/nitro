@@ -60,7 +60,7 @@ export class Datepicker extends React.Component {
         <View>
           <TouchableOpacity
             style={styles.quickButton}
-            onPress={this.triggerSelect('today')}
+            onClick={this.triggerSelect('today')}
           >
             <Image
               accessibilityLabel="Today Icon"
@@ -72,7 +72,7 @@ export class Datepicker extends React.Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.quickButton}
-            onPress={this.triggerSelect('tomorrow')}
+            onClick={this.triggerSelect('tomorrow')}
           >
             <Text style={[styles.quickButtonText, styles.emptyButton]}>
               Tomorrow
@@ -80,7 +80,7 @@ export class Datepicker extends React.Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.quickButton}
-            onPress={this.triggerSelect('nextweek')}
+            onClick={this.triggerSelect('nextweek')}
           >
             <Text style={[styles.quickButtonText, styles.emptyButton]}>
               Next Week
@@ -115,7 +115,7 @@ export class Datepicker extends React.Component {
         <View style={styles.container}>
           <View style={styles.header}>
             <Text style={styles.headerText}>{titleText}</Text>
-            <TouchableOpacity onPress={this.triggerHide}>
+            <TouchableOpacity onClick={this.triggerHide}>
               <Image
                 accessibilityLabel="Close Datepicker"
                 source={closeIcon}
