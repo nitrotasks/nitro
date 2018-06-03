@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, Image, TouchableOpacity, StyleSheet, findNodeHandle } from 'react-native'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 
 import { NitroSdk } from '../../../nitro.sdk'
@@ -22,6 +22,7 @@ export class TasksList extends React.PureComponent {
     }
     this.currentItemIndex = 0
     this.tasksContainer = null
+    this.archiveButton = React.createRef()
   }
   generateState(props) {
     const list = NitroSdk.getTasks(props.listId)
@@ -67,6 +68,7 @@ export class TasksList extends React.PureComponent {
           const pixels = key === 0 ? vars.padding * 2 : height
           item.style.transform = `translate3d(0,${pixels}px,0)`
         })
+      findNodeHandle(this.archiveButton.current).style.transform = `translate3d(0,${height}px,0)`
     })
   }
   triggerHide = () => {
@@ -76,6 +78,7 @@ export class TasksList extends React.PureComponent {
         .forEach(item => {
           item.style.transform = ''
         })
+      findNodeHandle(this.archiveButton.current).style.transform = ''
     })
   }
   triggerDragEnd = result => {
@@ -110,7 +113,7 @@ export class TasksList extends React.PureComponent {
     let archiveButton = null
     if (completedTasks > 0 && mutable) {
       archiveButton = (
-        <View style={styles.archiveButtonWrapper}>
+        <View ref={this.archiveButton} style={styles.archiveButtonWrapper}>
           <TouchableOpacity onClick={this.triggerArchive}>
             <View style={styles.archiveButton}>
               <Image
@@ -186,7 +189,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingTop: vars.padding,
     paddingBottom: vars.padding,
-    paddingLeft: vars.padding / 4
+    paddingLeft: vars.padding / 4,
+    transitionDuration: '300ms',
+    transitionTimingFunction: 'ease',
+    transitionProperty: 'transform'
   },
   archiveButton: {
     display: 'flex',

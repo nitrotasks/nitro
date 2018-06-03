@@ -201,7 +201,8 @@ const styles = StyleSheet.create({
     paddingLeft: vars.padding / 2,
     paddingRight: vars.padding / 2,
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    cursor: 'default'
   },
   wrapperPadding: {
     marginTop: vars.padding * 0.25,

@@ -47,6 +47,7 @@ export class TaskExpanded extends React.Component {
         date: null,
         checked: false,
         hidden: true,
+        overlayHidden: true,
         lineNumber: 3
       }
     }
@@ -76,19 +77,31 @@ export class TaskExpanded extends React.Component {
       lineNumber: 3
     })
     requestAnimationFrame(() => {
+      document.body.style.overflowY = 'hidden'
       const scrollLocation = TasksExpandedService.state.position - 100
-      window.scrollTo({ top: scrollLocation, left: 0, behavior: 'smooth' })
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: scrollLocation, left: 0, behavior: 'smooth' })
+      })
       const lineNumber =
         findNodeHandle(this.notesElement.current).scrollHeight /
         vars.notesLineHeight
       TasksExpandedService.triggerTaskHeight(lineNumber)
       this.setState({
         hidden: false,
+        overlayHidden: false,
         lineNumber: lineNumber
       })
     })
   }
-  triggerHide = list => {
+  triggerHide = () => {
+    setTimeout(() => {
+      requestAnimationFrame(() => {
+        document.body.style.overflowY = ''
+      })
+      this.setState({
+        overlayHidden: true
+      })
+    }, 300)
     requestAnimationFrame(() => {
       this.setState({
         hidden: true
@@ -184,14 +197,16 @@ export class TaskExpanded extends React.Component {
     const overlayTop = window.scrollY
     let opacity = 1
     let overlayOpacity = 0.5
+    const overlayDisplay = this.state.overlayHidden ? '100vh' : '200vh'
     let transform = [{ translateY: 0 }]
     let pointerEvents = 'auto'
     if (this.state.hidden) {
       opacity = 0
-      overlayOpacity = 0
+      overlayOpacity = 0      
       pointerEvents = 'none'
       transform = [{ translateY: -2 * vars.padding }]
     }
+
     const leftBar = []
     const rightBar = []
     const dateText = this.state.date ? (
@@ -308,7 +323,8 @@ export class TaskExpanded extends React.Component {
             styles.overlay,
             {
               opacity: overlayOpacity,
-              top: overlayTop
+              top: overlayTop,
+              height: overlayDisplay
             }
           ]}
           onClick={this.triggerOverlay}
