@@ -88,7 +88,7 @@ export class Login extends React.Component {
             autoComplete="password"
           />
           <Button
-            onClick={this.triggerSignIn}
+            onPress={this.triggerSignIn}
             disabled={this.state.disabled}
             color={vars.accentColor}
             title={text}
