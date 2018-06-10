@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, Image, StyleSheet, TextInput, Button } from 'react-native'
 
-import logo from '../../../assets/icons/logo.svg'
+import logo from '../../../assets/icons/full-logo.svg'
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
 
@@ -48,17 +48,12 @@ export class Login extends React.Component {
     return (
       <View style={wrapperStyles}>
         <View style={styles.branding}>
-          <View style={styles.logoContainer}>
-            <Image
-              style={styles.logo}
-              accessibilityLabel="Nitro Logo"
-              source={logo}
-              resizeMode="contain"
-            />
-          </View>
-          <View>
-            <Text style={styles.header}>Nitro</Text>
-          </View>
+          <Image
+            style={styles.logo}
+            accessibilityLabel="Nitro Logo"
+            source={logo}
+            resizeMode="contain"
+          />
         </View>
         <Text style={styles.tagline}>
           The fast and easy way to get things done.
@@ -125,12 +120,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: vars.padding
   },
-  logoContainer: {
-    marginRight: vars.padding / 2,
-    width: vars.padding * 1.75
-  },
   logo: {
-    height: vars.padding * 3
+    height: vars.padding * 3,
+    width: vars.padding * 9.5
   },
   header: {
     fontSize: vars.padding * 2,
