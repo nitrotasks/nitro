@@ -158,6 +158,8 @@ export class TasksList extends React.PureComponent {
                       : 0
                     if (task.type === 'header') {
                       currentHeading = task.id
+                    } else if (task.type === 'archived') {
+                      return <View key={task.id} />
                     }
                     return (
                       <Task
