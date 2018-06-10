@@ -73,7 +73,6 @@ export class Tasks extends React.Component {
 
 const styles = StyleSheet.create({
   wrapper: {
-    height: 300,
     backgroundColor: '#fff',
     paddingTop: vars.materialHeaderHeight
   },

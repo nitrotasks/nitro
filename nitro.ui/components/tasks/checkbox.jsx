@@ -21,10 +21,13 @@ export class Checkbox extends React.PureComponent {
   render() {
     const props = this.props
     let boxStyles = styles.box
+    let boxIconStyles = styles.boxIcon
     if (this.state.active) {
       boxStyles = [styles.box, styles.boxChecked, styles.boxActive]
+      boxIconStyles = [styles.boxIcon, styles.boxIconVisible]
     } else if (props.checked) {
       boxStyles = [styles.box, styles.boxChecked]
+      boxIconStyles = [styles.boxIcon, styles.boxIconVisible]
     }
     return (
       <TouchableWithoutFeedback
@@ -38,7 +41,7 @@ export class Checkbox extends React.PureComponent {
               accessibilityLabel="Tick Mark"
               source={checkIcon}
               resizeMode="contain"
-              style={styles.boxIcon}
+              style={boxIconStyles}
             />
           </View>
         </View>
@@ -56,8 +59,8 @@ const styles = StyleSheet.create({
   },
   box: {
     marginTop: 2,
-    width: vars.padding * 1.375,
-    height: vars.padding * 1.375,
+    width: vars.padding * 1.5,
+    height: vars.padding * 1.5,
     borderWidth: 1,
     borderColor: '#bbb',
     borderRadius: '12px',
@@ -75,6 +78,10 @@ const styles = StyleSheet.create({
     borderColor: vars.boxColorDark
   },
   boxIcon: {
-    height: 24
+    height: 24,
+    visibility: 'hidden'
+  },
+  boxIconVisible: {
+    visibility: 'visible'
   }
 })

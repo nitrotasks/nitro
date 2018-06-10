@@ -8,6 +8,7 @@ smoothscroll.polyfill()
 
 import fonts from './external-css/fonts.css'
 import daypicker from './external-css/daypicker.css'
+import extras from './external-css/extras.css'
 
 AppRegistry.registerComponent('App', () => App)
 

@@ -206,6 +206,8 @@ export class Task extends React.PureComponent {
 }
 const styles = StyleSheet.create({
   wrapper: {
+    paddingTop: vars.padding * 0.1875,
+    paddingBottom: vars.padding * 0.1875,
     paddingLeft: vars.padding / 2,
     paddingRight: vars.padding / 2,
     flex: 1,
@@ -238,8 +240,9 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: vars.fontFamily,
     fontSize: vars.taskFontSize,
-    lineHeight: 22,
-    color: vars.taskTextColor
+    lineHeight: 24,
+    color: vars.taskTextColor,
+    userSelect: 'none'
   },
   textWrapper: {
     flex: 1,
@@ -251,7 +254,7 @@ const styles = StyleSheet.create({
     paddingTop: vars.padding / 4,
     paddingBottom: vars.padding / 4,
     backgroundColor: vars.indicatorColor,
-    marginRight: vars.padding * 0.375,
+    marginRight: vars.padding * 0.5,
     borderRadius: 3
   },
   indicatorText: {
@@ -261,6 +264,7 @@ const styles = StyleSheet.create({
     color: 'rgba(0,0,0,0.6)'
   },
   transitionStyle: {
+    userSelect: 'none',
     transitionDuration: '300ms',
     transitionTimingFunction: 'ease',
     transitionProperty: 'transform'

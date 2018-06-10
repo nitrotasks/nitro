@@ -79,7 +79,7 @@ export class TaskExpanded extends React.Component {
     })
     requestAnimationFrame(() => {
       document.body.style.overflowY = 'hidden'
-      const scrollLocation = TasksExpandedService.state.position - 100
+      const scrollLocation = TasksExpandedService.state.position - 96
       requestAnimationFrame(() => {
         window.scrollTo({ top: scrollLocation, left: 0, behavior: 'smooth' })
       })

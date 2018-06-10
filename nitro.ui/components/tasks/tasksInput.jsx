@@ -50,6 +50,7 @@ export class TasksInput extends React.Component {
     return (
       <View style={styles.wrapper}>
         <TextInput
+          autoComplete="off"
           style={inputStyles}
           value={this.state.name}
           onChange={this.triggerChange}
@@ -86,7 +87,8 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     outline: 'none',
     fontFamily: vars.fontFamily,
-    lineHeight: vars.padding,
+    fontSize: vars.taskInputFontSize,
+    lineHeight: vars.padding * 1.125,
     transitionDuration: '250ms, 250ms',
     transitionProperty: 'border-color, background-color',
     transitionTimingFunction: 'ease, ease'

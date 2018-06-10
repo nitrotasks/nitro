@@ -15,15 +15,16 @@ const vars = {
 
   // sizes
   padding: 16,
-  taskHeight: 44,
+  taskHeight: 56,
   materialHeaderHeight: 56,
   notesLineHeight: 20,
 
   // font sizes
-  taskFontSize: 16,
+  taskFontSize: 18,
   taskFontSizeSmall: 13,
   taskExpandedFontSize: 18,
-  taskHeaderFontSize: 18,
+  taskHeaderFontSize: 20,
+  taskInputFontSize: 16,
 
   // font family
   fontFamily: "'Raleway', 'sans-serif'"

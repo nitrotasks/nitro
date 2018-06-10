@@ -1,0 +1,4 @@
+input:disabled {
+  opacity: 1;
+  -webkit-text-fill-color: #000;
+}

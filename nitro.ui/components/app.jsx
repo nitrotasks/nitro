@@ -1,5 +1,5 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import { TransitionGroup, Transition } from 'react-transition-group'
 
@@ -32,7 +32,7 @@ class App extends React.Component {
       return <Login />
     }
     return (
-      <View>
+      <View style={styles.wrapper}>
         <MainNavigation />
         <ContextMenu />
       </View>
@@ -53,4 +53,9 @@ const MainNavigation = ({ children }) => (
     </Switch>
   </BrowserRouter>
 )
+const styles = StyleSheet.create({
+  wrapper: {
+    minHeight: '100vh'
+  }
+})
 export default App

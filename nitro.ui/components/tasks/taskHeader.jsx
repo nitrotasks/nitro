@@ -78,7 +78,7 @@ export class TaskHeader extends React.PureComponent {
     const controls = this.props.disabled ? null : (
       <TouchableOpacity style={styles.moreIcon} onClick={this.triggerMore}>
         <Image
-          accessibilityLabel="Choose Deadline"
+          accessibilityLabel="More"
           source={moreIcon}
           resizeMode="contain"
           style={styles.barIcon}
@@ -125,7 +125,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     outline: '0',
     flex: 1,
-    color: vars.headerColor
+    color: vars.headerColor,
+    opacity: 1
   },
   moreIcon: {
     paddingTop: vars.padding / 2,

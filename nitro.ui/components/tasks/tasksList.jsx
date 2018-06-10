@@ -68,7 +68,10 @@ export class TasksList extends React.PureComponent {
           const pixels = key === 0 ? vars.padding * 2 : height
           item.style.transform = `translate3d(0,${pixels}px,0)`
         })
-      findNodeHandle(this.archiveButton.current).style.transform = `translate3d(0,${height}px,0)`
+      const archive = findNodeHandle(this.archiveButton.current)
+      if (archive) {
+        archive.style.transform = `translate3d(0,${height}px,0)`
+      }
     })
   }
   triggerHide = () => {
@@ -78,7 +81,10 @@ export class TasksList extends React.PureComponent {
         .forEach(item => {
           item.style.transform = ''
         })
-      findNodeHandle(this.archiveButton.current).style.transform = ''
+      const archive = findNodeHandle(this.archiveButton.current)
+      if (archive) {
+        archive.style.transform = ''
+      }
     })
   }
   triggerDragEnd = result => {
@@ -189,7 +195,8 @@ export class TasksList extends React.PureComponent {
 const styles = StyleSheet.create({
   wrapper: {
     paddingLeft: vars.padding / 2,
-    paddingRight: vars.padding / 2
+    paddingRight: vars.padding / 2,
+    paddingBottom: vars.padding * 4
   },
   archiveButtonWrapper: {
     display: 'flex', 
@@ -210,18 +217,18 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderColor: '#ccc',
     borderRadius: 3,
-    paddingLeft: vars.padding / 2,
-    paddingRight: vars.padding / 2,
-    paddingTop: vars.padding / 4,
-    paddingBottom: vars.padding / 4
+    paddingLeft: vars.padding * 0.75,
+    paddingRight: vars.padding * 0.75,
+    paddingTop: vars.padding / 2,
+    paddingBottom: vars.padding / 2
   },
   archiveIcon: {
     height: 11,
     width: 12,
   },
   archiveButtonText: {
-    textIndent: vars.padding / 4,
+    textIndent: vars.padding * 0.375,
     fontFamily: vars.fontFamily,
-    fontSize: vars.taskFontSizeSmall
+    fontSize: 14
   }
 })
