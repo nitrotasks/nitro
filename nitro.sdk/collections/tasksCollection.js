@@ -1,4 +1,4 @@
-import db from 'idb-keyval'
+import { get, set } from 'idb-keyval'
 import Events from '../events.js'
 import Task from '../models/taskModel.js'
 import { getToday, getNext } from './magicListCollection.js'
@@ -36,7 +36,7 @@ export class tasks extends Events {
     Object.keys(props).forEach(function(key) {
       if (key !== 'id') resource[key] = props[key]
     })
-    this.trigger('update')
+    this.trigger('update', resource.list, id)
     this.saveLocal()
     if (sync) this.sync.addToQueue([resource.list, id], 'patch', 'tasks')
     return resource
@@ -78,12 +78,12 @@ export class tasks extends Events {
       }
 
       const key = 'archive-' + listId
-      db.get(key).then(data => {
+      get(key).then(data => {
         if (typeof data === 'undefined') {
-          db.set(key, archiveData).then(cb)
+          set(key, archiveData).then(cb)
         } else {
           data = data.concat(archiveData)
-          db.set(key, data).then(cb)
+          set(key, data).then(cb)
         }
       })
 
@@ -91,7 +91,7 @@ export class tasks extends Events {
         // only delete stuff straight away if they don't have an account
         // otherwise, on sync it'll get deleted anyway
         if (!signedIn) {
-          archiveDelete.forEach((id) => {
+          archiveDelete.forEach(id => {
             this.collection.delete(id)
           })
         }
@@ -132,7 +132,7 @@ export class tasks extends Events {
         return
       }
       task.lastSync = props.updatedAt
-      
+
       Object.keys(props).forEach(prop => {
         if (prop === 'date' || prop === 'deadline' || prop === 'completed') {
           if (props[prop] !== null) {
@@ -193,7 +193,11 @@ export class tasks extends Events {
   }
   findListCount(list) {
     return this.findList(list).filter(task => {
-      return (task.type !== 'header' && task.type !== 'archived' && task.completed === null)
+      return (
+        task.type !== 'header' &&
+        task.type !== 'archived' &&
+        task.completed === null
+      )
     }).length
   }
   deleteTasks(tasks) {
@@ -216,17 +220,17 @@ export class tasks extends Events {
     this.saveLocal()
   }
   saveLocal() {
-    db.set('tasks', this.toObject()).then(broadcast.db)
+    set('tasks', this.toObject()).then(broadcast.db)
   }
   loadLocal() {
-    return db.get('tasks').then(data => {
+    return get('tasks').then(data => {
       this.collection = new Map()
       if (typeof data === 'undefined') {
         this.createLocal()
         this.saveLocal()
         return
       }
-      data.forEach((item) => {
+      data.forEach(item => {
         this.collection.set(item.id, new Task(item))
       })
     })

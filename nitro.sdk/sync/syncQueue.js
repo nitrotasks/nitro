@@ -1,4 +1,4 @@
-import db from 'idb-keyval'
+import { get, set, del } from 'idb-keyval'
 import Events from '../events.js'
 import { log, warn, error } from '../helpers/logger.js'
 import { promiseSerial } from '../helpers/promise.js'
@@ -39,14 +39,14 @@ export default class Sync extends Events {
   }
   saveQueue() {
     return Promise.all([
-      db.set('sync-' + this.identifier, this.queue),
-      db.set('sync-locked-' + this.identifier, this.queueLock)
+      set('sync-' + this.identifier, this.queue),
+      set('sync-locked-' + this.identifier, this.queueLock)
     ])
   }
   loadQueue() {
     Promise.all([
-      db.get('sync-' + this.identifier),
-      db.get('sync-locked-' + this.identifier)
+      get('sync-' + this.identifier),
+      get('sync-locked-' + this.identifier)
     ]).then(data => {
       if (typeof data[0] !== 'undefined') {
         this.queue = data[0]
@@ -58,7 +58,7 @@ export default class Sync extends Events {
         this.saveQueue()
       }
     })
-    return db.get('sync-' + this.identifier).then(data => {
+    return get('sync-' + this.identifier).then(data => {
       if (typeof data === 'undefined') {
         this.saveQueue()
         return
@@ -162,7 +162,7 @@ export default class Sync extends Events {
           const funcs = this.queue.archive.map(item => () => {
             return archiveItem(item, this.endpoint, this.model, this.parentModel).then(() => {
               // removes local archive of that particular list
-              db.delete('archive-' + item[0])
+              del('archive-' + item[0])
               this.queue.archive.splice(0, 1)
               this.saveQueue()
               // remove the item 

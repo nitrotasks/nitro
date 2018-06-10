@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { formatDate } from '../nitro.ui/js/helpers/date.js'
+import { formatDate } from '../nitro.ui/helpers/date.js'
 
 describe('dates', function() {
   describe('formatDate', function() {
@@ -14,7 +14,10 @@ describe('dates', function() {
       assert.equal(formatDate(new Date(100000000), 'task'), 'Jan 2')
     })
     it('should show things with dates set today', function() {
-      assert.equal(formatDate(new Date(currentDate.getTime()), 'task', 'today'), 'Today')
+      assert.equal(
+        formatDate(new Date(currentDate.getTime()), 'task', 'today'),
+        'Today'
+      )
     })
   })
 })

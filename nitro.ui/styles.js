@@ -1,0 +1,38 @@
+const vars = {
+  // colors
+  backColor: '#f2f2f3',
+  boxColor: '#6eaf01',
+  boxColorDark: '#629d00',
+  navTextColor: '#444',
+  navTextColorMuted: '#666',
+  accentColor: '#3a7df8',
+  accentColorMuted: '#5a92fa',
+  taskTextColor: '#222',
+  taskSubtextColor: '#666',
+  dragColor: 'rgba(58, 125, 248, 0.1)',
+  indicatorColor: '#eeeeee',
+  headerColor: '#000',
+
+  // sizes
+  padding: 16,
+  taskHeight: 44,
+  materialHeaderHeight: 56,
+  notesLineHeight: 20,
+
+  // font sizes
+  taskFontSize: 16,
+  taskFontSizeSmall: 13,
+  taskExpandedFontSize: 18,
+  taskHeaderFontSize: 18,
+
+  // font family
+  fontFamily: "'Raleway', 'sans-serif'"
+}
+const exitStyles = {
+  position: 'absolute',
+  width: '100%',
+  top: 0,
+  left: 0
+}
+
+export { vars, exitStyles }

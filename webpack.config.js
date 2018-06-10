@@ -1,74 +1,51 @@
 const path = require('path')
 const baseDirectory = __dirname
 const buildPath = path.resolve(baseDirectory, './dist')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin
 const webpack = require('webpack')
 const OfflinePlugin = require('offline-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const ExtractTextPlugin = require("extract-text-webpack-plugin")
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const devMode = process.env.NODE_ENV !== 'production'
 
 let filename = 'generated/[name].js'
 let chunkFilename = 'generated/[name].[id].js'
-let cssFilename = 'generated/[name].css'
-if (process.env.NODE_ENV === 'production') {
+if (!devMode) {
+  filename = 'generated/[name].[hash].js'
   chunkFilename = 'generated/[name].[id].[chunkhash].js'
 }
-
-const extractSass = new ExtractTextPlugin({
-  filename: cssFilename,
-  allChunks: true
-})
 
 const webpackConfig = {
   context: baseDirectory,
   entry: {
-    app: ['./nitro.ui/js/index.jsx', './nitro.ui/scss/style.scss'],
+    app: ['./nitro.ui/index.js']
   },
   output: {
     filename: filename,
     chunkFilename: chunkFilename,
     path: buildPath,
-    publicPath: '/',
+    publicPath: '/'
   },
   devtool: 'cheap-eval-source-map',
   module: {
     rules: [
       { test: /\.(js|jsx)$/, loader: 'babel-loader' },
       {
-				test: /\.scss$/,
-				use: extractSass.extract({
-				  use: [
-  					{
-  						loader: 'css-loader',
-  						options: {
-  						  sourceMap: true
-  						}
-  					},
-  					{
-  					  loader: 'resolve-url-loader'
-  					},
-  					{
-  						loader: 'sass-loader',
-  						options: {
-  						  sourceMap: true
-  						}
-  					}
-  				]
-				})
-			},
+        test: /\.css$/,
+        use: [devMode ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader']
+      },
       {
-        test:  /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
-        use: [{
+        test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
+        use: [
+          {
             loader: 'file-loader',
             options: {
               outputPath: 'generated/assets/',
               publicPath: '/generated/assets'
             }
-        }]
-      },
-      {
-        test: /pikaday\.js$/,
-        loader : 'imports-loader?define=>false'
+          }
+        ]
       }
     ]
   },
@@ -80,11 +57,11 @@ const webpackConfig = {
     proxy: {
       '/a': {
         target: 'http://localhost:8040',
-        pathRewrite: {"^/a" : ""}
+        pathRewrite: { '^/a': '' }
       },
       '/a/ws': {
         target: 'ws://localhost:8040',
-        pathRewrite: {"^/a" : ""},
+        pathRewrite: { '^/a': '' },
         ws: true
       }
     }
@@ -95,15 +72,16 @@ const webpackConfig = {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV)
       }
     }),
-    extractSass,
-    new webpack.IgnorePlugin(/moment/),
+    new MiniCssExtractPlugin({
+      filename: 'generated/[name].[hash].css',
+      chunkFilename: 'generated/[id].[hash].css'
+    }),
     new HtmlWebpackPlugin({
       template: 'nitro.ui/index.html',
       title: 'Nitro'
     })
   ]
 }
-
 
 const bundle = new BundleAnalyzerPlugin({
   analyzerMode: 'static',
@@ -112,16 +90,17 @@ const bundle = new BundleAnalyzerPlugin({
 if (process.env.NODE_ENV === 'production') {
   webpackConfig.devtool = 'nosources-source-map'
   webpackConfig.plugins.push(new webpack.optimize.ModuleConcatenationPlugin())
-  //webpackConfig.plugins.push(bundle)
-  webpackConfig.plugins.push(new OfflinePlugin({
-    externals: [
-      '/',
-    ],
-    ServiceWorker: {
-      navigateFallbackURL: '/',
-      minify: false
-    }
-  }))
+  // webpackConfig.plugins.push(bundle)
+  webpackConfig.plugins.push(
+    new OfflinePlugin({
+      externals: ['/'],
+      AppCache: false,
+      ServiceWorker: {
+        navigateFallbackURL: '/',
+        minify: false
+      }
+    })
+  )
 } else if (process.env.NODE_ENV === 'report') {
   webpackConfig.plugins.push(bundle)
 }

@@ -1,4 +1,4 @@
-import db from 'idb-keyval'
+import { get, set } from 'idb-keyval'
 import Events from '../events.js'
 import List from '../models/listModel.js'
 import { createId } from '../helpers/random.js'
@@ -75,10 +75,10 @@ export class lists extends Events {
     return name
   }
   saveLocal() {
-    db.set('lists', this.toObject()).then(broadcast.db)
+    set('lists', this.toObject()).then(broadcast.db)
   }
   loadLocal() {
-    return db.get('lists').then(data => {
+    return get('lists').then(data => {
       this.collection = new Map()
       if (typeof data === 'undefined') {
         this.createLocal()
