@@ -42,6 +42,7 @@ export class Lists extends React.Component {
               />
             )
           })}
+          <ListItem key="logs" id="logs" name="System Logs" />
         </View>
       </View>
     )

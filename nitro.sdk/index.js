@@ -508,4 +508,4 @@ export class sdk extends Events {
   }
 }
 export let NitroSdk = new sdk()
-export { Events }
+export { Events, logHistory }
