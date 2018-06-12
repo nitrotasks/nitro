@@ -1,6 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { View, Text, Image, TouchableOpacity, StyleSheet, findNodeHandle } from 'react-native'
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  findNodeHandle
+} from 'react-native'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 
 import { NitroSdk } from '../../../nitro.sdk'
@@ -111,8 +118,15 @@ export class TasksList extends React.PureComponent {
     const signedIn = NitroSdk.isSignedIn()
     const completedTasks = Array.from(this.state.tasks).filter(obj => {
       let [key, task] = obj
-      if (signedIn || (task.serverId !== null && typeof task.serverId !== 'undefined')) {
-        return (task.completed !== null && task.completed !== 'undefined' && task.type !== 'archived')
+      if (
+        signedIn ||
+        (task.serverId !== null && typeof task.serverId !== 'undefined')
+      ) {
+        return (
+          task.completed !== null &&
+          typeof task.completed !== 'undefined' &&
+          task.type !== 'archived'
+        )
       }
       return false
     }).length
@@ -128,7 +142,9 @@ export class TasksList extends React.PureComponent {
                 resizeMode="contain"
                 style={styles.archiveIcon}
               />
-              <Text style={styles.archiveButtonText}>Archive {completedTasks} completed tasks</Text>
+              <Text style={styles.archiveButtonText}>
+                Archive {completedTasks} completed tasks
+              </Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -201,7 +217,7 @@ const styles = StyleSheet.create({
     paddingBottom: vars.padding * 4
   },
   archiveButtonWrapper: {
-    display: 'flex', 
+    display: 'flex',
     flexDirection: 'row',
     paddingTop: vars.padding,
     paddingBottom: vars.padding,
@@ -226,7 +242,7 @@ const styles = StyleSheet.create({
   },
   archiveIcon: {
     height: 11,
-    width: 12,
+    width: 12
   },
   archiveButtonText: {
     textIndent: vars.padding * 0.375,
