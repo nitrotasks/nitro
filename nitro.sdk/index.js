@@ -402,7 +402,7 @@ export class sdk extends Events {
     const tasks = this.getTasks(id, server)
     if (tasks === null || list === null)
       throw new Error('List could not be found?')
-    // TODO: Check if it's a virtual list
+
     const signedin = authenticationStore.isSignedIn(true)
     const toArchive = tasks.tasks
       .filter(task => {
@@ -420,7 +420,9 @@ export class sdk extends Events {
 
     // looks through the list and checks the order
     let headers = null
-    if (!signedin) {
+
+    // doesn't remove stuff from an immutable list
+    if (!signedin && !list.mutable.includes('no-rename')) {
       headers = this._getHeaders(id)
       this._removeFromList(toArchive, id)
     }
@@ -506,4 +508,4 @@ export class sdk extends Events {
   }
 }
 export let NitroSdk = new sdk()
-export { Events }
+export { Events, logHistory }

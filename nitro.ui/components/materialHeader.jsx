@@ -1,19 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import logo from '../../assets/icons/logo.svg'
-import backIcon from '../../assets/icons/back.svg'
 import { Image, View, Text, StyleSheet } from 'react-native'
 
 import { vars } from '../styles'
 
+import logo from '../../assets/icons/logo.svg'
+import backIcon from '../../assets/icons/back.svg'
+import menuIcon from '../../assets/icons/menu.svg'
+
 export class MaterialHeader extends React.Component {
   render() {
     let leftIcon = null
+    let rightIcon = null
     if (this.props.leftIcon === 'logo') {
       leftIcon = logo
     } else if (this.props.leftIcon === 'back') {
       leftIcon = backIcon
     }
+    if (this.props.rightIcon === 'menu') {
+      rightIcon = menuIcon
+    }
+
     const wrapperStyles = this.props.fixed
       ? [styles.wrapper, styles.wrapperFixed]
       : styles.wrapper
@@ -29,16 +36,14 @@ export class MaterialHeader extends React.Component {
         : styles.textContainer
     return (
       <View style={wrapperStyles}>
-        <View style={styles.logoContainer} onClick={this.props.leftAction}>
-          <Image
-            accessibilityLabel="Nitro Logo"
-            source={leftIcon}
-            resizeMode="contain"
-            style={styles.logo}
-          />
+        <View style={styles.leftContainer} onClick={this.props.leftAction}>
+          <Image source={leftIcon} resizeMode="contain" style={styles.logo} />
         </View>
         <View style={h1Styles}>
           <Text style={textStyles}>{this.props.h1}</Text>
+        </View>
+        <View style={styles.rightContainer} onClick={this.props.rightAction}>
+          <Image source={rightIcon} resizeMode="contain" style={styles.logo} />
         </View>
       </View>
     )
@@ -72,9 +77,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     zIndex: 2
   },
-  logoContainer: {
+  leftContainer: {
     width: 30,
     paddingRight: vars.padding / 2
+  },
+  rightContainer: {
+    width: 30,
+    paddingLeft: vars.padding / 2
   },
   textContainer: {
     flex: 1,

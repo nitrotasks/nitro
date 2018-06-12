@@ -9,6 +9,7 @@ import { Login } from './login/index.jsx'
 import { Lists } from './lists/index.jsx'
 import { Tasks } from './tasks/index.jsx'
 import { ContextMenu } from './contextMenu.jsx'
+import { Logs } from './logs.jsx'
 
 class App extends React.Component {
   state = {
@@ -42,6 +43,7 @@ class App extends React.Component {
 const MainNavigation = ({ children }) => (
   <BrowserRouter>
     <Switch>
+      <Route path="/logs" render={routeProps => <Logs {...routeProps} />} />
       <Route
         path="/:list/:task?"
         render={routeProps => {

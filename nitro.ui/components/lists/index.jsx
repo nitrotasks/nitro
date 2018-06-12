@@ -5,6 +5,7 @@ import { View, StyleSheet } from 'react-native'
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars, exitStyles } from '../../styles'
 import { MaterialHeader } from '../materialHeader.jsx'
+import { ContextMenuService } from '../../services/contextMenuService.js'
 import { ListItem } from './listitem.jsx'
 
 export class Lists extends React.Component {
@@ -23,6 +24,15 @@ export class Lists extends React.Component {
       lists: NitroSdk.getLists()
     })
   }
+  triggerMenu = e => {
+    const items = [
+      {
+        title: 'Sign Out',
+        action: NitroSdk.signOut
+      }
+    ]
+    ContextMenuService.create(e.clientX, e.clientY, 'top', 'right', items)
+  }
   render() {
     const wrapperStyles =
       this.props.transitionState === 'exiting'
@@ -30,7 +40,13 @@ export class Lists extends React.Component {
         : styles.wrapper
     return (
       <View style={wrapperStyles}>
-        <MaterialHeader leftIcon="logo" h1="NITRO" h1Weight="900" />
+        <MaterialHeader
+          leftIcon="logo"
+          h1="NITRO"
+          h1Weight="900"
+          rightIcon="menu"
+          rightAction={this.triggerMenu}
+        />
         <View style={styles.listWrapper}>
           {this.state.lists.map(list => {
             return (
@@ -42,6 +58,7 @@ export class Lists extends React.Component {
               />
             )
           })}
+          <ListItem key="logs" id="logs" name="System Logs" />
         </View>
       </View>
     )
