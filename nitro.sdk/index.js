@@ -140,6 +140,7 @@ export class sdk extends Events {
   _processQueue = (): Promise<any> => {
     return new Promise((resolve, reject) => {
       if (!authenticationStore.isSignedIn(true)) return resolve()
+      log('Starting Sync to Server')
       if (
         this.tasksQueue.syncLock === true ||
         this.listsQueue.syncLock === true
@@ -225,6 +226,8 @@ export class sdk extends Events {
     }
     this.listsQueue.syncLock = true
     this.tasksQueue.syncLock = true
+
+    log('Starting Download from Server')
     authenticationStore
       .checkToken()
       .then(() => {
@@ -234,6 +237,8 @@ export class sdk extends Events {
         this.syncGet.updateLocal(data).then(() => {
           this.listsQueue.syncLock = false
           this.tasksQueue.syncLock = false
+          log('Finished Download From Server')
+
           this._runDeferred()
           this.lastSync = new Date()
         })

@@ -28,8 +28,15 @@ document.addEventListener('DOMContentLoaded', () => {
       })
     })
     .catch(err => {
+      const fixBtn = `
+      <h2>fatal error!</h2>
+      <p>Sign out,
+      and hopefully your issue will be fixed
+      when you sign back in.</p>
+      <button onclick="window.sdk.signOut()">sign out</button>
+      <h3>error message</h3>`
       console.error(err)
-      shell.innerHTML = err
+      shell.innerHTML = fixBtn + err
     })
 })
 

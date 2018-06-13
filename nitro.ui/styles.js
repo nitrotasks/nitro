@@ -17,7 +17,7 @@ const vars = {
   padding: 16,
   taskHeight: 56,
   materialHeaderHeight: 56,
-  notesLineHeight: 20,
+  notesLineHeight: 24,
 
   // font sizes
   taskFontSize: 18,
@@ -27,7 +27,7 @@ const vars = {
   taskInputFontSize: 16,
 
   // font family
-  fontFamily: "'Raleway', 'sans-serif'"
+  fontFamily: '\'Raleway\', \'sans-serif\''
 }
 const exitStyles = {
   position: 'absolute',
