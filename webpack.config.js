@@ -33,7 +33,10 @@ const webpackConfig = {
       { test: /\.(js|jsx)$/, loader: 'babel-loader' },
       {
         test: /\.css$/,
-        use: [devMode ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader']
+        use: [
+          devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+          'css-loader'
+        ]
       },
       {
         test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
@@ -90,7 +93,7 @@ const bundle = new BundleAnalyzerPlugin({
 if (process.env.NODE_ENV === 'production') {
   webpackConfig.devtool = 'nosources-source-map'
   webpackConfig.plugins.push(new webpack.optimize.ModuleConcatenationPlugin())
-  // webpackConfig.plugins.push(bundle)
+  webpackConfig.plugins.push(bundle)
   webpackConfig.plugins.push(
     new OfflinePlugin({
       externals: ['/'],
@@ -101,8 +104,6 @@ if (process.env.NODE_ENV === 'production') {
       }
     })
   )
-} else if (process.env.NODE_ENV === 'report') {
-  webpackConfig.plugins.push(bundle)
 }
 
 module.exports = webpackConfig

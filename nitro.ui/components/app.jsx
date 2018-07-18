@@ -1,7 +1,6 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import { TransitionGroup, Transition } from 'react-transition-group'
 
 import { NitroSdk } from '../../nitro.sdk'
 import { TasksExpandedService } from '../services/tasksExpandedService.js'
