@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { View, Text, Image, StyleSheet, findNodeHandle } from 'react-native'
 import { Draggable } from 'react-beautiful-dnd'
 
 import { NitroSdk } from '../../../nitro.sdk'
@@ -12,6 +12,9 @@ import { TaskHeader } from './taskHeader.jsx'
 
 import todayIcon from '../../../assets/icons/feather/today.svg'
 import notesIcon from '../../../assets/icons/material/note.svg'
+
+// this is the threshold defined in react-beautiful-dnd
+const forcePressTheshold = 0.15
 
 export class Task extends React.PureComponent {
   static propTypes = {
@@ -32,12 +35,20 @@ export class Task extends React.PureComponent {
     headersAllowed: PropTypes.bool,
     dragDisabled: PropTypes.bool
   }
+  thresholdHit = false
   constructor(props) {
     super(props)
     this.viewRef = React.createRef()
   }
   componentDidMount() {
     this.triggerPosition()
+
+    if ('ontouchforcechange' in document === true) {
+      findNodeHandle(this.viewRef.current).addEventListener(
+        'touchforcechange',
+        this.triggerForcePress
+      )
+    }
   }
   componentWillReceiveProps(newProps) {
     if (newProps.selected !== this.props.selected) {
@@ -63,6 +74,27 @@ export class Task extends React.PureComponent {
         scrollby
       )
     })
+  }
+  // iOS has a funnny force press / 3d touch API
+  // i.e it doesn't use pointer events
+  // and raises these events at same time
+  triggerForcePress = e => {
+    const force = e.changedTouches[0].force
+    if (
+      this.thresholdHit === false &&
+      e.defaultPrevented === false &&
+      force > forcePressTheshold
+    ) {
+      this.thresholdHit = true
+      e.preventDefault()
+
+      requestAnimationFrame(() => {
+        this.triggerClick()
+      })
+      setTimeout(() => {
+        this.thresholdHit = false
+      }, 300)
+    }
   }
   triggerCheckbox = () => {
     NitroSdk.completeTask(this.props.dataId)
