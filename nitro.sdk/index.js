@@ -13,6 +13,15 @@ import { log, warn, error, logHistory } from './helpers/logger.js'
 
 const systemLists = ['inbox', 'today', 'next', 'all']
 
+const getBlankDate = () => {
+  const date = new Date()
+  date.setHours(0)
+  date.setMinutes(0)
+  date.setSeconds(0)
+  date.setMilliseconds(0)
+  return date
+}
+
 // helpers
 export class sdk extends Events {
   constructor() {
@@ -256,11 +265,10 @@ export class sdk extends Events {
       throw new Error('List could not be found')
     } else if (task.list === 'today') {
       task.list = 'inbox'
-      task.date = new Date()
-      task.date.setSeconds(task.date.getSeconds() - 1)
+      task.date = getBlankDate()
     } else if (task.list === 'next') {
       task.list = 'inbox'
-      task.date = new Date()
+      task.date = getBlankDate()
       task.date.setDate(task.date.getDate() + 1)
     }
     const id = TasksCollection.add(task)

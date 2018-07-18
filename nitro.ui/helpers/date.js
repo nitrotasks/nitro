@@ -30,7 +30,12 @@ export function formatDate(date, type, showToday = 'no') {
     const due = date - currentDate
     if (due < 7 * dayms) {
       const days = Math.floor((due * -1) / dayms)
-      if ((dayms * -1 < due && due < dayms && date.getDate() - currentDate.getDate() === 0) || days === 0) {
+      if (
+        (dayms * -1 < due &&
+          due < dayms &&
+          date.getDate() - currentDate.getDate() === 0) ||
+        days === 0
+      ) {
         return 'due today'
       }
       if (due < 0) {
@@ -39,7 +44,7 @@ export function formatDate(date, type, showToday = 'no') {
         }
         return days + ' days overdue'
       }
-      const left = (date.getDate() - currentDate.getDate())
+      const left = date.getDate() - currentDate.getDate()
       if (left === 1) {
         return '1 day left'
       }
@@ -62,6 +67,15 @@ export function formatDate(date, type, showToday = 'no') {
   return date.toLocaleDateString(language, { month: 'short', day: 'numeric' })
 }
 
+export const getBlankDate = () => {
+  const date = new Date()
+  date.setHours(0)
+  date.setMinutes(0)
+  date.setSeconds(0)
+  date.setMilliseconds(0)
+  return date
+}
+
 export const dateValue = function(value) {
   const newData = {
     type: 'task'
@@ -72,18 +86,17 @@ export const dateValue = function(value) {
   } else if (value.constructor === Date) {
     newData.date = value
   } else if (value === 'today') {
-    newData.date = new Date()
-    newData.date.setSeconds(newData.date.getSeconds() - 1)
+    newData.date = getBlankDate()
     if (currentDate.getHours() <= 3) {
       newData.date.setDate(newData.date.getDate() - 1)
     }
   } else if (value === 'tomorrow') {
-    newData.date = new Date()
+    newData.date = getBlankDate()
     if (currentDate.getHours() > 3) {
       newData.date.setDate(newData.date.getDate() + 1)
     }
   } else if (value === 'nextweek') {
-    newData.date = new Date()
+    newData.date = getBlankDate()
     newData.date.setDate(
       newData.date.getDate() + (workday - newData.date.getDay())
     )
@@ -105,22 +118,22 @@ export const deadlineValue = function(value) {
   } else if (value.constructor === Date) {
     newData.deadline = value
   } else if (value === 'today') {
-    newData.deadline = new Date()
+    newData.deadline = getBlankDate()
     if (currentDate.getHours() <= 3) {
       newData.deadline.setDate(newData.deadline.getDate() - 1)
     }
   } else if (value === 'tomorrow') {
-    newData.deadline = new Date()
+    newData.deadline = getBlankDate()
     if (currentDate.getHours() > 3) {
       newData.deadline.setDate(newData.deadline.getDate() + 1)
     }
   } else if (value === 'nextweek') {
-    newData.deadline = new Date()
+    newData.deadline = getBlankDate()
     newData.deadline.setDate(
       newData.deadline.getDate() + (workday - newData.deadline.getDay())
     )
   } else if (value === 'next') {
-    const tomorrow = new Date()
+    const tomorrow = getBlankDate()
     tomorrow.setDate(tomorrow.getDate() + 1)
     newData.deadline = tomorrow
   }
