@@ -33,14 +33,15 @@ export class TasksInput extends React.Component {
     }
   }
   triggerSubmit = e => {
+    const name = this.state.name.trim()
+    if (name === '') return
     NitroSdk.addTask({
-      name: this.state.name.trim(),
+      name: name,
       list: this.props.listId
     })
     this.setState({
       name: ''
     })
-    // TODO: This doesn't work.
     e.currentTarget.focus()
   }
   render() {
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
     paddingTop: vars.padding / 4,
     paddingLeft: vars.padding / 2,
     paddingRight: vars.padding / 2,
-    paddingBottom: vars.padding * 3 / 4
+    paddingBottom: (vars.padding * 3) / 4
   },
   input: {
     backgroundColor: 'rgba(0, 0, 0, 0.08)',
@@ -81,8 +82,8 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderColor: 'transparent',
     paddingTop: vars.padding / 2,
-    paddingLeft: vars.padding * 3 / 4,
-    paddingRight: vars.padding * 3 / 4,
+    paddingLeft: (vars.padding * 3) / 4,
+    paddingRight: (vars.padding * 3) / 4,
     paddingBottom: vars.padding / 2,
     borderRadius: 4,
     outline: 'none',
