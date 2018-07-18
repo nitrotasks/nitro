@@ -10,12 +10,12 @@ export function log() {
 export function warn() {
   const args = Array.from(arguments)
   console.warn(...args)
-  history.push([new Date(), 'warn', args])
+  history.push([new Date(), 'warn', args.join(' '), args])
 }
 export function error() {
   const args = Array.from(arguments)
   console.error(...args)
-  history.push([new Date(), 'error', args])
+  history.push([new Date(), 'error', args.join(' '), args])
 }
 export function logHistory() {
   return history

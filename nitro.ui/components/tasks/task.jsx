@@ -83,7 +83,7 @@ export class Task extends React.PureComponent {
       let indicatorsAfter = null
       let deadlineIndicator = null
       if (props.dataDate !== null && props.dataCompleted === null) {
-        const date = formatDate(props.dataDate,  props.dataType, 'today')
+        const date = formatDate(props.dataDate, props.dataType, 'today')
         if (date === 'Today') {
           // don't render anything if it's under one of those headers
           if (

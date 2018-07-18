@@ -4,6 +4,7 @@ import { checkStatus } from '../helpers/fetch.js'
 
 import authenticationStore from './auth.js'
 
+// TODO: Add more logging to this file.
 export default class SyncGet extends Events {
   constructor(props) {
     super(props)

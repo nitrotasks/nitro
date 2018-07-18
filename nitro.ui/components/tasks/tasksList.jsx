@@ -55,7 +55,7 @@ export class TasksList extends React.PureComponent {
     TasksExpandedService.unbind('height', this.triggerShow)
     TasksExpandedService.unbind('hide', this.triggerHide)
   }
-  tasksUpdate = (event, listId) => {
+  tasksUpdate = event => {
     // captures all updates for all lists, because the today and next lists are special
     if (event === 'tasks') {
       this.setState(this.generateState(this.props))
@@ -68,6 +68,7 @@ export class TasksList extends React.PureComponent {
     this.currentItemIndex = this.state.order.indexOf(
       TasksExpandedService.state.task
     )
+    const archive = findNodeHandle(this.archiveButton.current)
     requestAnimationFrame(() => {
       Array.from(this.tasksContainer.children)
         .slice(this.currentItemIndex)
@@ -75,7 +76,6 @@ export class TasksList extends React.PureComponent {
           const pixels = key === 0 ? vars.padding * 2 : height
           item.style.transform = `translate3d(0,${pixels}px,0)`
         })
-      const archive = findNodeHandle(this.archiveButton.current)
       if (archive) {
         archive.style.transform = `translate3d(0,${height}px,0)`
       }
@@ -112,12 +112,12 @@ export class TasksList extends React.PureComponent {
   }
   render() {
     const mutable = NitroSdk.getList(this.props.listId).mutable
-    const headersAllowed = mutable.indexOf('no-headings') === -1
-    const orderNotAllowed = mutable.indexOf('no-order') !== -1
+    const headersAllowed = !mutable.includes('no-headings')
+    const orderNotAllowed = mutable.includes('no-order')
 
     const signedIn = NitroSdk.isSignedIn()
     const completedTasks = Array.from(this.state.tasks).filter(obj => {
-      let [key, task] = obj
+      const task = obj[1]
       if (
         signedIn ||
         (task.serverId !== null && typeof task.serverId !== 'undefined')
@@ -130,8 +130,9 @@ export class TasksList extends React.PureComponent {
       }
       return false
     }).length
+
     let archiveButton = null
-    if (completedTasks > 0 && mutable) {
+    if (completedTasks > 0 && !orderNotAllowed) {
       archiveButton = (
         <View ref={this.archiveButton} style={styles.archiveButtonWrapper}>
           <TouchableOpacity onClick={this.triggerArchive}>
@@ -155,7 +156,7 @@ export class TasksList extends React.PureComponent {
       <View style={styles.wrapper}>
         <DragDropContext onDragEnd={this.triggerDragEnd}>
           <Droppable droppableId="tasksList" isDropDisabled={orderNotAllowed}>
-            {(provided, snapshot) => {
+            {provided => {
               let currentHeading = ''
               return (
                 <div

@@ -23,6 +23,7 @@ import { Checkbox } from './checkbox.jsx'
 import dateIcon from '../../../assets/icons/material/task-duedate.svg'
 import deadlineIcon from '../../../assets/icons/material/task-deadline.svg'
 import moreIcon from '../../../assets/icons/material/task-more.svg'
+import closeIcon from '../../../assets/icons/material/close.svg'
 
 export class TaskExpanded extends React.Component {
   static propTypes = {
@@ -200,6 +201,14 @@ export class TaskExpanded extends React.Component {
       )
     }
   }
+  triggerRemove = prop => {
+    return (e) => {
+      e.stopPropagation()
+      NitroSdk.updateTask(TasksExpandedService.state.task, {
+        [prop]: null
+      })
+    }
+  }
   render() {
     const top = TasksExpandedService.state.position + vars.padding
     const overlayTop = window.scrollY
@@ -218,10 +227,30 @@ export class TaskExpanded extends React.Component {
     const leftBar = []
     const rightBar = []
     const dateText = this.state.date ? (
-      <Text style={styles.barText}>{formatDate(this.state.date)}</Text>
+      <React.Fragment>
+        <Text style={styles.barText}>{formatDate(this.state.date)}</Text>
+        <Image 
+          accessibilityLabel="Remove Date"
+          title="Remove Date"
+          source={closeIcon}
+          resizeMode="contain"
+          style={styles.closeIcon}
+          onClick={this.triggerRemove('date')}
+        />
+      </React.Fragment>
     ) : null
     const deadlineText = this.state.deadline ? (
-      <Text style={styles.barText}>{formatDate(this.state.deadline)}</Text>
+      <React.Fragment>
+        <Text style={styles.barText}>{formatDate(this.state.deadline)}</Text>
+        <Image 
+          accessibilityLabel="Remove Deadline"
+          title="Remove Deadline"
+          source={closeIcon}
+          resizeMode="contain"
+          style={styles.closeIcon}
+          onClick={this.triggerRemove('deadline')}
+        />
+      </React.Fragment>
     ) : null
     const dateElement = (
       <DatepickerActivator
@@ -244,9 +273,9 @@ export class TaskExpanded extends React.Component {
     )
     const deadlineElement = (
       <DatepickerActivator
+        key="deadline"
         pickerId="expanded"
         pickerType="deadline"
-        key="deadline"
         date={this.state.deadline}
         onSelect={this.updateProp('deadline')}
       >
@@ -416,7 +445,14 @@ const styles = StyleSheet.create({
   barText: {
     fontFamily: vars.fontFamily,
     lineHeight: 24,
-    paddingLeft: vars.padding / 4,
-    paddingRight: vars.padding * 0.375
+    paddingLeft: vars.padding * 0.25,
+    paddingRight: vars.padding * 0.25
+  },
+  closeIcon: {
+    marginTop: 3,
+    marginRight: vars.padding / 2,
+    height: 18,
+    width: 18,
+    opacity: 0.5
   }
 })

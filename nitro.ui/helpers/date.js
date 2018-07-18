@@ -23,10 +23,10 @@ export function formatDate(date, type, showToday = 'no') {
 
   // changes dates today or past, to 'today'
   const currentDate = new Date()
-  if (currentDate.getHours() <= 3) {
-    currentDate.setDate(currentDate.getDate() - 1)
-  }
   if (showToday === 'deadline') {
+    if (currentDate.getHours() <= 3) {
+      currentDate.setDate(currentDate.getDate() - 1)
+    }
     const due = date - currentDate
     if (due < 7 * dayms) {
       const days = Math.floor((due * -1) / dayms)
@@ -48,6 +48,9 @@ export function formatDate(date, type, showToday = 'no') {
   } else if (showToday === 'today' && date < currentDate) {
     return 'Today'
   } else if (showToday !== 'no') {
+    if (currentDate.getHours() <= 3) {
+      currentDate.setDate(currentDate.getDate() - 1)
+    }
     const days = Math.ceil((date.getTime() - currentDate.getTime()) / dayms)
     if (days === 1) {
       return 'Tomorrow'
