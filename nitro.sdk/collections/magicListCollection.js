@@ -102,7 +102,10 @@ function findHeaders(tasks: Array<Object>): Array<Object> {
       if (currentTask === null) {
         return
       }
-      if (currentTask.type === 'header') {
+      if (
+        currentTask.type === 'header' ||
+        currentTask.type === 'header-collapsed'
+      ) {
         currentHeading = currentTask.name
       } else if (lists[list].indexOf(task) > -1) {
         headings[task] = currentHeading

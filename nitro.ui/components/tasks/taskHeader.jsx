@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   View,
+  Text,
   TextInput,
   TouchableOpacity,
   Image,
@@ -18,13 +19,14 @@ export class TaskHeader extends React.PureComponent {
   static propTypes = {
     dataId: PropTypes.string,
     dataName: PropTypes.string,
+    dataType: PropTypes.string,
     disabled: PropTypes.bool
   }
   constructor(props) {
     super(props)
     this.state = {
       name: this.props.dataName,
-      textInputFocus: false 
+      textInputFocus: false
     }
   }
   triggerFocus = () => {
@@ -42,7 +44,7 @@ export class TaskHeader extends React.PureComponent {
     if (name === '') {
       const state = {
         name: this.props.dataName,
-        textInputFocus: false 
+        textInputFocus: false
       }
       this.setState(state)
     } else {
@@ -59,7 +61,7 @@ export class TaskHeader extends React.PureComponent {
   triggerKeyUp = e => {
     // ESC
     if (e.keyCode === 27) {
-      this.setState(this.setState({name: this.props.dataName}))
+      this.setState(this.setState({ name: this.props.dataName }))
       e.currentTarget.blur()
       // ENTER
     } else if (e.keyCode === 13) {
@@ -71,10 +73,25 @@ export class TaskHeader extends React.PureComponent {
     const y = e.nativeEvent.pageY - window.scrollY
     headerMenu(this.props.dataId, x, y, 'top', 'right')
   }
+  triggerCollapse = () => {
+    const updateType =
+      NitroSdk.getTask(this.props.dataId).type === 'header'
+        ? 'header-collapsed'
+        : 'header'
+    NitroSdk.updateTask(this.props.dataId, {
+      type: updateType
+    })
+  }
   render() {
     const wrapperStyles = this.state.textInputFocus
       ? [styles.wrapper, styles.wrapperFocus]
       : styles.wrapper
+
+    const collapse = this.props.disabled ? null : (
+      <Text onClick={this.triggerCollapse} style={styles.collapseIcon}>
+        {this.props.dataType === 'header' ? '⯆' : '⯈'}
+      </Text>
+    )
     const controls = this.props.disabled ? null : (
       <TouchableOpacity style={styles.moreIcon} onClick={this.triggerMore}>
         <Image
@@ -87,6 +104,7 @@ export class TaskHeader extends React.PureComponent {
     )
     return (
       <View style={wrapperStyles}>
+        {collapse}
         <TextInput
           style={styles.text}
           value={this.state.name}
@@ -115,6 +133,11 @@ const styles = StyleSheet.create({
   },
   wrapperFocus: {
     borderBottomColor: vars.accentColorMuted
+  },
+  collapseIcon: {
+    fontSize: vars.taskHeaderFontSize - 1,
+    lineHeight: 36,
+    paddingRight: 3
   },
   text: {
     fontSize: vars.taskHeaderFontSize,

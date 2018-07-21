@@ -330,7 +330,7 @@ export class sdk extends Events {
     if (tasks === null) return {}
     tasks.order.forEach(taskId => {
       const task = this.getTask(taskId)
-      if (task.type === 'header') {
+      if (task.type === 'header' || task.type === 'header-collapsed') {
         currentHeader = task.name
       }
       headers[taskId] = currentHeader
@@ -367,8 +367,12 @@ export class sdk extends Events {
   }
   archiveHeading(id: string, server: ?boolean) {
     const task = this.getTask(id, server)
-    if (task === null || task.type !== 'header')
+    if (
+      task === null ||
+      (task.type !== 'header' && task.type !== 'header-collapsed')
+    ) {
       throw new Error('Group could not be found')
+    }
     const list = this.getList(task.list)
     const tasks = this.getTasks(task.list)
     if (tasks === null || list === null)
@@ -379,7 +383,7 @@ export class sdk extends Events {
         if (t.serverId === null || typeof t.serverId === 'undefined') {
           unsynced.push(t.id)
         }
-        return t.type === 'header'
+        return t.type === 'header' || t.type === 'header-collapsed'
       })
       .map(t => t.id)
 

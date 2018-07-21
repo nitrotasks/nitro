@@ -153,6 +153,7 @@ export class TasksList extends React.PureComponent {
           <Droppable droppableId="tasksList" isDropDisabled={orderNotAllowed}>
             {provided => {
               let currentHeading = ''
+              let headerCollapsed = false
               return (
                 <div
                   ref={e => {
@@ -170,7 +171,13 @@ export class TasksList extends React.PureComponent {
                       : 0
                     if (task.type === 'header') {
                       currentHeading = task.id
-                    } else if (task.type === 'archived') {
+                      headerCollapsed = false
+                    } else if (task.type === 'header-collapsed') {
+                      headerCollapsed = true
+                    } else if (
+                      task.type === 'archived' ||
+                      headerCollapsed === true
+                    ) {
                       return <View key={task.id} />
                     }
                     return (

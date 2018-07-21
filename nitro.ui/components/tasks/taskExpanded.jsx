@@ -190,7 +190,10 @@ export class TaskExpanded extends React.Component {
         'right',
         this.triggerOverlay
       )
-    } else if (this.state.type === 'header') {
+    } else if (
+      this.state.type === 'header' ||
+      this.state.type === 'header-collapsed'
+    ) {
       headerMenu(
         TasksExpandedService.state.task,
         x,
@@ -202,7 +205,7 @@ export class TaskExpanded extends React.Component {
     }
   }
   triggerRemove = prop => {
-    return (e) => {
+    return e => {
       e.stopPropagation()
       NitroSdk.updateTask(TasksExpandedService.state.task, {
         [prop]: null
@@ -219,7 +222,7 @@ export class TaskExpanded extends React.Component {
     let pointerEvents = 'auto'
     if (this.state.hidden) {
       opacity = 0
-      overlayOpacity = 0      
+      overlayOpacity = 0
       pointerEvents = 'none'
       transform = [{ translateY: -2 * vars.padding }]
     }
@@ -229,7 +232,7 @@ export class TaskExpanded extends React.Component {
     const dateText = this.state.date ? (
       <React.Fragment>
         <Text style={styles.barText}>{formatDate(this.state.date)}</Text>
-        <Image 
+        <Image
           accessibilityLabel="Remove Date"
           title="Remove Date"
           source={closeIcon}
@@ -242,7 +245,7 @@ export class TaskExpanded extends React.Component {
     const deadlineText = this.state.deadline ? (
       <React.Fragment>
         <Text style={styles.barText}>{formatDate(this.state.deadline)}</Text>
-        <Image 
+        <Image
           accessibilityLabel="Remove Deadline"
           title="Remove Deadline"
           source={closeIcon}

@@ -102,11 +102,12 @@ export class Task extends React.PureComponent {
   render() {
     const props = this.props
     let innerItem
-    if (props.dataType === 'header') {
+    if (props.dataType === 'header' || props.dataType === 'header-collapsed') {
       innerItem = (
         <TaskHeader
           dataId={props.dataId}
           dataName={props.dataName}
+          dataType={props.dataType}
           disabled={!props.headersAllowed}
         />
       )
