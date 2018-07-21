@@ -45,7 +45,7 @@ export class TasksList extends React.PureComponent {
   }
   componentDidMount() {
     NitroSdk.bind('update', this.tasksUpdate)
-    NitroSdk.bind('order', this.orderUpdate)
+    NitroSdk.bind('order', this.tasksUpdate)
     TasksExpandedService.bind('height', this.triggerShow)
     TasksExpandedService.bind('hide', this.triggerHide)
   }
@@ -55,13 +55,8 @@ export class TasksList extends React.PureComponent {
     TasksExpandedService.unbind('height', this.triggerShow)
     TasksExpandedService.unbind('hide', this.triggerHide)
   }
-  tasksUpdate = event => {
+  tasksUpdate = () => {
     // captures all updates for all lists, because the today and next lists are special
-    if (event === 'tasks') {
-      this.setState(this.generateState(this.props))
-    }
-  }
-  orderUpdate = () => {
     this.setState(this.generateState(this.props))
   }
   triggerShow = height => {
