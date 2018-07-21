@@ -30,6 +30,11 @@ export class Login extends React.Component {
     this.setState({ disabled: true })
     NitroSdk.signIn(this.state.username, this.state.password)
   }
+  triggerKeyPress = e => {
+    if (e.nativeEvent.key === 'Enter') {
+      this.triggerSignIn(e)
+    }
+  }
   signInCallback = () => {
     this.setState({
       signedIn: NitroSdk.isSignedIn(),
@@ -58,37 +63,36 @@ export class Login extends React.Component {
         <Text style={styles.tagline}>
           The fast and easy way to get things done.
         </Text>
-        <form onSubmit={this.triggerSignIn}>
-          <Text style={styles.label} htmlFor="login-username">
-            Email
-          </Text>
-          <TextInput
-            style={styles.input}
-            value={this.state.username}
-            onChange={this.triggerChange('username')}
-            id="login-username"
-            keyboardType="email-address"
-            autoFocus={true}
-            autoComplete="email"
-          />
-          <Text style={styles.label} htmlFor="login-password">
-            Password
-          </Text>
-          <TextInput
-            style={styles.input}
-            value={this.state.password}
-            onChange={this.triggerChange('password')}
-            id="login-password"
-            secureTextEntry={true}
-            autoComplete="password"
-          />
-          <Button
-            onPress={this.triggerSignIn}
-            disabled={this.state.disabled}
-            color={vars.accentColor}
-            title={text}
-          />
-        </form>
+        <Text style={styles.label} htmlFor="login-username">
+          Email
+        </Text>
+        <TextInput
+          style={styles.input}
+          value={this.state.username}
+          onChange={this.triggerChange('username')}
+          id="login-username"
+          keyboardType="email-address"
+          autoFocus={true}
+          autoComplete="email"
+        />
+        <Text style={styles.label} htmlFor="login-password">
+          Password
+        </Text>
+        <TextInput
+          style={styles.input}
+          value={this.state.password}
+          onKeyPress={this.triggerKeyPress}
+          onChange={this.triggerChange('password')}
+          id="login-password"
+          secureTextEntry={true}
+          autoComplete="password"
+        />
+        <Button
+          onPress={this.triggerSignIn}
+          disabled={this.state.disabled}
+          color={vars.accentColor}
+          title={text}
+        />
         <View style={styles.signUpWrapper}>
           <Text style={styles.signUp}>
             No account? <a href="https://nitrotasks.com">Sign Up for Nitro.</a>
