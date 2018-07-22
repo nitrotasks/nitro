@@ -25,6 +25,17 @@ import deadlineIcon from '../../../assets/icons/material/task-deadline.svg'
 import moreIcon from '../../../assets/icons/material/task-more.svg'
 import closeIcon from '../../../assets/icons/material/close.svg'
 
+// TODO: Remove Magic Numbers
+// But Waka has them, so it's probably okay?
+const headerHeight = 112 + 42 + 32
+const footerHeight = 36 + 56
+
+const getMaxLines = () =>
+  Math.floor(
+    (document.documentElement.clientHeight - headerHeight - footerHeight) /
+      vars.notesLineHeight
+  )
+
 export class TaskExpanded extends React.Component {
   static propTypes = {
     triggerBack: PropTypes.func
@@ -84,9 +95,11 @@ export class TaskExpanded extends React.Component {
       requestAnimationFrame(() => {
         window.scrollTo({ top: scrollLocation, left: 0, behavior: 'smooth' })
       })
-      const lineNumber =
+      const lineNumber = Math.min(
+        getMaxLines(),
         findNodeHandle(this.notesElement.current).scrollHeight /
-        vars.notesLineHeight
+          vars.notesLineHeight
+      )
       TasksExpandedService.triggerTaskHeight(lineNumber)
       this.setState({
         hidden: false,
@@ -131,7 +144,10 @@ export class TaskExpanded extends React.Component {
       if (field === 'notes') {
         clearTimeout(this.notesTimeout)
         this.notesTimeout = setTimeout(this.saveNotes, 1000)
-        const lineNumber = e.currentTarget.scrollHeight / vars.notesLineHeight
+        const lineNumber = Math.min(
+          getMaxLines(),
+          e.currentTarget.scrollHeight / vars.notesLineHeight
+        )
         if (this.state.lineNumber !== lineNumber) {
           TasksExpandedService.triggerTaskHeight(lineNumber)
           this.setState({
