@@ -1,14 +1,18 @@
 import { AppRegistry } from 'react-native'
 import App from './components/app.jsx'
 import { NitroSdk } from '../nitro.sdk'
+
 window.sdk = NitroSdk
 
+// polyfills
+import 'intersection-observer'
 import smoothscroll from 'smoothscroll-polyfill'
 smoothscroll.polyfill()
 
-import fonts from './external-css/fonts.css'
-import daypicker from './external-css/daypicker.css'
-import extras from './external-css/extras.css'
+// css
+import './external-css/fonts.css'
+import './external-css/daypicker.css'
+import './external-css/extras.css'
 
 AppRegistry.registerComponent('App', () => App)
 
