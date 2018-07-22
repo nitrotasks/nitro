@@ -17,21 +17,20 @@ export class Checkbox extends React.PureComponent {
   }
   triggerPressOut = () => {
     this.setState({ active: false })
+    this.props.onClick()
   }
   render() {
-    const props = this.props
     let boxStyles = styles.box
     let boxIconStyles = styles.boxIcon
     if (this.state.active) {
       boxStyles = [styles.box, styles.boxChecked, styles.boxActive]
       boxIconStyles = [styles.boxIcon, styles.boxIconVisible]
-    } else if (props.checked) {
+    } else if (this.props.checked) {
       boxStyles = [styles.box, styles.boxChecked]
       boxIconStyles = [styles.boxIcon, styles.boxIconVisible]
     }
     return (
       <TouchableWithoutFeedback
-        onClick={props.onClick}
         onPressIn={this.triggerPressIn}
         onPressOut={this.triggerPressOut}
       >

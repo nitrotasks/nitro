@@ -187,6 +187,7 @@ export class TasksList extends React.PureComponent {
                         dataId={task.id}
                         dataName={task.name}
                         dataType={task.type}
+                        dataHeading={task.heading}
                         dataNotes={task.notes}
                         dataDate={task.date}
                         dataDeadline={task.deadline}

@@ -24,6 +24,7 @@ export class Task extends React.PureComponent {
     dataName: PropTypes.string,
     dataType: PropTypes.string,
     dataNotes: PropTypes.string,
+    dataHeading: PropTypes.string,
     dataDate: PropTypes.instanceOf(Date),
     dataDeadline: PropTypes.instanceOf(Date),
     dataList: PropTypes.string,
