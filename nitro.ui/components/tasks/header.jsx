@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
-import { View, Text, TextInput, StyleSheet } from 'react-native'
+import { View, Text, TextInput, StyleSheet, findNodeHandle } from 'react-native'
 
 import { NitroSdk } from '../../../nitro.sdk'
 
@@ -9,11 +9,24 @@ import { vars } from '../../styles'
 
 class HeaderWithoutRouter extends React.PureComponent {
   static propTypes = {
-    listId: PropTypes.string
+    listId: PropTypes.string,
+    onIntersect: PropTypes.func
   }
   constructor(props) {
     super(props)
     this.state = this.generateState(this.props)
+    this.observer = new IntersectionObserver(this.props.onIntersect, {
+      root: null,
+      rootMargin: '-65px',
+      threshold: 0
+    })
+    this.wrapper = React.createRef()
+  }
+  componentDidMount() {
+    this.observer.observe(findNodeHandle(this.wrapper.current))
+  }
+  componentWillUnmount() {
+    this.observer.disconnect()
   }
   generateState(props) {
     const list = NitroSdk.getList(props.listId)
@@ -65,18 +78,16 @@ class HeaderWithoutRouter extends React.PureComponent {
       ? [styles.listHeader, styles.focusedListHeader]
       : styles.listHeader
     return (
-      <View>
-        <View style={styles.listHeaderWrapper}>
-          <TextInput
-            style={listHeaderStyles}
-            value={this.state.name}
-            onChange={this.triggerChange}
-            onFocus={this.triggerFocus}
-            onBlur={this.triggerBlur}
-            onKeyUp={this.triggerKeyUp}
-            disabled={renameNotAllowed}
-          />
-        </View>
+      <View style={styles.listHeaderWrapper} ref={this.wrapper}>
+        <TextInput
+          style={listHeaderStyles}
+          value={this.state.name}
+          onChange={this.triggerChange}
+          onFocus={this.triggerFocus}
+          onBlur={this.triggerBlur}
+          onKeyUp={this.triggerKeyUp}
+          disabled={renameNotAllowed}
+        />
       </View>
     )
   }

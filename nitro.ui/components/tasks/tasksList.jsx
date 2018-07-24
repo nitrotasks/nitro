@@ -45,7 +45,7 @@ export class TasksList extends React.PureComponent {
   }
   componentDidMount() {
     NitroSdk.bind('update', this.tasksUpdate)
-    NitroSdk.bind('order', this.orderUpdate)
+    NitroSdk.bind('order', this.tasksUpdate)
     TasksExpandedService.bind('height', this.triggerShow)
     TasksExpandedService.bind('hide', this.triggerHide)
   }
@@ -55,13 +55,8 @@ export class TasksList extends React.PureComponent {
     TasksExpandedService.unbind('height', this.triggerShow)
     TasksExpandedService.unbind('hide', this.triggerHide)
   }
-  tasksUpdate = event => {
+  tasksUpdate = () => {
     // captures all updates for all lists, because the today and next lists are special
-    if (event === 'tasks') {
-      this.setState(this.generateState(this.props))
-    }
-  }
-  orderUpdate = () => {
     this.setState(this.generateState(this.props))
   }
   triggerShow = height => {
@@ -158,6 +153,7 @@ export class TasksList extends React.PureComponent {
           <Droppable droppableId="tasksList" isDropDisabled={orderNotAllowed}>
             {provided => {
               let currentHeading = ''
+              let headerCollapsed = false
               return (
                 <div
                   ref={e => {
@@ -175,7 +171,13 @@ export class TasksList extends React.PureComponent {
                       : 0
                     if (task.type === 'header') {
                       currentHeading = task.id
-                    } else if (task.type === 'archived') {
+                      headerCollapsed = false
+                    } else if (task.type === 'header-collapsed') {
+                      headerCollapsed = true
+                    } else if (
+                      task.type === 'archived' ||
+                      headerCollapsed === true
+                    ) {
                       return <View key={task.id} />
                     }
                     return (
@@ -185,6 +187,7 @@ export class TasksList extends React.PureComponent {
                         dataId={task.id}
                         dataName={task.name}
                         dataType={task.type}
+                        dataHeading={task.heading}
                         dataNotes={task.notes}
                         dataDate={task.date}
                         dataDeadline={task.deadline}

@@ -13,6 +13,15 @@ import { log, warn, error, logHistory } from './helpers/logger.js'
 
 const systemLists = ['inbox', 'today', 'next', 'all']
 
+const getBlankDate = () => {
+  const date = new Date()
+  date.setHours(0)
+  date.setMinutes(0)
+  date.setSeconds(0)
+  date.setMilliseconds(0)
+  return date
+}
+
 // helpers
 export class sdk extends Events {
   constructor() {
@@ -256,11 +265,10 @@ export class sdk extends Events {
       throw new Error('List could not be found')
     } else if (task.list === 'today') {
       task.list = 'inbox'
-      task.date = new Date()
-      task.date.setSeconds(task.date.getSeconds() - 1)
+      task.date = getBlankDate()
     } else if (task.list === 'next') {
       task.list = 'inbox'
-      task.date = new Date()
+      task.date = getBlankDate()
       task.date.setDate(task.date.getDate() + 1)
     }
     const id = TasksCollection.add(task)
@@ -322,7 +330,7 @@ export class sdk extends Events {
     if (tasks === null) return {}
     tasks.order.forEach(taskId => {
       const task = this.getTask(taskId)
-      if (task.type === 'header') {
+      if (task.type === 'header' || task.type === 'header-collapsed') {
         currentHeader = task.name
       }
       headers[taskId] = currentHeader
@@ -359,8 +367,12 @@ export class sdk extends Events {
   }
   archiveHeading(id: string, server: ?boolean) {
     const task = this.getTask(id, server)
-    if (task === null || task.type !== 'header')
+    if (
+      task === null ||
+      (task.type !== 'header' && task.type !== 'header-collapsed')
+    ) {
       throw new Error('Group could not be found')
+    }
     const list = this.getList(task.list)
     const tasks = this.getTasks(task.list)
     if (tasks === null || list === null)
@@ -371,7 +383,7 @@ export class sdk extends Events {
         if (t.serverId === null || typeof t.serverId === 'undefined') {
           unsynced.push(t.id)
         }
-        return t.type === 'header'
+        return t.type === 'header' || t.type === 'header-collapsed'
       })
       .map(t => t.id)
 

@@ -26,7 +26,15 @@ export class Tasks extends React.Component {
   componentWillUnmount() {
     NitroSdk.unbind('update', this.tasksUpdate)
   }
-  tasksUpdate = (event, listId) => {
+  triggerIntersection = e => {
+    const newPos = !e[0].isIntersecting
+    if (this.state.headerVisible !== newPos) {
+      this.setState({
+        headerVisible: newPos
+      })
+    }
+  }
+  tasksUpdate = event => {
     if (event === 'lists') {
       this.setState({
         listName: this.getListName(this.props.match.params.list)
@@ -59,10 +67,11 @@ export class Tasks extends React.Component {
           fixed={true}
           leftIcon="back"
           leftAction={this.props.history.goBack}
-          h1Visible={this.state.headerVisible}
           h1={this.state.listName}
+          h1Visible={this.state.headerVisible}
+          h1Weight="900"
         />
-        <Header listId={listId} />
+        <Header listId={listId} onIntersect={this.triggerIntersection} />
         <TasksInput listId={listId} />
         <TasksList listId={listId} />
         <TaskExpanded triggerBack={this.props.history.goBack} />

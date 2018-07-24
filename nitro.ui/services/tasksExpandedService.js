@@ -45,6 +45,9 @@ class _tasksExpanded extends Events {
     }
   }
   triggerTask(list: string, task: string, position: number) {
+    if (this.state.list === list && this.state.task === task) {
+      return
+    }
     this.state.list = list
     this.state.task = task
     this.state.position = position

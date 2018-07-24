@@ -25,6 +25,17 @@ import deadlineIcon from '../../../assets/icons/material/task-deadline.svg'
 import moreIcon from '../../../assets/icons/material/task-more.svg'
 import closeIcon from '../../../assets/icons/material/close.svg'
 
+// TODO: Remove Magic Numbers
+// But Waka has them, so it's probably okay?
+const headerHeight = 112 + 42 + 32
+const footerHeight = 36 + 56
+
+const getMaxLines = () =>
+  Math.floor(
+    (document.documentElement.clientHeight - headerHeight - footerHeight) /
+      vars.notesLineHeight
+  )
+
 export class TaskExpanded extends React.Component {
   static propTypes = {
     triggerBack: PropTypes.func
@@ -84,9 +95,11 @@ export class TaskExpanded extends React.Component {
       requestAnimationFrame(() => {
         window.scrollTo({ top: scrollLocation, left: 0, behavior: 'smooth' })
       })
-      const lineNumber =
+      const lineNumber = Math.min(
+        getMaxLines(),
         findNodeHandle(this.notesElement.current).scrollHeight /
-        vars.notesLineHeight
+          vars.notesLineHeight
+      )
       TasksExpandedService.triggerTaskHeight(lineNumber)
       this.setState({
         hidden: false,
@@ -131,7 +144,10 @@ export class TaskExpanded extends React.Component {
       if (field === 'notes') {
         clearTimeout(this.notesTimeout)
         this.notesTimeout = setTimeout(this.saveNotes, 1000)
-        const lineNumber = e.currentTarget.scrollHeight / vars.notesLineHeight
+        const lineNumber = Math.min(
+          getMaxLines(),
+          e.currentTarget.scrollHeight / vars.notesLineHeight
+        )
         if (this.state.lineNumber !== lineNumber) {
           TasksExpandedService.triggerTaskHeight(lineNumber)
           this.setState({
@@ -190,7 +206,10 @@ export class TaskExpanded extends React.Component {
         'right',
         this.triggerOverlay
       )
-    } else if (this.state.type === 'header') {
+    } else if (
+      this.state.type === 'header' ||
+      this.state.type === 'header-collapsed'
+    ) {
       headerMenu(
         TasksExpandedService.state.task,
         x,
@@ -202,7 +221,7 @@ export class TaskExpanded extends React.Component {
     }
   }
   triggerRemove = prop => {
-    return (e) => {
+    return e => {
       e.stopPropagation()
       NitroSdk.updateTask(TasksExpandedService.state.task, {
         [prop]: null
@@ -219,7 +238,7 @@ export class TaskExpanded extends React.Component {
     let pointerEvents = 'auto'
     if (this.state.hidden) {
       opacity = 0
-      overlayOpacity = 0      
+      overlayOpacity = 0
       pointerEvents = 'none'
       transform = [{ translateY: -2 * vars.padding }]
     }
@@ -229,7 +248,7 @@ export class TaskExpanded extends React.Component {
     const dateText = this.state.date ? (
       <React.Fragment>
         <Text style={styles.barText}>{formatDate(this.state.date)}</Text>
-        <Image 
+        <Image
           accessibilityLabel="Remove Date"
           title="Remove Date"
           source={closeIcon}
@@ -242,7 +261,7 @@ export class TaskExpanded extends React.Component {
     const deadlineText = this.state.deadline ? (
       <React.Fragment>
         <Text style={styles.barText}>{formatDate(this.state.deadline)}</Text>
-        <Image 
+        <Image
           accessibilityLabel="Remove Deadline"
           title="Remove Deadline"
           source={closeIcon}
