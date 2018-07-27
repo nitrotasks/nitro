@@ -13,8 +13,9 @@ import { TaskHeader } from './taskHeader.jsx'
 import todayIcon from '../../../assets/icons/feather/today.svg'
 import notesIcon from '../../../assets/icons/material/note.svg'
 
-// this is the threshold defined in react-beautiful-dnd
-const forcePressTheshold = 0.15
+// 0.15 is the threshold defined in react-beautiful-dnd
+// we'll go a bit higher
+const forcePressTheshold = 0.25
 
 export class Task extends React.PureComponent {
   static propTypes = {
@@ -36,11 +37,11 @@ export class Task extends React.PureComponent {
     headersAllowed: PropTypes.bool,
     dragDisabled: PropTypes.bool
   }
+
+  viewRef = React.createRef()
+  isDragging = false
   thresholdHit = false
-  constructor(props) {
-    super(props)
-    this.viewRef = React.createRef()
-  }
+
   componentDidMount() {
     this.triggerPosition()
 
@@ -82,6 +83,7 @@ export class Task extends React.PureComponent {
   triggerForcePress = e => {
     const force = e.changedTouches[0].force
     if (
+      this.isDragging === true &&
       this.thresholdHit === false &&
       e.defaultPrevented === false &&
       force > forcePressTheshold
@@ -219,21 +221,24 @@ export class Task extends React.PureComponent {
         index={props.index}
         isDragDisabled={props.dragDisabled}
       >
-        {(provided, snapshot) => (
-          <View ref={this.viewRef} style={styles.transitionStyle}>
-            <div
-              ref={provided.innerRef}
-              {...provided.draggableProps}
-              {...provided.dragHandleProps}
-              style={getItemStyle(
-                snapshot.isDragging,
-                provided.draggableProps.style
-              )}
-            >
-              {innerItem}
-            </div>
-          </View>
-        )}
+        {(provided, snapshot) => {
+          this.isDragging = snapshot.isDragging
+          return (
+            <View ref={this.viewRef} style={styles.transitionStyle}>
+              <div
+                ref={provided.innerRef}
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+                style={getItemStyle(
+                  snapshot.isDragging,
+                  provided.draggableProps.style
+                )}
+              >
+                {innerItem}
+              </div>
+            </View>
+          )
+        }}
       </Draggable>
     )
   }
