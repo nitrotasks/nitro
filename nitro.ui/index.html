@@ -15,7 +15,19 @@
 </head>
 <body>
   <div id="app-shell">
-    Loading...
+    <noscript>Nitro requires JavaScript to be enabled.</noscript>
+    <div id="loading">Loading...</div>
+    <button id="loading-button" style="display: none" onclick="window.sdk.signOut()">Sign Out</button>
+    <script>
+setTimeout(() => {
+  const loading = document.getElementById('loading')
+  if (loading) {
+    const loadingButton = document.getElementById('loading-button')
+    loading.innerText = 'Still Loading...'
+    loadingButton.style.display = 'inline-block'
+  }
+}, 2500)
+    </script>
   </div>  
 </body>
 </html>
