@@ -14,6 +14,7 @@ import { headerMenu } from './taskMenu.js'
 import { vars } from '../../styles.js'
 
 import moreIcon from '../../../assets/icons/material/task-more.svg'
+import dropDownIcon from '../../../assets/icons/material/drop-down.svg'
 
 export class TaskHeader extends React.PureComponent {
   static propTypes = {
@@ -89,7 +90,12 @@ export class TaskHeader extends React.PureComponent {
 
     const collapse = this.props.disabled ? null : (
       <Text onClick={this.triggerCollapse} style={styles.collapseIcon}>
-        {this.props.dataType === 'header' ? '⯆' : '⯈'}
+        <Image
+          accessibilityLabel={this.props.dataType === 'header' ? 'Collapse Header' : 'Expand Header'}
+          source={dropDownIcon}
+          resizeMode="contain"
+          style={this.props.dataType === 'header' ? [styles.dropDownIcon, styles.dropDownIconRotated] : styles.dropDownIcon}
+        />
       </Text>
     )
     const controls = this.props.disabled ? null : (
@@ -136,8 +142,8 @@ const styles = StyleSheet.create({
   },
   collapseIcon: {
     fontSize: vars.taskHeaderFontSize - 1,
-    lineHeight: 36,
-    paddingRight: 3
+    justifyContent: 'center',
+    paddingRight: 2
   },
   text: {
     fontSize: vars.taskHeaderFontSize,
@@ -160,5 +166,12 @@ const styles = StyleSheet.create({
     opacity: 1,
     height: 24,
     width: 24
+  },
+  dropDownIcon: {
+    width: 24,
+    height: '95%'
+  },
+  dropDownIconRotated: {
+    transform: [{rotate: '90deg'}]
   }
 })
