@@ -1,11 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router'
-import { View, Text, TextInput, StyleSheet, findNodeHandle } from 'react-native'
+import {
+  View,
+  Text,
+  Image,
+  TextInput,
+  StyleSheet,
+  findNodeHandle
+} from 'react-native'
 
 import { NitroSdk } from '../../../nitro.sdk'
 
 import { vars } from '../../styles'
+import { headerMenu } from './headerMenu.js'
+import menuIcon from '../../../assets/icons/material/task-more.svg'
 
 class HeaderWithoutRouter extends React.PureComponent {
   static propTypes = {
@@ -33,6 +42,13 @@ class HeaderWithoutRouter extends React.PureComponent {
     return {
       name: list.name
     }
+  }
+  triggerMenu = e => {
+    const x = e.nativeEvent.pageX
+    const y = e.nativeEvent.pageY
+    headerMenu(this.props.listId, x, y, 'top', 'right', () => {
+      this.props.history.goBack()
+    })
   }
   triggerChange = e => {
     this.setState({
@@ -88,6 +104,11 @@ class HeaderWithoutRouter extends React.PureComponent {
           onKeyUp={this.triggerKeyUp}
           disabled={renameNotAllowed}
         />
+        {renameNotAllowed ? null : (
+          <View onClick={this.triggerMenu} style={styles.menuIconWrapper}>
+            <Image source={menuIcon} style={styles.menuIcon} />
+          </View>
+        )}
       </View>
     )
   }
@@ -98,7 +119,9 @@ const styles = StyleSheet.create({
     paddingTop: vars.padding / 2,
     paddingLeft: vars.padding / 2,
     paddingRight: vars.padding / 2,
-    paddingBottom: vars.padding / 4
+    paddingBottom: vars.padding / 4,
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   listHeader: {
     paddingLeft: vars.padding / 2,
@@ -112,10 +135,19 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     lineHeight: 1.15,
     textOverflow: 'ellipsis',
-    color: vars.headerColor
+    color: vars.headerColor,
+    flex: 1
   },
   focusedListHeader: {
     backgroundColor: 'rgba(0, 0, 0, 0.08)'
+  },
+  menuIconWrapper: {
+    paddingLeft: vars.padding * 0.5,
+    paddingRight: vars.padding * 0.5
+  },
+  menuIcon: {
+    height: 24,
+    width: 24
   }
 })
 

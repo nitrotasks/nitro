@@ -43,7 +43,11 @@ export class Tasks extends React.Component {
   }
   getListName(listId) {
     const list = NitroSdk.getList(listId)
-    return list.name
+    if (list === null) {
+      return ''
+    } else {
+      return list.name
+    }
   }
   // TODO: This shoud be intersectionObserver, but MVP I got too carried away last time.
   triggerScroll = e => {
