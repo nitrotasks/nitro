@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
 import {
   View,
@@ -16,18 +17,23 @@ import { vars } from '../../styles.js'
 import moreIcon from '../../../assets/icons/material/task-more.svg'
 import dropDownIcon from '../../../assets/icons/material/drop-down.svg'
 
-export class TaskHeader extends React.PureComponent {
+class TaskHeaderWithoutRouter extends React.PureComponent {
   static propTypes = {
     dataId: PropTypes.string,
     dataName: PropTypes.string,
     dataType: PropTypes.string,
     disabled: PropTypes.bool
   }
-  constructor(props) {
-    super(props)
-    this.state = {
-      name: this.props.dataName,
-      textInputFocus: false
+  state = {
+    name: this.props.dataName,
+    textInputFocus: false
+  }
+  triggerClick = () => {
+    if (this.props.disabled) {
+      const list = NitroSdk.getList(this.props.dataId.split('-')[0])
+      if (list !== null) {
+        this.props.history.push('/' + list.id)
+      }
     }
   }
   triggerFocus = () => {
@@ -91,10 +97,18 @@ export class TaskHeader extends React.PureComponent {
     const collapse = this.props.disabled ? null : (
       <Text onClick={this.triggerCollapse} style={styles.collapseIcon}>
         <Image
-          accessibilityLabel={this.props.dataType === 'header' ? 'Collapse Header' : 'Expand Header'}
+          accessibilityLabel={
+            this.props.dataType === 'header'
+              ? 'Collapse Header'
+              : 'Expand Header'
+          }
           source={dropDownIcon}
           resizeMode="contain"
-          style={this.props.dataType === 'header' ? [styles.dropDownIcon, styles.dropDownIconRotated] : styles.dropDownIcon}
+          style={
+            this.props.dataType === 'header'
+              ? [styles.dropDownIcon, styles.dropDownIconRotated]
+              : styles.dropDownIcon
+          }
         />
       </Text>
     )
@@ -109,7 +123,7 @@ export class TaskHeader extends React.PureComponent {
       </TouchableOpacity>
     )
     return (
-      <View style={wrapperStyles}>
+      <View style={wrapperStyles} onClick={this.triggerClick}>
         {collapse}
         <TextInput
           style={styles.text}
@@ -125,6 +139,9 @@ export class TaskHeader extends React.PureComponent {
     )
   }
 }
+const TaskHeader = withRouter(TaskHeaderWithoutRouter)
+export { TaskHeader }
+
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
@@ -172,6 +189,6 @@ const styles = StyleSheet.create({
     height: '95%'
   },
   dropDownIconRotated: {
-    transform: [{rotate: '90deg'}]
+    transform: [{ rotate: '90deg' }]
   }
 })

@@ -55,7 +55,7 @@ export class TasksList extends React.PureComponent {
   }
   componentWillUnmount() {
     NitroSdk.unbind('update', this.tasksUpdate)
-    NitroSdk.unbind('order', this.orderUpdate)
+    NitroSdk.unbind('order', this.tasksUpdate)
     TasksExpandedService.unbind('height', this.triggerShow)
     TasksExpandedService.unbind('hide', this.triggerHide)
   }
@@ -83,7 +83,8 @@ export class TasksList extends React.PureComponent {
   triggerHide = () => {
     requestAnimationFrame(() => {
       Array.from(this.tasksContainer.children)
-        .slice(this.currentItemIndex)
+        // this breaks things, and who cares if a bit of performance suffers as a result
+        // .slice(this.currentItemIndex)
         .forEach(item => {
           item.style.transform = ''
         })
