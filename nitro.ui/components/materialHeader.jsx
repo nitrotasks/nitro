@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flex: 1,
-    transitionDuration: '100ms',
+    transitionDuration: '200ms',
     transitionTimingFunction: 'ease',
     transitionProperty: 'opacity'
   },

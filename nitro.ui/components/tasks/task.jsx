@@ -39,7 +39,7 @@ export class Task extends React.PureComponent {
   }
 
   viewRef = React.createRef()
-  isDragging = false
+  draggingStart = false
   thresholdHit = false
 
   componentDidMount() {
@@ -65,17 +65,13 @@ export class Task extends React.PureComponent {
     }
   }
   triggerClick = () => {
-    this.viewRef.current.measure((x, y, width, height, pageX, pageY) => {
-      // TODO: this should be the same as pageY, but on iOS it's broken
-      // so using this manual calculation for now
-      const scrollby = y + 171
-      // console.log(scrollby === pageY)
-      TasksExpandedService.triggerTask(
-        this.props.listId,
-        this.props.dataId,
-        scrollby
-      )
-    })
+    const rect = findNodeHandle(this.viewRef.current).getBoundingClientRect()
+    const y = rect.top + window.scrollY
+    TasksExpandedService.triggerTask(
+      this.props.listId,
+      this.props.dataId,
+      y
+    )
   }
   // iOS has a funnny force press / 3d touch API
   // i.e it doesn't use pointer events
@@ -83,7 +79,7 @@ export class Task extends React.PureComponent {
   triggerForcePress = e => {
     const force = e.changedTouches[0].force
     if (
-      this.isDragging === true &&
+      this.draggingStart === true &&
       this.thresholdHit === false &&
       e.defaultPrevented === false &&
       force > forcePressTheshold
@@ -222,7 +218,11 @@ export class Task extends React.PureComponent {
         isDragDisabled={props.dragDisabled}
       >
         {(provided, snapshot) => {
-          this.isDragging = snapshot.isDragging
+          // TODO: fix this
+          // the code will never get executed because this goes to null
+          // the moment there's a force touch
+          // wish there was an event in react-beatiful-dnd or something?
+          this.draggingStart = snapshot.draggingOver !== null
           return (
             <View ref={this.viewRef} style={styles.transitionStyle}>
               <div
