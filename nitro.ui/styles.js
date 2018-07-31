@@ -12,6 +12,7 @@ const vars = {
   dragColor: 'rgba(58, 125, 248, 0.1)',
   indicatorColor: '#eeeeee',
   headerColor: '#000',
+  confirmColor: '#2ed573',
 
   // sizes
   padding: 16,
@@ -20,6 +21,7 @@ const vars = {
   notesLineHeight: 24,
 
   // font sizes
+  modalFontSize: 18,
   taskFontSize: 18,
   taskFontSizeSmall: 13,
   taskExpandedFontSize: 18,
@@ -27,7 +29,7 @@ const vars = {
   taskInputFontSize: 16,
 
   // font family
-  fontFamily: '\'Raleway\', \'sans-serif\''
+  fontFamily: "'Raleway', 'sans-serif'"
 }
 const exitStyles = {
   position: 'absolute',

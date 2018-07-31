@@ -88,7 +88,11 @@ class HeaderWithoutRouter extends React.PureComponent {
     }
   }
   render() {
-    const mutable = NitroSdk.getList(this.props.listId).mutable
+    const list = NitroSdk.getList(this.props.listId)
+    if (list === null) {
+      return null
+    }
+    const mutable = list.mutable
     const renameNotAllowed = mutable.indexOf('no-rename') !== -1
     const listHeaderStyles = this.state.textInputFocus
       ? [styles.listHeader, styles.focusedListHeader]
