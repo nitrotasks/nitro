@@ -3,18 +3,14 @@
   "version": "3.0.0-alpha.3",
   "description": "Not just another todo list app",
   "scripts": {
-    "build":
-      "cross-env NODE_ENV=production webpack --progress --colors --mode production --display-optimization-bailout",
+    "build": "cross-env NODE_ENV=production webpack --progress --colors --mode production --display-optimization-bailout",
     "watch": "webpack-dev-server --mode development",
     "clean": "rm -rf dist/generated/*",
-    "test":
-      "cross-env NODE_ENV=test nyc mocha nitro.sdk.test/index.js && npm run build",
-    "test:fast":
-      "cross-env NODE_ENV=test mocha nitro.sdk.test/index.js --require babel-core/register",
+    "test": "cross-env NODE_ENV=test nyc mocha nitro.sdk.test/index.js && npm run build",
+    "test:fast": "cross-env NODE_ENV=test mocha nitro.sdk.test/index.js --require babel-core/register",
     "prepublishOnly": "npm run clean && npm run build",
     "flow": "flow",
-    "docker-push-master":
-      "docker login -u \"$DOCKER_USERNAME\" -p \"$DOCKER_PASSWORD\" && docker push dymajo/nitro-client:latest",
+    "docker-push-master": "docker login -u \"$DOCKER_USERNAME\" -p \"$DOCKER_PASSWORD\" && docker push dymajo/nitro-client:latest",
     "prettier": "prettier"
   },
   "repository": {
@@ -28,10 +24,16 @@
   },
   "homepage": "http://nitrotasks.com",
   "nyc": {
-    "require": ["babel-register"],
+    "require": [
+      "babel-register"
+    ],
     "sourceMap": false,
     "instrument": false,
-    "reporter": ["lcov", "text", "html"]
+    "reporter": [
+      "lcov",
+      "text",
+      "html"
+    ]
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

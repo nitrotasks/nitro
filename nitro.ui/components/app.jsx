@@ -8,6 +8,7 @@ import { Login } from './login/index.jsx'
 import { Lists } from './lists/index.jsx'
 import { Tasks } from './tasks/index.jsx'
 import { ContextMenu } from './contextMenu.jsx'
+import { Modal } from './modal.jsx'
 import { Logs } from './logs.jsx'
 
 class App extends React.Component {
@@ -35,6 +36,7 @@ class App extends React.Component {
       <View style={styles.wrapper}>
         <MainNavigation />
         <ContextMenu />
+        <Modal />
       </View>
     )
   }

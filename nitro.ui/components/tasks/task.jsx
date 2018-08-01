@@ -13,8 +13,9 @@ import { TaskHeader } from './taskHeader.jsx'
 import todayIcon from '../../../assets/icons/feather/today.svg'
 import notesIcon from '../../../assets/icons/material/note.svg'
 
-// this is the threshold defined in react-beautiful-dnd
-const forcePressTheshold = 0.15
+// 0.15 is the threshold defined in react-beautiful-dnd
+// we'll go a bit higher
+const forcePressTheshold = 0.25
 
 export class Task extends React.PureComponent {
   static propTypes = {
@@ -36,11 +37,11 @@ export class Task extends React.PureComponent {
     headersAllowed: PropTypes.bool,
     dragDisabled: PropTypes.bool
   }
+
+  viewRef = React.createRef()
+  draggingStart = false
   thresholdHit = false
-  constructor(props) {
-    super(props)
-    this.viewRef = React.createRef()
-  }
+
   componentDidMount() {
     this.triggerPosition()
 
@@ -64,17 +65,13 @@ export class Task extends React.PureComponent {
     }
   }
   triggerClick = () => {
-    this.viewRef.current.measure((x, y, width, height, pageX, pageY) => {
-      // TODO: this should be the same as pageY, but on iOS it's broken
-      // so using this manual calculation for now
-      const scrollby = y + 171
-      // console.log(scrollby === pageY)
-      TasksExpandedService.triggerTask(
-        this.props.listId,
-        this.props.dataId,
-        scrollby
-      )
-    })
+    const rect = findNodeHandle(this.viewRef.current).getBoundingClientRect()
+    const y = rect.top + window.scrollY
+    TasksExpandedService.triggerTask(
+      this.props.listId,
+      this.props.dataId,
+      y
+    )
   }
   // iOS has a funnny force press / 3d touch API
   // i.e it doesn't use pointer events
@@ -82,6 +79,7 @@ export class Task extends React.PureComponent {
   triggerForcePress = e => {
     const force = e.changedTouches[0].force
     if (
+      this.draggingStart === true &&
       this.thresholdHit === false &&
       e.defaultPrevented === false &&
       force > forcePressTheshold
@@ -219,21 +217,28 @@ export class Task extends React.PureComponent {
         index={props.index}
         isDragDisabled={props.dragDisabled}
       >
-        {(provided, snapshot) => (
-          <View ref={this.viewRef} style={styles.transitionStyle}>
-            <div
-              ref={provided.innerRef}
-              {...provided.draggableProps}
-              {...provided.dragHandleProps}
-              style={getItemStyle(
-                snapshot.isDragging,
-                provided.draggableProps.style
-              )}
-            >
-              {innerItem}
-            </div>
-          </View>
-        )}
+        {(provided, snapshot) => {
+          // TODO: fix this
+          // the code will never get executed because this goes to null
+          // the moment there's a force touch
+          // wish there was an event in react-beatiful-dnd or something?
+          this.draggingStart = snapshot.draggingOver !== null
+          return (
+            <View ref={this.viewRef} style={styles.transitionStyle}>
+              <div
+                ref={provided.innerRef}
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+                style={getItemStyle(
+                  snapshot.isDragging,
+                  provided.draggableProps.style
+                )}
+              >
+                {innerItem}
+              </div>
+            </View>
+          )
+        }}
       </Draggable>
     )
   }
