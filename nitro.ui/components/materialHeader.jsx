@@ -9,6 +9,16 @@ import backIcon from '../../assets/icons/back.svg'
 import menuIcon from '../../assets/icons/menu.svg'
 
 export class MaterialHeader extends React.Component {
+  static propTypes = {
+    fixed: PropTypes.bool,
+    leftIcon: PropTypes.string,
+    leftAction: PropTypes.func,
+    rightIcon: PropTypes.string,
+    rightAction: PropTypes.func,
+    h1Visible: PropTypes.bool,
+    h1: PropTypes.string,
+    shadow: PropTypes.bool
+  }
   render() {
     let leftIcon = null
     let rightIcon = null
@@ -34,8 +44,13 @@ export class MaterialHeader extends React.Component {
       this.props.h1Visible === false
         ? [styles.textContainer, styles.textContainerHidden]
         : styles.textContainer
+
+    const wrapperClassName =
+      this.props.h1Visible === false || this.props.shadow === false
+        ? 'pseudo-shadow'
+        : 'pseudo-shadow visible'
     return (
-      <View style={wrapperStyles}>
+      <View style={wrapperStyles} className={wrapperClassName}>
         <View style={styles.leftContainer} onClick={this.props.leftAction}>
           <Image source={leftIcon} resizeMode="contain" style={styles.logo} />
         </View>
@@ -48,16 +63,6 @@ export class MaterialHeader extends React.Component {
       </View>
     )
   }
-}
-
-MaterialHeader.propTypes = {
-  fixed: PropTypes.bool,
-  leftIcon: PropTypes.string,
-  leftAction: PropTypes.func,
-  rightIcon: PropTypes.string,
-  rightAction: PropTypes.func,
-  h1Visible: PropTypes.bool,
-  h1: PropTypes.string
 }
 
 const styles = StyleSheet.create({
@@ -75,7 +80,7 @@ const styles = StyleSheet.create({
     top: 0,
     width: '100%',
     backgroundColor: '#fff',
-    zIndex: 2
+    zIndex: 3
   },
   leftContainer: {
     width: 30,
@@ -99,7 +104,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: vars.padding * 1.25,
-    lineHeight: 24,
+    lineHeight: 28,
     fontFamily: vars.fontFamily
   },
   textBold: {

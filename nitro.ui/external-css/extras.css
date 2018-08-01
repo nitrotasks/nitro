@@ -5,3 +5,19 @@ input:disabled {
   opacity: 1;
   -webkit-text-fill-color: #000;
 }
+.pseudo-shadow::after {
+  display: block;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  opacity: 0;
+  transition: 200ms opacity ease;
+}
+.pseudo-shadow.visible::after {
+  opacity: 1;
+}

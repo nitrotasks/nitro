@@ -50,6 +50,7 @@ export class Lists extends React.Component {
           h1Weight="900"
           rightIcon="menu"
           rightAction={this.triggerMenu}
+          shadow={false}
         />
         <View style={styles.listWrapper}>
           {this.state.lists.map(list => {
