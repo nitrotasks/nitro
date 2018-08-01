@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Image, View, Text, StyleSheet } from 'react-native'
 import { Link } from '../link.jsx'
 
@@ -8,35 +9,45 @@ import inboxIcon from '../../../assets/icons/feather/inbox.svg'
 import todayIcon from '../../../assets/icons/feather/today.svg'
 import nextIcon from '../../../assets/icons/feather/next.svg'
 import allIcon from '../../../assets/icons/feather/all.svg'
+import addIcon from '../../../assets/icons/feather/add.svg'
 
 const iconMap = new Map()
 iconMap.set('inbox', inboxIcon)
 iconMap.set('today', todayIcon)
 iconMap.set('next', nextIcon)
 iconMap.set('all', allIcon)
+iconMap.set('add', addIcon)
 
 export class ListItem extends React.Component {
+  static propTypes = {
+    id: PropTypes.string,
+    name: PropTypes.string,
+    count: PropTypes.number,
+    onClick: PropTypes.func
+  }
   render() {
-    const id = this.props.id
     let icon = iconMap.get(this.props.id)
     if (typeof icon === 'undefined') {
       icon = listIcon
     }
-    return (
-      <Link to={`/${this.props.id}`}>
-        <View style={styles.wrapper}>
-          <View style={styles.iconWrapper}>
-            <Image source={icon} resizeMode="contain" style={styles.icon} />
-          </View>
-          <View style={styles.nameWrapper}>
-            <Text style={styles.name}>{this.props.name}</Text>
-          </View>
-          <View style={styles.countWrapper}>
-            <Text style={styles.count}>{this.props.count}</Text>
-          </View>
+    const inner = (
+      <View style={styles.wrapper}>
+        <View style={styles.iconWrapper}>
+          <Image source={icon} resizeMode="contain" style={styles.icon} />
         </View>
-      </Link>
+        <View style={styles.nameWrapper}>
+          <Text style={styles.name}>{this.props.name}</Text>
+        </View>
+        <View style={styles.countWrapper}>
+          <Text style={styles.count}>{this.props.count}</Text>
+        </View>
+      </View>
     )
+    if (this.props.onClick) {
+      return <View onClick={this.props.onClick}>{inner}</View>
+    } else {
+      return <Link to={`/${this.props.id}`}>{inner}</Link>
+    }
   }
 }
 

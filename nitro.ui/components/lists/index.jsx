@@ -33,6 +33,10 @@ export class Lists extends React.Component {
     ]
     ContextMenuService.create(e.clientX, e.clientY, 'top', 'right', items)
   }
+  createList = () => {
+    const list = NitroSdk.addList({ name: 'Untitled List' })
+    this.props.history.push('/' + list.id)
+  }
   render() {
     const wrapperStyles =
       this.props.transitionState === 'exiting'
@@ -58,6 +62,12 @@ export class Lists extends React.Component {
               />
             )
           })}
+          <ListItem
+            key="add"
+            id="add"
+            name="New List"
+            onClick={this.createList}
+          />
           <ListItem key="logs" id="logs" name="System Logs" />
         </View>
       </View>

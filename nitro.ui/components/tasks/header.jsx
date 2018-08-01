@@ -128,6 +128,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   listHeader: {
+    minWidth: 0,
     paddingLeft: vars.padding / 2,
     paddingRight: vars.padding / 2,
     paddingBottom: vars.padding / 2,
