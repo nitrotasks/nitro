@@ -75,11 +75,6 @@ class TaskHeaderWithoutRouter extends React.PureComponent {
       e.currentTarget.blur()
     }
   }
-  triggerMore = e => {
-    const x = e.nativeEvent.pageX
-    const y = e.nativeEvent.pageY - window.scrollY
-    headerMenu(this.props.dataId, x, y, 'top', 'right')
-  }
   triggerCollapse = () => {
     const updateType =
       NitroSdk.getTask(this.props.dataId).type === 'header'
@@ -89,10 +84,21 @@ class TaskHeaderWithoutRouter extends React.PureComponent {
       type: updateType
     })
   }
+  triggerContextMenu = mode => {
+    return e => {
+      if (e.nativeEvent.target.tagName === 'INPUT') {
+        return
+      }
+      e.preventDefault()
+      const x = e.nativeEvent.pageX
+      const y = e.nativeEvent.pageY - window.scrollY
+      headerMenu(this.props.dataId, x, y, 'top', mode)
+    }
+  }
   render() {
-    const wrapperStyles = this.state.textInputFocus
-      ? [styles.wrapper, styles.wrapperFocus]
-      : styles.wrapper
+    const wrapperInner = this.state.textInputFocus
+      ? [styles.wrapperInner, styles.wrapperFocus]
+      : styles.wrapperInner
 
     const collapse = this.props.disabled ? null : (
       <Text onClick={this.triggerCollapse} style={styles.collapseIcon}>
@@ -113,7 +119,10 @@ class TaskHeaderWithoutRouter extends React.PureComponent {
       </Text>
     )
     const controls = this.props.disabled ? null : (
-      <TouchableOpacity style={styles.moreIcon} onClick={this.triggerMore}>
+      <TouchableOpacity
+        style={styles.moreIcon}
+        onClick={this.triggerContextMenu('right')}
+      >
         <Image
           accessibilityLabel="More"
           source={moreIcon}
@@ -123,18 +132,24 @@ class TaskHeaderWithoutRouter extends React.PureComponent {
       </TouchableOpacity>
     )
     return (
-      <View style={wrapperStyles} onClick={this.triggerClick}>
-        {collapse}
-        <TextInput
-          style={styles.text}
-          value={this.state.name}
-          onChange={this.triggerChange}
-          onFocus={this.triggerFocus}
-          onBlur={this.triggerBlur}
-          onKeyUp={this.triggerKeyUp}
-          disabled={this.props.disabled}
-        />
-        {controls}
+      <View
+        style={styles.wrapper}
+        onClick={this.triggerClick}
+        onContextMenu={this.triggerContextMenu('left')}
+      >
+        <View style={wrapperInner}>
+          {collapse}
+          <TextInput
+            style={styles.text}
+            value={this.state.name}
+            onChange={this.triggerChange}
+            onFocus={this.triggerFocus}
+            onBlur={this.triggerBlur}
+            onKeyUp={this.triggerKeyUp}
+            disabled={this.props.disabled}
+          />
+          {controls}
+        </View>
       </View>
     )
   }
@@ -144,12 +159,13 @@ export { TaskHeader }
 
 const styles = StyleSheet.create({
   wrapper: {
-    flex: 1,
+    paddingTop: vars.padding,
+    paddingBottom: vars.padding / 2,
+    paddingLeft: vars.padding / 2,
+    paddingRight: vars.padding / 2
+  },
+  wrapperInner: {
     flexDirection: 'row',
-    marginTop: vars.padding,
-    marginBottom: vars.padding / 2,
-    marginLeft: vars.padding / 2,
-    marginRight: vars.padding / 2,
     borderBottomStyle: 'solid',
     borderBottomWidth: 1,
     borderBottomColor: '#ddd'
