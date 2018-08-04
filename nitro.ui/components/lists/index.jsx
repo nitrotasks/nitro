@@ -7,6 +7,7 @@ import { vars } from '../../styles'
 import { MaterialHeader } from '../materialHeader.jsx'
 import { ContextMenuService } from '../../services/contextMenuService.js'
 import { ListItem } from './listitem.jsx'
+import { LinkedScroll } from '../reusable/linkedScroll.jsx'
 
 export class Lists extends React.Component {
   state = {
@@ -39,7 +40,7 @@ export class Lists extends React.Component {
   }
   render() {
     return (
-      <View>
+      <View style={styles.wrapper}>
         <MaterialHeader
           leftIcon="logo"
           h1="NITRO"
@@ -48,30 +49,35 @@ export class Lists extends React.Component {
           rightAction={this.triggerMenu}
           shadow={false}
         />
-        <View style={styles.listWrapper}>
-          {this.state.lists.map(list => {
-            return (
-              <ListItem
-                key={list.id}
-                id={list.id}
-                name={list.name}
-                count={list.count}
-              />
-            )
-          })}
-          <ListItem
-            key="add"
-            id="add"
-            name="New List"
-            onClick={this.createList}
-          />
-          <ListItem key="logs" id="logs" name="System Logs" />
-        </View>
+        <LinkedScroll>
+          <View style={styles.listWrapper}>
+            {this.state.lists.map(list => {
+              return (
+                <ListItem
+                  key={list.id}
+                  id={list.id}
+                  name={list.name}
+                  count={list.count}
+                />
+              )
+            })}
+            <ListItem
+              key="add"
+              id="add"
+              name="New List"
+              onClick={this.createList}
+            />
+            <ListItem key="logs" id="logs" name="System Logs" />
+          </View>
+        </LinkedScroll>
       </View>
     )
   }
 }
 const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1
+  },
   listWrapper: {
     padding: vars.padding / 2
   }

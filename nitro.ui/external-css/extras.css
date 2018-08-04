@@ -1,5 +1,6 @@
 body {
   overflow-x: hidden;
+  overflow-y: hidden;
   --bottom-inset: env(safe-area-inset-bottom);
   --real-height: 100vh;
 }

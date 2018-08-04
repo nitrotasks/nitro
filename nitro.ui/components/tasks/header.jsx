@@ -120,7 +120,7 @@ class HeaderWithoutRouter extends React.PureComponent {
 
 const styles = StyleSheet.create({
   listHeaderWrapper: {
-    paddingTop: vars.padding / 2,
+    paddingTop: vars.padding * 3,
     paddingLeft: vars.padding / 2,
     paddingRight: vars.padding / 2,
     paddingBottom: vars.padding / 4,

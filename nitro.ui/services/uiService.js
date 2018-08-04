@@ -9,8 +9,8 @@ class uiService extends Events {
     scrollPosition: 0,
 
     // root card positions
-    oldCardPosition: 'default',
-    cardPosition: 'default',
+    oldCardPosition: 'map',
+    cardPosition: 'map',
 
     // used for proper touch rejection
     headerEvent: null

@@ -27,7 +27,7 @@ class ShellComponent extends React.Component {
   state = {
     animate: false,
     showPin: false,
-    cardPosition: 'default',
+    cardPosition: UiService.state.cardPosition,
     delayCard: false
   }
   constructor(props) {
@@ -368,10 +368,6 @@ class ShellComponent extends React.Component {
                   TasksExpandedService.routeUpdate(routeProps)
                   return <Tasks {...routeProps} />
                 }}
-              />
-              <Route
-                path="/"
-                render={routeProps => <Lists {...routeProps} />}
               />
             </Switch>
           </div>

@@ -93,7 +93,8 @@ export class TaskExpanded extends React.Component {
       document.body.style.overflowY = 'hidden'
       const scrollLocation = TasksExpandedService.state.position - 96
       requestAnimationFrame(() => {
-        window.scrollTo({ top: scrollLocation, left: 0, behavior: 'smooth' })
+        // window.scrollTo({ top: scrollLocation, left: 0, behavior: 'smooth' })
+        console.log('TODO: Implement UiStore Scroll')
       })
       const lineNumber = Math.min(
         getMaxLines(),
