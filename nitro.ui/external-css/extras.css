@@ -1,5 +1,7 @@
 body {
   overflow-x: hidden;
+  --bottom-inset: env(safe-area-inset-bottom);
+  --real-height: 100vh;
 }
 input:disabled {
   opacity: 1;

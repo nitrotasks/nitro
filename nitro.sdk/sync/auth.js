@@ -268,4 +268,5 @@ class AuthenticationStore extends Events {
   }
 }
 let authenticationStore = new AuthenticationStore()
+window.auth = authenticationStore
 export default authenticationStore

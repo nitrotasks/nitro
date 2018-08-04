@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Image, View, Text, StyleSheet } from 'react-native'
-import { Link } from '../link.jsx'
+import { Link } from '../reusable/link.jsx'
 
 import { vars } from '../../styles'
 import listIcon from '../../../assets/icons/feather/list.svg'

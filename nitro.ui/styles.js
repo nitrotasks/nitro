@@ -31,11 +31,5 @@ const vars = {
   // font family
   fontFamily: "'Raleway', 'sans-serif'"
 }
-const exitStyles = {
-  position: 'absolute',
-  width: '100%',
-  top: 0,
-  left: 0
-}
 
-export { vars, exitStyles }
+export { vars }

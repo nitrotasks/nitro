@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { View, StyleSheet } from 'react-native'
 
 import { NitroSdk } from '../../../nitro.sdk'
-import { vars, exitStyles } from '../../styles'
+import { vars } from '../../styles'
 import { MaterialHeader } from '../materialHeader.jsx'
 import { ContextMenuService } from '../../services/contextMenuService.js'
 import { ListItem } from './listitem.jsx'
@@ -38,12 +38,8 @@ export class Lists extends React.Component {
     this.props.history.push('/' + list.id)
   }
   render() {
-    const wrapperStyles =
-      this.props.transitionState === 'exiting'
-        ? [styles.wrapper, styles.wrapperExiting]
-        : styles.wrapper
     return (
-      <View style={wrapperStyles}>
+      <View>
         <MaterialHeader
           leftIcon="logo"
           h1="NITRO"
@@ -75,18 +71,7 @@ export class Lists extends React.Component {
     )
   }
 }
-Lists.propTypes = {
-  transitionState: PropTypes.string
-}
-
 const styles = StyleSheet.create({
-  wrapper: {
-    backgroundColor: vars.backColor
-  },
-  wrapperExiting: {
-    ...exitStyles,
-    zIndex: -1
-  },
   listWrapper: {
     padding: vars.padding / 2
   }

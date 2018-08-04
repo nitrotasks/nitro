@@ -1,4 +1,5 @@
-import { AppRegistry } from 'react-native'
+import React from 'react'
+import ReactDOM from 'react-dom'
 import App from './components/app.jsx'
 import { NitroSdk } from '../nitro.sdk'
 
@@ -13,8 +14,7 @@ smoothscroll.polyfill()
 import './external-css/fonts.css'
 import './external-css/daypicker.css'
 import './external-css/extras.css'
-
-AppRegistry.registerComponent('App', () => App)
+import './external-css/root.css'
 
 document.addEventListener('DOMContentLoaded', () => {
   if (process.env.NODE_ENV === 'production') {
@@ -27,9 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const shell = document.getElementById('app-shell')
   NitroSdk.loadData()
     .then(() => {
-      AppRegistry.runApplication('App', {
-        rootTag: shell
-      })
+      ReactDOM.render(<App />, shell)
     })
     .catch(err => {
       const fixBtn = `

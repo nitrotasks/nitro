@@ -1,15 +1,11 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 
 import { NitroSdk } from '../../nitro.sdk'
-import { TasksExpandedService } from '../services/tasksExpandedService.js'
+import { Shell } from './shell/index.jsx'
 import { Login } from './login/index.jsx'
-import { Lists } from './lists/index.jsx'
-import { Tasks } from './tasks/index.jsx'
 import { ContextMenu } from './contextMenu.jsx'
 import { Modal } from './modal.jsx'
-import { Logs } from './logs.jsx'
 
 class App extends React.Component {
   state = {
@@ -33,32 +29,14 @@ class App extends React.Component {
       return <Login />
     }
     return (
-      <View style={styles.wrapper}>
-        <MainNavigation />
-        <ContextMenu />
+      <React.Fragment>
+        <BrowserRouter>
+          <Shell />
+        </BrowserRouter>
         <Modal />
-      </View>
+        <ContextMenu />
+      </React.Fragment>
     )
   }
 }
-const MainNavigation = ({ children }) => (
-  <BrowserRouter>
-    <Switch>
-      <Route path="/logs" render={routeProps => <Logs {...routeProps} />} />
-      <Route
-        path="/:list/:task?"
-        render={routeProps => {
-          TasksExpandedService.routeUpdate(routeProps)
-          return <Tasks {...routeProps} />
-        }}
-      />
-      <Route path="/" render={routeProps => <Lists {...routeProps} />} />
-    </Switch>
-  </BrowserRouter>
-)
-const styles = StyleSheet.create({
-  wrapper: {
-    minHeight: '100vh'
-  }
-})
 export default App
