@@ -21,17 +21,12 @@ export class TasksList extends React.PureComponent {
   static propTypes = {
     listId: PropTypes.string
   }
-  constructor(props) {
-    super(props)
-    this.state = {
-      currentTaskHeight: 0,
-      ...this.generateState(props)
-    }
-    this.currentItemIndex = 0
-    this.tasksContainer = null
-    this.archiveButton = React.createRef()
+  static getDerivedStateFromProps(props, state) {
+    return props.listId !== state.previousId
+      ? TasksList.generateState(props)
+      : null
   }
-  generateState(props) {
+  static generateState(props) {
     const list = NitroSdk.getTasks(props.listId)
     const taskMap = new Map()
     let order = []
@@ -43,9 +38,20 @@ export class TasksList extends React.PureComponent {
     }
 
     return {
+      previousId: props.listId,
       order: order,
       tasks: taskMap
     }
+  }
+  constructor(props) {
+    super(props)
+    this.state = {
+      currentTaskHeight: 0,
+      ...this.constructor.generateState(props)
+    }
+    this.currentItemIndex = 0
+    this.tasksContainer = null
+    this.archiveButton = React.createRef()
   }
   componentDidMount() {
     NitroSdk.bind('update', this.tasksUpdate)
@@ -61,7 +67,7 @@ export class TasksList extends React.PureComponent {
   }
   tasksUpdate = () => {
     // captures all updates for all lists, because the today and next lists are special
-    this.setState(this.generateState(this.props))
+    this.setState(this.constructor.generateState(this.props))
   }
   triggerShow = height => {
     this.currentItemIndex = this.state.order.indexOf(
