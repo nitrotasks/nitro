@@ -4,6 +4,7 @@ import { View, StyleSheet } from 'react-native'
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars, exitStyles } from '../../styles.js'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
+import { UiService } from '../../services/uiService.js'
 import { Header } from './header.jsx'
 import { TasksInput } from './tasksInput.jsx'
 import { TasksList } from './tasksList.jsx'
@@ -13,10 +14,12 @@ import { ScrollView } from '../reusable/scrollView.jsx'
 export class Tasks extends React.Component {
   constructor(props) {
     super(props)
+    this.scrollView = React.createRef()
     this.state = {
       headerVisible: false,
       listName: this.getListName(props.match.params.list)
     }
+    UiService.scrollView = this.scrollView
   }
   componentDidMount() {
     NitroSdk.bind('update', this.tasksUpdate)
@@ -53,7 +56,7 @@ export class Tasks extends React.Component {
     const listId = this.props.match.params.list
     return (
       <View style={styles.wrapper}>
-        <ScrollView>
+        <ScrollView ref={this.scrollView}>
           <Header listId={listId} onIntersect={this.triggerIntersection} />
           <TasksInput listId={listId} />
           <TasksList listId={listId} />

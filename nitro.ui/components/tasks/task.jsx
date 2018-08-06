@@ -7,6 +7,7 @@ import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
 import { formatDate } from '../../helpers/date.js'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
+import { UiService } from '../../services/uiService.js'
 import { Checkbox } from './checkbox.jsx'
 import { TaskHeader } from './taskHeader.jsx'
 import { taskMenu } from './taskMenu.js'
@@ -66,8 +67,9 @@ export class Task extends React.PureComponent {
     }
   }
   triggerClick = () => {
+    const scrollPos = UiService.getScroll()
     const rect = findNodeHandle(this.viewRef.current).getBoundingClientRect()
-    const y = rect.top + window.scrollY
+    const y = rect.top + scrollPos
     TasksExpandedService.triggerTask(this.props.listId, this.props.dataId, y)
   }
   // iOS has a funnny force press / 3d touch API

@@ -16,6 +16,24 @@ class uiService extends Events {
     headerEvent: null
   }
 
+  scrollView = null
+
+  getScroll() {
+    if (this.scrollView.current === null) {
+      return 0
+    }
+    return this.scrollView.current.scrollView.current.getScrollableNode()
+      .scrollTop
+  }
+  scrollTo(scrollObject) {
+    if (this.scrollView.current === null) {
+      return
+    }
+    scrollObject.y = scrollObject.top
+    scrollObject.x = scrollObject.left
+    this.scrollView.current.scrollView.current.scrollTo(scrollObject)
+  }
+
   setCardPosition(position, animate = true, manual = false) {
     // don't need to do anything if it's already in the right position
     if (this.state.cardPosition === position) {
