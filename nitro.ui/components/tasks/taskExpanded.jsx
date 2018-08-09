@@ -17,7 +17,6 @@ import { UiService } from '../../services/uiService.js'
 import { taskMenu, headerMenu } from './taskMenu.js'
 import { dateValue, deadlineValue, formatDate } from '../../helpers/date.js'
 
-import { Datepicker } from '../datepicker.jsx'
 import { DatepickerActivator } from '../datepickerActivator.jsx'
 import { Checkbox } from './checkbox.jsx'
 
@@ -109,6 +108,7 @@ export class TaskExpanded extends React.Component {
         },
         () => {
           requestAnimationFrame(() => {
+            UiService.setCardPosition('hidden')
             UiService.scrollTo({
               top: scrollLocation,
               left: 0,
@@ -129,6 +129,7 @@ export class TaskExpanded extends React.Component {
       })
     }, 300)
     requestAnimationFrame(() => {
+      UiService.setCardPosition('map')
       this.setState({
         hidden: true
       })
@@ -382,7 +383,6 @@ export class TaskExpanded extends React.Component {
             </TouchableOpacity>
           </View>
         </View>
-        <Datepicker pickerId="expanded" position="sheet" />
         <View
           pointerEvents={pointerEvents}
           style={[

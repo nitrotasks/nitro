@@ -10,6 +10,7 @@ import { TasksInput } from './tasksInput.jsx'
 import { TasksList } from './tasksList.jsx'
 import { TaskExpanded } from './taskExpanded.jsx'
 import { ScrollView } from '../reusable/scrollView.jsx'
+import { Datepicker } from '../datepicker.jsx'
 
 export class Tasks extends React.Component {
   constructor(props) {
@@ -62,6 +63,7 @@ export class Tasks extends React.Component {
           <TasksList listId={listId} />
           <TaskExpanded triggerBack={this.props.history.goBack} />
         </ScrollView>
+        <Datepicker pickerId="expanded" position="sheet" />
       </View>
     )
   }

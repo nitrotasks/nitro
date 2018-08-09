@@ -82,8 +82,17 @@
       0
     );
   }
+  .hidden-view .root-card {
+    overflow-y: hidden;
+    transform: translate3d(
+      0,
+      calc(var(--real-height) - (var(--max-position) + var(--top-offset))),
+      0
+    );
+  }
 
-  .map-view .root-card-content {
+  .map-view .root-card-content,
+  .hidden-view .root-card-content {
     box-sizing: border-box;
     width: 100%;
   }
