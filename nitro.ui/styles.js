@@ -29,7 +29,7 @@ const vars = {
   taskInputFontSize: 16,
 
   // font family
-  fontFamily: "'Raleway', 'sans-serif'"
+  fontFamily: '"Raleway", "Microsoft YaHei", "sans-serif"'
 }
 
 export { vars }

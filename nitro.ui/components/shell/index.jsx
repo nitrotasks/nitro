@@ -346,6 +346,15 @@ class ShellComponent extends React.Component {
   triggerPaddingButton(e) {
     UiService.state.headerEvent = e.target
   }
+  triggerRootContainer = e => {
+    if (
+      (this.state.cardPosition === 'default' ||
+        this.state.cardPosition === 'max') &&
+      e.target === this.rootcontainer
+    ) {
+      UiService.setCardPosition('map')
+    }
+  }
   render() {
     const rootClassName =
       'root-container ' +
@@ -355,7 +364,11 @@ class ShellComponent extends React.Component {
 
     return (
       <React.Fragment>
-        <div className={rootClassName} ref={e => (this.rootcontainer = e)}>
+        <div
+          className={rootClassName}
+          ref={e => (this.rootcontainer = e)}
+          onClick={this.triggerRootContainer}
+        >
           <div className="root-map">
             <Switch>
               <Route

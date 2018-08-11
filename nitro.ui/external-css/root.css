@@ -39,7 +39,7 @@
   opacity: 0.99;
   transition: 200ms ease opacity;
 }
-.search {
+.root-map {
   transition: var(--map-transition);
 }
 .root-card-wrapper {
@@ -50,8 +50,9 @@
 }
 
 @media (max-width: 850px) {
-  .max-view .search {
-    opacity: 0.9;
+  .default-view .root-map,
+  .max-view .root-map {
+    opacity: 0.4;
     pointer-events: none;
   }
   .max-view .hide-maximized {
