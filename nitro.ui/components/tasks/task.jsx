@@ -154,7 +154,7 @@ export class Task extends React.PureComponent {
           />
         )
       }
-      if (props.dataDeadline !== null) {
+      if (props.dataDeadline !== null && props.dataCompleted === null) {
         deadlineIndicator = (
           <Text style={styles.subText}>
             {formatDate(props.dataDeadline, props.dataType, 'deadline')}
