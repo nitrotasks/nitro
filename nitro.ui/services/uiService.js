@@ -12,6 +12,9 @@ class uiService extends Events {
     oldCardPosition: 'map',
     cardPosition: 'map',
 
+    // the scrollspy on list of tasks
+    listIntersection: false,
+
     // used for proper touch rejection
     headerEvent: null
   }

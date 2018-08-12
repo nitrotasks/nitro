@@ -2,7 +2,6 @@ import React from 'react'
 import { View, StyleSheet } from 'react-native'
 
 import { NitroSdk } from '../../../nitro.sdk'
-import { vars, exitStyles } from '../../styles.js'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 import { UiService } from '../../services/uiService.js'
 import { Header } from './header.jsx'
@@ -16,10 +15,6 @@ export class Tasks extends React.Component {
   constructor(props) {
     super(props)
     this.scrollView = React.createRef()
-    this.state = {
-      headerVisible: false,
-      listName: this.getListName(props.match.params.list)
-    }
     UiService.scrollView = this.scrollView
   }
   componentDidMount() {
@@ -31,25 +26,9 @@ export class Tasks extends React.Component {
   }
   triggerIntersection = e => {
     const newPos = !e[0].isIntersecting
-    if (this.state.headerVisible !== newPos) {
-      this.setState({
-        headerVisible: newPos
-      })
-    }
-  }
-  tasksUpdate = event => {
-    if (event === 'lists') {
-      this.setState({
-        listName: this.getListName(this.props.match.params.list)
-      })
-    }
-  }
-  getListName(listId) {
-    const list = NitroSdk.getList(listId)
-    if (list === null) {
-      return ''
-    } else {
-      return list.name
+    if (UiService.state.listIntersection !== newPos) {
+      UiService.state.listIntersection = newPos
+      UiService.trigger('list-intersection')
     }
   }
 

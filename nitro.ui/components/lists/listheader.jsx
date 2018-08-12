@@ -1,14 +1,19 @@
 import React from 'react'
-import { View, Text, Image, StyleSheet, findNodeHandle } from 'react-native'
+import {
+  View,
+  TextInput,
+  Image,
+  StyleSheet,
+  findNodeHandle
+} from 'react-native'
 import PropTypes from 'prop-types'
 
 import { vars } from '../../styles.js'
 import { UiService } from '../../services/uiService.js'
 import addIcon from '../../../assets/icons/custom/add.svg'
-import listIcon from '../../../assets/icons/custom/list.svg'
+import searchIcon from '../../../assets/icons/custom/search.svg'
 import { TouchableOpacity } from '../reusable/touchableOpacity.jsx'
 
-// not used for all headers yet...
 export class ListHeader extends React.Component {
   static propTypes = {
     className: PropTypes.string,
@@ -53,20 +58,17 @@ export class ListHeader extends React.Component {
         ref={this.wrapper}
         className={this.props.className || ''}
       >
-        <TouchableOpacity style={styles.list} onClick={this.triggerLists}>
-          <View style={styles.iconInner}>
-            <Image source={listIcon} resizeMode="contain" style={styles.icon} />
-          </View>
-        </TouchableOpacity>
-        <View style={styles.flexWrapper} onClick={this.triggerMax}>
-          <View style={styles.pillWrapper}>
+        <View style={styles.flexWrapper}>
+          <View style={styles.pillWrapper} onClick={this.triggerMax}>
             <View style={styles.pill} />
           </View>
           <View style={styles.bottomWrapper}>
             <View style={styles.textWrapper}>
-              <Text style={styles.text} numberOfLines={1}>
-                {this.props.title}
-              </Text>
+              <TextInput
+                placeholder="Search"
+                style={styles.text}
+                numberOfLines={1}
+              />
             </View>
           </View>
         </View>
@@ -92,10 +94,8 @@ const styles = StyleSheet.create({
   },
   pillWrapper: {
     height: paddingVertical,
-    paddingTop: paddingVertical / 2
-  },
-  pillWrapperExtra: {
-    paddingLeft: 88
+    paddingTop: paddingVertical / 2,
+    paddingLeft: vars.padding * 2 + 25
   },
   pill: {
     backgroundColor: '#d8d8d8',
@@ -110,24 +110,33 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   textWrapper: {
-    flex: 1
+    flex: 1,
+    paddingLeft: vars.padding,
+    paddingTop: 6,
+    paddingBottom: 4
   },
   text: {
     fontFamily: vars.fontFamily,
-    lineHeight: 21,
+    lineHeight: 34,
     color: vars.headerColor,
+    paddingLeft: vars.padding * 2,
     fontSize: 16,
-    fontWeight: '600',
-    textAlign: 'center',
-    paddingTop: 13,
-    paddingBottom: 11
+    backgroundColor: '#e6e6e6',
+    backgroundImage: `url(${searchIcon})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: '5px 50%',
+    borderRadius: 5,
+    outline: '0'
+  },
+  textHidden: {
+    opacity: 0
   },
   list: {
     paddingLeft: vars.padding,
-    paddingRight: vars.padding * 0.5
+    paddingRight: vars.padding
   },
   add: {
-    paddingLeft: vars.padding * 0.5,
+    paddingLeft: vars.padding,
     paddingRight: vars.padding
   },
   icon: {
