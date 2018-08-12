@@ -70,8 +70,8 @@ const iconPadding = (height - iconHeight) / 2
 const styles = StyleSheet.create({
   wrapper: {
     height: height,
-    paddingLeft: vars.padding / 2,
-    paddingRight: vars.padding / 2,
+    paddingLeft: vars.padding * 0.8125,
+    paddingRight: vars.padding * 1,
     marginBottom: vars.padding * 0.25,
     flex: 1,
     flexDirection: 'row'

@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, findNodeHandle } from 'react-native-web'
 
-import { UiStore } from '../../stores/uiStore.js'
+import { UiService } from '../../services/uiService.js'
 import { iOS } from '../../helpers/ios.js'
 
 // # README
@@ -38,7 +38,7 @@ export class TouchableOpacity extends React.Component {
     }
   }
   touchStart = () => {
-    if (UiStore.state.scrollPosition === 0) {
+    if (UiService.state.scrollPosition === 0) {
       this.classList = findNodeHandle(this.viewRef.current).classList
       this.classList.add('touchable-opacity-active')
     }

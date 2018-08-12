@@ -4,10 +4,10 @@ import { View, StyleSheet } from 'react-native'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles'
-import { MaterialHeader } from '../materialHeader.jsx'
 import { ContextMenuService } from '../../services/contextMenuService.js'
 import { ListItem } from './listitem.jsx'
 import { LinkedScroll } from '../reusable/linkedScroll.jsx'
+import { ListHeader } from './listHeader.jsx'
 
 export class Lists extends React.Component {
   state = {
@@ -41,14 +41,7 @@ export class Lists extends React.Component {
   render() {
     return (
       <View style={styles.wrapper}>
-        <MaterialHeader
-          leftIcon="logo"
-          h1="NITRO"
-          h1Weight="900"
-          rightIcon="menu"
-          rightAction={this.triggerMenu}
-          shadow={false}
-        />
+        <ListHeader title="Today" />
         <LinkedScroll>
           <View style={styles.listWrapper}>
             {this.state.lists.map(list => {
@@ -79,6 +72,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   listWrapper: {
-    padding: vars.padding / 2
+    paddingTop: vars.padding / 2,
+    paddingBottom: vars.padding / 2
   }
 })

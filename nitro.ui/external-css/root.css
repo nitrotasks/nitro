@@ -46,7 +46,7 @@
   box-shadow: rgba(0, 0, 0, 0.3) 0 0 3px;
   border-radius: 10px 10px 0 0;
   height: calc(100% - 25px);
-  background: #f2f2f3;
+  background: #f6f6f6;
 }
 
 @media (max-width: 850px) {
