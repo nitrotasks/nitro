@@ -1,0 +1,136 @@
+:root {
+  --transition: 300ms ease transform;
+  --map-transition: 300ms ease opacity;
+  --max-position: 0px;
+  --default-position: 300px;
+  --min-position: 0px;
+  --pad: 25px;
+  --top-offset: 0px;
+  --root-card-bar: 66px;
+  --sidebar-width: 300px;
+}
+
+.root-transition-group {
+  height: 100%;
+  display: flex;
+}
+.root-card {
+  position: fixed;
+  bottom: 2px;
+  left: 0;
+  width: 100%;
+
+  height: var(--real-height);
+  transition: var(--transition);
+  will-change: transform;
+}
+.delay-transition .root-card {
+  transition: 150ms ease-out transform;
+  transition-delay: 150ms;
+}
+.root-card-content {
+  background: var(--default-back);
+  min-height: 50vh;
+}
+.hide-maximized {
+  opacity: 0.99;
+  transition: 200ms ease opacity;
+}
+.root-map {
+  transition: var(--map-transition);
+}
+.root-card-wrapper {
+  box-shadow: rgba(0, 0, 0, 0.3) 0 0 3px;
+  border-radius: 10px 10px 0 0;
+  height: calc(100% - 25px);
+  background: #f6f6f6;
+}
+
+@media (max-width: 850px) {
+  .default-view .root-map,
+  .max-view .root-map {
+    opacity: 0.4;
+    touch-action: none;
+  }
+  .max-view .hide-maximized {
+    opacity: 0;
+  }
+  .root-card.pan-lock {
+    touch-action: pan-down;
+  }
+  .default-view .root-card {
+    overflow-y: hidden;
+    transform: translate3d(
+      0,
+      calc(var(--real-height) - var(--root-card-bar) - var(--default-position)),
+      0
+    );
+  }
+  .map-view .root-card {
+    overflow-y: hidden;
+    transform: translate3d(
+      0,
+      calc(
+        var(--real-height) -
+          (
+            var(--root-card-bar) + var(--max-position) + var(--top-offset) +
+              var(--pad)
+          )
+      ),
+      0
+    );
+  }
+  .hidden-view .root-card {
+    overflow-y: hidden;
+    transform: translate3d(
+      0,
+      calc(var(--real-height) - (var(--max-position) + var(--top-offset))),
+      0
+    );
+  }
+
+  .map-view .root-card-content,
+  .hidden-view .root-card-content {
+    box-sizing: border-box;
+    width: 100%;
+  }
+}
+.root-card-padding-button {
+  height: var(--pad);
+}
+@media (min-width: 481px) {
+  .root-card-content {
+    position: relative;
+    padding: 0 10vw;
+  }
+  .root-card-content::before {
+    content: '';
+    top: calc(var(--root-card-bar) * -1);
+    left: 0;
+    background: #eee;
+    height: var(--root-card-bar);
+    width: 100%;
+    position: absolute;
+    z-index: -1;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
+  }
+}
+
+@media (min-width: 851px) {
+  .root-card {
+    width: var(--sidebar-width);
+  }
+  .root-card-content {
+    padding: 0;
+  }
+  .root-card-padding-button {
+    display: none;
+  }
+  .root-card-wrapper {
+    height: 100%;
+    box-shadow: none;
+  }
+  .root-map {
+    margin-left: var(--sidebar-width);
+  }
+}

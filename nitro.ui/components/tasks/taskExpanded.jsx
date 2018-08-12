@@ -13,10 +13,10 @@ import {
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
+import { UiService } from '../../services/uiService.js'
 import { taskMenu, headerMenu } from './taskMenu.js'
 import { dateValue, deadlineValue, formatDate } from '../../helpers/date.js'
 
-import { Datepicker } from '../datepicker.jsx'
 import { DatepickerActivator } from '../datepickerActivator.jsx'
 import { Checkbox } from './checkbox.jsx'
 
@@ -61,6 +61,7 @@ export class TaskExpanded extends React.Component {
         checked: false,
         hidden: true,
         overlayHidden: true,
+        overlayTop: 0,
         lineNumber: 3
       }
     }
@@ -92,32 +93,44 @@ export class TaskExpanded extends React.Component {
     requestAnimationFrame(() => {
       document.body.style.overflowY = 'hidden'
       const scrollLocation = TasksExpandedService.state.position - 96
-      requestAnimationFrame(() => {
-        window.scrollTo({ top: scrollLocation, left: 0, behavior: 'smooth' })
-      })
       const lineNumber = Math.min(
         getMaxLines(),
         findNodeHandle(this.notesElement.current).scrollHeight /
           vars.notesLineHeight
       )
       TasksExpandedService.triggerTaskHeight(lineNumber)
-      this.setState({
-        hidden: false,
-        overlayHidden: false,
-        lineNumber: lineNumber
-      })
+      this.setState(
+        {
+          hidden: false,
+          overlayHidden: false,
+          overlayTop: window.scrollY - 100,
+          lineNumber: lineNumber
+        },
+        () => {
+          requestAnimationFrame(() => {
+            UiService.setCardPosition('hidden')
+            UiService.scrollTo({
+              top: scrollLocation,
+              left: 0,
+              behavior: 'smooth'
+            })
+          })
+        }
+      )
     })
   }
   triggerHide = () => {
     setTimeout(() => {
       requestAnimationFrame(() => {
-        document.body.style.overflowY = ''
+        document.body.style.overflowY = 'scroll'
       })
       this.setState({
-        overlayHidden: true
+        overlayHidden: true,
+        overlayTop: window.scrollY
       })
     }, 300)
     requestAnimationFrame(() => {
+      UiService.setCardPosition('map')
       this.setState({
         hidden: true
       })
@@ -230,7 +243,6 @@ export class TaskExpanded extends React.Component {
   }
   render() {
     const top = TasksExpandedService.state.position + vars.padding
-    const overlayTop = window.scrollY
     let opacity = 1
     let overlayOpacity = 0.5
     const overlayDisplay = this.state.overlayHidden ? '100vh' : '200vh'
@@ -372,14 +384,13 @@ export class TaskExpanded extends React.Component {
             </TouchableOpacity>
           </View>
         </View>
-        <Datepicker pickerId="expanded" position="sheet" />
         <View
           pointerEvents={pointerEvents}
           style={[
             styles.overlay,
             {
               opacity: overlayOpacity,
-              top: overlayTop,
+              top: this.state.overlayTop,
               height: overlayDisplay
             }
           ]}

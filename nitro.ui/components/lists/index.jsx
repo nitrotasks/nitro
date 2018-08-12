@@ -3,10 +3,11 @@ import PropTypes from 'prop-types'
 import { View, StyleSheet } from 'react-native'
 
 import { NitroSdk } from '../../../nitro.sdk'
-import { vars, exitStyles } from '../../styles'
-import { MaterialHeader } from '../materialHeader.jsx'
+import { vars } from '../../styles'
 import { ContextMenuService } from '../../services/contextMenuService.js'
 import { ListItem } from './listitem.jsx'
+import { LinkedScroll } from '../reusable/linkedScroll.jsx'
+import { ListHeader } from './listheader.jsx'
 
 export class Lists extends React.Component {
   state = {
@@ -38,56 +39,40 @@ export class Lists extends React.Component {
     this.props.history.push('/' + list.id)
   }
   render() {
-    const wrapperStyles =
-      this.props.transitionState === 'exiting'
-        ? [styles.wrapper, styles.wrapperExiting]
-        : styles.wrapper
     return (
-      <View style={wrapperStyles}>
-        <MaterialHeader
-          leftIcon="logo"
-          h1="NITRO"
-          h1Weight="900"
-          rightIcon="menu"
-          rightAction={this.triggerMenu}
-          shadow={false}
-        />
-        <View style={styles.listWrapper}>
-          {this.state.lists.map(list => {
-            return (
-              <ListItem
-                key={list.id}
-                id={list.id}
-                name={list.name}
-                count={list.count}
-              />
-            )
-          })}
-          <ListItem
-            key="add"
-            id="add"
-            name="New List"
-            onClick={this.createList}
-          />
-          <ListItem key="logs" id="logs" name="System Logs" />
-        </View>
+      <View style={styles.wrapper}>
+        <ListHeader title="Today" />
+        <LinkedScroll>
+          <View style={styles.listWrapper}>
+            {this.state.lists.map(list => {
+              return (
+                <ListItem
+                  key={list.id}
+                  id={list.id}
+                  name={list.name}
+                  count={list.count}
+                />
+              )
+            })}
+            <ListItem
+              key="add"
+              id="add"
+              name="New List"
+              onClick={this.createList}
+            />
+            <ListItem key="logs" id="logs" name="System Logs" />
+          </View>
+        </LinkedScroll>
       </View>
     )
   }
 }
-Lists.propTypes = {
-  transitionState: PropTypes.string
-}
-
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: vars.backColor
-  },
-  wrapperExiting: {
-    ...exitStyles,
-    zIndex: -1
+    flex: 1
   },
   listWrapper: {
-    padding: vars.padding / 2
+    paddingTop: vars.padding / 2,
+    paddingBottom: vars.padding / 2
   }
 })

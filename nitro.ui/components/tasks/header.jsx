@@ -1,9 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withRouter } from 'react-router'
 import {
   View,
-  Text,
   Image,
   TextInput,
   StyleSheet,
@@ -16,14 +14,14 @@ import { vars } from '../../styles'
 import { headerMenu } from './headerMenu.js'
 import menuIcon from '../../../assets/icons/material/task-more.svg'
 
-class HeaderWithoutRouter extends React.PureComponent {
+export class Header extends React.PureComponent {
   static propTypes = {
     listId: PropTypes.string,
     onIntersect: PropTypes.func
   }
   constructor(props) {
     super(props)
-    this.state = this.generateState(this.props)
+    this.state = this.constructor.generateState(this.props)
     this.observer = new IntersectionObserver(this.props.onIntersect, {
       root: null,
       rootMargin: '-65px',
@@ -37,33 +35,37 @@ class HeaderWithoutRouter extends React.PureComponent {
   componentWillUnmount() {
     this.observer.disconnect()
   }
-  generateState(props) {
+  static getDerivedStateFromProps(props, state) {
+    return props.listId !== state.previousId
+      ? Header.generateState(props)
+      : null
+  }
+  static generateState(props) {
     const list = NitroSdk.getList(props.listId)
     return {
+      previousId: props.listId,
       name: list.name
     }
   }
   triggerMenu = e => {
     const x = e.nativeEvent.pageX
     const y = e.nativeEvent.pageY
-    headerMenu(this.props.listId, x, y, 'top', 'right', () => {
-      this.props.history.goBack()
-    })
+    headerMenu(this.props.listId, x, y, 'top', 'right')
   }
   triggerChange = e => {
     this.setState({
       name: e.currentTarget.value
     })
   }
-  triggerFocus = e => {
+  triggerFocus = () => {
     this.setState({
       textInputFocus: true
     })
   }
-  triggerBlur = e => {
+  triggerBlur = () => {
     const name = this.state.name.trim()
     if (name === '') {
-      const state = this.generateState(this.props)
+      const state = this.constructor.generateState(this.props)
       state.textInputFocus = false
       this.setState(state)
     } else {
@@ -80,7 +82,7 @@ class HeaderWithoutRouter extends React.PureComponent {
   triggerKeyUp = e => {
     // ESC
     if (e.keyCode === 27) {
-      this.setState(this.generateState(this.props))
+      this.setState(this.constructor.generateState(this.props))
       e.currentTarget.blur()
       // ENTER
     } else if (e.keyCode === 13) {
@@ -120,7 +122,7 @@ class HeaderWithoutRouter extends React.PureComponent {
 
 const styles = StyleSheet.create({
   listHeaderWrapper: {
-    paddingTop: vars.padding / 2,
+    paddingTop: vars.padding * 3,
     paddingLeft: vars.padding / 2,
     paddingRight: vars.padding / 2,
     paddingBottom: vars.padding / 4,
@@ -155,5 +157,3 @@ const styles = StyleSheet.create({
     width: 24
   }
 })
-
-export const Header = withRouter(HeaderWithoutRouter)

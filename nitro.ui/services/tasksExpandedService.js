@@ -13,6 +13,7 @@ class _tasksExpanded extends Events {
   constructor(props) {
     super(props)
     this.state = {
+      taskTriggerInProgress: false,
       list: null,
       task: null,
       position: 0
@@ -25,6 +26,9 @@ class _tasksExpanded extends Events {
     this.go = fn
   }
   routeUpdate(routeProps: object) {
+    if (this.state.taskTriggerInProgress) {
+      return
+    }
     const params = routeProps.match.params
     if (typeof params.list !== 'undefined') {
       if (typeof params.task !== 'undefined') {
@@ -38,6 +42,9 @@ class _tasksExpanded extends Events {
         this.state.task = params.task
         this.trigger('show', params.list, params.task)
       } else {
+        if (this.state.task === null) {
+          return
+        }
         this.state.list = params.list
         this.state.task = null
         this.trigger('hide', params.list)
@@ -48,12 +55,14 @@ class _tasksExpanded extends Events {
     if (this.state.list === list && this.state.task === task) {
       return
     }
+    this.state.taskTriggerInProgress = true
     this.state.list = list
     this.state.task = task
     this.state.position = position
     this.trigger('show', list, task)
 
     idleCallback(() => {
+      this.state.taskTriggerInProgress = false
       const url = `/${list}/${task}`
       this.go(url)
     })

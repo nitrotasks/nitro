@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Image, View, Text, StyleSheet } from 'react-native'
-import { Link } from '../link.jsx'
+import { Link } from '../reusable/link.jsx'
+import { UiService } from '../../services/uiService.js'
 
 import { vars } from '../../styles'
 import listIcon from '../../../assets/icons/feather/list.svg'
@@ -25,6 +26,13 @@ export class ListItem extends React.Component {
     count: PropTypes.number,
     onClick: PropTypes.func
   }
+  proxyOnClick = () => {
+    this.props.onClick()
+    this.hideMenu()
+  }
+  hideMenu = e => {
+    UiService.setCardPosition('map')
+  }
   render() {
     let icon = iconMap.get(this.props.id)
     if (typeof icon === 'undefined') {
@@ -44,9 +52,13 @@ export class ListItem extends React.Component {
       </View>
     )
     if (this.props.onClick) {
-      return <View onClick={this.props.onClick}>{inner}</View>
+      return <View onClick={this.proxyOnClick}>{inner}</View>
     } else {
-      return <Link to={`/${this.props.id}`}>{inner}</Link>
+      return (
+        <Link onClick={this.hideMenu} to={`/${this.props.id}`}>
+          {inner}
+        </Link>
+      )
     }
   }
 }
@@ -58,8 +70,8 @@ const iconPadding = (height - iconHeight) / 2
 const styles = StyleSheet.create({
   wrapper: {
     height: height,
-    paddingLeft: vars.padding / 2,
-    paddingRight: vars.padding / 2,
+    paddingLeft: vars.padding * 0.8125,
+    paddingRight: vars.padding * 1,
     marginBottom: vars.padding * 0.25,
     flex: 1,
     flexDirection: 'row'

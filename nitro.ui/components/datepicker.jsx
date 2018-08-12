@@ -47,6 +47,11 @@ export class Datepicker extends React.Component {
       visible: false
     })
   }
+  triggerOverlayHide = e => {
+    if (e.target === e.currentTarget) {
+      this.triggerHide()
+    }
+  }
   render() {
     // TODO: abstract this to translation library
     const pickerType = this.state.type
@@ -111,7 +116,11 @@ export class Datepicker extends React.Component {
     }
 
     return (
-      <View style={bodyStyle} pointerEvents={bodyPointerEvents}>
+      <View
+        style={bodyStyle}
+        pointerEvents={bodyPointerEvents}
+        onClick={this.triggerOverlayHide}
+      >
         <View style={styles.container}>
           <View style={styles.header}>
             <Text style={styles.headerText}>{titleText}</Text>

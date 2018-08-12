@@ -7,8 +7,10 @@ import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
 import { formatDate } from '../../helpers/date.js'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
+import { UiService } from '../../services/uiService.js'
 import { Checkbox } from './checkbox.jsx'
 import { TaskHeader } from './taskHeader.jsx'
+import { taskMenu } from './taskMenu.js'
 
 import todayIcon from '../../../assets/icons/feather/today.svg'
 import notesIcon from '../../../assets/icons/material/note.svg'
@@ -65,13 +67,10 @@ export class Task extends React.PureComponent {
     }
   }
   triggerClick = () => {
+    const scrollPos = UiService.getScroll()
     const rect = findNodeHandle(this.viewRef.current).getBoundingClientRect()
-    const y = rect.top + window.scrollY
-    TasksExpandedService.triggerTask(
-      this.props.listId,
-      this.props.dataId,
-      y
-    )
+    const y = rect.top + scrollPos
+    TasksExpandedService.triggerTask(this.props.listId, this.props.dataId, y)
   }
   // iOS has a funnny force press / 3d touch API
   // i.e it doesn't use pointer events
@@ -97,6 +96,12 @@ export class Task extends React.PureComponent {
   }
   triggerCheckbox = () => {
     NitroSdk.completeTask(this.props.dataId)
+  }
+  triggerContextMenu = e => {
+    e.preventDefault()
+    const x = e.nativeEvent.pageX
+    const y = e.nativeEvent.pageY - window.scrollY
+    taskMenu(this.props.dataId, true, x, y, 'top', 'left')
   }
   render() {
     const props = this.props
@@ -149,7 +154,7 @@ export class Task extends React.PureComponent {
           />
         )
       }
-      if (props.dataDeadline !== null) {
+      if (props.dataDeadline !== null && props.dataCompleted === null) {
         deadlineIndicator = (
           <Text style={styles.subText}>
             {formatDate(props.dataDeadline, props.dataType, 'deadline')}
@@ -187,7 +192,7 @@ export class Task extends React.PureComponent {
           ? [styles.wrapper, styles.wrapperPadding]
           : styles.wrapper
       innerItem = (
-        <View style={wrapperStyles}>
+        <View style={wrapperStyles} onContextMenu={this.triggerContextMenu}>
           <Checkbox
             onClick={this.triggerCheckbox}
             checked={props.dataCompleted !== null}
