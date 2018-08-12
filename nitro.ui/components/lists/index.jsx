@@ -7,7 +7,7 @@ import { vars } from '../../styles'
 import { ContextMenuService } from '../../services/contextMenuService.js'
 import { ListItem } from './listitem.jsx'
 import { LinkedScroll } from '../reusable/linkedScroll.jsx'
-import { ListHeader } from './listHeader.jsx'
+import { ListHeader } from './listheader.jsx'
 
 export class Lists extends React.Component {
   state = {
