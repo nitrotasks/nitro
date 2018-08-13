@@ -28,7 +28,7 @@ export class ScrollView extends React.Component {
     }
   }
   scrollViewTouchStart = e => {
-    iOS.triggerStart(e, 'top')
+    iOS.triggerStart(e)
   }
   render() {
     return (

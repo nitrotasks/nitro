@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     transitionTimingFunction: 'ease'
   },
   wrapperFloating: {
-    position: 'absolute',
+    position: 'fixed',
     touchAction: 'none',
     zIndex: 20
   },

@@ -14,13 +14,15 @@
   display: flex;
 }
 .root-map {
-  height: var(--real-height);
+  height: calc(var(--real-height) - var(--root-card-bar));
   position: absolute;
   z-index: 0;
   top: 0;
-  bottom: 0;
   left: 0;
   right: 0;
+}
+.hidden-view .root-map {
+  height: var(--real-height);
 }
 .root-card {
   height: var(--real-height);
