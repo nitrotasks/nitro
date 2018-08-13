@@ -8,10 +8,17 @@ import { Header } from './header.jsx'
 import { TasksInput } from './tasksInput.jsx'
 import { TasksList } from './tasksList.jsx'
 import { TaskExpanded } from './taskExpanded.jsx'
+import { ScrollView } from '../reusable/scrollView.jsx'
 import { Datepicker } from '../datepicker.jsx'
 
 export class Tasks extends React.Component {
+  constructor(props) {
+    super(props)
+    this.scrollView = React.createRef()
+    UiService.scrollView = this.scrollView
+  }
   componentDidMount() {
+    NitroSdk.bind('update', this.tasksUpdate)
     TasksExpandedService.setGo(this.props.history.push) // hack for now
   }
   componentWillUnmount() {
@@ -29,10 +36,12 @@ export class Tasks extends React.Component {
     const listId = this.props.match.params.list
     return (
       <View style={styles.wrapper}>
-        <Header listId={listId} onIntersect={this.triggerIntersection} />
-        <TasksInput listId={listId} />
-        <TasksList listId={listId} />
-        <TaskExpanded triggerBack={this.props.history.goBack} />
+        <ScrollView ref={this.scrollView}>
+          <Header listId={listId} onIntersect={this.triggerIntersection} />
+          <TasksInput listId={listId} />
+          <TasksList listId={listId} />
+          <TaskExpanded triggerBack={this.props.history.goBack} />
+        </ScrollView>
         <Datepicker pickerId="expanded" position="sheet" />
       </View>
     )

@@ -103,7 +103,7 @@ export class TaskExpanded extends React.Component {
         {
           hidden: false,
           overlayHidden: false,
-          overlayTop: window.scrollY - 100,
+          overlayTop: scrollLocation,
           lineNumber: lineNumber
         },
         () => {
@@ -122,11 +122,10 @@ export class TaskExpanded extends React.Component {
   triggerHide = () => {
     setTimeout(() => {
       requestAnimationFrame(() => {
-        document.body.style.overflowY = 'scroll'
+        document.body.style.overflowY = ''
       })
       this.setState({
-        overlayHidden: true,
-        overlayTop: window.scrollY
+        overlayHidden: true
       })
     }, 300)
     requestAnimationFrame(() => {

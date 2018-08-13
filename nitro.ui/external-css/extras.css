@@ -1,8 +1,8 @@
 body {
-  -ms-overflow-style: -ms-autohiding-scrollbar;
+  overflow-x: hidden;
+  overflow-y: hidden;
   --bottom-inset: env(safe-area-inset-bottom);
   --real-height: 100vh;
-  overflow-y: scroll;
 }
 input:disabled {
   opacity: 1;

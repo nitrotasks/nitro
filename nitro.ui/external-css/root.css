@@ -7,19 +7,22 @@
   --pad: 25px;
   --top-offset: 0px;
   --root-card-bar: 66px;
-  --sidebar-width: 300px;
 }
 
 .root-transition-group {
   height: 100%;
   display: flex;
 }
-.root-card {
-  position: fixed;
-  bottom: 2px;
+.root-map {
+  height: var(--real-height);
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  bottom: 0;
   left: 0;
-  width: 100%;
-
+  right: 0;
+}
+.root-card {
   height: var(--real-height);
   transition: var(--transition);
   will-change: transform;
@@ -50,7 +53,7 @@
   .default-view .root-map,
   .max-view .root-map {
     opacity: 0.4;
-    touch-action: none;
+    pointer-events: none;
   }
   .max-view .hide-maximized {
     opacity: 0;
@@ -128,7 +131,6 @@
   }
   .root-card-wrapper {
     height: 100%;
-    box-shadow: none;
   }
   .root-map {
     margin-left: var(--sidebar-width);
