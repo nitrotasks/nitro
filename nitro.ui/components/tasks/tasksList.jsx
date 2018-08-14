@@ -8,11 +8,11 @@ import {
   StyleSheet,
   findNodeHandle
 } from 'react-native'
-import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
+import { UiService } from '../../services/uiService.js'
 import { Task } from './task.jsx'
 
 import archiveIcon from '../../../assets/icons/material/archive.svg'
@@ -37,6 +37,7 @@ export class TasksList extends React.PureComponent {
       })
     }
 
+    UiService.state.currentListOrder = order
     return {
       previousId: props.listId,
       order: order,
@@ -50,8 +51,8 @@ export class TasksList extends React.PureComponent {
       ...this.constructor.generateState(props)
     }
     this.currentItemIndex = 0
-    this.tasksContainer = null
     this.archiveButton = React.createRef()
+    this.tasksContainer = React.createRef()
   }
   componentDidMount() {
     NitroSdk.bind('update', this.tasksUpdate)
@@ -75,7 +76,7 @@ export class TasksList extends React.PureComponent {
     )
     const archive = findNodeHandle(this.archiveButton.current)
     requestAnimationFrame(() => {
-      Array.from(this.tasksContainer.children)
+      Array.from(findNodeHandle(this.tasksContainer.current).children)
         .slice(this.currentItemIndex)
         .forEach((item, key) => {
           const pixels = key === 0 ? vars.padding * 2 : height
@@ -88,7 +89,7 @@ export class TasksList extends React.PureComponent {
   }
   triggerHide = () => {
     requestAnimationFrame(() => {
-      Array.from(this.tasksContainer.children)
+      Array.from(findNodeHandle(this.tasksContainer.current).children)
         // this breaks things, and who cares if a bit of performance suffers as a result
         // .slice(this.currentItemIndex)
         .forEach(item => {
@@ -99,19 +100,6 @@ export class TasksList extends React.PureComponent {
         archive.style.transform = ''
       }
     })
-  }
-  triggerDragEnd = result => {
-    if (!result.destination) {
-      return
-    }
-    if (result.source.index === result.destination.index) {
-      return
-    }
-
-    const order = this.state.order.slice()
-    order.splice(result.source.index, 1)
-    order.splice(result.destination.index, 0, result.draggableId)
-    NitroSdk.updateOrder(this.props.listId, order)
   }
   triggerArchive = () => {
     NitroSdk.archiveCompletedList(this.props.listId)
@@ -164,68 +152,48 @@ export class TasksList extends React.PureComponent {
       )
     }
 
+    let currentHeading = ''
+    let headerCollapsed = false
+
     return (
-      <View style={styles.wrapper}>
-        <DragDropContext onDragEnd={this.triggerDragEnd}>
-          <Droppable droppableId="tasksList" isDropDisabled={orderNotAllowed}>
-            {provided => {
-              let currentHeading = ''
-              let headerCollapsed = false
-              return (
-                <div
-                  ref={e => {
-                    provided.innerRef(e)
-                    this.tasksContainer = e
-                  }}
-                >
-                  {this.state.order.map((taskId, index) => {
-                    const task = this.state.tasks.get(taskId)
-                    // if taskid matches ocorrect one get position in dom, pass to overlay etc etc
-                    // const selected = taskId === this.props.match.params.task
-                    const selected = false
-                    const selectedHeight = selected
-                      ? this.state.currentTaskHeight
-                      : 0
-                    if (task.type === 'header') {
-                      currentHeading = task.id
-                      headerCollapsed = false
-                    } else if (task.type === 'header-collapsed') {
-                      headerCollapsed = true
-                    } else if (
-                      task.type === 'archived' ||
-                      headerCollapsed === true
-                    ) {
-                      return <View key={task.id} />
-                    }
-                    return (
-                      <Task
-                        key={task.id}
-                        listId={this.props.listId}
-                        dataId={task.id}
-                        dataName={task.name}
-                        dataType={task.type}
-                        dataHeading={task.heading}
-                        dataNotes={task.notes}
-                        dataDate={task.date}
-                        dataDeadline={task.deadline}
-                        dataList={task.list}
-                        dataCompleted={task.completed}
-                        index={index}
-                        selected={selected}
-                        selectedHeight={selectedHeight}
-                        selectedCallback={this.triggerSelected}
-                        headersAllowed={headersAllowed}
-                        currentHeading={currentHeading}
-                        dragDisabled={orderNotAllowed}
-                      />
-                    )
-                  })}
-                  {provided.placeholder}
-                </div>
-              )
-            }}
-          </Droppable>
-        </DragDropContext>
+      <View ref={this.tasksContainer} style={styles.wrapper}>
+        {this.state.order.map((taskId, index) => {
+          const task = this.state.tasks.get(taskId)
+          // if taskid matches ocorrect one get position in dom, pass to overlay etc etc
+          // const selected = taskId === this.props.match.params.task
+          const selected = false
+          const selectedHeight = selected ? this.state.currentTaskHeight : 0
+          if (task.type === 'header') {
+            currentHeading = task.id
+            headerCollapsed = false
+          } else if (task.type === 'header-collapsed') {
+            headerCollapsed = true
+          } else if (task.type === 'archived' || headerCollapsed === true) {
+            return <View key={task.id} />
+          }
+          return (
+            <Task
+              key={task.id}
+              listId={this.props.listId}
+              dataId={task.id}
+              dataName={task.name}
+              dataType={task.type}
+              dataHeading={task.heading}
+              dataNotes={task.notes}
+              dataDate={task.date}
+              dataDeadline={task.deadline}
+              dataList={task.list}
+              dataCompleted={task.completed}
+              index={index}
+              selected={selected}
+              selectedHeight={selectedHeight}
+              selectedCallback={this.triggerSelected}
+              headersAllowed={headersAllowed}
+              currentHeading={currentHeading}
+              dragDisabled={orderNotAllowed}
+            />
+          )
+        })}
         {archiveButton}
       </View>
     )

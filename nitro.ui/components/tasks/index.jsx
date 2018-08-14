@@ -4,18 +4,16 @@ import { View, StyleSheet } from 'react-native'
 import { NitroSdk } from '../../../nitro.sdk'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 import { UiService } from '../../services/uiService.js'
+import { DroppableScrollableWrapper } from './droppableScrollableWrapper.jsx'
 import { Header } from './header.jsx'
 import { TasksInput } from './tasksInput.jsx'
 import { TasksList } from './tasksList.jsx'
 import { TaskExpanded } from './taskExpanded.jsx'
-import { ScrollView } from '../reusable/scrollView.jsx'
 import { Datepicker } from '../datepicker.jsx'
 
 export class Tasks extends React.Component {
   constructor(props) {
     super(props)
-    this.scrollView = React.createRef()
-    UiService.scrollView = this.scrollView
   }
   componentDidMount() {
     NitroSdk.bind('update', this.tasksUpdate)
@@ -34,14 +32,17 @@ export class Tasks extends React.Component {
 
   render() {
     const listId = this.props.match.params.list
+
+    // used for the drag and drop
+    UiService.state.currentList = listId
     return (
       <View style={styles.wrapper}>
-        <ScrollView ref={this.scrollView}>
+        <DroppableScrollableWrapper>
           <Header listId={listId} onIntersect={this.triggerIntersection} />
           <TasksInput listId={listId} />
           <TasksList listId={listId} />
           <TaskExpanded triggerBack={this.props.history.goBack} />
-        </ScrollView>
+        </DroppableScrollableWrapper>
         <Datepicker pickerId="expanded" position="sheet" />
       </View>
     )
