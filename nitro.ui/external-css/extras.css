@@ -25,3 +25,8 @@ input:disabled {
 .pseudo-shadow.visible::after {
   opacity: 1;
 }
+@media (min-width: 851px) {
+  .desktop-invisible {
+    visibility: hidden;
+  }
+}

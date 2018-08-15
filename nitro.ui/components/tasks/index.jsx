@@ -1,7 +1,6 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 
-import { NitroSdk } from '../../../nitro.sdk'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 import { UiService } from '../../services/uiService.js'
 import { DroppableScrollableWrapper } from './droppableScrollableWrapper.jsx'
@@ -12,15 +11,8 @@ import { TaskExpanded } from './taskExpanded.jsx'
 import { Datepicker } from '../datepicker.jsx'
 
 export class Tasks extends React.Component {
-  constructor(props) {
-    super(props)
-  }
   componentDidMount() {
-    NitroSdk.bind('update', this.tasksUpdate)
     TasksExpandedService.setGo(this.props.history.push) // hack for now
-  }
-  componentWillUnmount() {
-    NitroSdk.unbind('update', this.tasksUpdate)
   }
   triggerIntersection = e => {
     const newPos = !e[0].isIntersecting

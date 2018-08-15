@@ -7,6 +7,7 @@
   --pad: 25px;
   --top-offset: 0px;
   --root-card-bar: 66px;
+  --sidebar-width: 300px;
 }
 
 .root-transition-group {
@@ -128,13 +129,21 @@
   .root-card-content {
     padding: 0;
   }
+  .root-card-wrapper {
+    border-radius: 0;
+    box-shadow: none;
+    height: 100%;
+  }
   .root-card-padding-button {
     display: none;
   }
-  .root-card-wrapper {
-    height: 100%;
+  .root-container {
+    display: flex;
+    flex-direction: row-reverse;
   }
   .root-map {
-    margin-left: var(--sidebar-width);
+    position: relative;
+    flex: 1;
+    height: calc(var(--real-height));
   }
 }

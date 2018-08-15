@@ -59,7 +59,11 @@ export class ListHeader extends React.Component {
         className={this.props.className || ''}
       >
         <View style={styles.flexWrapper}>
-          <View style={styles.pillWrapper} onClick={this.triggerMax}>
+          <View
+            style={styles.pillWrapper}
+            onClick={this.triggerMax}
+            className="desktop-invisible"
+          >
             <View style={styles.pill} />
           </View>
           <View style={styles.bottomWrapper}>
