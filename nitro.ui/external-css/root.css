@@ -14,12 +14,18 @@
   height: 100%;
   display: flex;
 }
-.root-card {
-  position: fixed;
-  bottom: 2px;
+.root-map {
+  height: calc(var(--real-height) - var(--root-card-bar));
+  position: absolute;
+  z-index: 0;
+  top: 0;
   left: 0;
-  width: 100%;
-
+  right: 0;
+}
+.hidden-view .root-map {
+  height: var(--real-height);
+}
+.root-card {
   height: var(--real-height);
   transition: var(--transition);
   will-change: transform;
@@ -50,7 +56,7 @@
   .default-view .root-map,
   .max-view .root-map {
     opacity: 0.4;
-    touch-action: none;
+    pointer-events: none;
   }
   .max-view .hide-maximized {
     opacity: 0;
@@ -123,14 +129,21 @@
   .root-card-content {
     padding: 0;
   }
+  .root-card-wrapper {
+    border-radius: 0;
+    box-shadow: none;
+    height: 100%;
+  }
   .root-card-padding-button {
     display: none;
   }
-  .root-card-wrapper {
-    height: 100%;
-    box-shadow: none;
+  .root-container {
+    display: flex;
+    flex-direction: row-reverse;
   }
   .root-map {
-    margin-left: var(--sidebar-width);
+    position: relative;
+    flex: 1;
+    height: calc(var(--real-height));
   }
 }

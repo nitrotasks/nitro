@@ -1,5 +1,5 @@
+// @flow
 import { Events } from '../../nitro.sdk'
-import { iOS } from '../helpers/ios.js'
 
 class uiService extends Events {
   constructor(props) {
@@ -16,17 +16,36 @@ class uiService extends Events {
     listIntersection: false,
 
     // used for proper touch rejection
-    headerEvent: null
+    headerEvent: null,
+
+    // used for drag and drop
+    // please don't mutate unless you know what you're doing
+    currentList: null,
+    currentListOrder: []
   }
 
-  getScroll() {
-    return window.scrollY
+  scrollView = null
+
+  getScroll(): number {
+    if (this.scrollView === null) {
+      return 0
+    }
+    return this.scrollView.current.scrollTop
   }
-  scrollTo(scrollObject) {
-    window.scrollTo(scrollObject)
+  scrollTo(scrollObject: object): number {
+    if (this.scrollView === null) {
+      return
+    }
+    scrollObject.y = scrollObject.top
+    scrollObject.x = scrollObject.left
+    this.scrollView.current.scrollTo(scrollObject)
   }
 
-  setCardPosition(position, animate = true, manual = false) {
+  setCardPosition(
+    position: object,
+    animate: boolean = true,
+    manual: boolean = false
+  ) {
     // don't need to do anything if it's already in the right position
     if (this.state.cardPosition === position) {
       return

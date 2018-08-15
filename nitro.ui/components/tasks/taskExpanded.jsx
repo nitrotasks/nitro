@@ -91,7 +91,8 @@ export class TaskExpanded extends React.Component {
       lineNumber: 3
     })
     requestAnimationFrame(() => {
-      document.body.style.overflowY = 'hidden'
+      // TODO: This is a shit solution, need something better, especially on iOS
+      // UiService.scrollView.current.style.overflowY = 'hidden'
       const scrollLocation = TasksExpandedService.state.position - 96
       const lineNumber = Math.min(
         getMaxLines(),
@@ -103,7 +104,7 @@ export class TaskExpanded extends React.Component {
         {
           hidden: false,
           overlayHidden: false,
-          overlayTop: window.scrollY - 100,
+          overlayTop: scrollLocation,
           lineNumber: lineNumber
         },
         () => {
@@ -122,11 +123,11 @@ export class TaskExpanded extends React.Component {
   triggerHide = () => {
     setTimeout(() => {
       requestAnimationFrame(() => {
-        document.body.style.overflowY = 'scroll'
+        // TODO: This is a shit solution, need something better, especially on iOS
+        // UiService.scrollView.current.style.overflowY = 'auto'
       })
       this.setState({
-        overlayHidden: true,
-        overlayTop: window.scrollY
+        overlayHidden: true
       })
     }, 300)
     requestAnimationFrame(() => {

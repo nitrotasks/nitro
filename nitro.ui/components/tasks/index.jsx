@@ -1,9 +1,9 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 
-import { NitroSdk } from '../../../nitro.sdk'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 import { UiService } from '../../services/uiService.js'
+import { DroppableScrollableWrapper } from './droppableScrollableWrapper.jsx'
 import { Header } from './header.jsx'
 import { TasksInput } from './tasksInput.jsx'
 import { TasksList } from './tasksList.jsx'
@@ -13,9 +13,6 @@ import { Datepicker } from '../datepicker.jsx'
 export class Tasks extends React.Component {
   componentDidMount() {
     TasksExpandedService.setGo(this.props.history.push) // hack for now
-  }
-  componentWillUnmount() {
-    NitroSdk.unbind('update', this.tasksUpdate)
   }
   triggerIntersection = e => {
     const newPos = !e[0].isIntersecting
@@ -27,12 +24,17 @@ export class Tasks extends React.Component {
 
   render() {
     const listId = this.props.match.params.list
+
+    // used for the drag and drop
+    UiService.state.currentList = listId
     return (
       <View style={styles.wrapper}>
-        <Header listId={listId} onIntersect={this.triggerIntersection} />
-        <TasksInput listId={listId} />
-        <TasksList listId={listId} />
-        <TaskExpanded triggerBack={this.props.history.goBack} />
+        <DroppableScrollableWrapper>
+          <Header listId={listId} onIntersect={this.triggerIntersection} />
+          <TasksInput listId={listId} />
+          <TasksList listId={listId} />
+          <TaskExpanded triggerBack={this.props.history.goBack} />
+        </DroppableScrollableWrapper>
         <Datepicker pickerId="expanded" position="sheet" />
       </View>
     )
