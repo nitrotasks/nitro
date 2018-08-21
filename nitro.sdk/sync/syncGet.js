@@ -15,8 +15,10 @@ export default class SyncGet extends Events {
     return new Promise((resolve, reject) => {
       fetch(`${config.endpoint}/lists`, {
         headers: authenticationStore.authHeader(true)
-      }).then(checkStatus).then((response) => {
-        response.json().then((data) => {
+      })
+        .then(checkStatus)
+        .then(response => response.json())
+        .then(data => {
           // allows for faster association for big arrays
           // by creating a hash table
           const mapper = {}
@@ -41,9 +43,9 @@ export default class SyncGet extends Events {
               // their system list *should* be the first list,
               // but if it's not, we always want to prioritize it
               if (item.name.slice(0,9) === 'nitrosys-') {
-                gets.unshift(item.id)
+                gets.unshift(item)
               } else {
-                gets.push(item.id)
+                gets.push(item)
               }
             }
           })
@@ -55,45 +57,50 @@ export default class SyncGet extends Events {
             updates: patches,
             localdelete: deletes
           })
+        }).catch((err) => {
+          reject(err)
         })
-      }).catch((err) => {
-        reject(err)
-      })
     })
   }
-  downloadFullLists(serverIdArray) {
+  downloadFullLists(serverListArray) {
+    // we create all the new lists as blank - maybe we should show loading
+    // so it looks faster when you first log into nitro
+    const listMap = serverListArray.map(listData => {
+      listData.lastSync = listData.updatedAt
+      listData.serverId = listData.id
+      return this.lists.add(listData, false)
+    })
+
     const downloadList = (done) => {
-      const serverId = serverIdArray[0]
-      fetch(`${config.endpoint}/lists/${serverId}/tasks`, {
+      const currentList = listMap[0]
+      fetch(`${config.endpoint}/lists/${currentList.serverId}/tasks`, {
         headers: authenticationStore.authHeader(true)
-      }).then(checkStatus).then((response) => {
-        response.json().then((data) => {
-          // creates a new list with no sync
-          data.lastSync = data.updatedAt
-          data.serverId = data.id
-          const newList = this.lists.add(data, false)
+      })
+        .then(checkStatus)
+        .then(response => response.json())
+        .then(data => {
 
           // add the task data in
-          this.tasks.addListFromServer(data.tasks, newList.id)
+          this.tasks.addListFromServer(data.tasks, currentList.id)
 
           // update the local order
-          const localOrder = this.tasks.mapToLocal(newList.order)
-          this.lists.update(newList.serverId, {localOrder: localOrder}, false)
+          const localOrder = this.tasks.mapToLocal(currentList.order)
+          this.lists.update(currentList.serverId, {localOrder: localOrder}, false)
 
           // goes to next list, or resolves
-          serverIdArray.splice(0,1)
-          if (serverIdArray.length > 0) {
+          listMap.splice(0,1)
+          if (listMap.length > 0) {
             downloadList(done)
           } else {
             done()
           }
+        }).catch(err => {
+          console.error(err)
         })
-      }).catch((err) => {
-        console.error(err)
-      })
     }
     return new Promise((resolve, reject) => {
-      if (serverIdArray.length === 0) {
+      // TODO: maybe we can do this all async at the same time? don't really want to risk it
+      if (listMap.length === 0) {
         resolve()
       } else {
         downloadList(resolve)

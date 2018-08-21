@@ -220,6 +220,9 @@ export class sdk extends Events {
   signOut = () => {
     return authenticationStore.signOut()
   }
+  createAccount = (username: string, password: string) => {
+    return authenticationStore.createAccount(username, password)
+  }
   downloadData = () => {
     // the other tab will download data, and it's just passed through
     if (!broadcast.isMaster()) return
@@ -490,14 +493,12 @@ export class sdk extends Events {
     return list
   }
   getLists(): Array<Object> {
-    const lists = []
-    ListsCollection.all().forEach(list => {
-      list = list.toObject()
+    return ListsCollection.order.map(list => {
+      list = ListsCollection.find(list).toObject()
       list.name = ListsCollection.escape(list.name)
       list.count = TasksCollection.findListCount(list.id)
-      lists.push(list)
+      return list
     })
-    return lists
   }
   updateList(listId: string, props: Object, serverId: ?boolean) {
     const list = ListsCollection.find(listId, serverId)
