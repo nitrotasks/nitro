@@ -117,6 +117,7 @@ export class Datepicker extends React.Component {
 
     return (
       <View
+        className="desktop-datepicker"
         style={bodyStyle}
         pointerEvents={bodyPointerEvents}
         onClick={this.triggerOverlayHide}

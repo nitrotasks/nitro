@@ -195,6 +195,7 @@ export class tasks extends Events {
     return this.findList(list).filter(task => {
       return (
         task.type !== 'header' &&
+        task.type !== 'header-collapsed' &&
         task.type !== 'archived' &&
         task.completed === null
       )
