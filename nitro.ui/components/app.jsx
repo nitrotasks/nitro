@@ -29,17 +29,22 @@ class App extends React.Component {
     }, 350) // should be ample time for the animation
   }
   triggerDragEnd = result => {
+    console.log(result)
     if (!result.destination) {
       return
     }
-    if (result.source.index === result.destination.index) {
-      return
-    }
+    // currently not supported moving tasks to different lists 
+    if (result.source.droppableId === 'tasksDroppable' && result.destination.droppableId === 'tasksDroppable') {
+      if (result.source.index === result.destination.index) {
+        return
+      }
 
-    const order = UiService.state.currentListOrder.slice()
-    order.splice(result.source.index, 1)
-    order.splice(result.destination.index, 0, result.draggableId)
-    NitroSdk.updateOrder(UiService.state.currentList, order)
+      const order = UiService.state.currentListOrder.slice()
+      order.splice(result.source.index, 1)
+      order.splice(result.destination.index, 0, result.draggableId)
+      NitroSdk.updateOrder(UiService.state.currentList, order)
+      
+    }
   }
   render() {
     if (!this.state.signedIn) {

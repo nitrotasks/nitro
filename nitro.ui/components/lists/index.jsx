@@ -6,7 +6,7 @@ import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles'
 import { ContextMenuService } from '../../services/contextMenuService.js'
 import { ListItem } from './listitem.jsx'
-import { LinkedScroll } from '../reusable/linkedScroll.jsx'
+import { DroppableScrollableWrapper } from '../reusable/droppableScrollableWrapper.jsx'
 import { ListHeader } from './listheader.jsx'
 
 export class Lists extends React.Component {
@@ -41,8 +41,8 @@ export class Lists extends React.Component {
   render() {
     return (
       <View style={styles.wrapper}>
-        <ListHeader title="Today" />
-        <LinkedScroll>
+        <ListHeader />
+        <DroppableScrollableWrapper id="listsDroppable" linked={true}>
           <View style={styles.listWrapper}>
             {this.state.lists.map(list => {
               return (
@@ -62,7 +62,7 @@ export class Lists extends React.Component {
             />
             <ListItem key="logs" id="logs" name="System Logs" />
           </View>
-        </LinkedScroll>
+        </DroppableScrollableWrapper>
       </View>
     )
   }

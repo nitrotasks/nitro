@@ -21,6 +21,7 @@
   top: 0;
   left: 0;
   right: 0;
+  overflow: hidden;
 }
 .hidden-view .root-map {
   height: var(--real-height);
@@ -29,6 +30,8 @@
   height: var(--real-height);
   transition: var(--transition);
   will-change: transform;
+  position: relative;
+  z-index: 2;
 }
 .delay-transition .root-card {
   transition: 150ms ease-out transform;
@@ -125,6 +128,7 @@
 @media (min-width: 851px) {
   .root-card {
     width: var(--sidebar-width);
+    z-index: 0;
   }
   .root-card-content {
     padding: 0;

@@ -17,8 +17,6 @@ import { TouchableOpacity } from '../reusable/touchableOpacity.jsx'
 export class ListHeader extends React.Component {
   static propTypes = {
     className: PropTypes.string,
-    title: PropTypes.string,
-    subtitle: PropTypes.string,
     backFn: PropTypes.func,
     actionFn: PropTypes.func,
     hideClose: PropTypes.bool

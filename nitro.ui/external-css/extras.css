@@ -33,4 +33,7 @@ input:disabled {
     width: calc(100% - var(--sidebar-width));
     left: var(--sidebar-width);
   }
+  .desktop-allow-touch {
+    touch-action: manipulation;
+  }
 }
