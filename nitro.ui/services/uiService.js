@@ -1,6 +1,9 @@
 // @flow
 import { Events } from '../../nitro.sdk'
 
+// TODO: This needs to update on resize
+const defaultPosition = window.innerWidth > 850 ? 'max' : 'map'
+
 class uiService extends Events {
   constructor(props) {
     super(props)
@@ -9,8 +12,8 @@ class uiService extends Events {
     scrollPosition: 0,
 
     // root card positions
-    oldCardPosition: 'map',
-    cardPosition: 'map',
+    oldCardPosition: defaultPosition,
+    cardPosition: defaultPosition,
 
     // the scrollspy on list of tasks
     listIntersection: false,

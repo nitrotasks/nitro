@@ -56,7 +56,11 @@ export class ListItem extends React.Component {
       <Draggable
         draggableId={'lists-' + this.props.id}
         index={this.props.index}
-        isDragDisabled={UiService.state.cardPosition !== 'max'}
+        isDragDisabled={
+          // TODO: fix this dumb hack
+          isNaN(parseInt(this.props.id)) ||
+          UiService.state.cardPosition !== 'max'
+        }
         type="listsDroppable"
       >
         {(provided, snapshot) => {
@@ -138,7 +142,7 @@ const getItemStyle = (isDragging, draggableStyle) => {
     // borderRadius: isDragging ? 3 : 0,
 
     // // change background colour if dragging
-    // background: isDragging ? vars.dragColor : '',
+    background: isDragging ? vars.dragColor : '',
 
     // styles we need to apply on draggables
     ...draggableStyle

@@ -48,7 +48,7 @@ class App extends React.Component {
         0,
         result.draggableId.split('tasks-')[1]
       )
-      NitroSdk.updateOrder(UiService.state.currentList, order)
+      NitroSdk.updateTasksOrder(UiService.state.currentList, order)
     } else if (
       result.source.droppableId === 'listsDroppable' &&
       result.destination.droppableId === 'listsDroppable'
@@ -60,7 +60,7 @@ class App extends React.Component {
         0,
         result.draggableId.split('lists-')[1]
       )
-      console.log('new lists order', order)
+      NitroSdk.updateListsOrder(order)
     }
   }
   render() {

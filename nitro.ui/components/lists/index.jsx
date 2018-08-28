@@ -15,9 +15,11 @@ export class Lists extends React.Component {
   }
   componentWillMount() {
     NitroSdk.bind('update', this.update)
+    NitroSdk.bind('lists-order', this.update)
   }
   componentWillUnmount() {
     NitroSdk.unbind('update', this.update)
+    NitroSdk.unbind('lists-order', this.update)
   }
   update = () => {
     // we listen to all updates, so the counts also get updated
