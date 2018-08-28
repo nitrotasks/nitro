@@ -17,11 +17,13 @@ class uiService extends Events {
 
     // used for proper touch rejection
     headerEvent: null,
+    listsIsDragging: false,
 
     // used for drag and drop
     // please don't mutate unless you know what you're doing
     currentList: null,
-    currentListOrder: []
+    currentListsOrder: [],
+    currentListTasksOrder: []
   }
 
   scrollView = null

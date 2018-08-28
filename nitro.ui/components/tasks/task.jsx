@@ -218,7 +218,7 @@ export class Task extends React.PureComponent {
 
     return (
       <Draggable
-        draggableId={props.dataId}
+        draggableId={'tasks-' + props.dataId}
         index={props.index}
         isDragDisabled={props.dragDisabled}
       >

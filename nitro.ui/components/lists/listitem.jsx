@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Image, View, Text, StyleSheet } from 'react-native'
 import { Link } from '../reusable/link.jsx'
 import { UiService } from '../../services/uiService.js'
+import { Draggable } from 'react-beautiful-dnd'
 
 import { vars } from '../../styles'
 import listIcon from '../../../assets/icons/feather/list.svg'
@@ -51,15 +52,37 @@ export class ListItem extends React.Component {
         </View>
       </View>
     )
-    if (this.props.onClick) {
-      return <View onClick={this.proxyOnClick}>{inner}</View>
-    } else {
-      return (
-        <Link onClick={this.hideMenu} to={`/${this.props.id}`}>
-          {inner}
-        </Link>
-      )
-    }
+    return (
+      <Draggable
+        draggableId={'lists-' + this.props.id}
+        index={this.props.index}
+        isDragDisabled={UiService.state.cardPosition !== 'max'}
+        type="listsDroppable"
+      >
+        {(provided, snapshot) => {
+          const draggableWrapper = (
+            <div
+              ref={provided.innerRef}
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              style={getItemStyle(
+                snapshot.isDragging,
+                provided.draggableProps.style
+              )}
+            >
+              {inner}
+            </div>
+          )
+          return this.props.onClick ? (
+            <View onClick={this.proxyOnClick}>{draggableWrapper}</View>
+          ) : (
+            <Link onClick={this.hideMenu} to={`/${this.props.id}`}>
+              {draggableWrapper}
+            </Link>
+          )
+        }}
+      </Draggable>
+    )
   }
 }
 
@@ -72,7 +95,7 @@ const styles = StyleSheet.create({
     height: height,
     paddingLeft: vars.padding * 0.8125,
     paddingRight: vars.padding * 1,
-    marginBottom: vars.padding * 0.25,
+    paddingBottom: vars.padding * 0.25,
     flex: 1,
     flexDirection: 'row'
   },
@@ -107,3 +130,18 @@ const styles = StyleSheet.create({
     color: vars.navTextColorMuted
   }
 })
+
+const getItemStyle = (isDragging, draggableStyle) => {
+  const style = {
+    // some basic styles to make the items look a bit nicer
+    userSelect: 'none',
+    // borderRadius: isDragging ? 3 : 0,
+
+    // // change background colour if dragging
+    // background: isDragging ? vars.dragColor : '',
+
+    // styles we need to apply on draggables
+    ...draggableStyle
+  }
+  return style
+}

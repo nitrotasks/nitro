@@ -62,9 +62,13 @@ export class DroppableScrollableWrapper extends React.Component {
     }
   }
   triggerIntersect = e => {
+    // this is a bit laggy on the desktop. maybe we might need to do some optimzations in prod
+    // really regreting propTypes
     const isIntersecting = e[0].isIntersecting
     if (isIntersecting !== this.state.cancelScroll) {
-      this.setState({ cancelScroll: isIntersecting })
+      requestAnimationFrame(() => {
+        this.setState({ cancelScroll: isIntersecting })
+      })
     }
     UiService.state.scrollPosition = isIntersecting ? 0 : 1
   }
@@ -82,11 +86,16 @@ export class DroppableScrollableWrapper extends React.Component {
             : 'manipulation'
           : 'none'
         : 'manipulation'
+
     return (
-      <Droppable droppableId={this.props.id}>
-        {provided => {
+      <Droppable droppableId={this.props.id} type={this.props.id}>
+        {(provided, snapshot) => {
+          if (this.props.id === 'listsDroppable') {
+            UiService.state.listsIsDragging = snapshot.isDraggingOver
+          }
           return (
             <div
+              className="desktop-allow-touch"
               ref={this.scrollView}
               style={{
                 height: '100%',
