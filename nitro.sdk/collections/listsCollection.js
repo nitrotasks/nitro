@@ -101,7 +101,8 @@ export class lists extends Events {
       'inbox',
       new List({
         id: 'inbox',
-        name: 'nitrosys-inbox'
+        name: 'nitrosys-inbox',
+        virtual: false
       })
     )
     this.order.push('inbox')
@@ -109,7 +110,8 @@ export class lists extends Events {
       'today',
       new List({
         id: 'today',
-        name: 'Today'
+        name: 'Today',
+        virtual: true
       })
     )
     this.order.push('today')
@@ -117,7 +119,8 @@ export class lists extends Events {
       'next',
       new List({
         id: 'next',
-        name: 'Next'
+        name: 'Next',
+        virtual: true
       })
     )
     this.order.push('next')
@@ -125,7 +128,8 @@ export class lists extends Events {
       'all',
       new List({
         id: 'all',
-        name: 'Everything'
+        name: 'Everything',
+        virtual: true
       })
     )
     this.order.push('all')

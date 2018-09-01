@@ -3,8 +3,20 @@ import Events from '../events.js'
 import { log, warn, error } from '../helpers/logger.js'
 import { promiseSerial } from '../helpers/promise.js'
 
-import { postItem, patchItem, deleteItem, deleteItems, archiveItem } from './syncQueueMethods.js'
-import { postQueue, patchQueue, deleteQueue, archiveQueue } from './syncQueueAdders.js'
+import {
+  postItem,
+  patchItem,
+  deleteItem,
+  deleteItems,
+  archiveItem
+} from './syncQueueMethods.js'
+import {
+  postQueue,
+  patchQueue,
+  deleteQueue,
+  archiveQueue,
+  metaQueue
+} from './syncQueueAdders.js'
 
 import { ListsCollection } from '../collections/listsCollection.js'
 import { TasksCollection } from '../collections/tasksCollection.js'
@@ -28,7 +40,7 @@ export default class Sync extends Events {
       archive: []
     }
     this.queueLock = []
-    
+
     this.syncLock = false
     this.identifier = props.identifier
     this.endpoint = props.endpoint
@@ -68,22 +80,25 @@ export default class Sync extends Events {
   }
   doOperation(fn, queue, cb) {
     if (queue.length > 0) {
-      fn(queue[0],
+      fn(
+        queue[0],
         this.endpoint,
         this.model,
         this.parentModel,
         this.arrayParam,
         this.serverParams,
         this.identifier
-      ).then(() => {
-        queue.splice(0, 1)
-        this.saveQueue()
-        this.model.saveLocal()
-        // runs recursively
-        this.doOperation(fn, queue, cb)
-      }).catch((err) => {
-        cb(err)
-      })
+      )
+        .then(() => {
+          queue.splice(0, 1)
+          this.saveQueue()
+          this.model.saveLocal()
+          // runs recursively
+          this.doOperation(fn, queue, cb)
+        })
+        .catch(err => {
+          cb(err)
+        })
     } else {
       this.model.trigger('update')
       cb()
@@ -94,9 +109,13 @@ export default class Sync extends Events {
       return new Promise((resolve, reject) => {
         if (verb === 'post') {
           if (this.queue.post.length === 0) return resolve()
-          this.doOperation(postItem, this.queue.post, (err) => {
+          this.doOperation(postItem, this.queue.post, err => {
             if (err) {
-              error(this.identifier, 'Error! Skipping POST Operation for Now.', err)
+              error(
+                this.identifier,
+                'Error! Skipping POST Operation for Now.',
+                err
+              )
               resolve()
               return
             }
@@ -105,7 +124,7 @@ export default class Sync extends Events {
           })
         } else if (verb === 'patch') {
           if (this.queue.patch.length === 0) return resolve()
-          this.doOperation(patchItem, this.queue.patch, (err) => {
+          this.doOperation(patchItem, this.queue.patch, err => {
             if (err) return reject(err)
             log(this.identifier, 'Finished PATCHING')
             resolve()
@@ -113,45 +132,62 @@ export default class Sync extends Events {
         } else if (verb === 'delete') {
           if (this.queue.delete.length === 0) return resolve()
           if (this.queue.delete[0].length === 2) {
-            deleteItems(this.queue.delete, this.endpoint, this.model, this.parentModel, this.arrayParam).then(() => {
-              this.queue.delete = []
-              this.saveQueue()
-              this.model.trigger('update')
-              log(this.identifier, 'Finished DELETING')
-              resolve()
-            }).catch(err => {
-              if (err.status === 404) {
-                err.response.items.forEach((item) => {
-                  this.queue.delete.splice(this.queue.delete.findIndex(findQueueIndex(item)), 1)
-                })
+            deleteItems(
+              this.queue.delete,
+              this.endpoint,
+              this.model,
+              this.parentModel,
+              this.arrayParam
+            )
+              .then(() => {
+                this.queue.delete = []
                 this.saveQueue()
-                log(this.identifier, 'Skipped a couple of deletions.')
+                this.model.trigger('update')
+                log(this.identifier, 'Finished DELETING')
                 resolve()
-              } else {
-                reject(err)
-              }
-            })
+              })
+              .catch(err => {
+                if (err.status === 404) {
+                  err.response.items.forEach(item => {
+                    this.queue.delete.splice(
+                      this.queue.delete.findIndex(findQueueIndex(item)),
+                      1
+                    )
+                  })
+                  this.saveQueue()
+                  log(this.identifier, 'Skipped a couple of deletions.')
+                  resolve()
+                } else {
+                  reject(err)
+                }
+              })
           } else {
-            const callback = (err) => {
+            const callback = err => {
               if (err) {
                 if (err.status === 404) {
-                  err.response.items.forEach((item) => {
-                    this.queue.delete[0][2].splice(this.queue.delete[0][2].findIndex(function(element) {
-                      return element[1] === item
-                    }), 1)
+                  err.response.items.forEach(item => {
+                    this.queue.delete[0][2].splice(
+                      this.queue.delete[0][2].findIndex(function(element) {
+                        return element[1] === item
+                      }),
+                      1
+                    )
                   })
                   if (this.queue.delete[0][2].length === 0) {
                     this.queue.delete.splice(0, 1)
                   }
-                  
-                  log(this.identifier, 'Skipped a couple of deletions... going for retry.')
+
+                  log(
+                    this.identifier,
+                    'Skipped a couple of deletions... going for retry.'
+                  )
                   this.doOperation(deleteItem, this.queue.delete, callback)
                 } else {
                   warn(err)
                   reject()
                 }
                 return
-              } 
+              }
               log(this.identifier, 'Finished DELETING')
               resolve()
             }
@@ -160,23 +196,33 @@ export default class Sync extends Events {
         } else if (verb === 'archive') {
           if (this.queue.archive.length === 0) return resolve()
           const funcs = this.queue.archive.map(item => () => {
-            return archiveItem(item, this.endpoint, this.model, this.parentModel).then(() => {
+            return archiveItem(
+              item,
+              this.endpoint,
+              this.model,
+              this.parentModel
+            ).then(() => {
               // removes local archive of that particular list
               del('archive-' + item[0])
               this.queue.archive.splice(0, 1)
               this.saveQueue()
-              // remove the item 
+              // remove the item
               const localTasks = this.model.mapToLocal(item[1])
               this.model.deleteTasks(localTasks)
             })
           })
-          promiseSerial(funcs).then(() => {
-            log(this.identifier, 'ARCHIVE Finished')
-            return resolve()
-          }).catch(err => {
-            error(err)
-            return reject(err)
-          })
+          promiseSerial(funcs)
+            .then(() => {
+              log(this.identifier, 'ARCHIVE Finished')
+              return resolve()
+            })
+            .catch(err => {
+              error(err)
+              return reject(err)
+            })
+        } else if (verb === 'meta') {
+          log('TODO: done!')
+          return resolve()
         } else {
           reject('No such verb.')
         }
@@ -190,17 +236,17 @@ export default class Sync extends Events {
   processQueue = () => {
     if (this.syncLock === true) {
       log(this.identifier, 'Sync in Progress, waiting.')
-      return 
+      return
     } else if (this.queueLock.length === 0) {
       return false
     }
-    
+
     this.syncLock = true
     this.queueLock.forEach(item => {
       const id = item[0]
       const method = item[1]
       const modelName = item[2]
-      
+
       let model, parentModel
       if (modelName === 'tasks') {
         model = TasksCollection
@@ -210,7 +256,7 @@ export default class Sync extends Events {
       } else {
         throw Error(`${modelName} is invalid.`)
       }
-      
+
       if (method === 'post') {
         postQueue(id, this.queue, this.identifier)
       } else if (method === 'patch') {
@@ -219,13 +265,15 @@ export default class Sync extends Events {
         deleteQueue(id, this.queue, this.identifier, model, parentModel)
       } else if (method === 'archive') {
         archiveQueue(id, this.queue, this.identifier)
+      } else if (method === 'meta') {
+        metaQueue(id, this.queue, this.identifier, model)
       }
     })
     this.queueLock = []
     this.syncLock = false
     this.saveQueue()
     this.trigger('request-process')
-    
+
     return true
   }
   hasItems() {

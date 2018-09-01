@@ -10,8 +10,12 @@ import { DroppableScrollableWrapper } from '../reusable/droppableScrollableWrapp
 import { ListHeader } from './listheader.jsx'
 
 export class Lists extends React.Component {
-  state = {
-    lists: NitroSdk.getLists()
+  constructor(props) {
+    super(props)
+    this.state = {
+      lists: NitroSdk.getLists()
+    }
+    UiService.state.currentListsOrder = this.state.lists.map(l => l.id)
   }
   componentWillMount() {
     NitroSdk.bind('update', this.update)

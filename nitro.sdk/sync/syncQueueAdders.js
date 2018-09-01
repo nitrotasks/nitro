@@ -44,9 +44,7 @@ export const patchQueue = function(id, queue, identifier, model, parentModel) {
     // rev the queue details
     if (index > -1) {
       // if it's already in there, just rev the time
-      const taskIndex = queue.patch[index][2].findIndex(function(
-        element
-      ) {
+      const taskIndex = queue.patch[index][2].findIndex(function(element) {
         return element[0] === id[1]
       })
       if (taskIndex > -1) {
@@ -75,9 +73,7 @@ export const patchQueue = function(id, queue, identifier, model, parentModel) {
       log(identifier, 'Skipping PATCH Request - Still in POST queue.')
     } else if (queue.patch.find(findQueueIndex(serverId))) {
       log(identifier, 'Skipping PATCH Request - Updating Time')
-      queue.patch.find(
-        findQueueIndex(serverId)
-      )[2] = new Date().toISOString()
+      queue.patch.find(findQueueIndex(serverId))[2] = new Date().toISOString()
     } else {
       // includes the last updated time
       queue.patch.push([id, serverId, new Date().toISOString()])
@@ -137,7 +133,7 @@ export const deleteQueue = function(id, queue, identifier, model, parentModel) {
     const index = queue.delete.findIndex(function(element) {
       return element[0] === id[0]
     })
-    
+
     if (!listServerId) {
       log(identifier, 'Skipping DELETE - Parent still in POST queue')
       deleteFromPostQueue()
@@ -190,5 +186,19 @@ export const archiveQueue = function(id, queue, identifier) {
     queue.archive[index][1] = queue.archive[index][1].concat(id[1])
   } else {
     queue.archive.push([id[0], id[1]])
+  }
+}
+
+export const metaQueue = function(key, queue, identifier, model) {
+  log(key, 'META Requested')
+  const serverOrder = model.order
+    .map(i => model.find(i))
+    .filter(i => i.virtual === true)
+    .map(i => i.serverId)
+  if (serverOrder.includes(null)) {
+    log('Not syncing list order - one or more lists are not synced.')
+  } else {
+    // TODO: Sync Sync Sync
+    console.log(serverOrder)
   }
 }
