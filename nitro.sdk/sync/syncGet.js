@@ -11,7 +11,7 @@ export default class SyncGet extends Events {
     this.lists = props.lists
     this.tasks = props.tasks
   }
-  downloadLists() { 
+  downloadLists() {
     return new Promise((resolve, reject) => {
       fetch(`${config.endpoint}/lists`, {
         headers: authenticationStore.authHeader(true)
@@ -31,18 +31,18 @@ export default class SyncGet extends Events {
           // copies retrieved data onto localdata
           const gets = []
           const patches = []
-          data.forEach((item) => {
+          data.forEach(item => {
             if (item.id in mapper) {
               // only adds them to the patch queue if they have been updated
               const listItem = this.lists.find(mapper[item.id])
-              if(new Date(item.updatedAt) > new Date(listItem.lastSync)) {
-                patches.push(item.id)  
+              if (new Date(item.updatedAt) > new Date(listItem.lastSync)) {
+                patches.push(item.id)
               }
               delete mapper[item.id]
             } else {
               // their system list *should* be the first list,
               // but if it's not, we always want to prioritize it
-              if (item.name.slice(0,9) === 'nitrosys-') {
+              if (item.name.slice(0, 9) === 'nitrosys-') {
                 gets.unshift(item)
               } else {
                 gets.push(item)
@@ -52,12 +52,16 @@ export default class SyncGet extends Events {
           const deletes = Object.keys(mapper).map(function(key) {
             return mapper[key]
           })
+
+          const order = data.map(i => i.id)
           resolve({
             new: gets,
             updates: patches,
-            localdelete: deletes
+            localdelete: deletes,
+            order: order
           })
-        }).catch((err) => {
+        })
+        .catch(err => {
           reject(err)
         })
     })
@@ -71,7 +75,7 @@ export default class SyncGet extends Events {
       return this.lists.add(listData, false)
     })
 
-    const downloadList = (done) => {
+    const downloadList = done => {
       const currentList = listMap[0]
       fetch(`${config.endpoint}/lists/${currentList.serverId}/tasks`, {
         headers: authenticationStore.authHeader(true)
@@ -79,22 +83,26 @@ export default class SyncGet extends Events {
         .then(checkStatus)
         .then(response => response.json())
         .then(data => {
-
           // add the task data in
           this.tasks.addListFromServer(data.tasks, currentList.id)
 
           // update the local order
           const localOrder = this.tasks.mapToLocal(currentList.order)
-          this.lists.update(currentList.serverId, {localOrder: localOrder}, false)
+          this.lists.update(
+            currentList.serverId,
+            { localOrder: localOrder },
+            false
+          )
 
           // goes to next list, or resolves
-          listMap.splice(0,1)
+          listMap.splice(0, 1)
           if (listMap.length > 0) {
             downloadList(done)
           } else {
             done()
           }
-        }).catch(err => {
+        })
+        .catch(err => {
           console.error(err)
         })
     }
@@ -109,12 +117,14 @@ export default class SyncGet extends Events {
   }
   downloadPartialLists(serverIdArray) {
     const taskPromises = []
-    const downloadList = (done) => {
+    const downloadList = done => {
       const serverId = serverIdArray[0]
       fetch(`${config.endpoint}/lists/${serverId}`, {
         headers: authenticationStore.authHeader(true)
-      }).then(checkStatus).then((response) => {
-        response.json().then((data) => {
+      })
+        .then(checkStatus)
+        .then(response => response.json())
+        .then(data => {
           // creates a new list with no sync
           data.lastSync = data.updatedAt
           data.serverId = data.id
@@ -124,14 +134,20 @@ export default class SyncGet extends Events {
           const list = this.lists.update(data.id, data, false)
 
           // copy the task data in
-          taskPromises.push(this.downloadTasksForList(list, data.tasks).then(() => {
-            // update the local order
-            const localOrder = this.tasks.mapToLocal(order)
-            this.lists.update(list.serverId, {localOrder: localOrder, order: order}, false)
-          }))
+          taskPromises.push(
+            this.downloadTasksForList(list, data.tasks).then(() => {
+              // update the local order
+              const localOrder = this.tasks.mapToLocal(order)
+              this.lists.update(
+                list.serverId,
+                { localOrder: localOrder, order: order },
+                false
+              )
+            })
+          )
 
           // goes to next list, or resolves
-          serverIdArray.splice(0,1)
+          serverIdArray.splice(0, 1)
           if (serverIdArray.length > 0) {
             downloadList(done)
           } else {
@@ -141,9 +157,9 @@ export default class SyncGet extends Events {
             })
           }
         })
-      }).catch((err) => {
-        console.warn('offline?')
-      })
+        .catch(err => {
+          console.warn('offline?')
+        })
     }
     return new Promise((resolve, reject) => {
       if (serverIdArray.length === 0) {
@@ -155,22 +171,31 @@ export default class SyncGet extends Events {
   }
   downloadTasksForList(list, simpleTasks) {
     const downloadTasks = (gets, patches) => {
-      const getsMap = gets.map((item) => { return item.id })
-      const patchesMap = patches.map((item) => { return item.id })
+      const getsMap = gets.map(item => {
+        return item.id
+      })
+      const patchesMap = patches.map(item => {
+        return item.id
+      })
       const queryString = getsMap.concat(patchesMap).join(',')
 
       return new Promise((resolve, reject) => {
         if (queryString.length === 0) {
           return resolve()
         }
-        fetch(`${config.endpoint}/lists/${list.serverId}?tasks=${queryString}`, {
-          headers: authenticationStore.authHeader(true)
-        }).then(checkStatus).then((response) => {
-          response.json().then((data) => {
+        fetch(
+          `${config.endpoint}/lists/${list.serverId}?tasks=${queryString}`,
+          {
+            headers: authenticationStore.authHeader(true)
+          }
+        )
+          .then(checkStatus)
+          .then(response => response.json())
+          .then(data => {
             // maps data back out to get gets and patches
             const toAdd = []
             const toPatch = []
-            data.forEach((blob) => {
+            data.forEach(blob => {
               if (getsMap.indexOf(blob.id) > -1) {
                 toAdd.push(blob)
               } else {
@@ -183,7 +208,7 @@ export default class SyncGet extends Events {
 
             resolve()
           })
-        }).catch(reject)
+          .catch(reject)
       })
     }
     return new Promise((resolve, reject) => {
@@ -194,13 +219,13 @@ export default class SyncGet extends Events {
           mapper[item.serverId] = item
         }
       })
-      const gets  = []
+      const gets = []
       const patches = []
-      simpleTasks.forEach((task) => {
+      simpleTasks.forEach(task => {
         if (task.id in mapper) {
-          if(new Date(task.updatedAt) > new Date(mapper[task.id].lastSync)) {
+          if (new Date(task.updatedAt) > new Date(mapper[task.id].lastSync)) {
             patches.push(task)
-          }  
+          }
           delete mapper[task.id]
         } else {
           gets.push(task)
@@ -214,12 +239,14 @@ export default class SyncGet extends Events {
       this.tasks.deleteTasks(deletes)
 
       // resolves only once all the web requests are done
-      downloadTasks(gets, patches).then(function() {
-        resolve()
-      }).catch(function(err) {
-        console.log(err)
-        reject()
-      })
+      downloadTasks(gets, patches)
+        .then(function() {
+          resolve()
+        })
+        .catch(function(err) {
+          console.log(err)
+          reject()
+        })
     })
   }
   updateLocal(data) {
@@ -227,14 +254,16 @@ export default class SyncGet extends Events {
       const promises = [
         // handle new & updated lists
         this.downloadFullLists(data.new),
-        this.downloadPartialLists(data.updates),
+        this.downloadPartialLists(data.updates)
       ]
 
       // handles deleted lists
-      data.localdelete.forEach((localid) => {
+      data.localdelete.forEach(localid => {
         this.tasks.deleteAllFromList(localid, false)
         this.lists.collection.delete(localid, false)
       })
+      console.log('TODO: Update List Order')
+      console.log(data.order.map(i => this.lists.find(i, true)))
       this.lists.trigger('update')
       this.lists.saveLocal()
 

@@ -8,7 +8,8 @@ import {
   patchItem,
   deleteItem,
   deleteItems,
-  archiveItem
+  archiveItem,
+  metaItem
 } from './syncQueueMethods.js'
 import {
   postQueue,
@@ -37,7 +38,8 @@ export default class Sync extends Events {
       post: [],
       patch: [],
       delete: [],
-      archive: []
+      archive: [],
+      meta: []
     }
     this.queueLock = []
 
@@ -204,6 +206,8 @@ export default class Sync extends Events {
             ).then(() => {
               // removes local archive of that particular list
               del('archive-' + item[0])
+
+              // TODO: this is incorrect
               this.queue.archive.splice(0, 1)
               this.saveQueue()
               // remove the item
@@ -221,8 +225,24 @@ export default class Sync extends Events {
               return reject(err)
             })
         } else if (verb === 'meta') {
-          log('TODO: done!')
-          return resolve()
+          if (this.queue.meta.length === 0) return resolve()
+          const funcs = this.queue.meta.map(item => () => {
+            const key = item[0]
+            const value = item[1]
+            return metaItem(key, value).then(() => {
+              this.queue.meta = this.queue.meta.filter(i => i[0] !== key)
+              this.saveQueue()
+            })
+          })
+          promiseSerial(funcs)
+            .then(() => {
+              log(this.identifier, 'META Finished')
+              return resolve()
+            })
+            .catch(err => {
+              error(err)
+              return reject(err)
+            })
         } else {
           reject('No such verb.')
         }

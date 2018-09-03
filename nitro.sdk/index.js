@@ -179,6 +179,7 @@ export class sdk extends Events {
         .then(this.tasksQueue.processVerb('archive'))
         .then(this.listsQueue.processVerb('patch'))
         .then(this.listsQueue.processVerb('delete'))
+        .then(this.listsQueue.processVerb('meta'))
         .then(authenticationStore.emitFinish)
         .then(() => {
           this.listsQueue.syncLock = false
@@ -477,7 +478,7 @@ export class sdk extends Events {
     ListsCollection.trigger('lists-order')
     ListsCollection.saveLocal()
 
-    if (sync) ListsCollection.sync.addToQueue('order', 'meta', 'lists')
+    if (sync) ListsCollection.sync.addToQueue('list-order', 'meta', 'lists')
   }
   updateTasksOrder(listId: string, order: Array<string>, sync: boolean = true) {
     const resource = ListsCollection.find(listId)

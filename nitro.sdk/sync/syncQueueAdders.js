@@ -1,4 +1,4 @@
-import { log } from '../helpers/logger.js'
+import { log, warn } from '../helpers/logger.js'
 
 const findQueueIndex = function(item) {
   return function(element) {
@@ -190,15 +190,23 @@ export const archiveQueue = function(id, queue, identifier) {
 }
 
 export const metaQueue = function(key, queue, identifier, model) {
+  // Currently only supports order
+  if (key !== 'list-order') {
+    warn(key, 'META not supported!')
+    return
+  }
+
   log(key, 'META Requested')
   const serverOrder = model.order
     .map(i => model.find(i))
-    .filter(i => i.virtual === true)
+    .filter(i => !i.virtual)
     .map(i => i.serverId)
+
   if (serverOrder.includes(null)) {
     log('Not syncing list order - one or more lists are not synced.')
   } else {
-    // TODO: Sync Sync Sync
-    console.log(serverOrder)
+    // removes existing order requests
+    queue.meta = queue.meta.filter(i => i[0] !== 'list-order')
+    queue.meta.push([key, serverOrder])
   }
 }
