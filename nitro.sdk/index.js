@@ -468,14 +468,7 @@ export class sdk extends Events {
     TasksCollection.delete(task.id, authenticationStore.isLocalAccount())
   }
   updateListsOrder(order: Array<string>, sync: boolean = true) {
-    // super basic validation
-    if (order.length !== ListsCollection.order.length) {
-      return
-    }
-
-    // still potentially dangerous
-    ListsCollection.order = order
-    ListsCollection.trigger('lists-order')
+    ListsCollection.updateOrder(order)
     ListsCollection.saveLocal()
 
     if (sync) ListsCollection.sync.addToQueue('list-order', 'meta', 'lists')

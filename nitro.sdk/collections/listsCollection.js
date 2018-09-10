@@ -73,6 +73,18 @@ export class lists extends Events {
   all() {
     return this.collection
   }
+  updateOrder(order) {
+    const specialLists = ['inbox', 'today', 'next', 'all']
+    const withoutSpecialLists = order.filter(i => !specialLists.includes(i))
+    const newOrder = specialLists.concat(withoutSpecialLists)
+
+    if (newOrder.length !== this.order.length) {
+      return
+    }
+
+    this.order = newOrder
+    this.trigger('lists-order')
+  }
   escape(name) {
     if (name === 'nitrosys-inbox') {
       return 'Inbox'

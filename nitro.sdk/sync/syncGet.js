@@ -262,8 +262,11 @@ export default class SyncGet extends Events {
         this.tasks.deleteAllFromList(localid, false)
         this.lists.collection.delete(localid, false)
       })
-      console.log('TODO: Update List Order')
-      console.log(data.order.map(i => this.lists.find(i, true)))
+
+      // maps the server id to local id, and runs an update
+      const newOrder = data.order.map(i => this.lists.find(i, true).id)
+      this.lists.updateOrder(newOrder)
+
       this.lists.trigger('update')
       this.lists.saveLocal()
 
