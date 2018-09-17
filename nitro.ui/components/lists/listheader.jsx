@@ -7,14 +7,16 @@ import {
   findNodeHandle
 } from 'react-native'
 import PropTypes from 'prop-types'
+import { withRouter } from 'react-router'
 
+import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 import { vars } from '../../styles.js'
 import { UiService } from '../../services/uiService.js'
 import addIcon from '../../../assets/icons/custom/add.svg'
 import searchIcon from '../../../assets/icons/custom/search.svg'
 import { TouchableOpacity } from '../reusable/touchableOpacity.jsx'
 
-export class ListHeader extends React.Component {
+export class ListHeaderWithoutRouter extends React.Component {
   static propTypes = {
     className: PropTypes.string,
     backFn: PropTypes.func,
@@ -34,7 +36,7 @@ export class ListHeader extends React.Component {
     UiService.setCardPosition('toggle', true, true)
   }
   triggerAddTask = () => {
-    console.log('add task triggered')
+    TasksExpandedService.triggerCreate(UiService.state.currentList)
   }
   triggerTouchStart = e => {
     UiService.state.headerEvent = e.target
@@ -64,7 +66,7 @@ export class ListHeader extends React.Component {
           >
             <View style={styles.pill} />
           </View>
-          <View style={styles.bottomWrapper}>
+          <View style={styles.bottomWrapper} className="desktop-padding-right">
             <View style={styles.textWrapper}>
               <TextInput
                 placeholder="Search"
@@ -74,7 +76,7 @@ export class ListHeader extends React.Component {
             </View>
           </View>
         </View>
-        <TouchableOpacity style={styles.add} onClick={this.triggerAddTask}>
+        <TouchableOpacity style={styles.add} onClick={this.triggerAddTask} className="desktop-hidden">
           <View style={styles.iconInner}>
             <Image source={addIcon} resizeMode="contain" style={styles.icon} />
           </View>
@@ -83,6 +85,9 @@ export class ListHeader extends React.Component {
     )
   }
 }
+const ListHeader = withRouter(ListHeaderWithoutRouter)
+export { ListHeader }
+
 const paddingVertical = 12
 const styles = StyleSheet.create({
   wrapper: {

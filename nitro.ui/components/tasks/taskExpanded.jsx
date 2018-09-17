@@ -42,6 +42,7 @@ export class TaskExpanded extends React.Component {
   }
   constructor(props) {
     super(props)
+    this.taskInput = React.createRef()
     this.notesElement = React.createRef()
     this.notesTimeout = 0
 
@@ -54,6 +55,7 @@ export class TaskExpanded extends React.Component {
       }
     } else {
       this.state = {
+        mode: 'create',
         name: '',
         notes: '',
         type: 'task',
@@ -69,11 +71,13 @@ export class TaskExpanded extends React.Component {
   componentDidMount() {
     NitroSdk.bind('update', this.taskUpdate)
     TasksExpandedService.bind('show', this.triggerShow)
+    TasksExpandedService.bind('replace', this.triggerReplace)
     TasksExpandedService.bind('hide', this.triggerHide)
   }
   componentWillUnmount() {
     NitroSdk.unbind('update', this.taskUpdate)
     TasksExpandedService.unbind('show', this.triggerShow)
+    TasksExpandedService.unbind('replace', this.triggerReplace)
     TasksExpandedService.unbind('hide', this.triggerHide)
   }
   taskUpdate = (type, listId, taskId) => {
@@ -90,6 +94,9 @@ export class TaskExpanded extends React.Component {
       ...taskDetails,
       lineNumber: 3
     })
+    if (taskDetails.mode === 'create') {
+      console.log('create')
+    }
     requestAnimationFrame(() => {
       // TODO: This is a shit solution, need something better, especially on iOS
       // UiService.scrollView.current.style.overflowY = 'hidden'
@@ -120,6 +127,11 @@ export class TaskExpanded extends React.Component {
       )
     })
   }
+  triggerReplace = (list, task) => {
+    // this is just a soft replace
+    const taskDetails = this.getTask(task)
+    this.setState(taskDetails)
+  }
   triggerHide = () => {
     setTimeout(() => {
       requestAnimationFrame(() => {
@@ -138,8 +150,20 @@ export class TaskExpanded extends React.Component {
     })
   }
   getTask = taskId => {
+    if (taskId === 'new') {
+      return {
+        mode: 'create',
+        name: '',
+        type: 'task',
+        notes: '',
+        date: null,
+        deadline: null,
+        checked: false
+      }
+    }
     const task = NitroSdk.getTask(taskId)
     return {
+      mode: 'update',
       name: task.name,
       type: task.type,
       notes: task.notes,
@@ -151,6 +175,8 @@ export class TaskExpanded extends React.Component {
   triggerOverlay = () => {
     if (window.location.pathname.split('/').length > 2) {
       this.props.triggerBack()
+    } else {
+      this.triggerHide()
     }
   }
   triggerChange = field => {
@@ -176,15 +202,34 @@ export class TaskExpanded extends React.Component {
       })
     }
   }
+  createOrUpdateTask = (taskId, payload) => {
+    if (this.state.mode === 'create') {
+      payload.list = TasksExpandedService.state.list
+      const task = NitroSdk.addTask(payload)
+      TasksExpandedService.triggerReplace(
+        TasksExpandedService.state.list,
+        task.id
+      )
+    } else if (this.state.mode === 'update') {
+      NitroSdk.updateTask(taskId, payload)
+    }
+  }
   triggerBlur = field => {
-    return e => {
-      NitroSdk.updateTask(TasksExpandedService.state.task, {
+    return () => {
+      if (this.state[field] === null || this.state[field] === '') {
+        return
+      }
+      this.createOrUpdateTask(TasksExpandedService.state.task, {
         [field]: this.state[field]
       })
     }
   }
   saveNotes = () => {
-    NitroSdk.updateTask(TasksExpandedService.state.task, {
+    // TODO: this is pretty similar to the above method
+    if (this.state.notes === null || this.state.notes === '') {
+      return
+    }
+    this.createOrUpdateTask(TasksExpandedService.state.task, {
       notes: this.state.notes
     })
   }
@@ -196,7 +241,7 @@ export class TaskExpanded extends React.Component {
       } else if (field === 'deadline') {
         data = deadlineValue(value)
       }
-      NitroSdk.updateTask(TasksExpandedService.state.task, data)
+      this.createOrUpdateTask(TasksExpandedService.state.task, data)
     }
   }
   triggerChecked = () => {
@@ -205,9 +250,15 @@ export class TaskExpanded extends React.Component {
       checked: !this.state.checked
     })
 
+    if (this.state.mode === 'create') {
+      this.createOrUpdateTask(TasksExpandedService.state.task, { name: '' })
+    }
     NitroSdk.completeTask(TasksExpandedService.state.task)
   }
   triggerMore = e => {
+    if (this.state.mode === 'create') {
+      this.createOrUpdateTask(TasksExpandedService.state.task, { name: '' })
+    }
     const x = e.nativeEvent.pageX
     const y = e.nativeEvent.pageY - window.scrollY
     if (this.state.type === 'task') {
@@ -237,7 +288,7 @@ export class TaskExpanded extends React.Component {
   triggerRemove = prop => {
     return e => {
       e.stopPropagation()
-      NitroSdk.updateTask(TasksExpandedService.state.task, {
+      this.createOrUpdateTask(TasksExpandedService.state.task, {
         [prop]: null
       })
     }
@@ -352,10 +403,11 @@ export class TaskExpanded extends React.Component {
             />
             <TextInput
               style={styles.header}
-              value={this.state.name}
+              value={this.state.name || ''}
               placeholder="Task Name"
               onChange={this.triggerChange('name')}
               onBlur={this.triggerBlur('name')}
+              ref={this.taskInput}
             />
           </View>
           <TextInput
