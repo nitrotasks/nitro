@@ -74,6 +74,7 @@ export class sdk extends Events {
     TasksCollection.bind('update', this._updateEvent('tasks'))
     ListsCollection.bind('update', this._updateEvent('lists'))
     ListsCollection.bind('order', this._orderEvent)
+    ListsCollection.bind('lists-order', this._listsOrderEvent)
     authenticationStore.bind(
       'sign-in-status',
       this._passEvent('sign-in-status')
@@ -138,6 +139,9 @@ export class sdk extends Events {
   _orderEvent = (key: string) => {
     this.trigger('order', key)
   }
+  _listsOrderEvent = () => {
+    this.trigger('lists-order')
+  }
   // just checks if anything was left over in the queue
   _runDeferred = () => {
     const listsDeferred = this.listsQueue.runDeferred()
@@ -175,6 +179,7 @@ export class sdk extends Events {
         .then(this.tasksQueue.processVerb('archive'))
         .then(this.listsQueue.processVerb('patch'))
         .then(this.listsQueue.processVerb('delete'))
+        .then(this.listsQueue.processVerb('meta'))
         .then(authenticationStore.emitFinish)
         .then(() => {
           this.listsQueue.syncLock = false
@@ -219,6 +224,9 @@ export class sdk extends Events {
   }
   signOut = () => {
     return authenticationStore.signOut()
+  }
+  createAccount = (username: string, password: string) => {
+    return authenticationStore.createAccount(username, password)
   }
   downloadData = () => {
     // the other tab will download data, and it's just passed through
@@ -275,7 +283,7 @@ export class sdk extends Events {
     // look up again because the list may have changed
     const order = ListsCollection.find(task.list).localOrder
     order.unshift(id)
-    this.updateOrder(task.list, order, false)
+    this.updateTasksOrder(task.list, order, false)
     return this.getTask(id)
   }
   getTask(id: string, server: ?boolean): Object | null {
@@ -320,7 +328,7 @@ export class sdk extends Events {
     const order = ListsCollection.find(listId).localOrder.filter(i => {
       return !(ids.indexOf(i) > -1)
     })
-    this.updateOrder(listId, order, false)
+    this.updateTasksOrder(listId, order, false)
     ListsCollection.saveLocal()
   }
   _getHeaders(list): Object {
@@ -456,11 +464,17 @@ export class sdk extends Events {
     if (task === null) throw new Error('Task could not be found')
     const order = ListsCollection.find(task.list).localOrder
     order.splice(order.indexOf(task.id), 1)
-    this.updateOrder(task.list, order, false)
+    this.updateTasksOrder(task.list, order, false)
     TasksCollection.delete(task.id, authenticationStore.isLocalAccount())
   }
-  updateOrder(id: string, order: Array<string>, sync: boolean = true) {
-    const resource = ListsCollection.find(id)
+  updateListsOrder(order: Array<string>, sync: boolean = true) {
+    ListsCollection.updateOrder(order)
+    ListsCollection.saveLocal()
+
+    if (sync) ListsCollection.sync.addToQueue('list-order', 'meta', 'lists')
+  }
+  updateTasksOrder(listId: string, order: Array<string>, sync: boolean = true) {
+    const resource = ListsCollection.find(listId)
 
     // updates the local order, then the server order
     resource.localOrder = order
@@ -474,7 +488,7 @@ export class sdk extends Events {
 
     ListsCollection.trigger('order')
     ListsCollection.saveLocal()
-    if (sync) ListsCollection.sync.addToQueue(id, 'patch', 'lists')
+    if (sync) ListsCollection.sync.addToQueue(listId, 'patch', 'lists')
   }
   addList(props: Object, sync: ?boolean): Object {
     const newList = ListsCollection.add(props, sync)
@@ -490,14 +504,12 @@ export class sdk extends Events {
     return list
   }
   getLists(): Array<Object> {
-    const lists = []
-    ListsCollection.all().forEach(list => {
-      list = list.toObject()
+    return ListsCollection.order.map(list => {
+      list = ListsCollection.find(list).toObject()
       list.name = ListsCollection.escape(list.name)
       list.count = TasksCollection.findListCount(list.id)
-      lists.push(list)
+      return list
     })
-    return lists
   }
   updateList(listId: string, props: Object, serverId: ?boolean) {
     const list = ListsCollection.find(listId, serverId)

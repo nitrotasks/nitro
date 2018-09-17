@@ -211,7 +211,11 @@ class ShellComponent extends React.Component {
   }
   triggerTouchMove = e => {
     // cancels if they're not at the top of the card
-    if (this.touchstartpos === null || this.touchLock === true) {
+    if (
+      this.touchstartpos === null ||
+      this.touchLock === true ||
+      UiService.state.listsIsDragging === true
+    ) {
       return
     }
     if (this.scrollingOnBar) {
@@ -298,7 +302,8 @@ class ShellComponent extends React.Component {
     if (
       this.touchstartpos === null ||
       this.scrolllock === false ||
-      this.touchLock === true
+      this.touchLock === true ||
+      UiService.state.listsIsDragging === true
     ) {
       return
     }

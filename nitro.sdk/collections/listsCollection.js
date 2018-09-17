@@ -8,6 +8,7 @@ import { broadcast } from '../sync/broadcastchannel.js'
 export class lists extends Events {
   constructor(props) {
     super(props)
+    this.order = []
     this.collection = new Map()
   }
   setSync(sync) {
@@ -22,6 +23,9 @@ export class lists extends Events {
 
     const newList = new List(props)
     this.collection.set(id, newList)
+    if (this.order.indexOf(id) === -1) {
+      this.order.push(id)
+    }
     this.trigger('update')
     this.saveLocal()
     if (sync) this.sync.addToQueue(id, 'post', 'lists')
@@ -33,7 +37,7 @@ export class lists extends Events {
     // not allowed to update the id or tasks
     resource.clientUpdate = new Date()
     Object.keys(props).forEach(function(key) {
-      if (key !== 'id' && key !== 'tasks') resource[key] = props[key] 
+      if (key !== 'id' && key !== 'tasks') resource[key] = props[key]
     })
     this.trigger('update')
     this.saveLocal()
@@ -48,6 +52,7 @@ export class lists extends Events {
   }
   actualDelete(id) {
     this.collection.delete(id)
+    this.order.splice(this.order.indexOf(id), 1)
     this.trigger('update')
     this.saveLocal()
   }
@@ -56,7 +61,7 @@ export class lists extends Events {
     // or reduce method
     if (serverId) {
       let match = null
-      this.collection.forEach((item) => {
+      this.collection.forEach(item => {
         if (item.serverId === id) {
           match = item
         }
@@ -67,6 +72,18 @@ export class lists extends Events {
   }
   all() {
     return this.collection
+  }
+  updateOrder(order) {
+    const specialLists = ['inbox', 'today', 'next', 'all']
+    const withoutSpecialLists = order.filter(i => !specialLists.includes(i))
+    const newOrder = specialLists.concat(withoutSpecialLists)
+
+    if (newOrder.length !== this.order.length) {
+      return
+    }
+
+    this.order = newOrder
+    this.trigger('lists-order')
   }
   escape(name) {
     if (name === 'nitrosys-inbox') {
@@ -85,37 +102,54 @@ export class lists extends Events {
         this.saveLocal()
         return
       }
-      data.forEach((item) => {
+      data.forEach(item => {
+        this.order.push(item.id)
         this.collection.set(item.id, new List(item))
       })
     })
   }
   createLocal() {
-    this.collection.set('inbox', new List({
-      id: 'inbox',
-      name: 'nitrosys-inbox'
-    }))
-    this.collection.set('today', new List({
-      id: 'today',
-      name: 'Today'
-    }))
-    this.collection.set('next', new List({
-      id: 'next',
-      name: 'Next'
-    }))
-    this.collection.set('all', new List({
-      id: 'all',
-      name: 'Everything'
-    }))
+    this.collection.set(
+      'inbox',
+      new List({
+        id: 'inbox',
+        name: 'nitrosys-inbox',
+        virtual: false
+      })
+    )
+    this.order.push('inbox')
+    this.collection.set(
+      'today',
+      new List({
+        id: 'today',
+        name: 'Today',
+        virtual: true
+      })
+    )
+    this.order.push('today')
+    this.collection.set(
+      'next',
+      new List({
+        id: 'next',
+        name: 'Next',
+        virtual: true
+      })
+    )
+    this.order.push('next')
+    this.collection.set(
+      'all',
+      new List({
+        id: 'all',
+        name: 'Everything',
+        virtual: true
+      })
+    )
+    this.order.push('all')
   }
   toObject() {
-    // TODO: when this is patched to have an order
-    // update this to use these in order
-    let result = []
-    this.collection.forEach(function(value) {
-      result.push(value.toObject())
+    return this.order.map(listId => {
+      return this.find(listId).toObject()
     })
-    return result
   }
 }
 export let ListsCollection = new lists()

@@ -37,7 +37,7 @@ export class TasksList extends React.PureComponent {
       })
     }
 
-    UiService.state.currentListOrder = order
+    UiService.state.currentListTasksOrder = order
     return {
       previousId: props.listId,
       order: order,

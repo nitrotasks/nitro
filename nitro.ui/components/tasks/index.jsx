@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native'
 
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 import { UiService } from '../../services/uiService.js'
-import { DroppableScrollableWrapper } from './droppableScrollableWrapper.jsx'
+import { DroppableScrollableWrapper } from '../reusable/droppableScrollableWrapper.jsx'
 import { Header } from './header.jsx'
 import { TasksInput } from './tasksInput.jsx'
 import { TasksList } from './tasksList.jsx'
@@ -32,7 +32,7 @@ export class Tasks extends React.Component {
     UiService.state.currentList = listId
     return (
       <View style={styles.wrapper}>
-        <DroppableScrollableWrapper>
+        <DroppableScrollableWrapper id="tasksDroppable">
           <Header listId={listId} onIntersect={this.triggerIntersection} />
           <TasksInput listId={listId} />
           <TasksList listId={listId} />

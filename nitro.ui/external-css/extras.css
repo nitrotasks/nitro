@@ -34,6 +34,13 @@ input:disabled {
   .desktop-invisible {
     visibility: hidden;
   }
+  .desktop-datepicker {
+    width: calc(100% - var(--sidebar-width));
+    left: var(--sidebar-width);
+  }
+  .desktop-allow-touch {
+    touch-action: manipulation !important;
+  }
   .desktop-hidden {
     display: none;
   }
