@@ -95,7 +95,7 @@ export class TaskExpanded extends React.Component {
       lineNumber: 3
     })
     if (taskDetails.mode === 'create') {
-      console.log('create')
+      this.taskInput.current.focus()
     }
     requestAnimationFrame(() => {
       // TODO: This is a shit solution, need something better, especially on iOS

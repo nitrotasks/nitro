@@ -8,6 +8,7 @@ import {
   StyleSheet,
   findNodeHandle
 } from 'react-native'
+import { Draggable } from 'react-beautiful-dnd'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
@@ -169,7 +170,22 @@ export class TasksList extends React.PureComponent {
           } else if (task.type === 'header-collapsed') {
             headerCollapsed = true
           } else if (task.type === 'archived' || headerCollapsed === true) {
-            return <View key={task.id} />
+            return (
+              <Draggable
+                key={task.id}
+                draggableId={'tasks-' + task.id}
+                index={index}
+                isDragDisabled={true}
+              >
+                {provided => (
+                  <div
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                  />
+                )}
+              </Draggable>
+            )
           }
           return (
             <Task
