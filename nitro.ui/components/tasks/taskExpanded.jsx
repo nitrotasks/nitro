@@ -54,6 +54,7 @@ export class TaskExpanded extends React.Component {
       }
     } else {
       this.state = {
+        mode: 'create',
         name: '',
         notes: '',
         type: 'task',
@@ -138,8 +139,20 @@ export class TaskExpanded extends React.Component {
     })
   }
   getTask = taskId => {
+    if (taskId === 'new') {
+      return {
+        mode: 'create',
+        name: '',
+        type: 'task',
+        notes: '',
+        date: null,
+        deadline: null,
+        checked: false
+      }
+    }
     const task = NitroSdk.getTask(taskId)
     return {
+      mode: 'update',
       name: task.name,
       type: task.type,
       notes: task.notes,
@@ -151,6 +164,8 @@ export class TaskExpanded extends React.Component {
   triggerOverlay = () => {
     if (window.location.pathname.split('/').length > 2) {
       this.props.triggerBack()
+    } else {
+      this.triggerHide()   
     }
   }
   triggerChange = field => {

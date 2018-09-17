@@ -41,7 +41,7 @@ export class Lists extends React.Component {
   render() {
     return (
       <View style={styles.wrapper}>
-        <ListHeader title="Today" />
+        <ListHeader />
         <LinkedScroll>
           <View style={styles.listWrapper}>
             {this.state.lists.map(list => {

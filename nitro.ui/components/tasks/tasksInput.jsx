@@ -49,7 +49,7 @@ export class TasksInput extends React.Component {
       ? [styles.input, styles.inputFocus]
       : styles.input
     return (
-      <View style={styles.wrapper}>
+      <View style={styles.wrapper} className="mobile-hidden">
         <TextInput
           autoComplete="off"
           style={inputStyles}

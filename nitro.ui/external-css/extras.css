@@ -25,8 +25,22 @@ input:disabled {
 .pseudo-shadow.visible::after {
   opacity: 1;
 }
+@media (max-width: 850px) {
+  .mobile-hidden {
+    display: none;
+  }
+}
 @media (min-width: 851px) {
   .desktop-invisible {
     visibility: hidden;
+  }
+  .desktop-hidden {
+    display: none;
+  }
+  .desktop-padding-left {
+    padding-left: 16px;
+  }
+  .desktop-padding-right {
+    padding-right: 16px;
   }
 }
