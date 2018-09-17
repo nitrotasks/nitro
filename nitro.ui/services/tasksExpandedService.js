@@ -21,9 +21,13 @@ class _tasksExpanded extends Events {
     this.go = () => {
       console.log('history not working.')
     }
+    this.replace = () => {
+      console.log('history not working.')
+    }
   }
-  setGo(fn) {
-    this.go = fn
+  setGo(push, replace) {
+    this.go = push
+    this.replace = replace
   }
   routeUpdate(routeProps: object) {
     if (this.state.taskTriggerInProgress) {
@@ -40,7 +44,10 @@ class _tasksExpanded extends Events {
         }
         this.state.list = params.list
         this.state.task = params.task
-        this.trigger('show', params.list, params.task)
+
+        if (params.task !== 'new') {
+          this.trigger('show', params.list, params.task)
+        }
       } else {
         if (this.state.task === null) {
           return
@@ -52,7 +59,15 @@ class _tasksExpanded extends Events {
     }
   }
   triggerCreate(list: string) {
+    this.state.taskTriggerInProgress = true
+    this.state.position = 0 // TODO: what's the magic number that we want?
     this.trigger('show', list, 'new')
+
+    idleCallback(() => {
+      this.state.taskTriggerInProgress = false
+      const url = `/${list}/new`
+      this.go(url)
+    })
   }
   triggerTask(list: string, task: string, position: number) {
     if (this.state.list === list && this.state.task === task) {
@@ -69,6 +84,14 @@ class _tasksExpanded extends Events {
       const url = `/${list}/${task}`
       this.go(url)
     })
+  }
+  triggerReplace(list: string, task: string) {
+    this.state.list = list
+    this.state.task = task
+
+    const url = `/${list}/${task}`
+    this.replace(url)
+    this.trigger('replace', list, task)
   }
   triggerTaskHeight(height: number) {
     // TODO: Magic Numbers!

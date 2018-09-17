@@ -12,7 +12,10 @@ import { Datepicker } from '../datepicker.jsx'
 
 export class Tasks extends React.Component {
   componentDidMount() {
-    TasksExpandedService.setGo(this.props.history.push) // hack for now
+    TasksExpandedService.setGo(
+      this.props.history.push,
+      this.props.history.replace
+    ) // hack for now
   }
   triggerIntersection = e => {
     const newPos = !e[0].isIntersecting
