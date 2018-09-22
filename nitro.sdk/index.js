@@ -324,6 +324,30 @@ export class sdk extends Events {
     if (task === null) throw new Error('Task could not be found')
     return task
   }
+  search(query: string): Array<Object> {
+    const regex = new RegExp(query, 'i')
+    const results = []
+    ListsCollection.all().forEach(list => {
+      const result = list.name.match(regex)
+      // console.log(result)
+      if (result !== null) {
+        results.push({
+          type: 'list',
+          id: list.id,
+          name: ListsCollection.escape(list.name),
+          priority: result.index
+        })
+      }
+    })
+    results.sort((a, b) => {
+      const difference = a.priority - b.priority
+      if (difference === 0) {
+        return a.name.localeCompare(b.name)
+      }
+      return difference
+    })
+    return results
+  }
   _removeFromList(ids: Array<string>, listId: string) {
     const order = ListsCollection.find(listId).localOrder.filter(i => {
       return !(ids.indexOf(i) > -1)
