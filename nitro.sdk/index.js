@@ -328,18 +328,33 @@ export class sdk extends Events {
     const regex = new RegExp(query, 'i')
     const results = []
     ListsCollection.all().forEach(list => {
-      const result = list.name.match(regex)
-      // console.log(result)
+      const name = ListsCollection.escape(list.name)
+      const result = name.match(regex)
       if (result !== null) {
         results.push({
           type: 'list',
           id: list.id,
-          name: ListsCollection.escape(list.name),
+          name: name,
           priority: result.index
         })
       }
     })
+    TasksCollection.all().forEach(task => {
+      const nameResult = task.name.match(regex)
+      const notesResult = task.notes ? task.notes.match(regex) : null
+      if (nameResult !== null || notesResult !== null) {
+        results.push({
+          type: 'task',
+          id: task.id,
+          name: task.name,
+          priority: (nameResult || notesResult).index
+        })
+      }
+    })
     results.sort((a, b) => {
+      if (a.type !== b.type) {
+        return a.type === 'task'
+      }
       const difference = a.priority - b.priority
       if (difference === 0) {
         return a.name.localeCompare(b.name)

@@ -14,6 +14,9 @@ export class tasks extends Events {
   setSync(sync) {
     this.sync = sync
   }
+  all() {
+    return this.collection
+  }
   add(props) {
     const id = createId(this.find.bind(this))
     props.id = id
