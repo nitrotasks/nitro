@@ -4,34 +4,15 @@ import { View, StyleSheet } from 'react-native'
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles'
 import { ContextMenuService } from '../../services/contextMenuService.js'
-import { UiService } from '../../services/uiService.js'
 import { ListItem } from './listitem.jsx'
 import { DroppableScrollableWrapper } from '../reusable/droppableScrollableWrapper.jsx'
 import { ListHeader } from './listheader.jsx'
+import { ListsContainer } from './listscontainer.jsx'
+import { SearchContainer } from './searchcontainer.jsx'
 
 export class Lists extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      lists: NitroSdk.getLists()
-    }
-    UiService.state.currentListsOrder = this.state.lists.map(l => l.id)
-  }
-  componentWillMount() {
-    NitroSdk.bind('update', this.update)
-    NitroSdk.bind('lists-order', this.update)
-  }
-  componentWillUnmount() {
-    NitroSdk.unbind('update', this.update)
-    NitroSdk.unbind('lists-order', this.update)
-  }
-  update = () => {
-    // we listen to all updates, so the counts also get updated
-    const lists = NitroSdk.getLists()
-    UiService.state.currentListsOrder = lists.map(l => l.id)
-    this.setState({
-      lists: lists
-    })
+  state = {
+    searchResults: null
   }
   triggerMenu = e => {
     const items = [
@@ -42,44 +23,29 @@ export class Lists extends React.Component {
     ]
     ContextMenuService.create(e.clientX, e.clientY, 'top', 'right', items)
   }
-  createList = () => {
-    const list = NitroSdk.addList({ name: 'Untitled List' })
-    this.props.history.push('/' + list.id)
+  triggerSearch = e => {
+    const query = e.currentTarget.value.trim()
+    if (query === '') {
+      this.setState({
+        searchResults: null
+      })
+    } else {
+      const results = NitroSdk.search(query)
+      this.setState({
+        searchResults: results
+      })
+    }
   }
+  
   render() {
     let index = -1
     return (
       <View style={styles.wrapper}>
-        <ListHeader />
-        <DroppableScrollableWrapper id="listsDroppable" linked={true}>
-          <View style={styles.listWrapper}>
-            {this.state.lists.map(list => {
-              index++ // this is a bit shit
-              return (
-                <ListItem
-                  key={list.id}
-                  id={list.id}
-                  index={index}
-                  name={list.name}
-                  count={list.count}
-                />
-              )
-            })}
-            <ListItem
-              key="add"
-              id="add"
-              name="New List"
-              index={index + 1}
-              onClick={this.createList}
-            />
-            <ListItem
-              index={index + 2}
-              key="logs"
-              id="logs"
-              name="System Logs"
-            />
-          </View>
-        </DroppableScrollableWrapper>
+        <ListHeader onSearch={this.triggerSearch} />
+        {this.state.searchResults === null ? 
+          <ListsContainer /> : 
+          <SearchContainer results={this.state.searchResults} />
+        }
       </View>
     )
   }
@@ -87,9 +53,5 @@ export class Lists extends React.Component {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1
-  },
-  listWrapper: {
-    paddingTop: vars.padding / 2,
-    paddingBottom: vars.padding / 2
   }
 })

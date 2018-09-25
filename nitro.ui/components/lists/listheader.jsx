@@ -21,6 +21,7 @@ export class ListHeaderWithoutRouter extends React.Component {
     className: PropTypes.string,
     backFn: PropTypes.func,
     actionFn: PropTypes.func,
+    onSearch: PropTypes.func,
     hideClose: PropTypes.bool
   }
   wrapper = React.createRef()
@@ -40,6 +41,11 @@ export class ListHeaderWithoutRouter extends React.Component {
   }
   triggerTouchStart = e => {
     UiService.state.headerEvent = e.target
+  }
+  triggerSearchFocus = e => {
+    if (UiService.state.cardPosition === 'map') {
+      UiService.setCardPosition('default', true, true)
+    }
   }
   triggerMax() {
     requestAnimationFrame(() => {
@@ -72,6 +78,8 @@ export class ListHeaderWithoutRouter extends React.Component {
                 placeholder="Search"
                 style={styles.text}
                 numberOfLines={1}
+                onFocus={this.triggerSearchFocus}
+                onChange={this.props.onSearch}
               />
             </View>
           </View>
