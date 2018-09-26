@@ -334,7 +334,10 @@ export class sdk extends Events {
         results.push({
           type: 'list',
           id: list.id,
+          icon: list.id,
           name: name,
+          subtitle: null,
+          url: `/${list.id}`,
           priority: result.index
         })
       }
@@ -346,14 +349,17 @@ export class sdk extends Events {
         results.push({
           type: 'task',
           id: task.id,
+          icon: 'task',
           name: task.name,
+          subtitle: this.getList(task.list).name,
+          url: `/${task.list}/${task.id}`,
           priority: (nameResult || notesResult).index
         })
       }
     })
     results.sort((a, b) => {
       if (a.type !== b.type) {
-        return a.type === 'task'
+        return a.type === 'task' ? 1 : -1
       }
       const difference = a.priority - b.priority
       if (difference === 0) {
