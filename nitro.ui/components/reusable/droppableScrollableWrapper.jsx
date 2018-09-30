@@ -108,6 +108,7 @@ export class DroppableScrollableWrapper extends React.Component {
               }}
             >
               <div
+                className="desktop-97"
                 ref={e => {
                   provided.innerRef(e)
                   this.innerScrollView = e

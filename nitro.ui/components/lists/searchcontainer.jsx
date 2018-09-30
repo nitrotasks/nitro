@@ -54,7 +54,6 @@ const iconWidth = vars.padding * 2
 const iconPadding = vars.padding * 0.375
 const styles = StyleSheet.create({
   wrapper: {
-    paddingTop: vars.padding * 0.5,
     paddingBottom: vars.padding * 0.5
   },
   resultWrapper: {

@@ -73,7 +73,7 @@ export class ListHeaderWithoutRouter extends React.Component {
             <View style={styles.pill} />
           </View>
           <View style={styles.bottomWrapper} className="desktop-padding-right">
-            <View style={styles.textWrapper}>
+            <View style={styles.textWrapper} className="desktop-padding-left">
               <TextInput
                 placeholder="Search"
                 style={styles.text}
@@ -100,12 +100,12 @@ const paddingVertical = 12
 const styles = StyleSheet.create({
   wrapper: {
     touchAction: 'none',
-    boxShadow: '0 -1px 0 rgba(0,0,0,0.05) inset',
+    // boxShadow: '0 -1px 0 rgba(0,0,0,0.05) inset',
     flexDirection: 'row'
   },
   flexWrapper: {
     flex: 1,
-    paddingBottom: paddingVertical
+    paddingBottom: paddingVertical / 2
   },
   pillWrapper: {
     height: paddingVertical,
@@ -134,12 +134,12 @@ const styles = StyleSheet.create({
     fontFamily: vars.fontFamily,
     lineHeight: 34,
     color: vars.headerColor,
-    paddingLeft: vars.padding * 2,
+    paddingLeft: vars.padding * 2.25,
     fontSize: 16,
     backgroundColor: '#e6e6e6',
     backgroundImage: `url(${searchIcon})`,
     backgroundRepeat: 'no-repeat',
-    backgroundPosition: '5px 50%',
+    backgroundPosition: '7px 50%',
     borderRadius: 5,
     outline: '0'
   },
