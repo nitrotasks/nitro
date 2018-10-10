@@ -141,7 +141,11 @@ export class Datepicker extends React.Component {
             </TouchableOpacity>
           </View>
           {buttonsTop}
-          <DayPicker onDayClick={this.triggerSelect()} />
+          <DayPicker
+            selectedDays={this.state.date}
+            onDayClick={this.triggerSelect()}
+            month={this.state.date}
+          />
         </View>
       </View>
     )

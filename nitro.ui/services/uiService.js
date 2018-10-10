@@ -51,6 +51,10 @@ class uiService extends Events {
     animate: boolean = true,
     manual: boolean = false
   ) {
+    // desktop is always max
+    if (window.innerWidth > 850) {
+      position = 'max'
+    }
     // don't need to do anything if it's already in the right position
     if (this.state.cardPosition === position) {
       return

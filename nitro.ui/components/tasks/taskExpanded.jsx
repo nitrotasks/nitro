@@ -429,7 +429,7 @@ export class TaskExpanded extends React.Component {
               onClick={this.triggerMore}
             >
               <Image
-                accessibilityLabel="Choose Deadline"
+                accessibilityLabel="More"
                 source={moreIcon}
                 resizeMode="contain"
                 style={styles.barIcon}

@@ -60,12 +60,7 @@ export class ListsContainer extends React.Component {
             index={index + 1}
             onClick={this.createList}
           />
-          <ListItem
-            index={index + 2}
-            key="logs"
-            id="logs"
-            name="System Logs"
-          />
+          <ListItem index={index + 2} key="logs" id="logs" name="System Logs" />
         </View>
       </DroppableScrollableWrapper>
     )
