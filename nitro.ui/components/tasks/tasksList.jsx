@@ -42,14 +42,16 @@ export class TasksList extends React.PureComponent {
     return {
       previousId: props.listId,
       order: order,
-      tasks: taskMap
+      tasks: taskMap,
+      showTasks: false
     }
   }
   constructor(props) {
     super(props)
     this.state = {
+      ...this.constructor.generateState(props),
       currentTaskHeight: 0,
-      ...this.constructor.generateState(props)
+      showTasks: true
     }
     this.currentItemIndex = 0
     this.archiveButton = React.createRef()
@@ -60,6 +62,16 @@ export class TasksList extends React.PureComponent {
     NitroSdk.bind('order', this.tasksUpdate)
     TasksExpandedService.bind('height', this.triggerShow)
     TasksExpandedService.bind('hide', this.triggerHide)
+  }
+  componentDidUpdate() {
+    // this is basically a dodgy async render
+    if (this.state.showTasks === false) {
+      requestIdleCallback(() => {
+        this.setState({
+          showTasks: true
+        })
+      })
+    }
   }
   componentWillUnmount() {
     NitroSdk.unbind('update', this.tasksUpdate)
@@ -156,9 +168,14 @@ export class TasksList extends React.PureComponent {
     let currentHeading = ''
     let headerCollapsed = false
 
+    const partialRender = this.state.order.length > 15 && !this.state.showTasks
+    const order = partialRender
+      ? this.state.order.slice(0, 15)
+      : this.state.order
+
     return (
       <View ref={this.tasksContainer} style={styles.wrapper}>
-        {this.state.order.map((taskId, index) => {
+        {order.map((taskId, index) => {
           const task = this.state.tasks.get(taskId)
           // if taskid matches ocorrect one get position in dom, pass to overlay etc etc
           // const selected = taskId === this.props.match.params.task
@@ -210,7 +227,11 @@ export class TasksList extends React.PureComponent {
             />
           )
         })}
-        {archiveButton}
+        {partialRender ? (
+          <Text style={styles.loadingText}>Loading...</Text>
+        ) : (
+          archiveButton
+        )}
       </View>
     )
   }
@@ -250,6 +271,12 @@ const styles = StyleSheet.create({
     width: 12
   },
   archiveButtonText: {
+    textIndent: vars.padding * 0.375,
+    fontFamily: vars.fontFamily,
+    fontSize: 14
+  },
+  loadingText: {
+    lineHeight: 50,
     textIndent: vars.padding * 0.375,
     fontFamily: vars.fontFamily,
     fontSize: 14

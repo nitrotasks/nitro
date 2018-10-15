@@ -367,7 +367,8 @@ export class sdk extends Events {
       }
       return difference
     })
-    return results
+    // truncated to 20 results for speed in the UI
+    return results.slice(0, 20)
   }
   _removeFromList(ids: Array<string>, listId: string) {
     const order = ListsCollection.find(listId).localOrder.filter(i => {
