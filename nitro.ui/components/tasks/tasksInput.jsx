@@ -51,6 +51,7 @@ export class TasksInput extends React.Component {
     return (
       <View style={styles.wrapper} className="mobile-hidden">
         <TextInput
+          className="hover-input"
           autoComplete="off"
           style={inputStyles}
           value={this.state.name}

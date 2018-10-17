@@ -26,7 +26,7 @@ export class SearchContainer extends React.Component {
           }
           return (
             <Link key={i.id} to={i.url}>
-              <View style={styles.resultWrapper}>
+              <View style={styles.resultWrapper} className="hover-5">
                 <View style={styles.iconWrapper}>
                   <Image
                     source={icon}
@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
   resultWrapper: {
     paddingLeft: vars.padding * 0.5,
     paddingRight: vars.padding * 1,
+    paddingTop: vars.padding * 0.25,
     paddingBottom: vars.padding * 0.25,
     flex: 1,
     flexDirection: 'row'
@@ -75,7 +76,6 @@ const styles = StyleSheet.create({
   nameWrapper: {
     flex: 1,
     justifyContent: 'center',
-    paddingTop: vars.padding * 0.125,
     paddingBottom: vars.padding * 0.125
   },
   name: {

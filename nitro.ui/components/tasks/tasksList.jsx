@@ -81,7 +81,10 @@ export class TasksList extends React.PureComponent {
   }
   tasksUpdate = () => {
     // captures all updates for all lists, because the today and next lists are special
-    this.setState(this.constructor.generateState(this.props))
+    this.setState({
+      ...this.constructor.generateState(this.props),
+      showTasks: true
+    })
   }
   triggerShow = height => {
     this.currentItemIndex = this.state.order.indexOf(
@@ -149,7 +152,7 @@ export class TasksList extends React.PureComponent {
       archiveButton = (
         <View ref={this.archiveButton} style={styles.archiveButtonWrapper}>
           <TouchableOpacity onClick={this.triggerArchive}>
-            <View style={styles.archiveButton}>
+            <View style={styles.archiveButton} className="hover-5">
               <Image
                 accessibilityLabel="Archive Icon"
                 source={archiveIcon}

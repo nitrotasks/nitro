@@ -36,16 +36,16 @@ export class Lists extends React.Component {
       })
     }
   }
-  
+
   render() {
-    let index = -1
     return (
       <View style={styles.wrapper}>
         <ListHeader onSearch={this.triggerSearch} />
-        {this.state.searchResults === null ? 
-          <ListsContainer /> : 
+        {this.state.searchResults === null ? (
+          <ListsContainer />
+        ) : (
           <SearchContainer results={this.state.searchResults} />
-        }
+        )}
       </View>
     )
   }

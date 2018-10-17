@@ -229,7 +229,11 @@ export class Task extends React.PureComponent {
           // wish there was an event in react-beatiful-dnd or something?
           this.draggingStart = snapshot.draggingOver !== null
           return (
-            <View ref={this.viewRef} style={styles.transitionStyle}>
+            <View
+              ref={this.viewRef}
+              style={styles.transitionStyle}
+              className={props.dataType === 'task' ? 'hover-5' : null}
+            >
               <div
                 ref={provided.innerRef}
                 {...provided.draggableProps}

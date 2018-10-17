@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Image, View, Text, StyleSheet } from 'react-native'
 import { Link } from '../reusable/link.jsx'
+import { TouchableOpacity } from '../reusable/touchableOpacity.jsx'
 import { UiService } from '../../services/uiService.js'
 import { Draggable } from 'react-beautiful-dnd'
 
@@ -40,7 +41,7 @@ export class ListItem extends React.Component {
       icon = listIcon
     }
     const inner = (
-      <View style={styles.wrapper}>
+      <TouchableOpacity style={styles.wrapper} className="hover-5">
         <View style={styles.iconWrapper}>
           <Image source={icon} resizeMode="contain" style={styles.icon} />
         </View>
@@ -50,7 +51,7 @@ export class ListItem extends React.Component {
         <View style={styles.countWrapper}>
           <Text style={styles.count}>{this.props.count}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     )
     return (
       <Draggable
@@ -145,7 +146,9 @@ const getItemStyle = (isDragging, draggableStyle) => {
     background: isDragging ? vars.dragColor : '',
 
     // styles we need to apply on draggables
-    ...draggableStyle
+    ...draggableStyle,
+
+    cursor: 'default'
   }
   return style
 }

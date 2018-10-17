@@ -75,6 +75,7 @@ export class ListHeaderWithoutRouter extends React.Component {
           <View style={styles.bottomWrapper} className="desktop-padding-right">
             <View style={styles.textWrapper} className="desktop-padding-left">
               <TextInput
+                className="hover-input"
                 placeholder="Search"
                 style={styles.text}
                 numberOfLines={1}
@@ -84,7 +85,11 @@ export class ListHeaderWithoutRouter extends React.Component {
             </View>
           </View>
         </View>
-        <TouchableOpacity style={styles.add} onClick={this.triggerAddTask} className="desktop-hidden">
+        <TouchableOpacity
+          style={styles.add}
+          onClick={this.triggerAddTask}
+          className="desktop-hidden"
+        >
           <View style={styles.iconInner}>
             <Image source={addIcon} resizeMode="contain" style={styles.icon} />
           </View>
