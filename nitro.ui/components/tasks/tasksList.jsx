@@ -15,6 +15,7 @@ import { vars } from '../../styles.js'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 import { UiService } from '../../services/uiService.js'
 import { Task } from './task.jsx'
+import { EmptyList } from './emptyList.jsx'
 
 import archiveIcon from '../../../assets/icons/material/archive.svg'
 
@@ -230,6 +231,7 @@ export class TasksList extends React.PureComponent {
             />
           )
         })}
+        {order.length === 0 ? <EmptyList listId={this.props.listId} /> : null}
         {partialRender ? (
           <Text style={styles.loadingText}>Loading...</Text>
         ) : (
