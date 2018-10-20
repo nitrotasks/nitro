@@ -75,21 +75,21 @@
     "webpack-dev-server": "^3.1.5"
   },
   "dependencies": {
-    "babel-plugin-react-native-web": "^0.8.9",
+    "babel-plugin-react-native-web": "^0.9.3",
     "idb-keyval": "^3.1.0",
     "imports-loader": "^0.8.0",
     "intersection-observer": "^0.5.0",
-    "pikaday": "^1.7.0",
+    "pikaday": "^1.8.0",
     "preact-router": "^2.6.1",
     "prop-types": "^15.6.2",
-    "react": "^16.4.2",
+    "react": "^16.5.2",
     "react-beautiful-dnd": "^9.0.0",
     "react-day-picker": "^7.1.10",
-    "react-dom": "^16.4.2",
-    "react-native-web": "^0.8.9",
+    "react-dom": "^16.5.2",
+    "react-native-web": "^0.9.3",
     "react-router-dom": "^4.3.1",
     "resize-observer-polyfill": "^1.5.0",
     "smoothscroll-polyfill": "^0.4.3",
-    "webpack-bundle-analyzer": "^2.13.1"
+    "webpack-bundle-analyzer": "^3.0.3"
   }
 }
