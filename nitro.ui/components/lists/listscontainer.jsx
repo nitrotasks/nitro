@@ -71,8 +71,11 @@ export class ListsContainer extends React.Component {
   }
 }
 
+const padding = vars.padding / 2
 const styles = StyleSheet.create({
   listWrapper: {
-    paddingBottom: vars.padding / 2
+    paddingLeft: padding,
+    paddingRight: padding,
+    paddingBottom: padding
   }
 })

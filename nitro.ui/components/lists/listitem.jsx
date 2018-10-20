@@ -40,8 +40,14 @@ export class ListItem extends React.Component {
     if (typeof icon === 'undefined') {
       icon = listIcon
     }
+    const style =
+      UiService.state.currentList === this.props.id
+        ? [styles.wrapper, styles.selected]
+        : styles.wrapper
+    const className =
+      UiService.state.currentList === this.props.id ? '' : 'hover-5'
     const inner = (
-      <TouchableOpacity style={styles.wrapper} className="hover-5">
+      <TouchableOpacity style={style} className={className}>
         <View style={styles.iconWrapper}>
           <Image source={icon} resizeMode="contain" style={styles.icon} />
         </View>
@@ -91,18 +97,23 @@ export class ListItem extends React.Component {
   }
 }
 
-const height = vars.padding * 2.75
+const height = vars.padding * 2.5
 const iconHeight = vars.padding * 1.5
 const iconWidth = vars.padding * 2
 const iconPadding = (height - iconHeight) / 2
 const styles = StyleSheet.create({
   wrapper: {
     height: height,
-    paddingLeft: vars.padding * 0.8125,
-    paddingRight: vars.padding * 1,
+    paddingLeft: vars.padding * 0.3125,
+    paddingRight: vars.padding * 0.5,
     paddingBottom: vars.padding * 0.25,
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginBottom: 3
+  },
+  selected: {
+    backgroundColor: 'rgba(0,0,0,0.05)',
+    borderRadius: 5
   },
   iconWrapper: {
     width: iconWidth,

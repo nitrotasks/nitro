@@ -104,7 +104,7 @@ input:disabled {
 }
 @media (pointer: fine) {
   .hover-5:hover:not(:focus) {
-    border-radius: 3px;
+    border-radius: 5px;
     background-color: rgba(0, 0, 0, 0.025);
   }
   .hover-input:hover:not(:focus) {
