@@ -386,6 +386,7 @@ export class TaskExpanded extends React.Component {
     return (
       <React.Fragment>
         <View
+          className="desktop-90 desktop-expanded"
           pointerEvents={pointerEvents}
           style={[
             styles.wrapper,
@@ -438,6 +439,7 @@ export class TaskExpanded extends React.Component {
           </View>
         </View>
         <View
+          className="desktop-overlay"
           pointerEvents={pointerEvents}
           style={[
             styles.overlay,
@@ -461,7 +463,7 @@ const styles = StyleSheet.create({
     left: 0,
     width: '100%',
     height: '200vh',
-    backgroundColor: '#fff',
+    backgroundColor: vars.overlayColor,
     opacity: 0.5,
     transitionDuration: '300ms',
     transitionTimingFunction: 'ease',
@@ -477,7 +479,7 @@ const styles = StyleSheet.create({
     // bottom and right padding is ommited for large touch targets
     paddingTop: vars.padding,
     paddingLeft: vars.padding,
-    boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
+    boxShadow: '0 1px 15px rgba(0,0,0,0.1)',
     transitionDuration: '300ms, 300ms',
     transitionTimingFunction: 'ease, ease',
     transitionProperty: 'opacity, transform'

@@ -32,7 +32,7 @@ export class Tasks extends React.Component {
     UiService.state.currentList = listId
     return (
       <View style={styles.wrapper}>
-        <DroppableScrollableWrapper id="tasksDroppable">
+        <DroppableScrollableWrapper id="tasksDroppable" className="desktop-90">
           <Header listId={listId} onIntersect={this.triggerIntersection} />
           <TasksInput listId={listId} />
           <TasksList listId={listId} />

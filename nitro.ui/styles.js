@@ -13,6 +13,7 @@ const vars = {
   indicatorColor: '#eeeeee',
   headerColor: '#000',
   confirmColor: '#2ed573',
+  overlayColor: '#fafbfc',
 
   // sizes
   padding: 16,

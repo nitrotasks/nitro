@@ -9,7 +9,8 @@ export class DroppableScrollableWrapper extends React.Component {
   static propTypes = {
     id: PropTypes.string,
     children: PropTypes.node,
-    linked: PropTypes.bool
+    linked: PropTypes.bool,
+    className: PropTypes.string
   }
   scrollView = React.createRef()
   intersectHelper = React.createRef()
@@ -108,7 +109,7 @@ export class DroppableScrollableWrapper extends React.Component {
               }}
             >
               <div
-                className="desktop-97"
+                className={this.props.className}
                 ref={e => {
                   provided.innerRef(e)
                   this.innerScrollView = e

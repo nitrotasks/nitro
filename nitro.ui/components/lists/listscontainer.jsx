@@ -39,7 +39,11 @@ export class ListsContainer extends React.Component {
   render() {
     let index = -1
     return (
-      <DroppableScrollableWrapper id="listsDroppable" linked={true}>
+      <DroppableScrollableWrapper
+        id="listsDroppable"
+        linked={true}
+        className="desktop-97"
+      >
         <View style={styles.listWrapper}>
           {this.state.lists.map(list => {
             index++ // this is a bit shit
