@@ -3,10 +3,10 @@ import { Events } from '../../nitro.sdk'
 import { vars } from '../styles.js'
 
 const idleCallback = (fn: () => mixed) => {
-  // currently just setting timeout to 350
+  // currently just setting timeout to 400
   setTimeout(() => {
     requestAnimationFrame(fn)
-  }, 350)
+  }, 400)
 }
 
 class _tasksExpanded extends Events {
@@ -32,6 +32,7 @@ class _tasksExpanded extends Events {
   }
   routeUpdate(routeProps: object) {
     if (this.state.taskTriggerInProgress) {
+      // TODO: Need to do something here if it's a back button
       return
     }
     const params = routeProps.match.params
@@ -71,7 +72,10 @@ class _tasksExpanded extends Events {
     })
   }
   triggerTask(list: string, task: string, position: number) {
-    if (this.state.list === list && this.state.task === task) {
+    if (
+      (this.state.list === list && this.state.task === task) ||
+      this.state.taskTriggerInProgress
+    ) {
       return
     }
     this.state.taskTriggerInProgress = true
@@ -83,8 +87,8 @@ class _tasksExpanded extends Events {
     this.trigger('show', list, task)
 
     idleCallback(() => {
-      this.state.taskTriggerInProgress = false
       this.go(url)
+      this.state.taskTriggerInProgress = false
     })
   }
   triggerReplace(list: string, task: string) {

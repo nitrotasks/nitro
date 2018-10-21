@@ -294,10 +294,15 @@ export class TaskExpanded extends React.Component {
     }
   }
   render() {
-    const top = TasksExpandedService.state.position + vars.padding
     let opacity = 1
     let overlayOpacity = 0.5
-    const overlayDisplay = this.state.overlayHidden ? '100vh' : '200vh'
+
+    // TODO: Both of these need to be reset when the list changes.
+    const top = TasksExpandedService.state.position + vars.padding
+    const scrollHeight = UiService.scrollView
+      ? UiService.scrollView.current.scrollHeight
+      : 0
+
     let transform = [{ translateY: 0 }]
     let pointerEvents = 'auto'
     if (this.state.hidden) {
@@ -449,8 +454,7 @@ export class TaskExpanded extends React.Component {
             styles.overlay,
             {
               opacity: overlayOpacity,
-              top: this.state.overlayTop,
-              height: overlayDisplay
+              height: scrollHeight
             }
           ]}
         />
@@ -462,8 +466,7 @@ export class TaskExpanded extends React.Component {
             styles.overlay,
             {
               opacity: 0,
-              top: this.state.overlayTop,
-              height: overlayDisplay
+              height: scrollHeight
             }
           ]}
         />
@@ -478,7 +481,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     width: '100%',
-    height: '200vh',
+    height: '100%',
     backgroundColor: vars.overlayColor,
     opacity: 0.5,
     transitionDuration: '300ms',
