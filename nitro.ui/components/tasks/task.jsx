@@ -33,9 +33,6 @@ export class Task extends React.PureComponent {
     dataList: PropTypes.string,
     dataCompleted: PropTypes.instanceOf(Date),
     currentHeading: PropTypes.string,
-    selected: PropTypes.bool,
-    selectedHeight: PropTypes.number,
-    selectedCallback: PropTypes.func,
     headersAllowed: PropTypes.bool,
     dragDisabled: PropTypes.bool
   }
@@ -45,25 +42,11 @@ export class Task extends React.PureComponent {
   thresholdHit = false
 
   componentDidMount() {
-    this.triggerPosition()
-
     if ('ontouchforcechange' in document === true) {
       findNodeHandle(this.viewRef.current).addEventListener(
         'touchforcechange',
         this.triggerForcePress
       )
-    }
-  }
-  componentWillReceiveProps(newProps) {
-    if (newProps.selected !== this.props.selected) {
-      this.triggerPosition(newProps)
-    }
-  }
-  triggerPosition = (newProps = this.props) => {
-    if (newProps.selected) {
-      this.viewRef.current.measure((x, y, width, height, pageX, pageY) => {
-        newProps.selectedCallback(y, pageY)
-      })
     }
   }
   triggerClick = () => {

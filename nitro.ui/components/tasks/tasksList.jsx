@@ -106,12 +106,11 @@ export class TasksList extends React.PureComponent {
   }
   triggerHide = () => {
     requestAnimationFrame(() => {
-      Array.from(findNodeHandle(this.tasksContainer.current).children)
-        // this breaks things, and who cares if a bit of performance suffers as a result
-        // .slice(this.currentItemIndex)
-        .forEach(item => {
-          item.style.transform = ''
-        })
+      Array.from(findNodeHandle(this.tasksContainer.current).children).forEach(
+        i => {
+          i.style.transform = ''
+        }
+      )
       const archive = findNodeHandle(this.archiveButton.current)
       if (archive) {
         archive.style.transform = ''
@@ -182,9 +181,6 @@ export class TasksList extends React.PureComponent {
         {order.map((taskId, index) => {
           const task = this.state.tasks.get(taskId)
           // if taskid matches ocorrect one get position in dom, pass to overlay etc etc
-          // const selected = taskId === this.props.match.params.task
-          const selected = false
-          const selectedHeight = selected ? this.state.currentTaskHeight : 0
           if (task.type === 'header') {
             currentHeading = task.id
             headerCollapsed = false
@@ -222,9 +218,6 @@ export class TasksList extends React.PureComponent {
               dataList={task.list}
               dataCompleted={task.completed}
               index={index}
-              selected={selected}
-              selectedHeight={selectedHeight}
-              selectedCallback={this.triggerSelected}
               headersAllowed={headersAllowed}
               currentHeading={currentHeading}
               dragDisabled={orderNotAllowed}

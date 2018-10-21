@@ -16,7 +16,8 @@ class _tasksExpanded extends Events {
       taskTriggerInProgress: false,
       list: null,
       task: null,
-      position: 0
+      position: 0,
+      height: 0
     }
     this.go = () => {
       console.log('history not working.')
@@ -34,8 +35,8 @@ class _tasksExpanded extends Events {
       return
     }
     const params = routeProps.match.params
-    if (typeof params.list !== 'undefined') {
-      if (typeof params.task !== 'undefined') {
+    if (params.list !== undefined) {
+      if (params.task !== undefined) {
         if (
           this.state.list === params.list &&
           this.state.task === params.task
@@ -76,12 +77,13 @@ class _tasksExpanded extends Events {
     this.state.taskTriggerInProgress = true
     this.state.list = list
     this.state.task = task
+    const url = `/${list}/${task}`
+
     this.state.position = position
     this.trigger('show', list, task)
 
     idleCallback(() => {
       this.state.taskTriggerInProgress = false
-      const url = `/${list}/${task}`
       this.go(url)
     })
   }
@@ -96,6 +98,7 @@ class _tasksExpanded extends Events {
   triggerTaskHeight(height: number) {
     // TODO: Magic Numbers!
     const actualHeight = height * vars.notesLineHeight + 120
+    this.state.height = actualHeight
     this.trigger('height', actualHeight)
   }
 }

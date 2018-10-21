@@ -438,9 +438,13 @@ export class TaskExpanded extends React.Component {
             </TouchableOpacity>
           </View>
         </View>
+        {/*
+          This view is the one with the styles.
+          This is so we can put it in front or behind the tasks (desktop-overlay class)
+         */}
         <View
           className="desktop-overlay"
-          pointerEvents={pointerEvents}
+          pointerEvents="none"
           style={[
             styles.overlay,
             {
@@ -449,7 +453,19 @@ export class TaskExpanded extends React.Component {
               height: overlayDisplay
             }
           ]}
+        />
+        {/* This one simply takes the events, but you can't see it */}
+        <View
+          pointerEvents={pointerEvents}
           onClick={this.triggerOverlay}
+          style={[
+            styles.overlay,
+            {
+              opacity: 0,
+              top: this.state.overlayTop,
+              height: overlayDisplay
+            }
+          ]}
         />
       </React.Fragment>
     )
