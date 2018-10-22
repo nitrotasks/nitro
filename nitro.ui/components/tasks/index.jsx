@@ -36,7 +36,10 @@ export class Tasks extends React.Component {
           <Header listId={listId} onIntersect={this.triggerIntersection} />
           <TasksInput listId={listId} />
           <TasksList listId={listId} />
-          <TaskExpanded triggerBack={this.props.history.goBack} />
+          <TaskExpanded
+            triggerBack={this.props.history.goBack}
+            listId={listId}
+          />
         </DroppableScrollableWrapper>
         <Datepicker pickerId="expanded" position="sheet" />
       </View>

@@ -29,6 +29,7 @@ import closeIcon from '../../../assets/icons/material/close.svg'
 // But Waka has them, so it's probably okay?
 const headerHeight = 112 + 42 + 32
 const footerHeight = 36 + 56
+const scrollOffset = 96
 
 const getMaxLines = () =>
   Math.floor(
@@ -38,13 +39,15 @@ const getMaxLines = () =>
 
 export class TaskExpanded extends React.Component {
   static propTypes = {
-    triggerBack: PropTypes.func
+    triggerBack: PropTypes.func,
+    listId: PropTypes.string
   }
   constructor(props) {
     super(props)
     this.taskInput = React.createRef()
     this.notesElement = React.createRef()
     this.notesTimeout = 0
+    this.previousListId = null
 
     if (TasksExpandedService.state.task !== null) {
       const taskDetails = this.getTask(TasksExpandedService.state.task)
@@ -64,6 +67,7 @@ export class TaskExpanded extends React.Component {
         hidden: true,
         overlayHidden: true,
         overlayTop: 0,
+        overlayHeight: 0,
         lineNumber: 3
       }
     }
@@ -100,18 +104,23 @@ export class TaskExpanded extends React.Component {
     requestAnimationFrame(() => {
       // TODO: This is a shit solution, need something better, especially on iOS
       // UiService.scrollView.current.style.overflowY = 'hidden'
-      const scrollLocation = TasksExpandedService.state.position - 96
+      const scrollLocation = TasksExpandedService.state.position - scrollOffset
       const lineNumber = Math.min(
         getMaxLines(),
         findNodeHandle(this.notesElement.current).scrollHeight /
           vars.notesLineHeight
       )
       TasksExpandedService.triggerTaskHeight(lineNumber)
+      const overlayHeight = findNodeHandle(
+        UiService.tasksContainer.current
+      ).getBoundingClientRect().height
+
       this.setState(
         {
           hidden: false,
           overlayHidden: false,
           overlayTop: scrollLocation,
+          overlayHeight: overlayHeight,
           lineNumber: lineNumber
         },
         () => {
@@ -294,15 +303,21 @@ export class TaskExpanded extends React.Component {
     }
   }
   render() {
+    const { listId } = this.props
+    let top = TasksExpandedService.state.position + vars.padding
+    let scrollHeight = this.state.overlayHeight + window.innerHeight
+
+    // if the list changes
+    if (this.previousListId !== listId && this.state.hidden) {
+      top = 0
+      scrollHeight = 0
+      if (this.state.hidden && this.state.overlayHidden) {
+        this.previousListId = listId
+      }
+    }
+
     let opacity = 1
     let overlayOpacity = 0.5
-
-    // TODO: Both of these need to be reset when the list changes.
-    const top = TasksExpandedService.state.position + vars.padding
-    const scrollHeight = UiService.scrollView
-      ? UiService.scrollView.current.scrollHeight
-      : 0
-
     let transform = [{ translateY: 0 }]
     let pointerEvents = 'auto'
     if (this.state.hidden) {

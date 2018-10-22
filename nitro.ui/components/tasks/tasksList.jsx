@@ -57,6 +57,7 @@ export class TasksList extends React.PureComponent {
     this.currentItemIndex = 0
     this.archiveButton = React.createRef()
     this.tasksContainer = React.createRef()
+    UiService.tasksContainer = this.tasksContainer
   }
   componentDidMount() {
     NitroSdk.bind('update', this.tasksUpdate)

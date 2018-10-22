@@ -30,6 +30,7 @@ class uiService extends Events {
   }
 
   scrollView = null
+  tasksContainer = null
 
   getScroll(): number {
     if (this.scrollView === null) {
