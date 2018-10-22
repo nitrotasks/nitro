@@ -54,8 +54,11 @@ export class TaskExpanded extends React.Component {
       this.state = {
         ...taskDetails,
         hidden: false,
-        lineNumber: 3
+        lineNumber: 3,
+        overlayHeight: window.innerHeight,
+        overlayHidden: false
       }
+      requestAnimationFrame(() => UiService.setCardPosition('hidden'))
     } else {
       this.state = {
         mode: 'create',
@@ -66,7 +69,6 @@ export class TaskExpanded extends React.Component {
         checked: false,
         hidden: true,
         overlayHidden: true,
-        overlayTop: 0,
         overlayHeight: 0,
         lineNumber: 3
       }
@@ -119,18 +121,35 @@ export class TaskExpanded extends React.Component {
         {
           hidden: false,
           overlayHidden: false,
-          overlayTop: scrollLocation,
           overlayHeight: overlayHeight,
           lineNumber: lineNumber
         },
         () => {
           requestAnimationFrame(() => {
-            UiService.setCardPosition('hidden')
-            UiService.scrollTo({
-              top: scrollLocation,
-              left: 0,
-              behavior: 'smooth'
-            })
+            if (window.innerWidth <= 850) {
+              // mobile
+              UiService.setCardPosition('hidden')
+              UiService.scrollTo({
+                top: scrollLocation,
+                left: 0,
+                behavior: 'smooth'
+              })
+            } else {
+              // desktop
+              // Maybe Intersection Observer is more suited towards this
+              const expandedHeight =
+                headerHeight + footerHeight + lineNumber * vars.notesLineHeight
+              const fold = UiService.getScroll() + window.innerHeight
+
+              // If the overlay is "below the fold", we going to scroll down a bit
+              if (scrollLocation + expandedHeight > fold) {
+                UiService.scrollBy({
+                  top: scrollLocation + expandedHeight - fold,
+                  left: 0,
+                  behavior: 'smooth'
+                })
+              }
+            }
           })
         }
       )

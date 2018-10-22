@@ -38,6 +38,7 @@ class uiService extends Events {
     }
     return this.scrollView.current.scrollTop
   }
+
   scrollTo(scrollObject: object): number {
     if (this.scrollView === null) {
       return
@@ -45,6 +46,15 @@ class uiService extends Events {
     scrollObject.y = scrollObject.top
     scrollObject.x = scrollObject.left
     this.scrollView.current.scrollTo(scrollObject)
+  }
+
+  scrollBy(scrollObject: object): number {
+    if (this.scrollView === null) {
+      return
+    }
+    scrollObject.y = scrollObject.top
+    scrollObject.x = scrollObject.left
+    this.scrollView.current.scrollBy(scrollObject)
   }
 
   setCardPosition(
