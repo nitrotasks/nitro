@@ -39,7 +39,6 @@ const getMaxLines = () =>
 
 export class TaskExpanded extends React.Component {
   static propTypes = {
-    triggerBack: PropTypes.func,
     listId: PropTypes.string
   }
   constructor(props) {
@@ -201,11 +200,7 @@ export class TaskExpanded extends React.Component {
     }
   }
   triggerOverlay = () => {
-    if (window.location.pathname.split('/').length > 2) {
-      this.props.triggerBack()
-    } else {
-      this.triggerHide()
-    }
+    TasksExpandedService.triggerBack()
   }
   triggerChange = field => {
     return e => {

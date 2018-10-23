@@ -2,9 +2,14 @@
 import { Events } from '../../nitro.sdk'
 import { vars } from '../styles.js'
 
+let cancelIdleCallback = false
 const idleCallback = (fn: () => mixed) => {
   // currently just setting timeout to 400
   setTimeout(() => {
+    if (cancelIdleCallback) {
+      cancelIdleCallback = false
+      return
+    }
     requestAnimationFrame(fn)
   }, 400)
 }
@@ -19,22 +24,14 @@ class _tasksExpanded extends Events {
       position: 0,
       height: 0
     }
-    this.go = () => {
-      console.log('history not working.')
-    }
-    this.replace = () => {
-      console.log('history not working.')
-    }
+    this.go = () => console.log('go history not working.')
+    this.replace = () => console.log('replace history not working.')
   }
   setGo(push, replace) {
     this.go = push
     this.replace = replace
   }
   routeUpdate(routeProps: object) {
-    if (this.state.taskTriggerInProgress) {
-      // TODO: Need to do something here if it's a back button
-      return
-    }
     const params = routeProps.match.params
     if (params.list !== undefined) {
       if (params.task !== undefined) {
@@ -47,11 +44,19 @@ class _tasksExpanded extends Events {
         this.state.list = params.list
         this.state.task = params.task
 
-        if (params.task !== 'new') {
+        if (params.task !== 'new' && !this.state.taskTriggerInProgress) {
           this.trigger('show', params.list, params.task)
         }
       } else {
         if (this.state.task === null) {
+          return
+        }
+        if (
+          this.state.list !== params.list &&
+          this.state.taskTriggerInProgress
+        ) {
+          return this.triggerBack()
+        } else if (this.state.taskTriggerInProgress) {
           return
         }
         this.state.list = params.list
@@ -98,6 +103,16 @@ class _tasksExpanded extends Events {
     const url = `/${list}/${task}`
     this.replace(url)
     this.trigger('replace', list, task)
+  }
+  triggerBack() {
+    if (this.state.taskTriggerInProgress) {
+      cancelIdleCallback = true
+      this.state.task = null
+      this.state.taskTriggerInProgress = false
+      this.trigger('hide', this.state.list)
+    } else {
+      window.history.back()
+    }
   }
   triggerTaskHeight(height: number) {
     // TODO: Magic Numbers!
