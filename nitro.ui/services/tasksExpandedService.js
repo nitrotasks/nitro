@@ -84,7 +84,19 @@ class _tasksExpanded extends Events {
       return
     }
     this.state.taskTriggerInProgress = true
-    this.state.list = list
+
+    // rewrites history so the back button does what you would expect
+    // this also works properly if you're going from open task -> open task
+    let redirect = this.go
+    if (list !== this.state.list) {
+      this.state.list = list
+      this.replace(`/${list}`)
+    } else if (this.state.task !== null) {
+      // if the list has not been changed, but you're still going from open task to open task
+      // it does a replace, not a go
+      redirect = this.replace
+    }
+
     this.state.task = task
     const url = `/${list}/${task}`
 
@@ -92,7 +104,7 @@ class _tasksExpanded extends Events {
     this.trigger('show', list, task)
 
     idleCallback(() => {
-      this.go(url)
+      redirect(url)
       this.state.taskTriggerInProgress = false
     })
   }

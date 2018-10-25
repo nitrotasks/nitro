@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 
 import { View, Text, Image, StyleSheet } from 'react-native'
-import { Link } from '../reusable/link.jsx'
 import { TouchableOpacity } from '../reusable/touchableOpacity.jsx'
 
 import { vars } from '../../styles'
@@ -25,26 +25,37 @@ export class SearchItem extends React.Component {
     name: PropTypes.string,
     subtitle: PropTypes.string
   }
+  triggerClick = () => {
+    const { url } = this.props
+    const parsedUrl = url.split('/')
+    if (parsedUrl.length === 3) {
+      TasksExpandedService.triggerTask(parsedUrl[1], parsedUrl[2], 0)
+    } else {
+      TasksExpandedService.go(url)
+    }
+  }
   render() {
-    const { icon, url, name, subtitle } = this.props
+    const { icon, name, subtitle } = this.props
     let image = iconMap.get(icon)
     if (typeof image === 'undefined') {
       image = listIcon
     }
     return (
-      <Link to={url}>
-        <TouchableOpacity style={styles.resultWrapper} className="hover-5">
-          <View style={styles.iconWrapper}>
-            <Image source={image} resizeMode="contain" style={styles.icon} />
-          </View>
-          <View style={styles.nameWrapper}>
-            <Text style={styles.name}>{name}</Text>
-            {subtitle === null ? null : (
-              <Text style={styles.subtitle}>{subtitle}</Text>
-            )}
-          </View>
-        </TouchableOpacity>
-      </Link>
+      <TouchableOpacity
+        style={styles.resultWrapper}
+        className="hover-5"
+        onClick={this.triggerClick}
+      >
+        <View style={styles.iconWrapper}>
+          <Image source={image} resizeMode="contain" style={styles.icon} />
+        </View>
+        <View style={styles.nameWrapper}>
+          <Text style={styles.name}>{name}</Text>
+          {subtitle === null ? null : (
+            <Text style={styles.subtitle}>{subtitle}</Text>
+          )}
+        </View>
+      </TouchableOpacity>
     )
   }
 }
