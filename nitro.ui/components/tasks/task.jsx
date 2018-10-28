@@ -48,12 +48,43 @@ export class Task extends React.PureComponent {
         this.triggerForcePress
       )
     }
+
+    // if this task is the selected task, we're going to move the overlay into place
+    if (this.props.dataId === TasksExpandedService.state.task) {
+      requestAnimationFrame(() => {
+        const scrollPos = UiService.getScroll()
+        const top = findNodeHandle(this.viewRef.current).getBoundingClientRect().top
+        TasksExpandedService.state.position = top + scrollPos
+        TasksExpandedService.trigger('show', this.props.listId, this.props.dataId)
+      })
+    }
+
+    TasksExpandedService.bind('indirect-click', this.indirectClick)
+  }
+  componentWillUnmount() {
+    TasksExpandedService.unbind('indirect-click', this.indirectClick)
   }
   triggerClick = () => {
-    const scrollPos = UiService.getScroll()
-    const rect = findNodeHandle(this.viewRef.current).getBoundingClientRect()
-    const y = rect.top + scrollPos
-    TasksExpandedService.triggerTask(this.props.listId, this.props.dataId, y)
+    const { listId, dataId } = this.props
+    this.indirectClick(listId, dataId)
+  }
+  indirectClick = (list, task) => {
+    if (task === this.props.dataId) {
+      const scrollPos = UiService.getScroll()
+      const top = findNodeHandle(this.viewRef.current).getBoundingClientRect().top
+      let y = top + scrollPos
+      if (TasksExpandedService.state.task === null) {
+        TasksExpandedService.triggerTask(list, task, y)
+      } else {
+        // hacks hack hacks
+        const order = UiService.state.currentListTasksOrder
+        if (order.indexOf(TasksExpandedService.state.task) < order.indexOf(task)) {
+          y = y - TasksExpandedService.state.height
+        }
+        TasksExpandedService.triggerBack()
+        setTimeout(() => TasksExpandedService.triggerTask(list, task, y), 350)
+      }
+    }
   }
   // iOS has a funnny force press / 3d touch API
   // i.e it doesn't use pointer events

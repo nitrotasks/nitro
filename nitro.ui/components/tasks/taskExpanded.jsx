@@ -46,7 +46,7 @@ export class TaskExpanded extends React.Component {
     this.taskInput = React.createRef()
     this.notesElement = React.createRef()
     this.notesTimeout = 0
-    this.previousListId = null
+    this.previousListId = TasksExpandedService.state.list
 
     if (TasksExpandedService.state.task !== null) {
       const taskDetails = this.getTask(TasksExpandedService.state.task)
@@ -144,6 +144,12 @@ export class TaskExpanded extends React.Component {
               if (scrollLocation + expandedHeight > fold) {
                 UiService.scrollBy({
                   top: scrollLocation + expandedHeight - fold,
+                  left: 0,
+                  behavior: 'smooth'
+                })
+              } else if (scrollLocation < UiService.getScroll()) {
+                UiService.scrollTo({
+                  top: scrollLocation,
                   left: 0,
                   behavior: 'smooth'
                 })

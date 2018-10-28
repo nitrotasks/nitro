@@ -48,6 +48,7 @@ class _tasksExpanded extends Events {
           this.trigger('show', params.list, params.task)
         }
       } else {
+        this.state.list = params.list
         if (this.state.task === null) {
           return
         }
@@ -59,7 +60,6 @@ class _tasksExpanded extends Events {
         } else if (this.state.taskTriggerInProgress) {
           return
         }
-        this.state.list = params.list
         this.state.task = null
         this.trigger('hide', params.list)
       }
@@ -101,7 +101,7 @@ class _tasksExpanded extends Events {
     const url = `/${list}/${task}`
 
     this.state.position = position
-    this.trigger('show', list, task)
+    this.trigger('show', list, task)  
 
     idleCallback(() => {
       redirect(url)
