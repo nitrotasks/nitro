@@ -53,9 +53,14 @@ export class Task extends React.PureComponent {
     if (this.props.dataId === TasksExpandedService.state.task) {
       requestAnimationFrame(() => {
         const scrollPos = UiService.getScroll()
-        const top = findNodeHandle(this.viewRef.current).getBoundingClientRect().top
+        const top = findNodeHandle(this.viewRef.current).getBoundingClientRect()
+          .top
         TasksExpandedService.state.position = top + scrollPos
-        TasksExpandedService.trigger('show', this.props.listId, this.props.dataId)
+        TasksExpandedService.trigger(
+          'show',
+          this.props.listId,
+          this.props.dataId
+        )
       })
     }
 
@@ -71,14 +76,17 @@ export class Task extends React.PureComponent {
   indirectClick = (list, task) => {
     if (task === this.props.dataId) {
       const scrollPos = UiService.getScroll()
-      const top = findNodeHandle(this.viewRef.current).getBoundingClientRect().top
+      const top = findNodeHandle(this.viewRef.current).getBoundingClientRect()
+        .top
       let y = top + scrollPos
       if (TasksExpandedService.state.task === null) {
         TasksExpandedService.triggerTask(list, task, y)
       } else {
         // hacks hack hacks
         const order = UiService.state.currentListTasksOrder
-        if (order.indexOf(TasksExpandedService.state.task) < order.indexOf(task)) {
+        if (
+          order.indexOf(TasksExpandedService.state.task) < order.indexOf(task)
+        ) {
           y = y - TasksExpandedService.state.height
         }
         TasksExpandedService.triggerBack()

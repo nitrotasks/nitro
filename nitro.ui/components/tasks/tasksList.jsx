@@ -94,12 +94,21 @@ export class TasksList extends React.PureComponent {
     )
     const archive = findNodeHandle(this.archiveButton.current)
     requestAnimationFrame(() => {
-      Array.from(findNodeHandle(this.tasksContainer.current).children)
-        .slice(this.currentItemIndex)
-        .forEach((item, key) => {
-          const pixels = key === 0 ? vars.padding * 2 : height
-          item.style.transform = `translate3d(0,${pixels}px,0)`
-        })
+      const index = this.currentItemIndex < 0 ? 0 : this.currentItemIndex + 1
+      const nodes = Array.from(
+        findNodeHandle(this.tasksContainer.current).children
+      ).slice(index)
+
+      // if the new button is pressed, we need to offset it, because this is a zero-height spacer
+      if (index === 0 && nodes.length > 1) {
+        const taskHeight = nodes[1].getBoundingClientRect().height
+        height += taskHeight
+      }
+
+      nodes.forEach((item, key) => {
+        const pixels = key === 0 ? vars.padding * 2 : height
+        item.style.transform = `translate3d(0,${pixels}px,0)`
+      })
       if (archive) {
         archive.style.transform = `translate3d(0,${height}px,0)`
       }
@@ -179,6 +188,7 @@ export class TasksList extends React.PureComponent {
 
     return (
       <View ref={this.tasksContainer} style={styles.wrapper}>
+        <div className="new-task-spacer" />
         {order.map((taskId, index) => {
           const task = this.state.tasks.get(taskId)
           // if taskid matches ocorrect one get position in dom, pass to overlay etc etc
@@ -207,7 +217,7 @@ export class TasksList extends React.PureComponent {
           }
           return (
             <Task
-              key={task.id}
+              key={`${this.props.listId}-${task.id}`}
               listId={this.props.listId}
               dataId={task.id}
               dataName={task.name}

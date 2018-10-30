@@ -2,6 +2,9 @@
 import { Events } from '../../nitro.sdk'
 import { vars } from '../styles.js'
 
+// TODO: change this from a magic number to something calculated
+const NEW_TASK_POSITION = 105
+
 let cancelIdleCallback = false
 const idleCallback = (fn: () => mixed) => {
   // currently just setting timeout to 400
@@ -67,7 +70,7 @@ class _tasksExpanded extends Events {
   }
   triggerCreate(list: string) {
     this.state.taskTriggerInProgress = true
-    this.state.position = 0 // TODO: what's the magic number that we want?
+    this.state.position = NEW_TASK_POSITION
     this.trigger('show', list, 'new')
 
     idleCallback(() => {
@@ -101,7 +104,7 @@ class _tasksExpanded extends Events {
     const url = `/${list}/${task}`
 
     this.state.position = position
-    this.trigger('show', list, task)  
+    this.trigger('show', list, task)
 
     idleCallback(() => {
       redirect(url)
