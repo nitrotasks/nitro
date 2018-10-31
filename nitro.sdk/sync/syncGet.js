@@ -87,7 +87,7 @@ export default class SyncGet extends Events {
           this.tasks.addListFromServer(data.tasks, currentList.id)
 
           // update the local order
-          const localOrder = this.tasks.mapToLocal(currentList.order)
+          const localOrder = this.tasks.mapToLocal(data.order)
           this.lists.update(
             currentList.serverId,
             { localOrder: localOrder },

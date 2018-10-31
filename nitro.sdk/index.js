@@ -508,7 +508,7 @@ export class sdk extends Events {
   deleteTask(id: string, server: ?boolean) {
     const task = this.getTask(id, server)
     if (task === null) throw new Error('Task could not be found')
-    const order = ListsCollection.find(task.list).localOrder
+    const order = this.getList(task.list).localOrder.slice()
     order.splice(order.indexOf(task.id), 1)
     this.updateTasksOrder(task.list, order, false)
     TasksCollection.delete(task.id, authenticationStore.isLocalAccount())
@@ -524,17 +524,28 @@ export class sdk extends Events {
 
     // updates the local order, then the server order
     resource.localOrder = order
-    resource.order = order
-      .map(localId => {
-        const task = TasksCollection.find(localId)
-        if (task === null) return null
-        return task.serverId
+
+    const preProcessCallback = () => {
+      resource.order = order
+        .map(localId => {
+          const task = TasksCollection.find(localId)
+          if (task === null) return null
+          return task.serverId
+        })
+        .filter(item => item !== null)
+    }
+
+    if (sync) {
+      ListsCollection.sync.addPreProcess(preProcessCallback)
+      ListsCollection.sync.addPreProcess(() => {
+        ListsCollection.sync.addToQueue(listId, 'patch', 'lists')  
       })
-      .filter(item => item !== null)
+    } else {
+      preProcessCallback()
+    }
 
     ListsCollection.trigger('order')
     ListsCollection.saveLocal()
-    if (sync) ListsCollection.sync.addToQueue(listId, 'patch', 'lists')
   }
   addList(props: Object, sync: ?boolean): Object {
     const newList = ListsCollection.add(props, sync)
