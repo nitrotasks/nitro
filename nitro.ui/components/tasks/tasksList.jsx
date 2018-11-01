@@ -68,7 +68,7 @@ export class TasksList extends React.PureComponent {
   componentDidUpdate() {
     // this is basically a dodgy async render
     if (this.state.showTasks === false) {
-      requestIdleCallback(() => {
+      requestAnimationFrame(() => {
         this.setState({
           showTasks: true
         })
