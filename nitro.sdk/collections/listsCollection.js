@@ -74,7 +74,7 @@ export class lists extends Events {
     return this.collection
   }
   updateOrder(order) {
-    const specialLists = ['inbox', 'today', 'next', 'all']
+    const specialLists = ['inbox', 'today', 'next']
     const withoutSpecialLists = order.filter(i => !specialLists.includes(i))
     const newOrder = specialLists.concat(withoutSpecialLists)
 
