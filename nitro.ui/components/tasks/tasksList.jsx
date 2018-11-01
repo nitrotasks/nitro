@@ -15,6 +15,7 @@ import { vars } from '../../styles.js'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 import { UiService } from '../../services/uiService.js'
 import { Task } from './task.jsx'
+import { EmptyList } from './emptyList.jsx'
 
 import archiveIcon from '../../../assets/icons/material/archive.svg'
 
@@ -42,24 +43,37 @@ export class TasksList extends React.PureComponent {
     return {
       previousId: props.listId,
       order: order,
-      tasks: taskMap
+      tasks: taskMap,
+      showTasks: false
     }
   }
   constructor(props) {
     super(props)
     this.state = {
+      ...this.constructor.generateState(props),
       currentTaskHeight: 0,
-      ...this.constructor.generateState(props)
+      showTasks: true
     }
     this.currentItemIndex = 0
     this.archiveButton = React.createRef()
     this.tasksContainer = React.createRef()
+    UiService.tasksContainer = this.tasksContainer
   }
   componentDidMount() {
     NitroSdk.bind('update', this.tasksUpdate)
     NitroSdk.bind('order', this.tasksUpdate)
     TasksExpandedService.bind('height', this.triggerShow)
     TasksExpandedService.bind('hide', this.triggerHide)
+  }
+  componentDidUpdate() {
+    // this is basically a dodgy async render
+    if (this.state.showTasks === false) {
+      requestIdleCallback(() => {
+        this.setState({
+          showTasks: true
+        })
+      })
+    }
   }
   componentWillUnmount() {
     NitroSdk.unbind('update', this.tasksUpdate)
@@ -69,7 +83,10 @@ export class TasksList extends React.PureComponent {
   }
   tasksUpdate = () => {
     // captures all updates for all lists, because the today and next lists are special
-    this.setState(this.constructor.generateState(this.props))
+    this.setState({
+      ...this.constructor.generateState(this.props),
+      showTasks: true
+    })
   }
   triggerShow = height => {
     this.currentItemIndex = this.state.order.indexOf(
@@ -77,12 +94,21 @@ export class TasksList extends React.PureComponent {
     )
     const archive = findNodeHandle(this.archiveButton.current)
     requestAnimationFrame(() => {
-      Array.from(findNodeHandle(this.tasksContainer.current).children)
-        .slice(this.currentItemIndex)
-        .forEach((item, key) => {
-          const pixels = key === 0 ? vars.padding * 2 : height
-          item.style.transform = `translate3d(0,${pixels}px,0)`
-        })
+      const index = this.currentItemIndex < 0 ? 0 : this.currentItemIndex + 1
+      const nodes = Array.from(
+        findNodeHandle(this.tasksContainer.current).children
+      ).slice(index)
+
+      // if the new button is pressed, we need to offset it, because this is a zero-height spacer
+      if (index === 0 && nodes.length > 1) {
+        const taskHeight = nodes[1].getBoundingClientRect().height
+        height += taskHeight
+      }
+
+      nodes.forEach((item, key) => {
+        const pixels = key === 0 ? vars.padding * 2 : height
+        item.style.transform = `translate3d(0,${pixels}px,0)`
+      })
       if (archive) {
         archive.style.transform = `translate3d(0,${height}px,0)`
       }
@@ -90,12 +116,11 @@ export class TasksList extends React.PureComponent {
   }
   triggerHide = () => {
     requestAnimationFrame(() => {
-      Array.from(findNodeHandle(this.tasksContainer.current).children)
-        // this breaks things, and who cares if a bit of performance suffers as a result
-        // .slice(this.currentItemIndex)
-        .forEach(item => {
-          item.style.transform = ''
-        })
+      Array.from(findNodeHandle(this.tasksContainer.current).children).forEach(
+        i => {
+          i.style.transform = ''
+        }
+      )
       const archive = findNodeHandle(this.archiveButton.current)
       if (archive) {
         archive.style.transform = ''
@@ -137,7 +162,7 @@ export class TasksList extends React.PureComponent {
       archiveButton = (
         <View ref={this.archiveButton} style={styles.archiveButtonWrapper}>
           <TouchableOpacity onClick={this.triggerArchive}>
-            <View style={styles.archiveButton}>
+            <View style={styles.archiveButton} className="hover-5">
               <Image
                 accessibilityLabel="Archive Icon"
                 source={archiveIcon}
@@ -156,14 +181,17 @@ export class TasksList extends React.PureComponent {
     let currentHeading = ''
     let headerCollapsed = false
 
+    const partialRender = this.state.order.length > 15 && !this.state.showTasks
+    const order = partialRender
+      ? this.state.order.slice(0, 15)
+      : this.state.order
+
     return (
       <View ref={this.tasksContainer} style={styles.wrapper}>
-        {this.state.order.map((taskId, index) => {
+        <div className="new-task-spacer" />
+        {order.map((taskId, index) => {
           const task = this.state.tasks.get(taskId)
           // if taskid matches ocorrect one get position in dom, pass to overlay etc etc
-          // const selected = taskId === this.props.match.params.task
-          const selected = false
-          const selectedHeight = selected ? this.state.currentTaskHeight : 0
           if (task.type === 'header') {
             currentHeading = task.id
             headerCollapsed = false
@@ -189,7 +217,7 @@ export class TasksList extends React.PureComponent {
           }
           return (
             <Task
-              key={task.id}
+              key={`${this.props.listId}-${task.id}`}
               listId={this.props.listId}
               dataId={task.id}
               dataName={task.name}
@@ -201,16 +229,18 @@ export class TasksList extends React.PureComponent {
               dataList={task.list}
               dataCompleted={task.completed}
               index={index}
-              selected={selected}
-              selectedHeight={selectedHeight}
-              selectedCallback={this.triggerSelected}
               headersAllowed={headersAllowed}
               currentHeading={currentHeading}
               dragDisabled={orderNotAllowed}
             />
           )
         })}
-        {archiveButton}
+        {order.length === 0 ? <EmptyList listId={this.props.listId} /> : null}
+        {partialRender ? (
+          <Text style={styles.loadingText}>Loading...</Text>
+        ) : (
+          archiveButton
+        )}
       </View>
     )
   }
@@ -250,6 +280,12 @@ const styles = StyleSheet.create({
     width: 12
   },
   archiveButtonText: {
+    textIndent: vars.padding * 0.375,
+    fontFamily: vars.fontFamily,
+    fontSize: 14
+  },
+  loadingText: {
+    lineHeight: 50,
     textIndent: vars.padding * 0.375,
     fontFamily: vars.fontFamily,
     fontSize: 14

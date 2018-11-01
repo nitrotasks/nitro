@@ -30,6 +30,7 @@ class uiService extends Events {
   }
 
   scrollView = null
+  tasksContainer = null
 
   getScroll(): number {
     if (this.scrollView === null) {
@@ -37,6 +38,7 @@ class uiService extends Events {
     }
     return this.scrollView.current.scrollTop
   }
+
   scrollTo(scrollObject: object): number {
     if (this.scrollView === null) {
       return
@@ -46,11 +48,24 @@ class uiService extends Events {
     this.scrollView.current.scrollTo(scrollObject)
   }
 
+  scrollBy(scrollObject: object): number {
+    if (this.scrollView === null) {
+      return
+    }
+    scrollObject.y = scrollObject.top
+    scrollObject.x = scrollObject.left
+    this.scrollView.current.scrollBy(scrollObject)
+  }
+
   setCardPosition(
     position: object,
     animate: boolean = true,
     manual: boolean = false
   ) {
+    // desktop is always max
+    if (window.innerWidth > 850) {
+      position = 'max'
+    }
     // don't need to do anything if it's already in the right position
     if (this.state.cardPosition === position) {
       return

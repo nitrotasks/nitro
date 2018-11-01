@@ -11,7 +11,7 @@ describe('combined collection', function() {
   describe('list', function() {
     it('should have the default lists', function() {
       const lists = NitroSdk.getLists()
-      assert.equal(lists.length, 4)
+      assert.equal(lists.length, 3)
     })
     it('should have the count attribute', function() {
       const lists = NitroSdk.getLists()

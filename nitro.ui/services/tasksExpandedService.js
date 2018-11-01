@@ -2,11 +2,19 @@
 import { Events } from '../../nitro.sdk'
 import { vars } from '../styles.js'
 
+// TODO: change this from a magic number to something calculated
+const NEW_TASK_POSITION = 105
+
+let cancelIdleCallback = false
 const idleCallback = (fn: () => mixed) => {
-  // currently just setting timeout to 350
+  // currently just setting timeout to 400
   setTimeout(() => {
+    if (cancelIdleCallback) {
+      cancelIdleCallback = false
+      return
+    }
     requestAnimationFrame(fn)
-  }, 350)
+  }, 400)
 }
 
 class _tasksExpanded extends Events {
@@ -16,26 +24,20 @@ class _tasksExpanded extends Events {
       taskTriggerInProgress: false,
       list: null,
       task: null,
-      position: 0
+      position: 0,
+      height: 0
     }
-    this.go = () => {
-      console.log('history not working.')
-    }
-    this.replace = () => {
-      console.log('history not working.')
-    }
+    this.go = () => console.log('go history not working.')
+    this.replace = () => console.log('replace history not working.')
   }
   setGo(push, replace) {
     this.go = push
     this.replace = replace
   }
   routeUpdate(routeProps: object) {
-    if (this.state.taskTriggerInProgress) {
-      return
-    }
     const params = routeProps.match.params
-    if (typeof params.list !== 'undefined') {
-      if (typeof params.task !== 'undefined') {
+    if (params.list !== undefined) {
+      if (params.task !== undefined) {
         if (
           this.state.list === params.list &&
           this.state.task === params.task
@@ -45,14 +47,22 @@ class _tasksExpanded extends Events {
         this.state.list = params.list
         this.state.task = params.task
 
-        if (params.task !== 'new') {
+        if (params.task !== 'new' && !this.state.taskTriggerInProgress) {
           this.trigger('show', params.list, params.task)
         }
       } else {
+        this.state.list = params.list
         if (this.state.task === null) {
           return
         }
-        this.state.list = params.list
+        if (
+          this.state.list !== params.list &&
+          this.state.taskTriggerInProgress
+        ) {
+          return this.triggerBack()
+        } else if (this.state.taskTriggerInProgress) {
+          return
+        }
         this.state.task = null
         this.trigger('hide', params.list)
       }
@@ -60,7 +70,7 @@ class _tasksExpanded extends Events {
   }
   triggerCreate(list: string) {
     this.state.taskTriggerInProgress = true
-    this.state.position = 0 // TODO: what's the magic number that we want?
+    this.state.position = NEW_TASK_POSITION
     this.trigger('show', list, 'new')
 
     idleCallback(() => {
@@ -70,19 +80,35 @@ class _tasksExpanded extends Events {
     })
   }
   triggerTask(list: string, task: string, position: number) {
-    if (this.state.list === list && this.state.task === task) {
+    if (
+      (this.state.list === list && this.state.task === task) ||
+      this.state.taskTriggerInProgress
+    ) {
       return
     }
     this.state.taskTriggerInProgress = true
-    this.state.list = list
+
+    // rewrites history so the back button does what you would expect
+    // this also works properly if you're going from open task -> open task
+    let redirect = this.go
+    if (list !== this.state.list) {
+      this.state.list = list
+      this.replace(`/${list}`)
+    } else if (this.state.task !== null) {
+      // if the list has not been changed, but you're still going from open task to open task
+      // it does a replace, not a go
+      redirect = this.replace
+    }
+
     this.state.task = task
+    const url = `/${list}/${task}`
+
     this.state.position = position
     this.trigger('show', list, task)
 
     idleCallback(() => {
+      redirect(url)
       this.state.taskTriggerInProgress = false
-      const url = `/${list}/${task}`
-      this.go(url)
     })
   }
   triggerReplace(list: string, task: string) {
@@ -93,9 +119,20 @@ class _tasksExpanded extends Events {
     this.replace(url)
     this.trigger('replace', list, task)
   }
+  triggerBack() {
+    if (this.state.taskTriggerInProgress) {
+      cancelIdleCallback = true
+      this.state.task = null
+      this.state.taskTriggerInProgress = false
+      this.trigger('hide', this.state.list)
+    } else {
+      window.history.back()
+    }
+  }
   triggerTaskHeight(height: number) {
     // TODO: Magic Numbers!
     const actualHeight = height * vars.notesLineHeight + 120
+    this.state.height = actualHeight
     this.trigger('height', actualHeight)
   }
 }

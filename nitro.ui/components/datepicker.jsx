@@ -38,6 +38,12 @@ export class Datepicker extends React.Component {
   triggerSelect = value1 => {
     return value2 => {
       let value = value1 || value2
+      if (value.constructor === Date) {
+        value.setHours(0)
+        value.setMinutes(0)
+        value.setSeconds(0)
+        value.setMilliseconds(0)
+      }
       this.callback(value)
       this.triggerHide()
     }
@@ -135,7 +141,11 @@ export class Datepicker extends React.Component {
             </TouchableOpacity>
           </View>
           {buttonsTop}
-          <DayPicker onDayClick={this.triggerSelect()} />
+          <DayPicker
+            selectedDays={this.state.date}
+            onDayClick={this.triggerSelect()}
+            month={this.state.date}
+          />
         </View>
       </View>
     )

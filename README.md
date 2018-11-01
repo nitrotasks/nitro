@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/nitrotasks/nitro.svg?branch=master)](https://travis-ci.org/nitrotasks/nitro)
 [![Dependency Status](https://david-dm.org/nitrotasks/nitro.svg?theme=shields.io)](https://david-dm.org/nitrotasks/nitro)
 [![devDependency Status](https://david-dm.org/nitrotasks/nitro/dev-status.svg?theme=shields.io)](https://david-dm.org/nitrotasks/nitro#info=devDependencies)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fnitrotasks%2Fnitro.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fnitrotasks%2Fnitro?ref=badge_shield)
 
 A brand new rewrite. Check out the [Wiki](https://github.com/nitrotasks/nitro/wiki) for what's new and happening, or tweet me [@consindo](https://twitter.com/consindo).
 
@@ -27,3 +28,6 @@ A brand new rewrite. Check out the [Wiki](https://github.com/nitrotasks/nitro/wi
 - Use `npm run build` to create a production build.
 - Serve this from nitro-server by changing the config.
 - If you're the maintainer, use `npm publish` and change the wanted package in the nitro-server `package.json`.
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fnitrotasks%2Fnitro.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fnitrotasks%2Fnitro?ref=badge_large)

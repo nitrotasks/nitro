@@ -45,9 +45,69 @@ input:disabled {
     display: none;
   }
   .desktop-padding-left {
-    padding-left: 16px;
+    padding-left: 12px;
   }
   .desktop-padding-right {
-    padding-right: 16px;
+    padding-right: 12px;
+  }
+  .desktop-90 {
+    width: 90%;
+    margin: 0 auto;
+  }
+  .desktop-97 {
+    width: 97%;
+    margin: 0 auto;
+  }
+  .desktop-overlay {
+    z-index: -1;
+  }
+  .desktop-expanded {
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    left: calc(5% - 8px);
+    width: calc(90% + 16px);
+    padding-left: 24px;
+    padding-right: 4px;
+  }
+}
+
+.touchable-opacity {
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0.5);
+  -webkit-touch-callout: none;
+  -webkit-text-size-adjust: none;
+  -webkit-user-select: none;
+}
+
+.touchable-opacity.opacity-25 {
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0.75);
+}
+.touchable-opacity.opacity-75 {
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0.25);
+}
+.touchable-opacity.opacity-90 {
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
+}
+.touchable-opacity-active {
+  -webkit-tap-highlight-color: transparent;
+}
+.touchable-opacity-active:active {
+  opacity: 0.5;
+}
+.touchable-opacity-active.opacity-25:active {
+  opacity: 0.25;
+}
+.touchable-opacity-active.opacity-75:active {
+  opacity: 0.75;
+}
+.touchable-opacity-active.opacity-90:active {
+  opacity: 0.9;
+}
+@media (pointer: fine) {
+  .hover-5:hover:not(:focus) {
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.025);
+  }
+  .hover-input:hover:not(:focus) {
+    background-color: rgba(0, 0, 0, 0.045);
   }
 }

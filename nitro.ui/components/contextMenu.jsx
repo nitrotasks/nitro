@@ -64,7 +64,12 @@ export class ContextMenu extends React.Component {
         <View style={menuStyleComposed}>
           {this.state.items.map((item, key) => {
             return (
-              <View key={key} style={styles.menuItem} onClick={item.action}>
+              <View
+                key={key}
+                style={styles.menuItem}
+                onClick={item.action}
+                className="hover-5"
+              >
                 <Text style={styles.menuText}>{item.title}</Text>
               </View>
             )
@@ -99,7 +104,8 @@ const styles = StyleSheet.create({
     paddingTop: vars.padding * 0.75,
     paddingBottom: vars.padding * 0.75,
     paddingLeft: vars.padding,
-    paddingRight: vars.padding
+    paddingRight: vars.padding,
+    cursor: 'default'
   },
   menuItemHover: {
     backgroundColor: 'rgba(0,0,0,0.1)'

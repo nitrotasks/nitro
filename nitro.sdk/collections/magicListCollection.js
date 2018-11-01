@@ -2,6 +2,9 @@
 import { TasksCollection } from './tasksCollection.js'
 import { ListsCollection } from './listsCollection.js'
 
+// this is how many items to split out
+const groupSize = 2
+
 // two weeks is sort of the limit here
 const penalty = function(date: Date): number {
   const diff = Math.round((date.getTime() - new Date().getTime()) / 86400000)
@@ -151,10 +154,10 @@ function groupList(list: Array<Object>, group: string): Array<Object> {
 
   const headingsToMake = []
   Object.keys(listCount).forEach(key => {
-    if (listCount[key].length > 2 && key !== 'inbox') {
+    if (listCount[key].length >= groupSize && key !== 'inbox') {
       let rootCount = listCount[key].lengthNoHeadings
       Object.keys(listCount[key].headings).forEach(heading => {
-        if (listCount[key].headings[heading] > 2) {
+        if (listCount[key].headings[heading] >= groupSize) {
           headingsToMake.push([key, heading].join('-'))
         } else {
           rootCount += listCount[key].headings[heading]

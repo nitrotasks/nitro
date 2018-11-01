@@ -29,6 +29,7 @@ import closeIcon from '../../../assets/icons/material/close.svg'
 // But Waka has them, so it's probably okay?
 const headerHeight = 112 + 42 + 32
 const footerHeight = 36 + 56
+const scrollOffset = 96
 
 const getMaxLines = () =>
   Math.floor(
@@ -38,21 +39,25 @@ const getMaxLines = () =>
 
 export class TaskExpanded extends React.Component {
   static propTypes = {
-    triggerBack: PropTypes.func
+    listId: PropTypes.string
   }
   constructor(props) {
     super(props)
     this.taskInput = React.createRef()
     this.notesElement = React.createRef()
     this.notesTimeout = 0
+    this.previousListId = TasksExpandedService.state.list
 
     if (TasksExpandedService.state.task !== null) {
       const taskDetails = this.getTask(TasksExpandedService.state.task)
       this.state = {
         ...taskDetails,
         hidden: false,
-        lineNumber: 3
+        lineNumber: 3,
+        overlayHeight: window.innerHeight,
+        overlayHidden: false
       }
+      requestAnimationFrame(() => UiService.setCardPosition('hidden'))
     } else {
       this.state = {
         mode: 'create',
@@ -63,7 +68,7 @@ export class TaskExpanded extends React.Component {
         checked: false,
         hidden: true,
         overlayHidden: true,
-        overlayTop: 0,
+        overlayHeight: 0,
         lineNumber: 3
       }
     }
@@ -100,28 +105,56 @@ export class TaskExpanded extends React.Component {
     requestAnimationFrame(() => {
       // TODO: This is a shit solution, need something better, especially on iOS
       // UiService.scrollView.current.style.overflowY = 'hidden'
-      const scrollLocation = TasksExpandedService.state.position - 96
+      const scrollLocation = TasksExpandedService.state.position - scrollOffset
       const lineNumber = Math.min(
         getMaxLines(),
         findNodeHandle(this.notesElement.current).scrollHeight /
           vars.notesLineHeight
       )
       TasksExpandedService.triggerTaskHeight(lineNumber)
+      const overlayHeight = findNodeHandle(
+        UiService.tasksContainer.current
+      ).getBoundingClientRect().height
+
       this.setState(
         {
           hidden: false,
           overlayHidden: false,
-          overlayTop: scrollLocation,
+          overlayHeight: overlayHeight,
           lineNumber: lineNumber
         },
         () => {
           requestAnimationFrame(() => {
-            UiService.setCardPosition('hidden')
-            UiService.scrollTo({
-              top: scrollLocation,
-              left: 0,
-              behavior: 'smooth'
-            })
+            if (window.innerWidth <= 850) {
+              // mobile
+              UiService.setCardPosition('hidden')
+              UiService.scrollTo({
+                top: scrollLocation,
+                left: 0,
+                behavior: 'smooth'
+              })
+            } else {
+              // desktop
+              // Maybe Intersection Observer is more suited towards this
+              const expandedHeight =
+                headerHeight + footerHeight + lineNumber * vars.notesLineHeight
+              const fold = UiService.getScroll() + window.innerHeight
+
+              // If the overlay is "below the fold", we going to scroll down a bit
+              if (scrollLocation + expandedHeight > fold) {
+                UiService.scrollBy({
+                  top: scrollLocation + expandedHeight - fold,
+                  left: 0,
+                  behavior: 'smooth'
+                })
+              } else if (scrollLocation < UiService.getScroll()) {
+                UiService.scrollTo({
+                  top: scrollLocation,
+                  left: 0,
+                  behavior: 'smooth'
+                })
+              }
+            }
           })
         }
       )
@@ -173,11 +206,7 @@ export class TaskExpanded extends React.Component {
     }
   }
   triggerOverlay = () => {
-    if (window.location.pathname.split('/').length > 2) {
-      this.props.triggerBack()
-    } else {
-      this.triggerHide()
-    }
+    TasksExpandedService.triggerBack()
   }
   triggerChange = field => {
     return e => {
@@ -294,10 +323,21 @@ export class TaskExpanded extends React.Component {
     }
   }
   render() {
-    const top = TasksExpandedService.state.position + vars.padding
+    const { listId } = this.props
+    let top = TasksExpandedService.state.position + vars.padding
+    let scrollHeight = this.state.overlayHeight + window.innerHeight
+
+    // if the list changes
+    if (this.previousListId !== listId && this.state.hidden) {
+      top = 0
+      scrollHeight = 0
+      if (this.state.hidden && this.state.overlayHidden) {
+        this.previousListId = listId
+      }
+    }
+
     let opacity = 1
     let overlayOpacity = 0.5
-    const overlayDisplay = this.state.overlayHidden ? '100vh' : '200vh'
     let transform = [{ translateY: 0 }]
     let pointerEvents = 'auto'
     if (this.state.hidden) {
@@ -386,6 +426,7 @@ export class TaskExpanded extends React.Component {
     return (
       <React.Fragment>
         <View
+          className="desktop-90 desktop-expanded"
           pointerEvents={pointerEvents}
           style={[
             styles.wrapper,
@@ -429,7 +470,7 @@ export class TaskExpanded extends React.Component {
               onClick={this.triggerMore}
             >
               <Image
-                accessibilityLabel="Choose Deadline"
+                accessibilityLabel="More"
                 source={moreIcon}
                 resizeMode="contain"
                 style={styles.barIcon}
@@ -437,17 +478,32 @@ export class TaskExpanded extends React.Component {
             </TouchableOpacity>
           </View>
         </View>
+        {/*
+          This view is the one with the styles.
+          This is so we can put it in front or behind the tasks (desktop-overlay class)
+         */}
         <View
-          pointerEvents={pointerEvents}
+          className="desktop-overlay"
+          pointerEvents="none"
           style={[
             styles.overlay,
             {
               opacity: overlayOpacity,
-              top: this.state.overlayTop,
-              height: overlayDisplay
+              height: scrollHeight
             }
           ]}
+        />
+        {/* This one simply takes the events, but you can't see it */}
+        <View
+          pointerEvents={pointerEvents}
           onClick={this.triggerOverlay}
+          style={[
+            styles.overlay,
+            {
+              opacity: 0,
+              height: scrollHeight
+            }
+          ]}
         />
       </React.Fragment>
     )
@@ -460,8 +516,8 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     width: '100%',
-    height: '200vh',
-    backgroundColor: '#fff',
+    height: '100%',
+    backgroundColor: vars.overlayColor,
     opacity: 0.5,
     transitionDuration: '300ms',
     transitionTimingFunction: 'ease',
@@ -477,7 +533,7 @@ const styles = StyleSheet.create({
     // bottom and right padding is ommited for large touch targets
     paddingTop: vars.padding,
     paddingLeft: vars.padding,
-    boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
+    boxShadow: '0 1px 15px rgba(0,0,0,0.1)',
     transitionDuration: '300ms, 300ms',
     transitionTimingFunction: 'ease, ease',
     transitionProperty: 'opacity, transform'

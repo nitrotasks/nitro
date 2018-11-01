@@ -33,9 +33,6 @@ export class Task extends React.PureComponent {
     dataList: PropTypes.string,
     dataCompleted: PropTypes.instanceOf(Date),
     currentHeading: PropTypes.string,
-    selected: PropTypes.bool,
-    selectedHeight: PropTypes.number,
-    selectedCallback: PropTypes.func,
     headersAllowed: PropTypes.bool,
     dragDisabled: PropTypes.bool
   }
@@ -45,32 +42,57 @@ export class Task extends React.PureComponent {
   thresholdHit = false
 
   componentDidMount() {
-    this.triggerPosition()
-
     if ('ontouchforcechange' in document === true) {
       findNodeHandle(this.viewRef.current).addEventListener(
         'touchforcechange',
         this.triggerForcePress
       )
     }
-  }
-  componentWillReceiveProps(newProps) {
-    if (newProps.selected !== this.props.selected) {
-      this.triggerPosition(newProps)
-    }
-  }
-  triggerPosition = (newProps = this.props) => {
-    if (newProps.selected) {
-      this.viewRef.current.measure((x, y, width, height, pageX, pageY) => {
-        newProps.selectedCallback(y, pageY)
+
+    // if this task is the selected task, we're going to move the overlay into place
+    if (this.props.dataId === TasksExpandedService.state.task) {
+      requestAnimationFrame(() => {
+        const scrollPos = UiService.getScroll()
+        const top = findNodeHandle(this.viewRef.current).getBoundingClientRect()
+          .top
+        TasksExpandedService.state.position = top + scrollPos
+        TasksExpandedService.trigger(
+          'show',
+          this.props.listId,
+          this.props.dataId
+        )
       })
     }
+
+    TasksExpandedService.bind('indirect-click', this.indirectClick)
+  }
+  componentWillUnmount() {
+    TasksExpandedService.unbind('indirect-click', this.indirectClick)
   }
   triggerClick = () => {
-    const scrollPos = UiService.getScroll()
-    const rect = findNodeHandle(this.viewRef.current).getBoundingClientRect()
-    const y = rect.top + scrollPos
-    TasksExpandedService.triggerTask(this.props.listId, this.props.dataId, y)
+    const { listId, dataId } = this.props
+    this.indirectClick(listId, dataId)
+  }
+  indirectClick = (list, task) => {
+    if (task === this.props.dataId) {
+      const scrollPos = UiService.getScroll()
+      const top = findNodeHandle(this.viewRef.current).getBoundingClientRect()
+        .top
+      let y = top + scrollPos
+      if (TasksExpandedService.state.task === null) {
+        TasksExpandedService.triggerTask(list, task, y)
+      } else {
+        // hacks hack hacks
+        const order = UiService.state.currentListTasksOrder
+        if (
+          order.indexOf(TasksExpandedService.state.task) < order.indexOf(task)
+        ) {
+          y = y - TasksExpandedService.state.height
+        }
+        TasksExpandedService.triggerBack()
+        setTimeout(() => TasksExpandedService.triggerTask(list, task, y), 350)
+      }
+    }
   }
   // iOS has a funnny force press / 3d touch API
   // i.e it doesn't use pointer events
@@ -229,7 +251,11 @@ export class Task extends React.PureComponent {
           // wish there was an event in react-beatiful-dnd or something?
           this.draggingStart = snapshot.draggingOver !== null
           return (
-            <View ref={this.viewRef} style={styles.transitionStyle}>
+            <View
+              ref={this.viewRef}
+              style={styles.transitionStyle}
+              className={props.dataType === 'task' ? 'hover-5' : null}
+            >
               <div
                 ref={provided.innerRef}
                 {...provided.draggableProps}

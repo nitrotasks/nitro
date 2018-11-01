@@ -324,6 +324,52 @@ export class sdk extends Events {
     if (task === null) throw new Error('Task could not be found')
     return task
   }
+  search(query: string): Array<Object> {
+    const regex = new RegExp(query, 'i')
+    const results = []
+    ListsCollection.all().forEach(list => {
+      const name = ListsCollection.escape(list.name)
+      const result = name.match(regex)
+      if (result !== null) {
+        results.push({
+          type: 'list',
+          id: list.id,
+          icon: list.id,
+          name: name,
+          subtitle: null,
+          url: `/${list.id}`,
+          priority: result.index
+        })
+      }
+    })
+    TasksCollection.all().forEach(task => {
+      const nameResult = task.name.match(regex)
+      const notesResult = task.notes ? task.notes.match(regex) : null
+      if (nameResult !== null || notesResult !== null) {
+        results.push({
+          type: 'task',
+          id: task.id,
+          icon: 'task',
+          name: task.name,
+          subtitle: this.getList(task.list).name,
+          url: `/${task.list}/${task.id}`,
+          priority: (nameResult || notesResult).index
+        })
+      }
+    })
+    results.sort((a, b) => {
+      if (a.type !== b.type) {
+        return a.type === 'task' ? 1 : -1
+      }
+      const difference = a.priority - b.priority
+      if (difference === 0) {
+        return a.name.localeCompare(b.name)
+      }
+      return difference
+    })
+    // truncated to 20 results for speed in the UI
+    return results.slice(0, 20)
+  }
   _removeFromList(ids: Array<string>, listId: string) {
     const order = ListsCollection.find(listId).localOrder.filter(i => {
       return !(ids.indexOf(i) > -1)
@@ -462,7 +508,7 @@ export class sdk extends Events {
   deleteTask(id: string, server: ?boolean) {
     const task = this.getTask(id, server)
     if (task === null) throw new Error('Task could not be found')
-    const order = ListsCollection.find(task.list).localOrder
+    const order = this.getList(task.list).localOrder.slice()
     order.splice(order.indexOf(task.id), 1)
     this.updateTasksOrder(task.list, order, false)
     TasksCollection.delete(task.id, authenticationStore.isLocalAccount())
@@ -478,17 +524,28 @@ export class sdk extends Events {
 
     // updates the local order, then the server order
     resource.localOrder = order
-    resource.order = order
-      .map(localId => {
-        const task = TasksCollection.find(localId)
-        if (task === null) return null
-        return task.serverId
+
+    const preProcessCallback = () => {
+      resource.order = order
+        .map(localId => {
+          const task = TasksCollection.find(localId)
+          if (task === null) return null
+          return task.serverId
+        })
+        .filter(item => item !== null)
+    }
+
+    if (sync) {
+      ListsCollection.sync.addPreProcess(preProcessCallback)
+      ListsCollection.sync.addPreProcess(() => {
+        ListsCollection.sync.addToQueue(listId, 'patch', 'lists')  
       })
-      .filter(item => item !== null)
+    } else {
+      preProcessCallback()
+    }
 
     ListsCollection.trigger('order')
     ListsCollection.saveLocal()
-    if (sync) ListsCollection.sync.addToQueue(listId, 'patch', 'lists')
   }
   addList(props: Object, sync: ?boolean): Object {
     const newList = ListsCollection.add(props, sync)

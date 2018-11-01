@@ -102,6 +102,7 @@ export class Header extends React.PureComponent {
     return (
       <View style={styles.listHeaderWrapper} ref={this.wrapper}>
         <TextInput
+          className={renameNotAllowed ? null : 'hover-5'}
           style={listHeaderStyles}
           value={this.state.name}
           onChange={this.triggerChange}

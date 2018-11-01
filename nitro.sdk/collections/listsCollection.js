@@ -136,15 +136,17 @@ export class lists extends Events {
       })
     )
     this.order.push('next')
-    this.collection.set(
-      'all',
-      new List({
-        id: 'all',
-        name: 'Everything',
-        virtual: true
-      })
-    )
-    this.order.push('all')
+
+    // I think we'll leave this out for the initial release
+    // this.collection.set(
+    //   'all',
+    //   new List({
+    //     id: 'all',
+    //     name: 'Everything',
+    //     virtual: true
+    //   })
+    // )
+    // this.order.push('all')
   }
   toObject() {
     return this.order.map(listId => {

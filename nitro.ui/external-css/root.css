@@ -137,6 +137,7 @@
     border-radius: 0;
     box-shadow: none;
     height: 100%;
+    border-right: 1px solid rgba(0, 0, 0, 0.05);
   }
   .root-card-padding-button {
     display: none;
