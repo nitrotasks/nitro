@@ -222,6 +222,12 @@ export class sdk extends Events {
   signIn = (username: string, password: string) => {
     return authenticationStore.formSignIn(username, password)
   }
+  requestUniversalAuth = () => {
+    return authenticationStore.requestUniversalAuth()
+  }
+  handleUniversalAuth = () => {
+    return authenticationStore.handleUniversalAuth()
+  }
   signOut = () => {
     return authenticationStore.signOut()
   }
@@ -538,7 +544,7 @@ export class sdk extends Events {
     if (sync) {
       ListsCollection.sync.addPreProcess(preProcessCallback)
       ListsCollection.sync.addPreProcess(() => {
-        ListsCollection.sync.addToQueue(listId, 'patch', 'lists')  
+        ListsCollection.sync.addToQueue(listId, 'patch', 'lists')
       })
     } else {
       preProcessCallback()

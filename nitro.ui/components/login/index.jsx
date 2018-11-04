@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, Text, Image, StyleSheet, TextInput, Button } from 'react-native'
 
+import config from '../../../config.js'
 import logo from '../../../assets/icons/full-logo.svg'
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
@@ -15,6 +16,16 @@ export class Login extends React.Component {
   componentDidMount() {
     NitroSdk.bind('sign-in-status', this.signInCallback)
     NitroSdk.bind('sign-in-error', this.signInError)
+
+    if (/access_token|id_token|error/.test(window.location.hash)) {
+      NitroSdk.handleUniversalAuth()
+        .then(data => {
+          console.log('TODO: redirect to home page')
+        })
+        .catch(err => {
+          this.signInError(err.message)
+        })
+    }
   }
   componentWillUnmount() {
     NitroSdk.unbind('sign-in-status', this.signInCallback)
@@ -29,6 +40,9 @@ export class Login extends React.Component {
     e.preventDefault()
     this.setState({ disabled: true })
     NitroSdk.signIn(this.state.username, this.state.password)
+  }
+  triggerUniversalAuth = () => {
+    NitroSdk.requestUniversalAuth()
   }
   triggerKeyPress = e => {
     if (e.nativeEvent.key === 'Enter') {
@@ -50,6 +64,74 @@ export class Login extends React.Component {
     const wrapperStyles = NitroSdk.isSignedIn()
       ? [styles.wrapper, styles.wrapperHidden]
       : styles.wrapper
+
+    const passwordBlock =
+      config.loginType.indexOf('password') > -1 ? (
+        <React.Fragment>
+          <Text style={styles.label} htmlFor="login-username">
+            Email
+          </Text>
+          <TextInput
+            style={styles.input}
+            value={this.state.username}
+            onChange={this.triggerChange('username')}
+            id="login-username"
+            keyboardType="email-address"
+            autoFocus={true}
+            autoComplete="email"
+          />
+          <Text style={styles.label} htmlFor="login-password">
+            Password
+          </Text>
+          <TextInput
+            style={styles.input}
+            value={this.state.password}
+            onKeyPress={this.triggerKeyPress}
+            onChange={this.triggerChange('password')}
+            id="login-password"
+            secureTextEntry={true}
+            autoComplete="password"
+          />
+          <Button
+            onPress={this.triggerSignIn}
+            disabled={this.state.disabled}
+            color={vars.accentColor}
+            title={text}
+          />
+        </React.Fragment>
+      ) : null
+
+    const auth0Block =
+      config.loginType.indexOf('auth0') > -1 ? (
+        <View style={styles.universalLogin}>
+          <Button
+            onPress={this.triggerUniversalAuth}
+            color={vars.accentColor}
+            title={passwordBlock ? 'Universal Login' : 'Sign In'}
+          />
+        </View>
+      ) : null
+
+    let content
+    if (window.location.pathname === '/callback') {
+      content = <Text style={styles.tagline}>Signing In...</Text>
+    } else {
+      content = (
+        <React.Fragment>
+          <Text style={styles.tagline}>
+            The fast and easy way to get things done.
+          </Text>
+          {passwordBlock}
+          {auth0Block}
+          <View style={styles.signUpWrapper}>
+            <Text style={styles.signUp}>
+              No account?{' '}
+              <a href="https://nitrotasks.com">Sign Up for Nitro.</a>
+            </Text>
+          </View>
+        </React.Fragment>
+      )
+    }
     return (
       <View style={wrapperStyles}>
         <View style={styles.branding}>
@@ -60,44 +142,7 @@ export class Login extends React.Component {
             resizeMode="contain"
           />
         </View>
-        <Text style={styles.tagline}>
-          The fast and easy way to get things done.
-        </Text>
-        <Text style={styles.label} htmlFor="login-username">
-          Email
-        </Text>
-        <TextInput
-          style={styles.input}
-          value={this.state.username}
-          onChange={this.triggerChange('username')}
-          id="login-username"
-          keyboardType="email-address"
-          autoFocus={true}
-          autoComplete="email"
-        />
-        <Text style={styles.label} htmlFor="login-password">
-          Password
-        </Text>
-        <TextInput
-          style={styles.input}
-          value={this.state.password}
-          onKeyPress={this.triggerKeyPress}
-          onChange={this.triggerChange('password')}
-          id="login-password"
-          secureTextEntry={true}
-          autoComplete="password"
-        />
-        <Button
-          onPress={this.triggerSignIn}
-          disabled={this.state.disabled}
-          color={vars.accentColor}
-          title={text}
-        />
-        <View style={styles.signUpWrapper}>
-          <Text style={styles.signUp}>
-            No account? <a href="https://nitrotasks.com">Sign Up for Nitro.</a>
-          </Text>
-        </View>
+        {content}
       </View>
     )
   }
@@ -165,6 +210,10 @@ const styles = StyleSheet.create({
     marginBottom: vars.padding * 0.75,
     width: '100%',
     outline: '0'
+  },
+  universalLogin: {
+    marginTop: vars.padding * 2,
+    marginBottom: vars.padding
   },
   signUpWrapper: {
     marginTop: vars.padding

@@ -75,6 +75,7 @@
     "webpack-dev-server": "^3.1.5"
   },
   "dependencies": {
+    "auth0-js": "^9.8.1",
     "babel-plugin-react-native-web": "^0.9.3",
     "idb-keyval": "^3.1.0",
     "imports-loader": "^0.8.0",

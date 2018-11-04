@@ -6,6 +6,14 @@ if (typeof window !== 'undefined') {
 }
 const config = {
   endpoint: '/a',
-  wsendpoint: wsendpoint
+  wsendpoint: wsendpoint,
+  loginType: ['password', 'auth0'],
+  auth0: {
+    domain: '',
+    clientID: '',
+    redirectUri: 'http://localhost:8080/callback',
+    responseType: 'token id_token',
+    scope: 'openid'
+  }
 }
 export default config

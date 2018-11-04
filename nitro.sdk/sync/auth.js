@@ -1,4 +1,6 @@
 import { get, set, clear } from 'idb-keyval'
+import auth0 from 'auth0-js'
+
 import config from '../../config.js'
 import Events from '../events.js'
 import { checkStatus } from '../helpers/fetch.js'
@@ -8,12 +10,17 @@ import { broadcast } from './broadcastchannel.js'
 class AuthenticationStore extends Events {
   constructor(props) {
     super(props)
+    this.loginType = null
     this.refreshToken = {}
     this.accessToken = null
     this.expiresAt = 0
     this.socket = null
     this.reconnectDelay = 1
     this.queueCompleteSync = false
+
+    if (config.loginType.indexOf('auth0') > -1) {
+      this.auth0 = new auth0.WebAuth(config.auth0)
+    }
 
     broadcast.bind('complete-sync', this.emitFinish)
     if (typeof window !== 'undefined') {
@@ -46,11 +53,7 @@ class AuthenticationStore extends Events {
     })
   }
   isSignedIn(tokenCheck = false) {
-    if (
-      tokenCheck &&
-      typeof this.refreshToken.local !== 'undefined' &&
-      this.refreshToken.local === true
-    ) {
+    if (tokenCheck && this.isLocalAccount()) {
       return false
     }
     return Object.keys(this.refreshToken).length > 0
@@ -64,12 +67,12 @@ class AuthenticationStore extends Events {
   isLocalAccount() {
     return (
       Object.keys(this.refreshToken).length === 0 ||
-      'local' in this.refreshToken
+      this.refreshToken.loginType === 'local'
     )
   }
   formSignIn(username, password) {
     if (username === 'local@nitrotasks.com') {
-      this.refreshToken = { local: true }
+      this.refreshToken = { loginType: 'local' }
       this.trigger('sign-in-status')
       set('auth', this.refreshToken)
     } else {
@@ -128,6 +131,7 @@ class AuthenticationStore extends Events {
         .then(checkStatus)
         .then(response => {
           response.json().then(data => {
+            data.loginType = 'password'
             this.refreshToken = data
             set('auth', this.refreshToken)
             this.getToken().then(function() {
@@ -148,10 +152,7 @@ class AuthenticationStore extends Events {
     }
     const promises = [clear()]
     if (
-      !(
-        JSON.stringify(this.refreshToken) === '{}' ||
-        'local' in this.refreshToken
-      )
+      !(JSON.stringify(this.refreshToken) === '{}' || this.isLocalAccount())
     ) {
       promises.push(
         fetch(
@@ -182,32 +183,73 @@ class AuthenticationStore extends Events {
   getToken() {
     if (
       JSON.stringify(this.refreshToken) === '{}' ||
-      'local' in this.refreshToken
+      this.refreshToken.loginType === 'local'
     ) {
       return Promise.resolve()
-    }
-    return new Promise((resolve, reject) => {
-      fetch(`${config.endpoint}/auth/token/${this.refreshToken.refresh_token}`)
-        .then(checkStatus)
-        .then(response => {
-          response.json().then(data => {
-            this.accessToken = data
-            this.expiresAt = new Date().getTime() + data.expiresIn * 1000
-            this.scheduleToken(data.expiresIn / 4)
-            this.trigger('token')
-            setTimeout(() => {
-              if (broadcast.isMaster()) {
-                this.connectSocket()
-              } else {
-                log('Not connecting WebSocket, not master tab.')
-              }
-            }, 1000) // arbitrary 1000ms delay, hopefully things are finished loading.
-            resolve(data)
+    } else if (this.refreshToken.loginType === 'auth0') {
+      this.accessToken = this.refreshToken.accessToken
+      this.expiresAt = this.refreshToken.expiresAt
+      this.trigger('token')
+
+      // TODO: refreshes
+      return Promise.resolve()
+    } else {
+      return new Promise((resolve, reject) => {
+        fetch(
+          `${config.endpoint}/auth/token/${this.refreshToken.refresh_token}`
+        )
+          .then(checkStatus)
+          .then(response => {
+            response.json().then(data => {
+              this.accessToken = data
+              this.expiresAt = new Date().getTime() + data.expiresIn * 1000
+              this.scheduleToken(data.expiresIn / 4)
+              this.trigger('token')
+              setTimeout(() => {
+                if (broadcast.isMaster()) {
+                  this.connectSocket()
+                } else {
+                  log('Not connecting WebSocket, not master tab.')
+                }
+              }, 1000) // arbitrary 1000ms delay, hopefully things are finished loading.
+              resolve(data)
+            })
           })
-        })
-        .catch(function(err) {
+          .catch(function(err) {
+            reject(err)
+          })
+      })
+    }
+  }
+  requestUniversalAuth() {
+    if (config.loginType.indexOf('auth0') > -1) {
+      this.auth0.authorize()
+    } else {
+      throw new Error('No Auth0 Client!')
+    }
+  }
+  handleUniversalAuth() {
+    return new Promise((resolve, reject) => {
+      this.auth0.parseHash((err, authResult) => {
+        if (authResult && authResult.accessToken && authResult.idToken) {
+          const expiresAt = JSON.stringify(
+            authResult.expiresIn * 1000 + new Date().getTime()
+          )
+          this.refreshToken = {
+            loginType: 'auth0',
+            accessToken: authResult.accessToken,
+            idToken: authResult.idToken,
+            expiresAt: expiresAt
+          }
+          set('auth', this.refreshToken)
+
+          this.getToken().then(() => {
+            resolve(authResult)
+          })
+        } else if (err) {
           reject(err)
-        })
+        }
+      })
     })
   }
   connectSocket = () => {
