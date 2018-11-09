@@ -187,12 +187,20 @@ class AuthenticationStore extends Events {
     ) {
       return Promise.resolve()
     } else if (this.refreshToken.loginType === 'auth0') {
-      this.accessToken = this.refreshToken.accessToken
+      this.accessToken = {access_token: this.refreshToken.accessToken}
       this.expiresAt = this.refreshToken.expiresAt
-      this.trigger('token')
+      console.log(this.refreshToken)
+
+      return fetch(`${config.endpoint}/auth/universal`, {
+        headers: this.authHeader(true)
+      }).then(checkStatus)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          this.trigger('token')
+        })
 
       // TODO: refreshes
-      return Promise.resolve()
     } else {
       return new Promise((resolve, reject) => {
         fetch(
@@ -247,6 +255,7 @@ class AuthenticationStore extends Events {
             resolve(authResult)
           })
         } else if (err) {
+          console.error(err)
           reject(err)
         }
       })
