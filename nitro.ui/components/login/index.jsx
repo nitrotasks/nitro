@@ -11,7 +11,8 @@ export class Login extends React.Component {
     username: '',
     password: '',
     signedIn: NitroSdk.isSignedIn(),
-    disabled: false
+    disabled: false,
+    error: null
   }
   componentDidMount() {
     NitroSdk.bind('sign-in-status', this.signInCallback)
@@ -19,12 +20,6 @@ export class Login extends React.Component {
 
     if (/access_token|id_token|error/.test(window.location.hash)) {
       NitroSdk.handleUniversalAuth()
-        .then(data => {
-          console.log('TODO: redirect to home page')
-        })
-        .catch(err => {
-          this.signInError(err.message)
-        })
     }
   }
   componentWillUnmount() {
@@ -38,7 +33,7 @@ export class Login extends React.Component {
   }
   triggerSignIn = e => {
     e.preventDefault()
-    this.setState({ disabled: true })
+    this.setState({ disabled: true, error: null })
     NitroSdk.signIn(this.state.username, this.state.password)
   }
   triggerUniversalAuth = () => {
@@ -55,9 +50,8 @@ export class Login extends React.Component {
       disabled: false
     })
   }
-  signInError = err => {
-    alert(err)
-    this.setState({ disabled: false })
+  signInError = error => {
+    this.setState({ disabled: false, error: error.message })
   }
   render() {
     const text = this.state.disabled ? 'Logging in...' : 'Log In'
@@ -116,11 +110,27 @@ export class Login extends React.Component {
     if (window.location.pathname === '/callback') {
       content = <Text style={styles.tagline}>Signing In...</Text>
     } else {
+      const error = this.state.error ? (
+        <View style={styles.error}>
+          <Text style={styles.errorText}>{this.state.error}</Text>
+        </View>
+      ) : null
+      const infoString = decodeURIComponent(window.location.search).split(
+        'info='
+      )[1]
+      const info =
+        infoString !== undefined ? (
+          <View style={[styles.error, styles.info]}>
+            <Text style={styles.errorText}>{infoString}</Text>
+          </View>
+        ) : null
       content = (
         <React.Fragment>
           <Text style={styles.tagline}>
             The fast and easy way to get things done.
           </Text>
+          {error}
+          {info}
           {passwordBlock}
           {auth0Block}
           <View style={styles.signUpWrapper}>
@@ -147,6 +157,7 @@ export class Login extends React.Component {
     )
   }
 }
+
 const styles = StyleSheet.create({
   wrapper: {
     maxWidth: 400 - vars.padding * 2,
@@ -222,5 +233,25 @@ const styles = StyleSheet.create({
     fontFamily: vars.fontFamily,
     fontSize: vars.padding,
     textAlign: 'center'
+  },
+  error: {
+    paddingTop: vars.padding * 0.75,
+    paddingBottom: vars.padding * 0.75,
+    paddingLeft: vars.padding * 0.75,
+    paddingRight: vars.padding * 0.75,
+    marginTop: vars.padding * 2,
+    marginBottom: vars.padding,
+    backgroundColor: '#ffa9b1',
+    borderColor: 'rgba(0,0,0,0.3)',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderRadius: '3px'
+  },
+  errorText: {
+    fontFamily: vars.fontFamily,
+    fontSize: vars.padding * 0.875
+  },
+  info: {
+    backgroundColor: '#dce8ff'
   }
 })
