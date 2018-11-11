@@ -7,6 +7,9 @@ import { checkStatus } from '../helpers/fetch.js'
 import { log } from '../helpers/logger.js'
 import { broadcast } from './broadcastchannel.js'
 
+const SESSION_EXPIRED =
+  'You have been signed out because your session has expired.'
+
 class AuthenticationStore extends Events {
   constructor(props) {
     super(props)
@@ -43,10 +46,7 @@ class AuthenticationStore extends Events {
       if (typeof navigator !== 'undefined' && navigator.onLine) {
         this.getToken().catch(err => {
           if (err.status === 401) {
-            if (document.hasFocus()) {
-              alert('You have been signed out.')
-            }
-            this.signOut()
+            this.signOut(SESSION_EXPIRED)
           }
         })
       }
@@ -144,15 +144,21 @@ class AuthenticationStore extends Events {
         })
     })
   }
-  signOut() {
+  signOut(message) {
     const cb = () => {
       // Signs out even if there is an error.
       broadcast.db(0)
-      window.location = '/'
+
+      if (message !== undefined) {
+        window.location = `/?info=${encodeURIComponent(message)}`
+      } else {
+        window.location = '/'
+      }
     }
     const promises = [clear()]
     if (
-      !(JSON.stringify(this.refreshToken) === '{}' || this.isLocalAccount())
+      !(JSON.stringify(this.refreshToken) === '{}' || this.isLocalAccount()) &&
+      this.refreshToken.loginType !== 'auth0'
     ) {
       promises.push(
         fetch(
@@ -167,15 +173,15 @@ class AuthenticationStore extends Events {
       .then(cb)
       .catch(cb)
   }
-  // this ensure that there is always a valid token before a sync
   checkToken() {
+    // this ensure that there is always a valid token before a sync
     if (this.expiresAt > new Date().getTime()) {
       return Promise.resolve()
     }
     return this.getToken()
   }
   scheduleToken(time) {
-    log('Getting new token in', Math.round(time / 60 / 60), 'hours.')
+    log('Getting new token in', time / 60 / 60, 'hours.')
     setTimeout(() => {
       this.getToken()
     }, Math.round(time) * 1000)
@@ -187,20 +193,28 @@ class AuthenticationStore extends Events {
     ) {
       return Promise.resolve()
     } else if (this.refreshToken.loginType === 'auth0') {
-      this.accessToken = {access_token: this.refreshToken.accessToken}
-      this.expiresAt = this.refreshToken.expiresAt
-      console.log(this.refreshToken)
-
-      return fetch(`${config.endpoint}/auth/universal`, {
-        headers: this.authHeader(true)
-      }).then(checkStatus)
-        .then(response => response.json())
-        .then(data => {
-          console.log(data)
-          this.trigger('token')
+      return new Promise((resolve, reject) => {
+        this.auth0.checkSession({}, (err, authResult) => {
+          if (authResult && authResult.accessToken && authResult.idToken) {
+            const expiresAt = JSON.stringify(
+              authResult.expiresIn * 1000 + new Date().getTime()
+            )
+            this.refreshToken.accessToken = authResult.accessToken
+            this.accessToken = { access_token: authResult.accessToken }
+            this.refreshToken.idToken = authResult.idToken
+            this.refreshToken.expiresAt = expiresAt
+            this.expiresAt = expiresAt
+            set('auth', this.refreshToken)
+            log('Auth0 Session Refreshed')
+            this.scheduleToken(60 * 30) // 30 minutes
+            resolve()
+          } else {
+            console.error(err)
+            this.signOut(SESSION_EXPIRED)
+            reject(err)
+          }
         })
-
-      // TODO: refreshes
+      })
     } else {
       return new Promise((resolve, reject) => {
         fetch(
@@ -249,13 +263,26 @@ class AuthenticationStore extends Events {
             idToken: authResult.idToken,
             expiresAt: expiresAt
           }
+          this.accessToken = { access_token: this.refreshToken.accessToken }
+          this.expiresAt = this.refreshToken.expiresAt
           set('auth', this.refreshToken)
 
-          this.getToken().then(() => {
-            resolve(authResult)
+          return fetch(`${config.endpoint}/auth/universal`, {
+            headers: this.authHeader(true)
           })
+            .then(checkStatus)
+            .then(response => response.json())
+            .then(data => this.trigger('token'))
+            .then(() => log('Signed in with Auth0'))
+            .then(() => this.trigger('sign-in-status'))
+            .then(resolve)
+            .catch(err => {
+              this.trigger('sign-in-error', err)
+              reject(err)
+            })
         } else if (err) {
           console.error(err)
+          this.trigger('sign-in-error', err)
           reject(err)
         }
       })

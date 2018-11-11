@@ -17,16 +17,22 @@ class App extends React.Component {
   }
   componentDidMount() {
     NitroSdk.bind('sign-in-status', this.signInCallback)
+    NitroSdk.bind('sign-in-error', this.signInError)
   }
   componentWillUnmount() {
     NitroSdk.unbind('sign-in-status', this.signInCallback)
+    NitroSdk.unbind('sign-in-error', this.signInError)
   }
   signInCallback = () => {
     setTimeout(() => {
+      history.replace('/')
       this.setState({
         signedIn: NitroSdk.isSignedIn()
       })
     }, 350) // should be ample time for the animation
+  }
+  signInError = () => {
+    history.replace('/')
   }
   triggerDragEnd = result => {
     // no destination or the order hasn't changed

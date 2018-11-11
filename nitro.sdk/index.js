@@ -228,8 +228,8 @@ export class sdk extends Events {
   handleUniversalAuth = () => {
     return authenticationStore.handleUniversalAuth()
   }
-  signOut = () => {
-    return authenticationStore.signOut()
+  signOut = (message: string) => {
+    return authenticationStore.signOut(message)
   }
   createAccount = (username: string, password: string) => {
     return authenticationStore.createAccount(username, password)
