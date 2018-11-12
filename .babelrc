@@ -1,19 +1,24 @@
 {
 	"presets": [
-    "flow",
-    "env",
-    "react",
-    "stage-2"
+    "@babel/preset-flow",
+    "@babel/preset-env",
+    "@babel/preset-react"
   ],
   "plugins": [
-    ["react-native-web"]
+    "react-native-web",
+    "@babel/plugin-proposal-class-properties"
   ],
   "env": {
     "test": {
-      "presets": ["flow", "env", "react", "stage-2"],
+      "presets": [
+        "@babel/preset-flow",
+        "@babel/preset-env",
+        "@babel/preset-react"
+      ],
       "plugins": [
-        [ "istanbul" ],
-        ["react-native-web"]
+        "istanbul",
+        "react-native-web",
+        "@babel/plugin-proposal-class-properties"
       ],
     }
   }
