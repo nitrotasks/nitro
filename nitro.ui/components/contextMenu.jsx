@@ -4,6 +4,7 @@ import { View, Text, StyleSheet } from 'react-native'
 import { vars } from '../styles.js'
 import { ContextMenuService } from '../services/contextMenuService.js'
 
+const MENU_ITEM_HEIGHT = 42
 export class ContextMenu extends React.Component {
   state = {
     x: 0,
@@ -22,6 +23,8 @@ export class ContextMenu extends React.Component {
     const newState = {}
     if (anchor === 'top') {
       newState.y = y
+    } else if (anchor === 'bottom') {
+      newState.y = y - items.length * MENU_ITEM_HEIGHT - vars.padding
     }
     if (secondAnchor === 'left') {
       newState.x = x
@@ -101,8 +104,6 @@ const styles = StyleSheet.create({
     paddingBottom: vars.padding / 2
   },
   menuItem: {
-    paddingTop: vars.padding * 0.75,
-    paddingBottom: vars.padding * 0.75,
     paddingLeft: vars.padding,
     paddingRight: vars.padding,
     cursor: 'default'
@@ -112,6 +113,7 @@ const styles = StyleSheet.create({
   },
   menuText: {
     fontFamily: vars.fontFamily,
-    fontSize: 16
+    fontSize: 16,
+    lineHeight: MENU_ITEM_HEIGHT
   }
 })

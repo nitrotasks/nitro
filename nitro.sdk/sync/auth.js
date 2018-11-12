@@ -149,7 +149,7 @@ class AuthenticationStore extends Events {
       // Signs out even if there is an error.
       broadcast.db(0)
 
-      if (message !== undefined) {
+      if (typeof message === 'string') {
         window.location = `/?info=${encodeURIComponent(message)}`
       } else {
         window.location = '/'
