@@ -63,8 +63,9 @@ class _tasksExpanded extends Events {
         } else if (this.state.taskTriggerInProgress) {
           return
         }
+        const oldTask = this.state.task
         this.state.task = null
-        this.trigger('hide', params.list)
+        this.trigger('hide', params.list, oldTask)
       }
     }
   }

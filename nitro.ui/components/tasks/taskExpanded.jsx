@@ -165,7 +165,10 @@ export class TaskExpanded extends React.Component {
     const taskDetails = this.getTask(task)
     this.setState(taskDetails)
   }
-  triggerHide = () => {
+  triggerHide = (list, oldTask) => {
+    this.saveNotes(oldTask)
+    clearTimeout(this.notesTimeout)
+
     setTimeout(() => {
       requestAnimationFrame(() => {
         // TODO: This is a shit solution, need something better, especially on iOS
@@ -253,12 +256,12 @@ export class TaskExpanded extends React.Component {
       })
     }
   }
-  saveNotes = () => {
+  saveNotes = (taskId = TasksExpandedService.state.task) => {
     // TODO: this is pretty similar to the above method
     if (this.state.notes === null || this.state.notes === '') {
       return
     }
-    this.createOrUpdateTask(TasksExpandedService.state.task, {
+    this.createOrUpdateTask(taskId, {
       notes: this.state.notes
     })
   }
