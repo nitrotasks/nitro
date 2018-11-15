@@ -187,6 +187,14 @@ class AuthenticationStore extends Events {
     }, Math.round(time) * 1000)
   }
   getToken() {
+    const connectSocket = () => {
+      if (broadcast.isMaster()) {
+        this.connectSocket()
+      } else {
+        log('Not connecting WebSocket, not master tab.')
+      }
+    }
+
     if (
       JSON.stringify(this.refreshToken) === '{}' ||
       this.refreshToken.loginType === 'local'
@@ -195,7 +203,14 @@ class AuthenticationStore extends Events {
     } else if (this.refreshToken.loginType === 'auth0') {
       return new Promise((resolve, reject) => {
         this.auth0.checkSession({}, (err, authResult) => {
-          if (authResult && authResult.accessToken && authResult.idToken) {
+          if (err) {
+            this.signOut(SESSION_EXPIRED)
+            reject(err)
+          } else if (
+            authResult &&
+            authResult.accessToken &&
+            authResult.idToken
+          ) {
             const expiresAt = JSON.stringify(
               authResult.expiresIn * 1000 + new Date().getTime()
             )
@@ -206,12 +221,15 @@ class AuthenticationStore extends Events {
             this.expiresAt = expiresAt
             set('auth', this.refreshToken)
             log('Auth0 Session Refreshed')
+            this.trigger('token')
             this.scheduleToken(60 * 30) // 30 minutes
+            setTimeout(connectSocket, 1000)
             resolve()
           } else {
             console.error(err)
-            this.signOut(SESSION_EXPIRED)
-            reject(err)
+            alert(
+              'something else even weirder happened auth failed check console'
+            )
           }
         })
       })
@@ -227,13 +245,7 @@ class AuthenticationStore extends Events {
               this.expiresAt = new Date().getTime() + data.expiresIn * 1000
               this.scheduleToken(data.expiresIn / 4)
               this.trigger('token')
-              setTimeout(() => {
-                if (broadcast.isMaster()) {
-                  this.connectSocket()
-                } else {
-                  log('Not connecting WebSocket, not master tab.')
-                }
-              }, 1000) // arbitrary 1000ms delay, hopefully things are finished loading.
+              setTimeout(connectSocket, 1000)
               resolve(data)
             })
           })
@@ -294,9 +306,11 @@ class AuthenticationStore extends Events {
       return
     }
 
-    const socket = new WebSocket(
-      `${config.wsendpoint}?token=${this.refreshToken.refresh_token}`
-    )
+    let token = this.refreshToken.refresh_token
+    if (this.refreshToken.loginType === 'auth0') {
+      token = this.accessToken.access_token
+    }
+    const socket = new WebSocket(`${config.wsendpoint}?token=${token}`)
     socket.onopen = () => {
       this.socket = socket
       this.reconnectDelay = 1
