@@ -12,6 +12,7 @@ import authenticationStore from './sync/auth.js'
 import { log, warn, error, logHistory } from './helpers/logger.js'
 
 const systemLists = ['inbox', 'today', 'next', 'all']
+const fakeLists = ['today', 'next', 'all']
 
 const getBlankDate = () => {
   const date = new Date()
@@ -153,15 +154,19 @@ export class sdk extends Events {
   _processQueue = (): Promise<any> => {
     return new Promise((resolve, reject) => {
       if (!authenticationStore.isSignedIn(true)) return resolve()
+      this.trigger('sync-upload-start')
       log('Starting Sync to Server')
+
       if (
         this.tasksQueue.syncLock === true ||
         this.listsQueue.syncLock === true
       ) {
+        this.trigger('sync-upload-complete')
         return reject(
           'Sync is currently locked by another process. Will not process queue to server.'
         )
       }
+
       this.listsQueue.syncLock = true
       this.tasksQueue.syncLock = true
 
@@ -188,6 +193,7 @@ export class sdk extends Events {
           resolve()
 
           this._runDeferred()
+          this.trigger('sync-upload-complete')
         })
         .catch(err => {
           this.listsQueue.syncLock = false
@@ -201,6 +207,7 @@ export class sdk extends Events {
             error(err)
             reject(err)
           }
+          this.trigger('sync-upload-complete')
         })
     })
   }
@@ -264,6 +271,7 @@ export class sdk extends Events {
 
           this._runDeferred()
           this.lastSync = new Date()
+          this.trigger('sync-download-complete')
         })
       })
       .catch(err => {
@@ -271,6 +279,7 @@ export class sdk extends Events {
         this.listsQueue.syncLock = false
         this.tasksQueue.syncLock = false
         this._runDeferred()
+        this.trigger('sync-download-complete')
       })
   }
   addTask(task: Object): Object | null {
@@ -323,6 +332,40 @@ export class sdk extends Events {
     return {
       tasks: tasks,
       order: order
+    }
+  }
+  getTasksSyncStatus(listId: string) {
+    const flatten = (accumulator, currentValue) =>
+      accumulator.concat(currentValue)
+
+    if (fakeLists.includes(listId)) {
+      // gets all the tasks from all the original lists
+      const originalLists = Array.from(
+        new Set(this.getTasks(listId).tasks.map(t => t.list))
+      )
+
+      // gets the sync status of all those original lists
+      const allItems = originalLists.map(l => this.getTasksSyncStatus(l))
+
+      // smushes them to one array
+      return {
+        post: allItems.map(i => i.post).reduce(flatten, []),
+        patch: allItems.map(i => i.patch).reduce(flatten, [])
+      }
+    }
+
+    const post = this.tasksQueue.queue.post
+      .filter(i => i[0] === listId)
+      .map(i => i[1])
+      .reduce(flatten, [])
+    const patch = this.tasksQueue.queue.patch
+      .filter(i => i[0] === listId)
+      .map(i => i[2].map(j => j[0]))
+      .reduce(flatten, [])
+
+    return {
+      post: post,
+      patch: patch
     }
   }
   updateTask(id: string, newProps: Object): Object {

@@ -29,7 +29,8 @@ export class TasksList extends React.PureComponent {
       : null
   }
   static generateState(props) {
-    const list = NitroSdk.getTasks(props.listId)
+    const { listId } = props
+    const list = NitroSdk.getTasks(listId)
     const taskMap = new Map()
     let order = []
     if (list !== null) {
@@ -62,6 +63,8 @@ export class TasksList extends React.PureComponent {
   componentDidMount() {
     NitroSdk.bind('update', this.tasksUpdate)
     NitroSdk.bind('order', this.tasksUpdate)
+    NitroSdk.bind('sync-upload-start', this.syncStart)
+    NitroSdk.bind('sync-upload-complete', this.syncComplete)
     TasksExpandedService.bind('height', this.triggerShow)
     TasksExpandedService.bind('hide', this.triggerHide)
   }
@@ -87,6 +90,12 @@ export class TasksList extends React.PureComponent {
       ...this.constructor.generateState(this.props),
       showTasks: true
     })
+  }
+  syncStart = () => {
+    console.log('start', NitroSdk.getTasksSyncStatus(this.props.listId))
+  }
+  syncComplete = () => {
+    console.log('complete', NitroSdk.getTasksSyncStatus(this.props.listId))
   }
   triggerShow = height => {
     this.currentItemIndex = this.state.order.indexOf(
