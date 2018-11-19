@@ -14,6 +14,7 @@ import { taskMenu } from './taskMenu.js'
 
 import todayIcon from '../../../assets/icons/feather/today.svg'
 import notesIcon from '../../../assets/icons/material/note.svg'
+import syncIcon from '../../../assets/icons/material/sync.svg'
 
 // 0.15 is the threshold defined in react-beautiful-dnd
 // we'll go a bit higher
@@ -34,7 +35,8 @@ export class Task extends React.PureComponent {
     dataCompleted: PropTypes.instanceOf(Date),
     currentHeading: PropTypes.string,
     headersAllowed: PropTypes.bool,
-    dragDisabled: PropTypes.bool
+    dragDisabled: PropTypes.bool,
+    syncing: PropTypes.bool
   }
 
   viewRef = React.createRef()
@@ -176,6 +178,18 @@ export class Task extends React.PureComponent {
           />
         )
       }
+
+      let syncIndicator = null
+      if (props.syncing) {
+        syncIndicator = (
+          <Image
+            accessibilityLabel="Syncing"
+            source={syncIcon}
+            resizeMode="contain"
+            style={styles.syncIcon}
+          />
+        )
+      }
       if (props.dataDeadline !== null && props.dataCompleted === null) {
         deadlineIndicator = (
           <Text style={styles.subText}>
@@ -227,6 +241,7 @@ export class Task extends React.PureComponent {
                   {props.dataName}
                 </Text>
                 {indicatorsAfter}
+                {syncIndicator}
               </View>
               <View style={styles.subTextRow}>
                 {deadlineIndicator}
@@ -306,6 +321,11 @@ const styles = StyleSheet.create({
     height: 22,
     marginLeft: vars.padding * 0.375,
     marginRight: vars.padding / 4
+  },
+  syncIcon: {
+    width: 24,
+    height: 24,
+    marginRight: vars.padding / 4,
   },
   text: {
     fontFamily: vars.fontFamily,

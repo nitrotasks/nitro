@@ -25,10 +25,10 @@ export class TasksList extends React.PureComponent {
   }
   static getDerivedStateFromProps(props, state) {
     return props.listId !== state.previousId
-      ? TasksList.generateState(props)
+      ? TasksList.generateState(props, true)
       : null
   }
-  static generateState(props) {
+  static generateState(props, newList = false) {
     const { listId } = props
     const list = NitroSdk.getTasks(listId)
     const taskMap = new Map()
@@ -41,17 +41,23 @@ export class TasksList extends React.PureComponent {
     }
 
     UiService.state.currentListTasksOrder = order
-    return {
+    const newState = {
       previousId: props.listId,
       order: order,
       tasks: taskMap,
       showTasks: false
     }
+    if (newList && NitroSdk.isSignedIn(true)) {
+      const syncingTasks = NitroSdk.getTasksSyncStatus(props.listId)
+      newState.syncingTasks = syncingTasks.post.concat(syncingTasks.patch)
+    }
+    return newState
   }
   constructor(props) {
     super(props)
     this.state = {
-      ...this.constructor.generateState(props),
+      syncingTasks: [],
+      ...this.constructor.generateState(props, true),
       currentTaskHeight: 0,
       showTasks: true
     }
@@ -63,8 +69,8 @@ export class TasksList extends React.PureComponent {
   componentDidMount() {
     NitroSdk.bind('update', this.tasksUpdate)
     NitroSdk.bind('order', this.tasksUpdate)
-    NitroSdk.bind('sync-upload-start', this.syncStart)
-    NitroSdk.bind('sync-upload-complete', this.syncComplete)
+    NitroSdk.bind('sync-upload-start', this.syncingTasksUpdate)
+    NitroSdk.bind('sync-upload-complete', this.syncingTasksUpdate)
     TasksExpandedService.bind('height', this.triggerShow)
     TasksExpandedService.bind('hide', this.triggerHide)
   }
@@ -81,6 +87,8 @@ export class TasksList extends React.PureComponent {
   componentWillUnmount() {
     NitroSdk.unbind('update', this.tasksUpdate)
     NitroSdk.unbind('order', this.tasksUpdate)
+    NitroSdk.unbind('sync-upload-start', this.syncingTasksUpdate)
+    NitroSdk.unbind('sync-upload-complete', this.syncingTasksUpdate)
     TasksExpandedService.unbind('height', this.triggerShow)
     TasksExpandedService.unbind('hide', this.triggerHide)
   }
@@ -91,11 +99,12 @@ export class TasksList extends React.PureComponent {
       showTasks: true
     })
   }
-  syncStart = () => {
-    console.log('start', NitroSdk.getTasksSyncStatus(this.props.listId))
-  }
-  syncComplete = () => {
-    console.log('complete', NitroSdk.getTasksSyncStatus(this.props.listId))
+  syncingTasksUpdate = () => {
+    if (!NitroSdk.isSignedIn(true)) return
+    const syncingTasks = NitroSdk.getTasksSyncStatus(this.props.listId)
+    this.setState({
+      syncingTasks: syncingTasks.post.concat(syncingTasks.patch)
+    })
   }
   triggerShow = height => {
     this.currentItemIndex = this.state.order.indexOf(
@@ -241,6 +250,7 @@ export class TasksList extends React.PureComponent {
               headersAllowed={headersAllowed}
               currentHeading={currentHeading}
               dragDisabled={orderNotAllowed}
+              syncing={this.state.syncingTasks.includes(task.id)}
             />
           )
         })}

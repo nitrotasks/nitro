@@ -24,10 +24,16 @@
   },
   "homepage": "http://nitrotasks.com",
   "nyc": {
-    "require": ["@babel/register"],
+    "require": [
+      "@babel/register"
+    ],
     "sourceMap": false,
     "instrument": false,
-    "reporter": ["lcov", "text", "html"]
+    "reporter": [
+      "lcov",
+      "text",
+      "html"
+    ]
   },
   "devDependencies": {
     "@babel/cli": "^7.1.5",
