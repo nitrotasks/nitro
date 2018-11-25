@@ -61,6 +61,8 @@ export class TasksList extends React.PureComponent {
       currentTaskHeight: 0,
       showTasks: true
     }
+
+    this.pendingChanges = false
     this.currentItemIndex = 0
     this.archiveButton = React.createRef()
     this.tasksContainer = React.createRef()
@@ -93,6 +95,12 @@ export class TasksList extends React.PureComponent {
     TasksExpandedService.unbind('hide', this.triggerHide)
   }
   tasksUpdate = () => {
+    // doesn't do anything if the task is expanded
+    if (TasksExpandedService.state.task !== null) {
+      this.pendingChanges = true
+      return
+    }
+
     // captures all updates for all lists, because the today and next lists are special
     this.setState({
       ...this.constructor.generateState(this.props),
@@ -142,6 +150,12 @@ export class TasksList extends React.PureComponent {
       const archive = findNodeHandle(this.archiveButton.current)
       if (archive) {
         archive.style.transform = ''
+      }
+
+      // if there was an update while the modal was showing, trigger them now
+      if (this.pendingChanges) {
+        this.pendingChanges = false
+        setTimeout(this.tasksUpdate, 300)
       }
     })
   }

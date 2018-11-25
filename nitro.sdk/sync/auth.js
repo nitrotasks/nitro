@@ -144,7 +144,7 @@ class AuthenticationStore extends Events {
         })
     })
   }
-  signOut(message) {
+  signOut(message, deleteSession = false) {
     const cb = () => {
       // Signs out even if there is an error.
       broadcast.db(0)
@@ -158,6 +158,7 @@ class AuthenticationStore extends Events {
     const promises = [clear()]
     if (
       !(JSON.stringify(this.refreshToken) === '{}' || this.isLocalAccount()) &&
+      deleteSession &&
       this.refreshToken.loginType !== 'auth0'
     ) {
       promises.push(
@@ -168,6 +169,8 @@ class AuthenticationStore extends Events {
           }
         )
       )
+    } else if (deleteSession && this.refreshToken.loginType === 'auth0') {
+      this.auth0.logout()
     }
     Promise.all(promises)
       .then(cb)

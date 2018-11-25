@@ -235,8 +235,8 @@ export class sdk extends Events {
   handleUniversalAuth = () => {
     return authenticationStore.handleUniversalAuth()
   }
-  signOut = (message: string) => {
-    return authenticationStore.signOut(message)
+  signOut = (message: string, deleteSession: ?boolean) => {
+    return authenticationStore.signOut(message, deleteSession)
   }
   createAccount = (username: string, password: string) => {
     return authenticationStore.createAccount(username, password)

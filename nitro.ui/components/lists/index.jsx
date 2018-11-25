@@ -19,7 +19,7 @@ export class Lists extends React.Component {
     const items = [
       {
         title: 'Sign Out',
-        action: NitroSdk.signOut
+        action: () => NitroSdk.signOut(null, true)
       }
     ]
     ContextMenuService.create(e.clientX, e.clientY, 'bottom', 'left', items)
