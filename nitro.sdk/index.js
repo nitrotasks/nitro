@@ -167,6 +167,9 @@ export class sdk extends Events {
         )
       }
 
+      window.onbeforeunload = () =>
+        'Nitro is syncing - your unsaved changes may be lost if you leave'
+
       this.listsQueue.syncLock = true
       this.tasksQueue.syncLock = true
 
@@ -189,6 +192,7 @@ export class sdk extends Events {
         .then(() => {
           this.listsQueue.syncLock = false
           this.tasksQueue.syncLock = false
+          window.onbeforeunload = null
           log('Sync to Server Complete')
           resolve()
 
@@ -198,6 +202,7 @@ export class sdk extends Events {
         .catch(err => {
           this.listsQueue.syncLock = false
           this.tasksQueue.syncLock = false
+          window.onbeforeunload = null
 
           if (err.status === 404) {
             log('Got a 404, going to redownload from server in attempt to fix.')
