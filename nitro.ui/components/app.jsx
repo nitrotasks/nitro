@@ -16,10 +16,12 @@ class App extends React.Component {
     signedIn: NitroSdk.isSignedIn()
   }
   componentDidMount() {
+    document.addEventListener('visibilitychange', this.triggerWindowVisibility)
     NitroSdk.bind('sign-in-status', this.signInCallback)
     NitroSdk.bind('sign-in-error', this.signInError)
   }
   componentWillUnmount() {
+    document.removeEventListener('visibilitychange', this.triggerWindowVisibility)
     NitroSdk.unbind('sign-in-status', this.signInCallback)
     NitroSdk.unbind('sign-in-error', this.signInError)
   }
@@ -67,6 +69,15 @@ class App extends React.Component {
         result.draggableId.split('lists-')[1]
       )
       NitroSdk.updateListsOrder(order)
+    }
+  }
+  triggerWindowVisibility = e => {
+    // triggers a sync if the window becomes active and there hasn't been a sync within 30s
+    if (!document.hidden &&
+      NitroSdk.lastSync !== undefined &&
+      new Date().getTime() - NitroSdk.lastSync.getTime() > 30000
+    ) {
+      NitroSdk.fullSync()
     }
   }
   render() {

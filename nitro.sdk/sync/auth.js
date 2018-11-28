@@ -230,9 +230,7 @@ class AuthenticationStore extends Events {
             resolve()
           } else {
             console.error(err)
-            alert(
-              'something else even weirder happened auth failed check console'
-            )
+            alert(err.message)
           }
         })
       })

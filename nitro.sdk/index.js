@@ -61,15 +61,7 @@ export class sdk extends Events {
         broadcast.start()
       }
     })
-    authenticationStore.bind('token', () => {
-      const listItems = this.listsQueue.hasItems()
-      const taskItems = this.tasksQueue.hasItems()
-      if (listItems || taskItems) {
-        this._processQueue().then(this.downloadData)
-      } else {
-        this.downloadData()
-      }
-    })
+    authenticationStore.bind('token', this.fullSync)
     authenticationStore.bind('ws', this._handleWs)
     broadcast.bind('refresh-db', this._refreshDb)
     TasksCollection.bind('update', this._updateEvent('tasks'))
@@ -109,12 +101,21 @@ export class sdk extends Events {
         .catch(reject)
     })
   }
+  fullSync = () => {
+    const listItems = this.listsQueue.hasItems()
+    const taskItems = this.tasksQueue.hasItems()
+    if (listItems || taskItems) {
+      this._processQueue().then(this.downloadData)
+    } else {
+      this.downloadData()
+    }
+  }
   _handleWs = (data: Object) => {
     if (data.command === 'sync-complete') {
       this.downloadData()
     } else if (data.command === 'connected') {
       if (
-        typeof this.lastSync !== 'undefined' &&
+        this.lastSync !== undefined &&
         new Date().getTime() - this.lastSync.getTime() > 30000
       ) {
         this.downloadData()
@@ -147,7 +148,9 @@ export class sdk extends Events {
   _runDeferred = () => {
     const listsDeferred = this.listsQueue.runDeferred()
     const tasksDeferred = this.tasksQueue.runDeferred()
-    if (listsDeferred || tasksDeferred) {
+    const listItems = this.listsQueue.hasItems()
+    const taskItems = this.tasksQueue.hasItems()
+    if (listsDeferred || tasksDeferred || listItems || taskItems) {
       this._processQueue()
     }
   }
