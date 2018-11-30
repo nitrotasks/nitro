@@ -567,7 +567,7 @@ export class sdk extends Events {
     if (task === null) throw new Error('Task could not be found')
     const order = this.getList(task.list).localOrder.slice()
     order.splice(order.indexOf(task.id), 1)
-    this.updateTasksOrder(task.list, order, false)
+    this.updateTasksOrder(task.list, order, false, false)
     TasksCollection.delete(task.id, authenticationStore.isLocalAccount())
   }
   updateListsOrder(order: Array<string>, sync: boolean = true) {
@@ -576,7 +576,12 @@ export class sdk extends Events {
 
     if (sync) ListsCollection.sync.addToQueue('list-order', 'meta', 'lists')
   }
-  updateTasksOrder(listId: string, order: Array<string>, sync: boolean = true) {
+  updateTasksOrder(
+    listId: string,
+    order: Array<string>,
+    sync: boolean = true,
+    raiseEvent: boolean = true
+  ) {
     const resource = ListsCollection.find(listId)
 
     // updates the local order, then the server order
@@ -601,7 +606,9 @@ export class sdk extends Events {
       preProcessCallback()
     }
 
-    ListsCollection.trigger('order')
+    if (raiseEvent) {
+      ListsCollection.trigger('order')
+    }
     ListsCollection.saveLocal()
   }
   addList(props: Object, sync: ?boolean): Object {

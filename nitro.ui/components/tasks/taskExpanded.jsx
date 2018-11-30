@@ -142,12 +142,14 @@ export class TaskExpanded extends React.Component {
 
               // If the overlay is "below the fold", we going to scroll down a bit
               if (scrollLocation + expandedHeight > fold) {
+                console.log('scroll is changing... cond1')
                 UiService.scrollBy({
                   top: scrollLocation + expandedHeight - fold,
                   left: 0,
                   behavior: 'smooth'
                 })
               } else if (scrollLocation < UiService.getScroll()) {
+                console.log('scroll is changing...')
                 UiService.scrollTo({
                   top: scrollLocation,
                   left: 0,

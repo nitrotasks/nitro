@@ -110,8 +110,14 @@ export class TasksList extends React.PureComponent {
   syncingTasksUpdate = () => {
     if (!NitroSdk.isSignedIn(true)) return
     const syncingTasks = NitroSdk.getTasksSyncStatus(this.props.listId)
+    const newState = syncingTasks.post.concat(syncingTasks.patch)
+
+    // avoids a set state
+    if (JSON.stringify(this.state.syncingTasks) === JSON.stringify(newState)) {
+      return
+    }
     this.setState({
-      syncingTasks: syncingTasks.post.concat(syncingTasks.patch)
+      syncingTasks: newState
     })
   }
   triggerShow = height => {
@@ -223,17 +229,15 @@ export class TasksList extends React.PureComponent {
         <div className="new-task-spacer" />
         {order.map((taskId, index) => {
           const task = this.state.tasks.get(taskId)
-          // if taskid matches ocorrect one get position in dom, pass to overlay etc etc
-          if (task.type === 'header') {
-            currentHeading = task.id
-            headerCollapsed = false
-          } else if (task.type === 'header-collapsed') {
-            headerCollapsed = true
-          } else if (task.type === 'archived' || headerCollapsed === true) {
+          if (
+            task === undefined ||
+            task.type === 'archived' ||
+            headerCollapsed === true
+          ) {
             return (
               <Draggable
-                key={task.id}
-                draggableId={'tasks-' + task.id}
+                key={taskId}
+                draggableId={'tasks-' + taskId}
                 index={index}
                 isDragDisabled={true}
               >
@@ -246,6 +250,11 @@ export class TasksList extends React.PureComponent {
                 )}
               </Draggable>
             )
+          } else if (task.type === 'header') {
+            currentHeading = task.id
+            headerCollapsed = false
+          } else if (task.type === 'header-collapsed') {
+            headerCollapsed = true
           }
           return (
             <Task

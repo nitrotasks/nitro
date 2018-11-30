@@ -21,7 +21,10 @@ class App extends React.Component {
     NitroSdk.bind('sign-in-error', this.signInError)
   }
   componentWillUnmount() {
-    document.removeEventListener('visibilitychange', this.triggerWindowVisibility)
+    document.removeEventListener(
+      'visibilitychange',
+      this.triggerWindowVisibility
+    )
     NitroSdk.unbind('sign-in-status', this.signInCallback)
     NitroSdk.unbind('sign-in-error', this.signInError)
   }
@@ -71,9 +74,10 @@ class App extends React.Component {
       NitroSdk.updateListsOrder(order)
     }
   }
-  triggerWindowVisibility = e => {
+  triggerWindowVisibility = () => {
     // triggers a sync if the window becomes active and there hasn't been a sync within 30s
-    if (!document.hidden &&
+    if (
+      !document.hidden &&
       NitroSdk.lastSync !== undefined &&
       new Date().getTime() - NitroSdk.lastSync.getTime() > 30000
     ) {
