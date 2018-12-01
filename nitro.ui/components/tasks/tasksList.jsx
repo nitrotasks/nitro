@@ -75,6 +75,7 @@ export class TasksList extends React.PureComponent {
     NitroSdk.bind('sync-upload-complete', this.syncingTasksUpdate)
     TasksExpandedService.bind('height', this.triggerShow)
     TasksExpandedService.bind('hide', this.triggerHide)
+    this.scheduleTasksUpdate()
   }
   componentDidUpdate() {
     // this is basically a dodgy async render
@@ -93,6 +94,18 @@ export class TasksList extends React.PureComponent {
     NitroSdk.unbind('sync-upload-complete', this.syncingTasksUpdate)
     TasksExpandedService.unbind('height', this.triggerShow)
     TasksExpandedService.unbind('hide', this.triggerHide)
+    clearTimeout(this.nextDayUpdate)
+  }
+  scheduleTasksUpdate = () => {
+    // re-renders every hour
+    const d = new Date()
+    const m = d.getMinutes()
+    const s = d.getSeconds()
+    const nextRender = (60 * 60 - m * 60 - s + 10) * 1000
+    this.nextDayUpdate = setTimeout(() => {
+      this.tasksUpdate()
+      this.scheduleTasksUpdate()
+    }, nextRender)
   }
   tasksUpdate = () => {
     // doesn't do anything if the task is expanded
