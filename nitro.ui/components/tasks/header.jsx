@@ -91,6 +91,7 @@ export class Header extends React.PureComponent {
   }
   render() {
     const list = NitroSdk.getList(this.props.listId)
+    document.title = list.name + ' - Nitro'
     if (list === null) {
       return null
     }
