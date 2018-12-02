@@ -7,6 +7,7 @@ window.sdk = NitroSdk
 
 // polyfills
 import 'intersection-observer'
+import './helpers/broadcastChannel'
 import smoothscroll from 'smoothscroll-polyfill'
 smoothscroll.polyfill()
 

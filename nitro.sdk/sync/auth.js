@@ -37,13 +37,16 @@ class AuthenticationStore extends Events {
       })
     }
   }
-  loadLocal() {
+  loadLocal(disableToken = false) {
     get('auth').then(data => {
-      if (typeof data !== 'undefined') {
+      if (data !== undefined) {
         this.refreshToken = data
       }
+      if (disableToken === true) {
+        return
+      }
       this.trigger('sign-in-status')
-      if (typeof navigator !== 'undefined' && navigator.onLine) {
+      if (navigator !== undefined && navigator.onLine) {
         this.getToken().catch(err => {
           if (err.status === 401) {
             this.signOut(SESSION_EXPIRED)

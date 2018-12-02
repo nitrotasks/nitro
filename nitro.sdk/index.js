@@ -78,26 +78,22 @@ export class sdk extends Events {
   }
   loadData(raiseEvent: boolean = false): Promise<any> {
     return new Promise((resolve, reject) => {
-      authenticationStore.loadLocal()
+      authenticationStore.loadLocal(raiseEvent)
       ListsCollection.loadLocal()
+        .then(() => TasksCollection.loadLocal())
+        .then(() =>
+          Promise.all([
+            this.listsQueue.loadQueue(),
+            this.tasksQueue.loadQueue()
+          ])
+        )
         .then(() => {
-          TasksCollection.loadLocal()
-            .then(() => {
-              Promise.all([
-                this.listsQueue.loadQueue(),
-                this.tasksQueue.loadQueue()
-              ])
-                .then(() => {
-                  if (raiseEvent) {
-                    this.trigger('update', 'lists', 'update-all')
-                    this.trigger('update', 'tasks', 'update-all')
-                  }
-                })
-                .then(resolve)
-                .catch(reject)
-            })
-            .catch(reject)
+          if (raiseEvent) {
+            this.trigger('update', 'lists', 'update-all')
+            this.trigger('update', 'tasks', 'update-all')
+          }
         })
+        .then(resolve)
         .catch(reject)
     })
   }
