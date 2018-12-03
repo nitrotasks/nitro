@@ -32,8 +32,12 @@ export class ListItem extends React.Component {
     this.props.onClick()
     this.hideMenu()
   }
-  hideMenu = e => {
+  hideMenu = () => {
     UiService.setCardPosition('map')
+
+    setTimeout(() => {
+      UiService.setCardScroll(0)
+    }, 350)
   }
   render() {
     let icon = iconMap.get(this.props.id)

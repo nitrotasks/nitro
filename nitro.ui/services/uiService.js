@@ -2,7 +2,8 @@
 import { Events } from '../../nitro.sdk'
 
 // TODO: This needs to update on resize
-const defaultPosition = window.innerWidth > 850 ? 'max' : 'map'
+const MOBILE_BREAKPOINT = 850
+const defaultPosition = window.innerWidth > MOBILE_BREAKPOINT ? 'max' : 'map'
 
 class uiService extends Events {
   constructor(props) {
@@ -30,6 +31,7 @@ class uiService extends Events {
   }
 
   scrollView = null
+  drawerScrollView = null
   tasksContainer = null
 
   getScroll(): number {
@@ -63,7 +65,7 @@ class uiService extends Events {
     manual: boolean = false
   ) {
     // desktop is always max
-    if (window.innerWidth > 850) {
+    if (window.innerWidth > MOBILE_BREAKPOINT) {
       position = 'max'
     }
     // don't need to do anything if it's already in the right position
@@ -87,6 +89,15 @@ class uiService extends Events {
       }, 200)
     } else {
       this.state.oldCardPosition = position
+    }
+  }
+
+  setCardScroll(top: number) {
+    if (this.drawerScrollView === null) {
+      return
+    }
+    if (window.innerWidth <= MOBILE_BREAKPOINT) {
+      this.drawerScrollView.current.scrollTop = top
     }
   }
 }

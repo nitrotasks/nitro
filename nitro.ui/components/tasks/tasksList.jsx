@@ -51,6 +51,9 @@ export class TasksList extends React.PureComponent {
       const syncingTasks = NitroSdk.getTasksSyncStatus(props.listId)
       newState.syncingTasks = syncingTasks.post.concat(syncingTasks.patch)
     }
+    if (newList) {
+      UiService.scrollTo({ top: 0 })
+    }
     return newState
   }
   constructor(props) {

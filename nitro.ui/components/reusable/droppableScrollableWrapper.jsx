@@ -31,6 +31,7 @@ export class DroppableScrollableWrapper extends React.Component {
         threshold: 0
       })
       this.observer.observe(this.intersectHelper.current)
+      UiService.drawerScrollView = this.scrollView
     } else {
       UiService.scrollView = this.scrollView
     }

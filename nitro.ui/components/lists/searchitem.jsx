@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
+import { UiService } from '../../services/uiService.js'
 
 import { View, Text, Image, StyleSheet } from 'react-native'
 import { TouchableOpacity } from '../reusable/touchableOpacity.jsx'
@@ -28,11 +29,16 @@ export class SearchItem extends React.Component {
   triggerClick = () => {
     const { url } = this.props
     const parsedUrl = url.split('/')
+    UiService.setCardPosition('map')
     if (parsedUrl.length === 3) {
       if (TasksExpandedService.state.task === parsedUrl[2]) {
         return
       } else if (TasksExpandedService.state.list === parsedUrl[1]) {
-        TasksExpandedService.trigger('indirect-click', parsedUrl[1], parsedUrl[2])
+        TasksExpandedService.trigger(
+          'indirect-click',
+          parsedUrl[1],
+          parsedUrl[2]
+        )
       } else {
         TasksExpandedService.triggerTask(parsedUrl[1], parsedUrl[2], 0)
       }
