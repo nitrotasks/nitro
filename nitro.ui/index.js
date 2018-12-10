@@ -18,6 +18,10 @@ import './external-css/extras.css'
 import './external-css/root.css'
 
 document.addEventListener('DOMContentLoaded', () => {
+  if (window.location.pathname === '/signout') {
+    NitroSdk.signOut(null, true)
+    return
+  }
   if (process.env.NODE_ENV === 'production') {
     const Runtime = require('offline-plugin/runtime')
     Runtime.install()

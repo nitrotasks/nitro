@@ -85,7 +85,7 @@ class App extends React.Component {
     }
   }
   render() {
-    if (!this.state.signedIn) {
+    if (!this.state.signedIn || window.location.pathname === '/callback') {
       return <Login />
     }
     return (

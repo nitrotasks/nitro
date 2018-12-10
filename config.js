@@ -13,7 +13,7 @@ const config = {
     clientID: '',
     redirectUri: 'http://localhost:8080/callback',
     responseType: 'token id_token',
-    scope: 'openid'
+    scope: 'openid read:tasks write:tasks'
   }
 }
 export default config

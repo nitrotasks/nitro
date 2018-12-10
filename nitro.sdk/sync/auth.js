@@ -9,6 +9,7 @@ import { broadcast } from './broadcastchannel.js'
 
 const SESSION_EXPIRED =
   'You have been signed out because your session has expired.'
+const HOUR = 60 * 60 * 1000
 
 class AuthenticationStore extends Events {
   constructor(props) {
@@ -47,11 +48,20 @@ class AuthenticationStore extends Events {
       }
       this.trigger('sign-in-status')
       if (navigator !== undefined && navigator.onLine) {
-        this.getToken().catch(err => {
-          if (err.status === 401) {
-            this.signOut(SESSION_EXPIRED)
-          }
-        })
+        if (
+          parseInt(this.refreshToken.expiresAt) - new Date().getTime() <
+          HOUR
+        ) {
+          this.getToken().catch(err => {
+            if (err.status === 401) {
+              this.signOut(SESSION_EXPIRED)
+            }
+          })
+        } else {
+          this.accessToken = { access_token: this.refreshToken.accessToken }
+          this.expiresAt = parseInt(this.refreshToken.expiresAt)
+          this.scheduleToken(60 * 30) // 30 minutes
+        }
       }
     })
   }
@@ -210,8 +220,7 @@ class AuthenticationStore extends Events {
       return new Promise((resolve, reject) => {
         this.auth0.checkSession({}, (err, authResult) => {
           if (err) {
-            this.signOut(SESSION_EXPIRED)
-            reject(err)
+            this.auth0.authorize()
           } else if (
             authResult &&
             authResult.accessToken &&
@@ -298,6 +307,7 @@ class AuthenticationStore extends Events {
             })
         } else if (err) {
           console.error(err)
+          err.message = err.errorDescription
           this.trigger('sign-in-error', err)
           reject(err)
         }

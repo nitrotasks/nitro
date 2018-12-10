@@ -53,11 +53,15 @@ export class Login extends React.Component {
   signInError = error => {
     this.setState({ disabled: false, error: error.message })
   }
+  triggerSignOut = () => {
+    NitroSdk.signOut(null, true)
+  }
   render() {
     const text = this.state.disabled ? 'Logging in...' : 'Log In'
-    const wrapperStyles = NitroSdk.isSignedIn()
-      ? [styles.wrapper, styles.wrapperHidden]
-      : styles.wrapper
+    const wrapperStyles =
+      NitroSdk.isSignedIn() && this.state.error === null
+        ? [styles.wrapper, styles.wrapperHidden]
+        : styles.wrapper
 
     const passwordBlock =
       config.loginType.indexOf('password') > -1 ? (
@@ -106,15 +110,29 @@ export class Login extends React.Component {
         </View>
       ) : null
 
+    const error = this.state.error ? (
+      <View style={styles.error}>
+        <Text style={styles.errorText}>{this.state.error}</Text>
+      </View>
+    ) : null
     let content
     if (window.location.pathname === '/callback') {
-      content = <Text style={styles.tagline}>Signing In...</Text>
+      content = (
+        <React.Fragment>
+          <Text style={styles.tagline}>
+            {error ? 'Sign In Error!' : 'Signing In...'}
+          </Text>
+          {error}
+          {error ? (
+            <Button
+              onPress={this.triggerSignOut}
+              color={vars.accentColor}
+              title="Sign Out"
+            />
+          ) : null}
+        </React.Fragment>
+      )
     } else {
-      const error = this.state.error ? (
-        <View style={styles.error}>
-          <Text style={styles.errorText}>{this.state.error}</Text>
-        </View>
-      ) : null
       const infoString = decodeURIComponent(window.location.search).split(
         'info='
       )[1]
