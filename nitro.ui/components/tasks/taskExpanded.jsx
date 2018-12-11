@@ -535,7 +535,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     // bottom and right padding is ommited for large touch targets
     paddingTop: vars.padding,
-    paddingLeft: vars.padding,
+    paddingLeft: vars.padding * 0.75,
     boxShadow: '0 1px 15px rgba(0,0,0,0.1)',
     transitionDuration: '300ms, 300ms',
     transitionTimingFunction: 'ease, ease',
@@ -550,13 +550,15 @@ const styles = StyleSheet.create({
     fontFamily: vars.fontFamily,
     fontSize: vars.taskExpandedFontSize,
     outline: '0',
-    flex: 1
+    flex: 1,
+    paddingLeft: vars.padding / 4
   },
   notes: {
     fontFamily: vars.fontFamily,
     fontSize: vars.taskFontSize,
     lineHeight: vars.notesLineHeight,
     marginTop: vars.padding,
+    paddingLeft: vars.padding * 0.375,
     paddingRight: vars.padding,
     outline: '0'
   },

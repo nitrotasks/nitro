@@ -293,7 +293,7 @@ const styles = StyleSheet.create({
   wrapper: {
     paddingTop: vars.padding * 0.1875,
     paddingBottom: vars.padding * 0.1875,
-    paddingLeft: vars.padding / 2,
+    paddingLeft: vars.padding / 4,
     paddingRight: vars.padding / 2,
     flex: 1,
     flexDirection: 'row',
@@ -306,7 +306,8 @@ const styles = StyleSheet.create({
   textDisplay: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingLeft: vars.padding / 4
   },
   textRow: {
     flex: 1
@@ -325,7 +326,7 @@ const styles = StyleSheet.create({
   syncIcon: {
     width: 24,
     height: 24,
-    marginRight: vars.padding / 4,
+    marginRight: vars.padding / 4
   },
   text: {
     fontFamily: vars.fontFamily,
