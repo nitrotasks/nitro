@@ -12,12 +12,16 @@ import { Draggable } from 'react-beautiful-dnd'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
+import { ModalService } from '../../services/modalService.js'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 import { UiService } from '../../services/uiService.js'
 import { Task } from './task.jsx'
 import { EmptyList } from './emptyList.jsx'
 
 import archiveIcon from '../../../assets/icons/material/archive.svg'
+
+const ARCHIVE_MULTIPLE_WARNING =
+  'Are you sure you want to archive these tasks?\n\nYou currently can’t view archived tasks in Nitro.'
 
 export class TasksList extends React.PureComponent {
   static propTypes = {
@@ -182,7 +186,15 @@ export class TasksList extends React.PureComponent {
     })
   }
   triggerArchive = () => {
-    NitroSdk.archiveCompletedList(this.props.listId)
+    ModalService.show(
+      {
+        message: ARCHIVE_MULTIPLE_WARNING,
+        confirmText: 'Archive Tasks',
+        confirmColor: vars.positiveColor,
+        cancelText: 'Cancel'
+      },
+      () => NitroSdk.archiveCompletedList(this.props.listId)
+    )
   }
   render() {
     const list = NitroSdk.getList(this.props.listId)

@@ -60,7 +60,7 @@ export class Modal extends React.Component {
           <View style={styles.buttonBox}>
             <View style={styles.button}>
               <Button
-                color={vars.accentColorMuted}
+                color={vars.cancelColor}
                 title={this.state.cancelText}
                 onPress={this.triggerCancel}
               />
@@ -93,11 +93,14 @@ const styles = StyleSheet.create({
     paddingBottom: vars.padding,
     paddingLeft: vars.padding,
     paddingRight: vars.padding,
-    marginTop: vars.padding * 2,
+    marginTop: '10vh',
     marginLeft: 'auto',
     marginRight: 'auto',
     maxWidth: '320px',
     boxShadow: '0 1px 5px rgba(0,0,0,0.25)',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: vars.accentColorMuted,
     borderRadius: '5px',
     backgroundColor: '#fff'
   },
@@ -108,14 +111,18 @@ const styles = StyleSheet.create({
   message: {
     fontFamily: vars.fontFamily,
     fontSize: vars.modalFontSize,
-    textAlign: 'center'
+    textAlign: 'center',
+    lineHeight: vars.modalFontSize * 1.3
   },
   buttonBox: {
     flexDirection: 'row',
-    padding: vars.padding / 2
+    paddingTop: vars.padding,
+    paddingLeft: vars.padding / 4,
+    paddingRight: vars.padding / 4,
+    paddingBottom: vars.padding / 4
   },
   button: {
     flex: 1,
-    padding: vars.padding / 2
+    padding: vars.padding / 4
   }
 })

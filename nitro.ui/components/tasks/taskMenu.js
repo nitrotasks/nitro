@@ -4,9 +4,9 @@ import { ModalService } from '../../services/modalService.js'
 import { vars } from '../../styles.js'
 
 const ARCHIVE_WARNING =
-  'Are you sure you want to archive this task? You can’t currently view archived tasks in Nitro.'
+  'Are you sure you want to archive this task?\n\nYou currently can’t view archived tasks in Nitro.'
 const ARCHIVE_HEADER_WARNING =
-  'Are you sure you want to archive this group of tasks? You can’t currently view archived tasks in Nitro.'
+  'Are you sure you want to archive this group of tasks?\n\nYou currently can’t view archived tasks in Nitro.'
 const DELETE_WARNING = 'Are you sure you want to delete this task?'
 const DELETE_HEADER_WARNING = 'Are you sure you want to remove this heading?'
 

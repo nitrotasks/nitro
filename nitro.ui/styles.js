@@ -13,8 +13,9 @@ const vars = {
   indicatorColor: '#eeeeee',
   headerColor: '#000',
   overlayColor: '#fafbfc',
-  positiveColor: '#2ed573',
+  positiveColor: '#2ecc71',
   negativeColor: '#e74c3c',
+  cancelColor: '#bbb',
 
   // sizes
   padding: 16,
