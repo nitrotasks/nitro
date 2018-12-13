@@ -491,8 +491,8 @@ export class TaskExpanded extends React.Component {
           style={[
             styles.overlay,
             {
-              opacity: overlayOpacity,
-              height: scrollHeight
+              opacity: overlayOpacity
+              // height: scrollHeight
             }
           ]}
         />
@@ -503,8 +503,8 @@ export class TaskExpanded extends React.Component {
           style={[
             styles.overlay,
             {
-              opacity: 0,
-              height: scrollHeight
+              opacity: 0
+              // height: scrollHeight
             }
           ]}
         />
@@ -514,6 +514,7 @@ export class TaskExpanded extends React.Component {
 }
 const styles = StyleSheet.create({
   overlay: {
+    display: 'none',
     position: 'absolute',
     zIndex: 10,
     top: 0,

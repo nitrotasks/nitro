@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { View, Image, TouchableWithoutFeedback, StyleSheet } from 'react-native'
+import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 
 import checkIcon from '../../../assets/icons/feather/check.svg'
 import { vars } from '../../styles.js'

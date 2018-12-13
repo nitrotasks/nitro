@@ -119,7 +119,8 @@ export class Task extends React.PureComponent {
     }
   }
   triggerCheckbox = () => {
-    NitroSdk.completeTask(this.props.dataId)
+    const { dataId } = this.props
+    NitroSdk.completeTask(dataId)
   }
   triggerContextMenu = e => {
     e.preventDefault()
@@ -229,11 +230,13 @@ export class Task extends React.PureComponent {
           : styles.wrapper
       innerItem = (
         <View style={wrapperStyles} onContextMenu={this.triggerContextMenu}>
-          <Checkbox
-            onClick={this.triggerCheckbox}
-            checked={props.dataCompleted !== null}
-          />
-          <View onClick={this.triggerClick} style={styles.textDisplay}>
+          <View style={styles.checkboxWrapper}>
+            <Checkbox
+              onClick={this.triggerCheckbox}
+              checked={props.dataCompleted !== null}
+            />
+          </View>
+          <View style={styles.textDisplay} onClick={this.triggerClick}>
             {indicatorsBefore}
             <View style={styles.textRow}>
               <View style={styles.textWrapper}>
@@ -291,8 +294,6 @@ export class Task extends React.PureComponent {
 }
 const styles = StyleSheet.create({
   wrapper: {
-    paddingTop: vars.padding * 0.1875,
-    paddingBottom: vars.padding * 0.1875,
     paddingLeft: vars.padding / 4,
     paddingRight: vars.padding / 2,
     flex: 1,
@@ -302,6 +303,10 @@ const styles = StyleSheet.create({
   wrapperPadding: {
     marginTop: vars.padding * 0.25,
     marginBottom: vars.padding * 0.375
+  },
+  checkboxWrapper: {
+    paddingTop: vars.padding * 0.1875,
+    paddingBottom: vars.padding * 0.1875
   },
   textDisplay: {
     flex: 1,

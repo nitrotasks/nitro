@@ -24,18 +24,32 @@ export class Tasks extends React.Component {
       UiService.trigger('list-intersection')
     }
   }
+  triggerClick = e => {
+    if (
+      e.target === e.currentTarget &&
+      TasksExpandedService.state.task !== null
+    ) {
+      TasksExpandedService.triggerBack()
+    }
+  }
 
   render() {
     const listId = this.props.match.params.list
+    const pointerEvents =
+      TasksExpandedService.state.task === null ? 'auto' : 'none'
 
     // used for the drag and drop
     UiService.state.currentList = listId
     return (
       <View style={styles.wrapper}>
-        <DroppableScrollableWrapper id="tasksDroppable" className="desktop-90">
-          <Header listId={listId} onIntersect={this.triggerIntersection} />
-          <TasksInput listId={listId} />
-          <TasksList listId={listId} />
+        <DroppableScrollableWrapper id="tasksDroppable">
+          <View onClick={this.triggerClick}>
+            <View pointerEvents={pointerEvents} className="desktop-90">
+              <Header listId={listId} onIntersect={this.triggerIntersection} />
+              <TasksInput listId={listId} />
+              <TasksList listId={listId} />
+            </View>
+          </View>
           <TaskExpanded listId={listId} />
         </DroppableScrollableWrapper>
         <Datepicker pickerId="expanded" position="sheet" />
