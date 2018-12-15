@@ -54,7 +54,6 @@ export class TaskExpanded extends React.Component {
         ...taskDetails,
         hidden: false,
         lineNumber: 3,
-        overlayHeight: window.innerHeight,
         overlayHidden: false
       }
       requestAnimationFrame(() => UiService.setCardPosition('hidden'))
@@ -68,7 +67,6 @@ export class TaskExpanded extends React.Component {
         checked: false,
         hidden: true,
         overlayHidden: true,
-        overlayHeight: 0,
         lineNumber: 3
       }
     }
@@ -103,8 +101,6 @@ export class TaskExpanded extends React.Component {
       this.taskInput.current.focus()
     }
     requestAnimationFrame(() => {
-      // TODO: This is a shit solution, need something better, especially on iOS
-      // UiService.scrollView.current.style.overflowY = 'hidden'
       const scrollLocation = TasksExpandedService.state.position - scrollOffset
       const lineNumber = Math.min(
         getMaxLines(),
@@ -112,15 +108,11 @@ export class TaskExpanded extends React.Component {
           vars.notesLineHeight
       )
       TasksExpandedService.triggerTaskHeight(lineNumber)
-      const overlayHeight = findNodeHandle(
-        UiService.tasksContainer.current
-      ).getBoundingClientRect().height
 
       this.setState(
         {
           hidden: false,
           overlayHidden: false,
-          overlayHeight: overlayHeight,
           lineNumber: lineNumber
         },
         () => {
@@ -170,10 +162,6 @@ export class TaskExpanded extends React.Component {
     clearTimeout(this.notesTimeout)
 
     setTimeout(() => {
-      requestAnimationFrame(() => {
-        // TODO: This is a shit solution, need something better, especially on iOS
-        // UiService.scrollView.current.style.overflowY = 'auto'
-      })
       this.setState({
         overlayHidden: true
       })
@@ -277,7 +265,7 @@ export class TaskExpanded extends React.Component {
     }
   }
   triggerChecked = () => {
-    // temporary! this component needs some smarts on how to trigger updates.
+    // TODO: this component needs some smarts on how to trigger updates.
     this.setState({
       checked: !this.state.checked
     })
@@ -328,24 +316,22 @@ export class TaskExpanded extends React.Component {
   render() {
     const { listId } = this.props
     let top = TasksExpandedService.state.position + vars.padding
-    let scrollHeight = this.state.overlayHeight + window.innerHeight
 
     // if the list changes
-    if (this.previousListId !== listId && this.state.hidden) {
+    if (
+      this.previousListId !== listId &&
+      this.state.hidden &&
+      this.state.overlayHidden
+    ) {
       top = 0
-      scrollHeight = 0
-      if (this.state.hidden && this.state.overlayHidden) {
-        this.previousListId = listId
-      }
+      this.previousListId = listId
     }
 
     let opacity = 1
-    let overlayOpacity = 0.5
     let transform = [{ translateY: 0 }]
     let pointerEvents = 'auto'
     if (this.state.hidden) {
       opacity = 0
-      overlayOpacity = 0
       pointerEvents = 'none'
       transform = [{ translateY: -2 * vars.padding }]
     }
@@ -481,53 +467,11 @@ export class TaskExpanded extends React.Component {
             </TouchableOpacity>
           </View>
         </View>
-        {/*
-          This view is the one with the styles.
-          This is so we can put it in front or behind the tasks (desktop-overlay class)
-         */}
-        <View
-          className="desktop-overlay"
-          pointerEvents="none"
-          style={[
-            styles.overlay,
-            {
-              opacity: overlayOpacity
-              // height: scrollHeight
-            }
-          ]}
-        />
-        {/* This one simply takes the events, but you can't see it */}
-        <View
-          pointerEvents={pointerEvents}
-          onClick={this.triggerOverlay}
-          style={[
-            styles.overlay,
-            {
-              opacity: 0
-              // height: scrollHeight
-            }
-          ]}
-        />
       </React.Fragment>
     )
   }
 }
 const styles = StyleSheet.create({
-  overlay: {
-    display: 'none',
-    position: 'absolute',
-    zIndex: 10,
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: vars.overlayColor,
-    opacity: 0.5,
-    transitionDuration: '300ms',
-    transitionTimingFunction: 'ease',
-    transitionProperty: 'opacity',
-    touchAction: 'none'
-  },
   wrapper: {
     position: 'absolute',
     zIndex: 11,

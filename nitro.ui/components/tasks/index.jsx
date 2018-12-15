@@ -11,11 +11,17 @@ import { TaskExpanded } from './taskExpanded.jsx'
 import { Datepicker } from '../datepicker.jsx'
 
 export class Tasks extends React.Component {
+  state = {
+    pointerEvents: TasksExpandedService.state.task === null
+  }
   componentDidMount() {
     TasksExpandedService.setGo(
       this.props.history.push,
       this.props.history.replace
     ) // hack for now
+
+    TasksExpandedService.bind('show', this.triggerExpanded)
+    TasksExpandedService.bind('hide', this.triggerExpanded)
   }
   triggerIntersection = e => {
     const newPos = !e[0].isIntersecting
@@ -32,25 +38,36 @@ export class Tasks extends React.Component {
       TasksExpandedService.triggerBack()
     }
   }
+  triggerExpanded = () => {
+    this.setState({
+      pointerEvents: TasksExpandedService.state.task === null
+    })
+  }
 
   render() {
-    const listId = this.props.match.params.list
-    const pointerEvents =
-      TasksExpandedService.state.task === null ? 'auto' : 'none'
+    const { list } = this.props.match.params
+    const pointerEvents = this.state.pointerEvents ? 'auto' : 'none'
+    const pointerEventsClassName =
+      'desktop-90' +
+      (this.state.pointerEvents ? '' : ' desktop-opacity-invisible')
 
     // used for the drag and drop
-    UiService.state.currentList = listId
+    UiService.state.currentList = list
     return (
       <View style={styles.wrapper}>
         <DroppableScrollableWrapper id="tasksDroppable">
           <View onClick={this.triggerClick}>
-            <View pointerEvents={pointerEvents} className="desktop-90">
-              <Header listId={listId} onIntersect={this.triggerIntersection} />
-              <TasksInput listId={listId} />
-              <TasksList listId={listId} />
+            <View
+              style={styles.tasksWrapper}
+              pointerEvents={pointerEvents}
+              className={pointerEventsClassName}
+            >
+              <Header listId={list} onIntersect={this.triggerIntersection} />
+              <TasksInput listId={list} />
+              <TasksList listId={list} />
             </View>
           </View>
-          <TaskExpanded listId={listId} />
+          <TaskExpanded listId={list} />
         </DroppableScrollableWrapper>
         <Datepicker pickerId="expanded" position="sheet" />
       </View>
@@ -60,5 +77,12 @@ export class Tasks extends React.Component {
 const styles = StyleSheet.create({
   wrapper: {
     height: '100%'
+  },
+  tasksWrapper: {
+    willChange: 'opacity',
+    minHeight: 'var(--real-height)',
+    transitionDuration: '300ms',
+    transitionProperty: 'opacity',
+    transitionTimingFunction: 'ease'
   }
 })
