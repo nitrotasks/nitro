@@ -26,10 +26,12 @@ export class ListsContainer extends React.Component {
   }
   update = () => {
     // we listen to all updates, so the counts also get updated
-    const lists = NitroSdk.getLists()
-    UiService.state.currentListsOrder = lists.map(l => l.id)
-    this.setState({
-      lists: lists
+    requestAnimationFrame(() => {
+      const lists = NitroSdk.getLists()
+      UiService.state.currentListsOrder = lists.map(l => l.id)
+      this.setState({
+        lists: lists
+      })
     })
   }
   createList = () => {

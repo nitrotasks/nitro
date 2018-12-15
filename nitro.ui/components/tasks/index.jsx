@@ -39,8 +39,11 @@ export class Tasks extends React.Component {
     }
   }
   triggerExpanded = () => {
-    this.setState({
-      pointerEvents: TasksExpandedService.state.task === null
+    // TODO: this is a bit of a hack
+    requestAnimationFrame(() => {
+      this.setState({
+        pointerEvents: TasksExpandedService.state.task === null
+      })
     })
   }
 

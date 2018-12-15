@@ -53,8 +53,7 @@ export class TaskExpanded extends React.Component {
       this.state = {
         ...taskDetails,
         hidden: false,
-        lineNumber: 3,
-        overlayHidden: false
+        lineNumber: 3
       }
       requestAnimationFrame(() => UiService.setCardPosition('hidden'))
     } else {
@@ -66,7 +65,6 @@ export class TaskExpanded extends React.Component {
         date: null,
         checked: false,
         hidden: true,
-        overlayHidden: true,
         lineNumber: 3
       }
     }
@@ -102,17 +100,16 @@ export class TaskExpanded extends React.Component {
     }
     requestAnimationFrame(() => {
       const scrollLocation = TasksExpandedService.state.position - scrollOffset
-      const lineNumber = Math.min(
-        getMaxLines(),
-        findNodeHandle(this.notesElement.current).scrollHeight /
-          vars.notesLineHeight
-      )
+      const scrollNode = findNodeHandle(this.notesElement.current)
+      const scrollLines = scrollNode
+        ? scrollNode.scrollHeight / vars.notesLineHeight
+        : 3
+      const lineNumber = Math.min(getMaxLines(), scrollLines)
       TasksExpandedService.triggerTaskHeight(lineNumber)
 
       this.setState(
         {
           hidden: false,
-          overlayHidden: false,
           lineNumber: lineNumber
         },
         () => {
@@ -158,15 +155,11 @@ export class TaskExpanded extends React.Component {
     this.setState(taskDetails)
   }
   triggerHide = (list, oldTask) => {
-    this.saveNotes(oldTask)
-    clearTimeout(this.notesTimeout)
-
-    setTimeout(() => {
-      this.setState({
-        overlayHidden: true
-      })
-    }, 300)
+    // TODO: this is a bit of a hack
     requestAnimationFrame(() => {
+      this.saveNotes(oldTask)
+      clearTimeout(this.notesTimeout)
+
       UiService.setCardPosition('map')
       this.setState({
         hidden: true
@@ -315,16 +308,12 @@ export class TaskExpanded extends React.Component {
   }
   render() {
     const { listId } = this.props
-    let top = TasksExpandedService.state.position + vars.padding
+    const top = TasksExpandedService.state.position + vars.padding
 
     // if the list changes
-    if (
-      this.previousListId !== listId &&
-      this.state.hidden &&
-      this.state.overlayHidden
-    ) {
-      top = 0
+    if (this.previousListId !== listId && this.state.hidden) {
       this.previousListId = listId
+      return null
     }
 
     let opacity = 1

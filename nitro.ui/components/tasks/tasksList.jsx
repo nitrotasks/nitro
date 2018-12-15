@@ -48,8 +48,7 @@ export class TasksList extends React.PureComponent {
     const newState = {
       previousId: props.listId,
       order: order,
-      tasks: taskMap,
-      showTasks: false
+      tasks: taskMap
     }
     if (newList && NitroSdk.isSignedIn(true)) {
       const syncingTasks = NitroSdk.getTasksSyncStatus(props.listId)
@@ -65,8 +64,7 @@ export class TasksList extends React.PureComponent {
     this.state = {
       syncingTasks: [],
       ...this.constructor.generateState(props, true),
-      currentTaskHeight: 0,
-      showTasks: true
+      currentTaskHeight: 0
     }
 
     this.pendingChanges = false
@@ -83,16 +81,6 @@ export class TasksList extends React.PureComponent {
     TasksExpandedService.bind('height', this.triggerShow)
     TasksExpandedService.bind('hide', this.triggerHide)
     this.scheduleTasksUpdate()
-  }
-  componentDidUpdate() {
-    // this is basically a dodgy async render
-    if (this.state.showTasks === false) {
-      requestAnimationFrame(() => {
-        this.setState({
-          showTasks: true
-        })
-      })
-    }
   }
   componentWillUnmount() {
     NitroSdk.unbind('update', this.tasksUpdate)
@@ -123,8 +111,7 @@ export class TasksList extends React.PureComponent {
 
     // captures all updates for all lists, because the today and next lists are special
     this.setState({
-      ...this.constructor.generateState(this.props),
-      showTasks: true
+      ...this.constructor.generateState(this.props)
     })
   }
   syncingTasksUpdate = () => {
@@ -247,10 +234,7 @@ export class TasksList extends React.PureComponent {
     let currentHeading = ''
     let headerCollapsed = false
 
-    const partialRender = this.state.order.length > 15 && !this.state.showTasks
-    const order = partialRender
-      ? this.state.order.slice(0, 15)
-      : this.state.order
+    const order = this.state.order
 
     return (
       <View ref={this.tasksContainer} style={styles.wrapper}>
@@ -306,11 +290,7 @@ export class TasksList extends React.PureComponent {
           )
         })}
         {order.length === 0 ? <EmptyList listId={this.props.listId} /> : null}
-        {partialRender ? (
-          <Text style={styles.loadingText}>Loading...</Text>
-        ) : (
-          archiveButton
-        )}
+        {archiveButton}
       </View>
     )
   }
