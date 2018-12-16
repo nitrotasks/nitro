@@ -25,6 +25,9 @@ input:disabled {
 .pseudo-shadow.visible::after {
   opacity: 1;
 }
+.desktop-opacity-invisible {
+  opacity: 0.5;
+}
 @media (max-width: 850px) {
   .mobile-hidden {
     display: none;
@@ -58,16 +61,16 @@ input:disabled {
     width: 97%;
     margin: 0 auto;
   }
-  .desktop-overlay {
-    z-index: -1;
-  }
   .desktop-expanded {
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
     border-radius: 5px;
     left: calc(5% - 8px);
     width: calc(90% + 16px);
-    padding-left: 24px;
+    padding-left: 20px;
     padding-right: 4px;
+  }
+  .desktop-opacity-invisible {
+    opacity: 1;
   }
 }
 

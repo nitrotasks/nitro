@@ -46,6 +46,7 @@ export class TaskExpanded extends React.Component {
     this.taskInput = React.createRef()
     this.notesElement = React.createRef()
     this.notesTimeout = 0
+    this.positionTimeout = 0
     this.previousListId = TasksExpandedService.state.list
 
     if (TasksExpandedService.state.task !== null) {
@@ -53,9 +54,7 @@ export class TaskExpanded extends React.Component {
       this.state = {
         ...taskDetails,
         hidden: false,
-        lineNumber: 3,
-        overlayHeight: window.innerHeight,
-        overlayHidden: false
+        lineNumber: 3
       }
       requestAnimationFrame(() => UiService.setCardPosition('hidden'))
     } else {
@@ -67,8 +66,6 @@ export class TaskExpanded extends React.Component {
         date: null,
         checked: false,
         hidden: true,
-        overlayHidden: true,
-        overlayHeight: 0,
         lineNumber: 3
       }
     }
@@ -78,12 +75,14 @@ export class TaskExpanded extends React.Component {
     TasksExpandedService.bind('show', this.triggerShow)
     TasksExpandedService.bind('replace', this.triggerReplace)
     TasksExpandedService.bind('hide', this.triggerHide)
+    TasksExpandedService.bind('position', this.triggerPosition)
   }
   componentWillUnmount() {
     NitroSdk.unbind('update', this.taskUpdate)
     TasksExpandedService.unbind('show', this.triggerShow)
     TasksExpandedService.unbind('replace', this.triggerReplace)
     TasksExpandedService.unbind('hide', this.triggerHide)
+    TasksExpandedService.unbind('position', this.triggerPosition)
   }
   taskUpdate = (type, listId, taskId) => {
     if (type === 'tasks' && taskId === TasksExpandedService.state.task) {
@@ -103,24 +102,17 @@ export class TaskExpanded extends React.Component {
       this.taskInput.current.focus()
     }
     requestAnimationFrame(() => {
-      // TODO: This is a shit solution, need something better, especially on iOS
-      // UiService.scrollView.current.style.overflowY = 'hidden'
       const scrollLocation = TasksExpandedService.state.position - scrollOffset
-      const lineNumber = Math.min(
-        getMaxLines(),
-        findNodeHandle(this.notesElement.current).scrollHeight /
-          vars.notesLineHeight
-      )
+      const scrollNode = findNodeHandle(this.notesElement.current)
+      const scrollLines = scrollNode
+        ? scrollNode.scrollHeight / vars.notesLineHeight
+        : 3
+      const lineNumber = Math.min(getMaxLines(), scrollLines)
       TasksExpandedService.triggerTaskHeight(lineNumber)
-      const overlayHeight = findNodeHandle(
-        UiService.tasksContainer.current
-      ).getBoundingClientRect().height
 
       this.setState(
         {
           hidden: false,
-          overlayHidden: false,
-          overlayHeight: overlayHeight,
           lineNumber: lineNumber
         },
         () => {
@@ -165,17 +157,12 @@ export class TaskExpanded extends React.Component {
     const taskDetails = this.getTask(task)
     this.setState(taskDetails)
   }
-  triggerHide = () => {
-    setTimeout(() => {
-      requestAnimationFrame(() => {
-        // TODO: This is a shit solution, need something better, especially on iOS
-        // UiService.scrollView.current.style.overflowY = 'auto'
-      })
-      this.setState({
-        overlayHidden: true
-      })
-    }, 300)
+  triggerHide = (list, oldTask) => {
+    // TODO: this is a bit of a hack
     requestAnimationFrame(() => {
+      this.saveNotes(oldTask)
+      clearTimeout(this.notesTimeout)
+
       UiService.setCardPosition('map')
       this.setState({
         hidden: true
@@ -240,6 +227,7 @@ export class TaskExpanded extends React.Component {
         task.id
       )
     } else if (this.state.mode === 'update') {
+      // TODO: don't send an update if nothing has actually changed
       NitroSdk.updateTask(taskId, payload)
     }
   }
@@ -253,12 +241,12 @@ export class TaskExpanded extends React.Component {
       })
     }
   }
-  saveNotes = () => {
+  saveNotes = (taskId = TasksExpandedService.state.task) => {
     // TODO: this is pretty similar to the above method
     if (this.state.notes === null || this.state.notes === '') {
       return
     }
-    this.createOrUpdateTask(TasksExpandedService.state.task, {
+    this.createOrUpdateTask(taskId, {
       notes: this.state.notes
     })
   }
@@ -274,7 +262,7 @@ export class TaskExpanded extends React.Component {
     }
   }
   triggerChecked = () => {
-    // temporary! this component needs some smarts on how to trigger updates.
+    // TODO: this component needs some smarts on how to trigger updates.
     this.setState({
       checked: !this.state.checked
     })
@@ -290,10 +278,13 @@ export class TaskExpanded extends React.Component {
     }
     const x = e.nativeEvent.pageX
     const y = e.nativeEvent.pageY - window.scrollY
+    const { task, list } = TasksExpandedService.state
+    const viewInList = list === 'today' || list === 'next'
     if (this.state.type === 'task') {
       taskMenu(
-        TasksExpandedService.state.task,
-        true,
+        task,
+        !viewInList,
+        viewInList,
         x,
         y,
         'top',
@@ -304,14 +295,7 @@ export class TaskExpanded extends React.Component {
       this.state.type === 'header' ||
       this.state.type === 'header-collapsed'
     ) {
-      headerMenu(
-        TasksExpandedService.state.task,
-        x,
-        y,
-        'top',
-        'right',
-        this.triggerOverlay
-      )
+      headerMenu(task, x, y, 'top', 'right', this.triggerOverlay)
     }
   }
   triggerRemove = prop => {
@@ -322,27 +306,26 @@ export class TaskExpanded extends React.Component {
       })
     }
   }
+  triggerPosition = () => {
+    this.setState({
+      hidden: this.state.hidden
+    })
+  }
   render() {
     const { listId } = this.props
     let top = TasksExpandedService.state.position + vars.padding
-    let scrollHeight = this.state.overlayHeight + window.innerHeight
 
     // if the list changes
     if (this.previousListId !== listId && this.state.hidden) {
-      top = 0
-      scrollHeight = 0
-      if (this.state.hidden && this.state.overlayHidden) {
-        this.previousListId = listId
-      }
+      this.previousListId = listId
+      return null
     }
 
     let opacity = 1
-    let overlayOpacity = 0.5
     let transform = [{ translateY: 0 }]
     let pointerEvents = 'auto'
     if (this.state.hidden) {
       opacity = 0
-      overlayOpacity = 0
       pointerEvents = 'none'
       transform = [{ translateY: -2 * vars.padding }]
     }
@@ -478,52 +461,11 @@ export class TaskExpanded extends React.Component {
             </TouchableOpacity>
           </View>
         </View>
-        {/*
-          This view is the one with the styles.
-          This is so we can put it in front or behind the tasks (desktop-overlay class)
-         */}
-        <View
-          className="desktop-overlay"
-          pointerEvents="none"
-          style={[
-            styles.overlay,
-            {
-              opacity: overlayOpacity,
-              height: scrollHeight
-            }
-          ]}
-        />
-        {/* This one simply takes the events, but you can't see it */}
-        <View
-          pointerEvents={pointerEvents}
-          onClick={this.triggerOverlay}
-          style={[
-            styles.overlay,
-            {
-              opacity: 0,
-              height: scrollHeight
-            }
-          ]}
-        />
       </React.Fragment>
     )
   }
 }
 const styles = StyleSheet.create({
-  overlay: {
-    position: 'absolute',
-    zIndex: 10,
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: vars.overlayColor,
-    opacity: 0.5,
-    transitionDuration: '300ms',
-    transitionTimingFunction: 'ease',
-    transitionProperty: 'opacity',
-    touchAction: 'none'
-  },
   wrapper: {
     position: 'absolute',
     zIndex: 11,
@@ -532,7 +474,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     // bottom and right padding is ommited for large touch targets
     paddingTop: vars.padding,
-    paddingLeft: vars.padding,
+    paddingLeft: vars.padding * 0.75,
     boxShadow: '0 1px 15px rgba(0,0,0,0.1)',
     transitionDuration: '300ms, 300ms',
     transitionTimingFunction: 'ease, ease',
@@ -547,13 +489,15 @@ const styles = StyleSheet.create({
     fontFamily: vars.fontFamily,
     fontSize: vars.taskExpandedFontSize,
     outline: '0',
-    flex: 1
+    flex: 1,
+    paddingLeft: vars.padding / 4
   },
   notes: {
     fontFamily: vars.fontFamily,
     fontSize: vars.taskFontSize,
     lineHeight: vars.notesLineHeight,
     marginTop: vars.padding,
+    paddingLeft: vars.padding * 0.375,
     paddingRight: vars.padding,
     outline: '0'
   },

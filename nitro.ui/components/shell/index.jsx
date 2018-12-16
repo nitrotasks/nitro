@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Switch, Route, withRouter } from 'react-router-dom'
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
 import { View } from 'react-native'
 
 import { iOS } from '../../helpers/ios.js'
@@ -376,6 +376,7 @@ class ShellComponent extends React.Component {
         >
           <div className="root-map">
             <Switch>
+              <Route exact path="/" render={() => <Redirect to="/inbox" />} />
               <Route
                 path="/logs"
                 render={routeProps => <Logs {...routeProps} />}

@@ -16,17 +16,28 @@ class App extends React.Component {
     signedIn: NitroSdk.isSignedIn()
   }
   componentDidMount() {
+    document.addEventListener('visibilitychange', this.triggerWindowVisibility)
     NitroSdk.bind('sign-in-status', this.signInCallback)
+    NitroSdk.bind('sign-in-error', this.signInError)
   }
   componentWillUnmount() {
+    document.removeEventListener(
+      'visibilitychange',
+      this.triggerWindowVisibility
+    )
     NitroSdk.unbind('sign-in-status', this.signInCallback)
+    NitroSdk.unbind('sign-in-error', this.signInError)
   }
   signInCallback = () => {
     setTimeout(() => {
+      history.replace('/')
       this.setState({
         signedIn: NitroSdk.isSignedIn()
       })
     }, 350) // should be ample time for the animation
+  }
+  signInError = () => {
+    history.replace('/')
   }
   triggerDragEnd = result => {
     // no destination or the order hasn't changed
@@ -63,8 +74,18 @@ class App extends React.Component {
       NitroSdk.updateListsOrder(order)
     }
   }
+  triggerWindowVisibility = () => {
+    // triggers a sync if the window becomes active and there hasn't been a sync within 30s
+    if (
+      !document.hidden &&
+      NitroSdk.lastSync !== undefined &&
+      new Date().getTime() - NitroSdk.lastSync.getTime() > 30000
+    ) {
+      NitroSdk.fullSync()
+    }
+  }
   render() {
-    if (!this.state.signedIn) {
+    if (!this.state.signedIn || window.location.pathname === '/callback') {
       return <Login />
     }
     return (

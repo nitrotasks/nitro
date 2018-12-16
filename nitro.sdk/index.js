@@ -12,6 +12,7 @@ import authenticationStore from './sync/auth.js'
 import { log, warn, error, logHistory } from './helpers/logger.js'
 
 const systemLists = ['inbox', 'today', 'next', 'all']
+const fakeLists = ['today', 'next', 'all']
 
 const getBlankDate = () => {
   const date = new Date()
@@ -60,15 +61,7 @@ export class sdk extends Events {
         broadcast.start()
       }
     })
-    authenticationStore.bind('token', () => {
-      const listItems = this.listsQueue.hasItems()
-      const taskItems = this.tasksQueue.hasItems()
-      if (listItems || taskItems) {
-        this._processQueue().then(this.downloadData)
-      } else {
-        this.downloadData()
-      }
-    })
+    authenticationStore.bind('token', this.fullSync)
     authenticationStore.bind('ws', this._handleWs)
     broadcast.bind('refresh-db', this._refreshDb)
     TasksCollection.bind('update', this._updateEvent('tasks'))
@@ -85,35 +78,40 @@ export class sdk extends Events {
   }
   loadData(raiseEvent: boolean = false): Promise<any> {
     return new Promise((resolve, reject) => {
-      authenticationStore.loadLocal()
+      authenticationStore.loadLocal(raiseEvent)
       ListsCollection.loadLocal()
+        .then(() => TasksCollection.loadLocal())
+        .then(() =>
+          Promise.all([
+            this.listsQueue.loadQueue(),
+            this.tasksQueue.loadQueue()
+          ])
+        )
         .then(() => {
-          TasksCollection.loadLocal()
-            .then(() => {
-              Promise.all([
-                this.listsQueue.loadQueue(),
-                this.tasksQueue.loadQueue()
-              ])
-                .then(() => {
-                  if (raiseEvent) {
-                    this.trigger('update', 'lists', 'update-all')
-                    this.trigger('update', 'tasks', 'update-all')
-                  }
-                })
-                .then(resolve)
-                .catch(reject)
-            })
-            .catch(reject)
+          if (raiseEvent) {
+            this.trigger('update', 'lists', 'update-all')
+            this.trigger('update', 'tasks', 'update-all')
+          }
         })
+        .then(resolve)
         .catch(reject)
     })
+  }
+  fullSync = () => {
+    const listItems = this.listsQueue.hasItems()
+    const taskItems = this.tasksQueue.hasItems()
+    if (listItems || taskItems) {
+      this._processQueue().then(this.downloadData)
+    } else {
+      this.downloadData()
+    }
   }
   _handleWs = (data: Object) => {
     if (data.command === 'sync-complete') {
       this.downloadData()
     } else if (data.command === 'connected') {
       if (
-        typeof this.lastSync !== 'undefined' &&
+        this.lastSync !== undefined &&
         new Date().getTime() - this.lastSync.getTime() > 30000
       ) {
         this.downloadData()
@@ -146,22 +144,31 @@ export class sdk extends Events {
   _runDeferred = () => {
     const listsDeferred = this.listsQueue.runDeferred()
     const tasksDeferred = this.tasksQueue.runDeferred()
-    if (listsDeferred || tasksDeferred) {
+    const listItems = this.listsQueue.hasItems()
+    const taskItems = this.tasksQueue.hasItems()
+    if (listsDeferred || tasksDeferred || listItems || taskItems) {
       this._processQueue()
     }
   }
   _processQueue = (): Promise<any> => {
     return new Promise((resolve, reject) => {
       if (!authenticationStore.isSignedIn(true)) return resolve()
+      this.trigger('sync-upload-start')
       log('Starting Sync to Server')
+
       if (
         this.tasksQueue.syncLock === true ||
         this.listsQueue.syncLock === true
       ) {
+        this.trigger('sync-upload-complete')
         return reject(
           'Sync is currently locked by another process. Will not process queue to server.'
         )
       }
+
+      window.onbeforeunload = () =>
+        'Nitro is syncing - your unsaved changes may be lost if you leave'
+
       this.listsQueue.syncLock = true
       this.tasksQueue.syncLock = true
 
@@ -184,14 +191,17 @@ export class sdk extends Events {
         .then(() => {
           this.listsQueue.syncLock = false
           this.tasksQueue.syncLock = false
+          window.onbeforeunload = null
           log('Sync to Server Complete')
           resolve()
 
           this._runDeferred()
+          this.trigger('sync-upload-complete')
         })
         .catch(err => {
           this.listsQueue.syncLock = false
           this.tasksQueue.syncLock = false
+          window.onbeforeunload = null
 
           if (err.status === 404) {
             log('Got a 404, going to redownload from server in attempt to fix.')
@@ -201,6 +211,7 @@ export class sdk extends Events {
             error(err)
             reject(err)
           }
+          this.trigger('sync-upload-complete')
         })
     })
   }
@@ -222,8 +233,14 @@ export class sdk extends Events {
   signIn = (username: string, password: string) => {
     return authenticationStore.formSignIn(username, password)
   }
-  signOut = () => {
-    return authenticationStore.signOut()
+  requestUniversalAuth = () => {
+    return authenticationStore.requestUniversalAuth()
+  }
+  handleUniversalAuth = () => {
+    return authenticationStore.handleUniversalAuth()
+  }
+  signOut = (message: string, deleteSession: ?boolean) => {
+    return authenticationStore.signOut(message, deleteSession)
   }
   createAccount = (username: string, password: string) => {
     return authenticationStore.createAccount(username, password)
@@ -258,6 +275,7 @@ export class sdk extends Events {
 
           this._runDeferred()
           this.lastSync = new Date()
+          this.trigger('sync-download-complete')
         })
       })
       .catch(err => {
@@ -265,6 +283,7 @@ export class sdk extends Events {
         this.listsQueue.syncLock = false
         this.tasksQueue.syncLock = false
         this._runDeferred()
+        this.trigger('sync-download-complete')
       })
   }
   addTask(task: Object): Object | null {
@@ -317,6 +336,40 @@ export class sdk extends Events {
     return {
       tasks: tasks,
       order: order
+    }
+  }
+  getTasksSyncStatus(listId: string) {
+    const flatten = (accumulator, currentValue) =>
+      accumulator.concat(currentValue)
+
+    if (fakeLists.includes(listId)) {
+      // gets all the tasks from all the original lists
+      const originalLists = Array.from(
+        new Set(this.getTasks(listId).tasks.map(t => t.list))
+      )
+
+      // gets the sync status of all those original lists
+      const allItems = originalLists.map(l => this.getTasksSyncStatus(l))
+
+      // smushes them to one array
+      return {
+        post: allItems.map(i => i.post).reduce(flatten, []),
+        patch: allItems.map(i => i.patch).reduce(flatten, [])
+      }
+    }
+
+    const post = this.tasksQueue.queue.post
+      .filter(i => i[0] === listId)
+      .map(i => i[1])
+      .reduce(flatten, [])
+    const patch = this.tasksQueue.queue.patch
+      .filter(i => i[0] === listId)
+      .map(i => i[2].map(j => j[0]))
+      .reduce(flatten, [])
+
+    return {
+      post: post,
+      patch: patch
     }
   }
   updateTask(id: string, newProps: Object): Object {
@@ -510,7 +563,7 @@ export class sdk extends Events {
     if (task === null) throw new Error('Task could not be found')
     const order = this.getList(task.list).localOrder.slice()
     order.splice(order.indexOf(task.id), 1)
-    this.updateTasksOrder(task.list, order, false)
+    this.updateTasksOrder(task.list, order, false, false)
     TasksCollection.delete(task.id, authenticationStore.isLocalAccount())
   }
   updateListsOrder(order: Array<string>, sync: boolean = true) {
@@ -519,7 +572,12 @@ export class sdk extends Events {
 
     if (sync) ListsCollection.sync.addToQueue('list-order', 'meta', 'lists')
   }
-  updateTasksOrder(listId: string, order: Array<string>, sync: boolean = true) {
+  updateTasksOrder(
+    listId: string,
+    order: Array<string>,
+    sync: boolean = true,
+    raiseEvent: boolean = true
+  ) {
     const resource = ListsCollection.find(listId)
 
     // updates the local order, then the server order
@@ -538,13 +596,15 @@ export class sdk extends Events {
     if (sync) {
       ListsCollection.sync.addPreProcess(preProcessCallback)
       ListsCollection.sync.addPreProcess(() => {
-        ListsCollection.sync.addToQueue(listId, 'patch', 'lists')  
+        ListsCollection.sync.addToQueue(listId, 'patch', 'lists')
       })
     } else {
       preProcessCallback()
     }
 
-    ListsCollection.trigger('order')
+    if (raiseEvent) {
+      ListsCollection.trigger('order')
+    }
     ListsCollection.saveLocal()
   }
   addList(props: Object, sync: ?boolean): Object {

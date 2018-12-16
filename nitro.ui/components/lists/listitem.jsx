@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Image, View, Text, StyleSheet } from 'react-native'
-import { Link } from '../reusable/link.jsx'
+import { LinkComponent } from '../reusable/link.jsx'
 import { TouchableOpacity } from '../reusable/touchableOpacity.jsx'
 import { UiService } from '../../services/uiService.js'
 import { Draggable } from 'react-beautiful-dnd'
@@ -28,12 +28,17 @@ export class ListItem extends React.Component {
     count: PropTypes.number,
     onClick: PropTypes.func
   }
-  proxyOnClick = () => {
+  proxyOnClick = e => {
+    e.preventDefault()
     this.props.onClick()
     this.hideMenu()
   }
-  hideMenu = e => {
+  hideMenu = () => {
     UiService.setCardPosition('map')
+
+    setTimeout(() => {
+      UiService.setCardScroll(0)
+    }, 350)
   }
   render() {
     let icon = iconMap.get(this.props.id)
@@ -70,28 +75,21 @@ export class ListItem extends React.Component {
         }
         type="listsDroppable"
       >
-        {(provided, snapshot) => {
-          const draggableWrapper = (
-            <div
-              ref={provided.innerRef}
-              {...provided.draggableProps}
-              {...provided.dragHandleProps}
-              style={getItemStyle(
-                snapshot.isDragging,
-                provided.draggableProps.style
-              )}
-            >
-              {inner}
-            </div>
-          )
-          return this.props.onClick ? (
-            <View onClick={this.proxyOnClick}>{draggableWrapper}</View>
-          ) : (
-            <Link onClick={this.hideMenu} to={`/${this.props.id}`}>
-              {draggableWrapper}
-            </Link>
-          )
-        }}
+        {(provided, snapshot) => (
+          <LinkComponent
+            onClick={this.props.onClick ? this.proxyOnClick : this.hideMenu}
+            to={this.props.onClick ? '/' : `/${this.props.id}`}
+            innerRef={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            style={getItemStyle(
+              snapshot.isDragging,
+              provided.draggableProps.style
+            )}
+          >
+            {inner}
+          </LinkComponent>
+        )}
       </Draggable>
     )
   }
@@ -108,8 +106,7 @@ const styles = StyleSheet.create({
     paddingRight: vars.padding * 0.5,
     paddingBottom: vars.padding * 0.25,
     flex: 1,
-    flexDirection: 'row',
-    marginBottom: 3
+    flexDirection: 'row'
   },
   selected: {
     backgroundColor: 'rgba(0,0,0,0.05)',
@@ -151,9 +148,11 @@ const getItemStyle = (isDragging, draggableStyle) => {
   const style = {
     // some basic styles to make the items look a bit nicer
     userSelect: 'none',
-    // borderRadius: isDragging ? 3 : 0,
+    textDecoration: 'none',
+    borderRadius: isDragging ? 3 : 0,
+    marginBottom: 3,
 
-    // // change background colour if dragging
+    // change background colour if dragging
     background: isDragging ? vars.dragColor : '',
 
     // styles we need to apply on draggables

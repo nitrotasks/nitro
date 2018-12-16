@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch'
-import config from '../config.js'
+import config from '../config'
 
 // it takes https by default
 config.endpoint = 'http://localhost:8040' + config.endpoint

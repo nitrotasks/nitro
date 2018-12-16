@@ -14,6 +14,7 @@ import { taskMenu } from './taskMenu.js'
 
 import todayIcon from '../../../assets/icons/feather/today.svg'
 import notesIcon from '../../../assets/icons/material/note.svg'
+import syncIcon from '../../../assets/icons/material/sync.svg'
 
 // 0.15 is the threshold defined in react-beautiful-dnd
 // we'll go a bit higher
@@ -34,7 +35,8 @@ export class Task extends React.PureComponent {
     dataCompleted: PropTypes.instanceOf(Date),
     currentHeading: PropTypes.string,
     headersAllowed: PropTypes.bool,
-    dragDisabled: PropTypes.bool
+    dragDisabled: PropTypes.bool,
+    syncing: PropTypes.bool
   }
 
   viewRef = React.createRef()
@@ -117,13 +119,16 @@ export class Task extends React.PureComponent {
     }
   }
   triggerCheckbox = () => {
-    NitroSdk.completeTask(this.props.dataId)
+    const { dataId } = this.props
+    NitroSdk.completeTask(dataId)
   }
   triggerContextMenu = e => {
     e.preventDefault()
     const x = e.nativeEvent.pageX
     const y = e.nativeEvent.pageY - window.scrollY
-    taskMenu(this.props.dataId, true, x, y, 'top', 'left')
+    const viewInList =
+      this.props.listId === 'today' || this.props.listId === 'next'
+    taskMenu(this.props.dataId, !viewInList, viewInList, x, y, 'top', 'left')
   }
   render() {
     const props = this.props
@@ -176,6 +181,18 @@ export class Task extends React.PureComponent {
           />
         )
       }
+
+      let syncIndicator = null
+      if (props.syncing) {
+        syncIndicator = (
+          <Image
+            accessibilityLabel="Syncing"
+            source={syncIcon}
+            resizeMode="contain"
+            style={styles.syncIcon}
+          />
+        )
+      }
       if (props.dataDeadline !== null && props.dataCompleted === null) {
         deadlineIndicator = (
           <Text style={styles.subText}>
@@ -209,17 +226,24 @@ export class Task extends React.PureComponent {
       }
 
       // if the bottom row isn't empty, we apply our padded out styles
-      const wrapperStyles =
-        deadlineIndicator || listIndicators.length > 0
-          ? [styles.wrapper, styles.wrapperPadding]
-          : styles.wrapper
+      let checkboxWrapperStyles = styles.checkboxWrapper,
+        textDisplayStyles = styles.textDisplay
+      if (deadlineIndicator || listIndicators.length > 0) {
+        checkboxWrapperStyles = [
+          styles.checkboxWrapper,
+          styles.checkboxWrapperPadding
+        ]
+        textDisplayStyles = [styles.textDisplay, styles.textDisplayPadding]
+      }
       innerItem = (
-        <View style={wrapperStyles} onContextMenu={this.triggerContextMenu}>
-          <Checkbox
-            onClick={this.triggerCheckbox}
-            checked={props.dataCompleted !== null}
-          />
-          <View onClick={this.triggerClick} style={styles.textDisplay}>
+        <View style={styles.wrapper} onContextMenu={this.triggerContextMenu}>
+          <View style={checkboxWrapperStyles}>
+            <Checkbox
+              onClick={this.triggerCheckbox}
+              checked={props.dataCompleted !== null}
+            />
+          </View>
+          <View style={textDisplayStyles} onClick={this.triggerClick}>
             {indicatorsBefore}
             <View style={styles.textRow}>
               <View style={styles.textWrapper}>
@@ -227,6 +251,7 @@ export class Task extends React.PureComponent {
                   {props.dataName}
                 </Text>
                 {indicatorsAfter}
+                {syncIndicator}
               </View>
               <View style={styles.subTextRow}>
                 {deadlineIndicator}
@@ -276,22 +301,29 @@ export class Task extends React.PureComponent {
 }
 const styles = StyleSheet.create({
   wrapper: {
-    paddingTop: vars.padding * 0.1875,
-    paddingBottom: vars.padding * 0.1875,
-    paddingLeft: vars.padding / 2,
-    paddingRight: vars.padding / 2,
     flex: 1,
     flexDirection: 'row',
     cursor: 'default'
   },
-  wrapperPadding: {
-    marginTop: vars.padding * 0.25,
-    marginBottom: vars.padding * 0.375
+  checkboxWrapper: {
+    paddingLeft: vars.padding / 4,
+    paddingTop: vars.padding * 0.1875,
+    paddingBottom: vars.padding * 0.1875
+  },
+  checkboxWrapperPadding: {
+    paddingTop: vars.padding * 0.4375,
+    paddingBottom: vars.padding * 0.5625
   },
   textDisplay: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingLeft: vars.padding / 4,
+    paddingRight: vars.padding / 2
+  },
+  textDisplayPadding: {
+    paddingTop: vars.padding * 0.25,
+    paddingBottom: vars.padding * 0.375
   },
   textRow: {
     flex: 1
@@ -305,6 +337,11 @@ const styles = StyleSheet.create({
     width: 18,
     height: 22,
     marginLeft: vars.padding * 0.375,
+    marginRight: vars.padding / 4
+  },
+  syncIcon: {
+    width: 24,
+    height: 24,
     marginRight: vars.padding / 4
   },
   text: {

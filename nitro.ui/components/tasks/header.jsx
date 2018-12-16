@@ -10,7 +10,7 @@ import {
 
 import { NitroSdk } from '../../../nitro.sdk'
 
-import { vars } from '../../styles'
+import { vars } from '../../styles.js'
 import { headerMenu } from './headerMenu.js'
 import menuIcon from '../../../assets/icons/material/task-more.svg'
 
@@ -91,6 +91,7 @@ export class Header extends React.PureComponent {
   }
   render() {
     const list = NitroSdk.getList(this.props.listId)
+    document.title = list.name + ' - Nitro'
     if (list === null) {
       return null
     }

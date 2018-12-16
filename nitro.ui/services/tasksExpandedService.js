@@ -63,8 +63,9 @@ class _tasksExpanded extends Events {
         } else if (this.state.taskTriggerInProgress) {
           return
         }
+        const oldTask = this.state.task
         this.state.task = null
-        this.trigger('hide', params.list)
+        this.trigger('hide', params.list, oldTask)
       }
     }
   }
@@ -134,6 +135,19 @@ class _tasksExpanded extends Events {
     const actualHeight = height * vars.notesLineHeight + 120
     this.state.height = actualHeight
     this.trigger('height', actualHeight)
+  }
+  triggerPosition(position: number) {
+    TasksExpandedService.state.position = position
+    this.trigger('position', position)
+  }
+  goToAnyTask(list: string, task: string) {
+    if (this.state.list === list && this.state.task === task) {
+      return
+    } else if (this.state.list === list) {
+      this.trigger('indirect-click', list, task)
+    } else {
+      this.triggerTask(list, task, 0)
+    }
   }
 }
 export const TasksExpandedService = new _tasksExpanded()

@@ -12,8 +12,11 @@ const vars = {
   dragColor: 'rgba(58, 125, 248, 0.1)',
   indicatorColor: '#eeeeee',
   headerColor: '#000',
-  confirmColor: '#2ed573',
   overlayColor: '#fafbfc',
+  positiveColor: '#2ecc71',
+  negativeColor: '#e74c3c',
+  cancelColor: '#5a92fa',
+  cancelBorderColor: '#ccc',
 
   // sizes
   padding: 16,

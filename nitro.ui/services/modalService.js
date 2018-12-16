@@ -1,9 +1,13 @@
 import { Events } from '../../nitro.sdk'
 
 class _modalService extends Events {
-  show(confirmAction) {
+  show(options, confirmAction) {
     this.trigger('show', {
-      confirmAction: confirmAction
+      confirmAction: confirmAction,
+      confirmText: options.confirmText,
+      confirmColor: options.confirmColor,
+      cancelText: options.cancelText,
+      message: options.message
     })
   }
 }

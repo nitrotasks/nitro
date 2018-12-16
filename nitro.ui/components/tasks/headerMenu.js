@@ -1,6 +1,7 @@
 import { NitroSdk } from '../../../nitro.sdk'
 import { ContextMenuService } from '../../services/contextMenuService.js'
 import { ModalService } from '../../services/modalService.js'
+import { vars } from '../../styles.js'
 
 export const headerMenu = function(
   listId,
@@ -14,10 +15,18 @@ export const headerMenu = function(
     {
       title: 'Delete List',
       action: () => {
-        ModalService.show(() => {
-          callback()
-          NitroSdk.deleteList(listId)
-        })
+        ModalService.show(
+          {
+            message: 'Are you sure you want to delete this list?',
+            confirmText: 'Delete List',
+            confirmColor: vars.negativeColor,
+            cancelText: 'Cancel'
+          },
+          () => {
+            callback()
+            NitroSdk.deleteList(listId)
+          }
+        )
       }
     }
   ]

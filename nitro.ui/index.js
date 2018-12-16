@@ -7,6 +7,7 @@ window.sdk = NitroSdk
 
 // polyfills
 import 'intersection-observer'
+import './helpers/broadcastChannel'
 import smoothscroll from 'smoothscroll-polyfill'
 smoothscroll.polyfill()
 
@@ -17,6 +18,10 @@ import './external-css/extras.css'
 import './external-css/root.css'
 
 document.addEventListener('DOMContentLoaded', () => {
+  if (window.location.pathname === '/signout') {
+    NitroSdk.signOut(null, true)
+    return
+  }
   if (process.env.NODE_ENV === 'production') {
     const Runtime = require('offline-plugin/runtime')
     Runtime.install()
@@ -30,15 +35,32 @@ document.addEventListener('DOMContentLoaded', () => {
       ReactDOM.render(<App />, shell)
     })
     .catch(err => {
-      const fixBtn = `
-      <h2>fatal error!</h2>
-      <p>Sign out,
-      and hopefully your issue will be fixed
-      when you sign back in.</p>
-      <button onclick="window.sdk.signOut()">sign out</button>
-      <h3>error message</h3>`
       console.error(err)
-      shell.innerHTML = fixBtn + err
+      const headerText = '<h2>Nitro: Fatal Error!</h2>'
+      let bodyText = `
+        <p>
+          Sign out, and hopefully your issue will be fixed when you sign back in.
+        </p>
+        <button onclick="window.sdk.signOut()">Sign Out</button>
+        <h3>Error Message</h3>
+        ${err.message}
+      `
+      if (
+        err.message.toLowerCase().match('indexeddb') ||
+        err.message.match('database')
+      ) {
+        bodyText = `
+          <p>IndexedDB is not supported in this browser! The most likely reasons for this are either:</p>
+          <ul>
+            <li>You are currently private browsing</li>
+            <li>Your browser is outdated</li>
+          </ul>
+          <p>Please contact support if you have further issues.</p>
+        `
+      }
+      shell.innerHTML = headerText + bodyText
+      shell.style.fontFamily = 'sans-serif'
+      shell.style.padding = '25px'
     })
 })
 

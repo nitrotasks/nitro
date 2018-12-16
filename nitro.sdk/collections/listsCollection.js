@@ -96,8 +96,9 @@ export class lists extends Events {
   }
   loadLocal() {
     return get('lists').then(data => {
+      this.order = []
       this.collection = new Map()
-      if (typeof data === 'undefined') {
+      if (data === undefined) {
         this.createLocal()
         this.saveLocal()
         return

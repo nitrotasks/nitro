@@ -1,19 +1,30 @@
 import { get, set, clear } from 'idb-keyval'
-import config from '../../config.js'
+import auth0 from 'auth0-js'
+
+import config from '../../config'
 import Events from '../events.js'
 import { checkStatus } from '../helpers/fetch.js'
 import { log } from '../helpers/logger.js'
 import { broadcast } from './broadcastchannel.js'
 
+const SESSION_EXPIRED =
+  'You have been signed out because your session has expired.'
+const HOUR = 60 * 60 * 1000
+
 class AuthenticationStore extends Events {
   constructor(props) {
     super(props)
+    this.loginType = null
     this.refreshToken = {}
     this.accessToken = null
     this.expiresAt = 0
     this.socket = null
     this.reconnectDelay = 1
     this.queueCompleteSync = false
+
+    if (config.loginType.indexOf('auth0') > -1) {
+      this.auth0 = new auth0.WebAuth(config.auth0)
+    }
 
     broadcast.bind('complete-sync', this.emitFinish)
     if (typeof window !== 'undefined') {
@@ -27,30 +38,39 @@ class AuthenticationStore extends Events {
       })
     }
   }
-  loadLocal() {
+  loadLocal(disableToken = false) {
     get('auth').then(data => {
-      if (typeof data !== 'undefined') {
+      if (data !== undefined) {
         this.refreshToken = data
       }
+      if (disableToken === true) {
+        return
+      }
       this.trigger('sign-in-status')
-      if (typeof navigator !== 'undefined' && navigator.onLine) {
-        this.getToken().catch(err => {
-          if (err.status === 401) {
-            if (document.hasFocus()) {
-              alert('You have been signed out.')
+      if (
+        navigator !== undefined &&
+        navigator.onLine &&
+        !this.isLocalAccount()
+      ) {
+        if (
+          parseInt(this.refreshToken.expiresAt) - new Date().getTime() <
+          HOUR
+        ) {
+          this.getToken().catch(err => {
+            if (err.status === 401) {
+              this.signOut(SESSION_EXPIRED)
             }
-            this.signOut()
-          }
-        })
+          })
+        } else {
+          this.accessToken = { access_token: this.refreshToken.accessToken }
+          this.expiresAt = parseInt(this.refreshToken.expiresAt)
+          this.scheduleToken(60 * 30) // 30 minutes
+        }
       }
     })
   }
   isSignedIn(tokenCheck = false) {
-    if (
-      tokenCheck &&
-      typeof this.refreshToken.local !== 'undefined' &&
-      this.refreshToken.local === true
-    ) {
+    if (tokenCheck && this.isLocalAccount()) {
       return false
     }
     return Object.keys(this.refreshToken).length > 0
@@ -64,12 +84,12 @@ class AuthenticationStore extends Events {
   isLocalAccount() {
     return (
       Object.keys(this.refreshToken).length === 0 ||
-      'local' in this.refreshToken
+      this.refreshToken.loginType === 'local'
     )
   }
   formSignIn(username, password) {
     if (username === 'local@nitrotasks.com') {
-      this.refreshToken = { local: true }
+      this.refreshToken = { loginType: 'local' }
       this.trigger('sign-in-status')
       set('auth', this.refreshToken)
     } else {
@@ -128,6 +148,7 @@ class AuthenticationStore extends Events {
         .then(checkStatus)
         .then(response => {
           response.json().then(data => {
+            data.loginType = 'password'
             this.refreshToken = data
             set('auth', this.refreshToken)
             this.getToken().then(function() {
@@ -140,18 +161,22 @@ class AuthenticationStore extends Events {
         })
     })
   }
-  signOut() {
+  signOut(message, deleteSession = false) {
     const cb = () => {
       // Signs out even if there is an error.
       broadcast.db(0)
-      window.location = '/'
+
+      if (typeof message === 'string') {
+        window.location = `/?info=${encodeURIComponent(message)}`
+      } else {
+        window.location = '/'
+      }
     }
     const promises = [clear()]
     if (
-      !(
-        JSON.stringify(this.refreshToken) === '{}' ||
-        'local' in this.refreshToken
-      )
+      !(JSON.stringify(this.refreshToken) === '{}' || this.isLocalAccount()) &&
+      deleteSession &&
+      this.refreshToken.loginType !== 'auth0'
     ) {
       promises.push(
         fetch(
@@ -161,53 +186,136 @@ class AuthenticationStore extends Events {
           }
         )
       )
+    } else if (deleteSession && this.refreshToken.loginType === 'auth0') {
+      this.auth0.logout()
     }
     Promise.all(promises)
       .then(cb)
       .catch(cb)
   }
-  // this ensure that there is always a valid token before a sync
   checkToken() {
+    // this ensure that there is always a valid token before a sync
     if (this.expiresAt > new Date().getTime()) {
       return Promise.resolve()
     }
     return this.getToken()
   }
   scheduleToken(time) {
-    log('Getting new token in', Math.round(time / 60 / 60), 'hours.')
+    log('Getting new token in', time / 60 / 60, 'hours.')
     setTimeout(() => {
       this.getToken()
     }, Math.round(time) * 1000)
   }
   getToken() {
+    const connectSocket = () => {
+      if (broadcast.isMaster()) {
+        this.connectSocket()
+      } else {
+        log('Not connecting WebSocket, not master tab.')
+      }
+    }
+
     if (
       JSON.stringify(this.refreshToken) === '{}' ||
-      'local' in this.refreshToken
+      this.refreshToken.loginType === 'local'
     ) {
       return Promise.resolve()
-    }
-    return new Promise((resolve, reject) => {
-      fetch(`${config.endpoint}/auth/token/${this.refreshToken.refresh_token}`)
-        .then(checkStatus)
-        .then(response => {
-          response.json().then(data => {
-            this.accessToken = data
-            this.expiresAt = new Date().getTime() + data.expiresIn * 1000
-            this.scheduleToken(data.expiresIn / 4)
+    } else if (this.refreshToken.loginType === 'auth0') {
+      return new Promise((resolve, reject) => {
+        this.auth0.checkSession({}, (err, authResult) => {
+          if (err) {
+            this.auth0.authorize()
+          } else if (
+            authResult &&
+            authResult.accessToken &&
+            authResult.idToken
+          ) {
+            const expiresAt = JSON.stringify(
+              authResult.expiresIn * 1000 + new Date().getTime()
+            )
+            this.refreshToken.accessToken = authResult.accessToken
+            this.accessToken = { access_token: authResult.accessToken }
+            this.refreshToken.idToken = authResult.idToken
+            this.refreshToken.expiresAt = expiresAt
+            this.expiresAt = expiresAt
+            set('auth', this.refreshToken)
+            log('Auth0 Session Refreshed')
             this.trigger('token')
-            setTimeout(() => {
-              if (broadcast.isMaster()) {
-                this.connectSocket()
-              } else {
-                log('Not connecting WebSocket, not master tab.')
-              }
-            }, 1000) // arbitrary 1000ms delay, hopefully things are finished loading.
-            resolve(data)
+            this.scheduleToken(60 * 30) // 30 minutes
+            setTimeout(connectSocket, 1000)
+            resolve()
+          } else {
+            console.error(err)
+            alert(err.message)
+          }
+        })
+      })
+    } else {
+      return new Promise((resolve, reject) => {
+        fetch(
+          `${config.endpoint}/auth/token/${this.refreshToken.refresh_token}`
+        )
+          .then(checkStatus)
+          .then(response => {
+            response.json().then(data => {
+              this.accessToken = data
+              this.expiresAt = new Date().getTime() + data.expiresIn * 1000
+              this.scheduleToken(data.expiresIn / 4)
+              this.trigger('token')
+              setTimeout(connectSocket, 1000)
+              resolve(data)
+            })
           })
-        })
-        .catch(function(err) {
+          .catch(function(err) {
+            reject(err)
+          })
+      })
+    }
+  }
+  requestUniversalAuth() {
+    if (config.loginType.indexOf('auth0') > -1) {
+      this.auth0.authorize()
+    } else {
+      throw new Error('No Auth0 Client!')
+    }
+  }
+  handleUniversalAuth() {
+    return new Promise((resolve, reject) => {
+      this.auth0.parseHash((err, authResult) => {
+        if (authResult && authResult.accessToken && authResult.idToken) {
+          const expiresAt = JSON.stringify(
+            authResult.expiresIn * 1000 + new Date().getTime()
+          )
+          this.refreshToken = {
+            loginType: 'auth0',
+            accessToken: authResult.accessToken,
+            idToken: authResult.idToken,
+            expiresAt: expiresAt
+          }
+          this.accessToken = { access_token: this.refreshToken.accessToken }
+          this.expiresAt = this.refreshToken.expiresAt
+          set('auth', this.refreshToken)
+
+          return fetch(`${config.endpoint}/auth/universal`, {
+            headers: this.authHeader(true)
+          })
+            .then(checkStatus)
+            .then(response => response.json())
+            .then(data => this.trigger('token'))
+            .then(() => log('Signed in with Auth0'))
+            .then(() => this.trigger('sign-in-status'))
+            .then(resolve)
+            .catch(err => {
+              this.trigger('sign-in-error', err)
+              reject(err)
+            })
+        } else if (err) {
+          console.error(err)
+          err.message = err.errorDescription
+          this.trigger('sign-in-error', err)
           reject(err)
-        })
+        }
+      })
     })
   }
   connectSocket = () => {
@@ -216,9 +324,11 @@ class AuthenticationStore extends Events {
       return
     }
 
-    const socket = new WebSocket(
-      `${config.wsendpoint}?token=${this.refreshToken.refresh_token}`
-    )
+    let token = this.refreshToken.refresh_token
+    if (this.refreshToken.loginType === 'auth0') {
+      token = this.accessToken.access_token
+    }
+    const socket = new WebSocket(`${config.wsendpoint}?token=${token}`)
     socket.onopen = () => {
       this.socket = socket
       this.reconnectDelay = 1
