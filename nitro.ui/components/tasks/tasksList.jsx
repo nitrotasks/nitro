@@ -114,9 +114,10 @@ export class TasksList extends React.PureComponent {
   tasksUpdate = () => {
     // doesn't do anything if the task is expanded
     const newState = this.constructor.generateState(this.props)
+    const { task } = TasksExpandedService.state
     if (this.pendingChanges === true) {
       return
-    } else if (TasksExpandedService.state.task !== null) {
+    } else if (task !== null && task !== 'new') {
       // this keeps our today & next lists tidy
       if (newState.order.length === this.state.order.length) {
         this.setState(newState)

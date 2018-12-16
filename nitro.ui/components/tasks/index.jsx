@@ -21,8 +21,8 @@ export class Tasks extends React.Component {
       this.props.history.replace
     ) // hack for now
 
-    TasksExpandedService.bind('show', this.triggerExpanded)
-    TasksExpandedService.bind('hide', this.triggerExpanded)
+    TasksExpandedService.bind('show', this.triggerExpanded('show'))
+    TasksExpandedService.bind('hide', this.triggerExpanded('hide'))
   }
   triggerIntersection = e => {
     const newPos = !e[0].isIntersecting
@@ -39,13 +39,15 @@ export class Tasks extends React.Component {
       TasksExpandedService.triggerBack()
     }
   }
-  triggerExpanded = () => {
-    // TODO: this is a bit of a hack
-    requestAnimationFrame(() => {
-      this.setState({
-        pointerEvents: TasksExpandedService.state.task === null
+  triggerExpanded = event => {
+    return () => {
+      // TODO: this is a bit of a hack
+      requestAnimationFrame(() => {
+        this.setState({
+          pointerEvents: event === 'hide'
+        })
       })
-    })
+    }
   }
 
   render() {

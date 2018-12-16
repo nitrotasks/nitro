@@ -4,10 +4,13 @@ import prod from './prod.json'
 // this *should* work for https too, but change if you need it changed
 let wsendpoint = '/a/ws'
 // this is required for our tests to pass
-if (window !== undefined) {
+let hostname = 'localhost',
+  port = '8080'
+if (typeof window !== 'undefined') {
   wsendpoint = window.location.origin.replace('http', 'ws') + wsendpoint
+  hostname = window.location.hostname
+  port = window.location.port
 }
-const { hostname, port } = window.location
 const config = {
   endpoint: '/a',
   wsendpoint: wsendpoint,
