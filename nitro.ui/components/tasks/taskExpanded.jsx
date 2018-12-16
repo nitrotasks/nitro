@@ -277,10 +277,13 @@ export class TaskExpanded extends React.Component {
     }
     const x = e.nativeEvent.pageX
     const y = e.nativeEvent.pageY - window.scrollY
+    const { task, list } = TasksExpandedService.state
+    const viewInList = list === 'today' || list === 'next'
     if (this.state.type === 'task') {
       taskMenu(
-        TasksExpandedService.state.task,
-        true,
+        task,
+        !viewInList,
+        viewInList,
         x,
         y,
         'top',
@@ -291,14 +294,7 @@ export class TaskExpanded extends React.Component {
       this.state.type === 'header' ||
       this.state.type === 'header-collapsed'
     ) {
-      headerMenu(
-        TasksExpandedService.state.task,
-        x,
-        y,
-        'top',
-        'right',
-        this.triggerOverlay
-      )
+      headerMenu(task, x, y, 'top', 'right', this.triggerOverlay)
     }
   }
   triggerRemove = prop => {

@@ -140,5 +140,14 @@ class _tasksExpanded extends Events {
     TasksExpandedService.state.position = position
     this.trigger('position', position)
   }
+  goToAnyTask(list: string, task: string) {
+    if (this.state.list === list && this.state.task === task) {
+      return
+    } else if (this.state.list === list) {
+      this.trigger('indirect-click', list, task)
+    } else {
+      this.triggerTask(list, task, 0)
+    }
+  }
 }
 export const TasksExpandedService = new _tasksExpanded()

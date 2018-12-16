@@ -126,7 +126,9 @@ export class Task extends React.PureComponent {
     e.preventDefault()
     const x = e.nativeEvent.pageX
     const y = e.nativeEvent.pageY - window.scrollY
-    taskMenu(this.props.dataId, true, x, y, 'top', 'left')
+    const viewInList =
+      this.props.listId === 'today' || this.props.listId === 'next'
+    taskMenu(this.props.dataId, !viewInList, viewInList, x, y, 'top', 'left')
   }
   render() {
     const props = this.props

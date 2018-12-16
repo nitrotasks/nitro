@@ -31,17 +31,7 @@ export class SearchItem extends React.Component {
     const parsedUrl = url.split('/')
     UiService.setCardPosition('map')
     if (parsedUrl.length === 3) {
-      if (TasksExpandedService.state.task === parsedUrl[2]) {
-        return
-      } else if (TasksExpandedService.state.list === parsedUrl[1]) {
-        TasksExpandedService.trigger(
-          'indirect-click',
-          parsedUrl[1],
-          parsedUrl[2]
-        )
-      } else {
-        TasksExpandedService.triggerTask(parsedUrl[1], parsedUrl[2], 0)
-      }
+      TasksExpandedService.goToAnyTask(parsedUrl[1], parsedUrl[2])
     } else {
       TasksExpandedService.go(url)
     }

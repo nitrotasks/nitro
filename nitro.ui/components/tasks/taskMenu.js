@@ -1,6 +1,7 @@
 import { NitroSdk } from '../../../nitro.sdk'
 import { ContextMenuService } from '../../services/contextMenuService.js'
 import { ModalService } from '../../services/modalService.js'
+import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 import { vars } from '../../styles.js'
 
 const ARCHIVE_WARNING =
@@ -82,6 +83,7 @@ const deleteHeading = (task, callback) => {
 export const taskMenu = function(
   taskId,
   headingAllowed,
+  viewInList,
   x,
   y,
   bind1 = 'top',
@@ -104,6 +106,15 @@ export const taskMenu = function(
       action: () => {
         callback()
         headingConvert(taskId)
+      }
+    })
+  }
+  if (viewInList) {
+    items.unshift({
+      title: 'View in List',
+      action: () => {
+        const task = NitroSdk.getTask(taskId)
+        TasksExpandedService.goToAnyTask(task.list, taskId)
       }
     })
   }
