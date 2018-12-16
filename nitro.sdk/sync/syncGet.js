@@ -1,4 +1,4 @@
-import config from '../../config.js'
+import config from '../../config'
 import Events from '../events.js'
 import { checkStatus } from '../helpers/fetch.js'
 

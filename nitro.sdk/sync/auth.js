@@ -1,7 +1,7 @@
 import { get, set, clear } from 'idb-keyval'
 import auth0 from 'auth0-js'
 
-import config from '../../config.js'
+import config from '../../config'
 import Events from '../events.js'
 import { checkStatus } from '../helpers/fetch.js'
 import { log } from '../helpers/logger.js'

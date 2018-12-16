@@ -1,6 +1,6 @@
 import { checkStatus } from '../helpers/fetch.js'
 
-import config from '../../config.js'
+import config from '../../config'
 import authenticationStore from './auth.js'
 
 export const postItem = (

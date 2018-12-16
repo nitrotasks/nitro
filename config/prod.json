@@ -1,0 +1,10 @@
+{
+  "loginType": ["auth0"],
+  "auth0": {
+    "domain": "",
+    "clientID": "",
+    "redirectUri": "https://go.nitrotasks.com/callback",
+    "responseType": "token id_token",
+    "scope": "openid read:tasks write:tasks"
+  }
+}
