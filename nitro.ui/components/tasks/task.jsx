@@ -226,19 +226,24 @@ export class Task extends React.PureComponent {
       }
 
       // if the bottom row isn't empty, we apply our padded out styles
-      const wrapperStyles =
-        deadlineIndicator || listIndicators.length > 0
-          ? [styles.wrapper, styles.wrapperPadding]
-          : styles.wrapper
+      let checkboxWrapperStyles = styles.checkboxWrapper,
+        textDisplayStyles = styles.textDisplay
+      if (deadlineIndicator || listIndicators.length > 0) {
+        checkboxWrapperStyles = [
+          styles.checkboxWrapper,
+          styles.checkboxWrapperPadding
+        ]
+        textDisplayStyles = [styles.textDisplay, styles.textDisplayPadding]
+      }
       innerItem = (
-        <View style={wrapperStyles} onContextMenu={this.triggerContextMenu}>
-          <View style={styles.checkboxWrapper}>
+        <View style={styles.wrapper} onContextMenu={this.triggerContextMenu}>
+          <View style={checkboxWrapperStyles}>
             <Checkbox
               onClick={this.triggerCheckbox}
               checked={props.dataCompleted !== null}
             />
           </View>
-          <View style={styles.textDisplay} onClick={this.triggerClick}>
+          <View style={textDisplayStyles} onClick={this.triggerClick}>
             {indicatorsBefore}
             <View style={styles.textRow}>
               <View style={styles.textWrapper}>
@@ -296,25 +301,29 @@ export class Task extends React.PureComponent {
 }
 const styles = StyleSheet.create({
   wrapper: {
-    paddingLeft: vars.padding / 4,
-    paddingRight: vars.padding / 2,
     flex: 1,
     flexDirection: 'row',
     cursor: 'default'
   },
-  wrapperPadding: {
-    marginTop: vars.padding * 0.25,
-    marginBottom: vars.padding * 0.375
-  },
   checkboxWrapper: {
+    paddingLeft: vars.padding / 4,
     paddingTop: vars.padding * 0.1875,
     paddingBottom: vars.padding * 0.1875
+  },
+  checkboxWrapperPadding: {
+    paddingTop: vars.padding * 0.4375,
+    paddingBottom: vars.padding * 0.5625
   },
   textDisplay: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingLeft: vars.padding / 4
+    paddingLeft: vars.padding / 4,
+    paddingRight: vars.padding / 2
+  },
+  textDisplayPadding: {
+    paddingTop: vars.padding * 0.25,
+    paddingBottom: vars.padding * 0.375
   },
   textRow: {
     flex: 1

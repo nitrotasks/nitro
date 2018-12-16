@@ -227,6 +227,7 @@ export class TaskExpanded extends React.Component {
         task.id
       )
     } else if (this.state.mode === 'update') {
+      // TODO: don't send an update if nothing has actually changed
       NitroSdk.updateTask(taskId, payload)
     }
   }
