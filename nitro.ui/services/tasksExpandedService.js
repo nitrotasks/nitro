@@ -136,5 +136,9 @@ class _tasksExpanded extends Events {
     this.state.height = actualHeight
     this.trigger('height', actualHeight)
   }
+  triggerPosition(position: number) {
+    TasksExpandedService.state.position = position
+    this.trigger('position', position)
+  }
 }
 export const TasksExpandedService = new _tasksExpanded()

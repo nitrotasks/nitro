@@ -46,6 +46,7 @@ export class TaskExpanded extends React.Component {
     this.taskInput = React.createRef()
     this.notesElement = React.createRef()
     this.notesTimeout = 0
+    this.positionTimeout = 0
     this.previousListId = TasksExpandedService.state.list
 
     if (TasksExpandedService.state.task !== null) {
@@ -74,12 +75,14 @@ export class TaskExpanded extends React.Component {
     TasksExpandedService.bind('show', this.triggerShow)
     TasksExpandedService.bind('replace', this.triggerReplace)
     TasksExpandedService.bind('hide', this.triggerHide)
+    TasksExpandedService.bind('position', this.triggerPosition)
   }
   componentWillUnmount() {
     NitroSdk.unbind('update', this.taskUpdate)
     TasksExpandedService.unbind('show', this.triggerShow)
     TasksExpandedService.unbind('replace', this.triggerReplace)
     TasksExpandedService.unbind('hide', this.triggerHide)
+    TasksExpandedService.unbind('position', this.triggerPosition)
   }
   taskUpdate = (type, listId, taskId) => {
     if (type === 'tasks' && taskId === TasksExpandedService.state.task) {
@@ -306,9 +309,14 @@ export class TaskExpanded extends React.Component {
       })
     }
   }
+  triggerPosition = () => {
+    this.setState({
+      hidden: this.state.hidden
+    })
+  }
   render() {
     const { listId } = this.props
-    const top = TasksExpandedService.state.position + vars.padding
+    let top = TasksExpandedService.state.position + vars.padding
 
     // if the list changes
     if (this.previousListId !== listId && this.state.hidden) {

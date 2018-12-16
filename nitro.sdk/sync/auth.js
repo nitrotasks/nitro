@@ -47,7 +47,11 @@ class AuthenticationStore extends Events {
         return
       }
       this.trigger('sign-in-status')
-      if (navigator !== undefined && navigator.onLine) {
+      if (
+        navigator !== undefined &&
+        navigator.onLine &&
+        !this.isLocalAccount()
+      ) {
         if (
           parseInt(this.refreshToken.expiresAt) - new Date().getTime() <
           HOUR

@@ -69,9 +69,16 @@ export class TasksList extends React.PureComponent {
 
     this.pendingChanges = false
     this.currentItemIndex = 0
-    this.archiveButton = React.createRef()
     this.tasksContainer = React.createRef()
+    this.tasksContainerEnd = React.createRef()
+    this.archiveButton = React.createRef()
     UiService.tasksContainer = this.tasksContainer
+
+    this.observer = new IntersectionObserver(this.triggerIntersect, {
+      root: null,
+      threshold: 0
+    })
+    this.isIntersecting = false
   }
   componentDidMount() {
     NitroSdk.bind('update', this.tasksUpdate)
@@ -81,6 +88,7 @@ export class TasksList extends React.PureComponent {
     TasksExpandedService.bind('height', this.triggerShow)
     TasksExpandedService.bind('hide', this.triggerHide)
     this.scheduleTasksUpdate()
+    this.observer.observe(findNodeHandle(this.tasksContainerEnd.current))
   }
   componentWillUnmount() {
     NitroSdk.unbind('update', this.tasksUpdate)
@@ -90,6 +98,7 @@ export class TasksList extends React.PureComponent {
     TasksExpandedService.unbind('height', this.triggerShow)
     TasksExpandedService.unbind('hide', this.triggerHide)
     clearTimeout(this.nextDayUpdate)
+    this.observer.disconnect()
   }
   scheduleTasksUpdate = () => {
     // re-renders every hour
@@ -134,9 +143,8 @@ export class TasksList extends React.PureComponent {
     const archive = findNodeHandle(this.archiveButton.current)
     requestAnimationFrame(() => {
       const index = this.currentItemIndex < 0 ? 0 : this.currentItemIndex + 1
-      const nodes = Array.from(
-        findNodeHandle(this.tasksContainer.current).children
-      ).slice(index)
+      const tasksContainer = findNodeHandle(this.tasksContainer.current)
+      const nodes = Array.from(tasksContainer.children).slice(index)
 
       // if the new button is pressed, we need to offset it, because this is a zero-height spacer
       if (index === 0 && nodes.length > 1) {
@@ -144,6 +152,7 @@ export class TasksList extends React.PureComponent {
         height += taskHeight
       }
 
+      tasksContainer.style.paddingBottom = `${height}px`
       nodes.forEach((item, key) => {
         const pixels = key === 0 ? vars.padding * 2 : height
         item.style.transform = `translate3d(0,${pixels}px,0)`
@@ -164,6 +173,7 @@ export class TasksList extends React.PureComponent {
       if (archive) {
         archive.style.transform = ''
       }
+      this.resetPadding()
 
       // if there was an update while the modal was showing, trigger them now
       if (this.pendingChanges) {
@@ -182,6 +192,25 @@ export class TasksList extends React.PureComponent {
       },
       () => NitroSdk.archiveCompletedList(this.props.listId)
     )
+  }
+  triggerIntersect = e => {
+    // Weirdly, when the overlay is opened in Chrome, this is hit
+    // Works fine in Safari & Firefox.
+    this.isIntersecting = e[0].isIntersecting
+    this.resetPadding()
+  }
+  resetPadding = () => {
+    const style = findNodeHandle(this.tasksContainer.current).style
+    if (this.isIntersecting === false && style.paddingBottom !== '0px') {
+      setTimeout(() => {
+        requestAnimationFrame(() => {
+          if (TasksExpandedService.state.task === null) {
+            style.paddingBottom = '0px'
+            TasksExpandedService.triggerPosition(0)
+          }
+        })
+      }, 300)
+    }
   }
   render() {
     const list = NitroSdk.getList(this.props.listId)
@@ -291,6 +320,7 @@ export class TasksList extends React.PureComponent {
         })}
         {order.length === 0 ? <EmptyList listId={this.props.listId} /> : null}
         {archiveButton}
+        <div ref={this.tasksContainerEnd} />
       </View>
     )
   }
@@ -298,8 +328,7 @@ export class TasksList extends React.PureComponent {
 const styles = StyleSheet.create({
   wrapper: {
     paddingLeft: vars.padding / 2,
-    paddingRight: vars.padding / 2,
-    paddingBottom: vars.padding * 4
+    paddingRight: vars.padding / 2
   },
   archiveButtonWrapper: {
     display: 'flex',

@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 
+import { vars } from '../../styles.js'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 import { UiService } from '../../services/uiService.js'
 import { DroppableScrollableWrapper } from '../reusable/droppableScrollableWrapper.jsx'
@@ -86,6 +87,7 @@ const styles = StyleSheet.create({
     minHeight: 'var(--real-height)',
     transitionDuration: '300ms',
     transitionProperty: 'opacity',
-    transitionTimingFunction: 'ease'
+    transitionTimingFunction: 'ease',
+    paddingBottom: vars.padding * 2
   }
 })

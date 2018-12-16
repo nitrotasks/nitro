@@ -10,7 +10,7 @@ import {
 
 import { NitroSdk } from '../../../nitro.sdk'
 
-import { vars } from '../../styles'
+import { vars } from '../../styles.js'
 import { headerMenu } from './headerMenu.js'
 import menuIcon from '../../../assets/icons/material/task-more.svg'
 
