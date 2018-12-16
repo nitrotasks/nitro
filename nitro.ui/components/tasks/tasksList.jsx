@@ -113,15 +113,19 @@ export class TasksList extends React.PureComponent {
   }
   tasksUpdate = () => {
     // doesn't do anything if the task is expanded
-    if (TasksExpandedService.state.task !== null) {
-      this.pendingChanges = true
+    const newState = this.constructor.generateState(this.props)
+    if (this.pendingChanges === true) {
       return
+    } else if (TasksExpandedService.state.task !== null) {
+      // this keeps our today & next lists tidy
+      if (newState.order.length === this.state.order.length) {
+        this.setState(newState)
+      } else {
+        this.pendingChanges = true
+      }
+    } else {
+      this.setState(newState)
     }
-
-    // captures all updates for all lists, because the today and next lists are special
-    this.setState({
-      ...this.constructor.generateState(this.props)
-    })
   }
   syncingTasksUpdate = () => {
     if (!NitroSdk.isSignedIn(true)) return
@@ -177,8 +181,10 @@ export class TasksList extends React.PureComponent {
 
       // if there was an update while the modal was showing, trigger them now
       if (this.pendingChanges) {
-        this.pendingChanges = false
-        setTimeout(this.tasksUpdate, 300)
+        setTimeout(() => {
+          this.pendingChanges = false
+          this.tasksUpdate()
+        }, 300)
       }
     })
   }
