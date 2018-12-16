@@ -1,10 +1,12 @@
 import React from 'react'
-import { View, Text, Image, StyleSheet, TextInput, Button } from 'react-native'
+import { View, Text, Image, StyleSheet, TextInput } from 'react-native'
 
 import config from '../../../config'
 import logo from '../../../assets/icons/full-logo.svg'
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
+
+import { Button } from '../reusable/button.jsx'
 
 export class Login extends React.Component {
   state = {

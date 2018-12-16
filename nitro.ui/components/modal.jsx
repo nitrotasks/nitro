@@ -1,7 +1,8 @@
 import React from 'react'
-import { View, Text, Button, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 
 import { vars } from '../styles.js'
+import { Button } from './reusable/button.jsx'
 import { ModalService } from '../services/modalService.js'
 
 const DEFAULT_MESSAGE = 'Are you sure you want to do this?'
@@ -60,7 +61,9 @@ export class Modal extends React.Component {
           <View style={styles.buttonBox}>
             <View style={styles.button}>
               <Button
-                color={vars.cancelColor}
+                color="#fff"
+                textColor={vars.cancelColor}
+                borderColor={vars.cancelBorderColor}
                 title={this.state.cancelText}
                 onPress={this.triggerCancel}
               />
@@ -86,7 +89,7 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     zIndex: 10,
-    backgroundColor: 'rgba(255,255,255,0.5)'
+    backgroundColor: 'rgba(50, 70, 90, 0.7)'
   },
   innerModal: {
     paddingTop: vars.padding,
@@ -96,11 +99,9 @@ const styles = StyleSheet.create({
     marginTop: '10vh',
     marginLeft: 'auto',
     marginRight: 'auto',
+    width: '90vw',
     maxWidth: '320px',
-    boxShadow: '0 1px 5px rgba(0,0,0,0.25)',
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: vars.accentColorMuted,
+    boxShadow: '0 1px 15px rgba(0,0,0,0.1)',
     borderRadius: '5px',
     backgroundColor: '#fff'
   },

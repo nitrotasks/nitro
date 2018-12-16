@@ -15,7 +15,8 @@ const vars = {
   overlayColor: '#fafbfc',
   positiveColor: '#2ecc71',
   negativeColor: '#e74c3c',
-  cancelColor: '#bbb',
+  cancelColor: '#5a92fa',
+  cancelBorderColor: '#ccc',
 
   // sizes
   padding: 16,
