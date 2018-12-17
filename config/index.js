@@ -18,6 +18,7 @@ const config = {
   auth0: {
     domain: '',
     clientID: '',
+    audience: '',
     redirectUri: `http://${hostname}:${port}/callback`,
     responseType: 'token id_token',
     scope: 'openid read:tasks write:tasks'
