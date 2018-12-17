@@ -65,6 +65,7 @@ class AuthenticationStore extends Events {
           this.accessToken = { access_token: this.refreshToken.accessToken }
           this.expiresAt = parseInt(this.refreshToken.expiresAt)
           this.scheduleToken(60 * 30) // 30 minutes
+          this.connectSocketWithCheck()
         }
       }
     })
@@ -207,14 +208,6 @@ class AuthenticationStore extends Events {
     }, Math.round(time) * 1000)
   }
   getToken() {
-    const connectSocket = () => {
-      if (broadcast.isMaster()) {
-        this.connectSocket()
-      } else {
-        log('Not connecting WebSocket, not master tab.')
-      }
-    }
-
     if (
       JSON.stringify(this.refreshToken) === '{}' ||
       this.refreshToken.loginType === 'local'
@@ -242,7 +235,7 @@ class AuthenticationStore extends Events {
             log('Auth0 Session Refreshed')
             this.trigger('token')
             this.scheduleToken(60 * 30) // 30 minutes
-            setTimeout(connectSocket, 1000)
+            this.connectSocketWithCheck()
             resolve()
           } else {
             console.error(err)
@@ -262,7 +255,7 @@ class AuthenticationStore extends Events {
               this.expiresAt = new Date().getTime() + data.expiresIn * 1000
               this.scheduleToken(data.expiresIn / 4)
               this.trigger('token')
-              setTimeout(connectSocket, 1000)
+              this.connectSocketWithCheck()
               resolve(data)
             })
           })
@@ -304,6 +297,7 @@ class AuthenticationStore extends Events {
             .then(data => this.trigger('token'))
             .then(() => log('Signed in with Auth0'))
             .then(() => this.trigger('sign-in-status'))
+            .then(() => this.connectSocketWithCheck())
             .then(resolve)
             .catch(err => {
               this.trigger('sign-in-error', err)
@@ -317,6 +311,13 @@ class AuthenticationStore extends Events {
         }
       })
     })
+  }
+  connectSocketWithCheck = () => {
+    if (broadcast.isMaster()) {
+      this.connectSocket()
+    } else {
+      log('Not connecting WebSocket, not master tab.')
+    }
   }
   connectSocket = () => {
     if (!navigator.onLine) {
