@@ -160,7 +160,7 @@ export class TaskExpanded extends React.Component {
   triggerHide = (list, oldTask) => {
     // TODO: this is a bit of a hack
     requestAnimationFrame(() => {
-      this.saveNotes(oldTask)
+      this.triggerBlur('notes')(null, oldTask)
       clearTimeout(this.notesTimeout)
 
       UiService.setCardPosition('map')
@@ -199,7 +199,7 @@ export class TaskExpanded extends React.Component {
     return e => {
       if (field === 'notes') {
         clearTimeout(this.notesTimeout)
-        this.notesTimeout = setTimeout(this.saveNotes, 1000)
+        this.notesTimeout = setTimeout(this.triggerBlur('notes'), 1000)
         const lineNumber = Math.min(
           getMaxLines(),
           e.currentTarget.scrollHeight / vars.notesLineHeight
@@ -227,28 +227,23 @@ export class TaskExpanded extends React.Component {
         task.id
       )
     } else if (this.state.mode === 'update') {
-      // TODO: don't send an update if nothing has actually changed
       NitroSdk.updateTask(taskId, payload)
     }
   }
   triggerBlur = field => {
-    return () => {
-      if (this.state[field] === null || this.state[field] === '') {
+    return (e, taskId = TasksExpandedService.state.task) => {
+      if (
+        this.state[field] === null ||
+        this.state[field] === '' ||
+        (this.state.mode !== 'create' &&
+          NitroSdk.getTask(taskId)[field] === this.state[field])
+      ) {
         return
       }
-      this.createOrUpdateTask(TasksExpandedService.state.task, {
+      this.createOrUpdateTask(taskId, {
         [field]: this.state[field]
       })
     }
-  }
-  saveNotes = (taskId = TasksExpandedService.state.task) => {
-    // TODO: this is pretty similar to the above method
-    if (this.state.notes === null || this.state.notes === '') {
-      return
-    }
-    this.createOrUpdateTask(taskId, {
-      notes: this.state.notes
-    })
   }
   updateProp = field => {
     return value => {
