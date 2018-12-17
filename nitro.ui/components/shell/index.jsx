@@ -8,7 +8,6 @@ import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 import { UiService } from '../../services/uiService.js'
 import { Lists } from '../lists/index.jsx'
 import { Tasks } from '../tasks/index.jsx'
-import { Logs } from '../logs.jsx'
 
 const paddingHeight = 25
 const barHeight = 66
@@ -377,10 +376,6 @@ class ShellComponent extends React.Component {
           <div className="root-map">
             <Switch>
               <Route exact path="/" render={() => <Redirect to="/inbox" />} />
-              <Route
-                path="/logs"
-                render={routeProps => <Logs {...routeProps} />}
-              />
               <Route
                 path="/:list/:task?"
                 render={routeProps => {
