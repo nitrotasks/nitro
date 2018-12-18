@@ -38,6 +38,7 @@ deploy:
     secret_access_key:
       secure: mAtRMRmddQglWK+BEHsH+jCBEAc4hFk/lmODT4NsETIYSsTciY5Ywzs8+AL9KJI8lD0eSB6UFdXT/r3ZGXHlXY7Miwg9rhlbAE0FzulFFD6XUmxP9estM5a83gyDPAkfVX8EEhV2NfJgji9+NueGBW5cNVwyC7QdLtEAUTXkgfw=
     bucket: test-assets-us-west-2.nitrotasks.com
+    region: us-west-2
     local-dir: dist/generated
     acl: private
     on:
