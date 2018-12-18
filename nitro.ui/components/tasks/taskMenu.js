@@ -6,18 +6,32 @@ import { vars } from '../../styles.js'
 
 const ARCHIVE_WARNING =
   'Are you sure you want to archive this task?\n\nYou currently can’t view archived tasks in Nitro.'
+const ARCHIVE_BUTTON = 'Archive Task'
 const ARCHIVE_HEADER_WARNING =
   'Are you sure you want to archive this group of tasks?\n\nYou currently can’t view archived tasks in Nitro.'
+const ARCHIVE_HEADER_BUTTON = 'Archive Group'
 const DELETE_WARNING = 'Are you sure you want to delete this task?'
+const DELETE_BUTTON = 'Delete Task'
 const DELETE_HEADER_WARNING = 'Are you sure you want to remove this heading?'
+const DELETE_HEADER_BUTTON = 'Remove'
+const CANCEL_BUTTON = 'Cancel'
+
+const TASK_MENU_ARCHIVE = 'Archive Task'
+const TASK_MENU_DELETE = 'Delete Task'
+const TASK_MENU_CONVERT = 'Change to Heading'
+const TASK_MENU_VIEW = 'View in List'
+
+const HEADER_MENU_ARCHIVE = 'Archive Group'
+const HEADER_MENU_DELETE = 'Remove Heading'
+const HEADER_MENU_CONVERT = 'Change to Task'
 
 const archiveTask = (task, callback) => {
   ModalService.show(
     {
       message: ARCHIVE_WARNING,
-      confirmText: 'Archive Task',
+      confirmText: ARCHIVE_BUTTON,
       confirmColor: vars.positiveColor,
-      cancelText: 'Cancel'
+      cancelText: CANCEL_BUTTON
     },
     () => {
       try {
@@ -35,9 +49,9 @@ const deleteTask = (task, callback) => {
   ModalService.show(
     {
       message: DELETE_WARNING,
-      confirmText: 'Delete Task',
+      confirmText: DELETE_BUTTON,
       confirmColor: vars.negativeColor,
-      cancelText: 'Cancel'
+      cancelText: CANCEL_BUTTON
     },
     () => {
       callback()
@@ -54,9 +68,9 @@ const archiveHeading = (task, callback) => {
   ModalService.show(
     {
       message: ARCHIVE_HEADER_WARNING,
-      confirmText: 'Archive Task',
+      confirmText: ARCHIVE_HEADER_BUTTON,
       confirmColor: vars.positiveColor,
-      cancelText: 'Cancel'
+      cancelText: CANCEL_BUTTON
     },
     () => {
       callback()
@@ -69,9 +83,9 @@ const deleteHeading = (task, callback) => {
   ModalService.show(
     {
       message: DELETE_HEADER_WARNING,
-      confirmText: 'Remove',
+      confirmText: DELETE_HEADER_BUTTON,
       confirmColor: vars.negativeColor,
-      cancelText: 'Cancel'
+      cancelText: CANCEL_BUTTON
     },
     () => {
       callback()
@@ -92,17 +106,17 @@ export const taskMenu = function(
 ) {
   const items = [
     {
-      title: 'Archive Task',
+      title: TASK_MENU_ARCHIVE,
       action: () => archiveTask(taskId, callback)
     },
     {
-      title: 'Delete Task',
+      title: TASK_MENU_DELETE,
       action: () => deleteTask(taskId, callback)
     }
   ]
   if (headingAllowed) {
     items.unshift({
-      title: 'Change to Heading',
+      title: TASK_MENU_CONVERT,
       action: () => {
         callback()
         headingConvert(taskId)
@@ -111,7 +125,7 @@ export const taskMenu = function(
   }
   if (viewInList) {
     items.unshift({
-      title: 'View in List',
+      title: TASK_MENU_VIEW,
       action: () => {
         const task = NitroSdk.getTask(taskId)
         TasksExpandedService.goToAnyTask(task.list, taskId)
@@ -132,18 +146,18 @@ export const headerMenu = function(
 ) {
   const items = [
     {
-      title: 'Change to Task',
+      title: HEADER_MENU_CONVERT,
       action: () => {
         callback()
         headingConvert(taskId, 'task')
       }
     },
     {
-      title: 'Archive Group',
+      title: HEADER_MENU_ARCHIVE,
       action: () => archiveHeading(taskId, callback)
     },
     {
-      title: 'Remove',
+      title: HEADER_MENU_DELETE,
       action: () => deleteHeading(taskId, callback)
     }
   ]
