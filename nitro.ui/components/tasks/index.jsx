@@ -1,6 +1,7 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 
+import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 import { UiService } from '../../services/uiService.js'
@@ -52,6 +53,15 @@ export class Tasks extends React.Component {
 
   render() {
     const { list } = this.props.match.params
+    if (NitroSdk.getList(list) === null) {
+      return (
+        <View style={styles.notFound}>
+          <Text style={styles.notFoundText}>
+            Error 404: This list could not be found, or has been deleted.
+          </Text>
+        </View>
+      )
+    }
     const pointerEvents = this.state.pointerEvents ? 'auto' : 'none'
     const pointerEventsClassName =
       'desktop-90' +
@@ -91,5 +101,11 @@ const styles = StyleSheet.create({
     transitionProperty: 'opacity',
     transitionTimingFunction: 'ease',
     paddingBottom: vars.padding * 2
+  },
+  notFound: {
+    padding: vars.padding
+  },
+  notFoundText: {
+    fontFamily: vars.fontFamily
   }
 })

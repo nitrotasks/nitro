@@ -30,7 +30,10 @@ export class Header extends React.PureComponent {
     this.wrapper = React.createRef()
   }
   componentDidMount() {
-    this.observer.observe(findNodeHandle(this.wrapper.current))
+    const handle = findNodeHandle(this.wrapper.current)
+    if (handle !== null) {
+      this.observer.observe(handle)
+    }
   }
   componentWillUnmount() {
     this.observer.disconnect()
@@ -42,9 +45,19 @@ export class Header extends React.PureComponent {
   }
   static generateState(props) {
     const list = NitroSdk.getList(props.listId)
-    return {
-      previousId: props.listId,
-      name: list.name
+    if (list !== null) {
+      return {
+        previousId: props.listId,
+        exists: true,
+        name: list.name,
+        mutable: list.mutable
+      }
+    } else {
+      return {
+        previousId: props.listId,
+        exists: false,
+        name: 'Not Found'
+      }
     }
   }
   triggerMenu = e => {
@@ -90,12 +103,11 @@ export class Header extends React.PureComponent {
     }
   }
   render() {
-    const list = NitroSdk.getList(this.props.listId)
-    document.title = list.name + ' - Nitro'
-    if (list === null) {
+    const { name, mutable, exists } = this.state
+    document.title = name + ' - Nitro'
+    if (!exists) {
       return null
     }
-    const mutable = list.mutable
     const renameNotAllowed = mutable.indexOf('no-rename') !== -1
     const listHeaderStyles = this.state.textInputFocus
       ? [styles.listHeader, styles.focusedListHeader]

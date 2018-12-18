@@ -1,6 +1,7 @@
 import { NitroSdk } from '../../../nitro.sdk'
 import { ContextMenuService } from '../../services/contextMenuService.js'
 import { ModalService } from '../../services/modalService.js'
+import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 import { vars } from '../../styles.js'
 
 export const headerMenu = function(
@@ -24,6 +25,7 @@ export const headerMenu = function(
           },
           () => {
             callback()
+            TasksExpandedService.replace('/inbox')
             NitroSdk.deleteList(listId)
           }
         )
