@@ -40,6 +40,7 @@ deploy:
     bucket: test-assets-us-west-2.nitrotasks.com
     region: us-west-2
     local-dir: dist/generated
+    upload-dir: generated
     acl: private
     on:
       repo: nitrotasks/nitro
