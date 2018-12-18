@@ -33,6 +33,7 @@ after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 deploy:
   - provider: s3
+    skip_cleanup: true
     access_key_id: AKIAJPXJ7PE62IXM3HLA
     secret_access_key:
       secure: mAtRMRmddQglWK+BEHsH+jCBEAc4hFk/lmODT4NsETIYSsTciY5Ywzs8+AL9KJI8lD0eSB6UFdXT/r3ZGXHlXY7Miwg9rhlbAE0FzulFFD6XUmxP9estM5a83gyDPAkfVX8EEhV2NfJgji9+NueGBW5cNVwyC7QdLtEAUTXkgfw=
@@ -43,6 +44,7 @@ deploy:
       repo: nitrotasks/nitro
       branch: master
   - provider: script
+    skip_cleanup: true
     script: npm run docker-push-master
     on:
       repo: nitrotasks/nitro
