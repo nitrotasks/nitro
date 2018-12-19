@@ -66,6 +66,7 @@ class AuthenticationStore extends Events {
           this.expiresAt = parseInt(this.refreshToken.expiresAt)
           this.scheduleToken(60 * 30) // 30 minutes
           this.connectSocketWithCheck()
+          this.trigger('token')
         }
       }
     })
