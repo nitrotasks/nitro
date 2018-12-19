@@ -79,7 +79,7 @@ class App extends React.Component {
       NitroSdk.lastSync !== undefined &&
       new Date().getTime() - NitroSdk.lastSync.getTime() > 30000
     ) {
-      NitroSdk.fullSync()
+      NitroSdk.fullSync(true)
     }
   }
   render() {

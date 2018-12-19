@@ -107,13 +107,14 @@ export class sdk extends Events {
         .catch(reject)
     })
   }
-  fullSync = () => {
+  fullSync = bypassMaster => {
+    log('Starting Full Sync')
     const listItems = this.listsQueue.hasItems()
     const taskItems = this.tasksQueue.hasItems()
     if (listItems || taskItems) {
-      this._processQueue().then(this.downloadData)
+      this._processQueue().then(() => this.downloadData(bypassMaster))
     } else {
-      this.downloadData()
+      this.downloadData(bypassMaster)
     }
   }
   _handleWs = (data: Object) => {
@@ -225,9 +226,6 @@ export class sdk extends Events {
         })
     })
   }
-  manualSync = () => {
-    this._processQueue().then(this.downloadData)
-  }
   wsSync = () => {
     // will run a sync if the websocket is not connected
     if (!authenticationStore.isConnected()) {
@@ -255,9 +253,9 @@ export class sdk extends Events {
   createAccount = (username: string, password: string) => {
     return authenticationStore.createAccount(username, password)
   }
-  downloadData = () => {
+  downloadData = (bypassMaster = false) => {
     // the other tab will download data, and it's just passed through
-    if (!broadcast.isMaster()) return
+    if (!broadcast.isMaster() && bypassMaster === false) return
     if (!authenticationStore.isSignedIn(true)) return
     if (
       this.tasksQueue.syncLock === true ||
