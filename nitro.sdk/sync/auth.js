@@ -7,6 +7,8 @@ import { checkStatus } from '../helpers/fetch.js'
 import { log } from '../helpers/logger.js'
 import { broadcast } from './broadcastchannel.js'
 
+import { authEvents as EVENTS } from '../models/authEvents.js'
+
 const SESSION_EXPIRED =
   'You have been signed out because your session has expired.'
 const HOUR = 60 * 60 * 1000
@@ -46,7 +48,7 @@ class AuthenticationStore extends Events {
       if (disableToken === true) {
         return
       }
-      this.trigger('sign-in-status')
+      this.trigger(EVENTS.SIGN_IN)
       if (
         navigator !== undefined &&
         navigator.onLine &&
@@ -66,7 +68,7 @@ class AuthenticationStore extends Events {
           this.expiresAt = parseInt(this.refreshToken.expiresAt)
           this.scheduleToken(60 * 30) // 30 minutes
           this.connectSocketWithCheck()
-          this.trigger('token')
+          this.trigger(EVENTS.TOKEN_READY)
         }
       }
     })
@@ -92,16 +94,12 @@ class AuthenticationStore extends Events {
   formSignIn(username, password) {
     if (username === 'local@nitrotasks.com') {
       this.refreshToken = { loginType: 'local' }
-      this.trigger('sign-in-status')
+      this.trigger(EVENTS.SIGN_IN)
       set('auth', this.refreshToken)
     } else {
       this.authenticate(username, password)
-        .then(() => {
-          this.trigger('sign-in-status')
-        })
-        .catch(err => {
-          this.trigger('sign-in-error', err)
-        })
+        .then(() => this.trigger(EVENTS.SIGN_IN))
+        .catch(err => this.trigger(EVENTS.SIGN_IN_ERROR, err))
     }
   }
   authHeader(json = false) {
@@ -218,7 +216,7 @@ class AuthenticationStore extends Events {
       return new Promise((resolve, reject) => {
         this.auth0.checkSession({}, (err, authResult) => {
           if (err) {
-            this.auth0.authorize()
+            this.trigger(EVENTS.UNIVERSAL_ERROR, err)
           } else if (
             authResult &&
             authResult.accessToken &&
@@ -234,7 +232,7 @@ class AuthenticationStore extends Events {
             this.expiresAt = expiresAt
             set('auth', this.refreshToken)
             log('Auth0 Session Refreshed')
-            this.trigger('token')
+            this.trigger(EVENTS.TOKEN_READY)
             this.scheduleToken(60 * 30) // 30 minutes
             this.connectSocketWithCheck()
             resolve()
@@ -255,7 +253,7 @@ class AuthenticationStore extends Events {
               this.accessToken = data
               this.expiresAt = new Date().getTime() + data.expiresIn * 1000
               this.scheduleToken(data.expiresIn / 4)
-              this.trigger('token')
+              this.trigger(EVENTS.TOKEN_READY)
               this.connectSocketWithCheck()
               resolve(data)
             })
@@ -295,19 +293,19 @@ class AuthenticationStore extends Events {
           })
             .then(checkStatus)
             .then(response => response.json())
-            .then(data => this.trigger('token'))
+            .then(() => this.trigger(EVENTS.TOKEN_READY))
             .then(() => log('Signed in with Auth0'))
-            .then(() => this.trigger('sign-in-status'))
+            .then(() => this.trigger(EVENTS.SIGN_IN))
             .then(() => this.connectSocketWithCheck())
             .then(resolve)
             .catch(err => {
-              this.trigger('sign-in-error', err)
+              this.trigger(EVENTS.SIGN_IN_ERROR, err)
               reject(err)
             })
         } else if (err) {
           console.error(err)
           err.message = err.errorDescription
-          this.trigger('sign-in-error', err)
+          this.trigger(EVENTS.SIGN_IN_ERROR, err)
           reject(err)
         }
       })
@@ -334,7 +332,7 @@ class AuthenticationStore extends Events {
     socket.onopen = () => {
       this.socket = socket
       this.reconnectDelay = 1
-      this.trigger('ws', { command: 'connected' })
+      this.trigger(EVENTS.WEBSOCKET, { command: 'connected' })
       log('Connected to Server via WebSocket')
       if (this.queueCompleteSync === true) {
         this.queueCompleteSync = false
@@ -347,7 +345,7 @@ class AuthenticationStore extends Events {
       }
     }
     socket.onmessage = msg => {
-      this.trigger('ws', JSON.parse(msg.data))
+      this.trigger(EVENTS.WEBSOCKET, JSON.parse(msg.data))
     }
     socket.onerror = err => {
       console.error(err)

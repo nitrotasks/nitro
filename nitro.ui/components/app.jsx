@@ -4,7 +4,7 @@ import { DragDropContext } from 'react-beautiful-dnd'
 import createBrowserHistory from 'history/createBrowserHistory'
 const history = createBrowserHistory()
 
-import { NitroSdk } from '../../nitro.sdk'
+import { NitroSdk, authEvents } from '../../nitro.sdk'
 import { UiService } from '../services/uiService.js'
 import { Shell } from './shell/index.jsx'
 import { Login } from './login/index.jsx'
@@ -17,24 +17,22 @@ class App extends React.Component {
   }
   componentDidMount() {
     document.addEventListener('visibilitychange', this.triggerWindowVisibility)
-    NitroSdk.bind('sign-in-status', this.signInCallback)
-    NitroSdk.bind('sign-in-error', this.signInError)
+    NitroSdk.bind(authEvents.SIGN_IN, this.signInCallback)
+    NitroSdk.bind(authEvents.SIGN_IN_ERROR, this.signInError)
   }
   componentWillUnmount() {
     document.removeEventListener(
       'visibilitychange',
       this.triggerWindowVisibility
     )
-    NitroSdk.unbind('sign-in-status', this.signInCallback)
-    NitroSdk.unbind('sign-in-error', this.signInError)
+    NitroSdk.unbind(authEvents.SIGN_IN, this.signInCallback)
+    NitroSdk.unbind(authEvents.SIGN_IN_ERROR, this.signInError)
   }
   signInCallback = () => {
-    setTimeout(() => {
-      history.replace('/')
-      this.setState({
-        signedIn: NitroSdk.isSignedIn()
-      })
-    }, 350) // should be ample time for the animation
+    history.replace('/')
+    this.setState({
+      signedIn: NitroSdk.isSignedIn()
+    })
   }
   signInError = () => {
     history.replace('/')

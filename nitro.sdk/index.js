@@ -1,5 +1,6 @@
 // @flow
 import Events from './events.js'
+import { authEvents } from './models/authEvents'
 
 import { ListsCollection } from './collections/listsCollection.js'
 import { TasksCollection } from './collections/tasksCollection.js'
@@ -56,23 +57,32 @@ export class sdk extends Events {
     this.tasksQueue.bind('request-process', this._processQueue)
     this.tasksQueue.bind('request-archive', this._processQueue)
 
-    authenticationStore.bind('sign-in-status', () => {
+    authenticationStore.bind(authEvents.SIGN_IN, () => {
       if (authenticationStore.isSignedIn()) {
         broadcast.start()
       }
     })
-    authenticationStore.bind('token', this.fullSync)
-    authenticationStore.bind('ws', this._handleWs)
+    authenticationStore.bind(authEvents.TOKEN_READY, this.fullSync)
+    authenticationStore.bind(authEvents.WEBSOCKET, this._handleWs)
     broadcast.bind('refresh-db', this._refreshDb)
     TasksCollection.bind('update', this._updateEvent('tasks'))
     ListsCollection.bind('update', this._updateEvent('lists'))
     ListsCollection.bind('order', this._orderEvent)
     ListsCollection.bind('lists-order', this._listsOrderEvent)
+
+    // pass all the authentication store events through
     authenticationStore.bind(
-      'sign-in-status',
-      this._passEvent('sign-in-status')
+      authEvents.SIGN_IN,
+      this._passEvent(authEvents.SIGN_IN)
     )
-    authenticationStore.bind('sign-in-error', this._passEvent('sign-in-error'))
+    authenticationStore.bind(
+      authEvents.SIGN_IN_ERROR,
+      this._passEvent(authEvents.SIGN_IN_ERROR)
+    )
+    authenticationStore.bind(
+      authEvents.UNIVERSAL_ERROR,
+      this._passEvent(authEvents.UNIVERSAL_ERROR)
+    )
 
     this.interval = setInterval(this.wsSync, 60000)
   }
@@ -654,4 +664,4 @@ export class sdk extends Events {
   }
 }
 export let NitroSdk = new sdk()
-export { Events, logHistory }
+export { Events, logHistory, authEvents }
