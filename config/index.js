@@ -15,6 +15,7 @@ const config = {
   endpoint: '/a',
   wsendpoint: wsendpoint,
   loginType: ['password', 'auth0'],
+  publicPathOverride: null,
   auth0: {
     domain: '',
     clientID: '',
@@ -29,6 +30,9 @@ if (hostname === 'uat.nitrotasks.com') {
   Object.assign(config, uat)
 } else if (hostname === 'go.nitrotasks.com') {
   Object.assign(config, prod)
+}
+if (config.publicPathOverride !== null) {
+  __webpack_public_path__ = config.publicPathOverride
 }
 
 export default config

@@ -19,7 +19,7 @@ if (!devMode) {
 const webpackConfig = {
   context: baseDirectory,
   entry: {
-    app: ['./nitro.ui/index.js']
+    app: ['./config/index.js', './nitro.ui/index.js']
   },
   output: {
     filename: filename,
@@ -44,8 +44,7 @@ const webpackConfig = {
           {
             loader: 'file-loader',
             options: {
-              outputPath: 'generated/assets/',
-              publicPath: '/generated/assets'
+              outputPath: 'generated/assets/'
             }
           }
         ]
@@ -96,10 +95,14 @@ if (process.env.NODE_ENV === 'production') {
   webpackConfig.plugins.push(bundle)
   webpackConfig.plugins.push(
     new OfflinePlugin({
-      externals: ['/'],
+      appShell: '/',
+      externals: [
+        '/img/favicon/favicon-96x96.png',
+        '/img/favicon/favicon-32x32.png',
+        '/img/favicon/favicon-16x16.png'
+      ],
       AppCache: false,
       ServiceWorker: {
-        navigateFallbackURL: '/',
         minify: false
       }
     })
