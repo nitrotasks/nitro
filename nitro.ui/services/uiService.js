@@ -76,9 +76,11 @@ class uiService extends Events {
       if (this.state.cardPosition === 'default') {
         position = 'map'
       } else if (this.state.cardPosition === 'max') {
-        position = 'default'
+        // position = 'default'
+        position = 'map'
       } else if (this.state.cardPosition === 'map') {
-        position = 'default'
+        // position = 'default'
+        position = 'max'
       }
     }
     this.state.cardPosition = position

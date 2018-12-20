@@ -50,7 +50,7 @@ export class _broadcast extends Events {
   isMaster() {
     return this.mastertab
   }
-  handleMessage = (broadcastmessage) => {
+  handleMessage = broadcastmessage => {
     const msg = broadcastmessage.data
     if (msg === 'refresh-db' || msg === 'complete-sync') {
       // combinedCollection picks up this event, and tells other models to load data
@@ -60,7 +60,10 @@ export class _broadcast extends Events {
       this.bc.postMessage('master')
     } else if (msg === 'master') {
       // we are not master tab, so we won't be connecting any websockets
-      this.mastertab = false
+      if (this.mastertab === true) {
+        this.mastertab = false
+        log('This is not the master tab.')
+      }
       clearTimeout(this.bctimeout)
     }
   }

@@ -221,11 +221,8 @@ export class TasksList extends React.PureComponent {
   }
   render() {
     const list = NitroSdk.getList(this.props.listId)
-    if (list === null) {
-      return <Text>This list cannot be found, or has been deleted.</Text>
-    }
 
-    const mutable = list.mutable
+    const { mutable } = list
 
     const headersAllowed = !mutable.includes('no-headings')
     const orderNotAllowed = mutable.includes('no-order')

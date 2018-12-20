@@ -11,6 +11,7 @@ import { UiService } from '../../services/uiService.js'
 import { Checkbox } from './checkbox.jsx'
 import { TaskHeader } from './taskHeader.jsx'
 import { taskMenu } from './taskMenu.js'
+import { TouchableOpacity } from '../reusable/touchableOpacity.jsx'
 
 import todayIcon from '../../../assets/icons/feather/today.svg'
 import notesIcon from '../../../assets/icons/material/note.svg'
@@ -132,8 +133,10 @@ export class Task extends React.PureComponent {
   }
   render() {
     const props = this.props
+    let WrapperComponent = TouchableOpacity
     let innerItem
     if (props.dataType === 'header' || props.dataType === 'header-collapsed') {
+      WrapperComponent = View
       innerItem = (
         <TaskHeader
           dataId={props.dataId}
@@ -276,7 +279,7 @@ export class Task extends React.PureComponent {
           // wish there was an event in react-beatiful-dnd or something?
           this.draggingStart = snapshot.draggingOver !== null
           return (
-            <View
+            <WrapperComponent
               ref={this.viewRef}
               style={styles.transitionStyle}
               className={props.dataType === 'task' ? 'hover-5' : null}
@@ -292,7 +295,7 @@ export class Task extends React.PureComponent {
               >
                 {innerItem}
               </div>
-            </View>
+            </WrapperComponent>
           )
         }}
       </Draggable>

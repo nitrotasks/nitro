@@ -1,17 +1,17 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { string } from 'prop-types'
 import { View, TextInput, StyleSheet } from 'react-native'
 import { vars } from '../../styles.js'
 
 import { NitroSdk } from '../../../nitro.sdk'
 
 export class TasksInput extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      name: '',
-      inputFocus: false
-    }
+  static propTypes = {
+    listId: string
+  }
+  state = {
+    name: '',
+    inputFocus: false
   }
   triggerChange = e => {
     this.setState({ name: e.currentTarget.value })
@@ -66,9 +66,6 @@ export class TasksInput extends React.Component {
       </View>
     )
   }
-}
-TasksInput.propTypes = {
-  listId: PropTypes.string
 }
 const styles = StyleSheet.create({
   wrapper: {

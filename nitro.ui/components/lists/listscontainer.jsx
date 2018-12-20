@@ -1,6 +1,7 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { object } from 'prop-types'
 import { View, StyleSheet } from 'react-native'
+import { withRouter } from 'react-router'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles'
@@ -8,12 +9,16 @@ import { UiService } from '../../services/uiService.js'
 import { DroppableScrollableWrapper } from '../reusable/droppableScrollableWrapper.jsx'
 import { ListItem } from './listitem.jsx'
 
-export class ListsContainer extends React.Component {
+class ListsContainerWithoutRouter extends React.Component {
+  static propTypes = {
+    history: object
+  }
   constructor(props) {
     super(props)
     this.state = {
       lists: NitroSdk.getLists()
     }
+    // bit of a shit hack for drag and drop
     UiService.state.currentListsOrder = this.state.lists.map(l => l.id)
   }
   componentWillMount() {
@@ -35,8 +40,9 @@ export class ListsContainer extends React.Component {
     })
   }
   createList = () => {
+    const { history } = this.props
     const list = NitroSdk.addList({ name: 'Untitled List' })
-    this.props.history.push('/' + list.id)
+    history.push(`${list.id}`)
   }
   render() {
     let index = -1
@@ -71,6 +77,7 @@ export class ListsContainer extends React.Component {
     )
   }
 }
+export const ListsContainer = withRouter(ListsContainerWithoutRouter)
 
 const padding = vars.padding / 2
 const styles = StyleSheet.create({

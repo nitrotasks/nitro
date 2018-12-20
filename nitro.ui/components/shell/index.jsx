@@ -114,7 +114,9 @@ class ShellComponent extends React.Component {
       } else if (pos > defaultLowerThreshold) {
         return 'map'
       } else {
-        return 'default'
+        return 'map'
+        // DISABLED because we don't need default position
+        // return 'default'
       }
     } else if (this.state.cardPosition === 'default') {
       // there's a negative and positive bit,
@@ -142,28 +144,37 @@ class ShellComponent extends React.Component {
       } else if (pos > defaultLowerThreshold) {
         return 'max'
       } else {
-        return 'default'
+        return 'max'
+        // DISABLED because we don't need default position
+        // return 'default'
       }
     }
   }
   getFlickAnchor(pos) {
-    if (this.state.cardPosition === 'default') {
-      // need to detect if they flick up or down
-      return pos > 0 ? 'max' : 'map'
-    } else if (
-      this.state.cardPosition === 'map' &&
-      Math.abs(pos) > defaultPosition
-    ) {
-      // if they flick up extra far
+    // DISABLED because we don't need default position
+    if (this.state.cardPosition === 'map') {
       return 'max'
-    } else if (
-      this.state.cardPosition === 'max' &&
-      Math.abs(pos) > this.clientHeight - defaultPosition
-    ) {
-      // if they flick down extra far
+    } else {
       return 'map'
     }
-    return 'default'
+
+    // if (this.state.cardPosition === 'default') {
+    //   // need to detect if they flick up or down
+    //   return pos > 0 ? 'max' : 'map'
+    // } else if (
+    //   this.state.cardPosition === 'map' &&
+    //   Math.abs(pos) > defaultPosition
+    // ) {
+    //   // if they flick up extra far
+    //   return 'max'
+    // } else if (
+    //   this.state.cardPosition === 'max' &&
+    //   Math.abs(pos) > this.clientHeight - defaultPosition
+    // ) {
+    //   // if they flick down extra far
+    //   return 'map'
+    // }
+    // return 'default'
   }
   triggerTouchStart = e => {
     // only start the pull down if they're at the top of the card

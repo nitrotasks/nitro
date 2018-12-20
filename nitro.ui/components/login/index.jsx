@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet, TextInput } from 'react-native'
 
 import config from '../../../config'
 import logo from '../../../assets/icons/full-logo.svg'
-import { NitroSdk } from '../../../nitro.sdk'
+import { NitroSdk, authEvents as EVENTS } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
 
 import { Button } from '../reusable/button.jsx'
@@ -17,16 +17,18 @@ export class Login extends React.Component {
     error: null
   }
   componentDidMount() {
-    NitroSdk.bind('sign-in-status', this.signInCallback)
-    NitroSdk.bind('sign-in-error', this.signInError)
+    NitroSdk.bind(EVENTS.SIGN_IN, this.signInCallback)
+    NitroSdk.bind(EVENTS.SIGN_IN_ERROR, this.signInError)
+    NitroSdk.bind(EVENTS.UNIVERSAL_ERROR, this.universalError)
 
     if (/access_token|id_token|error/.test(window.location.hash)) {
       NitroSdk.handleUniversalAuth()
     }
   }
   componentWillUnmount() {
-    NitroSdk.unbind('sign-in-status', this.signInCallback)
-    NitroSdk.unbind('sign-in-error', this.signInError)
+    NitroSdk.unbind(EVENTS.SIGN_IN, this.signInCallback)
+    NitroSdk.unbind(EVENTS.SIGN_IN_ERROR, this.signInError)
+    NitroSdk.unbind(EVENTS.UNIVERSAL_ERROR, this.universalError)
   }
   triggerChange = field => {
     return e => {
@@ -55,15 +57,19 @@ export class Login extends React.Component {
   signInError = error => {
     this.setState({ disabled: false, error: error.message })
   }
+  universalError = err => {
+    console.error(err)
+    if (/access_token|id_token|error/.test(window.location.hash)) {
+      this.setState({ error: err.message })
+    } else {
+      NitroSdk.requestUniversalAuth()
+    }
+  }
   triggerSignOut = () => {
     NitroSdk.signOut(null, true)
   }
   render() {
     const text = this.state.disabled ? 'Logging in...' : 'Log In'
-    const wrapperStyles =
-      NitroSdk.isSignedIn() && this.state.error === null
-        ? [styles.wrapper, styles.wrapperHidden]
-        : styles.wrapper
 
     const passwordBlock =
       config.loginType.indexOf('password') > -1 ? (
@@ -126,6 +132,17 @@ export class Login extends React.Component {
           </Text>
           {error}
           {error ? (
+            <View style={styles.retry}>
+              <Button
+                onPress={this.triggerUniversalAuth}
+                color="#fff"
+                textColor={vars.cancelColor}
+                borderColor={vars.cancelBorderColor}
+                title="Retry Authorization"
+              />
+            </View>
+          ) : null}
+          {error ? (
             <Button
               onPress={this.triggerSignOut}
               color={vars.accentColor}
@@ -163,7 +180,7 @@ export class Login extends React.Component {
       )
     }
     return (
-      <View style={wrapperStyles}>
+      <View style={styles.wrapper}>
         <View style={styles.branding}>
           <Image
             style={styles.logo}
@@ -184,14 +201,7 @@ const styles = StyleSheet.create({
     width: '100%',
     marginLeft: 'auto',
     marginRight: 'auto',
-    padding: vars.padding * 2,
-    transitionDuration: '300ms',
-    transitionProperty: 'opacity',
-    transitionTimingFunction: 'ease',
-    opacity: 1
-  },
-  wrapperHidden: {
-    opacity: 0
+    padding: vars.padding * 2
   },
   branding: {
     flex: 1,
@@ -245,6 +255,9 @@ const styles = StyleSheet.create({
   universalLogin: {
     marginTop: vars.padding * 2,
     marginBottom: vars.padding
+  },
+  retry: {
+    marginBottom: vars.padding / 2
   },
   signUpWrapper: {
     marginTop: vars.padding
