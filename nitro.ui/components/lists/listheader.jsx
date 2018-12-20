@@ -33,9 +33,6 @@ export class ListHeaderWithoutRouter extends React.Component {
   componentWillUnmount() {
     this.wrapperNode.removeEventListener('touchstart', this.triggerTouchStart)
   }
-  triggerLists = () => {
-    UiService.setCardPosition('toggle', true, true)
-  }
   triggerAddTask = () => {
     TasksExpandedService.triggerCreate(UiService.state.currentList)
   }
@@ -44,16 +41,21 @@ export class ListHeaderWithoutRouter extends React.Component {
   }
   triggerSearchFocus = e => {
     if (UiService.state.cardPosition === 'map') {
-      UiService.setCardPosition('default', true, true)
+      UiService.setCardPosition('max', true, true)
     }
   }
   triggerMax() {
     requestAnimationFrame(() => {
-      const pos =
-        UiService.state.cardPosition === 'map' ||
-        UiService.state.cardPosition === 'max'
-          ? 'default'
-          : 'max'
+      // DISABLED we don't need default
+      // const pos =
+      //   UiService.state.cardPosition === 'map' ||
+      //   UiService.state.cardPosition === 'max'
+      //     ? 'default'
+      //     : 'max'
+      let pos = 'max'
+      if (UiService.state.cardPosition === 'max') {
+        pos = 'map'
+      }
       UiService.setCardPosition(pos, true, true)
     })
   }
@@ -105,7 +107,6 @@ const paddingVertical = 12
 const styles = StyleSheet.create({
   wrapper: {
     touchAction: 'none',
-    // boxShadow: '0 -1px 0 rgba(0,0,0,0.05) inset',
     flexDirection: 'row'
   },
   flexWrapper: {
