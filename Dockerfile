@@ -13,4 +13,4 @@ RUN rm -v /etc/nginx/conf.d/default.conf
 COPY nginx-default.conf /etc/nginx/conf.d/
 
 EXPOSE 80
-CMD sed -i -e 's/\/generated\//'"$DOMAIN"'\/generated\//g' /usr/share/nginx/html/index.html && nginx -g 'daemon off;'
+CMD sed -i -e 's/\/generated\//'"$DOMAIN"'\/generated\//g' /usr/share/nginx/html/index.html && sed -i -e 's/\/generated\//'"$DOMAIN"'\/generated\//g' /usr/share/nginx/html/sw.js && nginx -g 'daemon off;'
