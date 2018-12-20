@@ -1,5 +1,6 @@
 {
   "loginType": ["password", "auth0"],
+  "publicPathOverride": "https://test-assets-us-west-2.nitrotasks.com/",
   "auth0": {
     "domain": "dymajo.au.auth0.com",
     "clientID": "UJVzuenuRT9M9rIWlfiotx4f1kX5xboV",

@@ -1,5 +1,6 @@
 {
   "loginType": ["auth0"],
+  "publicPathOverride": "https://assets-us-west-2.nitrotasks.com/",
   "auth0": {
     "domain": "",
     "clientID": "",
