@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { string, func } from 'prop-types'
 import {
   View,
   Image,
@@ -16,27 +16,8 @@ import menuIcon from '../../../assets/icons/material/task-more.svg'
 
 export class Header extends React.PureComponent {
   static propTypes = {
-    listId: PropTypes.string,
-    onIntersect: PropTypes.func
-  }
-  constructor(props) {
-    super(props)
-    this.state = this.constructor.generateState(this.props)
-    this.observer = new IntersectionObserver(this.props.onIntersect, {
-      root: null,
-      rootMargin: '-65px',
-      threshold: 0
-    })
-    this.wrapper = React.createRef()
-  }
-  componentDidMount() {
-    const handle = findNodeHandle(this.wrapper.current)
-    if (handle !== null) {
-      this.observer.observe(handle)
-    }
-  }
-  componentWillUnmount() {
-    this.observer.disconnect()
+    listId: string,
+    onIntersect: func
   }
   static getDerivedStateFromProps(props, state) {
     return props.listId !== state.previousId
@@ -60,6 +41,27 @@ export class Header extends React.PureComponent {
       }
     }
   }
+  state = {
+    ...this.constructor.generateState(this.props),
+    textInputFocus: false
+  }
+  observer = new IntersectionObserver(this.props.onIntersect, {
+    root: null,
+    rootMargin: '-65px',
+    threshold: 0
+  })
+  wrapper = React.createRef()
+
+  componentDidMount() {
+    const handle = findNodeHandle(this.wrapper.current)
+    if (handle !== null) {
+      this.observer.observe(handle)
+    }
+  }
+  componentWillUnmount() {
+    this.observer.disconnect()
+  }
+
   triggerMenu = e => {
     const x = e.nativeEvent.pageX
     const y = e.nativeEvent.pageY
@@ -95,8 +97,10 @@ export class Header extends React.PureComponent {
   triggerKeyUp = e => {
     // ESC
     if (e.keyCode === 27) {
-      this.setState(this.constructor.generateState(this.props))
-      e.currentTarget.blur()
+      const elem = e.currentTarget
+      this.setState(this.constructor.generateState(this.props), () =>
+        elem.blur()
+      )
       // ENTER
     } else if (e.keyCode === 13) {
       e.currentTarget.blur()
@@ -104,7 +108,9 @@ export class Header extends React.PureComponent {
   }
   render() {
     const { name, mutable, exists } = this.state
-    document.title = name + ' - Nitro'
+    if (!this.state.textInputFocus) {
+      document.title = name + ' - Nitro'
+    }
     if (!exists) {
       return null
     }
