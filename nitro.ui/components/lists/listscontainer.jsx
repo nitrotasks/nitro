@@ -47,7 +47,7 @@ class ListsContainerWithoutRouter extends React.Component {
           ) + direction
         ]
       if (nextList !== undefined) {
-        history.push(nextList)
+        history.push(`/${nextList}`)
       }
       return false
     }
@@ -65,7 +65,7 @@ class ListsContainerWithoutRouter extends React.Component {
   createList = () => {
     const { history } = this.props
     const list = NitroSdk.addList({ name: 'Untitled List' })
-    history.push(`${list.id}`)
+    history.push(`/${list.id}`)
   }
   render() {
     let index = -1

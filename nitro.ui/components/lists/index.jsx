@@ -3,6 +3,7 @@ import { View, Image, StyleSheet } from 'react-native'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { ContextMenuService } from '../../services/contextMenuService.js'
+import { SidebarService } from '../../services/sidebarService.js'
 import { ListHeader } from './listheader.jsx'
 import { ListsContainer } from './listscontainer.jsx'
 import { SearchContainer } from './searchcontainer.jsx'
@@ -13,7 +14,20 @@ import settingsIcon from '../../../assets/icons/material/settings.svg'
 
 export class Lists extends React.Component {
   state = {
-    searchResults: null
+    searchResults: null,
+    value: ''
+  }
+  componentDidMount() {
+    SidebarService.bind('hide-search-results', this.hideSearchResults)
+  }
+  componentWillUnmount() {
+    SidebarService.unbind('hide-search-results', this.hideSearchResults)
+  }
+  hideSearchResults = () => {
+    this.setState({
+      searchResults: null,
+      value: ''
+    })
   }
   triggerMenu = e => {
     const items = [
@@ -28,12 +42,14 @@ export class Lists extends React.Component {
     const query = e.currentTarget.value.trim()
     if (query === '') {
       this.setState({
-        searchResults: null
+        searchResults: null,
+        value: e.currentTarget.value
       })
     } else {
       const results = NitroSdk.search(query)
       this.setState({
-        searchResults: results
+        searchResults: results,
+        value: e.currentTarget.value
       })
     }
   }
@@ -41,7 +57,7 @@ export class Lists extends React.Component {
   render() {
     return (
       <View style={styles.wrapper}>
-        <ListHeader onSearch={this.triggerSearch} />
+        <ListHeader onSearch={this.triggerSearch} value={this.state.value} />
         {this.state.searchResults === null ? (
           <ListsContainer />
         ) : (

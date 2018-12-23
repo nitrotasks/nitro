@@ -10,7 +10,9 @@ import { string, func, bool } from 'prop-types'
 import { withRouter } from 'react-router'
 import mousetrap from 'mousetrap'
 
+import { NitroSdk } from '../../../nitro.sdk'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
+import { SidebarService } from '../../services/sidebarService.js'
 import { vars } from '../../styles.js'
 import { UiService } from '../../services/uiService.js'
 import addIcon from '../../../assets/icons/custom/add.svg'
@@ -27,7 +29,8 @@ export class ListHeaderWithoutRouter extends React.Component {
     backFn: func,
     actionFn: func,
     onSearch: func,
-    hideClose: bool
+    hideClose: bool,
+    value: string
   }
   wrapper = React.createRef()
   searchInput = React.createRef()
@@ -37,12 +40,14 @@ export class ListHeaderWithoutRouter extends React.Component {
   }
 
   componentDidMount() {
+    SidebarService.bind('focus-search-box', this.triggerHotkey)
     this.wrapperNode = findNodeHandle(this.wrapper.current)
     this.wrapperNode.addEventListener('touchstart', this.triggerTouchStart)
     mousetrap.bind(FOCUS_HOTKEY, this.triggerHotkey)
     mousetrap.bindGlobal(GLOBAL_FOCUS_HOTKEY, this.triggerHotkey)
   }
   componentWillUnmount() {
+    SidebarService.unbind('focus-search-box', this.triggerHotkey)
     this.wrapperNode.removeEventListener('touchstart', this.triggerTouchStart)
     mousetrap.unbind(FOCUS_HOTKEY)
     mousetrap.unbind(GLOBAL_FOCUS_HOTKEY)
@@ -66,11 +71,38 @@ export class ListHeaderWithoutRouter extends React.Component {
   triggerSearchBlur = () => {
     this.setState({ focus: false })
   }
+  triggerSubmit = e => {
+    if (window.innerWidth > 850) {
+      const query = e.currentTarget.value.trim()
+      if (query !== '') {
+        const results = NitroSdk.search(query)
+        if (results[0] === undefined) {
+          return
+        }
+        const { url } = results[0]
+        const parsedUrl = url.split('/')
+        if (parsedUrl.length === 3) {
+          TasksExpandedService.goToAnyTask(parsedUrl[1], parsedUrl[2])
+        } else {
+          TasksExpandedService.go(url)
+        }
+        SidebarService.hideSearchResults()
+      }
+    }
+    // we have to manually blur it
+    e.currentTarget.blur()
+  }
   triggerKeyUp = e => {
     if (e.keyCode === 27) {
       e.currentTarget.value = ''
       e.currentTarget.blur()
       this.props.onSearch(e)
+    }
+  }
+  triggerKeyPress = e => {
+    if (e.keyCode === 40) {
+      e.preventDefault()
+      SidebarService.focusSearchItemFirst()
     }
   }
   triggerMax() {
@@ -113,10 +145,14 @@ export class ListHeaderWithoutRouter extends React.Component {
                 placeholder="Search"
                 style={textStyles}
                 numberOfLines={1}
+                value={this.props.value}
+                blurOnSubmit={false}
+                onSubmitEditing={this.triggerSubmit}
                 onFocus={this.triggerSearchFocus}
                 onBlur={this.triggerSearchBlur}
                 onChange={this.props.onSearch}
                 onKeyUp={this.triggerKeyUp}
+                onKeyPress={this.triggerKeyPress}
               />
             </View>
           </View>

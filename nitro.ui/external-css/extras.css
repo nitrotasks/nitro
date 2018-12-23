@@ -28,6 +28,19 @@ input:disabled {
 .desktop-opacity-invisible {
   opacity: 0.5;
 }
+.search-item-focus:focus,
+.search-item-focus:focus:hover {
+  background: #e2eaf7;
+  outline: 0;
+}
+.sidebar-item-focus:focus {
+  outline: 0;
+}
+.sidebar-item-focus:focus .sidebar-item-focus-inner,
+.sidebar-item-focus:focus:hover .sidebar-item-focus-inner {
+  background: #e2eaf7;
+}
+
 @media (max-width: 850px) {
   .mobile-hidden {
     display: none;

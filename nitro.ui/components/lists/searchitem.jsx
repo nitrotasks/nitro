@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
+import { SidebarService } from '../../services/sidebarService.js'
 import { UiService } from '../../services/uiService.js'
 
 import { View, Text, Image, StyleSheet } from 'react-native'
@@ -35,6 +36,24 @@ export class SearchItem extends React.Component {
     } else {
       TasksExpandedService.go(url)
     }
+    SidebarService.hideSearchResults()
+  }
+  triggerKeyDown = e => {
+    // enter
+    const keycode = e.keyCode
+    if (keycode === 13) {
+      this.triggerClick()
+    } else if (keycode === 38) {
+      const el = e.currentTarget.previousElementSibling
+      if (el) {
+        el.focus()
+      } else {
+        SidebarService.focusSearchBox()
+      }
+    } else if (keycode === 40) {
+      const el = e.currentTarget.nextElementSibling
+      if (el) el.focus()
+    }
   }
   render() {
     const { icon, name, subtitle } = this.props
@@ -44,9 +63,13 @@ export class SearchItem extends React.Component {
     }
     return (
       <TouchableOpacity
+        accessible={true}
         style={styles.resultWrapper}
-        className="hover-5"
+        className="hover-5 search-item-focus"
         onClick={this.triggerClick}
+        onKeyDown={this.triggerKeyDown}
+        onFocus={this.triggerFocus}
+        onBlur={this.triggerBlur}
       >
         <View style={styles.iconWrapper}>
           <Image source={image} resizeMode="contain" style={styles.icon} />
@@ -72,7 +95,8 @@ const styles = StyleSheet.create({
     paddingTop: vars.padding * 0.25,
     paddingBottom: vars.padding * 0.25,
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    borderRadius: 4
   },
   iconWrapper: {
     width: iconWidth,
