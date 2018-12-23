@@ -28,6 +28,24 @@ input:disabled {
 .desktop-opacity-invisible {
   opacity: 0.5;
 }
+.search-item-focus:focus,
+.search-item-focus:focus:hover {
+  background: #e2eaf7;
+  outline: 0;
+}
+.sidebar-item-focus:focus {
+  outline: 0;
+}
+.sidebar-item-focus:focus:not(:active) .sidebar-item-focus-inner,
+.sidebar-item-focus:focus:hover:not(:active) .sidebar-item-focus-inner {
+  box-shadow: 0 0 0 3px #9dbefb;
+}
+.list-item-focus:focus {
+  box-shadow: 0 0 0 3px #9dbefb;
+  outline: 0;
+  border-radius: 3px;
+}
+
 @media (max-width: 850px) {
   .mobile-hidden {
     display: none;

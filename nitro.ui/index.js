@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import './helpers/mousetrapGlobal.js'
 import App from './components/app.jsx'
 import { NitroSdk } from '../nitro.sdk'
 

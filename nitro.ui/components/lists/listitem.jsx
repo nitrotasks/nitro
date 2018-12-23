@@ -31,9 +31,10 @@ export class ListItem extends React.Component {
   proxyOnClick = e => {
     e.preventDefault()
     this.props.onClick()
-    this.hideMenu()
+    this.hideMenu(e)
   }
-  hideMenu = () => {
+  hideMenu = e => {
+    e.currentTarget.blur()
     UiService.setCardPosition('map')
 
     setTimeout(() => {
@@ -50,7 +51,9 @@ export class ListItem extends React.Component {
         ? [styles.wrapper, styles.selected]
         : styles.wrapper
     const className =
-      UiService.state.currentList === this.props.id ? '' : 'hover-5'
+      'sidebar-item-focus-inner ' +
+      (UiService.state.currentList === this.props.id ? '' : 'hover-5')
+
     const inner = (
       <TouchableOpacity style={style} className={className}>
         <View style={styles.iconWrapper}>
@@ -82,6 +85,7 @@ export class ListItem extends React.Component {
             innerRef={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
+            className="sidebar-item-focus"
             style={getItemStyle(
               snapshot.isDragging,
               provided.draggableProps.style
@@ -95,6 +99,7 @@ export class ListItem extends React.Component {
   }
 }
 
+const borderRadius = 5
 const height = vars.padding * 2.5
 const iconHeight = vars.padding * 1.5
 const iconWidth = vars.padding * 2
@@ -105,12 +110,12 @@ const styles = StyleSheet.create({
     paddingLeft: vars.padding * 0.3125,
     paddingRight: vars.padding * 0.5,
     paddingBottom: vars.padding * 0.25,
+    borderRadius: borderRadius,
     flex: 1,
     flexDirection: 'row'
   },
   selected: {
-    backgroundColor: 'rgba(0,0,0,0.05)',
-    borderRadius: 5
+    backgroundColor: 'rgba(0,0,0,0.05)'
   },
   iconWrapper: {
     width: iconWidth,
@@ -149,7 +154,7 @@ const getItemStyle = (isDragging, draggableStyle) => {
     // some basic styles to make the items look a bit nicer
     userSelect: 'none',
     textDecoration: 'none',
-    borderRadius: isDragging ? 3 : 0,
+    borderRadius: isDragging ? borderRadius : 0,
     marginBottom: 3,
 
     // change background colour if dragging

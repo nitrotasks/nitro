@@ -5,7 +5,7 @@ import { Draggable } from 'react-beautiful-dnd'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
-import { formatDate } from '../../helpers/date.js'
+import { formatDate, dateValue } from '../../helpers/date.js'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 import { UiService } from '../../services/uiService.js'
 import { Checkbox } from './checkbox.jsx'
@@ -71,6 +71,59 @@ export class Task extends React.PureComponent {
   }
   componentWillUnmount() {
     TasksExpandedService.unbind('indirect-click', this.indirectClick)
+  }
+  triggerKeyPress = fn => {
+    return e => {
+      // runs the react-beautiful-dnd events first, if they exist
+      if (fn !== null) {
+        fn.onKeyDown(e)
+      }
+      if (e.defaultPrevented) return
+
+      const keycode = e.keyCode
+      if (keycode === 13) {
+        const { dataType } = this.props
+        if (dataType === 'header' || dataType === 'header-collapsed') {
+          e.preventDefault()
+          e.currentTarget.querySelector('input').focus()
+        } else {
+          this.triggerClick()
+          TasksExpandedService.focusNameInput()
+        }
+      } else if (keycode === 27) {
+        e.currentTarget.blur()
+      } else if (keycode === 40 || keycode === 74) {
+        const node = e.currentTarget.parentNode.nextSibling.children[0]
+        if (node) node.focus()
+        e.preventDefault()
+      } else if (keycode === 38 || keycode === 75) {
+        const node = e.currentTarget.parentNode.previousSibling.children[0]
+        if (node) node.focus()
+        e.preventDefault()
+      } else if (keycode === 67) {
+        NitroSdk.completeTask(this.props.dataId)
+      } else if (keycode === 84) {
+        const { dataId, dataDate, dataType, dataCompleted } = this.props
+        if (dataCompleted !== null) return
+        NitroSdk.updateTask(
+          dataId,
+          dateValue(
+            formatDate(dataDate, dataType, 'today') === 'Today' ? null : 'today'
+          )
+        )
+      }
+    }
+  }
+  triggerKeyUp = e => {
+    if (e.defaultPrevented) return
+    const keycode = e.keyCode
+    if (keycode === 13) {
+      const { dataType } = this.props
+      if (dataType === 'header' || dataType === 'header-collapsed') {
+        e.preventDefault()
+        e.currentTarget.querySelector('input').focus()
+      }
+    }
   }
   triggerClick = () => {
     const { listId, dataId } = this.props
@@ -292,6 +345,10 @@ export class Task extends React.PureComponent {
                   snapshot.isDragging,
                   provided.draggableProps.style
                 )}
+                className="list-item-focus"
+                tabIndex="0"
+                onKeyDown={this.triggerKeyPress(provided.dragHandleProps)}
+                onKeyUp={this.triggerKeyUp}
               >
                 {innerItem}
               </div>
@@ -393,7 +450,7 @@ const getItemStyle = (isDragging, draggableStyle) => {
   const style = {
     // some basic styles to make the items look a bit nicer
     userSelect: 'none',
-    borderRadius: isDragging ? 3 : 0,
+    borderRadius: 3,
 
     // change background colour if dragging
     background: isDragging ? vars.dragColor : '',

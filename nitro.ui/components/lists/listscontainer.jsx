@@ -2,12 +2,16 @@ import React from 'react'
 import { object } from 'prop-types'
 import { View, StyleSheet } from 'react-native'
 import { withRouter } from 'react-router'
+import mousetrap from 'mousetrap'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles'
 import { UiService } from '../../services/uiService.js'
 import { DroppableScrollableWrapper } from '../reusable/droppableScrollableWrapper.jsx'
 import { ListItem } from './listitem.jsx'
+
+const GLOBAL_UP_HOTKEY = 'alt+up'
+const GLOBAL_DOWN_HOTKEY = 'alt+down'
 
 class ListsContainerWithoutRouter extends React.Component {
   static propTypes = {
@@ -24,10 +28,29 @@ class ListsContainerWithoutRouter extends React.Component {
   componentWillMount() {
     NitroSdk.bind('update', this.update)
     NitroSdk.bind('lists-order', this.update)
+    mousetrap.bindGlobal(GLOBAL_UP_HOTKEY, this.triggerHotkey(-1))
+    mousetrap.bindGlobal(GLOBAL_DOWN_HOTKEY, this.triggerHotkey(1))
   }
   componentWillUnmount() {
     NitroSdk.unbind('update', this.update)
     NitroSdk.unbind('lists-order', this.update)
+    mousetrap.unbind(GLOBAL_UP_HOTKEY)
+    mousetrap.unbind(GLOBAL_DOWN_HOTKEY)
+  }
+  triggerHotkey = direction => {
+    return () => {
+      const { history } = this.props
+      const nextList =
+        UiService.state.currentListsOrder[
+          UiService.state.currentListsOrder.indexOf(
+            UiService.state.currentList
+          ) + direction
+        ]
+      if (nextList !== undefined) {
+        history.push(`/${nextList}`)
+      }
+      return false
+    }
   }
   update = () => {
     // we listen to all updates, so the counts also get updated
@@ -42,7 +65,7 @@ class ListsContainerWithoutRouter extends React.Component {
   createList = () => {
     const { history } = this.props
     const list = NitroSdk.addList({ name: 'Untitled List' })
-    history.push(`${list.id}`)
+    history.push(`/${list.id}`)
   }
   render() {
     let index = -1
@@ -82,6 +105,7 @@ export const ListsContainer = withRouter(ListsContainerWithoutRouter)
 const padding = vars.padding / 2
 const styles = StyleSheet.create({
   listWrapper: {
+    paddingTop: padding,
     paddingLeft: padding,
     paddingRight: padding,
     paddingBottom: padding

@@ -1,14 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  findNodeHandle
-} from 'react-native'
+import { View, Text, Image, StyleSheet, findNodeHandle } from 'react-native'
 import { Draggable } from 'react-beautiful-dnd'
+import mousetrap from 'mousetrap'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
@@ -17,9 +11,12 @@ import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 import { UiService } from '../../services/uiService.js'
 import { Task } from './task.jsx'
 import { EmptyList } from './emptyList.jsx'
+import { TouchableOpacity } from '../reusable/touchableOpacity.jsx'
 
 import archiveIcon from '../../../assets/icons/material/archive.svg'
 
+const DOWN_HOTKEY = 'j'
+const UP_HOTKEY = 'k'
 const ARCHIVE_MULTIPLE_WARNING =
   'Are you sure you want to archive these tasks?\n\nYou currently can’t view archived tasks in Nitro.'
 
@@ -87,6 +84,8 @@ export class TasksList extends React.PureComponent {
     NitroSdk.bind('sync-upload-complete', this.syncingTasksUpdate)
     TasksExpandedService.bind('height', this.triggerShow)
     TasksExpandedService.bind('hide', this.triggerHide)
+    mousetrap.bind(UP_HOTKEY, this.triggerHotkey)
+    mousetrap.bind(DOWN_HOTKEY, this.triggerHotkey)
     this.scheduleTasksUpdate()
     this.observer.observe(findNodeHandle(this.tasksContainerEnd.current))
   }
@@ -97,6 +96,8 @@ export class TasksList extends React.PureComponent {
     NitroSdk.unbind('sync-upload-complete', this.syncingTasksUpdate)
     TasksExpandedService.unbind('height', this.triggerShow)
     TasksExpandedService.unbind('hide', this.triggerHide)
+    mousetrap.unbind(UP_HOTKEY)
+    mousetrap.unbind(DOWN_HOTKEY)
     clearTimeout(this.nextDayUpdate)
     this.observer.disconnect()
   }
@@ -189,6 +190,21 @@ export class TasksList extends React.PureComponent {
       }
     })
   }
+  triggerHotkey = (event, key) => {
+    if (key === DOWN_HOTKEY) {
+      const node = findNodeHandle(this.tasksContainer.current).querySelector(
+        '[tabIndex="0"]'
+      )
+      if (node) node.focus()
+    } else if (key === UP_HOTKEY) {
+      const node = Array.from(
+        findNodeHandle(this.tasksContainer.current).querySelectorAll(
+          '[tabIndex="0"]'
+        )
+      ).slice(-1)[0]
+      if (node) node.focus()
+    }
+  }
   triggerArchive = () => {
     ModalService.show(
       {
@@ -199,6 +215,19 @@ export class TasksList extends React.PureComponent {
       },
       () => NitroSdk.archiveCompletedList(this.props.listId)
     )
+  }
+  triggerArchiveKeyDown = e => {
+    const keycode = e.keyCode
+    if (keycode === 13) {
+      this.triggerArchive()
+      e.currentTarget.blur()
+    } else if (keycode === 27) {
+      e.currentTarget.blur()
+    } else if (keycode === 38 || keycode === 75) {
+      const node = e.currentTarget.parentNode.previousSibling.children[0]
+      if (node) node.focus()
+      e.preventDefault()
+    }
   }
   triggerIntersect = e => {
     // Weirdly, when the overlay is opened in Chrome, this is hit
@@ -247,7 +276,11 @@ export class TasksList extends React.PureComponent {
     if (completedTasks > 0 && !orderNotAllowed) {
       archiveButton = (
         <View ref={this.archiveButton} style={styles.archiveButtonWrapper}>
-          <TouchableOpacity onClick={this.triggerArchive}>
+          <TouchableOpacity
+            onClick={this.triggerArchive}
+            accessible={true}
+            onKeyDown={this.triggerArchiveKeyDown}
+          >
             <View style={styles.archiveButton} className="hover-5">
               <Image
                 accessibilityLabel="Archive Icon"

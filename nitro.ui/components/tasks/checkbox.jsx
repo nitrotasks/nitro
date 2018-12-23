@@ -34,6 +34,7 @@ export class Checkbox extends React.PureComponent {
       <TouchableWithoutFeedback
         onPressIn={this.triggerPressIn}
         onPressOut={this.triggerPressOut}
+        accessible={false}
       >
         <View style={styles.check}>
           <View style={boxStyles}>

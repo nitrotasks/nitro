@@ -314,7 +314,7 @@ class AuthenticationStore extends Events {
   connectSocketWithCheck = () => {
     if (broadcast.isMaster() && !this.isConnected()) {
       this.connectSocket()
-    } else {
+    } else if (!broadcast.isMaster()) {
       log('Not connecting WebSocket, not master tab.')
     }
   }

@@ -2,8 +2,13 @@ import React from 'react'
 import { string } from 'prop-types'
 import { View, TextInput, StyleSheet } from 'react-native'
 import { vars } from '../../styles.js'
+import mousetrap from 'mousetrap'
 
 import { NitroSdk } from '../../../nitro.sdk'
+
+const FOCUS_HOTKEY = 'n'
+const GLOBAL_FOCUS_HOTKEY =
+  navigator.platform.indexOf('Mac') > -1 ? 'command+j' : 'ctrl+j'
 
 export class TasksInput extends React.Component {
   static propTypes = {
@@ -12,6 +17,20 @@ export class TasksInput extends React.Component {
   state = {
     name: '',
     inputFocus: false
+  }
+  input = React.createRef()
+
+  componentDidMount() {
+    mousetrap.bind(FOCUS_HOTKEY, this.triggerHotkey)
+    mousetrap.bindGlobal(GLOBAL_FOCUS_HOTKEY, this.triggerHotkey)
+  }
+  componentWillUnmount() {
+    mousetrap.unbind(FOCUS_HOTKEY)
+    mousetrap.unbind(GLOBAL_FOCUS_HOTKEY)
+  }
+  triggerHotkey = () => {
+    this.input.current.focus()
+    return false
   }
   triggerChange = e => {
     this.setState({ name: e.currentTarget.value })
@@ -51,6 +70,7 @@ export class TasksInput extends React.Component {
     return (
       <View style={styles.wrapper} className="mobile-hidden">
         <TextInput
+          ref={this.input}
           className="hover-input"
           autoComplete="off"
           style={inputStyles}

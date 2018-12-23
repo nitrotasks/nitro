@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
 import { View } from 'react-native'
 
+import { NitroSdk, authEvents as EVENTS } from '../../../nitro.sdk'
 import { iOS } from '../../helpers/ios.js'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 import { UiService } from '../../services/uiService.js'
@@ -58,6 +59,7 @@ class ShellComponent extends React.Component {
   }
   componentDidMount() {
     UiService.bind('card-position', this.handleNewCardPosition)
+    NitroSdk.bind(EVENTS.UNIVERSAL_ERROR, this.universalError)
     this.touchcard.addEventListener('touchstart', this.triggerTouchStart)
     this.touchcard.addEventListener('touchend', this.triggerTouchEnd)
     this.touchcard.addEventListener('touchcancel', this.triggerTouchEnd)
@@ -90,6 +92,10 @@ class ShellComponent extends React.Component {
     // we run this to ensure that the animation runs
     this.touchcard.style.transition = ''
     this.setState(newState)
+  }
+  universalError = err => {
+    console.error(err)
+    NitroSdk.requestUniversalAuth()
   }
   togglePin = () => {
     this.setState({

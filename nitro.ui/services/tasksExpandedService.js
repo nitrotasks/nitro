@@ -149,5 +149,8 @@ class _tasksExpanded extends Events {
       this.triggerTask(list, task, 0)
     }
   }
+  focusNameInput() {
+    this.trigger('focus-name-input')
+  }
 }
 export const TasksExpandedService = new _tasksExpanded()
