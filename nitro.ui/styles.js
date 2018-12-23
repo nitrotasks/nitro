@@ -17,6 +17,7 @@ const vars = {
   negativeColor: '#e74c3c',
   cancelColor: '#5a92fa',
   cancelBorderColor: '#ccc',
+  focusBorder: '#9dbefb',
 
   // sizes
   padding: 16,

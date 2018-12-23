@@ -105,6 +105,7 @@ export const ListsContainer = withRouter(ListsContainerWithoutRouter)
 const padding = vars.padding / 2
 const styles = StyleSheet.create({
   listWrapper: {
+    paddingTop: padding,
     paddingLeft: padding,
     paddingRight: padding,
     paddingBottom: padding

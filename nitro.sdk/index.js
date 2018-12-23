@@ -404,7 +404,7 @@ export class sdk extends Events {
       }
     })
     TasksCollection.all().forEach(task => {
-      const nameResult = task.name.match(regex)
+      const nameResult = task.name ? task.name.match(regex) : null
       const notesResult = task.notes ? task.notes.match(regex) : null
       if (nameResult !== null || notesResult !== null) {
         results.push({

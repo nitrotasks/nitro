@@ -46,6 +46,7 @@ export class SearchContainer extends React.Component {
 const padding = vars.padding / 2
 const styles = StyleSheet.create({
   wrapper: {
+    paddingTop: padding,
     paddingLeft: padding,
     paddingRight: padding,
     paddingBottom: padding

@@ -180,8 +180,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   flexWrapper: {
-    flex: 1,
-    paddingBottom: paddingVertical / 2
+    flex: 1
   },
   pillWrapper: {
     height: paddingVertical,
@@ -199,7 +198,7 @@ const styles = StyleSheet.create({
   bottomWrapper: {
     display: 'flex',
     flexDirection: 'row',
-    paddingBottom: 4
+    paddingBottom: 0
   },
   textWrapper: {
     flex: 1,
@@ -228,7 +227,7 @@ const styles = StyleSheet.create({
   },
   textFocus: {
     backgroundColor: 'rgba(255,255,255,0.1)',
-    borderColor: vars.accentColor
+    borderColor: vars.accentColorMuted
   },
   textHidden: {
     opacity: 0
