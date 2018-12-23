@@ -44,14 +44,14 @@ export class SearchItem extends React.Component {
     if (keycode === 13) {
       this.triggerClick()
     } else if (keycode === 38) {
-      const el = e.currentTarget.previousElementSibling
+      const el = e.currentTarget.previousSibling
       if (el) {
         el.focus()
       } else {
         SidebarService.focusSearchBox()
       }
     } else if (keycode === 40) {
-      const el = e.currentTarget.nextElementSibling
+      const el = e.currentTarget.nextSibling
       if (el) el.focus()
     }
   }

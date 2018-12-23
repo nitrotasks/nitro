@@ -21,7 +21,11 @@ export class DatepickerActivator extends React.Component {
   }
   render() {
     return (
-      <TouchableOpacity onClick={this.triggerPress} style={this.props.style}>
+      <TouchableOpacity
+        onClick={this.triggerPress}
+        style={this.props.style}
+        accessible={false}
+      >
         {this.props.children}
       </TouchableOpacity>
     )

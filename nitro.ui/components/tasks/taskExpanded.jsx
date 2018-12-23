@@ -9,6 +9,7 @@ import {
   StyleSheet,
   findNodeHandle
 } from 'react-native'
+import mousetrap from 'mousetrap'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
@@ -76,6 +77,8 @@ export class TaskExpanded extends React.Component {
     TasksExpandedService.bind('replace', this.triggerReplace)
     TasksExpandedService.bind('hide', this.triggerHide)
     TasksExpandedService.bind('position', this.triggerPosition)
+    TasksExpandedService.bind('focus-name-input', this.focusNameInput)
+    mousetrap.bind('esc', this.triggerHideHotkey)
   }
   componentWillUnmount() {
     NitroSdk.unbind('update', this.taskUpdate)
@@ -83,6 +86,8 @@ export class TaskExpanded extends React.Component {
     TasksExpandedService.unbind('replace', this.triggerReplace)
     TasksExpandedService.unbind('hide', this.triggerHide)
     TasksExpandedService.unbind('position', this.triggerPosition)
+    TasksExpandedService.unbind('focus-name-input', this.focusNameInput)
+    mousetrap.unbind('esc')
   }
   taskUpdate = (type, listId, taskId) => {
     if (type === 'tasks' && taskId === TasksExpandedService.state.task) {
@@ -169,6 +174,14 @@ export class TaskExpanded extends React.Component {
       })
     })
   }
+  triggerHideHotkey = () => {
+    if (this.state.hidden === false) {
+      TasksExpandedService.triggerBack()
+    }
+  }
+  triggerOverlay = () => {
+    TasksExpandedService.triggerBack()
+  }
   getTask = taskId => {
     if (taskId === 'new') {
       return {
@@ -192,9 +205,7 @@ export class TaskExpanded extends React.Component {
       checked: task.completed !== null
     }
   }
-  triggerOverlay = () => {
-    TasksExpandedService.triggerBack()
-  }
+
   triggerChange = field => {
     return e => {
       if (field === 'notes') {
@@ -244,6 +255,11 @@ export class TaskExpanded extends React.Component {
       this.createOrUpdateTask(taskId, {
         [field]: this.state[field]
       })
+    }
+  }
+  triggerKeyUp = e => {
+    if (e.keyCode === 27) {
+      e.currentTarget.blur()
     }
   }
   updateProp = field => {
@@ -305,6 +321,11 @@ export class TaskExpanded extends React.Component {
   triggerPosition = () => {
     this.setState({
       hidden: this.state.hidden
+    })
+  }
+  focusNameInput = () => {
+    requestAnimationFrame(() => {
+      this.taskInput.current.focus()
     })
   }
   render() {
@@ -427,6 +448,7 @@ export class TaskExpanded extends React.Component {
               placeholder="Task Name"
               onChange={this.triggerChange('name')}
               onBlur={this.triggerBlur('name')}
+              onKeyUp={this.triggerKeyUp}
               ref={this.taskInput}
             />
           </View>
@@ -439,6 +461,7 @@ export class TaskExpanded extends React.Component {
             numberOfLines={this.state.lineNumber}
             onChange={this.triggerChange('notes')}
             onBlur={this.triggerBlur('notes')}
+            onKeyUp={this.triggerKeyUp}
           />
           <View style={styles.bar}>
             {leftBar}
@@ -447,6 +470,7 @@ export class TaskExpanded extends React.Component {
             <TouchableOpacity
               style={styles.moreIcon}
               onClick={this.triggerMore}
+              accessible={false}
             >
               <Image
                 accessibilityLabel="More"

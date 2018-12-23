@@ -122,6 +122,7 @@ class TaskHeaderWithoutRouter extends React.PureComponent {
       <TouchableOpacity
         style={styles.moreIcon}
         onClick={this.triggerContextMenu('right')}
+        accessible={false}
       >
         <Image
           accessibilityLabel="More"

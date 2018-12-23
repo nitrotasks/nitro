@@ -40,6 +40,11 @@ input:disabled {
 .sidebar-item-focus:focus:hover:not(:active) .sidebar-item-focus-inner {
   box-shadow: 0 0 0 3px #9dbefb;
 }
+.list-item-focus:focus {
+  box-shadow: 0 0 0 3px #9dbefb;
+  outline: 0;
+  border-radius: 3px;
+}
 
 @media (max-width: 850px) {
   .mobile-hidden {
