@@ -6,8 +6,9 @@ import {
   StyleSheet,
   findNodeHandle
 } from 'react-native'
-import PropTypes from 'prop-types'
+import { string, func, bool } from 'prop-types'
 import { withRouter } from 'react-router'
+import mousetrap from 'mousetrap'
 
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 import { vars } from '../../styles.js'
@@ -16,22 +17,35 @@ import addIcon from '../../../assets/icons/custom/add.svg'
 import searchIcon from '../../../assets/icons/custom/search.svg'
 import { TouchableOpacity } from '../reusable/touchableOpacity.jsx'
 
+const FOCUS_HOTKEY = '/'
+const GLOBAL_FOCUS_HOTKEY =
+  navigator.platform.indexOf('Mac') > -1 ? 'command+k' : 'ctrl+k'
+
 export class ListHeaderWithoutRouter extends React.Component {
   static propTypes = {
-    className: PropTypes.string,
-    backFn: PropTypes.func,
-    actionFn: PropTypes.func,
-    onSearch: PropTypes.func,
-    hideClose: PropTypes.bool
+    className: string,
+    backFn: func,
+    actionFn: func,
+    onSearch: func,
+    hideClose: bool
   }
   wrapper = React.createRef()
+  searchInput = React.createRef()
+
+  state = {
+    focus: false
+  }
 
   componentDidMount() {
     this.wrapperNode = findNodeHandle(this.wrapper.current)
     this.wrapperNode.addEventListener('touchstart', this.triggerTouchStart)
+    mousetrap.bind(FOCUS_HOTKEY, this.triggerHotkey)
+    mousetrap.bindGlobal(GLOBAL_FOCUS_HOTKEY, this.triggerHotkey)
   }
   componentWillUnmount() {
     this.wrapperNode.removeEventListener('touchstart', this.triggerTouchStart)
+    mousetrap.unbind(FOCUS_HOTKEY)
+    mousetrap.unbind(GLOBAL_FOCUS_HOTKEY)
   }
   triggerAddTask = () => {
     TasksExpandedService.triggerCreate(UiService.state.currentList)
@@ -39,9 +53,24 @@ export class ListHeaderWithoutRouter extends React.Component {
   triggerTouchStart = e => {
     UiService.state.headerEvent = e.target
   }
-  triggerSearchFocus = e => {
+  triggerHotkey = () => {
+    this.searchInput.current.focus()
+    return false
+  }
+  triggerSearchFocus = () => {
+    this.setState({ focus: true })
     if (UiService.state.cardPosition === 'map') {
       UiService.setCardPosition('max', true, true)
+    }
+  }
+  triggerSearchBlur = () => {
+    this.setState({ focus: false })
+  }
+  triggerKeyUp = e => {
+    if (e.keyCode === 27) {
+      e.currentTarget.value = ''
+      e.currentTarget.blur()
+      this.props.onSearch(e)
     }
   }
   triggerMax() {
@@ -60,6 +89,8 @@ export class ListHeaderWithoutRouter extends React.Component {
     })
   }
   render() {
+    const { focus } = this.state
+    const textStyles = focus ? [styles.text, styles.textFocus] : styles.text
     return (
       <View
         style={styles.wrapper}
@@ -77,12 +108,15 @@ export class ListHeaderWithoutRouter extends React.Component {
           <View style={styles.bottomWrapper} className="desktop-padding-right">
             <View style={styles.textWrapper} className="desktop-padding-left">
               <TextInput
+                ref={this.searchInput}
                 className="hover-input"
                 placeholder="Search"
-                style={styles.text}
+                style={textStyles}
                 numberOfLines={1}
                 onFocus={this.triggerSearchFocus}
+                onBlur={this.triggerSearchBlur}
                 onChange={this.props.onSearch}
+                onKeyUp={this.triggerKeyUp}
               />
             </View>
           </View>
@@ -148,7 +182,17 @@ const styles = StyleSheet.create({
     backgroundRepeat: 'no-repeat',
     backgroundPosition: '7px 50%',
     borderRadius: 5,
-    outline: '0'
+    outline: '0',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: '#e6e6e6',
+    transitionDuration: '250ms, 250ms',
+    transitionProperty: 'border-color, background-color',
+    transitionTimingFunction: 'ease, ease'
+  },
+  textFocus: {
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    borderColor: vars.accentColor
   },
   textHidden: {
     opacity: 0
