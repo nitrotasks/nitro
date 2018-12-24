@@ -77,6 +77,7 @@ export class TasksList extends React.PureComponent {
     })
     this.isIntersecting = false
   }
+  archiveTransform = null
   componentDidMount() {
     NitroSdk.bind('update', this.tasksUpdate)
     NitroSdk.bind('order', this.tasksUpdate)
@@ -164,6 +165,7 @@ export class TasksList extends React.PureComponent {
         item.style.transform = `translate3d(0,${pixels}px,0)`
       })
       if (archive) {
+        this.archiveTransform = [{ translateY: `${height}px` }]
         archive.style.transform = `translate3d(0,${height}px,0)`
       }
     })
@@ -177,6 +179,7 @@ export class TasksList extends React.PureComponent {
       )
       const archive = findNodeHandle(this.archiveButton.current)
       if (archive) {
+        this.archiveTransform = null
         archive.style.transform = ''
       }
       this.resetPadding()
@@ -274,6 +277,11 @@ export class TasksList extends React.PureComponent {
 
     let archiveButton = null
     if (completedTasks > 0 && !orderNotAllowed) {
+      const { archiveTransform } = this
+      const archiveStyles =
+        archiveTransform === null
+          ? styles.archiveButton
+          : [styles.archiveButton, { transform: archiveTransform }]
       archiveButton = (
         <View ref={this.archiveButton} style={styles.archiveButtonWrapper}>
           <TouchableOpacity
@@ -281,7 +289,7 @@ export class TasksList extends React.PureComponent {
             accessible={true}
             onKeyDown={this.triggerArchiveKeyDown}
           >
-            <View style={styles.archiveButton} className="hover-5">
+            <View style={archiveStyles} className="hover-5">
               <Image
                 accessibilityLabel="Archive Icon"
                 source={archiveIcon}

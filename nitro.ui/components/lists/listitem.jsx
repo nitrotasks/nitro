@@ -41,6 +41,9 @@ export class ListItem extends React.Component {
       UiService.setCardScroll(0)
     }, 350)
   }
+  triggerNoOp = e => {
+    e.preventDefault()
+  }
   render() {
     let icon = iconMap.get(this.props.id)
     if (typeof icon === 'undefined') {
@@ -83,6 +86,7 @@ export class ListItem extends React.Component {
             onClick={this.props.onClick ? this.proxyOnClick : this.hideMenu}
             to={this.props.onClick ? '/' : `/${this.props.id}`}
             innerRef={provided.innerRef}
+            onMouseDown={this.triggerNoOp}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             className="sidebar-item-focus"

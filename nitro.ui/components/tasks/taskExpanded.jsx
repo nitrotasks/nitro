@@ -245,6 +245,7 @@ export class TaskExpanded extends React.Component {
     return (e, taskId = TasksExpandedService.state.task) => {
       if (
         this.state[field] === null ||
+        taskId === null ||
         (this.state.mode === 'create' && this.state[field] === '') ||
         (field === 'name' && this.state[field] === '') ||
         (this.state.mode !== 'create' &&

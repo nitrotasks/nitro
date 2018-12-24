@@ -184,6 +184,9 @@ export class Task extends React.PureComponent {
       this.props.listId === 'today' || this.props.listId === 'next'
     taskMenu(this.props.dataId, !viewInList, viewInList, x, y, 'top', 'left')
   }
+  triggerNoOp = e => {
+    e.preventDefault()
+  }
   render() {
     const props = this.props
     let WrapperComponent = TouchableOpacity
@@ -338,6 +341,7 @@ export class Task extends React.PureComponent {
               className={props.dataType === 'task' ? 'hover-5' : null}
             >
               <div
+                onMouseDown={this.triggerNoOp}
                 ref={provided.innerRef}
                 {...provided.draggableProps}
                 {...provided.dragHandleProps}

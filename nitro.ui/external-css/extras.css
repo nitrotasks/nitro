@@ -36,8 +36,8 @@ input:disabled {
 .sidebar-item-focus:focus {
   outline: 0;
 }
-.sidebar-item-focus:focus:not(:active) .sidebar-item-focus-inner,
-.sidebar-item-focus:focus:hover:not(:active) .sidebar-item-focus-inner {
+.sidebar-item-focus:focus .sidebar-item-focus-inner,
+.sidebar-item-focus:focus:hover .sidebar-item-focus-inner {
   box-shadow: 0 0 0 3px #9dbefb;
 }
 .list-item-focus:focus {
