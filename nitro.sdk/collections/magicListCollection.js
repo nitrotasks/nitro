@@ -252,11 +252,16 @@ function getList(
   comparison: string,
   group?: string
 ): Array<Object> {
-  const ret = Array.from(TasksCollection.collection, function(item) {
-    const task = item[1].toObject()
-    task.priority = getPriority(task)
-    return task
-  })
+  const ret = ListsCollection.order
+    .map(list => (list = ListsCollection.find(list).toObject()))
+    .filter(l => !l.virtual)
+    .map(l => l.localOrder)
+    .reduce((a, b) => a.concat(b), [])
+    .map(t => {
+      const task = TasksCollection.find(t).toObject()
+      task.priority = getPriority(task)
+      return task
+    })
     .filter(task => {
       if (task.type === 'header' || task.type === 'header-collapsed') {
         return false
@@ -268,12 +273,7 @@ function getList(
       }
       return false
     })
-    .sort((a, b) => {
-      return (
-        a.priority - b.priority ||
-        (a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1)
-      )
-    })
+    .sort((a, b) => a.priority - b.priority)
   if (group) {
     return groupList(findHeaders(ret), group)
   }
