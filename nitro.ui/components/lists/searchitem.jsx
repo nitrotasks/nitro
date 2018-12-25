@@ -48,13 +48,17 @@ export class SearchItem extends React.Component {
     } else if (keycode === 38) {
       const el = e.currentTarget.previousSibling
       if (el) {
+        e.preventDefault()
         el.focus()
       } else {
         SidebarService.focusSearchBox()
       }
     } else if (keycode === 40) {
       const el = e.currentTarget.nextSibling
-      if (el) el.focus()
+      if (el) {
+        e.preventDefault()
+        el.focus()
+      }
     }
   }
   render() {

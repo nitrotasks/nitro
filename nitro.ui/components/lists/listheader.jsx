@@ -97,10 +97,7 @@ export class ListHeaderWithoutRouter extends React.Component {
       e.currentTarget.value = ''
       e.currentTarget.blur()
       this.props.onSearch(e)
-    }
-  }
-  triggerKeyPress = e => {
-    if (e.keyCode === 40) {
+    } else if (e.keyCode === 40) {
       e.preventDefault()
       SidebarService.focusSearchItemFirst()
     }
@@ -152,7 +149,6 @@ export class ListHeaderWithoutRouter extends React.Component {
                 onBlur={this.triggerSearchBlur}
                 onChange={this.props.onSearch}
                 onKeyUp={this.triggerKeyUp}
-                onKeyPress={this.triggerKeyPress}
               />
             </View>
           </View>

@@ -121,7 +121,7 @@ export class TasksList extends React.PureComponent {
       return
     } else if (task !== null && task !== 'new') {
       // this keeps our today & next lists tidy
-      if (newState.order.length === this.state.order.length) {
+      if (newState.order.toString() === this.state.order.toString()) {
         this.setState(newState)
       } else {
         this.pendingChanges = true
