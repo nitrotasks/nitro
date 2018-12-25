@@ -317,7 +317,14 @@ export class TasksList extends React.PureComponent {
         <div className="new-task-spacer" />
         {order.map((taskId, index) => {
           const task = this.state.tasks.get(taskId)
-          if (
+          const taskType = task ? task.type : null
+
+          if (taskType === 'header') {
+            currentHeading = task.id
+            headerCollapsed = false
+          } else if (taskType === 'header-collapsed') {
+            headerCollapsed = true
+          } else if (
             task === undefined ||
             task.type === 'archived' ||
             headerCollapsed === true
@@ -338,11 +345,6 @@ export class TasksList extends React.PureComponent {
                 )}
               </Draggable>
             )
-          } else if (task.type === 'header') {
-            currentHeading = task.id
-            headerCollapsed = false
-          } else if (task.type === 'header-collapsed') {
-            headerCollapsed = true
           }
           return (
             <Task

@@ -142,6 +142,31 @@ class _tasksExpanded extends Events {
   }
   goToAnyTask(listId: string, taskId: string) {
     const task = NitroSdk.getTask(taskId)
+
+    // this uncollapses the header that the task belongs to
+    let collapsedHeader = null
+    for (let o of NitroSdk.getTasks(listId).order) {
+      const t = NitroSdk.getTask(o)
+      if (t.type === 'header-collapsed') {
+        // don't want to uncollapse collapsed headings if that's the task in question
+        if (t.id === taskId) {
+          collapsedHeader = null
+        } else {
+          collapsedHeader = t.id
+        }
+      }
+      if (t.id === taskId) break
+    }
+    if (collapsedHeader !== null) {
+      NitroSdk.updateTask(collapsedHeader, { type: 'header' })
+
+      // waits a frame for the app to update and show the new header
+      if (this.state.list === listId) {
+        requestAnimationFrame(() => this.goToAnyTask(listId, taskId))
+        return
+      }
+    }
+
     const isHeader =
       task !== null &&
       (task.type === 'header' || task.type === 'header-collapsed')
