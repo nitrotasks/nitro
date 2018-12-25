@@ -258,7 +258,7 @@ function getList(
     return task
   })
     .filter(task => {
-      if (task.type === 'header') {
+      if (task.type === 'header' || task.type === 'header-collapsed') {
         return false
       }
       if (comparison === 'gt' && task.priority >= threshold) {

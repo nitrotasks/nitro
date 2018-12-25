@@ -166,6 +166,7 @@ export class TasksList extends React.PureComponent {
       })
       if (archive) {
         this.archiveTransform = [{ translateY: `${height}px` }]
+        this.archiveTransformList = this.props.listId
         archive.style.transform = `translate3d(0,${height}px,0)`
       }
     })
@@ -180,6 +181,7 @@ export class TasksList extends React.PureComponent {
       const archive = findNodeHandle(this.archiveButton.current)
       if (archive) {
         this.archiveTransform = null
+        this.archiveTransformList = null
         archive.style.transform = ''
       }
       this.resetPadding()
@@ -277,9 +279,9 @@ export class TasksList extends React.PureComponent {
 
     let archiveButton = null
     if (completedTasks > 0 && !orderNotAllowed) {
-      const { archiveTransform } = this
+      const { archiveTransform, archiveTransformList } = this
       const archiveStyles =
-        archiveTransform === null
+        archiveTransform === null && archiveTransformList === this.props.listId
           ? styles.archiveButton
           : [styles.archiveButton, { transform: archiveTransform }]
       archiveButton = (

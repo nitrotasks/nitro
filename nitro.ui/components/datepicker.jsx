@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
   },
   wrapperSheet: {
     backgroundColor: 'rgba(0,0,0,0.2)',
-    height: '100vh',
+    height: 'var(--real-height)',
     width: '100%',
     flexDirection: 'row'
   },

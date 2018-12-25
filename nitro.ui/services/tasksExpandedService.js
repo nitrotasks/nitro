@@ -1,5 +1,5 @@
 // @flow
-import { Events } from '../../nitro.sdk'
+import { NitroSdk, Events } from '../../nitro.sdk'
 import { vars } from '../styles.js'
 
 // TODO: change this from a magic number to something calculated
@@ -140,13 +140,28 @@ class _tasksExpanded extends Events {
     TasksExpandedService.state.position = position
     this.trigger('position', position)
   }
-  goToAnyTask(list: string, task: string) {
-    if (this.state.list === list && this.state.task === task) {
+  goToAnyTask(listId: string, taskId: string) {
+    const task = NitroSdk.getTask(taskId)
+    const isHeader =
+      task !== null &&
+      (task.type === 'header' || task.type === 'header-collapsed')
+    if (this.state.list === listId && this.state.task === taskId) {
       return
-    } else if (this.state.list === list) {
-      this.trigger('indirect-click', list, task)
+    } else if (this.state.list === listId) {
+      if (isHeader) {
+        this.indirectFocusQueue = taskId
+        this.trigger('indirect-focus', listId, taskId)
+      } else {
+        this.trigger('indirect-click', listId, taskId)
+      }
     } else {
-      this.triggerTask(list, task, 0)
+      if (isHeader) {
+        this.go(`/${listId}`)
+        this.indirectFocusQueue = taskId
+        this.trigger('indirect-focus', listId, taskId)
+      } else {
+        this.triggerTask(listId, taskId, 0)
+      }
     }
   }
   focusNameInput() {

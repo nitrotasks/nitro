@@ -410,7 +410,10 @@ export class sdk extends Events {
         results.push({
           type: 'task',
           id: task.id,
-          icon: 'task',
+          icon:
+            task.type === 'header' || task.type === 'header-collapsed'
+              ? 'header'
+              : 'task',
           name: task.name,
           subtitle: this.getList(task.list).name,
           url: `/${task.list}/${task.id}`,
