@@ -2,12 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { View, Text, Image, StyleSheet, findNodeHandle } from 'react-native'
 import { Draggable } from 'react-beautiful-dnd'
-import mousetrap from 'mousetrap'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
 import { ModalService } from '../../services/modalService.js'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
+import { ShortcutsService } from '../../services/shortcutsService.js'
 import { UiService } from '../../services/uiService.js'
 import { Task } from './task.jsx'
 import { EmptyList } from './emptyList.jsx'
@@ -85,8 +85,8 @@ export class TasksList extends React.PureComponent {
     NitroSdk.bind('sync-upload-complete', this.syncingTasksUpdate)
     TasksExpandedService.bind('height', this.triggerShow)
     TasksExpandedService.bind('hide', this.triggerHide)
-    mousetrap.bind(UP_HOTKEY, this.triggerHotkey)
-    mousetrap.bind(DOWN_HOTKEY, this.triggerHotkey)
+    ShortcutsService.bind(UP_HOTKEY, this.triggerHotkey)
+    ShortcutsService.bind(DOWN_HOTKEY, this.triggerHotkey)
     this.scheduleTasksUpdate()
     this.observer.observe(findNodeHandle(this.tasksContainerEnd.current))
   }
@@ -97,8 +97,8 @@ export class TasksList extends React.PureComponent {
     NitroSdk.unbind('sync-upload-complete', this.syncingTasksUpdate)
     TasksExpandedService.unbind('height', this.triggerShow)
     TasksExpandedService.unbind('hide', this.triggerHide)
-    mousetrap.unbind(UP_HOTKEY)
-    mousetrap.unbind(DOWN_HOTKEY)
+    ShortcutsService.unbind(UP_HOTKEY, this.triggerHotkey)
+    ShortcutsService.unbind(DOWN_HOTKEY, this.triggerHotkey)
     clearTimeout(this.nextDayUpdate)
     this.observer.disconnect()
   }

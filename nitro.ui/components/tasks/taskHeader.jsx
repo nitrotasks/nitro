@@ -201,7 +201,8 @@ const styles = StyleSheet.create({
   collapseIcon: {
     fontSize: vars.taskHeaderFontSize - 1,
     justifyContent: 'center',
-    paddingRight: 2
+    paddingRight: 2,
+    cursor: 'default'
   },
   text: {
     fontSize: vars.taskHeaderFontSize,

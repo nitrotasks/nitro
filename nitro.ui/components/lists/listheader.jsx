@@ -8,11 +8,11 @@ import {
 } from 'react-native'
 import { string, func, bool } from 'prop-types'
 import { withRouter } from 'react-router'
-import mousetrap from 'mousetrap'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 import { SidebarService } from '../../services/sidebarService.js'
+import { ShortcutsService } from '../../services/shortcutsService.js'
 import { vars } from '../../styles.js'
 import { UiService } from '../../services/uiService.js'
 import addIcon from '../../../assets/icons/custom/add.svg'
@@ -20,8 +20,7 @@ import searchIcon from '../../../assets/icons/custom/search.svg'
 import { TouchableOpacity } from '../reusable/touchableOpacity.jsx'
 
 const FOCUS_HOTKEY = '/'
-const GLOBAL_FOCUS_HOTKEY =
-  navigator.platform.indexOf('Mac') > -1 ? 'command+k' : 'ctrl+k'
+const GLOBAL_FOCUS_HOTKEY = 'ctrl+k'
 
 export class ListHeaderWithoutRouter extends React.Component {
   static propTypes = {
@@ -43,14 +42,14 @@ export class ListHeaderWithoutRouter extends React.Component {
     SidebarService.bind('focus-search-box', this.triggerHotkey)
     this.wrapperNode = findNodeHandle(this.wrapper.current)
     this.wrapperNode.addEventListener('touchstart', this.triggerTouchStart)
-    mousetrap.bind(FOCUS_HOTKEY, this.triggerHotkey)
-    mousetrap.bindGlobal(GLOBAL_FOCUS_HOTKEY, this.triggerHotkey)
+    ShortcutsService.bind(FOCUS_HOTKEY, this.triggerHotkey)
+    ShortcutsService.bind(GLOBAL_FOCUS_HOTKEY, this.triggerHotkey)
   }
   componentWillUnmount() {
     SidebarService.unbind('focus-search-box', this.triggerHotkey)
     this.wrapperNode.removeEventListener('touchstart', this.triggerTouchStart)
-    mousetrap.unbind(FOCUS_HOTKEY)
-    mousetrap.unbind(GLOBAL_FOCUS_HOTKEY)
+    ShortcutsService.unbind(FOCUS_HOTKEY, this.triggerHotkey)
+    ShortcutsService.unbind(GLOBAL_FOCUS_HOTKEY, this.triggerHotkey)
   }
   triggerAddTask = () => {
     TasksExpandedService.triggerCreate(UiService.state.currentList)
@@ -60,7 +59,6 @@ export class ListHeaderWithoutRouter extends React.Component {
   }
   triggerHotkey = () => {
     this.searchInput.current.focus()
-    return false
   }
   triggerSearchFocus = () => {
     this.setState({ focus: true })

@@ -3,6 +3,7 @@ import { View, Image, StyleSheet } from 'react-native'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { ContextMenuService } from '../../services/contextMenuService.js'
+import { ModalService } from '../../services/modalService.js'
 import { SidebarService } from '../../services/sidebarService.js'
 import { ListHeader } from './listheader.jsx'
 import { ListsContainer } from './listscontainer.jsx'
@@ -31,6 +32,10 @@ export class Lists extends React.Component {
   }
   triggerMenu = e => {
     const items = [
+      {
+        title: 'Keyboard Shortcuts',
+        action: ModalService.showShortcuts
+      },
       {
         title: 'Sign Out',
         action: () => NitroSdk.signOut(null, true)
