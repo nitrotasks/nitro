@@ -33,14 +33,16 @@ export class Lists extends React.Component {
   triggerMenu = e => {
     const items = [
       {
-        title: 'Keyboard Shortcuts',
-        action: ModalService.showShortcuts
-      },
-      {
         title: 'Sign Out',
         action: () => NitroSdk.signOut(null, true)
       }
     ]
+    if (window.innerWidth > 850) {
+      items.unshift({
+        title: 'Keyboard Shortcuts',
+        action: ModalService.showShortcuts
+      })
+    }
     ContextMenuService.create(e.clientX, e.clientY, 'bottom', 'left', items)
   }
   triggerSearch = e => {
