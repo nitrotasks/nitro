@@ -9,11 +9,11 @@ import {
   StyleSheet,
   findNodeHandle
 } from 'react-native'
-import mousetrap from 'mousetrap'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
+import { ShortcutsService } from '../../services/shortcutsService.js'
 import { UiService } from '../../services/uiService.js'
 import { taskMenu, headerMenu } from './taskMenu.js'
 import { dateValue, deadlineValue, formatDate } from '../../helpers/date.js'
@@ -31,6 +31,8 @@ import closeIcon from '../../../assets/icons/material/close.svg'
 const headerHeight = 112 + 42 + 32
 const footerHeight = 36 + 56
 const scrollOffset = 96
+
+const ESC_HOTKEY = 'esc'
 
 const getMaxLines = () =>
   Math.floor(
@@ -78,7 +80,7 @@ export class TaskExpanded extends React.Component {
     TasksExpandedService.bind('hide', this.triggerHide)
     TasksExpandedService.bind('position', this.triggerPosition)
     TasksExpandedService.bind('focus-name-input', this.focusNameInput)
-    mousetrap.bind('esc', this.triggerHideHotkey)
+    ShortcutsService.bind(ESC_HOTKEY, this.triggerHideHotkey)
   }
   componentWillUnmount() {
     NitroSdk.unbind('update', this.taskUpdate)
@@ -87,7 +89,7 @@ export class TaskExpanded extends React.Component {
     TasksExpandedService.unbind('hide', this.triggerHide)
     TasksExpandedService.unbind('position', this.triggerPosition)
     TasksExpandedService.unbind('focus-name-input', this.focusNameInput)
-    mousetrap.unbind('esc')
+    ShortcutsService.unbind(ESC_HOTKEY, this.triggerHideHotkey)
   }
   taskUpdate = (type, listId, taskId) => {
     if (type === 'tasks' && taskId === TasksExpandedService.state.task) {
@@ -245,6 +247,7 @@ export class TaskExpanded extends React.Component {
     return (e, taskId = TasksExpandedService.state.task) => {
       if (
         this.state[field] === null ||
+        taskId === null ||
         (this.state.mode === 'create' && this.state[field] === '') ||
         (field === 'name' && this.state[field] === '') ||
         (this.state.mode !== 'create' &&

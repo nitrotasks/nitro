@@ -2,13 +2,12 @@ import React from 'react'
 import { string } from 'prop-types'
 import { View, TextInput, StyleSheet } from 'react-native'
 import { vars } from '../../styles.js'
-import mousetrap from 'mousetrap'
+import { ShortcutsService } from '../../services/shortcutsService.js'
 
 import { NitroSdk } from '../../../nitro.sdk'
 
 const FOCUS_HOTKEY = 'n'
-const GLOBAL_FOCUS_HOTKEY =
-  navigator.platform.indexOf('Mac') > -1 ? 'command+j' : 'ctrl+j'
+const GLOBAL_FOCUS_HOTKEY = 'ctrl+j'
 
 export class TasksInput extends React.Component {
   static propTypes = {
@@ -21,16 +20,15 @@ export class TasksInput extends React.Component {
   input = React.createRef()
 
   componentDidMount() {
-    mousetrap.bind(FOCUS_HOTKEY, this.triggerHotkey)
-    mousetrap.bindGlobal(GLOBAL_FOCUS_HOTKEY, this.triggerHotkey)
+    ShortcutsService.bind(FOCUS_HOTKEY, this.triggerHotkey)
+    ShortcutsService.bind(GLOBAL_FOCUS_HOTKEY, this.triggerHotkey)
   }
   componentWillUnmount() {
-    mousetrap.unbind(FOCUS_HOTKEY)
-    mousetrap.unbind(GLOBAL_FOCUS_HOTKEY)
+    ShortcutsService.unbind(FOCUS_HOTKEY, this.triggerHotkey)
+    ShortcutsService.unbind(GLOBAL_FOCUS_HOTKEY, this.triggerHotkey)
   }
   triggerHotkey = () => {
     this.input.current.focus()
-    return false
   }
   triggerChange = e => {
     this.setState({ name: e.currentTarget.value })

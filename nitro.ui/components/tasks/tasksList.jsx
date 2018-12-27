@@ -2,12 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { View, Text, Image, StyleSheet, findNodeHandle } from 'react-native'
 import { Draggable } from 'react-beautiful-dnd'
-import mousetrap from 'mousetrap'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
 import { ModalService } from '../../services/modalService.js'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
+import { ShortcutsService } from '../../services/shortcutsService.js'
 import { UiService } from '../../services/uiService.js'
 import { Task } from './task.jsx'
 import { EmptyList } from './emptyList.jsx'
@@ -77,6 +77,7 @@ export class TasksList extends React.PureComponent {
     })
     this.isIntersecting = false
   }
+  archiveTransform = null
   componentDidMount() {
     NitroSdk.bind('update', this.tasksUpdate)
     NitroSdk.bind('order', this.tasksUpdate)
@@ -84,8 +85,8 @@ export class TasksList extends React.PureComponent {
     NitroSdk.bind('sync-upload-complete', this.syncingTasksUpdate)
     TasksExpandedService.bind('height', this.triggerShow)
     TasksExpandedService.bind('hide', this.triggerHide)
-    mousetrap.bind(UP_HOTKEY, this.triggerHotkey)
-    mousetrap.bind(DOWN_HOTKEY, this.triggerHotkey)
+    ShortcutsService.bind(UP_HOTKEY, this.triggerHotkey)
+    ShortcutsService.bind(DOWN_HOTKEY, this.triggerHotkey)
     this.scheduleTasksUpdate()
     this.observer.observe(findNodeHandle(this.tasksContainerEnd.current))
   }
@@ -96,8 +97,8 @@ export class TasksList extends React.PureComponent {
     NitroSdk.unbind('sync-upload-complete', this.syncingTasksUpdate)
     TasksExpandedService.unbind('height', this.triggerShow)
     TasksExpandedService.unbind('hide', this.triggerHide)
-    mousetrap.unbind(UP_HOTKEY)
-    mousetrap.unbind(DOWN_HOTKEY)
+    ShortcutsService.unbind(UP_HOTKEY, this.triggerHotkey)
+    ShortcutsService.unbind(DOWN_HOTKEY, this.triggerHotkey)
     clearTimeout(this.nextDayUpdate)
     this.observer.disconnect()
   }
@@ -120,7 +121,7 @@ export class TasksList extends React.PureComponent {
       return
     } else if (task !== null && task !== 'new') {
       // this keeps our today & next lists tidy
-      if (newState.order.length === this.state.order.length) {
+      if (newState.order.toString() === this.state.order.toString()) {
         this.setState(newState)
       } else {
         this.pendingChanges = true
@@ -164,6 +165,8 @@ export class TasksList extends React.PureComponent {
         item.style.transform = `translate3d(0,${pixels}px,0)`
       })
       if (archive) {
+        this.archiveTransform = [{ translateY: `${height}px` }]
+        this.archiveTransformList = this.props.listId
         archive.style.transform = `translate3d(0,${height}px,0)`
       }
     })
@@ -177,6 +180,8 @@ export class TasksList extends React.PureComponent {
       )
       const archive = findNodeHandle(this.archiveButton.current)
       if (archive) {
+        this.archiveTransform = null
+        this.archiveTransformList = null
         archive.style.transform = ''
       }
       this.resetPadding()
@@ -274,6 +279,11 @@ export class TasksList extends React.PureComponent {
 
     let archiveButton = null
     if (completedTasks > 0 && !orderNotAllowed) {
+      const { archiveTransform, archiveTransformList } = this
+      const archiveStyles =
+        archiveTransform === null && archiveTransformList === this.props.listId
+          ? styles.archiveButton
+          : [styles.archiveButton, { transform: archiveTransform }]
       archiveButton = (
         <View ref={this.archiveButton} style={styles.archiveButtonWrapper}>
           <TouchableOpacity
@@ -281,7 +291,7 @@ export class TasksList extends React.PureComponent {
             accessible={true}
             onKeyDown={this.triggerArchiveKeyDown}
           >
-            <View style={styles.archiveButton} className="hover-5">
+            <View style={archiveStyles} className="hover-5">
               <Image
                 accessibilityLabel="Archive Icon"
                 source={archiveIcon}
@@ -307,7 +317,14 @@ export class TasksList extends React.PureComponent {
         <div className="new-task-spacer" />
         {order.map((taskId, index) => {
           const task = this.state.tasks.get(taskId)
-          if (
+          const taskType = task ? task.type : null
+
+          if (taskType === 'header') {
+            currentHeading = task.id
+            headerCollapsed = false
+          } else if (taskType === 'header-collapsed') {
+            headerCollapsed = true
+          } else if (
             task === undefined ||
             task.type === 'archived' ||
             headerCollapsed === true
@@ -328,11 +345,6 @@ export class TasksList extends React.PureComponent {
                 )}
               </Draggable>
             )
-          } else if (task.type === 'header') {
-            currentHeading = task.id
-            headerCollapsed = false
-          } else if (task.type === 'header-collapsed') {
-            headerCollapsed = true
           }
           return (
             <Task

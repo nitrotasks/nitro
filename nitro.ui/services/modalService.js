@@ -1,7 +1,7 @@
 import { Events } from '../../nitro.sdk'
 
 class _modalService extends Events {
-  show(options, confirmAction) {
+  show = (options, confirmAction) => {
     this.trigger('show', {
       confirmAction: confirmAction,
       confirmText: options.confirmText,
@@ -9,6 +9,9 @@ class _modalService extends Events {
       cancelText: options.cancelText,
       message: options.message
     })
+  }
+  showShortcuts = () => {
+    this.trigger('show-shortcuts')
   }
 }
 let ModalService = new _modalService()

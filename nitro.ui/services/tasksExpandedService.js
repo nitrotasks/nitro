@@ -1,5 +1,5 @@
 // @flow
-import { Events } from '../../nitro.sdk'
+import { NitroSdk, Events } from '../../nitro.sdk'
 import { vars } from '../styles.js'
 
 // TODO: change this from a magic number to something calculated
@@ -140,13 +140,53 @@ class _tasksExpanded extends Events {
     TasksExpandedService.state.position = position
     this.trigger('position', position)
   }
-  goToAnyTask(list: string, task: string) {
-    if (this.state.list === list && this.state.task === task) {
+  goToAnyTask(listId: string, taskId: string) {
+    const task = NitroSdk.getTask(taskId)
+
+    // this uncollapses the header that the task belongs to
+    let collapsedHeader = null
+    for (let o of NitroSdk.getTasks(listId).order) {
+      const t = NitroSdk.getTask(o)
+      if (t.type === 'header-collapsed') {
+        // don't want to uncollapse collapsed headings if that's the task in question
+        if (t.id === taskId) {
+          collapsedHeader = null
+        } else {
+          collapsedHeader = t.id
+        }
+      }
+      if (t.id === taskId) break
+    }
+    if (collapsedHeader !== null) {
+      NitroSdk.updateTask(collapsedHeader, { type: 'header' })
+
+      // waits a frame for the app to update and show the new header
+      if (this.state.list === listId) {
+        requestAnimationFrame(() => this.goToAnyTask(listId, taskId))
+        return
+      }
+    }
+
+    const isHeader =
+      task !== null &&
+      (task.type === 'header' || task.type === 'header-collapsed')
+    if (this.state.list === listId && this.state.task === taskId) {
       return
-    } else if (this.state.list === list) {
-      this.trigger('indirect-click', list, task)
+    } else if (this.state.list === listId) {
+      if (isHeader) {
+        this.indirectFocusQueue = taskId
+        this.trigger('indirect-focus', listId, taskId)
+      } else {
+        this.trigger('indirect-click', listId, taskId)
+      }
     } else {
-      this.triggerTask(list, task, 0)
+      if (isHeader) {
+        this.go(`/${listId}`)
+        this.indirectFocusQueue = taskId
+        this.trigger('indirect-focus', listId, taskId)
+      } else {
+        this.triggerTask(listId, taskId, 0)
+      }
     }
   }
   focusNameInput() {

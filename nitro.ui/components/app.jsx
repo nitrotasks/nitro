@@ -10,6 +10,7 @@ import { Shell } from './shell/index.jsx'
 import { Login } from './login/index.jsx'
 import { ContextMenu } from './contextMenu.jsx'
 import { Modal } from './modal.jsx'
+import { ShortcutsModal } from './shortcutsModal.jsx'
 
 class App extends React.Component {
   state = {
@@ -94,6 +95,7 @@ class App extends React.Component {
           </DragDropContext>
         </Router>
         <Modal />
+        <ShortcutsModal />
         <ContextMenu />
       </React.Fragment>
     )

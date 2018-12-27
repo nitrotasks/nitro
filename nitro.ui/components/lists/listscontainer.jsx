@@ -2,10 +2,10 @@ import React from 'react'
 import { object } from 'prop-types'
 import { View, StyleSheet } from 'react-native'
 import { withRouter } from 'react-router'
-import mousetrap from 'mousetrap'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles'
+import { ShortcutsService } from '../../services/shortcutsService.js'
 import { UiService } from '../../services/uiService.js'
 import { DroppableScrollableWrapper } from '../reusable/droppableScrollableWrapper.jsx'
 import { ListItem } from './listitem.jsx'
@@ -28,28 +28,32 @@ class ListsContainerWithoutRouter extends React.Component {
   componentWillMount() {
     NitroSdk.bind('update', this.update)
     NitroSdk.bind('lists-order', this.update)
-    mousetrap.bindGlobal(GLOBAL_UP_HOTKEY, this.triggerHotkey(-1))
-    mousetrap.bindGlobal(GLOBAL_DOWN_HOTKEY, this.triggerHotkey(1))
+    ShortcutsService.bind(GLOBAL_UP_HOTKEY, this.triggerHotkey)
+    ShortcutsService.bind(GLOBAL_DOWN_HOTKEY, this.triggerHotkey)
   }
   componentWillUnmount() {
     NitroSdk.unbind('update', this.update)
     NitroSdk.unbind('lists-order', this.update)
-    mousetrap.unbind(GLOBAL_UP_HOTKEY)
-    mousetrap.unbind(GLOBAL_DOWN_HOTKEY)
+    ShortcutsService.unbind(GLOBAL_UP_HOTKEY, this.triggerHotkey)
+    ShortcutsService.unbind(GLOBAL_DOWN_HOTKEY, this.triggerHotkey)
   }
-  triggerHotkey = direction => {
-    return () => {
-      const { history } = this.props
-      const nextList =
-        UiService.state.currentListsOrder[
-          UiService.state.currentListsOrder.indexOf(
-            UiService.state.currentList
-          ) + direction
-        ]
-      if (nextList !== undefined) {
-        history.push(`/${nextList}`)
-      }
-      return false
+  triggerHotkey = (event, key) => {
+    let direction = 0
+    if (key === GLOBAL_DOWN_HOTKEY) {
+      direction = 1
+    } else if (key === GLOBAL_UP_HOTKEY) {
+      direction = -1
+    } else {
+      return
+    }
+    const { history } = this.props
+    const nextList =
+      UiService.state.currentListsOrder[
+        UiService.state.currentListsOrder.indexOf(UiService.state.currentList) +
+          direction
+      ]
+    if (nextList !== undefined) {
+      history.push(`/${nextList}`)
     }
   }
   update = () => {

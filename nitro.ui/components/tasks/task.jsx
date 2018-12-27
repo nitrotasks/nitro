@@ -101,10 +101,12 @@ export class Task extends React.PureComponent {
         if (node) node.focus()
         e.preventDefault()
       } else if (keycode === 67) {
-        NitroSdk.completeTask(this.props.dataId)
+        const { dataId, dataType } = this.props
+        if (dataType === 'header' || dataType === 'header-collapsed') return
+        NitroSdk.completeTask(dataId)
       } else if (keycode === 84) {
         const { dataId, dataDate, dataType, dataCompleted } = this.props
-        if (dataCompleted !== null) return
+        if (dataCompleted !== null || dataType === 'header' || dataType === 'header-collapsed') return
         NitroSdk.updateTask(
           dataId,
           dateValue(
@@ -183,6 +185,9 @@ export class Task extends React.PureComponent {
     const viewInList =
       this.props.listId === 'today' || this.props.listId === 'next'
     taskMenu(this.props.dataId, !viewInList, viewInList, x, y, 'top', 'left')
+  }
+  triggerNoOp = e => {
+    e.preventDefault()
   }
   render() {
     const props = this.props
@@ -338,6 +343,7 @@ export class Task extends React.PureComponent {
               className={props.dataType === 'task' ? 'hover-5' : null}
             >
               <div
+                onMouseDown={this.triggerNoOp}
                 ref={provided.innerRef}
                 {...provided.draggableProps}
                 {...provided.dragHandleProps}

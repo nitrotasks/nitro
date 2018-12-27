@@ -7,10 +7,13 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
-  StyleSheet
+  StyleSheet,
+  findNodeHandle
 } from 'react-native'
 
 import { NitroSdk } from '../../../nitro.sdk'
+import { TasksExpandedService } from '../../services/tasksExpandedService.js'
+import { UiService } from '../../services/uiService.js'
 import { headerMenu } from './taskMenu.js'
 import { vars } from '../../styles.js'
 
@@ -27,6 +30,26 @@ class TaskHeaderWithoutRouter extends React.PureComponent {
   state = {
     name: this.props.dataName,
     textInputFocus: false
+  }
+  textInputRef = React.createRef()
+  componentDidMount() {
+    TasksExpandedService.bind('indirect-focus', this.triggerIndirectFocus)
+    this.triggerIndirectFocus() // picks up any lingering events
+  }
+  componentWillUnmount() {
+    TasksExpandedService.unbind('indirect-focus', this.triggerIndirectFocus)
+  }
+  triggerIndirectFocus = () => {
+    const taskId = TasksExpandedService.indirectFocusQueue
+    if (this.props.dataId === taskId) {
+      TasksExpandedService.indirectFocusQueue = null
+      const node = findNodeHandle(this.textInputRef.current)
+      if (node) {
+        const obj = { top: node.getBoundingClientRect().top }
+        UiService.scrollTo(obj)
+        this.textInputRef.current.focus()
+      }
+    }
   }
   triggerClick = () => {
     if (this.props.disabled) {
@@ -141,6 +164,7 @@ class TaskHeaderWithoutRouter extends React.PureComponent {
         <View style={wrapperInner}>
           {collapse}
           <TextInput
+            ref={this.textInputRef}
             style={styles.text}
             value={this.state.name}
             onChange={this.triggerChange}
@@ -177,7 +201,8 @@ const styles = StyleSheet.create({
   collapseIcon: {
     fontSize: vars.taskHeaderFontSize - 1,
     justifyContent: 'center',
-    paddingRight: 2
+    paddingRight: 2,
+    cursor: 'default'
   },
   text: {
     fontSize: vars.taskHeaderFontSize,

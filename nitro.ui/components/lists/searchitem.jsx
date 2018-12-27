@@ -13,12 +13,14 @@ import inboxIcon from '../../../assets/icons/feather/inbox.svg'
 import todayIcon from '../../../assets/icons/feather/today.svg'
 import nextIcon from '../../../assets/icons/feather/next.svg'
 import taskIcon from '../../../assets/icons/material/task.svg'
+import headerIcon from '../../../assets/icons/material/drop-down.svg'
 
 const iconMap = new Map()
 iconMap.set('inbox', inboxIcon)
 iconMap.set('today', todayIcon)
 iconMap.set('next', nextIcon)
 iconMap.set('task', taskIcon)
+iconMap.set('header', headerIcon)
 
 export class SearchItem extends React.Component {
   static propTypes = {
@@ -46,13 +48,17 @@ export class SearchItem extends React.Component {
     } else if (keycode === 38) {
       const el = e.currentTarget.previousSibling
       if (el) {
+        e.preventDefault()
         el.focus()
       } else {
         SidebarService.focusSearchBox()
       }
     } else if (keycode === 40) {
       const el = e.currentTarget.nextSibling
-      if (el) el.focus()
+      if (el) {
+        e.preventDefault()
+        el.focus()
+      }
     }
   }
   render() {
