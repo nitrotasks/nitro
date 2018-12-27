@@ -1,12 +1,28 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Image,
+  TouchableOpacity
+} from 'react-native'
 
 import { vars } from '../styles.js'
 import { ModalService } from '../services/modalService.js'
 import { ShortcutsService } from '../services/shortcutsService.js'
 
+import closeIcon from '../../assets/icons/material/close.svg'
+
 const TOGGLE_HOTKEY = '?'
 const CLOSE_HOTKEY = 'esc'
+let ALT = 'Alt'
+let CTRL = 'Ctrl'
+if (navigator.platform.indexOf('Mac') > -1) {
+  ALT = 'Option'
+  CTRL = '⌘'
+}
+
 export class ShortcutsModal extends React.Component {
   state = {
     show: false
@@ -38,17 +54,87 @@ export class ShortcutsModal extends React.Component {
     return (
       <View style={styles.wrapper}>
         <View style={styles.innerModal}>
-          <View>
-            <Text>Keyboard Shortcuts</Text>
+          <View style={styles.bar}>
+            <Text style={styles.barText}>Keyboard Shortcuts</Text>
+            <TouchableOpacity>
+              <Image
+                style={styles.close}
+                source={closeIcon}
+                accessibilityLabel="Close Window"
+                title="Close Window"
+                onClick={this.hideModal}
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
           </View>
-          <View style={styles.messageWrapper}>
-            <Text style={styles.message}>Keyboard Shortcuts Modal</Text>
-          </View>
+          <ScrollView>
+            <Text style={styles.header}>Basics</Text>
+            <ShortcutRow
+              title="Open List of Keyboard Shortcuts"
+              shortcut={['?']}
+              alt={true}
+            />
+            <ShortcutRow title="Quick Search" shortcut={['/', `${CTRL}+K`]} />
+            <ShortcutRow
+              title="Previous List"
+              shortcut={[`${ALT}+↑`]}
+              alt={true}
+            />
+            <ShortcutRow title="Next List" shortcut={[`${ALT}+↓`]} />
+
+            <Text style={styles.header}>Tasks</Text>
+            <ShortcutRow
+              title="New Task"
+              shortcut={['N', `${CTRL}+J`]}
+              alt={true}
+            />
+            <ShortcutRow title="Next Task" shortcut={['J']} />
+            <ShortcutRow title="Previous Task" shortcut={['K']} alt={true} />
+            <ShortcutRow title="Set Date to Today" shortcut={['T']} />
+            <ShortcutRow
+              title="Mark Task as Completed"
+              shortcut={['C']}
+              alt={true}
+            />
+            <ShortcutRow title="Select / Deselect Task" shortcut={['Space']} />
+            <ShortcutRow title="Move Task" shortcut={['↑', '↓']} alt={true} />
+          </ScrollView>
         </View>
       </View>
     )
   }
 }
+const ShortcutRow = props => {
+  const { title, shortcut } = props
+  const shortcutRowStyle = props.alt
+    ? [styles.shortcutRow, styles.shortcutRowAlt]
+    : styles.shortcutRow
+  return (
+    <View style={shortcutRowStyle}>
+      <View style={styles.shortcutRowTitle}>
+        <Text style={styles.shortcutRowTitleText}>{title}</Text>
+      </View>
+      <View style={styles.shortcutRowShortcut}>
+        {shortcut.map((s, i) => {
+          return (
+            <React.Fragment key={s.toString()}>
+              {s.split('+').map(k => (
+                <View key={`${s}+${k}`} style={styles.key}>
+                  <Text style={styles.keyText}>{k}</Text>
+                </View>
+              ))}
+              {i !== shortcut.length - 1 ? (
+                <Text style={styles.seperator}>or</Text>
+              ) : null}
+            </React.Fragment>
+          )
+        })}
+      </View>
+    </View>
+  )
+}
+const leftPadding = vars.padding * 1.5
+const rightPadding = vars.padding * 1.5
 const styles = StyleSheet.create({
   wrapper: {
     position: 'fixed',
@@ -60,27 +146,92 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(50, 70, 90, 0.7)'
   },
   innerModal: {
-    paddingTop: vars.padding,
     paddingBottom: vars.padding,
-    paddingLeft: vars.padding,
-    paddingRight: vars.padding,
-    marginTop: '10vh',
+    marginTop: '8vh',
     marginLeft: 'auto',
     marginRight: 'auto',
     width: '90vw',
-    maxWidth: '320px',
+    maxWidth: '480px',
+    maxHeight: '84vh',
     boxShadow: '0 1px 15px rgba(0,0,0,0.1)',
     borderRadius: '5px',
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    overflow: 'hidden'
   },
-  messageWrapper: {
-    padding: vars.padding,
+  bar: {
+    borderBottomWidth: 1,
+    borderStyle: 'solid',
+    borderColor: '#ccc',
+    paddingLeft: leftPadding,
+    paddingRight: rightPadding,
+    paddingTop: vars.padding * 0.75,
+    paddingBottom: vars.padding * 0.625,
+    backgroundColor: '#f6f6f6',
+    flexDirection: 'row'
+  },
+  barText: {
+    fontFamily: vars.fontFamily,
+    fontWeight: '600',
+    color: '#222',
+    fontSize: 16,
+    flex: 1,
+    lineHeight: 24
+  },
+  close: {
+    height: 24,
+    width: 24
+  },
+  header: {
+    fontFamily: vars.fontFamily,
+    fontSize: 18,
+    fontWeight: '600',
+    marginLeft: leftPadding,
+    marginRight: rightPadding,
+    marginTop: vars.padding * 1.5,
+    marginBottom: vars.padding / 2
+  },
+  shortcutRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: leftPadding,
+    paddingRight: rightPadding,
+    paddingTop: vars.padding / 2,
     paddingBottom: vars.padding / 2
   },
-  message: {
+  shortcutRowAlt: {
+    backgroundColor: '#f5f5f5'
+  },
+  shortcutRowTitle: {
+    flex: 1
+  },
+  shortcutRowTitleText: {
     fontFamily: vars.fontFamily,
-    fontSize: vars.modalFontSize,
-    textAlign: 'center',
-    lineHeight: vars.modalFontSize * 1.3
+    fontSize: 16
+  },
+  shortcutRowShortcut: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  key: {
+    backgroundColor: '#fff',
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderRadius: 3,
+    paddingTop: vars.padding / 2,
+    paddingBottom: vars.padding / 2,
+    paddingLeft: vars.padding / 2,
+    paddingRight: vars.padding / 2,
+    marginLeft: vars.padding / 4
+  },
+  keyText: {
+    fontFamily: vars.fontFamily,
+    fontSize: 13
+  },
+  seperator: {
+    fontFamily: vars.fontFamily,
+    fontSize: 15,
+    marginLeft: 8,
+    marginRight: 3
   }
 })
