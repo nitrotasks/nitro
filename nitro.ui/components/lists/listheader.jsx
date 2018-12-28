@@ -61,6 +61,10 @@ export class ListHeaderWithoutRouter extends React.Component {
     this.searchInput.current.focus()
   }
   triggerSearchFocus = () => {
+    // stops iOS from scrolling
+    window.scrollTo(0, 0)
+    document.body.scrollTop = 0
+
     this.setState({ focus: true })
     if (UiService.state.cardPosition === 'map') {
       UiService.setCardPosition('max', true, true)
@@ -192,19 +196,21 @@ const styles = StyleSheet.create({
   bottomWrapper: {
     display: 'flex',
     flexDirection: 'row',
-    paddingBottom: 0
+    paddingBottom: 9
   },
   textWrapper: {
     flex: 1,
     paddingLeft: vars.padding,
-    paddingTop: 6,
-    paddingBottom: 4
+    paddingTop: 4,
+    paddingBottom: 3
   },
   text: {
     fontFamily: vars.fontFamily,
-    lineHeight: 34,
+    height: 38,
     color: vars.headerColor,
     paddingLeft: vars.padding * 2.25,
+    paddingTop: 9,
+    paddingBottom: 9,
     fontSize: 16,
     backgroundColor: '#e6e6e6',
     backgroundImage: `url(${searchIcon})`,
