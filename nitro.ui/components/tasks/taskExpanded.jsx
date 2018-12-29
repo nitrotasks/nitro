@@ -526,7 +526,8 @@ const styles = StyleSheet.create({
   },
   bar: {
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginLeft: vars.padding * -0.5
   },
   spacer: {
     flex: 1
@@ -534,30 +535,25 @@ const styles = StyleSheet.create({
   barIconWrapper: {
     flex: 1,
     flexDirection: 'row',
-    paddingTop: vars.padding,
-    paddingBottom: vars.padding,
-    paddingLeft: vars.padding / 4,
-    paddingRight: vars.padding / 4
+    paddingLeft: vars.padding / 2
   },
   moreIcon: {
-    paddingTop: vars.padding,
     paddingRight: vars.padding
   },
   barIcon: {
     opacity: 0.5,
-    height: 24,
+    height: 24 + vars.padding * 1.75,
     width: 24
   },
   barText: {
     fontFamily: vars.fontFamily,
-    lineHeight: 24,
+    lineHeight: 18 + vars.padding * 2,
     paddingLeft: vars.padding * 0.25,
     paddingRight: vars.padding * 0.25
   },
   closeIcon: {
-    marginTop: 3,
-    marginRight: vars.padding / 2,
-    height: 18,
+    paddingRight: vars.padding,
+    height: 18 + vars.padding * 2,
     width: 18,
     opacity: 0.5
   }
