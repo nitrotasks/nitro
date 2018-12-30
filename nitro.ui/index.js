@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const shell = document.getElementById('app-shell')
-  NitroSdk.loadData()
+  NitroSdk.dataLoaded = NitroSdk.loadData()
     .then(() => {
       ReactDOM.render(<App />, shell)
     })

@@ -9,6 +9,7 @@ import SyncQueue from './sync/syncQueue.js'
 import SyncGet from './sync/syncGet.js'
 import { broadcast } from './sync/broadcastchannel.js'
 import authenticationStore from './sync/auth.js'
+import { Tutorial } from './sync/tutorial.js'
 
 import { log, warn, error, logHistory } from './helpers/logger.js'
 
@@ -30,6 +31,7 @@ export class sdk extends Events {
     super()
     // sets up the syncs here, just for greater control
     // also reduces dependencies
+    this.dataLoaded = undefined
     this.listsQueue = new SyncQueue({
       identifier: 'lists',
       endpoint: 'lists',
@@ -52,6 +54,7 @@ export class sdk extends Events {
       lists: ListsCollection,
       tasks: TasksCollection
     })
+    this.tutorial = new Tutorial()
 
     this.listsQueue.bind('request-process', this._processQueue)
     this.tasksQueue.bind('request-process', this._processQueue)
@@ -60,6 +63,17 @@ export class sdk extends Events {
     authenticationStore.bind(authEvents.SIGN_IN, () => {
       if (authenticationStore.isSignedIn()) {
         broadcast.start()
+
+        // this is a bit of a weird check, because it won't actually wait for a sync to complete
+        // but it's good, because then we don't need to wait for that sync,
+        // and on subsequent runs (this is called every time the app starts), it won't hit the server
+        this.dataLoaded.then(() => {
+          if (TasksCollection.collection.size === 0) {
+            this.tutorial.checkTutorialCompleted().then(tutorialCompleted => {
+              if (!tutorialCompleted) this.trigger('show-tutorial')
+            })
+          }
+        })
       }
     })
     authenticationStore.bind(authEvents.TOKEN_READY, this.fullSync)

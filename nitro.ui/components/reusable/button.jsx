@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     padding: 8,
     textAlign: 'center',
-    textTransform: 'uppercase'
+    fontSize: 15
   },
   textDisabled: {
     color: '#a1a1a1'

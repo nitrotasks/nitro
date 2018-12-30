@@ -26,7 +26,7 @@ const vars = {
   notesLineHeight: 24,
 
   // font sizes
-  modalFontSize: 18,
+  modalFontSize: 17,
   taskFontSize: 18,
   taskFontSizeSmall: 13,
   taskExpandedFontSize: 18,
