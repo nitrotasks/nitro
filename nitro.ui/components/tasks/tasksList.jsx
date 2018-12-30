@@ -60,12 +60,11 @@ export class TasksList extends React.PureComponent {
     super(props)
     this.state = {
       syncingTasks: [],
-      ...this.constructor.generateState(props, true),
-      currentTaskHeight: 0
+      ...this.constructor.generateState(props, true)
     }
 
     this.pendingChanges = false
-    this.currentItemIndex = 0
+    this.originalHeight = 0
     this.tasksContainer = React.createRef()
     this.tasksContainerEnd = React.createRef()
     this.archiveButton = React.createRef()
@@ -79,11 +78,11 @@ export class TasksList extends React.PureComponent {
   }
   archiveTransform = null
   componentDidMount() {
-    NitroSdk.bind('update', this.tasksUpdate)
-    NitroSdk.bind('order', this.tasksUpdate)
+    NitroSdk.bind('update', this.triggerUpdate)
+    NitroSdk.bind('order', this.triggerOrder)
     NitroSdk.bind('sync-upload-start', this.syncingTasksUpdate)
     NitroSdk.bind('sync-upload-complete', this.syncingTasksUpdate)
-    TasksExpandedService.bind('height', this.triggerShow)
+    TasksExpandedService.bind('height', this.triggerHeight)
     TasksExpandedService.bind('hide', this.triggerHide)
     ShortcutsService.bind(UP_HOTKEY, this.triggerHotkey)
     ShortcutsService.bind(DOWN_HOTKEY, this.triggerHotkey)
@@ -91,11 +90,11 @@ export class TasksList extends React.PureComponent {
     this.observer.observe(findNodeHandle(this.tasksContainerEnd.current))
   }
   componentWillUnmount() {
-    NitroSdk.unbind('update', this.tasksUpdate)
-    NitroSdk.unbind('order', this.tasksUpdate)
+    NitroSdk.unbind('update', this.triggerUpdate)
+    NitroSdk.unbind('order', this.triggerOrder)
     NitroSdk.unbind('sync-upload-start', this.syncingTasksUpdate)
     NitroSdk.unbind('sync-upload-complete', this.syncingTasksUpdate)
-    TasksExpandedService.unbind('height', this.triggerShow)
+    TasksExpandedService.unbind('height', this.triggerHeight)
     TasksExpandedService.unbind('hide', this.triggerHide)
     ShortcutsService.unbind(UP_HOTKEY, this.triggerHotkey)
     ShortcutsService.unbind(DOWN_HOTKEY, this.triggerHotkey)
@@ -113,7 +112,13 @@ export class TasksList extends React.PureComponent {
       this.scheduleTasksUpdate()
     }, nextRender)
   }
-  tasksUpdate = () => {
+  triggerUpdate = () => {
+    this.tasksUpdate('update')
+  }
+  triggerOrder = () => {
+    this.tasksUpdate('order')
+  }
+  tasksUpdate = event => {
     // doesn't do anything if the task is expanded
     const newState = this.constructor.generateState(this.props)
     const { task } = TasksExpandedService.state
@@ -126,6 +131,15 @@ export class TasksList extends React.PureComponent {
       } else {
         this.pendingChanges = true
       }
+    } else if (task === 'new') {
+      if (event === 'update') return
+      if (this.props.listId === 'today' || this.props.listId === 'next') {
+        this.pendingChanges = true
+        return
+      }
+      this.setState(newState, () => {
+        this.triggerHeight(this.originalHeight, false)
+      })
     } else {
       this.setState(newState)
     }
@@ -143,19 +157,33 @@ export class TasksList extends React.PureComponent {
       syncingTasks: newState
     })
   }
-  triggerShow = height => {
-    this.currentItemIndex = this.state.order.indexOf(
-      TasksExpandedService.state.task
-    )
-    const archive = findNodeHandle(this.archiveButton.current)
+  triggerHeight = (height, animate = true) => {
     requestAnimationFrame(() => {
-      const index = this.currentItemIndex < 0 ? 0 : this.currentItemIndex + 1
+      const currentItemIndex = this.state.order.indexOf(
+        TasksExpandedService.state.task
+      )
+      const archive = findNodeHandle(this.archiveButton.current)
+      const index = currentItemIndex < 0 ? 0 : currentItemIndex + 1
       const tasksContainer = findNodeHandle(this.tasksContainer.current)
       const nodes = Array.from(tasksContainer.children).slice(index)
+
+      if (animate === false) {
+        nodes.forEach(item => {
+          item.style.transitionDuration = '0ms'
+        })
+        if (archive) archive.style.transitionDuration = '0ms'
+        requestAnimationFrame(() => {
+          nodes.forEach(item => {
+            item.style.transitionDuration = ''
+          })
+          if (archive) archive.style.transitionDuration = ''
+        })
+      }
 
       // if the new button is pressed, we need to offset it, because this is a zero-height spacer
       if (index === 0 && nodes.length > 1) {
         const taskHeight = nodes[1].getBoundingClientRect().height
+        this.originalHeight = height
         height += taskHeight
       }
 
@@ -164,11 +192,10 @@ export class TasksList extends React.PureComponent {
         const pixels = key === 0 ? vars.padding * 2 : height
         item.style.transform = `translate3d(0,${pixels}px,0)`
       })
-      if (archive) {
-        this.archiveTransform = [{ translateY: `${height}px` }]
-        this.archiveTransformList = this.props.listId
-        archive.style.transform = `translate3d(0,${height}px,0)`
-      }
+
+      this.archiveTransform = [{ translateY: `${height}px` }]
+      this.archiveTransformList = this.props.listId
+      if (archive) archive.style.transform = `translate3d(0,${height}px,0)`
     })
   }
   triggerHide = () => {
@@ -179,11 +206,9 @@ export class TasksList extends React.PureComponent {
         }
       )
       const archive = findNodeHandle(this.archiveButton.current)
-      if (archive) {
-        this.archiveTransform = null
-        this.archiveTransformList = null
-        archive.style.transform = ''
-      }
+      this.archiveTransform = null
+      this.archiveTransformList = null
+      if (archive) archive.style.transform = ''
       this.resetPadding()
 
       // if there was an update while the modal was showing, trigger them now
@@ -281,17 +306,17 @@ export class TasksList extends React.PureComponent {
     if (completedTasks > 0 && !orderNotAllowed) {
       const { archiveTransform, archiveTransformList } = this
       const archiveStyles =
-        archiveTransform === null && archiveTransformList === this.props.listId
-          ? styles.archiveButton
-          : [styles.archiveButton, { transform: archiveTransform }]
+        archiveTransform !== null && archiveTransformList === this.props.listId
+          ? [styles.archiveButtonWrapper, { transform: archiveTransform }]
+          : styles.archiveButtonWrapper
       archiveButton = (
-        <View ref={this.archiveButton} style={styles.archiveButtonWrapper}>
+        <View ref={this.archiveButton} style={archiveStyles}>
           <TouchableOpacity
             onClick={this.triggerArchive}
             accessible={true}
             onKeyDown={this.triggerArchiveKeyDown}
           >
-            <View style={archiveStyles} className="hover-5">
+            <View style={styles.archiveButton} className="hover-5">
               <Image
                 accessibilityLabel="Archive Icon"
                 source={archiveIcon}

@@ -7,6 +7,7 @@ import { NitroSdk } from '../../../nitro.sdk'
 import { ContextMenuService } from '../../services/contextMenuService.js'
 import { ModalService } from '../../services/modalService.js'
 import { SidebarService } from '../../services/sidebarService.js'
+import { UiService } from '../../services/uiService.js'
 import { ListHeader } from './listheader.jsx'
 import { ListsContainer } from './listscontainer.jsx'
 import { SearchContainer } from './searchcontainer.jsx'
@@ -70,6 +71,7 @@ class ListsWithoutRouter extends React.Component {
     const { history } = this.props
     const list = NitroSdk.addList({ name: 'Untitled List' })
     history.push(`/${list.id}`)
+    UiService.setCardPosition('map')
   }
 
   render() {

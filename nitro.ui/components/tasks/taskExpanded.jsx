@@ -106,7 +106,7 @@ export class TaskExpanded extends React.Component {
       lineNumber: 3
     })
     if (taskDetails.mode === 'create') {
-      this.taskInput.current.focus()
+      if (this.taskInput.current) this.taskInput.current.focus()
     }
     requestAnimationFrame(() => {
       const scrollLocation = TasksExpandedService.state.position - scrollOffset
@@ -233,12 +233,11 @@ export class TaskExpanded extends React.Component {
   }
   createOrUpdateTask = (taskId, payload) => {
     if (this.state.mode === 'create') {
-      payload.list = TasksExpandedService.state.list
+      const { list } = TasksExpandedService.state
+      payload.list = list
       const task = NitroSdk.addTask(payload)
-      TasksExpandedService.triggerReplace(
-        TasksExpandedService.state.list,
-        task.id
-      )
+      TasksExpandedService.state.task = task.id
+      TasksExpandedService.triggerReplace(list, task.id)
     } else if (this.state.mode === 'update') {
       NitroSdk.updateTask(taskId, payload)
     }

@@ -427,7 +427,7 @@ export class sdk extends Events {
       }
       const difference = a.priority - b.priority
       if (difference === 0) {
-        return a.name.localeCompare(b.name)
+        return (a.name || '').localeCompare(b.name || '')
       }
       return difference
     })
@@ -557,7 +557,7 @@ export class sdk extends Events {
     let headers = null
 
     // doesn't remove stuff from an immutable list
-    if (!signedin && !list.mutable.includes('no-rename')) {
+    if (!signedin && !fakeLists.includes(list.id)) {
       headers = this._getHeaders(id)
       this._removeFromList(toArchive, id)
     }
