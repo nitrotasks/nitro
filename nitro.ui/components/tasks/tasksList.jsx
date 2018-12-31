@@ -80,6 +80,8 @@ export class TasksList extends React.PureComponent {
   componentDidMount() {
     NitroSdk.bind('update', this.triggerUpdate)
     NitroSdk.bind('order', this.triggerOrder)
+    NitroSdk.bind('request-process', this.syncingTasksUpdate)
+    NitroSdk.bind('sync-queue-lock', this.syncingTasksUpdate)
     NitroSdk.bind('sync-upload-start', this.syncingTasksUpdate)
     NitroSdk.bind('sync-upload-complete', this.syncingTasksUpdate)
     TasksExpandedService.bind('height', this.triggerHeight)

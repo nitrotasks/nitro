@@ -164,7 +164,7 @@ export class Login extends React.Component {
       content = (
         <React.Fragment>
           <Text style={styles.tagline}>
-            The fast and easy way to get things done.
+            The beautiful way to get things done.
           </Text>
           {error}
           {info}

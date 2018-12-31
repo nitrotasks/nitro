@@ -57,6 +57,7 @@ export class sdk extends Events {
     this.tutorial = new Tutorial()
 
     this.listsQueue.bind('request-process', this._processQueue)
+    this.tasksQueue.bind('queue-lock', this._passEvent('sync-queue-lock'))
     this.tasksQueue.bind('request-process', this._processQueue)
     this.tasksQueue.bind('request-archive', this._processQueue)
 
@@ -394,6 +395,17 @@ export class sdk extends Events {
       .filter(i => i[0] === listId)
       .map(i => i[2].map(j => j[0]))
       .reduce(flatten, [])
+
+    // mutable, but more elegant
+    this.tasksQueue.queueLock
+      .filter(i => i[0][0] === listId)
+      .forEach(i => {
+        if (i[1] === 'post') {
+          post.push(i[0][1])
+        } else if (i[1] === 'patch') {
+          patch.push(i[0][1])
+        }
+      })
 
     return {
       post: post,
