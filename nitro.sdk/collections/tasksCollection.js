@@ -230,7 +230,6 @@ export class tasks extends Events {
     return get('tasks').then(data => {
       this.collection = new Map()
       if (typeof data === 'undefined') {
-        this.createLocal()
         this.saveLocal()
         return
       }
@@ -239,12 +238,9 @@ export class tasks extends Events {
       })
     })
   }
-  createLocal() {
-    console.log('TODO: Create Default Tasks')
-  }
   toObject() {
     let result = []
-    this.collection.forEach(function(value, key) {
+    this.collection.forEach(value => {
       result.push(value.toObject())
     })
     return result

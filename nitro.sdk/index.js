@@ -267,6 +267,12 @@ export class sdk extends Events {
   createAccount = (username: string, password: string) => {
     return authenticationStore.createAccount(username, password)
   }
+  addTutorialList = () => {
+    console.log('TODO: add tutorial list')
+  }
+  markTutorialCompleted = () => {
+    return this.tutorial.markTutorialCompleted()
+  }
   downloadData = (bypassMaster = false) => {
     // the other tab will download data, and it's just passed through
     if (!broadcast.isMaster() && bypassMaster === false) return

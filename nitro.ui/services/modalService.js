@@ -19,7 +19,6 @@ class _modalService extends Events {
   }
   showTutorial = () => {
     this.trigger('show-tutorial')
-    console.log('Show Tutorial!')
   }
 }
 let ModalService = new _modalService()
