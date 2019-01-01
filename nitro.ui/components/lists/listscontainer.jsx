@@ -66,11 +66,6 @@ class ListsContainerWithoutRouter extends React.Component {
       })
     })
   }
-  createList = () => {
-    const { history } = this.props
-    const list = NitroSdk.addList({ name: 'Untitled List' })
-    history.push(`/${list.id}`)
-  }
   render() {
     let index = -1
     return (
@@ -92,13 +87,6 @@ class ListsContainerWithoutRouter extends React.Component {
               />
             )
           })}
-          <ListItem
-            key="add"
-            id="add"
-            name="New List"
-            index={index + 1}
-            onClick={this.createList}
-          />
         </View>
       </DroppableScrollableWrapper>
     )
@@ -109,7 +97,6 @@ export const ListsContainer = withRouter(ListsContainerWithoutRouter)
 const padding = vars.padding / 2
 const styles = StyleSheet.create({
   listWrapper: {
-    paddingTop: padding,
     paddingLeft: padding,
     paddingRight: padding,
     paddingBottom: padding

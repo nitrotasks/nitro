@@ -32,10 +32,10 @@ export class SearchItem extends React.Component {
   triggerClick = () => {
     const { url } = this.props
     const parsedUrl = url.split('/')
-    UiService.setCardPosition('map')
     if (parsedUrl.length === 3) {
       TasksExpandedService.goToAnyTask(parsedUrl[1], parsedUrl[2])
     } else {
+      UiService.setCardPosition('map')
       TasksExpandedService.go(url)
     }
     SidebarService.hideSearchResults()

@@ -4,6 +4,7 @@ import Task from '../models/taskModel.js'
 import { getToday, getNext } from './magicListCollection.js'
 import { createId } from '../helpers/random.js'
 import { broadcast } from '../sync/broadcastchannel.js'
+import { log } from '../helpers/logger.js'
 
 // the main thing that holds all the tasks
 export class tasks extends Events {
@@ -132,8 +133,15 @@ export class tasks extends Events {
 
       // prevents update if race conditions
       if (new Date(props.updatedAt) < task.clientUpdate) {
+        log('tasks', `Newer on client - not updating ${props.id}`)
         return
       }
+      // prevents update if there's another pending item in the next queue
+      if (this.sync.queueLock.filter(i => i[0][1] === task.id).length > 0) {
+        log('tasks', `Pending item in next queue - not updating ${props.id}`)
+        return
+      }
+
       task.lastSync = props.updatedAt
 
       Object.keys(props).forEach(prop => {
@@ -230,7 +238,6 @@ export class tasks extends Events {
     return get('tasks').then(data => {
       this.collection = new Map()
       if (typeof data === 'undefined') {
-        this.createLocal()
         this.saveLocal()
         return
       }
@@ -239,12 +246,9 @@ export class tasks extends Events {
       })
     })
   }
-  createLocal() {
-    console.log('TODO: Create Default Tasks')
-  }
   toObject() {
     let result = []
-    this.collection.forEach(function(value, key) {
+    this.collection.forEach(value => {
       result.push(value.toObject())
     })
     return result

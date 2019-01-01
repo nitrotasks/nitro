@@ -109,7 +109,7 @@ class TaskHeaderWithoutRouter extends React.PureComponent {
   }
   triggerContextMenu = mode => {
     return e => {
-      if (e.nativeEvent.target.tagName === 'INPUT') {
+      if (e.nativeEvent.target.tagName === 'INPUT' || this.props.disabled) {
         return
       }
       e.preventDefault()

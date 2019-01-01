@@ -1,19 +1,26 @@
 import React from 'react'
-import { View, Image, StyleSheet } from 'react-native'
+import { object } from 'prop-types'
+import { View, Image, Text, StyleSheet } from 'react-native'
+import { withRouter } from 'react-router'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { ContextMenuService } from '../../services/contextMenuService.js'
 import { ModalService } from '../../services/modalService.js'
 import { SidebarService } from '../../services/sidebarService.js'
+import { UiService } from '../../services/uiService.js'
 import { ListHeader } from './listheader.jsx'
 import { ListsContainer } from './listscontainer.jsx'
 import { SearchContainer } from './searchcontainer.jsx'
 import { TouchableOpacity } from '../reusable/touchableOpacity.jsx'
 
 import { vars } from '../../styles'
-import settingsIcon from '../../../assets/icons/material/settings.svg'
+import addIcon from '../../../assets/icons/feather/add.svg'
+import settingsIcon from '../../../assets/icons/feather/settings.svg'
 
-export class Lists extends React.Component {
+class ListsWithoutRouter extends React.Component {
+  static propTypes = {
+    history: object
+  }
   state = {
     searchResults: null,
     value: ''
@@ -33,15 +40,17 @@ export class Lists extends React.Component {
   triggerMenu = e => {
     const items = [
       {
-        title: 'Keyboard Shortcuts',
-        action: ModalService.showShortcuts
-      },
-      {
         title: 'Sign Out',
         action: () => NitroSdk.signOut(null, true)
       }
     ]
-    ContextMenuService.create(e.clientX, e.clientY, 'bottom', 'left', items)
+    if (window.innerWidth > 850) {
+      items.unshift({
+        title: 'Keyboard Shortcuts',
+        action: ModalService.showShortcuts
+      })
+    }
+    ContextMenuService.create(e.clientX, e.clientY, 'bottom', 'right', items)
   }
   triggerSearch = e => {
     const query = e.currentTarget.value.trim()
@@ -58,6 +67,12 @@ export class Lists extends React.Component {
       })
     }
   }
+  createList = () => {
+    const { history } = this.props
+    const list = NitroSdk.addList({ name: 'Untitled List' })
+    history.push(`/${list.id}`)
+    UiService.setCardPosition('map')
+  }
 
   render() {
     return (
@@ -69,11 +84,27 @@ export class Lists extends React.Component {
           <SearchContainer results={this.state.searchResults} />
         )}
         <View style={styles.bar}>
-          <TouchableOpacity onClick={this.triggerMenu}>
+          <TouchableOpacity
+            className="hover-5"
+            style={styles.addWrapper}
+            onClick={this.createList}
+          >
+            <Image
+              source={addIcon}
+              resizeMode="contain"
+              style={styles.addIcon}
+            />
+            <Text style={styles.addText}>New List</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onClick={this.triggerMenu}
+            className="hover-5"
+            style={styles.settingsWrapper}
+          >
             <Image
               source={settingsIcon}
               resizeMode="contain"
-              style={styles.icon}
+              style={styles.settingsIcon}
             />
           </TouchableOpacity>
         </View>
@@ -81,7 +112,10 @@ export class Lists extends React.Component {
     )
   }
 }
+export const Lists = withRouter(ListsWithoutRouter)
+
 const padding = vars.padding / 2
+const smallPadding = vars.padding / 4
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1
@@ -90,11 +124,43 @@ const styles = StyleSheet.create({
     paddingTop: padding,
     paddingLeft: padding,
     paddingRight: padding,
-    paddingBottom: padding
+    paddingBottom: padding,
+    display: 'flex',
+    flexDirection: 'row',
+    borderTopWidth: 1,
+    borderTopStyle: 'solid',
+    borderTopColor: '#e6e6e6'
   },
-  icon: {
+  addWrapper: {
+    flexDirection: 'row',
+    paddingTop: smallPadding,
+    paddingLeft: smallPadding,
+    paddingRight: smallPadding,
+    paddingBottom: smallPadding
+  },
+  addIcon: {
     height: 24,
     width: 24,
+    opacity: 0.8
+  },
+  addText: {
+    fontFamily: vars.fontFamily,
+    paddingLeft: smallPadding,
+    paddingRight: padding,
+    lineHeight: 24,
+    fontWeight: '600',
+    color: vars.navTextColor
+  },
+  settingsWrapper: {
+    paddingTop: smallPadding,
+    paddingBottom: smallPadding,
+    paddingLeft: padding,
+    paddingRight: padding,
+    marginLeft: 'auto'
+  },
+  settingsIcon: {
+    height: 24,
+    width: 18,
     opacity: 0.6
   }
 })

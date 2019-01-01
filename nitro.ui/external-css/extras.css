@@ -90,6 +90,15 @@ input:disabled {
   .desktop-opacity-invisible {
     opacity: 1;
   }
+  .tutorial-modal {
+    margin-top: 8vh;
+    border-radius: 5px;
+    width: 90vw;
+    max-width: 540px;
+    padding-left: 64px;
+    padding-right: 64px;
+    height: auto;
+  }
 }
 
 .touchable-opacity {

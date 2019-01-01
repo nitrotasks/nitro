@@ -8,6 +8,8 @@ import { DatepickerService } from '../services/datepickerService.js'
 
 import closeIcon from '../../assets/icons/material/close.svg'
 import todayIcon from '../../assets/icons/feather/today.svg'
+import tomorrowIcon from '../../assets/icons/feather/tomorrow.svg'
+import nextIcon from '../../assets/icons/feather/next.svg'
 
 export class Datepicker extends React.Component {
   static propTypes = {
@@ -85,17 +87,25 @@ export class Datepicker extends React.Component {
             style={styles.quickButton}
             onClick={this.triggerSelect('tomorrow')}
           >
-            <Text style={[styles.quickButtonText, styles.emptyButton]}>
-              Tomorrow
-            </Text>
+            <Image
+              accessibilityLabel="Tomorrow Icon"
+              source={tomorrowIcon}
+              resizeMode="contain"
+              style={styles.quickButtonImage}
+            />
+            <Text style={styles.quickButtonText}>Tomorrow</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.quickButton}
             onClick={this.triggerSelect('nextweek')}
           >
-            <Text style={[styles.quickButtonText, styles.emptyButton]}>
-              Next Week
-            </Text>
+            <Image
+              accessibilityLabel="Next Week Icon"
+              source={nextIcon}
+              resizeMode="contain"
+              style={styles.quickButtonImage}
+            />
+            <Text style={styles.quickButtonText}>Next Week</Text>
           </TouchableOpacity>
         </View>
       )
@@ -141,11 +151,14 @@ export class Datepicker extends React.Component {
             </TouchableOpacity>
           </View>
           {buttonsTop}
-          <DayPicker
-            selectedDays={this.state.date}
-            onDayClick={this.triggerSelect()}
-            month={this.state.date}
-          />
+          <View style={styles.daypickerWrapper}>
+            <DayPicker
+              firstDayOfWeek={1}
+              selectedDays={this.state.date}
+              onDayClick={this.triggerSelect()}
+              month={this.state.date}
+            />
+          </View>
         </View>
       </View>
     )
@@ -210,7 +223,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     paddingTop: vars.padding * 0.25,
-    paddingBottom: vars.padding * 0.25,
+    paddingBottom: vars.padding * 0.375,
     paddingLeft: vars.padding * 0.25,
     paddingRight: vars.padding * 0.25
   },
@@ -218,7 +231,7 @@ const styles = StyleSheet.create({
     height: 24,
     width: 24,
     marginTop: vars.padding / 4,
-    marginRight: vars.padding / 2
+    marginRight: vars.padding * 0.625
   },
   quickButtonText: {
     flex: 1,
@@ -227,7 +240,8 @@ const styles = StyleSheet.create({
     fontSize: vars.padding * 1.125,
     fontWeight: '600'
   },
-  emptyButton: {
-    marginLeft: 24 + vars.padding / 2
+  daypickerWrapper: {
+    paddingLeft: vars.padding / 2,
+    paddingRight: vars.padding / 2
   }
 })

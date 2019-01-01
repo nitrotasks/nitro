@@ -9,6 +9,7 @@ import SyncQueue from './sync/syncQueue.js'
 import SyncGet from './sync/syncGet.js'
 import { broadcast } from './sync/broadcastchannel.js'
 import authenticationStore from './sync/auth.js'
+import { Tutorial } from './sync/tutorial.js'
 
 import { log, warn, error, logHistory } from './helpers/logger.js'
 
@@ -30,6 +31,7 @@ export class sdk extends Events {
     super()
     // sets up the syncs here, just for greater control
     // also reduces dependencies
+    this.dataLoaded = undefined
     this.listsQueue = new SyncQueue({
       identifier: 'lists',
       endpoint: 'lists',
@@ -52,14 +54,27 @@ export class sdk extends Events {
       lists: ListsCollection,
       tasks: TasksCollection
     })
+    this.tutorial = new Tutorial()
 
     this.listsQueue.bind('request-process', this._processQueue)
+    this.tasksQueue.bind('queue-lock', this._passEvent('sync-queue-lock'))
     this.tasksQueue.bind('request-process', this._processQueue)
     this.tasksQueue.bind('request-archive', this._processQueue)
 
     authenticationStore.bind(authEvents.SIGN_IN, () => {
       if (authenticationStore.isSignedIn()) {
         broadcast.start()
+
+        // this is a bit of a weird check, because it won't actually wait for a sync to complete
+        // but it's good, because then we don't need to wait for that sync,
+        // and on subsequent runs (this is called every time the app starts), it won't hit the server
+        this.dataLoaded.then(() => {
+          if (TasksCollection.collection.size === 0) {
+            this.tutorial.checkTutorialCompleted().then(tutorialCompleted => {
+              if (!tutorialCompleted) this.trigger('show-tutorial')
+            })
+          }
+        })
       }
     })
     authenticationStore.bind(authEvents.TOKEN_READY, this.fullSync)
@@ -253,6 +268,12 @@ export class sdk extends Events {
   createAccount = (username: string, password: string) => {
     return authenticationStore.createAccount(username, password)
   }
+  addTutorialList = () => {
+    console.log('TODO: add tutorial list')
+  }
+  markTutorialCompleted = () => {
+    return this.tutorial.markTutorialCompleted()
+  }
   downloadData = (bypassMaster = false) => {
     // the other tab will download data, and it's just passed through
     if (!broadcast.isMaster() && bypassMaster === false) return
@@ -375,6 +396,17 @@ export class sdk extends Events {
       .map(i => i[2].map(j => j[0]))
       .reduce(flatten, [])
 
+    // mutable, but more elegant
+    this.tasksQueue.queueLock
+      .filter(i => i[0][0] === listId)
+      .forEach(i => {
+        if (i[1] === 'post') {
+          post.push(i[0][1])
+        } else if (i[1] === 'patch') {
+          patch.push(i[0][1])
+        }
+      })
+
     return {
       post: post,
       patch: patch
@@ -427,7 +459,7 @@ export class sdk extends Events {
       }
       const difference = a.priority - b.priority
       if (difference === 0) {
-        return a.name.localeCompare(b.name)
+        return (a.name || '').localeCompare(b.name || '')
       }
       return difference
     })
@@ -557,7 +589,7 @@ export class sdk extends Events {
     let headers = null
 
     // doesn't remove stuff from an immutable list
-    if (!signedin && !list.mutable.includes('no-rename')) {
+    if (!signedin && !fakeLists.includes(list.id)) {
       headers = this._getHeaders(id)
       this._removeFromList(toArchive, id)
     }

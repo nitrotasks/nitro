@@ -1,6 +1,10 @@
-import { Events } from '../../nitro.sdk'
+import { NitroSdk, Events } from '../../nitro.sdk'
 
 class _modalService extends Events {
+  constructor(props) {
+    super(props)
+    NitroSdk.bind('show-tutorial', this.showTutorial)
+  }
   show = (options, confirmAction) => {
     this.trigger('show', {
       confirmAction: confirmAction,
@@ -12,6 +16,9 @@ class _modalService extends Events {
   }
   showShortcuts = () => {
     this.trigger('show-shortcuts')
+  }
+  showTutorial = () => {
+    this.trigger('show-tutorial')
   }
 }
 let ModalService = new _modalService()

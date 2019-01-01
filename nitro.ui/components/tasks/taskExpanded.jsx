@@ -34,12 +34,6 @@ const scrollOffset = 96
 
 const ESC_HOTKEY = 'esc'
 
-const getMaxLines = () =>
-  Math.floor(
-    (document.documentElement.clientHeight - headerHeight - footerHeight) /
-      vars.notesLineHeight
-  )
-
 export class TaskExpanded extends React.Component {
   static propTypes = {
     listId: PropTypes.string
@@ -106,7 +100,7 @@ export class TaskExpanded extends React.Component {
       lineNumber: 3
     })
     if (taskDetails.mode === 'create') {
-      this.taskInput.current.focus()
+      if (this.taskInput.current) this.taskInput.current.focus()
     }
     requestAnimationFrame(() => {
       const scrollLocation = TasksExpandedService.state.position - scrollOffset
@@ -114,7 +108,7 @@ export class TaskExpanded extends React.Component {
       const scrollLines = scrollNode
         ? scrollNode.scrollHeight / vars.notesLineHeight
         : 3
-      const lineNumber = Math.min(getMaxLines(), scrollLines)
+      const lineNumber = scrollLines
       TasksExpandedService.triggerTaskHeight(lineNumber)
 
       this.setState(
@@ -134,19 +128,24 @@ export class TaskExpanded extends React.Component {
               })
             } else {
               // desktop
-              // Maybe Intersection Observer is more suited towards this
               const expandedHeight =
                 headerHeight + footerHeight + lineNumber * vars.notesLineHeight
               const fold = UiService.getScroll() + window.innerHeight
 
               // If the overlay is "below the fold", we going to scroll down a bit
-              if (scrollLocation + expandedHeight > fold) {
+              if (
+                scrollLocation + expandedHeight > fold &&
+                expandedHeight < window.innerHeight
+              ) {
                 UiService.scrollBy({
                   top: scrollLocation + expandedHeight - fold,
                   left: 0,
                   behavior: 'smooth'
                 })
-              } else if (scrollLocation < UiService.getScroll()) {
+              } else if (
+                scrollLocation < UiService.getScroll() ||
+                expandedHeight >= window.innerHeight
+              ) {
                 UiService.scrollTo({
                   top: scrollLocation,
                   left: 0,
@@ -213,10 +212,7 @@ export class TaskExpanded extends React.Component {
       if (field === 'notes') {
         clearTimeout(this.notesTimeout)
         this.notesTimeout = setTimeout(this.triggerBlur('notes'), 1000)
-        const lineNumber = Math.min(
-          getMaxLines(),
-          e.currentTarget.scrollHeight / vars.notesLineHeight
-        )
+        const lineNumber = e.currentTarget.scrollHeight / vars.notesLineHeight
         if (this.state.lineNumber !== lineNumber) {
           TasksExpandedService.triggerTaskHeight(lineNumber)
           this.setState({
@@ -233,12 +229,11 @@ export class TaskExpanded extends React.Component {
   }
   createOrUpdateTask = (taskId, payload) => {
     if (this.state.mode === 'create') {
-      payload.list = TasksExpandedService.state.list
+      const { list } = TasksExpandedService.state
+      payload.list = list
       const task = NitroSdk.addTask(payload)
-      TasksExpandedService.triggerReplace(
-        TasksExpandedService.state.list,
-        task.id
-      )
+      TasksExpandedService.state.task = task.id
+      TasksExpandedService.triggerReplace(list, task.id)
     } else if (this.state.mode === 'update') {
       NitroSdk.updateTask(taskId, payload)
     }
@@ -522,11 +517,13 @@ const styles = StyleSheet.create({
     marginTop: vars.padding,
     paddingLeft: vars.padding * 0.375,
     paddingRight: vars.padding,
+    paddingBottom: vars.padding / 2,
     outline: '0'
   },
   bar: {
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginLeft: vars.padding * -0.5
   },
   spacer: {
     flex: 1
@@ -534,30 +531,25 @@ const styles = StyleSheet.create({
   barIconWrapper: {
     flex: 1,
     flexDirection: 'row',
-    paddingTop: vars.padding,
-    paddingBottom: vars.padding,
-    paddingLeft: vars.padding / 4,
-    paddingRight: vars.padding / 4
+    paddingLeft: vars.padding / 2
   },
   moreIcon: {
-    paddingTop: vars.padding,
     paddingRight: vars.padding
   },
   barIcon: {
     opacity: 0.5,
-    height: 24,
+    height: 24 + vars.padding * 1.75,
     width: 24
   },
   barText: {
     fontFamily: vars.fontFamily,
-    lineHeight: 24,
+    lineHeight: 18 + vars.padding * 2,
     paddingLeft: vars.padding * 0.25,
     paddingRight: vars.padding * 0.25
   },
   closeIcon: {
-    marginTop: 3,
-    marginRight: vars.padding / 2,
-    height: 18,
+    paddingRight: vars.padding,
+    height: 18 + vars.padding * 2,
     width: 18,
     opacity: 0.5
   }

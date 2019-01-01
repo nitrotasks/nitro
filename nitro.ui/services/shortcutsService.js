@@ -15,7 +15,10 @@ class _shortcuts extends Events {
   }
   addGlobalHotkey = key => {
     const actualKey = this.isMac ? key.replace('ctrl', 'command') : key
-    mousetrap.bindGlobal(actualKey, e => this.trigger(key, e, key))
+    mousetrap.bindGlobal(actualKey, e => {
+      this.trigger(key, e, key)
+      return false
+    })
   }
   addDefaults = () => {
     this.addHotkey('?')

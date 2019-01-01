@@ -252,6 +252,7 @@ export default class Sync extends Events {
   }
   addToQueue(id, method, modelName) {
     this.queueLock.push([id, method, modelName])
+    this.trigger('queue-lock')
     this.saveQueue().then(this.processQueue)
   }
   addPreProcess(callback) {
@@ -262,7 +263,10 @@ export default class Sync extends Events {
     if (this.syncLock === true) {
       log(this.identifier, 'Sync in Progress, waiting.')
       return
-    } else if (this.preProcessCallbacks.length === 0 && this.queueLock.length === 0) {
+    } else if (
+      this.preProcessCallbacks.length === 0 &&
+      this.queueLock.length === 0
+    ) {
       return false
     }
     // doesn't do async stuff just yet

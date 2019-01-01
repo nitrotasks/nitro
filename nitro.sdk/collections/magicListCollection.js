@@ -258,11 +258,14 @@ function getList(
     .map(l => l.localOrder)
     .reduce((a, b) => a.concat(b), [])
     .map(t => {
-      const task = TasksCollection.find(t).toObject()
-      task.priority = getPriority(task)
-      return task
+      const task = TasksCollection.find(t)
+      if (task === null) return null
+      const taskObj = task.toObject()
+      taskObj.priority = getPriority(taskObj)
+      return taskObj
     })
     .filter(task => {
+      if (task === null) return false
       if (task.type === 'header' || task.type === 'header-collapsed') {
         return false
       }

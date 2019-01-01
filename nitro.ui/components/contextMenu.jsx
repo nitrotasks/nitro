@@ -113,7 +113,8 @@ const styles = StyleSheet.create({
   },
   menuText: {
     fontFamily: vars.fontFamily,
-    fontSize: 16,
+    fontSize: 15,
+    color: '#222',
     lineHeight: MENU_ITEM_HEIGHT
   }
 })

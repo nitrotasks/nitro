@@ -11,6 +11,7 @@ import { Login } from './login/index.jsx'
 import { ContextMenu } from './contextMenu.jsx'
 import { Modal } from './modal.jsx'
 import { ShortcutsModal } from './shortcutsModal.jsx'
+import { TutorialModal } from './tutorialModal.jsx'
 
 class App extends React.Component {
   state = {
@@ -96,6 +97,7 @@ class App extends React.Component {
         </Router>
         <Modal />
         <ShortcutsModal />
+        <TutorialModal />
         <ContextMenu />
       </React.Fragment>
     )

@@ -112,6 +112,7 @@ const styles = StyleSheet.create({
   message: {
     fontFamily: vars.fontFamily,
     fontSize: vars.modalFontSize,
+    color: '#222',
     textAlign: 'center',
     lineHeight: vars.modalFontSize * 1.3
   },
