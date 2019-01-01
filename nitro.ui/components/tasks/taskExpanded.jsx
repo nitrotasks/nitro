@@ -34,12 +34,6 @@ const scrollOffset = 96
 
 const ESC_HOTKEY = 'esc'
 
-const getMaxLines = () =>
-  Math.floor(
-    (document.documentElement.clientHeight - headerHeight - footerHeight) /
-      vars.notesLineHeight
-  )
-
 export class TaskExpanded extends React.Component {
   static propTypes = {
     listId: PropTypes.string
@@ -114,7 +108,7 @@ export class TaskExpanded extends React.Component {
       const scrollLines = scrollNode
         ? scrollNode.scrollHeight / vars.notesLineHeight
         : 3
-      const lineNumber = Math.min(getMaxLines(), scrollLines)
+      const lineNumber = scrollLines
       TasksExpandedService.triggerTaskHeight(lineNumber)
 
       this.setState(
@@ -134,19 +128,24 @@ export class TaskExpanded extends React.Component {
               })
             } else {
               // desktop
-              // Maybe Intersection Observer is more suited towards this
               const expandedHeight =
                 headerHeight + footerHeight + lineNumber * vars.notesLineHeight
               const fold = UiService.getScroll() + window.innerHeight
 
               // If the overlay is "below the fold", we going to scroll down a bit
-              if (scrollLocation + expandedHeight > fold) {
+              if (
+                scrollLocation + expandedHeight > fold &&
+                expandedHeight < window.innerHeight
+              ) {
                 UiService.scrollBy({
                   top: scrollLocation + expandedHeight - fold,
                   left: 0,
                   behavior: 'smooth'
                 })
-              } else if (scrollLocation < UiService.getScroll()) {
+              } else if (
+                scrollLocation < UiService.getScroll() ||
+                expandedHeight >= window.innerHeight
+              ) {
                 UiService.scrollTo({
                   top: scrollLocation,
                   left: 0,
@@ -213,10 +212,7 @@ export class TaskExpanded extends React.Component {
       if (field === 'notes') {
         clearTimeout(this.notesTimeout)
         this.notesTimeout = setTimeout(this.triggerBlur('notes'), 1000)
-        const lineNumber = Math.min(
-          getMaxLines(),
-          e.currentTarget.scrollHeight / vars.notesLineHeight
-        )
+        const lineNumber = e.currentTarget.scrollHeight / vars.notesLineHeight
         if (this.state.lineNumber !== lineNumber) {
           TasksExpandedService.triggerTaskHeight(lineNumber)
           this.setState({
@@ -521,6 +517,7 @@ const styles = StyleSheet.create({
     marginTop: vars.padding,
     paddingLeft: vars.padding * 0.375,
     paddingRight: vars.padding,
+    paddingBottom: vars.padding / 2,
     outline: '0'
   },
   bar: {
