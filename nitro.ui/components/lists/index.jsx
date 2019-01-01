@@ -1,8 +1,9 @@
 import React from 'react'
 import { object } from 'prop-types'
-import { View, Image, Text, StyleSheet } from 'react-native'
+import { View, Image, Text, StyleSheet, findNodeHandle } from 'react-native'
 import { withRouter } from 'react-router'
 
+import { iOS } from '../../helpers/ios.js'
 import { NitroSdk } from '../../../nitro.sdk'
 import { ContextMenuService } from '../../services/contextMenuService.js'
 import { ModalService } from '../../services/modalService.js'
@@ -21,12 +22,19 @@ class ListsWithoutRouter extends React.Component {
   static propTypes = {
     history: object
   }
+  bar = React.createRef()
   state = {
     searchResults: null,
     value: ''
   }
   componentDidMount() {
     SidebarService.bind('hide-search-results', this.hideSearchResults)
+    if (iOS.detect()) {
+      findNodeHandle(this.bar.current).addEventListener(
+        'touchmove',
+        this.preventScroll
+      )
+    }
   }
   componentWillUnmount() {
     SidebarService.unbind('hide-search-results', this.hideSearchResults)
@@ -73,7 +81,9 @@ class ListsWithoutRouter extends React.Component {
     history.push(`/${list.id}`)
     UiService.setCardPosition('map')
   }
-
+  preventScroll = e => {
+    e.preventDefault()
+  }
   render() {
     return (
       <View style={styles.wrapper}>
@@ -83,7 +93,7 @@ class ListsWithoutRouter extends React.Component {
         ) : (
           <SearchContainer results={this.state.searchResults} />
         )}
-        <View style={styles.bar}>
+        <View style={styles.bar} ref={this.bar}>
           <TouchableOpacity
             className="hover-5"
             style={styles.addWrapper}
@@ -121,6 +131,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   bar: {
+    touchAction: 'none',
     paddingTop: padding,
     paddingLeft: padding,
     paddingRight: padding,

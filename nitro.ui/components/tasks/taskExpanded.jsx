@@ -286,8 +286,9 @@ export class TaskExpanded extends React.Component {
     if (this.state.mode === 'create') {
       this.createOrUpdateTask(TasksExpandedService.state.task, { name: '' })
     }
-    const x = e.nativeEvent.pageX
-    const y = e.nativeEvent.pageY - window.scrollY
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = rect.x + rect.width * 0.5
+    const y = rect.y + rect.height * 0.75 - window.scrollY
     const { task, list } = TasksExpandedService.state
     const viewInList = list === 'today' || list === 'next'
     if (this.state.type === 'task') {
@@ -297,7 +298,7 @@ export class TaskExpanded extends React.Component {
         viewInList,
         x,
         y,
-        'top',
+        'bottom',
         'right',
         this.triggerOverlay
       )

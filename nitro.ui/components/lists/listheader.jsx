@@ -44,12 +44,14 @@ export class ListHeaderWithoutRouter extends React.Component {
     this.wrapperNode.addEventListener('touchstart', this.triggerTouchStart)
     ShortcutsService.bind(FOCUS_HOTKEY, this.triggerHotkey)
     ShortcutsService.bind(GLOBAL_FOCUS_HOTKEY, this.triggerHotkey)
+    UiService.bind('card-position', this.triggerCardPosition)
   }
   componentWillUnmount() {
     SidebarService.unbind('focus-search-box', this.triggerHotkey)
     this.wrapperNode.removeEventListener('touchstart', this.triggerTouchStart)
     ShortcutsService.unbind(FOCUS_HOTKEY, this.triggerHotkey)
     ShortcutsService.unbind(GLOBAL_FOCUS_HOTKEY, this.triggerHotkey)
+    UiService.unbind('card-position', this.triggerCardPosition)
   }
   triggerAddTask = () => {
     TasksExpandedService.triggerCreate(UiService.state.currentList)
@@ -59,6 +61,11 @@ export class ListHeaderWithoutRouter extends React.Component {
   }
   triggerHotkey = () => {
     this.searchInput.current.focus()
+  }
+  triggerCardPosition = position => {
+    if (position === 'map') {
+      this.searchInput.current.blur()
+    }
   }
   triggerSearchFocus = () => {
     // stops iOS from scrolling

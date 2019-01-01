@@ -106,7 +106,12 @@ export class Task extends React.PureComponent {
         NitroSdk.completeTask(dataId)
       } else if (keycode === 84) {
         const { dataId, dataDate, dataType, dataCompleted } = this.props
-        if (dataCompleted !== null || dataType === 'header' || dataType === 'header-collapsed') return
+        if (
+          dataCompleted !== null ||
+          dataType === 'header' ||
+          dataType === 'header-collapsed'
+        )
+          return
         NitroSdk.updateTask(
           dataId,
           dateValue(
