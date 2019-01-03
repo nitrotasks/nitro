@@ -11,6 +11,7 @@ import { broadcast } from './sync/broadcastchannel.js'
 import authenticationStore from './sync/auth.js'
 import { Tutorial } from './sync/tutorial.js'
 
+import tutorialData from './tutorialData.json'
 import { log, warn, error, logHistory } from './helpers/logger.js'
 
 const systemLists = ['inbox', 'today', 'next', 'all']
@@ -268,8 +269,31 @@ export class sdk extends Events {
   createAccount = (username: string, password: string) => {
     return authenticationStore.createAccount(username, password)
   }
-  addTutorialList = () => {
-    console.log('TODO: add tutorial list')
+  addTutorialList = platform => {
+    const list = this.addList({ name: 'Welcome to Nitro' })
+    const order = list.localOrder.slice()
+    const isMac = navigator.platform.indexOf('Mac') > -1
+    // this probably isn't great, because kinda spams the update event
+    const tasks = tutorialData
+      .slice()
+      .reverse()
+      .map(task => {
+        if (!isMac && task.notes) {
+          task.notes = task.notes.replace('⌘', 'Ctrl+')
+        }
+        task.list = list.id
+        return task
+      })
+      .filter(
+        task =>
+          typeof task.platform === 'undefined' || task.platform === platform
+      )
+
+    const created = TasksCollection.addBatch(tasks).reverse()
+    order.push(...created)
+    this.updateTasksOrder(list.id, order, false)
+
+    return list.id
   }
   markTutorialCompleted = () => {
     return this.tutorial.markTutorialCompleted()

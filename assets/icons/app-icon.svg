@@ -1,29 +1,17 @@
-<svg width="70" height="70" viewBox="0 0 70 70" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<title>Canvas</title>
-<desc>Created using Figma</desc>
-<g id="Canvas" transform="translate(590 120)">
-<g id="Ellipse 3" filter="url(#filter0_d)">
-<use xlink:href="#path0_fill" transform="translate(-587 -119)" fill="#3A7DF8"/>
+<svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_d)">
+<circle cx="35" cy="33" r="32" fill="white"/>
 </g>
-<g id="logo">
-<g id="flash">
-<g id="Vector">
-<use xlink:href="#path1_fill" transform="translate(-568 -111)" fill="#FFFFFF"/>
-</g>
-</g>
-</g>
-</g>
+<path d="M32.6638 37.0788C32.8638 36.5788 32.4638 36.3788 31.9638 36.3788H22.5638C21.9638 36.3788 21.8638 35.7788 22.1638 35.3788C22.1638 35.3788 41.4638 9.67878 41.8638 9.27878C42.2638 8.87878 42.4638 8.87878 42.3638 9.47878C42.2638 10.0788 38.0638 27.5788 38.0638 27.5788C38.0102 27.6765 37.9843 27.7871 37.9891 27.8985C37.9939 28.0099 38.0292 28.1179 38.091 28.2106C38.1529 28.3034 38.239 28.3775 38.34 28.4247C38.4409 28.472 38.553 28.4907 38.6638 28.4788H48.0638C48.6638 28.4788 48.7638 28.8788 48.4638 29.2788C48.4638 29.2788 29.1638 55.3788 28.7638 55.8788C28.3638 56.3788 28.0638 56.2788 28.2638 55.5788C28.5638 54.6788 32.6638 37.0788 32.6638 37.0788Z" fill="#3A7DF8"/>
 <defs>
-<filter id="filter0_d" filterUnits="userSpaceOnUse" x="-590" y="-120" width="70" height="70" color-interpolation-filters="sRGB">
+<filter id="filter0_d" x="0" y="0" width="70" height="70" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 255 0"/>
-<feOffset dx="0" dy="2"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+<feOffset dy="2"/>
 <feGaussianBlur stdDeviation="1.5"/>
 <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
 <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
 <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
 </filter>
-<path id="path0_fill" d="M 64 32C 64 49.6731 49.6731 64 32 64C 14.3269 64 0 49.6731 0 32C 0 14.3269 14.3269 0 32 0C 49.6731 0 64 14.3269 64 32Z"/>
-<path id="path1_fill" d="M 10.6638 28.0788C 10.8638 27.5788 10.4638 27.3788 9.96382 27.3788L 0.563816 27.3788C -0.036184 27.3788 -0.136184 26.7788 0.163816 26.3788C 0.163816 26.3788 19.4638 0.678775 19.8638 0.278775C 20.2638 -0.121225 20.4638 -0.121225 20.3638 0.478775C 20.2638 1.07878 16.0638 18.5788 16.0638 18.5788C 16.0102 18.6765 15.9843 18.7871 15.9891 18.8985C 15.9939 19.0099 16.0292 19.1179 16.091 19.2106C 16.1529 19.3034 16.239 19.3775 16.34 19.4247C 16.4409 19.472 16.553 19.4907 16.6638 19.4788L 26.0638 19.4788C 26.6638 19.4788 26.7638 19.8788 26.4638 20.2788C 26.4638 20.2788 7.16382 46.3788 6.76382 46.8788C 6.36382 47.3788 6.06382 47.2788 6.26382 46.5788C 6.56382 45.6788 10.6638 28.0788 10.6638 28.0788Z"/>
 </defs>
 </svg>

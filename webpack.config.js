@@ -97,7 +97,7 @@ if (process.env.NODE_ENV === 'production') {
     new OfflinePlugin({
       appShell: '/',
       externals: [
-        '/img/favicon/favicon-96x96.png',
+        '/img/favicon/favicon-48x48.png',
         '/img/favicon/favicon-32x32.png',
         '/img/favicon/favicon-16x16.png'
       ],

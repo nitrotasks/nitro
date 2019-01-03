@@ -1,6 +1,7 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, findNodeHandle } from 'react-native'
 
+import { iOS } from '../helpers/ios.js'
 import { vars } from '../styles.js'
 import { ContextMenuService } from '../services/contextMenuService.js'
 
@@ -12,8 +13,15 @@ export class ContextMenu extends React.Component {
     show: false,
     items: []
   }
-  componentWillMount() {
+  wrapper = React.createRef()
+  componentDidMount() {
     ContextMenuService.bind('create', this.createMenu)
+    if (iOS.detect()) {
+      findNodeHandle(this.wrapper.current).addEventListener(
+        'touchmove',
+        this.preventScroll
+      )
+    }
   }
   componentWillUnmount() {
     ContextMenuService.unbind('create', this.createMenu)
@@ -41,6 +49,9 @@ export class ContextMenu extends React.Component {
       show: false
     })
   }
+  preventScroll = e => {
+    e.preventDefault()
+  }
   render() {
     let wrapperStyles = styles.wrapper
     let pointerEvents = 'auto'
@@ -63,6 +74,7 @@ export class ContextMenu extends React.Component {
         onContextMenu={this.triggerHide}
         style={wrapperStyles}
         pointerEvents={pointerEvents}
+        ref={this.wrapper}
       >
         <View style={menuStyleComposed}>
           {this.state.items.map((item, key) => {
@@ -106,7 +118,8 @@ const styles = StyleSheet.create({
   menuItem: {
     paddingLeft: vars.padding,
     paddingRight: vars.padding,
-    cursor: 'default'
+    cursor: 'default',
+    userSelect: 'none'
   },
   menuItemHover: {
     backgroundColor: 'rgba(0,0,0,0.1)'
