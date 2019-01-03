@@ -4,6 +4,7 @@ import { View, Text, Image, StyleSheet } from 'react-native'
 import { vars } from '../styles.js'
 import { NitroSdk } from '../../nitro.sdk'
 import { ModalService } from '../services/modalService.js'
+import { TasksExpandedService } from '../services/tasksExpandedService.js'
 import { Button } from './reusable/button.jsx'
 import nitroIcon from '../../assets/icons/logo.svg'
 
@@ -25,8 +26,14 @@ export class TutorialModal extends React.Component {
     NitroSdk.markTutorialCompleted()
   }
   addList = () => {
-    NitroSdk.addTutorialList()
     this.hideModal()
+    setTimeout(() => {
+      const listId = NitroSdk.addTutorialList(
+        window.innerWidth > 850 ? 'desktop' : 'mobile'
+      )
+      // can't use a router
+      TasksExpandedService.go(`/${listId}`)
+    }, 20) // at least 1 frame.
   }
   render() {
     if (this.state.show === false) {

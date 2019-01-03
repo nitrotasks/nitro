@@ -26,8 +26,26 @@ export class tasks extends Events {
     this.trigger('update', props.list)
     this.saveLocal()
 
-    this.sync.addToQueue([props.list, id], 'post', 'tasks')
+    this.sync.addToQueue()
     return id
+  }
+  addBatch(tasks) {
+    const created = []
+    tasks.forEach(props => {
+      const id = createId(this.find.bind(this))
+      props.id = id
+      this.collection.set(id, new Task(props))
+
+      // not the right place for this
+      this.sync.queueLock.push([[props.list, id], 'post', 'tasks'])
+      created.push(id)
+    })
+    this.trigger('update', tasks[0].list)
+    this.saveLocal()
+
+    this.sync.trigger('queue-lock')
+    this.sync.saveQueue().then(this.processQueue)
+    return created
   }
   update(id, props, sync = true) {
     const resource = this.find(id, !sync)

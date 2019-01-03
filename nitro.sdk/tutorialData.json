@@ -1,0 +1,85 @@
+[
+  {
+    "name": "Getting Started",
+    "type": "header"
+  },
+  {
+    "name": "Click on this task",
+    "notes": "These are the notes",
+    "platform": "desktop"
+  },
+  {
+    "name": "Tap this task",
+    "notes": "These are the notes",
+    "platform": "mobile"
+  },
+  {
+    "name": "Create a new task",
+    "notes": "",
+    "platform": "desktop"
+  },
+  {
+    "name": "Create a new task",
+    "notes": "",
+    "platform": "mobile"
+  },
+  {
+    "name": "Add this task to your Today list",
+    "notes": ""
+  },
+  {
+    "name": "Plan this task for later",
+    "notes": ""
+  },
+  {
+    "name": "Convert this task to a heading",
+    "notes": ""
+  },
+  {
+    "name": "You've got the basics!",
+    "notes": ""
+  },
+  {
+    "name": "More Stuff",
+    "type": "header"
+  },
+  {
+    "name": "Create a new list",
+    "notes": ""
+  },
+  {
+    "name": "Use Quick Search",
+    "notes": ""
+  },
+  {
+    "name": "Set a deadline on a task",
+    "notes": ""
+  },
+  {
+    "name": "Keyboard Shortcuts",
+    "notes": ""
+  },
+
+  {
+    "name": "Before you go",
+    "type": "header"
+  },
+  {
+    "name": "Sign up for updates",
+    "notes": ""
+  },
+  {
+    "name": "Try out Nitro on your Phone",
+    "notes": "",
+    "platform": "desktop"
+  },
+  {
+    "name": "Try out Nitro on your PC",
+    "notes": "",
+    "platform": "mobile"
+  },
+  {
+    "name": "Customer support",
+    "notes": ""
+  }
+]

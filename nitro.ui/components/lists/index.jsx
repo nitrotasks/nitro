@@ -48,6 +48,15 @@ class ListsWithoutRouter extends React.Component {
   triggerMenu = e => {
     const items = [
       {
+        title: 'Create Tutorial List',
+        action: () => {
+          const listId = NitroSdk.addTutorialList(
+            window.innerWidth > 850 ? 'desktop' : 'mobile'
+          )
+          this.props.history.push(`/${listId}`)
+        }
+      },
+      {
         title: 'Sign Out',
         action: () => NitroSdk.signOut(null, true)
       }
