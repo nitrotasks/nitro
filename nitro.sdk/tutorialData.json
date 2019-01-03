@@ -5,81 +5,131 @@
   },
   {
     "name": "Click on this task",
-    "notes": "These are the notes",
+    "notes": "This is a task! Click the checkbox on the left to complete it, or click outside to close the task. Once you’ve completed a task, you’ll have the option to archive it.",
     "platform": "desktop"
   },
   {
     "name": "Tap this task",
-    "notes": "These are the notes",
+    "notes": "This is a task! Tap the checkbox on the left to complete it, or tap outside to close the task. Once you’ve completed a task, you’ll have the option to archive it.",
     "platform": "mobile"
   },
   {
     "name": "Create a new task",
-    "notes": "",
+    "notes": "Just type your task into the input box at the top - and press enter. You can quickly focus this box by using ⌘J on your keyboard.",
     "platform": "desktop"
   },
   {
     "name": "Create a new task",
-    "notes": "",
+    "notes": "Just tap the + icon in the bottom corner.",
     "platform": "mobile"
   },
   {
     "name": "Add this task to your Today list",
-    "notes": ""
-  },
-  {
-    "name": "Plan this task for later",
-    "notes": ""
-  },
-  {
-    "name": "Convert this task to a heading",
-    "notes": ""
-  },
-  {
-    "name": "You've got the basics!",
-    "notes": ""
-  },
-  {
-    "name": "More Stuff",
-    "type": "header"
-  },
-  {
-    "name": "Create a new list",
-    "notes": ""
-  },
-  {
-    "name": "Use Quick Search",
-    "notes": ""
-  },
-  {
-    "name": "Set a deadline on a task",
-    "notes": ""
-  },
-  {
-    "name": "Keyboard Shortcuts",
-    "notes": ""
-  },
-
-  {
-    "name": "Before you go",
-    "type": "header"
-  },
-  {
-    "name": "Sign up for updates",
-    "notes": ""
-  },
-  {
-    "name": "Try out Nitro on your Phone",
-    "notes": "",
+    "notes": "Click the calendar icon in the corner to plan when you’ll do this task. Choose Today to make it show in the Today list.",
     "platform": "desktop"
   },
   {
-    "name": "Try out Nitro on your PC",
-    "notes": "",
+    "name": "Add this task to your Today list",
+    "notes": "Tap the calendar icon in the corner to plan when you’ll do this task. Choose Today to make it show in the Today list.",
     "platform": "mobile"
   },
   {
-    "name": "Customer support",
-    "notes": ""
+    "name": "View your other lists",
+    "notes": "Swipe the bottom drawer up to view and jump into your other lists.",
+    "platform": "mobile"
+  },
+  {
+    "name": "Plan this task for later",
+    "notes": "Click the calendar icon again, and this time choose a date in the future. It’ll appear in your Next list, but also in your Today list when that day comes around.",
+    "platform": "desktop"
+  },
+  {
+    "name": "Plan this task for later",
+    "notes": "Tap the calendar icon again, and this time choose a date in the future. It’ll appear in your Next list, but also in your Today list when that day comes around.",
+    "platform": "mobile"
+  },
+  {
+    "name": "Convert this task to a heading",
+    "notes": "Click the three dots in the corner, and choose Change to Heading. You can change a heading back to a task at any time.",
+    "platform": "desktop"
+  },
+  {
+    "name": "Convert this task to a heading",
+    "notes": "Tap the three dots in the corner, and choose Change to Heading. You can change a heading back to a task at any time.",
+    "platform": "mobile"
+  },
+  {
+    "name": "Create a new list",
+    "notes": "Click the new list button in the sidebar to add a list for yourself!",
+    "platform": "desktop"
+  },
+  {
+    "name": "Create a new list",
+    "notes": "Swipe the bottom drawer up, and tap the new list button to add a list for yourself!",
+    "platform": "mobile"
+  },
+  {
+    "name": "You’ve got the basics!",
+    "notes": "You’re ready to use Nitro. Feel free to add your own tasks and lists, and you can come back to this list when you’re ready to learn about some of the more advanced features.\n\nTo remove this list, tap the three dots in the list header, and choose delete list."
+  },
+  {
+    "name": "Increase your productivity",
+    "type": "header"
+  },
+  {
+    "name": "Nitro Sync",
+    "notes": "Nitro keeps your tasks safe by syncing them to the cloud. You can sign in on any device to manage your tasks from anywhere.\n\nYou can also use Nitro offline - if you’re without a connection, you can still visit the app and manage your tasks. They’ll be synced next time you’re connected to the internet."
+  },
+  {
+    "name": "Reordering Tasks & Lists",
+    "notes": "You can drag and drop to sort the tasks in this list. You can also reorder your list of lists in the same way.",
+    "platform": "desktop"
+  },
+  {
+    "name": "Reordering Tasks & Lists",
+    "notes": "You can long press and drag to sort the tasks in this list. You can also reorder your list of lists in the same way.",
+    "platform": "mobile"
+  },
+  {
+    "name": "Use Quick Search",
+    "notes": "You can jump into any list, task, or heading using Quick Search. Just press ⌘K and type.",
+    "platform": "desktop"
+  },
+  {
+    "name": "Use Quick Search",
+    "notes": "You can jump into any list, task, or heading using Quick Search. Just tap the search box below.",
+    "platform": "mobile"
+  },
+  {
+    "name": "Set a deadline on a task",
+    "notes": "You can set a deadline if there’s a date a task needs to be done by. To add a deadline, you can press the flag icon, and choose a date.\n\nA task with a deadline will show in the Next list, and also the Today list when overdue."
+  },
+  {
+    "name": "Keyboard Shortcuts",
+    "notes": "You can move around the app faster by learning some of Nitro’s keyboard shortcuts. To view these, press the ? key.",
+    "platform": "desktop"
+  },
+
+  {
+    "name": "Before you leave...",
+    "type": "header"
+  },
+  {
+    "name": "Follow us on Twitter",
+    "notes": "Be the first to know about new features and changes. We’re @dymajoltd on Twitter."
+  },
+  {
+    "name": "Check out Nitro on your Phone",
+    "notes": "Nitro is a progressive web app, and works great on all of your devices. Just head to go.nitrotasks.com on your phone.",
+    "platform": "desktop"
+  },
+  {
+    "name": "Check out Nitro on your PC",
+    "notes": "Nitro is a progressive web app, and works great on all of your devices. Just head to go.nitrotasks.com on your PC.",
+    "platform": "mobile"
+  },
+  {
+    "name": "We’re here to help!",
+    "notes": "If you have any questions, feel free to send them through to us! You can contact us through our website, nitrotasks.com."
   }
 ]

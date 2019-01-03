@@ -33,6 +33,7 @@ const footerHeight = 36 + 56
 const scrollOffset = 96
 
 const ESC_HOTKEY = 'esc'
+const CTRLJ_HOTKEY = 'ctrl+j'
 
 export class TaskExpanded extends React.Component {
   static propTypes = {
@@ -75,6 +76,7 @@ export class TaskExpanded extends React.Component {
     TasksExpandedService.bind('position', this.triggerPosition)
     TasksExpandedService.bind('focus-name-input', this.focusNameInput)
     ShortcutsService.bind(ESC_HOTKEY, this.triggerHideHotkey)
+    ShortcutsService.bind(CTRLJ_HOTKEY, this.triggerHideHotkey)
   }
   componentWillUnmount() {
     NitroSdk.unbind('update', this.taskUpdate)
@@ -84,6 +86,7 @@ export class TaskExpanded extends React.Component {
     TasksExpandedService.unbind('position', this.triggerPosition)
     TasksExpandedService.unbind('focus-name-input', this.focusNameInput)
     ShortcutsService.unbind(ESC_HOTKEY, this.triggerHideHotkey)
+    ShortcutsService.unbind(CTRLJ_HOTKEY, this.triggerHideHotkey)
   }
   taskUpdate = (type, listId, taskId) => {
     if (type === 'tasks' && taskId === TasksExpandedService.state.task) {

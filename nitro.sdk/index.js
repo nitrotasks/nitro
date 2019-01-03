@@ -272,11 +272,15 @@ export class sdk extends Events {
   addTutorialList = platform => {
     const list = this.addList({ name: 'Welcome to Nitro' })
     const order = list.localOrder.slice()
+    const isMac = navigator.platform.indexOf('Mac') > -1
     // this probably isn't great, because kinda spams the update event
     const tasks = tutorialData
       .slice()
       .reverse()
       .map(task => {
+        if (!isMac && task.notes) {
+          task.notes = task.notes.replace('⌘', 'Ctrl+')
+        }
         task.list = list.id
         return task
       })

@@ -26,7 +26,7 @@ export class tasks extends Events {
     this.trigger('update', props.list)
     this.saveLocal()
 
-    this.sync.addToQueue()
+    this.sync.addToQueue([props.list, id], 'post', 'tasks')
     return id
   }
   addBatch(tasks) {
