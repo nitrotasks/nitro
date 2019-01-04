@@ -39,6 +39,7 @@ class AuthenticationStore extends Events {
         }
       })
     }
+    broadcast.bind('new-master', this.connectSocketWithCheck)
   }
   loadLocal(disableToken = false) {
     get('auth').then(data => {
