@@ -8,6 +8,7 @@ body {
 input:disabled {
   opacity: 1;
   -webkit-text-fill-color: #000;
+  pointer-events: none;
 }
 .pseudo-shadow::after {
   display: block;

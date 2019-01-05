@@ -14,7 +14,8 @@ import { Datepicker } from '../datepicker.jsx'
 
 export class Tasks extends React.Component {
   state = {
-    pointerEvents: TasksExpandedService.state.task === null
+    pointerEvents: TasksExpandedService.state.task === null,
+    lastUpdate: new Date()
   }
   componentDidMount() {
     TasksExpandedService.setGo(
@@ -24,6 +25,7 @@ export class Tasks extends React.Component {
 
     TasksExpandedService.bind('show', this.triggerExpanded('show'))
     TasksExpandedService.bind('hide', this.triggerExpanded('hide'))
+    NitroSdk.bind('update', this.triggerUpdate)
   }
   triggerIntersection = e => {
     const newPos = !e[0].isIntersecting
@@ -50,7 +52,16 @@ export class Tasks extends React.Component {
       })
     }
   }
-
+  triggerUpdate = key => {
+    if (key === 'lists') {
+      const { list } = this.props.match.params
+      // TODO: this hack sucks. forces a re-render if the list has been deleted.
+      // really, the props need to change automatically
+      if (NitroSdk.getList(list) === null) {
+        this.setState({ lastUpdate: new Date() })
+      }
+    }
+  }
   render() {
     const { list } = this.props.match.params
     if (NitroSdk.getList(list) === null) {

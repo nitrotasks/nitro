@@ -253,7 +253,10 @@ function getList(
   group?: string
 ): Array<Object> {
   const ret = ListsCollection.order
-    .map(list => (list = ListsCollection.find(list).toObject()))
+    .map(listId => {
+      const list = ListsCollection.find(listId)
+      return list ? list.toObject() : { virtual: true }
+    })
     .filter(l => !l.virtual)
     .map(l => l.localOrder)
     .reduce((a, b) => a.concat(b), [])

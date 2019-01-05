@@ -260,7 +260,8 @@ export default class SyncGet extends Events {
       // handles deleted lists
       data.localdelete.forEach(localid => {
         this.tasks.deleteAllFromList(localid, false)
-        this.lists.collection.delete(localid, false)
+        this.lists.collection.delete(localid)
+        this.lists.order.splice(this.lists.order.indexOf(localid), 1)
       })
 
       // maps the server id to local id, and runs an update

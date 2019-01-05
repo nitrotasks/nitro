@@ -132,6 +132,15 @@ class _tasksExpanded extends Events {
   }
   triggerTaskHeight(height: number) {
     // TODO: Magic Numbers!
+
+    // firefox has a weird 17 pixel thing at the bottom, except when it doesn't
+    // so we have to add it in if it's not there
+    if (
+      navigator.userAgent.indexOf('Firefox') != -1 &&
+      height === Math.round(height)
+    ) {
+      height = (height * vars.notesLineHeight + 17) / vars.notesLineHeight
+    }
     const actualHeight = height * vars.notesLineHeight + 120
     this.state.height = actualHeight
     this.trigger('height', actualHeight)

@@ -27,6 +27,7 @@ export class _broadcast extends Events {
     this.bctimeout = setTimeout(() => {
       log('This tab is the new master tab.')
       this.mastertab = true
+      this.trigger('new-master')
     }, 2500)
   }
   post(msg) {
