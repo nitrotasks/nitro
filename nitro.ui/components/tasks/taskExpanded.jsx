@@ -521,7 +521,7 @@ const styles = StyleSheet.create({
     marginTop: vars.padding,
     paddingLeft: vars.padding * 0.375,
     paddingRight: vars.padding,
-    paddingBottom: vars.padding / 2,
+    marginBottom: vars.padding / 2,
     outline: '0'
   },
   bar: {
