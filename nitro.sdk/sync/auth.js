@@ -208,6 +208,10 @@ class AuthenticationStore extends Events {
     }, Math.round(time) * 1000)
   }
   getToken() {
+    if (!navigator.onLine) {
+      log('Offline, will not try to refresh token.')
+      return
+    }
     if (
       JSON.stringify(this.refreshToken) === '{}' ||
       this.refreshToken.loginType === 'local'

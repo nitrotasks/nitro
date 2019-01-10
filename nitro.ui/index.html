@@ -14,12 +14,29 @@
   <meta name="theme-color" content="#3a7df8" id="theme">
 
   <meta name="google" content="notranslate" />
+  <style>
+    body {
+      margin: 0;
+    }
+    #loading-wrapper {
+      text-align: center;
+      font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+      padding-top: 2rem;
+      color: #666;
+    }
+    #loading-wrapper p { font-weight: 600; }
+    #loading-button { font-size: 1rem; }
+  </style>
 </head>
 <body>
   <div id="app-shell">
-    <noscript>Nitro requires JavaScript to be enabled.</noscript>
-    <div id="loading">Loading...</div>
-    <button id="loading-button" style="display: none" onclick="window.sdk.signOut()">Sign Out</button>
+    <div id="loading-wrapper">
+      <svg height="50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26.63 47.23"><path d="M10.66 28.12c.2-.5-.2-.7-.7-.7H.56c-.6 0-.7-.6-.4-1 0 0 19.3-25.7 19.7-26.1s.6-.4.5.2-4.3 18.1-4.3 18.1a.61.61 0 0 0 .6.9h9.4c.6 0 .7.4.4.8 0 0-19.3 26.1-19.7 26.6s-.7.4-.5-.3c.3-.9 4.4-18.5 4.4-18.5z" fill="#aaa"/></svg>
+      <p id="loading">Loading Nitro...</p>
+      <noscript>Unfortunately, Nitro requires JavaScript to be enabled.</noscript>
+      <button id="loading-button" style="display: none" onclick="window.sdk.signOut()">Sign Out</button>
+    </div>
+    
     <script>
 setTimeout(() => {
   const loading = document.getElementById('loading')
