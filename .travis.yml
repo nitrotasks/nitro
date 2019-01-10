@@ -37,7 +37,7 @@ deploy:
     access_key_id: AKIAJPXJ7PE62IXM3HLA
     secret_access_key:
       secure: mAtRMRmddQglWK+BEHsH+jCBEAc4hFk/lmODT4NsETIYSsTciY5Ywzs8+AL9KJI8lD0eSB6UFdXT/r3ZGXHlXY7Miwg9rhlbAE0FzulFFD6XUmxP9estM5a83gyDPAkfVX8EEhV2NfJgji9+NueGBW5cNVwyC7QdLtEAUTXkgfw=
-    bucket: test-assets-us-west-2.nitrotasks.com
+    bucket: assets-us-west-2.nitrotasks.com
     region: us-west-2
     local-dir: dist/generated
     upload-dir: generated
@@ -51,3 +51,22 @@ deploy:
     on:
       repo: nitrotasks/nitro
       branch: master
+  - provider: s3
+    skip_cleanup: true
+    access_key_id: AKIAJPXJ7PE62IXM3HLA
+    secret_access_key:
+      secure: mAtRMRmddQglWK+BEHsH+jCBEAc4hFk/lmODT4NsETIYSsTciY5Ywzs8+AL9KJI8lD0eSB6UFdXT/r3ZGXHlXY7Miwg9rhlbAE0FzulFFD6XUmxP9estM5a83gyDPAkfVX8EEhV2NfJgji9+NueGBW5cNVwyC7QdLtEAUTXkgfw=
+    bucket: test-assets-us-west-2.nitrotasks.com
+    region: us-west-2
+    local-dir: dist/generated
+    upload-dir: generated
+    acl: private
+    on:
+      repo: nitrotasks/nitro
+      branch: develop
+  - provider: script
+    skip_cleanup: true
+    script: npm run docker-push-develop
+    on:
+      repo: nitrotasks/nitro
+      branch: develop  
