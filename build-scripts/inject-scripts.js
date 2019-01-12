@@ -24,7 +24,7 @@ fs.readdir(path.resolve(__dirname, '../', 'dist'), (error, files) => {
               .toString()
               .replace(
                 '</head>',
-                `<link rel="stylsheet" href="${assets.app.css}"></head>`
+                `<link rel="stylesheet" href="${assets.app.css}"></head>`
               )
               .replace(
                 '</body>',
