@@ -23,7 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
     NitroSdk.signOut(null, true)
     return
   }
-  if (process.env.NODE_ENV === 'production') {
+  if (
+    process.env.NODE_ENV === 'production' &&
+    process.env.BUILD_ENV === 'modern'
+  ) {
     const Runtime = require('offline-plugin/runtime')
     Runtime.install()
   } else {

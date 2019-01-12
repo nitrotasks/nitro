@@ -1,14 +1,35 @@
 {
-	"presets": [
-    "@babel/preset-flow",
-    "@babel/preset-env",
-    "@babel/preset-react"
-  ],
-  "plugins": [
-    "react-native-web",
-    "@babel/plugin-proposal-class-properties"
-  ],
   "env": {
+    "legacy": {
+      "presets": [
+        "@babel/preset-flow",
+        "@babel/preset-env",
+        "@babel/preset-react"
+      ],
+      "plugins": [
+        "react-native-web",
+        "@babel/plugin-proposal-class-properties"
+      ]
+    },
+    "modern": {
+      "presets": [
+        "@babel/preset-flow",
+        [
+          "@babel/preset-env",
+          {
+            "modules": false,
+            "targets": {
+              "esmodules": true
+            }
+          }
+        ],
+        "@babel/preset-react"
+      ],
+      "plugins": [
+        "react-native-web",
+        "@babel/plugin-proposal-class-properties"
+      ]
+    },
     "test": {
       "presets": [
         "@babel/preset-flow",
@@ -19,7 +40,7 @@
         "istanbul",
         "react-native-web",
         "@babel/plugin-proposal-class-properties"
-      ],
+      ]
     }
   }
 }

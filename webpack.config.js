@@ -8,36 +8,22 @@ const OfflinePlugin = require('offline-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const devMode = process.env.NODE_ENV !== 'production'
+const AssetsWebpackPlugin = require('assets-webpack-plugin')
 
-let filename = 'generated/[name].js'
-let chunkFilename = 'generated/[name].[id].js'
-if (!devMode) {
-  filename = 'generated/[name].[hash].js'
-  chunkFilename = 'generated/[name].[id].[chunkhash].js'
-}
+const assetsWebpackPluginInstance = new AssetsWebpackPlugin({
+  filename: 'assets.json',
+  update: true,
+  fileTypes: ['js', 'mjs']
+})
 
-const webpackConfig = {
+const commonConfig = {
   context: baseDirectory,
   entry: {
     app: ['./config/index.js', './nitro.ui/index.js']
   },
-  output: {
-    filename: filename,
-    chunkFilename: chunkFilename,
-    path: buildPath,
-    publicPath: '/'
-  },
   devtool: 'cheap-module-eval-source-map',
   module: {
     rules: [
-      { test: /\.(js|jsx)$/, loader: 'babel-loader' },
-      {
-        test: /\.css$/,
-        use: [
-          devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
-          'css-loader'
-        ]
-      },
       {
         test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
         use: [
@@ -69,19 +55,11 @@ const webpackConfig = {
     }
   },
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-      }
-    }),
     new MiniCssExtractPlugin({
-      filename: 'generated/[name].[hash].css',
-      chunkFilename: 'generated/[id].[hash].css'
+      filename: 'generated/[name].[contenthash].css',
+      chunkFilename: 'generated/[id].[contenthash].css'
     }),
-    new HtmlWebpackPlugin({
-      template: 'nitro.ui/index.html',
-      title: 'Nitro'
-    })
+    assetsWebpackPluginInstance
   ],
   optimization: {
     splitChunks: {
@@ -96,15 +74,102 @@ const webpackConfig = {
   }
 }
 
-const bundle = new BundleAnalyzerPlugin({
-  analyzerMode: 'static',
-  openAnalyzer: false
-})
 if (process.env.NODE_ENV === 'production') {
-  webpackConfig.devtool = 'nosources-source-map'
-  webpackConfig.plugins.push(new webpack.optimize.ModuleConcatenationPlugin())
-  webpackConfig.plugins.push(bundle)
-  webpackConfig.plugins.push(
+  commonConfig.devtool = 'nosources-source-map'
+}
+
+const legacyConfig = {
+  ...commonConfig,
+  name: 'client-legacy',
+  output: {
+    filename: 'generated/[name].[hash].js',
+    chunkFilename: 'generated/[name].[id].[chunkhash].js',
+    path: buildPath,
+    publicPath: '/'
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            envName: 'legacy' // Points to env.legacy in babel.config.js
+          }
+        }
+      },
+      {
+        test: /\.css$/,
+        use: 'null-loader'
+      },
+      ...commonConfig.module.rules
+    ]
+  },
+  plugins: [
+    ...commonConfig.plugins,
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        BUILD_ENV: JSON.stringify('legacy')
+      }
+    })
+  ]
+}
+const modernConfig = {
+  ...commonConfig,
+  name: 'client-modern',
+  output: {
+    filename: 'generated/[name].[hash].mjs',
+    chunkFilename: 'generated/[name].[id].[chunkhash].mjs',
+    path: buildPath,
+    publicPath: '/'
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(mjs|js|jsx)$/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            envName: 'modern' // Points to env.modern in babel.config.js
+          }
+        }
+      },
+      {
+        test: /\.css$/,
+        use: [
+          devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+          'css-loader'
+        ]
+      },
+      ...commonConfig.module.rules
+    ]
+  },
+  plugins: [
+    ...commonConfig.plugins,
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        BUILD_ENV: JSON.stringify('modern')
+      }
+    }),
+    new HtmlWebpackPlugin({
+      template: 'nitro.ui/index.html',
+      title: 'Nitro',
+      chunks: devMode ? undefined : []
+    })
+  ]
+}
+
+if (process.env.NODE_ENV === 'production') {
+  // doesn't support mjs
+  legacyConfig.plugins.push(
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      openAnalyzer: false
+    })
+  )
+  modernConfig.plugins.push(
     new OfflinePlugin({
       appShell: '/',
       externals: [
@@ -120,4 +185,4 @@ if (process.env.NODE_ENV === 'production') {
   )
 }
 
-module.exports = webpackConfig
+module.exports = [legacyConfig, modernConfig]
