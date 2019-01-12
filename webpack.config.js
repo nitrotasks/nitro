@@ -82,7 +82,18 @@ const webpackConfig = {
       template: 'nitro.ui/index.html',
       title: 'Nitro'
     })
-  ]
+  ],
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendor',
+          chunks: 'all'
+        }
+      }
+    }
+  }
 }
 
 const bundle = new BundleAnalyzerPlugin({
