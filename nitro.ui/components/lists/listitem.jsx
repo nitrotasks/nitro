@@ -138,7 +138,11 @@ const styles = StyleSheet.create({
     fontSize: vars.padding * 1.125,
     fontWeight: '600',
     lineHeight: height,
-    color: vars.navTextColor
+    color: vars.navTextColor,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    paddingRight: vars.padding / 2
   },
   countWrapper: {
     paddingLeft: vars.padding / 4,
