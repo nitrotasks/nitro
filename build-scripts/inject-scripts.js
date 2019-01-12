@@ -1,5 +1,6 @@
 const path = require('path')
 const fs = require('fs')
+const assetsLegacy = require('../assets.legacy.json')
 const assets = require('../assets.json')
 const html = path.resolve(__dirname, '..', 'dist', 'index.html')
 const htmlRegex = /index\.html$/i
@@ -28,13 +29,13 @@ fs.readdir(path.resolve(__dirname, '../', 'dist'), (error, files) => {
               .replace(
                 '</body>',
                 `<script type="module" src="${
-                  assets.vendor.mjs
-                }"></script><script type="module" src="${
-                  assets.app.mjs
-                }"></script><script nomodule src="${
                   assets.vendor.js
-                }"></script><script nomodule src="${
+                }"></script><script type="module" src="${
                   assets.app.js
+                }"></script><script nomodule src="${
+                  assetsLegacy.vendor.js
+                }"></script><script nomodule src="${
+                  assetsLegacy.app.js
                 }"></script></body>`
               )
           )

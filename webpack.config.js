@@ -10,12 +10,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const devMode = process.env.NODE_ENV !== 'production'
 const AssetsWebpackPlugin = require('assets-webpack-plugin')
 
-const assetsWebpackPluginInstance = new AssetsWebpackPlugin({
-  filename: 'assets.json',
-  update: true,
-  fileTypes: ['js', 'mjs']
-})
-
 const commonConfig = {
   context: baseDirectory,
   entry: {
@@ -58,8 +52,7 @@ const commonConfig = {
     new MiniCssExtractPlugin({
       filename: 'generated/[name].[contenthash].css',
       chunkFilename: 'generated/[id].[contenthash].css'
-    }),
-    assetsWebpackPluginInstance
+    })
   ],
   optimization: {
     splitChunks: {
@@ -112,6 +105,10 @@ const legacyConfig = {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
         BUILD_ENV: JSON.stringify('legacy')
       }
+    }),
+    new AssetsWebpackPlugin({
+      filename: 'assets.legacy.json',
+      fileTypes: ['js', 'mjs']
     })
   ]
 }
@@ -119,8 +116,8 @@ const modernConfig = {
   ...commonConfig,
   name: 'client-modern',
   output: {
-    filename: 'generated/[name].[hash].mjs',
-    chunkFilename: 'generated/[name].[id].[chunkhash].mjs',
+    filename: 'generated/[name].[hash].mjs.js',
+    chunkFilename: 'generated/[name].[id].[chunkhash].mjs.js',
     path: buildPath,
     publicPath: '/'
   },
@@ -157,6 +154,10 @@ const modernConfig = {
       template: 'nitro.ui/index.html',
       title: 'Nitro',
       chunks: devMode ? undefined : []
+    }),
+    new AssetsWebpackPlugin({
+      filename: 'assets.json',
+      fileTypes: ['js', 'mjs']
     })
   ]
 }
