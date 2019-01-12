@@ -67,7 +67,9 @@ class AuthenticationStore extends Events {
         } else {
           this.accessToken = { access_token: this.refreshToken.accessToken }
           this.expiresAt = parseInt(this.refreshToken.expiresAt)
-          this.scheduleToken(60 * 30) // 30 minutes
+          this.scheduleToken(
+            (this.expiresAt - new Date().getTime() - HOUR) / 1000
+          )
           setTimeout(this.connectSocketWithCheck, 5000)
           this.trigger(EVENTS.TOKEN_READY)
         }
@@ -202,7 +204,8 @@ class AuthenticationStore extends Events {
     return this.getToken()
   }
   scheduleToken(time) {
-    log('Getting new token in', time / 60 / 60, 'hours.')
+    if (isNaN(time)) return
+    log('Getting new token in', (time / 60 / 60).toFixed(2), 'hours.')
     setTimeout(() => {
       this.getToken()
     }, Math.round(time) * 1000)
@@ -238,7 +241,9 @@ class AuthenticationStore extends Events {
             set('auth', this.refreshToken)
             log('Auth0 Session Refreshed')
             this.trigger(EVENTS.TOKEN_READY)
-            this.scheduleToken(60 * 30) // 30 minutes
+            this.scheduleToken(
+              (this.expiresAt - new Date().getTime() - HOUR) / 1000
+            )
             this.connectSocketWithCheck()
             resolve()
           } else {
@@ -257,7 +262,7 @@ class AuthenticationStore extends Events {
             response.json().then(data => {
               this.accessToken = data
               this.expiresAt = new Date().getTime() + data.expiresIn * 1000
-              this.scheduleToken(data.expiresIn / 4)
+              this.scheduleToken(data.expiresIn - HOUR / 1000)
               this.trigger(EVENTS.TOKEN_READY)
               this.connectSocketWithCheck()
               resolve(data)
@@ -302,6 +307,11 @@ class AuthenticationStore extends Events {
             .then(() => log('Signed in with Auth0'))
             .then(() => this.trigger(EVENTS.SIGN_IN))
             .then(() => this.connectSocketWithCheck())
+            .then(() =>
+              this.scheduleToken(
+                (this.expiresAt - new Date().getTime() - HOUR) / 1000
+              )
+            )
             .then(resolve)
             .catch(err => {
               this.trigger(EVENTS.SIGN_IN_ERROR, err)
