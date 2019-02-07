@@ -6,6 +6,7 @@ export default class Task {
     this.notes = props.notes || null
     this.date = (props.date && props.date !== 'next') ? new Date(props.date) : props.date || null
     this.deadline = props.deadline ? new Date(props.deadline) : null
+    this.priority = props.priority || 0
     this.list = props.list
     this.completed = props.completed ? new Date(props.completed) : null
     this.serverId = props.serverId || null
@@ -19,6 +20,7 @@ export default class Task {
       type: this.type,
       date: this.date,
       deadline: this.deadline,
+      priority: this.priority,
       notes: this.notes,
       list: this.list,
       completed: this.completed,

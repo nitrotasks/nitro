@@ -67,7 +67,7 @@
     "null-loader": "^0.1.1",
     "nyc": "^13.1.0",
     "offline-plugin": "^5.0.6",
-    "prettier": "^1.15.3",
+    "prettier": "^1.16.4",
     "resolve-url-loader": "^3.0.0",
     "style-loader": "^0.23.1",
     "url-loader": "^1.1.2",
