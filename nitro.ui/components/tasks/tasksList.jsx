@@ -387,6 +387,7 @@ export class TasksList extends React.PureComponent {
               dataDate={task.date}
               dataDeadline={task.deadline}
               dataList={task.list}
+              dataPriority={task.priority}
               dataCompleted={task.completed}
               index={index}
               headersAllowed={headersAllowed}

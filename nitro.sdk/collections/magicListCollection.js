@@ -201,7 +201,7 @@ function groupList(list: Array<Object>, group: string): Array<Object> {
       }
       groupings[task.list].push(task)
     } else {
-      if (group === 'next' && task.priority > 10000) {
+      if (group === 'next' && task.magicPriority > 10000) {
         groupings.next.push(task)
       } else {
         groupings.today.push(task)
@@ -264,7 +264,7 @@ function getList(
       const task = TasksCollection.find(t)
       if (task === null) return null
       const taskObj = task.toObject()
-      taskObj.priority = getPriority(taskObj)
+      taskObj.magicPriority = getPriority(taskObj)
       return taskObj
     })
     .filter(task => {
@@ -272,14 +272,14 @@ function getList(
       if (task.type === 'header' || task.type === 'header-collapsed') {
         return false
       }
-      if (comparison === 'gt' && task.priority >= threshold) {
+      if (comparison === 'gt' && task.magicPriority >= threshold) {
         return true
-      } else if (comparison === 'lt' && task.priority < threshold) {
+      } else if (comparison === 'lt' && task.magicPriority < threshold) {
         return true
       }
       return false
     })
-    .sort((a, b) => a.priority - b.priority)
+    .sort((a, b) => a.magicPriority - b.magicPriority)
   if (group) {
     return groupList(findHeaders(ret), group)
   }
