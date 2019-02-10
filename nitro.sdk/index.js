@@ -391,6 +391,12 @@ export class sdk extends Events {
       order: order
     }
   }
+  getSortedTasks(id: string, algorithm: string) {
+    if (!id || !algorithm) {
+      throw new Error('List & Algorithm must be specified.')
+    }
+    return TasksCollection.findListSorted(id, algorithm)
+  }
   getTasksSyncStatus(listId: string) {
     const flatten = (accumulator, currentValue) =>
       accumulator.concat(currentValue)
