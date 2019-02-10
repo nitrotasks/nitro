@@ -45,11 +45,35 @@ export function getAlphabetical(
   return tasks
     .map(t =>
       t.sort((a, b) => {
-        if (a.type === 'header' || a.type === 'header-collapsed') {
-          // headers always go at the top
-          return 0
-        }
+        if (a.type === 'header' || a.type === 'header-collapsed') return 0
         return a.name.localeCompare(b.name)
+      })
+    )
+    .reduce((a, b) => a.concat(b))
+}
+
+export function getPriority(
+  listId: string,
+  ignoreHeaders: boolean = false
+): Array<Object> {
+  const tasks = getList(listId, !ignoreHeaders)
+  if (ignoreHeaders) {
+    return tasks
+      .filter(t => t.type !== 'header' && t.type !== 'header-collapsed')
+      .sort((a, b) => {
+        const priority = b.priority - a.priority
+        if (priority === 0) return a.name.localeCompare(b.name)
+        return priority
+      })
+  }
+
+  return tasks
+    .map(t =>
+      t.sort((a, b) => {
+        if (a.type === 'header' || a.type === 'header-collapsed') return 0
+        const priority = b.priority - a.priority
+        if (priority === 0) return a.name.localeCompare(b.name)
+        return priority
       })
     )
     .reduce((a, b) => a.concat(b))

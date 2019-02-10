@@ -2,7 +2,7 @@ import { get, set } from 'idb-keyval'
 import Events from '../events.js'
 import Task from '../models/taskModel.js'
 import { getToday, getNext } from './magicListCollection.js'
-import { getAlphabetical } from './sortedListCollection.js'
+import { getAlphabetical, getPriority } from './sortedListCollection.js'
 import { createId } from '../helpers/random.js'
 import { broadcast } from '../sync/broadcastchannel.js'
 import { log } from '../helpers/logger.js'
@@ -221,6 +221,10 @@ export class tasks extends Events {
       return getAlphabetical(list, false)
     } else if (algorithm === 'alphabetical-ignoreheaders') {
       return getAlphabetical(list, true)
+    } else if (algorithm === 'priority') {
+      return getPriority(list, false)
+    } else if (algorithm === 'priority-ignoreheaders') {
+      return getPriority(list, true)
     }
   }
   mapToLocal(list) {
