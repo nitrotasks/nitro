@@ -41,6 +41,10 @@ const getPriority = function(task: Object): number {
       priority += 100000
     }
   }
+  // each priority point is worth 2 days overdue
+  if (task.priority > 0) {
+    priority -= task.priority * 16
+  }
   // overdue
   if (task.deadline !== null && task.deadline < new Date()) {
     // 15 points per date overdue
