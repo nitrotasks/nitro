@@ -2,7 +2,7 @@
 import { TasksCollection } from './tasksCollection.js'
 import { ListsCollection } from './listsCollection.js'
 
-import { findHeaders } from './helpersListCollection.js'
+import { findHeaders, getList } from './helpersListCollection.js'
 
 // this is how many items to split out
 const groupSize = 2
@@ -220,7 +220,7 @@ function groupList(list: Array<Object>, group: string): Array<Object> {
   }
   return final
 }
-function getList(
+function getCombinedList(
   threshold: number,
   comparison: string,
   group?: string
@@ -258,10 +258,31 @@ function getList(
   }
   return findHeaders(ret)
 }
+const getSingularList = (listId: string, groupedByHeaders: boolean) => {
+  const list = getList(listId, groupedByHeaders)
+  if (groupedByHeaders) {
+    const sorted = list.map(group => {
+      return group.map(t => {
+        t.magicPriority = getPriority(t)
+        return t
+      }).sort((a, b) => a.magicPriority - b.magicPriority)
+    }).reduce((a, b) => a.concat(b), [])
+    return sorted
+  } else {
+    const sorted = list.map(t => {
+      t.magicPriority = getPriority(t)
+      return t
+    }).sort((a, b) => a.magicPriority - b.magicPriority)
+    return sorted
+  }
+}
 
 export function getToday(group: boolean = true): Array<Object> {
-  return getList(10000, 'lt', group ? 'today' : undefined)
+  return getCombinedList(10000, 'lt', group ? 'today' : undefined)
 }
 export function getNext(group: boolean = true): Array<Object> {
-  return getList(100000, 'lt', group ? 'next' : undefined)
+  return getCombinedList(100000, 'lt', group ? 'next' : undefined)
+}
+export function getMagic(listId, ignoreHeaders: boolean = true): Array<Object> {
+  return getSingularList(listId, !ignoreHeaders)
 }

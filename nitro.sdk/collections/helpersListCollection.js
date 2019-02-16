@@ -35,3 +35,30 @@ export function findHeaders(tasks: Array<Object>): Array<Object> {
     return task
   })
 }
+
+export function getList(listId, groupedByHeaders = false) {
+  const ret = ListsCollection.find(listId)
+    .localOrder.reduce((a, b) => a.concat(b), [])
+    .map(t => {
+      const task = TasksCollection.find(t)
+      if (task === null) return null
+      const taskObj = task.toObject()
+      return taskObj
+    })
+
+  if (groupedByHeaders) {
+    const grouped = ret.reduce((a, b) => {
+      if (a.length === 0) {
+        return [[b]]
+      } else if (b.type !== 'header' && b.type !== 'header-collapsed') {
+        a[0].push(b)
+        return a
+      } else {
+        return [[b]].concat(a)
+      }
+    }, [])
+    return grouped.reverse()
+  }
+
+  return findHeaders(ret)
+}

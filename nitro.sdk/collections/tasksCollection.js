@@ -1,7 +1,7 @@
 import { get, set } from 'idb-keyval'
 import Events from '../events.js'
 import Task from '../models/taskModel.js'
-import { getToday, getNext } from './magicListCollection.js'
+import { getToday, getNext, getMagic } from './magicListCollection.js'
 import {
   getAlphabetical,
   getPriority,
@@ -238,6 +238,10 @@ export class tasks extends Events {
       return getDeadline(list, false)
     } else if (algorithm === 'deadline-ignoreheaders') {
       return getDeadline(list, true)
+    } else if (algorithm === 'magic') {
+      return getMagic(list, false)
+    } else if (algorithm === 'magic-ignoreheaders') {
+      return getMagic(list, true)
     }
   }
   mapToLocal(list) {
