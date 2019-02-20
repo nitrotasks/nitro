@@ -25,11 +25,11 @@ const sorts = [
   }
 ]
 export class SortBar extends React.Component {
-  constructor(props) {
-    super(props)
+  state = { sort: null }
+  static getDerivedStateFromProps(props) {
     const { listId } = props
     const list = NitroSdk.getList(listId)
-    this.state = {
+    return {
       sort: list.sort
     }
   }
@@ -40,6 +40,7 @@ export class SortBar extends React.Component {
     NitroSdk.unbind('update', this.triggerUpdate)
   }
   triggerUpdate = operation => {
+    // This is a bit redundant, but will need a bit of a refactor to do it properly
     if (operation === 'lists') {
       const { listId } = this.props
       const list = NitroSdk.getList(listId)
@@ -50,6 +51,7 @@ export class SortBar extends React.Component {
       }
     }
   }
+
   triggerSort(algorithm) {
     return () => {
       const { listId } = this.props
@@ -72,7 +74,9 @@ export class SortBar extends React.Component {
     }
   }
   render() {
+    // don't show anything if no sort is selected
     const selected = this.state.sort
+    if (selected === null) return null
     const selectedArray = (selected || '').split('-')
     const isIgnoreHeaders = selectedArray[1] === 'ignoreheaders'
     return (
