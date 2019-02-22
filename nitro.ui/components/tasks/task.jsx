@@ -199,6 +199,11 @@ export class Task extends React.PureComponent {
     taskMenu(this.props.dataId, !viewInList, viewInList, x, y, 'top', 'left')
   }
   triggerNoOp = e => {
+    const { dataType, headersAllowed } = this.props
+    if (headersAllowed && (dataType === 'header' || dataType === 'header-collapsed')) {
+      // othewise you can't click inside the headers
+      return
+    }
     e.preventDefault()
   }
   render() {

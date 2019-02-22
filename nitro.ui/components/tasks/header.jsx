@@ -129,6 +129,7 @@ export class Header extends React.PureComponent {
       return null
     }
     const renameNotAllowed = mutable.indexOf('no-rename') !== -1
+    const orderNotAllowed = mutable.indexOf('no-order') !== -1
     const listHeaderStyles = this.state.textInputFocus
       ? [styles.listHeader, styles.focusedListHeader]
       : styles.listHeader
@@ -144,7 +145,7 @@ export class Header extends React.PureComponent {
           onKeyUp={this.triggerKeyUp}
           disabled={renameNotAllowed}
         />
-        {false ? null : (
+        {orderNotAllowed ? null : (
           <View onClick={this.triggerSort} style={styles.sortIconWrapper}>
             {this.state.sort ? (
               <Image source={sortSelectedIcon} style={styles.menuIcon} />

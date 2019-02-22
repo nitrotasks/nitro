@@ -37,9 +37,10 @@ export class TasksList extends React.PureComponent {
     let mutable = []
     const taskMap = new Map()
     let order = []
-    let orderNotAllowed = mutable.includes('no-order')
+    let orderNotAllowed = false
     if (list !== null) {
       mutable = list.mutable
+      orderNotAllowed = mutable.includes('no-order')
       if (list.sort === null) {
         order = tasks.order
         tasks.tasks.forEach(task => {
@@ -298,8 +299,8 @@ export class TasksList extends React.PureComponent {
     }
   }
   render() {
-    const {listId} = this.props
-    const {mutable, order, orderNotAllowed, tasks, syncingTasks} = this.state
+    const { listId } = this.props
+    const { mutable, order, orderNotAllowed, tasks, syncingTasks } = this.state
     const headersAllowed = !mutable.includes('no-headings')
     const signedIn = NitroSdk.isSignedIn()
     const completedTasks = Array.from(tasks).filter(obj => {

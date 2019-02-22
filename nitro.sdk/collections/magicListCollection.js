@@ -265,14 +265,18 @@ const getSingularList = (listId: string, groupedByHeaders: boolean) => {
       return group.map(t => {
         t.magicPriority = getPriority(t)
         return t
-      }).sort((a, b) => a.magicPriority - b.magicPriority)
+      }).sort((a, b) => {
+        if (a.type === 'header' || a.type === 'header-collapsed') return 0
+        return a.magicPriority - b.magicPriority
+      })
     }).reduce((a, b) => a.concat(b), [])
     return sorted
   } else {
     const sorted = list.map(t => {
       t.magicPriority = getPriority(t)
       return t
-    }).sort((a, b) => a.magicPriority - b.magicPriority)
+    }).filter(t => t.type !== 'header' && t.type !== 'header-collapsed')
+      .sort((a, b) => a.magicPriority - b.magicPriority)
     return sorted
   }
 }
