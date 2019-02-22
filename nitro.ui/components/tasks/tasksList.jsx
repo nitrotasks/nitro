@@ -31,21 +31,38 @@ export class TasksList extends React.PureComponent {
   }
   static generateState(props, newList = false) {
     const { listId } = props
-    const list = NitroSdk.getTasks(listId)
+    const list = NitroSdk.getList(listId)
+    const tasks = list.sort !== null ? NitroSdk.getSortedTasks(listId, list.sort) : NitroSdk.getTasks(listId)
+
+    let mutable = []
     const taskMap = new Map()
     let order = []
+    let orderNotAllowed = mutable.includes('no-order')
     if (list !== null) {
-      order = list.order
-      list.tasks.forEach(task => {
-        taskMap.set(task.id, task)
-      })
+      mutable = list.mutable
+      if (list.sort === null) {
+        order = tasks.order
+        tasks.tasks.forEach(task => {
+          taskMap.set(task.id, task)
+        })
+      } else {
+        // why didn't i make the data structures the same
+        // probably because i used javascript, not typescript.
+        orderNotAllowed = true
+        tasks.forEach(task => {
+          taskMap.set(task.id, task)
+          order.push(task.id)
+        })
+      }
     }
 
     UiService.state.currentListTasksOrder = order
     const newState = {
       previousId: props.listId,
+      mutable: mutable,
       order: order,
-      tasks: taskMap
+      tasks: taskMap,
+      orderNotAllowed: orderNotAllowed
     }
     if (newList && NitroSdk.isSignedIn(true)) {
       const syncingTasks = NitroSdk.getTasksSyncStatus(props.listId)
@@ -281,17 +298,11 @@ export class TasksList extends React.PureComponent {
     }
   }
   render() {
-    const list = NitroSdk.getList(this.props.listId)
-    let mutable = []
-    if (list !== null) {
-      mutable = list.mutable
-    }
-
+    const {listId} = this.props
+    const {mutable, order, orderNotAllowed, tasks, syncingTasks} = this.state
     const headersAllowed = !mutable.includes('no-headings')
-    const orderNotAllowed = mutable.includes('no-order')
-
     const signedIn = NitroSdk.isSignedIn()
-    const completedTasks = Array.from(this.state.tasks).filter(obj => {
+    const completedTasks = Array.from(tasks).filter(obj => {
       const task = obj[1]
       if (
         signedIn ||
@@ -310,7 +321,7 @@ export class TasksList extends React.PureComponent {
     if (completedTasks > 0 && !orderNotAllowed) {
       const { archiveTransform, archiveTransformList } = this
       const archiveStyles =
-        archiveTransform !== null && archiveTransformList === this.props.listId
+        archiveTransform !== null && archiveTransformList === listId
           ? [styles.archiveButtonWrapper, { transform: archiveTransform }]
           : styles.archiveButtonWrapper
       archiveButton = (
@@ -339,13 +350,11 @@ export class TasksList extends React.PureComponent {
     let currentHeading = ''
     let headerCollapsed = false
 
-    const order = this.state.order
-
     return (
       <View ref={this.tasksContainer} style={styles.wrapper}>
         <div className="new-task-spacer" />
         {order.map((taskId, index) => {
-          const task = this.state.tasks.get(taskId)
+          const task = tasks.get(taskId)
           const taskType = task ? task.type : null
 
           if (taskType === 'header') {
@@ -377,8 +386,8 @@ export class TasksList extends React.PureComponent {
           }
           return (
             <Task
-              key={`${this.props.listId}-${task.id}`}
-              listId={this.props.listId}
+              key={`${listId}-${task.id}`}
+              listId={listId}
               dataId={task.id}
               dataName={task.name}
               dataType={task.type}
@@ -390,10 +399,10 @@ export class TasksList extends React.PureComponent {
               dataPriority={task.priority}
               dataCompleted={task.completed}
               index={index}
-              headersAllowed={headersAllowed}
               currentHeading={currentHeading}
+              headersAllowed={headersAllowed}
               dragDisabled={orderNotAllowed}
-              syncing={this.state.syncingTasks.includes(task.id)}
+              syncing={syncingTasks.includes(task.id)}
             />
           )
         })}

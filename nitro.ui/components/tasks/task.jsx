@@ -41,6 +41,7 @@ export class Task extends React.PureComponent {
     dataList: PropTypes.string,
     dataCompleted: PropTypes.instanceOf(Date),
     currentHeading: PropTypes.string,
+    forceHeadings: PropTypes.bool,
     headersAllowed: PropTypes.bool,
     dragDisabled: PropTypes.bool,
     syncing: PropTypes.bool
@@ -288,28 +289,27 @@ export class Task extends React.PureComponent {
         )
       }
       let listIndicators = []
-      if (['today', 'next'].indexOf(props.listId) > -1) {
-        const heading = props.currentHeading.split('-')
-        if (
-          heading.length === 1 &&
-          props.dataList !== 'inbox' &&
-          props.dataList !== heading[0]
-        ) {
-          listIndicators.push(
-            <Text key="list-indicator" style={styles.subText}>
-              {deadlineIndicator || listIndicators.length > 0 ? ' · ' : ''}
-              {NitroSdk.getList(props.dataList).name}
-            </Text>
-          )
-        }
-        if (props.dataHeading && heading.length === 1) {
-          listIndicators.push(
-            <Text key="heading-indicator" style={styles.subText}>
-              {deadlineIndicator || listIndicators.length > 0 ? ' · ' : ''}
-              {props.dataHeading}
-            </Text>
-          )
-        }
+      const heading = props.currentHeading.split('-')
+      if (
+        ['today', 'next'].indexOf(props.listId) > -1 &&
+        heading.length === 1 &&
+        props.dataList !== 'inbox' &&
+        props.dataList !== heading[0]
+      ) {
+        listIndicators.push(
+          <Text key="list-indicator" style={styles.subText}>
+            {deadlineIndicator || listIndicators.length > 0 ? ' · ' : ''}
+            {NitroSdk.getList(props.dataList).name}
+          </Text>
+        )
+      }
+      if (props.dataHeading && heading.length === 1) {
+        listIndicators.push(
+          <Text key="heading-indicator" style={styles.subText}>
+            {deadlineIndicator || listIndicators.length > 0 ? ' · ' : ''}
+            {props.dataHeading}
+          </Text>
+        )
       }
 
       // if the bottom row isn't empty, we apply our padded out styles

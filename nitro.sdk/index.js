@@ -395,7 +395,8 @@ export class sdk extends Events {
     if (!id || !algorithm) {
       throw new Error('List & Algorithm must be specified.')
     }
-    return TasksCollection.findListSorted(id, algorithm)
+    const tasks = TasksCollection.findListSorted(id, algorithm)
+    return tasks || []
   }
   getTasksSyncStatus(listId: string) {
     const flatten = (accumulator, currentValue) =>

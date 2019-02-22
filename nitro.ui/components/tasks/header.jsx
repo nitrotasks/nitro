@@ -144,19 +144,19 @@ export class Header extends React.PureComponent {
           onKeyUp={this.triggerKeyUp}
           disabled={renameNotAllowed}
         />
+        {false ? null : (
+          <View onClick={this.triggerSort} style={styles.sortIconWrapper}>
+            {this.state.sort ? (
+              <Image source={sortSelectedIcon} style={styles.menuIcon} />
+            ) : (
+              <Image source={sortIcon} style={styles.menuIcon} />
+            )}
+          </View>
+        )}
         {renameNotAllowed ? null : (
-          <React.Fragment>
-            <View onClick={this.triggerSort} style={styles.sortIconWrapper}>
-              {this.state.sort ? (
-                <Image source={sortSelectedIcon} style={styles.menuIcon} />
-              ) : (
-                <Image source={sortIcon} style={styles.menuIcon} />
-              )}
-            </View>
-            <View onClick={this.triggerMenu} style={styles.menuIconWrapper}>
-              <Image source={menuIcon} style={styles.menuIcon} />
-            </View>
-          </React.Fragment>
+          <View onClick={this.triggerMenu} style={styles.menuIconWrapper}>
+            <Image source={menuIcon} style={styles.menuIcon} />
+          </View>
         )}
       </View>
     )

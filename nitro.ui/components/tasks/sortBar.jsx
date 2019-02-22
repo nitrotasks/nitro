@@ -57,8 +57,12 @@ export class SortBar extends React.Component {
       const { listId } = this.props
       const selected = this.state.sort
       const selectedArray = (selected || '').split('-')
+      const newSort = [algorithm]
+      if (selectedArray[1]) {
+        newSort.push(selectedArray[1])
+      }
       NitroSdk.updateList(listId, {
-        sort: `${algorithm}-${selectedArray[1] || ''}`
+        sort: newSort.join('-')
       })
     }
   }
