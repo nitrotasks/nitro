@@ -1,7 +1,13 @@
 import { get, set } from 'idb-keyval'
 import Events from '../events.js'
 import Task from '../models/taskModel.js'
-import { getToday, getNext } from './magicListCollection.js'
+import { getToday, getNext, getMagic } from './magicListCollection.js'
+import {
+  getAlphabetical,
+  getPriority,
+  getDate,
+  getDeadline
+} from './sortedListCollection.js'
 import { createId } from '../helpers/random.js'
 import { broadcast } from '../sync/broadcastchannel.js'
 import { log } from '../helpers/logger.js'
@@ -214,6 +220,29 @@ export class tasks extends Events {
       }
     }
     return returned
+  }
+  findListSorted(list, algorithm) {
+    if (algorithm === 'alphabetical') {
+      return getAlphabetical(list, false)
+    } else if (algorithm === 'alphabetical-ignoreheaders') {
+      return getAlphabetical(list, true)
+    } else if (algorithm === 'priority') {
+      return getPriority(list, false)
+    } else if (algorithm === 'priority-ignoreheaders') {
+      return getPriority(list, true)
+    } else if (algorithm === 'date') {
+      return getDate(list, false)
+    } else if (algorithm === 'date-ignoreheaders') {
+      return getDate(list, true)
+    } else if (algorithm === 'deadline') {
+      return getDeadline(list, false)
+    } else if (algorithm === 'deadline-ignoreheaders') {
+      return getDeadline(list, true)
+    } else if (algorithm === 'magic') {
+      return getMagic(list, false)
+    } else if (algorithm === 'magic-ignoreheaders') {
+      return getMagic(list, true)
+    }
   }
   mapToLocal(list) {
     return list.map(item => {

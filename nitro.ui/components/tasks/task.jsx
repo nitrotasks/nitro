@@ -12,10 +12,16 @@ import { Checkbox } from './checkbox.jsx'
 import { TaskHeader } from './taskHeader.jsx'
 import { taskMenu } from './taskMenu.js'
 import { TouchableOpacity } from '../reusable/touchableOpacity.jsx'
+import { formatPriority } from '../../helpers/priority.js'
 
 import todayIcon from '../../../assets/icons/feather/today.svg'
 import notesIcon from '../../../assets/icons/material/note.svg'
 import syncIcon from '../../../assets/icons/material/sync.svg'
+
+import priority1Icon from '../../../assets/icons/material/priority-1.svg'
+import priority2Icon from '../../../assets/icons/material/priority-2.svg'
+import priority3Icon from '../../../assets/icons/material/priority-3.svg'
+const priorityIcons = [priority1Icon, priority2Icon, priority3Icon]
 
 // 0.15 is the threshold defined in react-beautiful-dnd
 // we'll go a bit higher
@@ -35,6 +41,7 @@ export class Task extends React.PureComponent {
     dataList: PropTypes.string,
     dataCompleted: PropTypes.instanceOf(Date),
     currentHeading: PropTypes.string,
+    forceHeadings: PropTypes.bool,
     headersAllowed: PropTypes.bool,
     dragDisabled: PropTypes.bool,
     syncing: PropTypes.bool
@@ -192,6 +199,11 @@ export class Task extends React.PureComponent {
     taskMenu(this.props.dataId, !viewInList, viewInList, x, y, 'top', 'left')
   }
   triggerNoOp = e => {
+    const { dataType, headersAllowed } = this.props
+    if (headersAllowed && (dataType === 'header' || dataType === 'header-collapsed')) {
+      // othewise you can't click inside the headers
+      return
+    }
     e.preventDefault()
   }
   render() {
@@ -209,9 +221,23 @@ export class Task extends React.PureComponent {
         />
       )
     } else {
-      let indicatorsBefore = null
+      let indicatorsBefore = []
       let indicatorsAfter = null
       let deadlineIndicator = null
+      if (props.dataPriority > 0 && props.dataPriority <= 3) {
+        indicatorsBefore.push(
+          <Image
+            key="priority-indicator"
+            accessibilityLabel={
+              formatPriority(props.dataPriority) + ' Priority'
+            }
+            source={priorityIcons[props.dataPriority - 1]}
+            resizeMode="contain"
+            style={styles.priorityIcon}
+          />
+        )
+      }
+
       if (props.dataDate !== null && props.dataCompleted === null) {
         const date = formatDate(props.dataDate, props.dataType, 'today')
         if (date === 'Today') {
@@ -220,8 +246,9 @@ export class Task extends React.PureComponent {
             this.props.listId !== 'today' &&
             this.props.currentHeading !== 'today'
           ) {
-            indicatorsBefore = (
+            indicatorsBefore.push(
               <Image
+                key="today-indicator"
                 accessibilityLabel="Do Today"
                 source={todayIcon}
                 resizeMode="contain"
@@ -230,7 +257,7 @@ export class Task extends React.PureComponent {
             )
           }
         } else if (this.props.currentHeading !== 'overdue') {
-          indicatorsBefore = (
+          indicatorsBefore.push(
             <View key="date-indicator" style={styles.indicator}>
               <Text style={styles.indicatorText}>{date}</Text>
             </View>
@@ -267,28 +294,27 @@ export class Task extends React.PureComponent {
         )
       }
       let listIndicators = []
-      if (['today', 'next'].indexOf(props.listId) > -1) {
-        const heading = props.currentHeading.split('-')
-        if (
-          heading.length === 1 &&
-          props.dataList !== 'inbox' &&
-          props.dataList !== heading[0]
-        ) {
-          listIndicators.push(
-            <Text key="list-indicator" style={styles.subText}>
-              {deadlineIndicator || listIndicators.length > 0 ? ' · ' : ''}
-              {NitroSdk.getList(props.dataList).name}
-            </Text>
-          )
-        }
-        if (props.dataHeading && heading.length === 1) {
-          listIndicators.push(
-            <Text key="heading-indicator" style={styles.subText}>
-              {deadlineIndicator || listIndicators.length > 0 ? ' · ' : ''}
-              {props.dataHeading}
-            </Text>
-          )
-        }
+      const heading = props.currentHeading.split('-')
+      if (
+        ['today', 'next'].indexOf(props.listId) > -1 &&
+        heading.length === 1 &&
+        props.dataList !== 'inbox' &&
+        props.dataList !== heading[0]
+      ) {
+        listIndicators.push(
+          <Text key="list-indicator" style={styles.subText}>
+            {deadlineIndicator || listIndicators.length > 0 ? ' · ' : ''}
+            {NitroSdk.getList(props.dataList).name}
+          </Text>
+        )
+      }
+      if (props.dataHeading && heading.length === 1) {
+        listIndicators.push(
+          <Text key="heading-indicator" style={styles.subText}>
+            {deadlineIndicator || listIndicators.length > 0 ? ' · ' : ''}
+            {props.dataHeading}
+          </Text>
+        )
       }
 
       // if the bottom row isn't empty, we apply our padded out styles
@@ -403,6 +429,11 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     marginRight: vars.padding * 0.375
+  },
+  priorityIcon: {
+    width: 18,
+    height: 18,
+    marginRight: vars.padding * 0.25
   },
   backIcon: {
     width: 18,

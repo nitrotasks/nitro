@@ -2,6 +2,8 @@
 import { TasksCollection } from './tasksCollection.js'
 import { ListsCollection } from './listsCollection.js'
 
+import { findHeaders, getList } from './helpersListCollection.js'
+
 // this is how many items to split out
 const groupSize = 2
 
@@ -40,6 +42,10 @@ const getPriority = function(task: Object): number {
     } else {
       priority += 100000
     }
+  }
+  // each priority point is worth 2 days overdue
+  if (task.priority > 0) {
+    priority -= task.priority * 16
   }
   // overdue
   if (task.deadline !== null && task.deadline < new Date()) {
@@ -87,39 +93,6 @@ const getPriority = function(task: Object): number {
     priority += 10020 + penalty(task.date) * 20
   }
   return priority
-}
-function findHeaders(tasks: Array<Object>): Array<Object> {
-  const lists = {}
-  tasks.forEach(task => {
-    if (!(task.list in lists)) {
-      lists[task.list] = []
-    }
-    return lists[task.list].push(task.id)
-  })
-  // traverses order to find headings
-  const headings = {}
-  Object.keys(lists).forEach(list => {
-    let currentHeading = null
-    ListsCollection.find(list).localOrder.forEach(task => {
-      const currentTask = TasksCollection.find(task)
-      if (currentTask === null) {
-        return
-      }
-      if (
-        currentTask.type === 'header' ||
-        currentTask.type === 'header-collapsed'
-      ) {
-        currentHeading = currentTask.name
-      } else if (lists[list].indexOf(task) > -1) {
-        headings[task] = currentHeading
-      }
-    })
-  })
-
-  return tasks.map(task => {
-    task.heading = headings[task.id]
-    return task
-  })
 }
 function groupList(list: Array<Object>, group: string): Array<Object> {
   const deadlines = []
@@ -201,7 +174,7 @@ function groupList(list: Array<Object>, group: string): Array<Object> {
       }
       groupings[task.list].push(task)
     } else {
-      if (group === 'next' && task.priority > 10000) {
+      if (group === 'next' && task.magicPriority > 10000) {
         groupings.next.push(task)
       } else {
         groupings.today.push(task)
@@ -247,7 +220,7 @@ function groupList(list: Array<Object>, group: string): Array<Object> {
   }
   return final
 }
-function getList(
+function getCombinedList(
   threshold: number,
   comparison: string,
   group?: string
@@ -264,7 +237,7 @@ function getList(
       const task = TasksCollection.find(t)
       if (task === null) return null
       const taskObj = task.toObject()
-      taskObj.priority = getPriority(taskObj)
+      taskObj.magicPriority = getPriority(taskObj)
       return taskObj
     })
     .filter(task => {
@@ -272,23 +245,48 @@ function getList(
       if (task.type === 'header' || task.type === 'header-collapsed') {
         return false
       }
-      if (comparison === 'gt' && task.priority >= threshold) {
+      if (comparison === 'gt' && task.magicPriority >= threshold) {
         return true
-      } else if (comparison === 'lt' && task.priority < threshold) {
+      } else if (comparison === 'lt' && task.magicPriority < threshold) {
         return true
       }
       return false
     })
-    .sort((a, b) => a.priority - b.priority)
+    .sort((a, b) => a.magicPriority - b.magicPriority)
   if (group) {
     return groupList(findHeaders(ret), group)
   }
   return findHeaders(ret)
 }
+const getSingularList = (listId: string, groupedByHeaders: boolean) => {
+  const list = getList(listId, groupedByHeaders)
+  if (groupedByHeaders) {
+    const sorted = list.map(group => {
+      return group.map(t => {
+        t.magicPriority = getPriority(t)
+        return t
+      }).sort((a, b) => {
+        if (a.type === 'header' || a.type === 'header-collapsed') return 0
+        return a.magicPriority - b.magicPriority
+      })
+    }).reduce((a, b) => a.concat(b), [])
+    return sorted
+  } else {
+    const sorted = list.map(t => {
+      t.magicPriority = getPriority(t)
+      return t
+    }).filter(t => t.type !== 'header' && t.type !== 'header-collapsed')
+      .sort((a, b) => a.magicPriority - b.magicPriority)
+    return sorted
+  }
+}
 
 export function getToday(group: boolean = true): Array<Object> {
-  return getList(10000, 'lt', group ? 'today' : undefined)
+  return getCombinedList(10000, 'lt', group ? 'today' : undefined)
 }
 export function getNext(group: boolean = true): Array<Object> {
-  return getList(100000, 'lt', group ? 'next' : undefined)
+  return getCombinedList(100000, 'lt', group ? 'next' : undefined)
+}
+export function getMagic(listId, ignoreHeaders: boolean = true): Array<Object> {
+  return getSingularList(listId, !ignoreHeaders)
 }

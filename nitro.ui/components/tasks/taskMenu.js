@@ -25,6 +25,10 @@ const HEADER_MENU_ARCHIVE = 'Archive Group'
 const HEADER_MENU_DELETE = 'Remove Heading'
 const HEADER_MENU_CONVERT = 'Change to Task'
 
+const PRIORITY_MENU_3 = 'High Priority'
+const PRIORITY_MENU_2 = 'Medium Priority'
+const PRIORITY_MENU_1 = 'Low Priority'
+
 const archiveTask = (task, callback) => {
   ModalService.show(
     {
@@ -94,6 +98,11 @@ const deleteHeading = (task, callback) => {
   )
 }
 
+const setPriority = (task, priority, callback) => {
+  NitroSdk.updateTask(task, { priority: priority })
+  callback()
+}
+
 export const taskMenu = function(
   taskId,
   headingAllowed,
@@ -136,14 +145,14 @@ export const taskMenu = function(
   ContextMenuService.create(x, y, bind1, bind2, items)
 }
 
-export const headerMenu = function(
+export const headerMenu = (
   taskId,
   x,
   y,
   bind1 = 'top',
   bind2 = 'left',
   callback = () => {}
-) {
+) => {
   const items = [
     {
       title: HEADER_MENU_CONVERT,
@@ -159,6 +168,31 @@ export const headerMenu = function(
     {
       title: HEADER_MENU_DELETE,
       action: () => deleteHeading(taskId, callback)
+    }
+  ]
+  ContextMenuService.create(x, y, bind1, bind2, items)
+}
+
+export const priorityMenu = (
+  taskId,
+  x,
+  y,
+  bind1 = 'top',
+  bind2 = 'left',
+  callback = () => {}
+) => {
+  const items = [
+    {
+      title: PRIORITY_MENU_3,
+      action: () => setPriority(taskId, 3, callback)
+    },
+    {
+      title: PRIORITY_MENU_2,
+      action: () => setPriority(taskId, 2, callback)
+    },
+    {
+      title: PRIORITY_MENU_1,
+      action: () => setPriority(taskId, 1, callback)
     }
   ]
   ContextMenuService.create(x, y, bind1, bind2, items)

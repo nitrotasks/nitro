@@ -8,6 +8,7 @@ import { UiService } from '../../services/uiService.js'
 import { DroppableScrollableWrapper } from '../reusable/droppableScrollableWrapper.jsx'
 import { Header } from './header.jsx'
 import { TasksInput } from './tasksInput.jsx'
+import { SortBar } from './sortBar.jsx'
 import { TasksList } from './tasksList.jsx'
 import { TaskExpanded } from './taskExpanded.jsx'
 import { Datepicker } from '../datepicker.jsx'
@@ -91,6 +92,7 @@ export class Tasks extends React.Component {
             >
               <Header listId={list} onIntersect={this.triggerIntersection} />
               <TasksInput listId={list} />
+              <SortBar listId={list} />
               <TasksList listId={list} />
             </View>
           </View>

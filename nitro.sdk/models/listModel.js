@@ -14,6 +14,7 @@ export default class List {
     this.lastSync = props.lastSync || null
     this.order = props.order || []
     this.localOrder = props.localOrder || []
+    this.sort = props.sort || null
     this.clientUpdate = props.clientUpdate || new Date()
     this.virtual = props.virtual || false
   }
@@ -27,6 +28,7 @@ export default class List {
       lastSync: this.lastSync,
       order: this.order,
       localOrder: this.localOrder,
+      sort: this.sort,
       clientUpdate: this.clientUpdate,
       virtual: this.virtual
     }

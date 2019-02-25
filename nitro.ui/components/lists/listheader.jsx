@@ -17,6 +17,7 @@ import { vars } from '../../styles.js'
 import { UiService } from '../../services/uiService.js'
 import addIcon from '../../../assets/icons/custom/add.svg'
 import searchIcon from '../../../assets/icons/custom/search.svg'
+import searchSlashIcon from '../../../assets/icons/custom/search-slash.svg'
 import { TouchableOpacity } from '../reusable/touchableOpacity.jsx'
 
 const FOCUS_HOTKEY = '/'
@@ -128,7 +129,11 @@ export class ListHeaderWithoutRouter extends React.Component {
   }
   render() {
     const { focus } = this.state
-    const textStyles = focus ? [styles.text, styles.textFocus] : styles.text
+    const textStyles = focus
+      ? [styles.text, styles.textFocus]
+      : window.innerWidth > 850
+      ? [styles.text, styles.textSlash]
+      : styles.text
     return (
       <View
         style={styles.wrapper}
@@ -222,7 +227,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#e6e6e6',
     backgroundImage: `url(${searchIcon})`,
     backgroundRepeat: 'no-repeat',
-    backgroundPosition: '7px 50%',
+    backgroundPosition: '7px 50%, calc(100% - 7px) 50%',
     borderRadius: 5,
     outline: '0',
     borderWidth: 1,
@@ -231,6 +236,9 @@ const styles = StyleSheet.create({
     transitionDuration: '250ms, 250ms',
     transitionProperty: 'border-color, background-color',
     transitionTimingFunction: 'ease, ease'
+  },
+  textSlash: {
+    backgroundImage: `url(${searchIcon}), url(${searchSlashIcon})`
   },
   textFocus: {
     backgroundColor: 'rgba(255,255,255,0.1)',

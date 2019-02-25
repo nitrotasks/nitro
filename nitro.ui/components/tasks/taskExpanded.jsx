@@ -15,14 +15,16 @@ import { vars } from '../../styles.js'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 import { ShortcutsService } from '../../services/shortcutsService.js'
 import { UiService } from '../../services/uiService.js'
-import { taskMenu, headerMenu } from './taskMenu.js'
+import { taskMenu, headerMenu, priorityMenu } from './taskMenu.js'
 import { dateValue, deadlineValue, formatDate } from '../../helpers/date.js'
+import { formatPriority } from '../../helpers/priority.js'
 
 import { DatepickerActivator } from '../datepickerActivator.jsx'
 import { Checkbox } from './checkbox.jsx'
 
 import dateIcon from '../../../assets/icons/material/task-duedate.svg'
 import deadlineIcon from '../../../assets/icons/material/task-deadline.svg'
+import priorityIcon from '../../../assets/icons/material/task-priority.svg'
 import moreIcon from '../../../assets/icons/material/task-more.svg'
 import closeIcon from '../../../assets/icons/material/close.svg'
 
@@ -195,6 +197,7 @@ export class TaskExpanded extends React.Component {
         notes: '',
         date: null,
         deadline: null,
+        priority: 0,
         checked: false
       }
     }
@@ -206,6 +209,7 @@ export class TaskExpanded extends React.Component {
       notes: task.notes,
       date: task.date,
       deadline: task.deadline,
+      priority: task.priority,
       checked: task.completed !== null
     }
   }
@@ -285,6 +289,13 @@ export class TaskExpanded extends React.Component {
     }
     NitroSdk.completeTask(TasksExpandedService.state.task)
   }
+  triggerPriority = e => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = rect.x + rect.width * 0.5
+    const y = rect.y + rect.height * 0.75 - window.scrollY
+    const { task } = TasksExpandedService.state
+    priorityMenu(task, x, y, 'bottom', 'right')
+  }
   triggerMore = e => {
     if (this.state.mode === 'create') {
       this.createOrUpdateTask(TasksExpandedService.state.task, { name: '' })
@@ -314,9 +325,10 @@ export class TaskExpanded extends React.Component {
   }
   triggerRemove = prop => {
     return e => {
+      const newValue = prop === 'priority' ? 0 : null
       e.stopPropagation()
       this.createOrUpdateTask(TasksExpandedService.state.task, {
-        [prop]: null
+        [prop]: newValue
       })
     }
   }
@@ -377,6 +389,23 @@ export class TaskExpanded extends React.Component {
         />
       </React.Fragment>
     ) : null
+    const priorityText =
+      this.state.priority > 0 ? (
+        <React.Fragment>
+          <Text style={styles.barText}>
+            {formatPriority(this.state.priority)}
+          </Text>
+          <Image
+            accessibilityLabel="Remove Priority"
+            title="Remove Priority"
+            source={closeIcon}
+            resizeMode="contain"
+            style={styles.closeIcon}
+            onClick={this.triggerRemove('priority')}
+          />
+        </React.Fragment>
+      ) : null
+
     const dateElement = (
       <DatepickerActivator
         pickerId="expanded"
@@ -415,6 +444,23 @@ export class TaskExpanded extends React.Component {
         </View>
       </DatepickerActivator>
     )
+    const priorityElement = (
+      <TouchableOpacity
+        key="priority"
+        onClick={this.triggerPriority}
+        accessible={false}
+      >
+        <View style={styles.barIconWrapper}>
+          <Image
+            accessibilityLabel="Choose Priority"
+            source={priorityIcon}
+            resizeMode="contain"
+            style={styles.barIcon}
+          />
+          {priorityText}
+        </View>
+      </TouchableOpacity>
+    )
     if (this.state.date === null) {
       rightBar.push(dateElement)
     } else {
@@ -425,6 +471,12 @@ export class TaskExpanded extends React.Component {
     } else {
       leftBar.push(deadlineElement)
     }
+    if (this.state.priority === 0) {
+      rightBar.push(priorityElement)
+    } else {
+      leftBar.push(priorityElement)
+    }
+
     return (
       <React.Fragment>
         <View
@@ -538,6 +590,7 @@ const styles = StyleSheet.create({
     paddingLeft: vars.padding / 2
   },
   moreIcon: {
+    paddingLeft: vars.padding / 4,
     paddingRight: vars.padding
   },
   barIcon: {

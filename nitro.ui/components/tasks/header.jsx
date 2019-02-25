@@ -13,6 +13,8 @@ import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
 import { headerMenu } from './headerMenu.js'
 import menuIcon from '../../../assets/icons/material/task-more.svg'
+import sortIcon from '../../../assets/icons/material/sort.svg'
+import sortSelectedIcon from '../../../assets/icons/material/sort-selected.svg'
 
 export class Header extends React.PureComponent {
   static propTypes = {
@@ -31,10 +33,12 @@ export class Header extends React.PureComponent {
         previousId: props.listId,
         exists: true,
         name: list.name,
-        mutable: list.mutable
+        mutable: list.mutable,
+        sort: list.sort !== null
       }
     } else {
       return {
+        sort: false,
         previousId: props.listId,
         exists: false,
         name: 'Not Found'
@@ -66,6 +70,16 @@ export class Header extends React.PureComponent {
     const x = e.nativeEvent.pageX
     const y = e.nativeEvent.pageY
     headerMenu(this.props.listId, x, y, 'top', 'right')
+  }
+  triggerSort = e => {
+    const { listId } = this.props
+    const list = NitroSdk.getList(listId)
+    let newSort = null
+    if (list.sort === null) {
+      newSort = 'magic' // maybe we should let users configure this
+    }
+    NitroSdk.updateList(listId, { sort: newSort })
+    this.setState({ sort: newSort !== null })
   }
   triggerChange = e => {
     this.setState({
@@ -115,6 +129,7 @@ export class Header extends React.PureComponent {
       return null
     }
     const renameNotAllowed = mutable.indexOf('no-rename') !== -1
+    const orderNotAllowed = mutable.indexOf('no-order') !== -1
     const listHeaderStyles = this.state.textInputFocus
       ? [styles.listHeader, styles.focusedListHeader]
       : styles.listHeader
@@ -130,6 +145,15 @@ export class Header extends React.PureComponent {
           onKeyUp={this.triggerKeyUp}
           disabled={renameNotAllowed}
         />
+        {orderNotAllowed ? null : (
+          <View onClick={this.triggerSort} style={styles.sortIconWrapper}>
+            {this.state.sort ? (
+              <Image source={sortSelectedIcon} style={styles.menuIcon} />
+            ) : (
+              <Image source={sortIcon} style={styles.menuIcon} />
+            )}
+          </View>
+        )}
         {renameNotAllowed ? null : (
           <View onClick={this.triggerMenu} style={styles.menuIconWrapper}>
             <Image source={menuIcon} style={styles.menuIcon} />
@@ -169,8 +193,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.08)'
   },
   menuIconWrapper: {
-    paddingLeft: vars.padding * 0.5,
+    paddingLeft: vars.padding * 0.125,
     paddingRight: vars.padding * 0.5
+  },
+  sortIconWrapper: {
+    paddingLeft: vars.padding * 0.75,
+    paddingRight: vars.padding * 0.125
   },
   menuIcon: {
     height: 24,
