@@ -92,12 +92,17 @@ export class ShortcutsModal extends React.Component {
             <ShortcutRow title="Previous Task" shortcut={['K']} alt={true} />
             <ShortcutRow title="Set Date to Today" shortcut={['T']} />
             <ShortcutRow
-              title="Mark Task as Completed"
-              shortcut={['C']}
+              title="Change Priority"
+              shortcut={['0+1+2+3']}
               alt={true}
             />
-            <ShortcutRow title="Select / Deselect Task" shortcut={['Space']} />
-            <ShortcutRow title="Move Task" shortcut={['↑', '↓']} alt={true} />
+            <ShortcutRow title="Mark Task as Completed" shortcut={['C']} />
+            <ShortcutRow
+              title="Select / Deselect Task"
+              shortcut={['Space']}
+              alt={true}
+            />
+            <ShortcutRow title="Move Task" shortcut={['↑', '↓']} />
           </ScrollView>
         </View>
       </View>

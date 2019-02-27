@@ -107,6 +107,19 @@ export class Task extends React.PureComponent {
         const node = e.currentTarget.parentNode.previousSibling.children[0]
         if (node) node.focus()
         e.preventDefault()
+      } else if (keycode === 48 || keycode === 52) {
+        // 0 or 4
+        const { dataId } = this.props
+        NitroSdk.updateTask(dataId, { priority: null })
+      } else if (keycode === 49) {
+        const { dataId } = this.props
+        NitroSdk.updateTask(dataId, { priority: 3 })
+      } else if (keycode === 50) {
+        const { dataId } = this.props
+        NitroSdk.updateTask(dataId, { priority: 2 })
+      } else if (keycode === 51) {
+        const { dataId } = this.props
+        NitroSdk.updateTask(dataId, { priority: 1 })
       } else if (keycode === 67) {
         const { dataId, dataType } = this.props
         if (dataType === 'header' || dataType === 'header-collapsed') return
@@ -200,7 +213,10 @@ export class Task extends React.PureComponent {
   }
   triggerNoOp = e => {
     const { dataType, headersAllowed } = this.props
-    if (headersAllowed && (dataType === 'header' || dataType === 'header-collapsed')) {
+    if (
+      headersAllowed &&
+      (dataType === 'header' || dataType === 'header-collapsed')
+    ) {
       // othewise you can't click inside the headers
       return
     }
