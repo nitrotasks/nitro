@@ -81,6 +81,10 @@
     "notes": "Nitro keeps your tasks safe by syncing them to the cloud. You can sign in on any device to manage your tasks from anywhere.\n\nYou can also use Nitro offline - if you’re without a connection, you can still visit the app and manage your tasks. They’ll be synced next time you’re connected to the internet."
   },
   {
+    "name": "Adding Priorities",
+    "notes": "Some tasks more important than others? Choose the exclamation icon to choose a priority. It’ll show up next to the task, and Nitro will organize you better."
+  },
+  {
     "name": "Reordering Tasks & Lists",
     "notes": "You can drag and drop to sort the tasks in this list. You can also reorder your list of lists in the same way.",
     "platform": "desktop"
@@ -89,6 +93,10 @@
     "name": "Reordering Tasks & Lists",
     "notes": "You can long press and drag to sort the tasks in this list. You can also reorder your list of lists in the same way.",
     "platform": "mobile"
+  },
+  {
+    "name": "Magic Sort",
+    "notes": "Press the sort icon in the top right. Magic Sort considers dates, deadlines, and priorities! Switch back to your custom order by tapping the icon again."
   },
   {
     "name": "Use Quick Search",
