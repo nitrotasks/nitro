@@ -10,8 +10,6 @@
     "test:fast": "cross-env NODE_ENV=test mocha nitro.sdk.test/index.js --require @babel/register",
     "prepublishOnly": "npm run clean && npm run build",
     "flow": "flow",
-    "docker-push-master": "docker login -u \"$DOCKER_USERNAME\" -p \"$DOCKER_PASSWORD\" && docker tag dymajo/nitro-client:latest dymajo/nitro-client:stable && docker push dymajo/nitro-client:stable",
-    "docker-push-develop": "docker login -u \"$DOCKER_USERNAME\" -p \"$DOCKER_PASSWORD\" && docker push dymajo/nitro-client:latest",
     "prettier": "prettier",
     "inject-scripts": "node build-scripts/inject-scripts.js"
   },
