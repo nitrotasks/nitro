@@ -32,7 +32,10 @@ export class TasksList extends React.PureComponent {
   static generateState(props, newList = false) {
     const { listId } = props
     const list = NitroSdk.getList(listId)
-    const tasks = list.sort !== null ? NitroSdk.getSortedTasks(listId, list.sort) : NitroSdk.getTasks(listId)
+    const tasks =
+      list.sort !== null
+        ? NitroSdk.getSortedTasks(listId, list.sort)
+        : NitroSdk.getTasks(listId)
 
     let mutable = []
     const taskMap = new Map()
@@ -319,7 +322,7 @@ export class TasksList extends React.PureComponent {
     }).length
 
     let archiveButton = null
-    if (completedTasks > 0 && !orderNotAllowed) {
+    if (completedTasks > 0 && headersAllowed) {
       const { archiveTransform, archiveTransformList } = this
       const archiveStyles =
         archiveTransform !== null && archiveTransformList === listId

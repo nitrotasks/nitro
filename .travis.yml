@@ -20,10 +20,6 @@ env:
     - secure: N7RYw+dTFuxqIH/dxGSSDmr1Oo+7fzCo4dDQonx+K0IrhNpIhIQijtoSlE9re9m6E/N92POE5AgjS2tiFHxwO3sIGCVJQqJea6ew8FFBrKW0MH2R81ExAgSY0I4XEpXsNQEBNAjfiVFsxhNn9XpOJAcW7J8Xi6AwSwAbFKBHzus=
     - secure: E8Dt4HpKPTZuBGYiqDP5v9osa4Rr0HETaA6gdSCjkBXzoA7QpFhTWawje+JnhrGo7euHo2ej5XBpyKeuCbuD5B+pJ8O+G/k33ANp1Pf+vyjNHSOvu00GxS9ZdHPPBgHUpgxswwKjVyXZugdHaj3OHJQCVl4DwzmAm5Il0UjHXZ4=
 sudo: required
-services:
-  - docker
-before_install:
-  - docker build ./ -t dymajo/nitro-client:latest
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
     > ./cc-test-reporter
@@ -45,12 +41,6 @@ deploy:
     on:
       repo: nitrotasks/nitro
       branch: master
-  - provider: script
-    skip_cleanup: true
-    script: npm run docker-push-master
-    on:
-      repo: nitrotasks/nitro
-      branch: master
   - provider: s3
     skip_cleanup: true
     access_key_id: AKIAJPXJ7PE62IXM3HLA
@@ -64,9 +54,3 @@ deploy:
     on:
       repo: nitrotasks/nitro
       branch: develop
-  - provider: script
-    skip_cleanup: true
-    script: npm run docker-push-develop
-    on:
-      repo: nitrotasks/nitro
-      branch: develop  
