@@ -84,7 +84,7 @@ export class SortBar extends React.Component {
     const selectedArray = (selected || '').split('-')
     const isIgnoreHeaders = selectedArray[1] === 'ignoreheaders'
     return (
-      <View style={styles.wrapper}>
+      <View style={styles.wrapper} className="sort-bar">
         <View style={styles.sortsWrapper}>
           {sorts.map(sort => {
             const isSelected = selectedArray[0] === sort.id
@@ -149,9 +149,9 @@ export class SortBar extends React.Component {
               />
             </View>
           </View>
-        </View>
-        <View style={styles.inlineTextWrapper}>
-          <Text style={styles.inlineText}>Include Headers</Text>
+          <View style={styles.inlineTextWrapper}>
+            <Text style={styles.inlineText}>Include Headers</Text>
+          </View>
         </View>
       </View>
     )
@@ -162,8 +162,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'flex-start',
-    paddingLeft: vars.padding / 2,
-    paddingRight: vars.padding / 2
+    paddingLeft: vars.padding - 2,
+    paddingRight: vars.padding - 2
   },
   sortsWrapper: {
     flexDirection: 'row',
@@ -172,7 +172,8 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
     borderRadius: 5,
     overflow: 'hidden',
-    marginBottom: vars.padding / 2
+    marginBottom: vars.padding / 2,
+    marginRight: vars.padding / 2
   },
   sortWrapper: {
     paddingTop: vars.padding * 0.375,
@@ -192,13 +193,11 @@ const styles = StyleSheet.create({
     backgroundColor: vars.dragColor
   },
   headersWrapper: {
-    flexDirection: 'row',
-    marginLeft: vars.padding / 2
+    flexDirection: 'row'
   },
   inlineTextWrapper: {
     paddingTop: vars.padding * 0.375 + 1,
     paddingBottom: vars.padding * 0.375 + 1,
-    marginLeft: vars.padding * 0.375,
     paddingRight: vars.padding / 4
   },
   inlineText: {

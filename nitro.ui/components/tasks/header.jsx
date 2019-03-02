@@ -71,7 +71,7 @@ export class Header extends React.PureComponent {
     const y = e.nativeEvent.pageY
     headerMenu(this.props.listId, x, y, 'top', 'right')
   }
-  triggerSort = e => {
+  triggerSort = () => {
     const { listId } = this.props
     const list = NitroSdk.getList(listId)
     let newSort = null
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
   listHeaderWrapper: {
     paddingTop: vars.padding * 3,
     paddingLeft: vars.padding / 2,
-    paddingRight: vars.padding / 2,
+    paddingRight: vars.padding * 0.75,
     paddingBottom: vars.padding / 4,
     flexDirection: 'row',
     alignItems: 'center'
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   },
   menuIconWrapper: {
     paddingLeft: vars.padding * 0.125,
-    paddingRight: vars.padding * 0.5
+    paddingRight: vars.padding * 0.25
   },
   sortIconWrapper: {
     paddingLeft: vars.padding * 0.75,
