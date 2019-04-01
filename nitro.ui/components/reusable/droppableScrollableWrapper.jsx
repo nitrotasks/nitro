@@ -101,7 +101,7 @@ export class DroppableScrollableWrapper extends React.Component {
               ref={this.scrollView}
               style={{
                 height: '100%',
-                overflowY: 'auto',
+                overflowY: 'scroll',
                 overscrollBehavior: 'contain',
                 willChange: 'scroll-position',
                 WebkitOverflowScrolling: 'touch',

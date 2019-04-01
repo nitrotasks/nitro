@@ -410,7 +410,10 @@ export class TasksList extends React.PureComponent {
             />
           )
         })}
-        {order.length === 0 ? <EmptyList listId={this.props.listId} /> : null}
+        {order.filter(t => t !== undefined && t.type !== 'archived').length ===
+        0 ? (
+          <EmptyList listId={this.props.listId} />
+        ) : null}
         {archiveButton}
         <div ref={this.tasksContainerEnd} />
       </View>
