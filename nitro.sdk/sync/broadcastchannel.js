@@ -66,6 +66,8 @@ export class _broadcast extends Events {
         log('This is not the master tab.')
       }
       clearTimeout(this.bctimeout)
+    } else if (msg === 'logout') {
+      window.location = '/'
     }
   }
 }

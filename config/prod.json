@@ -5,6 +5,7 @@
     "domain": "dymajo.au.auth0.com",
     "clientID": "SAw5SKmnefsoavFuNZcBdD1zHj2fRYUN",
     "audience": "https://go.nitrotasks.com/a/",
+    "logoutUri": "https://go.nitrotasks.com",
     "redirectUri": "https://go.nitrotasks.com/callback",
     "responseType": "token id_token",
     "scope": "openid read:tasks write:tasks"

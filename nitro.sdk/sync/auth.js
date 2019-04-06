@@ -165,10 +165,11 @@ class AuthenticationStore extends Events {
     })
   }
   signOut(message, deleteSession = false) {
+    const broadcastLogout = () => {
+      broadcast.post('logout')
+    }
+    // this is called even if something fails
     const cb = () => {
-      // Signs out even if there is an error.
-      broadcast.db(0)
-
       if (typeof message === 'string') {
         window.location = `/?info=${encodeURIComponent(message)}`
       } else {
@@ -190,9 +191,18 @@ class AuthenticationStore extends Events {
         )
       )
     } else if (deleteSession && this.refreshToken.loginType === 'auth0') {
-      this.auth0.logout()
+      Promise.all(promises)
+        .then(broadcastLogout)
+        .then(() => {
+          this.auth0.logout({
+            returnTo: config.auth0.logoutUri,
+            clientId: config.auth0.clientId
+          })
+        })
+      return
     }
     Promise.all(promises)
+      .then(broadcastLogout)
       .then(cb)
       .catch(cb)
   }

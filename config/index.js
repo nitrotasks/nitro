@@ -4,12 +4,12 @@ import prod from './prod.json'
 // this *should* work for https too, but change if you need it changed
 let wsendpoint = '/a/ws'
 // this is required for our tests to pass
-let hostname = 'localhost',
-  port = '8080'
+let endpoint = 'localhost:8080'
+let hostname = 'localhost'
 if (typeof window !== 'undefined') {
   wsendpoint = window.location.origin.replace('http', 'ws') + wsendpoint
+  endpoint = window.location.origin
   hostname = window.location.hostname
-  port = window.location.port
 }
 const config = {
   endpoint: '/a',
@@ -20,7 +20,8 @@ const config = {
     domain: '',
     clientID: '',
     audience: '',
-    redirectUri: `http://${hostname}:${port}/callback`,
+    logoutUri: `${endpoint}`,
+    redirectUri: `${endpoint}/callback`,
     responseType: 'token id_token',
     scope: 'openid read:tasks write:tasks'
   }
