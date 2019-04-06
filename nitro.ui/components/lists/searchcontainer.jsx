@@ -26,6 +26,7 @@ export class SearchContainer extends React.Component {
         id="searchDroppable"
         linked={true}
         className="desktop-97"
+        overflowType="scroll"
       >
         <View style={styles.wrapper} ref={this.wrapper}>
           {this.props.results.map(i => (

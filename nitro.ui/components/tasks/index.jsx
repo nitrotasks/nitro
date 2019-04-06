@@ -83,7 +83,7 @@ export class Tasks extends React.Component {
     UiService.state.currentList = list
     return (
       <View style={styles.wrapper}>
-        <DroppableScrollableWrapper id="tasksDroppable">
+        <DroppableScrollableWrapper id="tasksDroppable" overflowType="scroll">
           <View onClick={this.triggerClick}>
             <View
               style={styles.tasksWrapper}

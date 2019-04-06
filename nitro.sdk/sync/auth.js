@@ -221,37 +221,48 @@ class AuthenticationStore extends Events {
     ) {
       return Promise.resolve()
     } else if (this.refreshToken.loginType === 'auth0') {
-      return new Promise((resolve, reject) => {
-        this.auth0.checkSession({}, (err, authResult) => {
-          if (err) {
-            this.trigger(EVENTS.UNIVERSAL_ERROR, err)
-          } else if (
-            authResult &&
-            authResult.accessToken &&
-            authResult.idToken
-          ) {
-            const expiresAt = JSON.stringify(
-              authResult.expiresIn * 1000 + new Date().getTime()
-            )
-            this.refreshToken.accessToken = authResult.accessToken
-            this.accessToken = { access_token: authResult.accessToken }
-            this.refreshToken.idToken = authResult.idToken
-            this.refreshToken.expiresAt = expiresAt
-            this.expiresAt = expiresAt
-            set('auth', this.refreshToken)
-            log('Auth0 Session Refreshed')
-            this.trigger(EVENTS.TOKEN_READY)
-            this.scheduleToken(
-              (this.expiresAt - new Date().getTime() - HOUR) / 1000
-            )
-            this.connectSocketWithCheck()
-            resolve()
-          } else {
-            console.error(err)
-            alert(err.message)
+      fetch(`${config.endpoint}/ping`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'healthy') {
+            return 'healthy'
           }
+          throw new Error('Server is not available - not refreshing.')
         })
-      })
+        .then(() => {
+          return new Promise((resolve, reject) => {
+            this.auth0.checkSession({}, (err, authResult) => {
+              if (err) {
+                this.trigger(EVENTS.UNIVERSAL_ERROR, err)
+              } else if (
+                authResult &&
+                authResult.accessToken &&
+                authResult.idToken
+              ) {
+                const expiresAt = JSON.stringify(
+                  authResult.expiresIn * 1000 + new Date().getTime()
+                )
+                this.refreshToken.accessToken = authResult.accessToken
+                this.accessToken = { access_token: authResult.accessToken }
+                this.refreshToken.idToken = authResult.idToken
+                this.refreshToken.expiresAt = expiresAt
+                this.expiresAt = expiresAt
+                set('auth', this.refreshToken)
+                log('Auth0 Session Refreshed')
+                this.trigger(EVENTS.TOKEN_READY)
+                this.scheduleToken(
+                  (this.expiresAt - new Date().getTime() - HOUR) / 1000
+                )
+                this.connectSocketWithCheck()
+                resolve()
+              } else {
+                console.error(err)
+                alert(err.message)
+                reject(err)
+              }
+            })
+          })
+        })
     } else {
       return new Promise((resolve, reject) => {
         fetch(

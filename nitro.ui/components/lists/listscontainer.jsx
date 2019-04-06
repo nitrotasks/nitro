@@ -73,6 +73,7 @@ class ListsContainerWithoutRouter extends React.Component {
         id="listsDroppable"
         linked={true}
         className="desktop-97"
+        overflowType="auto"
       >
         <View style={styles.listWrapper}>
           {this.state.lists.map(list => {

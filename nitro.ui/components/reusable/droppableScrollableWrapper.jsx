@@ -10,7 +10,8 @@ export class DroppableScrollableWrapper extends React.Component {
     id: PropTypes.string,
     children: PropTypes.node,
     linked: PropTypes.bool,
-    className: PropTypes.string
+    className: PropTypes.string,
+    overflowType: PropTypes.string
   }
   scrollView = React.createRef()
   intersectHelper = React.createRef()
@@ -75,11 +76,11 @@ export class DroppableScrollableWrapper extends React.Component {
     UiService.state.scrollPosition = isIntersecting ? 0 : 1
   }
   render() {
-    const props = this.props
+    const { id, className, children, overflowType, linked } = this.props
 
     // wow this ternary operator is a bit crazy
     const touchAction =
-      props.linked === true
+      linked === true
         ? UiService.state.cardPosition === 'max'
           ? this.state.cancelScroll
             ? iOS.detect()
@@ -90,9 +91,9 @@ export class DroppableScrollableWrapper extends React.Component {
         : 'manipulation'
 
     return (
-      <Droppable droppableId={this.props.id} type={this.props.id}>
+      <Droppable droppableId={id} type={id}>
         {(provided, snapshot) => {
-          if (this.props.id === 'listsDroppable') {
+          if (id === 'listsDroppable') {
             UiService.state.listsIsDragging = snapshot.isDraggingOver
           }
           return (
@@ -101,7 +102,7 @@ export class DroppableScrollableWrapper extends React.Component {
               ref={this.scrollView}
               style={{
                 height: '100%',
-                overflowY: 'scroll',
+                overflowY: overflowType,
                 overscrollBehavior: 'contain',
                 willChange: 'scroll-position',
                 WebkitOverflowScrolling: 'touch',
@@ -110,14 +111,14 @@ export class DroppableScrollableWrapper extends React.Component {
               }}
             >
               <div
-                className={this.props.className}
+                className={className}
                 ref={e => {
                   provided.innerRef(e)
                   this.innerScrollView = e
                 }}
               >
                 <div ref={this.intersectHelper} />
-                {props.children}
+                {children}
                 {provided.placeholder}
               </div>
             </div>
