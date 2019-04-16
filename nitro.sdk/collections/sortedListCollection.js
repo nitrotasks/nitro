@@ -19,7 +19,7 @@ export function getAlphabetical(
         return a.name.localeCompare(b.name)
       })
     )
-    .reduce((a, b) => a.concat(b))
+    .reduce((a, b) => a.concat(b), [])
 }
 
 export function getPriority(
@@ -46,7 +46,7 @@ export function getPriority(
         return priority
       })
     )
-    .reduce((a, b) => a.concat(b))
+    .reduce((a, b) => a.concat(b), [])
 }
 
 export function getDate(
@@ -77,7 +77,7 @@ export function getDate(
         return date
       })
     )
-    .reduce((a, b) => a.concat(b))
+    .reduce((a, b) => a.concat(b), [])
 }
 
 export function getDeadline(
@@ -110,5 +110,5 @@ export function getDeadline(
         return deadline
       })
     )
-    .reduce((a, b) => a.concat(b))
+    .reduce((a, b) => a.concat(b), [])
 }

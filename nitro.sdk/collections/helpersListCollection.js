@@ -47,16 +47,18 @@ export function getList(listId, groupedByHeaders = false) {
     })
 
   if (groupedByHeaders) {
-    const grouped = ret.reduce((a, b) => {
-      if (a.length === 0) {
-        return [[b]]
-      } else if (b.type !== 'header' && b.type !== 'header-collapsed') {
-        a[0].push(b)
-        return a
-      } else {
-        return [[b]].concat(a)
-      }
-    }, [])
+    const grouped = ret
+      .filter(a => a !== null)
+      .reduce((a, b) => {
+        if (a.length === 0) {
+          return [[b]]
+        } else if (b.type !== 'header' && b.type !== 'header-collapsed') {
+          a[0].push(b)
+          return a
+        } else {
+          return [[b]].concat(a)
+        }
+      }, [])
     return grouped.reverse()
   }
 
