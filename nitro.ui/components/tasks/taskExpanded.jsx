@@ -562,7 +562,7 @@ const styles = StyleSheet.create({
   header: {
     fontFamily: vars.fontFamily,
     fontSize: vars.taskExpandedFontSize,
-    outline: '0',
+    outlineWidth: 0,
     flex: 1,
     paddingLeft: vars.padding / 4
   },
@@ -574,7 +574,7 @@ const styles = StyleSheet.create({
     paddingLeft: vars.padding * 0.375,
     paddingRight: vars.padding,
     marginBottom: vars.padding / 2,
-    outline: '0'
+    outlineWidth: 0
   },
   bar: {
     flex: 1,

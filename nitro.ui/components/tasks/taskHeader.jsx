@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
     paddingTop: vars.padding / 2,
     paddingBottom: vars.padding / 2,
     fontWeight: 'bold',
-    outline: '0',
+    outlineWidth: 0,
     flex: 1,
     color: vars.headerColor,
     opacity: 1

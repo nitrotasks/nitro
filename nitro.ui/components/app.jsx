@@ -1,7 +1,7 @@
 import React from 'react'
 import { Router } from 'react-router-dom'
 import { DragDropContext } from 'react-beautiful-dnd'
-import createBrowserHistory from 'history/createBrowserHistory'
+import { createBrowserHistory } from 'history'
 const history = createBrowserHistory()
 
 import { NitroSdk, authEvents } from '../../nitro.sdk'

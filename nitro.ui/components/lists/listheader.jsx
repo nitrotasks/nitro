@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
     backgroundRepeat: 'no-repeat',
     backgroundPosition: '7px 50%, calc(100% - 7px) 50%',
     borderRadius: 5,
-    outline: '0',
+    outlineWidth: 0,
     borderWidth: 1,
     borderStyle: 'solid',
     borderColor: '#e6e6e6',

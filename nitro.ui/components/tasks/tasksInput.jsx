@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     paddingRight: (vars.padding * 3) / 4,
     paddingBottom: vars.padding / 2,
     borderRadius: 4,
-    outline: 'none',
+    outlineWidth: 0,
     fontFamily: vars.fontFamily,
     fontSize: vars.taskInputFontSize,
     lineHeight: vars.padding * 1.125,

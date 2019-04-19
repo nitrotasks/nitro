@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     fontFamily: vars.fontFamily,
     fontSize: 32,
     fontWeight: '900',
-    outline: '0',
+    outlineWidth: 0,
     borderRadius: 3,
     lineHeight: 1.15,
     textOverflow: 'ellipsis',

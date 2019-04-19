@@ -23,10 +23,6 @@ import priority2Icon from '../../../assets/icons/material/priority-2.svg'
 import priority3Icon from '../../../assets/icons/material/priority-3.svg'
 const priorityIcons = [priority1Icon, priority2Icon, priority3Icon]
 
-// 0.15 is the threshold defined in react-beautiful-dnd
-// we'll go a bit higher
-const forcePressTheshold = 0.25
-
 export class Task extends React.PureComponent {
   static propTypes = {
     index: PropTypes.number,
@@ -52,13 +48,6 @@ export class Task extends React.PureComponent {
   thresholdHit = false
 
   componentDidMount() {
-    if ('ontouchforcechange' in document === true) {
-      findNodeHandle(this.viewRef.current).addEventListener(
-        'touchforcechange',
-        this.triggerForcePress
-      )
-    }
-
     // if this task is the selected task, we're going to move the overlay into place
     if (this.props.dataId === TasksExpandedService.state.task) {
       requestAnimationFrame(() => {
@@ -175,28 +164,6 @@ export class Task extends React.PureComponent {
         TasksExpandedService.triggerBack()
         setTimeout(() => TasksExpandedService.triggerTask(list, task, y), 350)
       }
-    }
-  }
-  // iOS has a funnny force press / 3d touch API
-  // i.e it doesn't use pointer events
-  // and raises these events at same time
-  triggerForcePress = e => {
-    const force = e.changedTouches[0].force
-    if (
-      this.draggingStart === true &&
-      this.thresholdHit === false &&
-      e.defaultPrevented === false &&
-      force > forcePressTheshold
-    ) {
-      this.thresholdHit = true
-      e.preventDefault()
-
-      requestAnimationFrame(() => {
-        this.triggerClick()
-      })
-      setTimeout(() => {
-        this.thresholdHit = false
-      }, 300)
     }
   }
   triggerCheckbox = () => {
@@ -378,11 +345,6 @@ export class Task extends React.PureComponent {
         isDragDisabled={props.dragDisabled}
       >
         {(provided, snapshot) => {
-          // TODO: fix this
-          // the code will never get executed because this goes to null
-          // the moment there's a force touch
-          // wish there was an event in react-beatiful-dnd or something?
-          this.draggingStart = snapshot.draggingOver !== null
           return (
             <WrapperComponent
               ref={this.viewRef}

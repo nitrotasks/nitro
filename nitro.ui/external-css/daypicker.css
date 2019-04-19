@@ -109,7 +109,7 @@
   text-align: center;
   cursor: pointer;
   vertical-align: middle;
-  outline: none;
+  outline: 0;
 }
 
 .DayPicker-WeekNumber {

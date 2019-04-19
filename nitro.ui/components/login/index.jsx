@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
     fontFamily: vars.fontFamily,
     marginBottom: vars.padding * 0.75,
     width: '100%',
-    outline: '0'
+    outlineWidth: 0
   },
   universalLogin: {
     marginTop: vars.padding * 2,
