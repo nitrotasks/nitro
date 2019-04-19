@@ -41,6 +41,13 @@ class uiService extends Events {
     return this.scrollView.current.scrollTop
   }
 
+  getHeight(): number {
+    if (this.scrollView === null) {
+      return 0
+    }
+    return this.scrollView.current.scrollHeight
+  }
+
   scrollTo(scrollObject: object): number {
     if (this.scrollView === null) {
       return

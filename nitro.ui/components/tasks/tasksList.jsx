@@ -1,11 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { View, Text, Image, StyleSheet, findNodeHandle } from 'react-native'
+import { View, StyleSheet, findNodeHandle } from 'react-native'
 import { Draggable } from 'react-beautiful-dnd'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { vars } from '../../styles.js'
-import { ModalService } from '../../services/modalService.js'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 import { ShortcutsService } from '../../services/shortcutsService.js'
 import { UiService } from '../../services/uiService.js'
@@ -89,12 +88,6 @@ export class TasksList extends React.PureComponent {
     this.tasksContainerEnd = React.createRef()
     this.archiveButton = React.createRef()
     UiService.tasksContainer = this.tasksContainer
-
-    this.observer = new IntersectionObserver(this.triggerIntersect, {
-      root: null,
-      threshold: 0
-    })
-    this.isIntersecting = false
   }
 
   archiveTransform = null
@@ -111,7 +104,6 @@ export class TasksList extends React.PureComponent {
     ShortcutsService.bind(UP_HOTKEY, this.triggerHotkey)
     ShortcutsService.bind(DOWN_HOTKEY, this.triggerHotkey)
     this.scheduleTasksUpdate()
-    this.observer.observe(findNodeHandle(this.tasksContainerEnd.current))
   }
 
   componentWillUnmount() {
@@ -124,7 +116,6 @@ export class TasksList extends React.PureComponent {
     ShortcutsService.unbind(UP_HOTKEY, this.triggerHotkey)
     ShortcutsService.unbind(DOWN_HOTKEY, this.triggerHotkey)
     clearTimeout(this.nextDayUpdate)
-    this.observer.disconnect()
   }
 
   scheduleTasksUpdate = () => {
@@ -232,16 +223,32 @@ export class TasksList extends React.PureComponent {
 
   triggerHide = () => {
     requestAnimationFrame(() => {
-      Array.from(findNodeHandle(this.tasksContainer.current).children).forEach(
-        i => {
-          i.style.transform = ''
-        }
-      )
+      const tasksContainer = findNodeHandle(this.tasksContainer.current)
+      Array.from(tasksContainer.children).forEach(i => {
+        i.style.transform = ''
+      })
+
       const archive = findNodeHandle(this.archiveButton.current)
       this.archiveTransform = null
       this.archiveTransformList = null
       if (archive) archive.style.transform = ''
-      this.resetPadding()
+
+      const currentPos = UiService.getScroll() + document.body.clientHeight
+      const newPos =
+        UiService.getHeight() - parseInt(tasksContainer.style.paddingBottom)
+      if (newPos < currentPos) {
+        UiService.scrollBy({
+          top: newPos - currentPos,
+          left: 0,
+          behavior: 'smooth'
+        })
+      }
+
+      // to prevent janky animation
+      setTimeout(() => {
+        tasksContainer.style.paddingBottom = '0px'
+        console.log('TODO: Remove the overlay.')
+      }, 400)
 
       // if there was an update while the modal was showing, trigger them now
       if (this.pendingChanges) {
@@ -269,37 +276,9 @@ export class TasksList extends React.PureComponent {
     }
   }
 
-  triggerIntersect = e => {
-    // Weirdly, when the overlay is opened in Chrome, this is hit
-    // Works fine in Safari & Firefox.
-    this.isIntersecting = e[0].isIntersecting
-    this.resetPadding()
-  }
-
-  resetPadding = () => {
-    const style = findNodeHandle(this.tasksContainer.current).style
-    if (this.isIntersecting === false && style.paddingBottom !== '0px') {
-      setTimeout(() => {
-        requestAnimationFrame(() => {
-          if (TasksExpandedService.state.task === null) {
-            style.paddingBottom = '0px'
-            TasksExpandedService.triggerPosition(0)
-          }
-        })
-      }, 300)
-    }
-  }
-
   render() {
     const { listId } = this.props
-    const {
-      mutable,
-      order,
-      orderNotAllowed,
-      tasks,
-      syncingTasks,
-      archiveHover
-    } = this.state
+    const { mutable, order, orderNotAllowed, tasks, syncingTasks } = this.state
     const headersAllowed = !mutable.includes('no-headings')
     const signedIn = NitroSdk.isSignedIn()
     const completedTasks = Array.from(tasks).filter(obj => {
