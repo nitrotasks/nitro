@@ -34,19 +34,6 @@ input:disabled {
   background: #e2eaf7;
   outline: 0;
 }
-.sidebar-item-focus:focus {
-  outline: 0;
-}
-.sidebar-item-focus:focus .sidebar-item-focus-inner,
-.sidebar-item-focus:focus:hover .sidebar-item-focus-inner {
-  box-shadow: 0 0 0 3px #9dbefb;
-}
-.list-item-focus:focus {
-  box-shadow: 0 0 0 3px #9dbefb;
-  outline: 0;
-  border-radius: 3px;
-}
-
 @media (max-width: 850px) {
   .mobile-hidden {
     display: none;
@@ -55,10 +42,6 @@ input:disabled {
 @media (min-width: 851px) {
   .desktop-invisible {
     visibility: hidden;
-  }
-  .desktop-datepicker {
-    width: calc(100% - var(--sidebar-width));
-    left: var(--sidebar-width);
   }
   .desktop-allow-touch {
     touch-action: manipulation !important;
@@ -90,15 +73,6 @@ input:disabled {
   }
   .desktop-opacity-invisible {
     opacity: 1;
-  }
-  .tutorial-modal {
-    margin-top: 8vh;
-    border-radius: 5px;
-    width: 90vw;
-    max-width: 540px;
-    padding-left: 64px;
-    padding-right: 64px;
-    height: auto;
   }
   .sort-bar {
     padding-left: 8px;

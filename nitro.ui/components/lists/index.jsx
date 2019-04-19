@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { object } from 'prop-types'
 import { View, Image, Text, StyleSheet, findNodeHandle } from 'react-native'
 import { withRouter } from 'react-router'
@@ -22,11 +22,16 @@ class ListsWithoutRouter extends React.Component {
   static propTypes = {
     history: object
   }
+
   bar = React.createRef()
+
   state = {
     searchResults: null,
-    value: ''
+    value: '',
+    addHover: false,
+    settingsHover: false
   }
+
   componentDidMount() {
     SidebarService.bind('hide-search-results', this.hideSearchResults)
     if (iOS.detect()) {
@@ -36,15 +41,18 @@ class ListsWithoutRouter extends React.Component {
       )
     }
   }
+
   componentWillUnmount() {
     SidebarService.unbind('hide-search-results', this.hideSearchResults)
   }
+
   hideSearchResults = () => {
     this.setState({
       searchResults: null,
       value: ''
     })
   }
+
   triggerMenu = e => {
     const items = [
       {
@@ -69,6 +77,7 @@ class ListsWithoutRouter extends React.Component {
     }
     ContextMenuService.create(e.clientX, e.clientY, 'bottom', 'right', items)
   }
+
   triggerSearch = e => {
     const query = e.currentTarget.value.trim()
     if (query === '') {
@@ -84,29 +93,62 @@ class ListsWithoutRouter extends React.Component {
       })
     }
   }
+
   createList = () => {
     const { history } = this.props
     const list = NitroSdk.addList({ name: 'Untitled List' })
     history.push(`/${list.id}`)
     UiService.setCardPosition('map')
   }
+
   preventScroll = e => {
     e.preventDefault()
   }
+
+  triggerAddEnter = () => {
+    this.setState({
+      addHover: true
+    })
+  }
+
+  triggerAddLeave = () => {
+    this.setState({
+      addHover: false
+    })
+  }
+
+  triggerSettingsEnter = () => {
+    this.setState({
+      settingsHover: true
+    })
+  }
+
+  triggerSettingsLeave = () => {
+    this.setState({
+      settingsHover: false
+    })
+  }
+
   render() {
+    const { addHover, settingsHover, searchResults, value } = this.state
     return (
       <View style={styles.wrapper}>
-        <ListHeader onSearch={this.triggerSearch} value={this.state.value} />
-        {this.state.searchResults === null ? (
+        <ListHeader onSearch={this.triggerSearch} value={value} />
+        {searchResults === null ? (
           <ListsContainer />
         ) : (
-          <SearchContainer results={this.state.searchResults} />
+          <SearchContainer results={searchResults} />
         )}
         <View style={styles.bar} ref={this.bar}>
           <TouchableOpacity
-            className="hover-5"
-            style={styles.addWrapper}
             onClick={this.createList}
+            onMouseEnter={this.triggerAddEnter}
+            onMouseLeave={this.triggerAddLeave}
+            style={
+              addHover
+                ? [styles.addWrapper, styles.buttonHover]
+                : styles.addWrapper
+            }
           >
             <Image
               source={addIcon}
@@ -117,8 +159,13 @@ class ListsWithoutRouter extends React.Component {
           </TouchableOpacity>
           <TouchableOpacity
             onClick={this.triggerMenu}
-            className="hover-5"
-            style={styles.settingsWrapper}
+            onMouseEnter={this.triggerSettingsEnter}
+            onMouseLeave={this.triggerSettingsLeave}
+            style={
+              settingsHover
+                ? [styles.settingsWrapper, styles.buttonHover]
+                : styles.settingsWrapper
+            }
           >
             <Image
               source={settingsIcon}
@@ -182,5 +229,9 @@ const styles = StyleSheet.create({
     height: 24,
     width: 18,
     opacity: 0.6
+  },
+  buttonHover: {
+    borderRadius: 5,
+    backgroundColor: 'rgba(0, 0, 0, 0.035)'
   }
 })

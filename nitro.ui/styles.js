@@ -18,11 +18,11 @@ const vars = {
   cancelColor: '#5a92fa',
   cancelBorderColor: '#ccc',
   focusBorder: '#9dbefb',
+  focusColor: '#e2eaf7',
 
   // sizes
   padding: 16,
   taskHeight: 56,
-  materialHeaderHeight: 56,
   notesLineHeight: 24,
 
   // font sizes

@@ -11,24 +11,22 @@ import { ShortcutsService } from '../../services/shortcutsService.js'
 import { UiService } from '../../services/uiService.js'
 import { Task } from './task.jsx'
 import { EmptyList } from './emptyList.jsx'
-import { TouchableOpacity } from '../reusable/touchableOpacity.jsx'
-
-import archiveIcon from '../../../assets/icons/material/archive.svg'
+import { ArchiveButton } from './archiveButton.jsx'
 
 const DOWN_HOTKEY = 'j'
 const UP_HOTKEY = 'k'
-const ARCHIVE_MULTIPLE_WARNING =
-  'Are you sure you want to archive these tasks?\n\nYou currently can’t view archived tasks in Nitro.'
 
 export class TasksList extends React.PureComponent {
   static propTypes = {
     listId: PropTypes.string
   }
+
   static getDerivedStateFromProps(props, state) {
     return props.listId !== state.previousId
       ? TasksList.generateState(props, true)
       : null
   }
+
   static generateState(props, newList = false) {
     const { listId } = props
     const list = NitroSdk.getList(listId)
@@ -77,6 +75,7 @@ export class TasksList extends React.PureComponent {
     }
     return newState
   }
+
   constructor(props) {
     super(props)
     this.state = {
@@ -97,7 +96,9 @@ export class TasksList extends React.PureComponent {
     })
     this.isIntersecting = false
   }
+
   archiveTransform = null
+
   componentDidMount() {
     NitroSdk.bind('update', this.triggerUpdate)
     NitroSdk.bind('order', this.triggerOrder)
@@ -112,6 +113,7 @@ export class TasksList extends React.PureComponent {
     this.scheduleTasksUpdate()
     this.observer.observe(findNodeHandle(this.tasksContainerEnd.current))
   }
+
   componentWillUnmount() {
     NitroSdk.unbind('update', this.triggerUpdate)
     NitroSdk.unbind('order', this.triggerOrder)
@@ -124,6 +126,7 @@ export class TasksList extends React.PureComponent {
     clearTimeout(this.nextDayUpdate)
     this.observer.disconnect()
   }
+
   scheduleTasksUpdate = () => {
     // re-renders every hour
     const d = new Date()
@@ -135,12 +138,15 @@ export class TasksList extends React.PureComponent {
       this.scheduleTasksUpdate()
     }, nextRender)
   }
+
   triggerUpdate = () => {
     this.tasksUpdate('update')
   }
+
   triggerOrder = () => {
     this.tasksUpdate('order')
   }
+
   tasksUpdate = event => {
     // doesn't do anything if the task is expanded
     const newState = this.constructor.generateState(this.props)
@@ -167,6 +173,7 @@ export class TasksList extends React.PureComponent {
       this.setState(newState)
     }
   }
+
   syncingTasksUpdate = () => {
     if (!NitroSdk.isSignedIn(true)) return
     const syncingTasks = NitroSdk.getTasksSyncStatus(this.props.listId)
@@ -180,6 +187,7 @@ export class TasksList extends React.PureComponent {
       syncingTasks: newState
     })
   }
+
   triggerHeight = (height, animate = true) => {
     requestAnimationFrame(() => {
       const currentItemIndex = this.state.order.indexOf(
@@ -221,6 +229,7 @@ export class TasksList extends React.PureComponent {
       if (archive) archive.style.transform = `translate3d(0,${height}px,0)`
     })
   }
+
   triggerHide = () => {
     requestAnimationFrame(() => {
       Array.from(findNodeHandle(this.tasksContainer.current).children).forEach(
@@ -243,6 +252,7 @@ export class TasksList extends React.PureComponent {
       }
     })
   }
+
   triggerHotkey = (event, key) => {
     if (key === DOWN_HOTKEY) {
       const node = findNodeHandle(this.tasksContainer.current).querySelector(
@@ -258,36 +268,14 @@ export class TasksList extends React.PureComponent {
       if (node) node.focus()
     }
   }
-  triggerArchive = () => {
-    ModalService.show(
-      {
-        message: ARCHIVE_MULTIPLE_WARNING,
-        confirmText: 'Archive Tasks',
-        confirmColor: vars.positiveColor,
-        cancelText: 'Cancel'
-      },
-      () => NitroSdk.archiveCompletedList(this.props.listId)
-    )
-  }
-  triggerArchiveKeyDown = e => {
-    const keycode = e.keyCode
-    if (keycode === 13) {
-      this.triggerArchive()
-      e.currentTarget.blur()
-    } else if (keycode === 27) {
-      e.currentTarget.blur()
-    } else if (keycode === 38 || keycode === 75) {
-      const node = e.currentTarget.parentNode.previousSibling.children[0]
-      if (node) node.focus()
-      e.preventDefault()
-    }
-  }
+
   triggerIntersect = e => {
     // Weirdly, when the overlay is opened in Chrome, this is hit
     // Works fine in Safari & Firefox.
     this.isIntersecting = e[0].isIntersecting
     this.resetPadding()
   }
+
   resetPadding = () => {
     const style = findNodeHandle(this.tasksContainer.current).style
     if (this.isIntersecting === false && style.paddingBottom !== '0px') {
@@ -301,9 +289,17 @@ export class TasksList extends React.PureComponent {
       }, 300)
     }
   }
+
   render() {
     const { listId } = this.props
-    const { mutable, order, orderNotAllowed, tasks, syncingTasks } = this.state
+    const {
+      mutable,
+      order,
+      orderNotAllowed,
+      tasks,
+      syncingTasks,
+      archiveHover
+    } = this.state
     const headersAllowed = !mutable.includes('no-headings')
     const signedIn = NitroSdk.isSignedIn()
     const completedTasks = Array.from(tasks).filter(obj => {
@@ -326,28 +322,15 @@ export class TasksList extends React.PureComponent {
       const { archiveTransform, archiveTransformList } = this
       const archiveStyles =
         archiveTransform !== null && archiveTransformList === listId
-          ? [styles.archiveButtonWrapper, { transform: archiveTransform }]
-          : styles.archiveButtonWrapper
+          ? { transform: archiveTransform }
+          : null
       archiveButton = (
-        <View ref={this.archiveButton} style={archiveStyles}>
-          <TouchableOpacity
-            onClick={this.triggerArchive}
-            accessible={true}
-            onKeyDown={this.triggerArchiveKeyDown}
-          >
-            <View style={styles.archiveButton} className="hover-5">
-              <Image
-                accessibilityLabel="Archive Icon"
-                source={archiveIcon}
-                resizeMode="contain"
-                style={styles.archiveIcon}
-              />
-              <Text style={styles.archiveButtonText}>
-                Archive {completedTasks} completed tasks
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+        <ArchiveButton
+          ref={this.archiveButton}
+          style={archiveStyles}
+          completed={completedTasks}
+          listId={listId}
+        />
       )
     }
 
@@ -356,7 +339,8 @@ export class TasksList extends React.PureComponent {
 
     return (
       <View ref={this.tasksContainer} style={styles.wrapper}>
-        <div className="new-task-spacer" />
+        {/* dummy view for the expanded task mess */}
+        <View />
         {order.map((taskId, index) => {
           const task = tasks.get(taskId)
           const taskType = task ? task.type : null
@@ -424,39 +408,6 @@ const styles = StyleSheet.create({
   wrapper: {
     paddingLeft: vars.padding / 2,
     paddingRight: vars.padding / 2
-  },
-  archiveButtonWrapper: {
-    display: 'flex',
-    flexDirection: 'row',
-    paddingTop: vars.padding,
-    paddingBottom: vars.padding,
-    paddingLeft: vars.padding / 4,
-    transitionDuration: '300ms',
-    transitionTimingFunction: 'ease',
-    transitionProperty: 'transform'
-  },
-  archiveButton: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    flexShrink: 1,
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: '#ccc',
-    borderRadius: 3,
-    paddingLeft: vars.padding * 0.75,
-    paddingRight: vars.padding * 0.75,
-    paddingTop: vars.padding / 2,
-    paddingBottom: vars.padding / 2
-  },
-  archiveIcon: {
-    height: 11,
-    width: 12
-  },
-  archiveButtonText: {
-    textIndent: vars.padding * 0.375,
-    fontFamily: vars.fontFamily,
-    fontSize: 14
   },
   loadingText: {
     lineHeight: 50,

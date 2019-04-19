@@ -1,5 +1,4 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useState } from 'react'
 import { Image, View, Text, StyleSheet } from 'react-native'
 import { LinkComponent } from '../reusable/link.jsx'
 import { TouchableOpacity } from '../reusable/touchableOpacity.jsx'
@@ -21,86 +20,80 @@ iconMap.set('next', nextIcon)
 iconMap.set('all', allIcon)
 iconMap.set('add', addIcon)
 
-export class ListItem extends React.Component {
-  static propTypes = {
-    id: PropTypes.string,
-    name: PropTypes.string,
-    count: PropTypes.number,
-    onClick: PropTypes.func
-  }
-  proxyOnClick = e => {
-    e.preventDefault()
-    this.props.onClick()
-    this.hideMenu(e)
-  }
-  hideMenu = e => {
-    e.currentTarget.blur()
-    UiService.setCardPosition('map')
+const hideMenu = e => {
+  e.currentTarget.blur()
+  UiService.setCardPosition('map')
 
-    setTimeout(() => {
-      UiService.setCardScroll(0)
-    }, 350)
-  }
-  triggerNoOp = e => {
-    e.preventDefault()
-  }
-  render() {
-    let icon = iconMap.get(this.props.id)
-    if (typeof icon === 'undefined') {
-      icon = listIcon
-    }
-    const style =
-      UiService.state.currentList === this.props.id
-        ? [styles.wrapper, styles.selected]
-        : styles.wrapper
-    const className =
-      'sidebar-item-focus-inner ' +
-      (UiService.state.currentList === this.props.id ? '' : 'hover-5')
+  setTimeout(() => {
+    UiService.setCardScroll(0)
+  }, 350)
+}
 
-    const inner = (
-      <TouchableOpacity style={style} className={className}>
-        <View style={styles.iconWrapper}>
-          <Image source={icon} resizeMode="contain" style={styles.icon} />
-        </View>
-        <View style={styles.nameWrapper}>
-          <Text style={styles.name}>{this.props.name}</Text>
-        </View>
-        <View style={styles.countWrapper}>
-          <Text style={styles.count}>{this.props.count}</Text>
-        </View>
-      </TouchableOpacity>
-    )
-    return (
-      <Draggable
-        draggableId={'lists-' + this.props.id}
-        index={this.props.index}
-        isDragDisabled={
-          // TODO: fix this dumb hack
-          isNaN(parseInt(this.props.id)) ||
-          UiService.state.cardPosition !== 'max'
-        }
-        type="listsDroppable"
-      >
-        {(provided, snapshot) => (
-          <LinkComponent
-            onClick={this.props.onClick ? this.proxyOnClick : this.hideMenu}
-            to={this.props.onClick ? '/' : `/${this.props.id}`}
-            innerRef={provided.innerRef}
-            onMouseDown={this.triggerNoOp}
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
-            className="sidebar-item-focus"
-            style={getItemStyle(
-              snapshot.isDragging,
-              provided.draggableProps.style
-            )}
-          >
-            {inner}
-          </LinkComponent>
-        )}
-      </Draggable>
-    )
+const proxyOnClick = onClick => {
+  return e => {
+    e.preventDefault()
+    onClick()
+    hideMenu(e)
   }
+}
+
+const triggerNoOp = e => {
+  e.preventDefault()
+}
+
+export const ListItem = ({ id, onClick, name, count, index }) => {
+  const [hover, setHover] = useState(false)
+
+  let icon = iconMap.get(id)
+  if (typeof icon === 'undefined') {
+    icon = listIcon
+  }
+  const style =
+    UiService.state.currentList === id
+      ? [styles.wrapper, styles.selected]
+      : hover
+      ? [styles.hover, styles.wrapper]
+      : styles.wrapper
+  return (
+    <Draggable
+      draggableId={'lists-' + id}
+      index={index}
+      isDragDisabled={
+        // TODO: fix this dumb hack
+        isNaN(parseInt(id)) || UiService.state.cardPosition !== 'max'
+      }
+      type="listsDroppable"
+    >
+      {(provided, snapshot) => (
+        <LinkComponent
+          onClick={onClick ? proxyOnClick(onClick) : hideMenu}
+          to={onClick ? '/' : `/${id}`}
+          innerRef={provided.innerRef}
+          onMouseEnter={() => setHover(true)}
+          onMouseLeave={() => setHover(false)}
+          onMouseDown={triggerNoOp}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          style={getItemStyle(
+            snapshot.isDragging,
+            provided.draggableProps.style
+          )}
+        >
+          <TouchableOpacity style={style}>
+            <View style={styles.iconWrapper}>
+              <Image source={icon} resizeMode="contain" style={styles.icon} />
+            </View>
+            <View style={styles.nameWrapper}>
+              <Text style={styles.name}>{name}</Text>
+            </View>
+            <View style={styles.countWrapper}>
+              <Text style={styles.count}>{count}</Text>
+            </View>
+          </TouchableOpacity>
+        </LinkComponent>
+      )}
+    </Draggable>
+  )
 }
 
 const borderRadius = 5
@@ -118,8 +111,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row'
   },
+  hover: {
+    borderRadius: 5,
+    backgroundColor: 'rgba(0, 0, 0, 0.025)'
+  },
   selected: {
-    backgroundColor: 'rgba(0,0,0,0.05)'
+    backgroundColor: 'rgba(0, 0, 0, 0.05)'
   },
   iconWrapper: {
     width: iconWidth,

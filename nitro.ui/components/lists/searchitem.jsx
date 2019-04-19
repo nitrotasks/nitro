@@ -1,5 +1,4 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useState } from 'react'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 import { SidebarService } from '../../services/sidebarService.js'
 import { UiService } from '../../services/uiService.js'
@@ -22,73 +21,74 @@ iconMap.set('next', nextIcon)
 iconMap.set('task', taskIcon)
 iconMap.set('header', headerIcon)
 
-export class SearchItem extends React.Component {
-  static propTypes = {
-    icon: PropTypes.string,
-    url: PropTypes.string,
-    name: PropTypes.string,
-    subtitle: PropTypes.string
+const triggerClick = url => () => {
+  const parsedUrl = url.split('/')
+  if (parsedUrl.length === 3) {
+    TasksExpandedService.goToAnyTask(parsedUrl[1], parsedUrl[2])
+  } else {
+    UiService.setCardPosition('map')
+    TasksExpandedService.go(url)
   }
-  triggerClick = () => {
-    const { url } = this.props
-    const parsedUrl = url.split('/')
-    if (parsedUrl.length === 3) {
-      TasksExpandedService.goToAnyTask(parsedUrl[1], parsedUrl[2])
+  SidebarService.hideSearchResults()
+}
+
+const triggerKeyDown = url => e => {
+  // enter
+  const keycode = e.keyCode
+  if (keycode === 13) {
+    triggerClick(url)()
+  } else if (keycode === 38) {
+    const el = e.currentTarget.previousSibling
+    if (el) {
+      e.preventDefault()
+      el.focus()
     } else {
-      UiService.setCardPosition('map')
-      TasksExpandedService.go(url)
+      SidebarService.focusSearchBox()
     }
-    SidebarService.hideSearchResults()
-  }
-  triggerKeyDown = e => {
-    // enter
-    const keycode = e.keyCode
-    if (keycode === 13) {
-      this.triggerClick()
-    } else if (keycode === 38) {
-      const el = e.currentTarget.previousSibling
-      if (el) {
-        e.preventDefault()
-        el.focus()
-      } else {
-        SidebarService.focusSearchBox()
-      }
-    } else if (keycode === 40) {
-      const el = e.currentTarget.nextSibling
-      if (el) {
-        e.preventDefault()
-        el.focus()
-      }
+  } else if (keycode === 40) {
+    const el = e.currentTarget.nextSibling
+    if (el) {
+      e.preventDefault()
+      el.focus()
     }
   }
-  render() {
-    const { icon, name, subtitle } = this.props
-    let image = iconMap.get(icon)
-    if (typeof image === 'undefined') {
-      image = listIcon
-    }
-    return (
-      <TouchableOpacity
-        accessible={true}
-        style={styles.resultWrapper}
-        className="hover-5 search-item-focus"
-        onClick={this.triggerClick}
-        onKeyDown={this.triggerKeyDown}
-        onFocus={this.triggerFocus}
-        onBlur={this.triggerBlur}
-      >
-        <View style={styles.iconWrapper}>
-          <Image source={image} resizeMode="contain" style={styles.icon} />
-        </View>
-        <View style={styles.nameWrapper}>
-          <Text style={styles.name}>{name}</Text>
-          {subtitle === null ? null : (
-            <Text style={styles.subtitle}>{subtitle}</Text>
-          )}
-        </View>
-      </TouchableOpacity>
-    )
+}
+
+export const SearchItem = ({ icon, name, subtitle, url }) => {
+  const [hover, setHover] = useState(false)
+  const [focus, setFocus] = useState(false)
+
+  let image = iconMap.get(icon)
+  if (image === undefined) {
+    image = listIcon
   }
+  const style = focus
+    ? [styles.resultWrapper, styles.focus]
+    : hover
+    ? [styles.resultWrapper, styles.hover]
+    : styles.resultWrapper
+  return (
+    <TouchableOpacity
+      accessible={true}
+      style={style}
+      onClick={triggerClick(url)}
+      onKeyDown={triggerKeyDown(url)}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      onFocus={() => setFocus(true)}
+      onBlur={() => setFocus(false)}
+    >
+      <View style={styles.iconWrapper}>
+        <Image source={image} resizeMode="contain" style={styles.icon} />
+      </View>
+      <View style={styles.nameWrapper}>
+        <Text style={styles.name}>{name}</Text>
+        {subtitle === null ? null : (
+          <Text style={styles.subtitle}>{subtitle}</Text>
+        )}
+      </View>
+    </TouchableOpacity>
+  )
 }
 const iconHeight = vars.padding * 1.125
 const iconWidth = vars.padding * 1.75
@@ -128,5 +128,13 @@ const styles = StyleSheet.create({
     fontFamily: vars.fontFamily,
     fontSize: vars.padding * 0.85,
     color: vars.navTextColorMuted
+  },
+  focus: {
+    backgroundColor: vars.focusColor,
+    outlineWidth: 0
+  },
+  hover: {
+    borderRadius: 5,
+    backgroundColor: 'rgba(0, 0, 0, 0.025)'
   }
 })

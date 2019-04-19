@@ -10,21 +10,27 @@ import nitroIcon from '../../assets/icons/logo.svg'
 
 export class TutorialModal extends React.Component {
   state = {
-    show: false
+    show: false,
+    desktopLayout: false
   }
+
   componentWillMount() {
     ModalService.bind('show-tutorial', this.showModal)
   }
+
   componentWillUnmount() {
     ModalService.unbind('show-tutorial', this.showModal)
   }
+
   showModal = () => {
     this.setState({ show: true })
   }
+
   hideModal = () => {
     this.setState({ show: false })
     NitroSdk.markTutorialCompleted()
   }
+
   addList = () => {
     this.hideModal()
     setTimeout(() => {
@@ -35,13 +41,28 @@ export class TutorialModal extends React.Component {
       TasksExpandedService.go(`/${listId}`)
     }, 20) // at least 1 frame.
   }
-  render() {
-    if (this.state.show === false) {
-      return null
+
+  triggerLayout = e => {
+    if (e.nativeEvent.layout.width >= 480) {
+      this.setState({ desktopLayout: true })
+    } else if (this.state.desktopLayout === true) {
+      this.setState({ desktopLayout: false })
     }
+  }
+
+  render() {
+    const { desktopLayout, show } = this.state
+    if (show === false) return null
     return (
       <View style={styles.wrapper}>
-        <View style={styles.innerModal} className="tutorial-modal">
+        <View
+          style={
+            desktopLayout
+              ? [styles.innerModal, styles.desktopModal]
+              : styles.innerModal
+          }
+          onLayout={this.triggerLayout}
+        >
           <Image
             accessibilityLabel="Nitro Icon"
             source={nitroIcon}
@@ -104,6 +125,15 @@ const styles = StyleSheet.create({
     paddingRight: vars.padding,
     paddingTop: vars.padding * 2,
     paddingBottom: vars.padding * 2.5
+  },
+  desktopModal: {
+    marginTop: '8vh',
+    borderRadius: 5,
+    // width: '90vw',
+    maxWidth: 540,
+    paddingLeft: 64,
+    paddingRight: 64,
+    height: 'auto'
   },
   nitroIcon: {
     height: 65,

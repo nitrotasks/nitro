@@ -1,9 +1,10 @@
 import React from 'react'
-import { View, Text, StyleSheet, findNodeHandle } from 'react-native'
+import { View, StyleSheet, findNodeHandle } from 'react-native'
 
 import { iOS } from '../helpers/ios.js'
 import { vars } from '../styles.js'
 import { ContextMenuService } from '../services/contextMenuService.js'
+import { ContextMenuItem } from './contextMenuItem.jsx'
 
 const MENU_ITEM_HEIGHT = 42
 export class ContextMenu extends React.Component {
@@ -13,7 +14,9 @@ export class ContextMenu extends React.Component {
     show: false,
     items: []
   }
+
   wrapper = React.createRef()
+
   componentDidMount() {
     ContextMenuService.bind('create', this.createMenu)
     if (iOS.detect()) {
@@ -23,9 +26,11 @@ export class ContextMenu extends React.Component {
       )
     }
   }
+
   componentWillUnmount() {
     ContextMenuService.unbind('create', this.createMenu)
   }
+
   createMenu = params => {
     const [x, y, anchor, secondAnchor, items] = params
     const newState = {}
@@ -43,29 +48,33 @@ export class ContextMenu extends React.Component {
     newState.items = items
     this.setState(newState)
   }
+
   triggerHide = e => {
     e.preventDefault()
     this.setState({
       show: false
     })
   }
+
   preventScroll = e => {
     e.preventDefault()
   }
+
   render() {
+    const { show, x, y } = this.state
     let wrapperStyles = styles.wrapper
     let pointerEvents = 'auto'
-    if (!this.state.show) {
+    if (!show) {
       wrapperStyles = [styles.wrapper, styles.wrapperHide]
       pointerEvents = 'none'
     }
     const menuStyle = {
-      top: this.state.y
+      top: y
     }
     if (this.state.x > 0) {
-      menuStyle.left = this.state.x
+      menuStyle.left = x
     } else {
-      menuStyle.right = Math.abs(this.state.x)
+      menuStyle.right = Math.abs(x)
     }
     const menuStyleComposed = [styles.menu, menuStyle]
     return (
@@ -77,18 +86,13 @@ export class ContextMenu extends React.Component {
         ref={this.wrapper}
       >
         <View style={menuStyleComposed}>
-          {this.state.items.map((item, key) => {
-            return (
-              <View
-                key={key}
-                style={styles.menuItem}
-                onClick={item.action}
-                className="hover-5"
-              >
-                <Text style={styles.menuText}>{item.title}</Text>
-              </View>
-            )
-          })}
+          {this.state.items.map((item, key) => (
+            <ContextMenuItem
+              onClick={item.action}
+              title={item.title}
+              key={key}
+            />
+          ))}
         </View>
       </View>
     )
@@ -114,20 +118,5 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     paddingTop: vars.padding / 2,
     paddingBottom: vars.padding / 2
-  },
-  menuItem: {
-    paddingLeft: vars.padding,
-    paddingRight: vars.padding,
-    cursor: 'default',
-    userSelect: 'none'
-  },
-  menuItemHover: {
-    backgroundColor: 'rgba(0,0,0,0.1)'
-  },
-  menuText: {
-    fontFamily: vars.fontFamily,
-    fontSize: 15,
-    color: '#222',
-    lineHeight: MENU_ITEM_HEIGHT
   }
 })

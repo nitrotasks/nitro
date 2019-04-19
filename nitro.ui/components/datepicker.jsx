@@ -16,17 +16,22 @@ export class Datepicker extends React.Component {
     pickerId: PropTypes.string.isRequired,
     position: PropTypes.string.isRequired
   }
+
   state = {
     visible: false,
     type: 'date'
   }
+
   callback = () => {}
+
   componentDidMount() {
     DatepickerService.bind('activate', this.triggerActivate)
   }
+
   componentWillUnmount() {
     DatepickerService.unbind('activate', this.triggerActivate)
   }
+
   triggerActivate = (pickerId, props) => {
     if (pickerId === this.props.pickerId) {
       this.callback = props.callback
@@ -37,6 +42,7 @@ export class Datepicker extends React.Component {
       })
     }
   }
+
   triggerSelect = value1 => {
     return value2 => {
       let value = value1 || value2
@@ -50,25 +56,28 @@ export class Datepicker extends React.Component {
       this.triggerHide()
     }
   }
+
   triggerHide = () => {
     this.setState({
       visible: false
     })
   }
+
   triggerOverlayHide = e => {
     if (e.target === e.currentTarget) {
       this.triggerHide()
     }
   }
+
   render() {
+    const { date, visible, type } = this.state
     // TODO: abstract this to translation library
-    const pickerType = this.state.type
     let titleText = 'Pick Date'
     let buttonsTop
-    if (pickerType === 'deadline') {
+    if (type === 'deadline') {
       titleText = 'Set Deadline'
     }
-    if (pickerType === 'date' || pickerType === 'deadline') {
+    if (type === 'date' || type === 'deadline') {
       buttonsTop = (
         <View>
           <TouchableOpacity
@@ -113,7 +122,7 @@ export class Datepicker extends React.Component {
 
     let bodyStyle = [styles.wrapper]
     let bodyPointerEvents = 'auto'
-    if (!this.state.visible) {
+    if (!visible) {
       bodyStyle.push({ opacity: 0 })
       bodyPointerEvents = 'none'
     }
@@ -133,7 +142,6 @@ export class Datepicker extends React.Component {
 
     return (
       <View
-        className="desktop-datepicker"
         style={bodyStyle}
         pointerEvents={bodyPointerEvents}
         onClick={this.triggerOverlayHide}
@@ -154,9 +162,9 @@ export class Datepicker extends React.Component {
           <View style={styles.daypickerWrapper}>
             <DayPicker
               firstDayOfWeek={1}
-              selectedDays={this.state.date}
+              selectedDays={date}
               onDayClick={this.triggerSelect()}
-              month={this.state.date}
+              month={date}
             />
           </View>
         </View>
