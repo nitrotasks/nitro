@@ -25,7 +25,8 @@ const sorts = [
   }
 ]
 export class SortBar extends React.Component {
-  state = { sort: null }
+  state = { sort: null, desktop: false }
+
   static getDerivedStateFromProps(props) {
     const { listId } = props
     const list = NitroSdk.getList(listId)
@@ -33,12 +34,15 @@ export class SortBar extends React.Component {
       sort: list.sort
     }
   }
+
   componentDidMount() {
     NitroSdk.bind('update', this.triggerUpdate)
   }
+
   componentWillUnmount() {
     NitroSdk.unbind('update', this.triggerUpdate)
   }
+
   triggerUpdate = operation => {
     // This is a bit redundant, but will need a bit of a refactor to do it properly
     if (operation === 'lists') {
@@ -66,6 +70,7 @@ export class SortBar extends React.Component {
       })
     }
   }
+
   triggerIgnoreHeaders(state) {
     return () => {
       const { listId } = this.props
@@ -77,14 +82,32 @@ export class SortBar extends React.Component {
       NitroSdk.updateList(listId, { sort: newSelected })
     }
   }
+
+  triggerLayout = () => {
+    const { desktop } = this.state
+    if (window.innerWidth > 850 && desktop === false) {
+      this.setState({
+        desktop: true
+      })
+    } else if (window.innerWidth <= 850 && desktop === true) {
+      this.setState({
+        desktop: false
+      })
+    }
+  }
+
   render() {
     // don't show anything if no sort is selected
     const selected = this.state.sort
     if (selected === null) return null
+    const { desktop } = this.state
     const selectedArray = (selected || '').split('-')
     const isIgnoreHeaders = selectedArray[1] === 'ignoreheaders'
     return (
-      <View style={styles.wrapper} className="sort-bar">
+      <View
+        style={desktop ? [styles.wrapper, styles.desktop] : styles.wrapper}
+        onLayout={this.triggerLayout}
+      >
         <View style={styles.sortsWrapper}>
           {sorts.map(sort => {
             const isSelected = selectedArray[0] === sort.id
@@ -164,6 +187,10 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     paddingLeft: vars.padding - 2,
     paddingRight: vars.padding - 2
+  },
+  desktop: {
+    paddingLeft: vars.padding / 2,
+    paddingRight: vars.padding / 2
   },
   sortsWrapper: {
     flexDirection: 'row',

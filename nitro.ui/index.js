@@ -1,16 +1,19 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import './helpers/mousetrapGlobal.js'
-import App from './components/app.jsx'
-import { NitroSdk } from '../nitro.sdk'
-
-window.sdk = NitroSdk
-
 // polyfills
 import 'intersection-observer'
 import './helpers/broadcastChannel'
 import smoothscroll from 'smoothscroll-polyfill'
 smoothscroll.polyfill()
+
+// deprecated but uhhh
+import 'resize-observer-polyfill/dist/ResizeObserver.global'
+
+// react
+import React from 'react'
+import ReactDOM from 'react-dom'
+import './helpers/mousetrapGlobal.js'
+import { NitroSdk } from '../nitro.sdk'
+window.sdk = NitroSdk
+import App from './components/app.jsx'
 
 // css
 import './external-css/fonts.css'

@@ -26,6 +26,7 @@ export class Header extends React.PureComponent {
       ? Header.generateState(props)
       : null
   }
+
   static generateState(props) {
     const list = NitroSdk.getList(props.listId)
     if (list !== null) {
@@ -45,15 +46,19 @@ export class Header extends React.PureComponent {
       }
     }
   }
+
   state = {
     ...this.constructor.generateState(this.props),
-    textInputFocus: false
+    textInputFocus: false,
+    hover: false
   }
+
   observer = new IntersectionObserver(this.props.onIntersect, {
     root: null,
     rootMargin: '-65px',
     threshold: 0
   })
+
   wrapper = React.createRef()
 
   componentDidMount() {
@@ -62,6 +67,7 @@ export class Header extends React.PureComponent {
       this.observer.observe(handle)
     }
   }
+
   componentWillUnmount() {
     this.observer.disconnect()
   }
@@ -71,6 +77,7 @@ export class Header extends React.PureComponent {
     const y = e.nativeEvent.pageY
     headerMenu(this.props.listId, x, y, 'top', 'right')
   }
+
   triggerSort = () => {
     const { listId } = this.props
     const list = NitroSdk.getList(listId)
@@ -81,16 +88,19 @@ export class Header extends React.PureComponent {
     NitroSdk.updateList(listId, { sort: newSort })
     this.setState({ sort: newSort !== null })
   }
+
   triggerChange = e => {
     this.setState({
       name: e.currentTarget.value
     })
   }
+
   triggerFocus = () => {
     this.setState({
       textInputFocus: true
     })
   }
+
   triggerBlur = () => {
     const name = this.state.name.trim()
     if (name === '') {
@@ -108,6 +118,7 @@ export class Header extends React.PureComponent {
       })
     }
   }
+
   triggerKeyUp = e => {
     // ESC
     if (e.keyCode === 27) {
@@ -120,8 +131,17 @@ export class Header extends React.PureComponent {
       e.currentTarget.blur()
     }
   }
+
+  triggerMouseEnter = () => {
+    this.setState({ hover: true })
+  }
+
+  triggerMouseLeave = () => {
+    this.setState({ hover: false })
+  }
+
   render() {
-    const { name, mutable, exists } = this.state
+    const { name, mutable, exists, hover, textInputFocus } = this.state
     if (!this.state.textInputFocus) {
       document.title = name + ' - Nitro'
     }
@@ -130,19 +150,23 @@ export class Header extends React.PureComponent {
     }
     const renameNotAllowed = mutable.indexOf('no-rename') !== -1
     const orderNotAllowed = mutable.indexOf('no-order') !== -1
-    const listHeaderStyles = this.state.textInputFocus
+    const listHeaderStyles = textInputFocus
       ? [styles.listHeader, styles.focusedListHeader]
+      : !renameNotAllowed && hover
+      ? [styles.listHeader, styles.hoveredListHeader]
       : styles.listHeader
+
     return (
       <View style={styles.listHeaderWrapper} ref={this.wrapper}>
         <TextInput
-          className={renameNotAllowed ? null : 'hover-5'}
           style={listHeaderStyles}
           value={this.state.name}
           onChange={this.triggerChange}
           onFocus={this.triggerFocus}
           onBlur={this.triggerBlur}
           onKeyUp={this.triggerKeyUp}
+          onMouseEnter={this.triggerMouseEnter}
+          onMouseLeave={this.triggerMouseLeave}
           disabled={renameNotAllowed}
         />
         {orderNotAllowed ? null : (
@@ -188,6 +212,9 @@ const styles = StyleSheet.create({
     textOverflow: 'ellipsis',
     color: vars.headerColor,
     flex: 1
+  },
+  hoveredListHeader: {
+    backgroundColor: 'rgba(0, 0, 0, 0.045)'
   },
   focusedListHeader: {
     backgroundColor: 'rgba(0, 0, 0, 0.08)'

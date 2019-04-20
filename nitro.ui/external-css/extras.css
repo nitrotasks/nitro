@@ -26,12 +26,13 @@ input:disabled {
 .pseudo-shadow.visible::after {
   opacity: 1;
 }
-.desktop-opacity-invisible {
-  opacity: 0.5;
-}
 .search-item-focus:focus,
 .search-item-focus:focus:hover {
   background: #e2eaf7;
+  outline: 0;
+}
+.list-item-focus:focus {
+  box-shadow: 0 0 0 3px #9dbefb;
   outline: 0;
 }
 @media (max-width: 850px) {
@@ -54,60 +55,8 @@ input:disabled {
     width: 97%;
     margin: 0 auto;
   }
-  .desktop-expanded {
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
-    border-radius: 5px;
-    left: calc(5% - 8px);
-    width: calc(90% + 16px);
-    padding-left: 20px;
-    padding-right: 4px;
-  }
-  .desktop-opacity-invisible {
-    opacity: 1;
-  }
   .sort-bar {
     padding-left: 8px;
     padding-right: 8px;
-  }
-}
-
-.touchable-opacity {
-  -webkit-tap-highlight-color: rgba(255, 255, 255, 0.5);
-  -webkit-touch-callout: none;
-  -webkit-text-size-adjust: none;
-  -webkit-user-select: none;
-}
-
-.touchable-opacity.opacity-25 {
-  -webkit-tap-highlight-color: rgba(255, 255, 255, 0.75);
-}
-.touchable-opacity.opacity-75 {
-  -webkit-tap-highlight-color: rgba(255, 255, 255, 0.25);
-}
-.touchable-opacity.opacity-90 {
-  -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
-}
-.touchable-opacity-active {
-  -webkit-tap-highlight-color: transparent;
-}
-.touchable-opacity-active:active {
-  opacity: 0.5;
-}
-.touchable-opacity-active.opacity-25:active {
-  opacity: 0.25;
-}
-.touchable-opacity-active.opacity-75:active {
-  opacity: 0.75;
-}
-.touchable-opacity-active.opacity-90:active {
-  opacity: 0.9;
-}
-@media (pointer: fine) {
-  .hover-5:hover:not(:focus) {
-    border-radius: 5px;
-    background-color: rgba(0, 0, 0, 0.025);
-  }
-  .hover-input:hover:not(:focus) {
-    background-color: rgba(0, 0, 0, 0.045);
   }
 }

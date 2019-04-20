@@ -16,8 +16,10 @@ import { Datepicker } from '../datepicker.jsx'
 export class Tasks extends React.Component {
   state = {
     pointerEvents: TasksExpandedService.state.task === null,
-    lastUpdate: new Date()
+    lastUpdate: new Date(),
+    desktop: false
   }
+
   componentDidMount() {
     TasksExpandedService.setGo(
       this.props.history.push,
@@ -28,6 +30,7 @@ export class Tasks extends React.Component {
     TasksExpandedService.bind('hide', this.triggerExpanded('hide'))
     NitroSdk.bind('update', this.triggerUpdate)
   }
+
   triggerIntersection = e => {
     const newPos = !e[0].isIntersecting
     if (UiService.state.listIntersection !== newPos) {
@@ -35,6 +38,7 @@ export class Tasks extends React.Component {
       UiService.trigger('list-intersection')
     }
   }
+
   triggerClick = e => {
     if (
       e.target === e.currentTarget &&
@@ -43,6 +47,7 @@ export class Tasks extends React.Component {
       TasksExpandedService.triggerBack()
     }
   }
+
   triggerExpanded = event => {
     return () => {
       // TODO: this is a bit of a hack
@@ -53,6 +58,7 @@ export class Tasks extends React.Component {
       })
     }
   }
+
   triggerUpdate = key => {
     if (key === 'lists') {
       const { list } = this.props.match.params
@@ -63,8 +69,19 @@ export class Tasks extends React.Component {
       }
     }
   }
+
+  triggerLayout = () => {
+    const { desktop } = this.state
+    if (window.innerWidth > 850 && desktop === false) {
+      this.setState({ desktop: true })
+    } else if (window.innerWidth <= 850 && desktop === true) {
+      this.setState({ desktop: false })
+    }
+  }
+
   render() {
     const { list } = this.props.match.params
+    const { pointerEvents, desktop } = this.state
     if (NitroSdk.getList(list) === null) {
       return (
         <View style={styles.notFound}>
@@ -74,10 +91,11 @@ export class Tasks extends React.Component {
         </View>
       )
     }
-    const pointerEvents = this.state.pointerEvents ? 'auto' : 'none'
-    const pointerEventsClassName =
-      'desktop-90' +
-      (this.state.pointerEvents ? '' : ' desktop-opacity-invisible')
+    const style = desktop
+      ? [styles.tasksWrapper, styles.desktop]
+      : pointerEvents
+      ? styles.tasksWrapper
+      : [styles.tasksWrapper, styles.mobileOpacity]
 
     // used for the drag and drop
     UiService.state.currentList = list
@@ -86,9 +104,9 @@ export class Tasks extends React.Component {
         <DroppableScrollableWrapper id="tasksDroppable" overflowType="scroll">
           <View onClick={this.triggerClick}>
             <View
-              style={styles.tasksWrapper}
-              pointerEvents={pointerEvents}
-              className={pointerEventsClassName}
+              onLayout={this.triggerLayout}
+              style={style}
+              pointerEvents={pointerEvents ? 'auto' : 'none'}
             >
               <Header listId={list} onIntersect={this.triggerIntersection} />
               <TasksInput listId={list} />
@@ -114,6 +132,14 @@ const styles = StyleSheet.create({
     transitionProperty: 'opacity',
     transitionTimingFunction: 'ease',
     paddingBottom: vars.padding * 2
+  },
+  desktop: {
+    width: '90%',
+    marginLeft: 'auto',
+    marginRight: 'auto'
+  },
+  mobileOpacity: {
+    opacity: 0.5
   },
   notFound: {
     padding: vars.padding

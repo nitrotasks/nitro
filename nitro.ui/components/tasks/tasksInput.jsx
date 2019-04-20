@@ -13,42 +13,53 @@ export class TasksInput extends React.Component {
   static propTypes = {
     listId: string
   }
+
   state = {
     name: '',
-    inputFocus: false
+    inputFocus: false,
+    desktop: false,
+    hover: false
   }
+
   input = React.createRef()
 
   componentDidMount() {
     ShortcutsService.bind(FOCUS_HOTKEY, this.triggerHotkey)
     ShortcutsService.bind(GLOBAL_FOCUS_HOTKEY, this.triggerHotkey)
   }
+
   componentWillUnmount() {
     ShortcutsService.unbind(FOCUS_HOTKEY, this.triggerHotkey)
     ShortcutsService.unbind(GLOBAL_FOCUS_HOTKEY, this.triggerHotkey)
   }
+
   triggerHotkey = () => {
     this.input.current.focus()
   }
+
   triggerChange = e => {
     this.setState({ name: e.currentTarget.value })
   }
+
   triggerFocus = () => {
     this.setState({
       inputFocus: true
     })
   }
+
   triggerBlur = () => {
     this.setState({
       inputFocus: false
     })
   }
+
   triggerKeyUp = e => {
     // ESC
     if (e.keyCode === 27) {
       e.currentTarget.blur()
     }
   }
+
   triggerSubmit = e => {
     const name = this.state.name.trim()
     if (name === '') return
@@ -61,15 +72,40 @@ export class TasksInput extends React.Component {
     })
     e.currentTarget.focus()
   }
+
+  triggerLayout = () => {
+    const { desktop } = this.state
+    if (window.innerWidth > 850 && desktop === false) {
+      this.setState({ desktop: true })
+    } else if (window.innerWidth <= 850 && desktop === true) {
+      this.setState({ desktop: false })
+    }
+  }
+
+  triggerMouseEnter = () => {
+    this.setState({ hover: true })
+  }
+
+  triggerMouseLeave = () => {
+    this.setState({ hover: false })
+  }
+
   render() {
-    const inputStyles = this.state.inputFocus
+    // dummy view so we get the onlayout events
+    const { desktop, inputFocus, hover } = this.state
+    if (!desktop) {
+      return <View onLayout={this.triggerLayout} />
+    }
+
+    const inputStyles = inputFocus
       ? [styles.input, styles.inputFocus]
+      : hover
+      ? [styles.input, styles.inputHover]
       : styles.input
     return (
-      <View style={styles.wrapper} className="mobile-hidden">
+      <View style={styles.wrapper}>
         <TextInput
           ref={this.input}
-          className="hover-input"
           autoComplete="off"
           style={inputStyles}
           value={this.state.name}
@@ -78,6 +114,9 @@ export class TasksInput extends React.Component {
           onBlur={this.triggerBlur}
           onKeyUp={this.triggerKeyUp}
           onSubmitEditing={this.triggerSubmit}
+          onLayout={this.triggerLayout}
+          onMouseEnter={this.triggerMouseEnter}
+          onMouseLeave={this.triggerMouseLeave}
           blurOnSubmit={false}
           placeholder="Add a task..."
         />
@@ -113,5 +152,8 @@ const styles = StyleSheet.create({
   inputFocus: {
     backgroundColor: 'rgba(0, 0, 0, 0.04)',
     borderColor: vars.accentColor
+  },
+  inputHover: {
+    backgroundColor: 'rgba(0, 0, 0, 0.045)'
   }
 })

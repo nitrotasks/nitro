@@ -41,6 +41,7 @@ export class TaskExpanded extends React.Component {
   static propTypes = {
     listId: PropTypes.string
   }
+
   constructor(props) {
     super(props)
     this.taskInput = React.createRef()
@@ -54,7 +55,8 @@ export class TaskExpanded extends React.Component {
       this.state = {
         ...taskDetails,
         hidden: false,
-        lineNumber: 3
+        lineNumber: 3,
+        desktopLayout: false
       }
       requestAnimationFrame(() => UiService.setCardPosition('hidden'))
     } else {
@@ -66,10 +68,12 @@ export class TaskExpanded extends React.Component {
         date: null,
         checked: false,
         hidden: true,
-        lineNumber: 3
+        lineNumber: 3,
+        desktopLayout: false
       }
     }
   }
+
   componentDidMount() {
     NitroSdk.bind('update', this.taskUpdate)
     TasksExpandedService.bind('show', this.triggerShow)
@@ -80,6 +84,7 @@ export class TaskExpanded extends React.Component {
     ShortcutsService.bind(ESC_HOTKEY, this.triggerHideHotkey)
     ShortcutsService.bind(CTRLJ_HOTKEY, this.triggerHideHotkey)
   }
+
   componentWillUnmount() {
     NitroSdk.unbind('update', this.taskUpdate)
     TasksExpandedService.unbind('show', this.triggerShow)
@@ -90,6 +95,7 @@ export class TaskExpanded extends React.Component {
     ShortcutsService.unbind(ESC_HOTKEY, this.triggerHideHotkey)
     ShortcutsService.unbind(CTRLJ_HOTKEY, this.triggerHideHotkey)
   }
+
   taskUpdate = (type, listId, taskId) => {
     if (type === 'tasks' && taskId === TasksExpandedService.state.task) {
       const taskDetails = this.getTask(taskId)
@@ -98,6 +104,7 @@ export class TaskExpanded extends React.Component {
       })
     }
   }
+
   triggerShow = (list, task) => {
     const taskDetails = this.getTask(task)
     this.setState({
@@ -163,11 +170,13 @@ export class TaskExpanded extends React.Component {
       )
     })
   }
+
   triggerReplace = (list, task) => {
     // this is just a soft replace
     const taskDetails = this.getTask(task)
     this.setState(taskDetails)
   }
+
   triggerHide = (list, oldTask) => {
     // TODO: this is a bit of a hack
     requestAnimationFrame(() => {
@@ -180,14 +189,17 @@ export class TaskExpanded extends React.Component {
       })
     })
   }
+
   triggerHideHotkey = () => {
     if (this.state.hidden === false) {
       TasksExpandedService.triggerBack()
     }
   }
+
   triggerOverlay = () => {
     TasksExpandedService.triggerBack()
   }
+
   getTask = taskId => {
     if (taskId === 'new') {
       return {
@@ -234,6 +246,7 @@ export class TaskExpanded extends React.Component {
       })
     }
   }
+
   createOrUpdateTask = (taskId, payload) => {
     if (this.state.mode === 'create') {
       const { list } = TasksExpandedService.state
@@ -245,6 +258,7 @@ export class TaskExpanded extends React.Component {
       NitroSdk.updateTask(taskId, payload)
     }
   }
+
   triggerBlur = field => {
     return (e, taskId = TasksExpandedService.state.task) => {
       if (
@@ -262,11 +276,13 @@ export class TaskExpanded extends React.Component {
       })
     }
   }
+
   triggerKeyUp = e => {
     if (e.keyCode === 27) {
       e.currentTarget.blur()
     }
   }
+
   updateProp = field => {
     return value => {
       let data = { [field]: value }
@@ -278,6 +294,7 @@ export class TaskExpanded extends React.Component {
       this.createOrUpdateTask(TasksExpandedService.state.task, data)
     }
   }
+
   triggerChecked = () => {
     // TODO: this component needs some smarts on how to trigger updates.
     this.setState({
@@ -289,6 +306,7 @@ export class TaskExpanded extends React.Component {
     }
     NitroSdk.completeTask(TasksExpandedService.state.task)
   }
+
   triggerPriority = e => {
     const rect = e.currentTarget.getBoundingClientRect()
     const x = rect.x + rect.width * 0.5
@@ -296,6 +314,7 @@ export class TaskExpanded extends React.Component {
     const { task } = TasksExpandedService.state
     priorityMenu(task, x, y, 'bottom', 'right')
   }
+
   triggerMore = e => {
     if (this.state.mode === 'create') {
       this.createOrUpdateTask(TasksExpandedService.state.task, { name: '' })
@@ -323,6 +342,7 @@ export class TaskExpanded extends React.Component {
       headerMenu(task, x, y, 'top', 'right', this.triggerOverlay)
     }
   }
+
   triggerRemove = prop => {
     return e => {
       const newValue = prop === 'priority' ? 0 : null
@@ -332,18 +352,35 @@ export class TaskExpanded extends React.Component {
       })
     }
   }
+
   triggerPosition = () => {
     this.setState({
       hidden: this.state.hidden
     })
   }
+
   focusNameInput = () => {
     requestAnimationFrame(() => {
       this.taskInput.current.focus()
     })
   }
+
+  triggerLayout = () => {
+    const { desktopLayout } = this.state
+    if (window.innerWidth > 850 && desktopLayout === false) {
+      this.setState({
+        desktopLayout: true
+      })
+    } else if (window.innerWidth <= 850 && desktopLayout === true) {
+      this.setState({
+        desktopLayout: false
+      })
+    }
+  }
+
   render() {
     const { listId } = this.props
+    const { desktopLayout } = this.state
     let top = TasksExpandedService.state.position + vars.padding
 
     // if the list changes
@@ -480,7 +517,7 @@ export class TaskExpanded extends React.Component {
     return (
       <React.Fragment>
         <View
-          className="desktop-90 desktop-expanded"
+          onLayout={this.triggerLayout}
           pointerEvents={pointerEvents}
           style={[
             styles.wrapper,
@@ -488,7 +525,8 @@ export class TaskExpanded extends React.Component {
               top: top,
               opacity: opacity,
               transform: transform
-            }
+            },
+            desktopLayout ? styles.desktop : null
           ]}
         >
           <View style={styles.topRow}>
@@ -553,6 +591,16 @@ const styles = StyleSheet.create({
     transitionDuration: '300ms, 300ms',
     transitionTimingFunction: 'ease, ease',
     transitionProperty: 'opacity, transform'
+  },
+  desktop: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    boxShadow: '0 1px 5px rgba(0, 0, 0, 0.25)',
+    borderRadius: '5px',
+    left: 'calc(5% - 8px)',
+    width: 'calc(90% + 16px)',
+    paddingLeft: 20,
+    paddingRight: 4
   },
   topRow: {
     flex: 1,
