@@ -25,18 +25,21 @@ const GLOBAL_FOCUS_HOTKEY = 'ctrl+k'
 
 export class ListHeaderWithoutRouter extends React.Component {
   static propTypes = {
-    className: string,
     backFn: func,
     actionFn: func,
     onSearch: func,
     hideClose: bool,
     value: string
   }
+
   wrapper = React.createRef()
+
   searchInput = React.createRef()
 
   state = {
-    focus: false
+    focus: false,
+    hover: false,
+    desktopLayout: false
   }
 
   componentDidMount() {
@@ -47,6 +50,7 @@ export class ListHeaderWithoutRouter extends React.Component {
     ShortcutsService.bind(GLOBAL_FOCUS_HOTKEY, this.triggerHotkey)
     UiService.bind('card-position', this.triggerCardPosition)
   }
+
   componentWillUnmount() {
     SidebarService.unbind('focus-search-box', this.triggerHotkey)
     this.wrapperNode.removeEventListener('touchstart', this.triggerTouchStart)
@@ -54,20 +58,25 @@ export class ListHeaderWithoutRouter extends React.Component {
     ShortcutsService.unbind(GLOBAL_FOCUS_HOTKEY, this.triggerHotkey)
     UiService.unbind('card-position', this.triggerCardPosition)
   }
+
   triggerAddTask = () => {
     TasksExpandedService.triggerCreate(UiService.state.currentList)
   }
+
   triggerTouchStart = e => {
     UiService.state.headerEvent = e.target
   }
+
   triggerHotkey = () => {
     this.searchInput.current.focus()
   }
+
   triggerCardPosition = position => {
     if (position === 'map') {
       this.searchInput.current.blur()
     }
   }
+
   triggerSearchFocus = () => {
     // stops iOS from scrolling
     window.scrollTo(0, 0)
@@ -78,9 +87,11 @@ export class ListHeaderWithoutRouter extends React.Component {
       UiService.setCardPosition('max', true, true)
     }
   }
+
   triggerSearchBlur = () => {
     this.setState({ focus: false })
   }
+
   triggerSubmit = e => {
     if (window.innerWidth > 850) {
       const query = e.currentTarget.value.trim()
@@ -102,6 +113,7 @@ export class ListHeaderWithoutRouter extends React.Component {
     // we have to manually blur it
     e.currentTarget.blur()
   }
+
   triggerKeyUp = e => {
     if (e.keyCode === 27) {
       e.currentTarget.value = ''
@@ -112,14 +124,9 @@ export class ListHeaderWithoutRouter extends React.Component {
       SidebarService.focusSearchItemFirst()
     }
   }
+
   triggerMax() {
     requestAnimationFrame(() => {
-      // DISABLED we don't need default
-      // const pos =
-      //   UiService.state.cardPosition === 'map' ||
-      //   UiService.state.cardPosition === 'max'
-      //     ? 'default'
-      //     : 'max'
       let pos = 'max'
       if (UiService.state.cardPosition === 'max') {
         pos = 'map'
@@ -127,37 +134,79 @@ export class ListHeaderWithoutRouter extends React.Component {
       UiService.setCardPosition(pos, true, true)
     })
   }
+
+  triggerLayout = () => {
+    const { desktopLayout } = this.state
+    if (window.innerWidth > 850 && desktopLayout === false) {
+      this.setState({
+        desktopLayout: true
+      })
+    } else if (window.innerWidth <= 850 && desktopLayout === true) {
+      this.setState({
+        desktopLayout: false
+      })
+    }
+  }
+
+  triggerMouseEnter = () => {
+    this.setState({ hover: true })
+  }
+
+  triggerMouseLeave = () => {
+    this.setState({ hover: false })
+  }
+
   render() {
-    const { focus } = this.state
-    const textStyles = focus
-      ? [styles.text, styles.textFocus]
-      : window.innerWidth > 850
-      ? [styles.text, styles.textSlash]
-      : styles.text
+    const { focus, hover, desktopLayout } = this.state
+
+    const textStyles = [styles.text]
+    if (desktopLayout) textStyles.push(styles.textSlash)
+    if (focus) {
+      textStyles.push(styles.textFocus)
+    } else if (hover) {
+      textStyles.push(styles.textHover)
+    }
+
     return (
       <View
         style={styles.wrapper}
         ref={this.wrapper}
-        className={this.props.className || ''}
+        onLayout={this.triggerLayout}
       >
         <View style={styles.flexWrapper}>
           <View
-            style={styles.pillWrapper}
+            style={
+              desktopLayout
+                ? [styles.pillWrapper, styles.invisible]
+                : styles.pillWrapper
+            }
             onClick={this.triggerMax}
-            className="desktop-invisible"
           >
             <View style={styles.pill} />
           </View>
-          <View style={styles.bottomWrapper} className="desktop-padding-right">
-            <View style={styles.textWrapper} className="desktop-padding-left">
+          <View
+            style={
+              desktopLayout
+                ? [styles.bottomWrapper, styles.desktopPaddingRight]
+                : styles.bottomWrapper
+            }
+          >
+            <View
+              style={
+                desktopLayout
+                  ? [styles.textWrapper, styles.desktopPaddingLeft]
+                  : styles.textWrapper
+              }
+            >
               <TextInput
                 ref={this.searchInput}
-                className="hover-input"
                 placeholder="Search"
                 style={textStyles}
                 numberOfLines={1}
                 value={this.props.value}
                 blurOnSubmit={false}
+                onMouseEnter={this.triggerMouseEnter}
+                onMouseLeave={this.triggerMouseLeave}
                 onSubmitEditing={this.triggerSubmit}
                 onFocus={this.triggerSearchFocus}
                 onBlur={this.triggerSearchBlur}
@@ -168,9 +217,8 @@ export class ListHeaderWithoutRouter extends React.Component {
           </View>
         </View>
         <TouchableOpacity
-          style={styles.add}
+          style={desktopLayout ? [styles.add, styles.hidden] : styles.add}
           onClick={this.triggerAddTask}
-          className="desktop-hidden"
         >
           <View style={styles.iconInner}>
             <Image source={addIcon} resizeMode="contain" style={styles.icon} />
@@ -191,6 +239,12 @@ const styles = StyleSheet.create({
   },
   flexWrapper: {
     flex: 1
+  },
+  invisible: {
+    visibility: 'hidden'
+  },
+  hidden: {
+    display: 'none'
   },
   pillWrapper: {
     height: paddingVertical,
@@ -244,6 +298,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.1)',
     borderColor: vars.accentColorMuted
   },
+  textHover: {
+    backgroundColor: 'rgba(0, 0, 0, 0.045)'
+  },
   textHidden: {
     opacity: 0
   },
@@ -262,5 +319,11 @@ const styles = StyleSheet.create({
   iconInner: {
     marginTop: 'auto',
     marginBottom: 'auto'
+  },
+  desktopPaddingRight: {
+    paddingRight: vars.padding * 0.75
+  },
+  desktopPaddingLeft: {
+    paddingLeft: vars.padding * 0.75
   }
 })

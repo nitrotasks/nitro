@@ -48,12 +48,6 @@
 .root-map {
   transition: var(--map-transition);
 }
-.root-card-wrapper {
-  box-shadow: rgba(0, 0, 0, 0.3) 0 0 3px;
-  border-radius: 10px 10px 0 0;
-  height: calc(100% - 25px);
-  background: #f6f6f6;
-}
 
 @media (max-width: 850px) {
   .default-view .root-map,
@@ -132,12 +126,6 @@
   }
   .root-card-content {
     padding: 0;
-  }
-  .root-card-wrapper {
-    border-radius: 0;
-    box-shadow: none;
-    height: 100%;
-    border-right: 1px solid rgba(0, 0, 0, 0.05);
   }
   .root-card-padding-button {
     display: none;

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
-import { View } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 
 import { NitroSdk, authEvents as EVENTS } from '../../../nitro.sdk'
 import { iOS } from '../../helpers/ios.js'
@@ -27,9 +27,11 @@ class ShellComponent extends React.Component {
   state = {
     animate: false,
     showPin: false,
+    desktopLayout: false,
     cardPosition: UiService.state.cardPosition,
     delayCard: false
   }
+
   constructor(props) {
     super(props)
     this.Search = null // Map Component, dynamic load
@@ -376,7 +378,22 @@ class ShellComponent extends React.Component {
       UiService.setCardPosition('map')
     }
   }
+
+  triggerLayout = () => {
+    const { desktopLayout } = this.state
+    if (window.innerWidth > 850 && desktopLayout === false) {
+      this.setState({
+        desktopLayout: true
+      })
+    } else if (window.innerWidth <= 850 && desktopLayout === true) {
+      this.setState({
+        desktopLayout: false
+      })
+    }
+  }
+
   render() {
+    const { desktopLayout } = this.state
     const rootClassName =
       'root-container ' +
       this.state.cardPosition +
@@ -410,7 +427,14 @@ class ShellComponent extends React.Component {
               className="root-card-padding-button"
               onTouchStart={this.triggerPaddingButton}
             />
-            <View className="root-card-wrapper">
+            <View
+              style={
+                desktopLayout
+                  ? [styles.rootCardWrapper, styles.rootCardWrapperDesktop]
+                  : styles.rootCardWrapper
+              }
+              onLayout={this.triggerLayout}
+            >
               <Lists />
             </View>
           </div>
@@ -419,5 +443,24 @@ class ShellComponent extends React.Component {
     )
   }
 }
+const styles = StyleSheet.create({
+  rootCardWrapper: {
+    boxShadow: 'rgba(0, 0, 0, 0.3) 0 0 3px',
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
+    height: 'calc(100% - 25px)',
+    backgroundColor: '#f6f6f6'
+  },
+  rootCardWrapperDesktop: {
+    borderTopRightRadius: 0,
+    borderTopLeftRadius: 0,
+    boxShadow: 'none',
+    height: '100%',
+    borderRightWidth: 1,
+    borderRightStyle: 'solid',
+    borderRightColor: 'rgba(0, 0, 0, 0.05)'
+  }
+})
+
 const Shell = withRouter(ShellComponent)
 export { Shell }

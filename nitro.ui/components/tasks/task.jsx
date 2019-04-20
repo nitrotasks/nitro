@@ -23,7 +23,7 @@ import priority2Icon from '../../../assets/icons/material/priority-2.svg'
 import priority3Icon from '../../../assets/icons/material/priority-3.svg'
 const priorityIcons = [priority1Icon, priority2Icon, priority3Icon]
 
-export class Task extends React.PureComponent {
+export class Task extends React.Component {
   static propTypes = {
     index: PropTypes.number,
     listId: PropTypes.string,
@@ -43,8 +43,14 @@ export class Task extends React.PureComponent {
     syncing: PropTypes.bool
   }
 
+  state = {
+    hover: false
+  }
+
   viewRef = React.createRef()
+
   draggingStart = false
+
   thresholdHit = false
 
   componentDidMount() {
@@ -65,9 +71,11 @@ export class Task extends React.PureComponent {
 
     TasksExpandedService.bind('indirect-click', this.indirectClick)
   }
+
   componentWillUnmount() {
     TasksExpandedService.unbind('indirect-click', this.indirectClick)
   }
+
   triggerKeyPress = fn => {
     return e => {
       // runs the react-beautiful-dnd events first, if they exist
@@ -130,6 +138,7 @@ export class Task extends React.PureComponent {
       }
     }
   }
+
   triggerKeyUp = e => {
     if (e.defaultPrevented) return
     const keycode = e.keyCode
@@ -141,10 +150,12 @@ export class Task extends React.PureComponent {
       }
     }
   }
+
   triggerClick = () => {
     const { listId, dataId } = this.props
     this.indirectClick(listId, dataId)
   }
+
   indirectClick = (list, task) => {
     if (task === this.props.dataId) {
       const scrollPos = UiService.getScroll()
@@ -166,10 +177,12 @@ export class Task extends React.PureComponent {
       }
     }
   }
+
   triggerCheckbox = () => {
     const { dataId } = this.props
     NitroSdk.completeTask(dataId)
   }
+
   triggerContextMenu = e => {
     e.preventDefault()
     const x = e.nativeEvent.pageX
@@ -178,6 +191,7 @@ export class Task extends React.PureComponent {
       this.props.listId === 'today' || this.props.listId === 'next'
     taskMenu(this.props.dataId, !viewInList, viewInList, x, y, 'top', 'left')
   }
+
   triggerNoOp = e => {
     const { dataType, headersAllowed } = this.props
     if (
@@ -189,8 +203,18 @@ export class Task extends React.PureComponent {
     }
     e.preventDefault()
   }
+
+  triggerMouseEnter = () => {
+    this.setState({ hover: true })
+  }
+
+  triggerMouseLeave = () => {
+    this.setState({ hover: false })
+  }
+
   render() {
     const props = this.props
+    const { hover } = this.state
     let WrapperComponent = TouchableOpacity
     let innerItem
     if (props.dataType === 'header' || props.dataType === 'header-collapsed') {
@@ -348,8 +372,13 @@ export class Task extends React.PureComponent {
           return (
             <WrapperComponent
               ref={this.viewRef}
-              style={styles.transitionStyle}
-              className={props.dataType === 'task' ? 'hover-5' : null}
+              style={
+                props.dataType === 'task' && hover
+                  ? [styles.transitionStyle, styles.hover]
+                  : styles.transitionStyle
+              }
+              onMouseEnter={this.triggerMouseEnter}
+              onMouseLeave={this.triggerMouseLeave}
             >
               <div
                 onMouseDown={this.triggerNoOp}
@@ -379,6 +408,10 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     cursor: 'default'
+  },
+  hover: {
+    borderRadius: 5,
+    backgroundColor: 'rgba(0, 0, 0, 0.025)'
   },
   checkboxWrapper: {
     paddingLeft: vars.padding / 4,

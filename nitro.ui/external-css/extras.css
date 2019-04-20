@@ -40,20 +40,11 @@ input:disabled {
   }
 }
 @media (min-width: 851px) {
-  .desktop-invisible {
-    visibility: hidden;
-  }
   .desktop-allow-touch {
     touch-action: manipulation !important;
   }
   .desktop-hidden {
     display: none;
-  }
-  .desktop-padding-left {
-    padding-left: 12px;
-  }
-  .desktop-padding-right {
-    padding-right: 12px;
   }
   .desktop-90 {
     width: 90%;
