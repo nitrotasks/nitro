@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import { TasksExpandedService } from '../../services/tasksExpandedService.js'
 import { SidebarService } from '../../services/sidebarService.js'
 import { UiService } from '../../services/uiService.js'
-
-import { View, Text, Image, StyleSheet } from 'react-native'
-import { TouchableOpacity } from '../reusable/touchableOpacity.jsx'
 
 import { vars } from '../../styles'
 import listIcon from '../../../assets/icons/feather/list.svg'
@@ -71,7 +69,7 @@ export const SearchItem = ({ icon, name, subtitle, url }) => {
     <TouchableOpacity
       accessible={true}
       style={style}
-      onClick={triggerClick(url)}
+      onPress={triggerClick(url)}
       onKeyDown={triggerKeyDown(url)}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}

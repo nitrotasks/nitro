@@ -484,7 +484,7 @@ export class TaskExpanded extends React.Component {
     const priorityElement = (
       <TouchableOpacity
         key="priority"
-        onClick={this.triggerPriority}
+        onPress={this.triggerPriority}
         accessible={false}
       >
         <View style={styles.barIconWrapper}>

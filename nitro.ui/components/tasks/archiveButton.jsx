@@ -1,10 +1,9 @@
 import React, { useState, forwardRef } from 'react'
 import { vars } from '../../styles.js'
-import { View, Image, Text, StyleSheet } from 'react-native'
+import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native'
 
 import { NitroSdk } from '../../../nitro.sdk'
 import { ModalService } from '../../services/modalService.js'
-import { TouchableOpacity } from '../reusable/touchableOpacity.jsx'
 import archiveIcon from '../../../assets/icons/material/archive.svg'
 
 const ARCHIVE_MULTIPLE_WARNING =
@@ -44,7 +43,7 @@ export const ArchiveButton = forwardRef(({ completed, style, listId }, ref) => {
   return (
     <View ref={ref} style={archiveStyles}>
       <TouchableOpacity
-        onClick={triggerArchive(listId)}
+        onPress={triggerArchive(listId)}
         accessible={true}
         onKeyDown={triggerArchiveKeyDown(listId)}
       >

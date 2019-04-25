@@ -1,9 +1,8 @@
 import React from 'react'
 import { bool, func, string } from 'prop-types'
-import { Text, StyleSheet } from 'react-native'
+import { Text, StyleSheet, TouchableOpacity } from 'react-native'
 
 import { vars } from '../../styles.js'
-import { TouchableOpacity } from './touchableOpacity.jsx'
 
 export class Button extends React.Component {
   static propTypes = {
@@ -25,7 +24,7 @@ export class Button extends React.Component {
     } = this.props
     return (
       <TouchableOpacity
-        onClick={onPress}
+        onPress={onPress}
         style={[
           styles.button,
           color && { backgroundColor: color },

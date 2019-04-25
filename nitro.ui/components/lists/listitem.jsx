@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import { Image, View, Text, StyleSheet } from 'react-native'
+import { Image, View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { LinkComponent } from '../reusable/link.jsx'
-import { TouchableOpacity } from '../reusable/touchableOpacity.jsx'
 import { UiService } from '../../services/uiService.js'
 import { Draggable } from 'react-beautiful-dnd'
 

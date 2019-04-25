@@ -1,6 +1,13 @@
 import React, { useState } from 'react'
 import { object } from 'prop-types'
-import { View, Image, Text, StyleSheet, findNodeHandle } from 'react-native'
+import {
+  View,
+  Image,
+  Text,
+  StyleSheet,
+  findNodeHandle,
+  TouchableOpacity
+} from 'react-native'
 import { withRouter } from 'react-router'
 
 import { iOS } from '../../helpers/ios.js'
@@ -12,7 +19,6 @@ import { UiService } from '../../services/uiService.js'
 import { ListHeader } from './listheader.jsx'
 import { ListsContainer } from './listscontainer.jsx'
 import { SearchContainer } from './searchcontainer.jsx'
-import { TouchableOpacity } from '../reusable/touchableOpacity.jsx'
 
 import { vars } from '../../styles'
 import addIcon from '../../../assets/icons/feather/add.svg'

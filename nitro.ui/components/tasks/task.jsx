@@ -1,6 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { View, Text, Image, StyleSheet, findNodeHandle } from 'react-native'
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  findNodeHandle,
+  TouchableOpacity
+} from 'react-native'
 import { Draggable } from 'react-beautiful-dnd'
 
 import { NitroSdk } from '../../../nitro.sdk'
@@ -11,7 +18,6 @@ import { UiService } from '../../services/uiService.js'
 import { Checkbox } from './checkbox.jsx'
 import { TaskHeader } from './taskHeader.jsx'
 import { taskMenu } from './taskMenu.js'
-import { TouchableOpacity } from '../reusable/touchableOpacity.jsx'
 import { formatPriority } from '../../helpers/priority.js'
 
 import todayIcon from '../../../assets/icons/feather/today.svg'

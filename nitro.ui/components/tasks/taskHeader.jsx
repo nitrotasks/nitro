@@ -144,7 +144,7 @@ class TaskHeaderWithoutRouter extends React.PureComponent {
     const controls = this.props.disabled ? null : (
       <TouchableOpacity
         style={styles.moreIcon}
-        onClick={this.triggerContextMenu('right')}
+        onPress={this.triggerContextMenu('right')}
         accessible={false}
       >
         <Image

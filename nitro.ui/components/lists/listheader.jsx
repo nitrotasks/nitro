@@ -4,7 +4,8 @@ import {
   TextInput,
   Image,
   StyleSheet,
-  findNodeHandle
+  findNodeHandle,
+  TouchableOpacity
 } from 'react-native'
 import { string, func, bool } from 'prop-types'
 import { withRouter } from 'react-router'
@@ -18,7 +19,6 @@ import { UiService } from '../../services/uiService.js'
 import addIcon from '../../../assets/icons/custom/add.svg'
 import searchIcon from '../../../assets/icons/custom/search.svg'
 import searchSlashIcon from '../../../assets/icons/custom/search-slash.svg'
-import { TouchableOpacity } from '../reusable/touchableOpacity.jsx'
 
 const FOCUS_HOTKEY = '/'
 const GLOBAL_FOCUS_HOTKEY = 'ctrl+k'
@@ -218,7 +218,7 @@ export class ListHeaderWithoutRouter extends React.Component {
         </View>
         <TouchableOpacity
           style={desktopLayout ? [styles.add, styles.hidden] : styles.add}
-          onClick={this.triggerAddTask}
+          onPress={this.triggerAddTask}
         >
           <View style={styles.iconInner}>
             <Image source={addIcon} resizeMode="contain" style={styles.icon} />
