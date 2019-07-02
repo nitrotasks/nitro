@@ -6,7 +6,8 @@ import {
   Image,
   StyleSheet,
   findNodeHandle,
-  TouchableOpacity
+  TouchableOpacity,
+  TouchableWithoutFeedback
 } from 'react-native'
 import { Draggable } from 'react-beautiful-dnd'
 
@@ -348,22 +349,24 @@ export class Task extends React.Component {
               checked={props.dataCompleted !== null}
             />
           </View>
-          <View style={textDisplayStyles} onClick={this.triggerClick}>
-            {indicatorsBefore}
-            <View style={styles.textRow}>
-              <View style={styles.textWrapper}>
-                <Text numberOfLines={1} style={styles.text}>
-                  {props.dataName}
-                </Text>
-                {indicatorsAfter}
-                {syncIndicator}
-              </View>
-              <View style={styles.subTextRow}>
-                {deadlineIndicator}
-                {listIndicators}
+          <TouchableWithoutFeedback onPress={this.triggerClick}>
+            <View style={textDisplayStyles}>
+              {indicatorsBefore}
+              <View style={styles.textRow}>
+                <View style={styles.textWrapper}>
+                  <Text numberOfLines={1} style={styles.text}>
+                    {props.dataName}
+                  </Text>
+                  {indicatorsAfter}
+                  {syncIndicator}
+                </View>
+                <View style={styles.subTextRow}>
+                  {deadlineIndicator}
+                  {listIndicators}
+                </View>
               </View>
             </View>
-          </View>
+          </TouchableWithoutFeedback>
         </View>
       )
     }

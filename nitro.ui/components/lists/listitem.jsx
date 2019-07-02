@@ -28,19 +28,11 @@ const hideMenu = e => {
   }, 350)
 }
 
-const proxyOnClick = onClick => {
-  return e => {
-    e.preventDefault()
-    onClick()
-    hideMenu(e)
-  }
-}
-
 const triggerNoOp = e => {
   e.preventDefault()
 }
 
-export const ListItem = ({ id, onClick, name, count, index }) => {
+export const ListItem = ({ id, name, count, index }) => {
   const [hover, setHover] = useState(false)
 
   let icon = iconMap.get(id)
@@ -65,11 +57,8 @@ export const ListItem = ({ id, onClick, name, count, index }) => {
     >
       {(provided, snapshot) => (
         <LinkComponent
-          onClick={onClick ? proxyOnClick(onClick) : hideMenu}
-          to={onClick ? '/' : `/${id}`}
+          to={`/${id}`}
           innerRef={provided.innerRef}
-          onMouseEnter={() => setHover(true)}
-          onMouseLeave={() => setHover(false)}
           onMouseDown={triggerNoOp}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
@@ -78,7 +67,19 @@ export const ListItem = ({ id, onClick, name, count, index }) => {
             provided.draggableProps.style
           )}
         >
-          <TouchableOpacity style={style}>
+          <TouchableOpacity
+            style={style}
+            onPressIn={() => setHover(true)}
+            onPressOut={() => setHover(false)}
+            onPress={e => {
+              // this fixes a jank ios bug
+              e.currentTarget.parentElement.click()
+              hideMenu(e)
+            }}
+            onClick={e => {
+              e.preventDefault()
+            }}
+          >
             <View style={styles.iconWrapper}>
               <Image source={icon} resizeMode="contain" style={styles.icon} />
             </View>
