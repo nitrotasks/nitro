@@ -59,6 +59,8 @@ export const ListItem = ({ id, name, count, index }) => {
         <LinkComponent
           to={`/${id}`}
           innerRef={provided.innerRef}
+          onMouseOver={() => setHover(true)}
+          onMouseOut={() => setHover(false)}
           onMouseDown={triggerNoOp}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
@@ -69,7 +71,6 @@ export const ListItem = ({ id, name, count, index }) => {
         >
           <TouchableOpacity
             style={style}
-            onPressIn={() => setHover(true)}
             onPressOut={() => setHover(false)}
             onPress={e => {
               // this fixes a jank ios bug

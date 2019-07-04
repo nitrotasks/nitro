@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import {
   View,
@@ -6,8 +6,7 @@ import {
   Image,
   StyleSheet,
   findNodeHandle,
-  TouchableOpacity,
-  TouchableWithoutFeedback
+  TouchableOpacity
 } from 'react-native'
 import { Draggable } from 'react-beautiful-dnd'
 
@@ -99,6 +98,8 @@ export class Task extends React.Component {
           e.currentTarget.querySelector('input').focus()
         } else {
           this.triggerClick()
+
+          // this needs to be better - stuffs up the touchable opacity
           TasksExpandedService.focusNameInput()
         }
       } else if (keycode === 27) {
@@ -349,8 +350,12 @@ export class Task extends React.Component {
               checked={props.dataCompleted !== null}
             />
           </View>
-          <TouchableWithoutFeedback onPress={this.triggerClick}>
-            <View style={textDisplayStyles}>
+          <TouchableOpacity
+            onPress={this.triggerClick}
+            accessible={false}
+            style={textDisplayStyles}
+          >
+            <Fragment>
               {indicatorsBefore}
               <View style={styles.textRow}>
                 <View style={styles.textWrapper}>
@@ -365,8 +370,8 @@ export class Task extends React.Component {
                   {listIndicators}
                 </View>
               </View>
-            </View>
-          </TouchableWithoutFeedback>
+            </Fragment>
+          </TouchableOpacity>
         </View>
       )
     }
@@ -388,6 +393,7 @@ export class Task extends React.Component {
               }
               onMouseEnter={this.triggerMouseEnter}
               onMouseLeave={this.triggerMouseLeave}
+              accessible={false}
             >
               <div
                 onMouseDown={this.triggerNoOp}
@@ -432,6 +438,7 @@ const styles = StyleSheet.create({
     paddingBottom: vars.padding * 0.5625
   },
   textDisplay: {
+    cursor: 'default',
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
@@ -493,6 +500,7 @@ const styles = StyleSheet.create({
     color: 'rgba(0,0,0,0.6)'
   },
   transitionStyle: {
+    cursor: 'default',
     userSelect: 'none',
     transitionDuration: '300ms',
     transitionTimingFunction: 'ease',
