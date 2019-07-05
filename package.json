@@ -6,7 +6,7 @@
     "build": "cross-env NODE_ENV=production webpack --progress --colors --mode production --display-optimization-bailout && npm run inject-scripts",
     "watch": "webpack-dev-server --mode development",
     "clean": "rm -rf dist/generated/*",
-    "test": "cross-env NODE_ENV=test nyc mocha nitro.sdk.test/index.js && npm run build",
+    "test": "cross-env NODE_ENV=test nyc mocha nitro.sdk.test/index.js",
     "test:fast": "cross-env NODE_ENV=test mocha nitro.sdk.test/index.js --require @babel/register",
     "prepublishOnly": "npm run clean && npm run build",
     "flow": "flow",

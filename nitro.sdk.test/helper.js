@@ -13,3 +13,5 @@ global.indexedDB = require('fake-indexeddb')
 global.requestAnimationFrame = process.nextTick
 
 console.log('Created localStorage & requestAnimationFrame hacks')
+
+global.window = {}

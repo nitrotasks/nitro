@@ -29,7 +29,7 @@ class AuthenticationStore extends Events {
     }
 
     broadcast.bind('complete-sync', this.emitFinish)
-    if (typeof window !== 'undefined') {
+    if (window.addEventListener !== undefined) {
       window.addEventListener('online', () => {
         this.getToken()
       })
