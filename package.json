@@ -81,7 +81,7 @@
     "mousetrap": "^1.6.3",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
-    "react-beautiful-dnd": "^11.0.4",
+    "react-beautiful-dnd": "^12.0.0-alpha.7",
     "react-day-picker": "^7.3.0",
     "react-dom": "^16.8.6",
     "react-native-web": "^0.11.4",

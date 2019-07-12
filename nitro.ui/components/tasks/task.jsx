@@ -351,7 +351,7 @@ export class Task extends React.Component {
             />
           </View>
           <TouchableOpacity
-            onPress={this.triggerClick}
+            onClick={this.triggerClick}
             accessible={false}
             style={textDisplayStyles}
           >
@@ -523,7 +523,7 @@ const getItemStyle = (isDragging, draggableStyle) => {
     borderRadius: 3,
 
     // change background colour if dragging
-    background: isDragging ? vars.dragColor : '',
+    backgroundColor: isDragging ? vars.dragColor : 'transparent',
 
     // styles we need to apply on draggables
     ...draggableStyle

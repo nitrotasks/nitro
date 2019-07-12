@@ -85,7 +85,6 @@ export class TasksList extends React.PureComponent {
     this.pendingChanges = false
     this.originalHeight = 0
     this.tasksContainer = React.createRef()
-    this.tasksContainerEnd = React.createRef()
     this.archiveButton = React.createRef()
     UiService.tasksContainer = this.tasksContainer
   }
@@ -193,13 +192,15 @@ export class TasksList extends React.PureComponent {
         nodes.forEach(item => {
           item.style.transitionDuration = '0ms'
         })
-        if (archive) archive.style.transitionDuration = '0ms'
+        if (archive) archive.parentElement.style.transitionDuration = '0ms'
         requestAnimationFrame(() => {
           nodes.forEach(item => {
             item.style.transitionDuration = ''
           })
-          if (archive) archive.style.transitionDuration = ''
+          if (archive) archive.parentElement.style.transitionDuration = '300ms'
         })
+      } else {
+        if (archive) archive.parentElement.style.transitionDuration = '300ms'
       }
 
       // if the new button is pressed, we need to offset it, because this is a zero-height spacer
@@ -214,10 +215,6 @@ export class TasksList extends React.PureComponent {
         const pixels = key === 0 ? vars.padding * 2 : height
         item.style.transform = `translate3d(0,${pixels}px,0)`
       })
-
-      this.archiveTransform = [{ translateY: `${height}px` }]
-      this.archiveTransformList = this.props.listId
-      if (archive) archive.style.transform = `translate3d(0,${height}px,0)`
     })
   }
 
@@ -227,11 +224,6 @@ export class TasksList extends React.PureComponent {
       Array.from(tasksContainer.children).forEach(i => {
         i.style.transform = ''
       })
-
-      const archive = findNodeHandle(this.archiveButton.current)
-      this.archiveTransform = null
-      this.archiveTransformList = null
-      if (archive) archive.style.transform = ''
 
       const currentPos = UiService.getScroll() + document.body.clientHeight
       const newPos =
@@ -298,18 +290,32 @@ export class TasksList extends React.PureComponent {
 
     let archiveButton = null
     if (completedTasks > 0 && headersAllowed) {
-      const { archiveTransform, archiveTransformList } = this
-      const archiveStyles =
-        archiveTransform !== null && archiveTransformList === listId
-          ? { transform: archiveTransform }
-          : null
       archiveButton = (
-        <ArchiveButton
-          ref={this.archiveButton}
-          style={archiveStyles}
-          completed={completedTasks}
-          listId={listId}
-        />
+        <Draggable
+          draggableId={'archive-button'}
+          isDragDisabled={true}
+          index={order.length}
+        >
+          {provided => (
+            <div
+              ref={provided.innerRef}
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              style={{
+                transitionTimingFunction: 'ease',
+                transitionProperty: 'transform',
+                ...provided.draggableProps.style,
+                ...(provided.dragHandleProps || {}).style
+              }}
+            >
+              <ArchiveButton
+                ref={this.archiveButton}
+                completed={completedTasks}
+                listId={listId}
+              />
+            </div>
+          )}
+        </Draggable>
       )
     }
 
@@ -373,12 +379,13 @@ export class TasksList extends React.PureComponent {
             />
           )
         })}
-        {order.filter(t => t !== undefined && t.type !== 'archived').length ===
-        0 ? (
+        {order.filter(t => {
+          const task = tasks.get(t)
+          return task !== undefined && task.type !== 'archived'
+        }).length === 0 ? (
           <EmptyList listId={this.props.listId} />
         ) : null}
         {archiveButton}
-        <div ref={this.tasksContainerEnd} />
       </View>
     )
   }

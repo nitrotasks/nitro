@@ -68,19 +68,9 @@ export const ListItem = ({ id, name, count, index }) => {
             snapshot.isDragging,
             provided.draggableProps.style
           )}
+          onClick={e => hideMenu(e)}
         >
-          <TouchableOpacity
-            style={style}
-            onPressOut={() => setHover(false)}
-            onPress={e => {
-              // this fixes a jank ios bug
-              e.currentTarget.parentElement.click()
-              hideMenu(e)
-            }}
-            onClick={e => {
-              e.preventDefault()
-            }}
-          >
+          <TouchableOpacity style={style}>
             <View style={styles.iconWrapper}>
               <Image source={icon} resizeMode="contain" style={styles.icon} />
             </View>
