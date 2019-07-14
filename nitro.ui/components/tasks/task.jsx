@@ -85,7 +85,7 @@ export class Task extends React.Component {
   triggerKeyPress = fn => {
     return e => {
       // runs the react-beautiful-dnd events first, if they exist
-      if (fn !== null) {
+      if (fn !== null && fn.onKeyDown) {
         fn.onKeyDown(e)
       }
       if (e.defaultPrevented) return
