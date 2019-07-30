@@ -12,9 +12,9 @@
     "flow": "flow",
     "prettier": "prettier",
     "inject-scripts": "node build-scripts/inject-scripts.js",
-    "deploy-uat": "./deploy.sh uat",
+    "deploy-uat": "./deploy.sh uat test-assets-us-west-2.nitrotasks.com",
     "deploy-gateway": "./deploy.sh gateway",
-    "deploy-prod": "./deploy.sh prod"
+    "deploy-prod": "./deploy.sh prod assets-us-west-2.nitrotasks.com"
   },
   "repository": {
     "type": "git",

@@ -8,6 +8,11 @@ echo "Zipping Go Proxy..."
 zip ../deployment/bin/deployment.zip ./nitro.web
 cd ..
 
+echo "Substituting Entrypoints..."
+echo "Using $2"
+sed -i -e 's/\/generated\//https:\/\/'"$2"'\/generated\//g' ./dist/index.html
+sed -i -e 's/\/generated\//https:\/\/'"$2"'\/generated\//g' ./dist/sw.js
+
 echo "Zipping JS Bundle..."
 zip -r deployment/bin/deployment.zip ./dist
 
