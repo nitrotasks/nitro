@@ -61,6 +61,7 @@ deploy:
       repo: nitrotasks/nitro
       branch: develop
   - provider: script
+    skip_cleanup: true
     script: npm run deploy-uat
     on:
       repo: nitrotasks/nitro
