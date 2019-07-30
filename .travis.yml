@@ -1,3 +1,4 @@
+dist: bionic
 language: node_js
 node_js:
   - '10'
@@ -12,6 +13,8 @@ addons:
     packages:
       - gcc-4.8
       - g++-4.8
+      - golang
+      - zip
 env:
   global:
     - NODE_ENV=travis CXX=g++-4.8
@@ -54,6 +57,11 @@ deploy:
     local-dir: dist/generated
     upload-dir: generated
     acl: private
+    on:
+      repo: nitrotasks/nitro
+      branch: develop
+  - provider: script
+    script: npm run deploy-uat
     on:
       repo: nitrotasks/nitro
       branch: develop

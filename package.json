@@ -11,7 +11,10 @@
     "prepublishOnly": "npm run clean && npm run build",
     "flow": "flow",
     "prettier": "prettier",
-    "inject-scripts": "node build-scripts/inject-scripts.js"
+    "inject-scripts": "node build-scripts/inject-scripts.js",
+    "deploy-uat": "./deploy.sh uat",
+    "deploy-gateway": "./deploy.sh gateway",
+    "deploy-prod": "./deploy.sh prod"
   },
   "repository": {
     "type": "git",
