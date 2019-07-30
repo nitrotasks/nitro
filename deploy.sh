@@ -1,7 +1,9 @@
 #!/bin/bash
 set -e
 echo "Building Go Proxy..."
+export GOPATH=$HOME
 cd ./nitro.web
+go get -v ./
 go build
 
 echo "Zipping Go Proxy..."
