@@ -49,6 +49,12 @@ deploy:
     on:
       repo: nitrotasks/nitro
       branch: master
+  - provider: script
+    skip_cleanup: true
+    script: npm run deploy-prod && npm run deploy-gateway
+    on:
+      repo: nitrotasks/nitro
+      branch: master
   - provider: s3
     skip_cleanup: true
     access_key_id: AKIAJPXJ7PE62IXM3HLA
