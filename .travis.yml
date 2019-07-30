@@ -19,9 +19,11 @@ env:
   global:
     - NODE_ENV=travis CXX=g++-4.8
     - CC_TEST_REPORTER_ID=416110cef9815baac2d3dd8d0d3ec8402c977f2a81db6f22092470ed597c6b22
+    - AWS_ACCESS_KEY_ID=AKIAJPXJ7PE62IXM3HLA
     - secure: 0+3G//oZkBmtLN07pyeP1PCmYbXw+JACK75ASllfcUHqgurmgp66oBjB7vQeExHom4cG8lQAYTC2PEeOsZUV6dAsmuCRXxk3CzJZsx5o74IcVWRp7Noc9eKONpO0jeLKmvTHM/wL38SWjvz1UafZQumOAcAn0lmObZEyVwazjGQ=
     - secure: N7RYw+dTFuxqIH/dxGSSDmr1Oo+7fzCo4dDQonx+K0IrhNpIhIQijtoSlE9re9m6E/N92POE5AgjS2tiFHxwO3sIGCVJQqJea6ew8FFBrKW0MH2R81ExAgSY0I4XEpXsNQEBNAjfiVFsxhNn9XpOJAcW7J8Xi6AwSwAbFKBHzus=
     - secure: E8Dt4HpKPTZuBGYiqDP5v9osa4Rr0HETaA6gdSCjkBXzoA7QpFhTWawje+JnhrGo7euHo2ej5XBpyKeuCbuD5B+pJ8O+G/k33ANp1Pf+vyjNHSOvu00GxS9ZdHPPBgHUpgxswwKjVyXZugdHaj3OHJQCVl4DwzmAm5Il0UjHXZ4=
+    - secure: YakTXKQEzBiOSP8tGAWRj8dYp3/ugsmK0u7XNkrTLV6Ez9wA9gCQw8kg5U1+aJgjH9gulOnClxOg6yk2pQ1DNGJyCQfDJ1rEdY3dQH+Y76iAu+A4i+POn9xgq80oRLWwelSUMR4ExgydBiP157OD9pPl6YnR6eZrVhdr3YRvsHc=
 sudo: required
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
