@@ -13,6 +13,7 @@ resource "aws_lambda_function" "lambda" {
     variables = {
       PROXY_TARGET = var.proxy_target
       USE_LAMBDA   = "true"
+      STATIC_PATH  = "./dist"
     }
   }
 }

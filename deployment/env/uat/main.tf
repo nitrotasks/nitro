@@ -13,5 +13,5 @@ provider "aws" {
 module "uat-lambda" {
   source       = "../../modules/lambda"
   environment  = "uat"
-  proxy_target = "https://uat.nitrotasks.com/a/"
+  proxy_target = "https://uat-api.nitrotasks.com/a/"
 }

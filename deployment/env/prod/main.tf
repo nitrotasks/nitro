@@ -13,5 +13,5 @@ provider "aws" {
 module "prod-lambda" {
   source       = "../../modules/lambda"
   environment  = "prod"
-  proxy_target = "https://go.nitrotasks.com/a/"
+  proxy_target = "https://api.nitrotasks.com/a/"
 }
