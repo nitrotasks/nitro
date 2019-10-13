@@ -236,12 +236,6 @@ export class TasksList extends React.PureComponent {
         })
       }
 
-      // to prevent janky animation
-      setTimeout(() => {
-        tasksContainer.style.paddingBottom = '0px'
-        console.log('TODO: Remove the overlay.')
-      }, 400)
-
       // if there was an update while the modal was showing, trigger them now
       if (this.pendingChanges) {
         setTimeout(() => {
@@ -249,6 +243,11 @@ export class TasksList extends React.PureComponent {
           this.tasksUpdate()
         }, 300)
       }
+
+      // to prevent janky animation
+      setTimeout(() => {
+        tasksContainer.style.paddingBottom = '0px'
+      }, 400)
     })
   }
 

@@ -47,7 +47,7 @@ export class TaskExpanded extends React.Component {
     this.taskInput = React.createRef()
     this.notesElement = React.createRef()
     this.notesTimeout = 0
-    this.positionTimeout = 0
+    this.fullyHideTimeout = 0
     this.previousListId = TasksExpandedService.state.list
 
     if (TasksExpandedService.state.task !== null) {
@@ -114,6 +114,7 @@ export class TaskExpanded extends React.Component {
     if (taskDetails.mode === 'create') {
       if (this.taskInput.current) this.taskInput.current.focus()
     }
+    clearTimeout(this.fullyHideTimeout)
     requestAnimationFrame(() => {
       const scrollLocation = TasksExpandedService.state.position - scrollOffset
       const scrollNode = findNodeHandle(this.notesElement.current)
@@ -187,6 +188,14 @@ export class TaskExpanded extends React.Component {
       this.setState({
         hidden: true
       })
+
+      this.fullyHideTimeout = setTimeout(() => {
+        TasksExpandedService.state.position = 0
+        this.setState({
+          lineNumber: 3,
+          hidden: true
+        })
+      }, 400)
     })
   }
 
@@ -354,9 +363,8 @@ export class TaskExpanded extends React.Component {
   }
 
   triggerPosition = () => {
-    this.setState({
-      hidden: this.state.hidden
-    })
+    const { position } = TasksExpandedService.state
+    this.setState({ position })
   }
 
   focusNameInput = () => {
@@ -522,9 +530,9 @@ export class TaskExpanded extends React.Component {
           style={[
             styles.wrapper,
             {
-              top: top,
-              opacity: opacity,
-              transform: transform
+              top,
+              opacity,
+              transform
             },
             desktopLayout ? styles.desktop : null
           ]}
