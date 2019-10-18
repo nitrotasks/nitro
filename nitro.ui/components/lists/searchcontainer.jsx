@@ -20,7 +20,7 @@ export class SearchContainer extends React.Component {
   triggerFocusFirst = () => {
     const wrapperNode = findNodeHandle(this.wrapper.current)
     if (wrapperNode.children[0] !== undefined) {
-      wrapperNode.children[0].focus()
+      wrapperNode.children[0].children[0].focus()
     }
   }
 

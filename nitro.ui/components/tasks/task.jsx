@@ -97,9 +97,8 @@ export class Task extends React.Component {
           e.preventDefault()
           e.currentTarget.querySelector('input').focus()
         } else {
+          e.stopPropagation()
           this.triggerClick()
-
-          // this needs to be better - stuffs up the touchable opacity
           TasksExpandedService.focusNameInput()
         }
       } else if (keycode === 27) {

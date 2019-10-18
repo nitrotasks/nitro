@@ -39,7 +39,7 @@ const triggerKeyDown = url => e => {
     const el = e.currentTarget.previousSibling
     if (el) {
       e.preventDefault()
-      el.focus()
+      el.children[0].focus()
     } else {
       SidebarService.focusSearchBox()
     }
@@ -47,7 +47,7 @@ const triggerKeyDown = url => e => {
     const el = e.currentTarget.nextSibling
     if (el) {
       e.preventDefault()
-      el.focus()
+      el.children[0].focus()
     }
   }
 }
@@ -65,27 +65,30 @@ export const SearchItem = ({ icon, name, subtitle, url }) => {
     : hover
     ? [styles.resultWrapper, styles.hover]
     : styles.resultWrapper
+
+  // the wrapped div is a little bit gross, but the touchable opacity swallows the keydown
   return (
-    <TouchableOpacity
-      accessible={true}
-      style={style}
-      onPress={triggerClick(url)}
-      onKeyDown={triggerKeyDown(url)}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      onFocus={() => setFocus(true)}
-      onBlur={() => setFocus(false)}
-    >
-      <View style={styles.iconWrapper}>
-        <Image source={image} resizeMode="contain" style={styles.icon} />
-      </View>
-      <View style={styles.nameWrapper}>
-        <Text style={styles.name}>{name}</Text>
-        {subtitle === null ? null : (
-          <Text style={styles.subtitle}>{subtitle}</Text>
-        )}
-      </View>
-    </TouchableOpacity>
+    <div onKeyDown={triggerKeyDown(url)}>
+      <TouchableOpacity
+        accessibilityRole="button"
+        style={style}
+        onPress={triggerClick(url)}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        onFocus={() => setFocus(true)}
+        onBlur={() => setFocus(false)}
+      >
+        <View style={styles.iconWrapper}>
+          <Image source={image} resizeMode="contain" style={styles.icon} />
+        </View>
+        <View style={styles.nameWrapper}>
+          <Text style={styles.name}>{name}</Text>
+          {subtitle === null ? null : (
+            <Text style={styles.subtitle}>{subtitle}</Text>
+          )}
+        </View>
+      </TouchableOpacity>
+    </div>
   )
 }
 const iconHeight = vars.padding * 1.125
