@@ -33,6 +33,7 @@ import closeIcon from '../../../assets/icons/material/close.svg'
 const headerHeight = 112 + 42 + 32
 const footerHeight = 36 + 56
 const scrollOffset = 96
+const DESKTOP_OFFSET = 52
 
 const ESC_HOTKEY = 'esc'
 const CTRLJ_HOTKEY = 'ctrl+j'
@@ -376,10 +377,14 @@ export class TaskExpanded extends React.Component {
   triggerLayout = () => {
     const { desktopLayout } = this.state
     if (window.innerWidth > 850 && desktopLayout === false) {
+      TasksExpandedService.state.position =
+        TasksExpandedService.state.position + DESKTOP_OFFSET
       this.setState({
         desktopLayout: true
       })
     } else if (window.innerWidth <= 850 && desktopLayout === true) {
+      TasksExpandedService.state.position =
+        TasksExpandedService.state.position - DESKTOP_OFFSET
       this.setState({
         desktopLayout: false
       })
