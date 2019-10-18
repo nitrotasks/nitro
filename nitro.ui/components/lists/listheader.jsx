@@ -261,8 +261,8 @@ const styles = StyleSheet.create({
   },
   bottomWrapper: {
     display: 'flex',
-    flexDirection: 'row',
-    paddingBottom: 9
+    flexDirection: 'row'
+    // paddingBottom: 9
   },
   textWrapper: {
     flex: 1,

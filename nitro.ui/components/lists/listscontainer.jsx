@@ -66,6 +66,7 @@ class ListsContainerWithoutRouter extends React.Component {
       })
     })
   }
+
   render() {
     let index = -1
     return (
@@ -98,6 +99,7 @@ export const ListsContainer = withRouter(ListsContainerWithoutRouter)
 const padding = vars.padding / 2
 const styles = StyleSheet.create({
   listWrapper: {
+    paddingTop: 9,
     paddingLeft: padding,
     paddingRight: padding,
     paddingBottom: padding

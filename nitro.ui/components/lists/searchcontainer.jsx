@@ -8,18 +8,22 @@ import { DroppableScrollableWrapper } from '../reusable/droppableScrollableWrapp
 
 export class SearchContainer extends React.Component {
   wrapper = React.createRef()
+
   componentDidMount() {
     SidebarService.bind('focus-search-item-first', this.triggerFocusFirst)
   }
+
   componentWillUnmount() {
     SidebarService.unbind('focus-search-item-first', this.triggerFocusFirst)
   }
+
   triggerFocusFirst = () => {
     const wrapperNode = findNodeHandle(this.wrapper.current)
     if (wrapperNode.children[0] !== undefined) {
       wrapperNode.children[0].focus()
     }
   }
+
   render() {
     return (
       <DroppableScrollableWrapper
@@ -47,6 +51,7 @@ export class SearchContainer extends React.Component {
 const padding = vars.padding / 2
 const styles = StyleSheet.create({
   wrapper: {
+    paddingTop: 9,
     paddingLeft: padding,
     paddingRight: padding,
     paddingBottom: padding

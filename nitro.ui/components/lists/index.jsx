@@ -85,17 +85,18 @@ class ListsWithoutRouter extends React.Component {
   }
 
   triggerSearch = e => {
-    const query = e.currentTarget.value.trim()
+    const { value } = e.currentTarget
+    const query = value.trim()
+    this.setState({ value })
+
     if (query === '') {
       this.setState({
-        searchResults: null,
-        value: e.currentTarget.value
+        searchResults: null
       })
     } else {
       const results = NitroSdk.search(query)
       this.setState({
-        searchResults: results,
-        value: e.currentTarget.value
+        searchResults: results
       })
     }
   }

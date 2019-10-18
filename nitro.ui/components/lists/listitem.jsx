@@ -34,17 +34,22 @@ const triggerNoOp = e => {
 
 export const ListItem = ({ id, name, count, index }) => {
   const [hover, setHover] = useState(false)
+  const [focus, setFocus] = useState(false)
 
   let icon = iconMap.get(id)
   if (typeof icon === 'undefined') {
     icon = listIcon
   }
-  const style =
-    UiService.state.currentList === id
-      ? [styles.wrapper, styles.selected]
-      : hover
-      ? [styles.hover, styles.wrapper]
-      : styles.wrapper
+  const style = [styles.wrapper]
+  if (UiService.state.currentList === id) {
+    style.push(styles.selected)
+  } else if (hover) {
+    style.push(styles.hover)
+  }
+  if (focus) {
+    style.push(styles.focus)
+  }
+
   return (
     <Draggable
       draggableId={'lists-' + id}
@@ -69,8 +74,14 @@ export const ListItem = ({ id, name, count, index }) => {
             provided.draggableProps.style
           )}
           onClick={e => hideMenu(e)}
+          onFocus={() => setFocus(true)}
+          onBlur={() => setFocus(false)}
         >
-          <TouchableOpacity style={style}>
+          <TouchableOpacity
+            style={style}
+            accessible={false}
+            activeOpacity={0.5}
+          >
             <View style={styles.iconWrapper}>
               <Image source={icon} resizeMode="contain" style={styles.icon} />
             </View>
@@ -100,11 +111,14 @@ const styles = StyleSheet.create({
     paddingBottom: vars.padding * 0.25,
     borderRadius: borderRadius,
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    cursor: 'default'
   },
   hover: {
-    borderRadius: 5,
-    backgroundColor: 'rgba(0, 0, 0, 0.025)'
+    backgroundColor: 'rgba(0, 0, 0, 0.03)'
+  },
+  focus: {
+    boxShadow: '0 0 0 3px #9dbefb'
   },
   selected: {
     backgroundColor: 'rgba(0, 0, 0, 0.05)'

@@ -98,6 +98,7 @@ export class DroppableScrollableWrapper extends React.Component {
           }
           return (
             <div
+              tabIndex="-1"
               className="desktop-allow-touch"
               ref={this.scrollView}
               style={{
